@@ -1,7 +1,7 @@
 ---
 title: "Photo Data Pre-Processing- White Mountains, Arizona"
 output: html_notebook
-root.dir: 'C:/Users/Andrew/Dropbox/R/horse-research'
+author: "Andrew Antaya"
 ---
 ***
 First, let's get our R environment ready by loading some useful packages.
