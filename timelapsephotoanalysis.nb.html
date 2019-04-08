@@ -251,10 +251,42 @@ $(document).ready(function () {
 <p>When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the <em>Preview</em> button or press <em>Ctrl+Shift+K</em> to preview the HTML file).</p>
 <p>The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike <em>Knit</em>, <em>Preview</em> does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.</p>
 <hr />
-<p>Timelapse Photo Data Processing</p>
+<p>Timelapse Photo Data Pre-Processing</p>
+<p>First, let’s get our R environment ready by loading some useful packages.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShcImdncGxvdDJcIiwgbGliLmxvYz0gXCJ+L1Ivd2luLWxpYnJhcnkvMy41XCIpXG5saWJyYXJ5KFwiZHBseXJcIiwgbGliLmxvYz0gXCJ+L1Ivd2luLWxpYnJhcnkvMy41XCIpXG5saWJyYXJ5KFwianBlZ1wiLCBsaWIubG9jPSBcIn4vUi93aW4tbGlicmFyeS8zLjVcIilcbmxpYnJhcnkoXCJ2aXJpZGlzXCIsIGxpYi5sb2MgPSBcIn4vUi93aW4tbGlicmFyeS8zLjVcIilcbmxpYnJhcnkoXCJzY2FsZXNcIiwgbGliLmxvYyA9IFwifi9SL3dpbi1saWJyYXJ5LzMuNVwiKVxuYGBgIn0= -->
+<pre class="r"><code>library(&quot;ggplot2&quot;, lib.loc= &quot;~/R/win-library/3.5&quot;)
+library(&quot;dplyr&quot;, lib.loc= &quot;~/R/win-library/3.5&quot;)
+library(&quot;jpeg&quot;, lib.loc= &quot;~/R/win-library/3.5&quot;)
+library(&quot;viridis&quot;, lib.loc = &quot;~/R/win-library/3.5&quot;)
+library(&quot;scales&quot;, lib.loc = &quot;~/R/win-library/3.5&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Then, let’s remove all objects from the environment to start fresh each time.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgY2xlYXIgdGhlIGVudmlyb21lbnRcbnJtKGxpc3Q9bHMoYWxsPVRSVUUpKVxuYGBgIn0= -->
+<pre class="r"><code>## clear the enviroment
+rm(list=ls(all=TRUE))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Let’s check the working directory to see if it’s correct.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2V0d2QoKVxuYGBgIn0= -->
+<pre class="r"><code>getwd()</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiQzovVXNlcnMvQW5kcmV3L0Ryb3Bib3gvUi9ob3JzZS1yZXNlYXJjaC9Ib3JzZS1DYXR0bGUtRWxrLUdyYXppbmctSW50ZXJhY3Rpb24tU3R1ZHlcIlxuIn0= -->
+<pre><code>[1] &quot;C:/Users/Andrew/Dropbox/R/horse-research/Horse-Cattle-Elk-Grazing-Interaction-Study&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlRpbWVsYXBzZSBQaG90byBBbmFseXNpcy0gV2hpdGUgTW91bnRhaW5zLCBBcml6b25hIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NClIgTWFya2Rvd24gSW5zdHJ1Y3Rpb25zDQoNClRoaXMgaXMgYW4gW1IgTWFya2Rvd25dKGh0dHA6Ly9ybWFya2Rvd24ucnN0dWRpby5jb20pIE5vdGVib29rLiBXaGVuIHlvdSBleGVjdXRlIGNvZGUgd2l0aGluIHRoZSBub3RlYm9vaywgdGhlIHJlc3VsdHMgYXBwZWFyIGJlbmVhdGggdGhlIGNvZGUuIA0KDQpUcnkgZXhlY3V0aW5nIHRoaXMgY2h1bmsgYnkgY2xpY2tpbmcgdGhlICpSdW4qIGJ1dHRvbiB3aXRoaW4gdGhlIGNodW5rIG9yIGJ5IHBsYWNpbmcgeW91ciBjdXJzb3IgaW5zaWRlIGl0IGFuZCBwcmVzc2luZyAqQ3RybCtTaGlmdCtFbnRlciouIA0KDQpBZGQgYSBuZXcgY2h1bmsgYnkgY2xpY2tpbmcgdGhlICpJbnNlcnQgQ2h1bmsqIGJ1dHRvbiBvbiB0aGUgdG9vbGJhciBvciBieSBwcmVzc2luZyAqQ3RybCtBbHQrSSouDQoNCldoZW4geW91IHNhdmUgdGhlIG5vdGVib29rLCBhbiBIVE1MIGZpbGUgY29udGFpbmluZyB0aGUgY29kZSBhbmQgb3V0cHV0IHdpbGwgYmUgc2F2ZWQgYWxvbmdzaWRlIGl0IChjbGljayB0aGUgKlByZXZpZXcqIGJ1dHRvbiBvciBwcmVzcyAqQ3RybCtTaGlmdCtLKiB0byBwcmV2aWV3IHRoZSBIVE1MIGZpbGUpLg0KDQpUaGUgcHJldmlldyBzaG93cyB5b3UgYSByZW5kZXJlZCBIVE1MIGNvcHkgb2YgdGhlIGNvbnRlbnRzIG9mIHRoZSBlZGl0b3IuIENvbnNlcXVlbnRseSwgdW5saWtlICpLbml0KiwgKlByZXZpZXcqIGRvZXMgbm90IHJ1biBhbnkgUiBjb2RlIGNodW5rcy4gSW5zdGVhZCwgdGhlIG91dHB1dCBvZiB0aGUgY2h1bmsgd2hlbiBpdCB3YXMgbGFzdCBydW4gaW4gdGhlIGVkaXRvciBpcyBkaXNwbGF5ZWQuDQoNCi0tLQ0KVGltZWxhcHNlIFBob3RvIERhdGEgUHJvY2Vzc2luZw0KDQo=</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlRpbWVsYXBzZSBQaG90byBBbmFseXNpcy0gV2hpdGUgTW91bnRhaW5zLCBBcml6b25hIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQpyb290LmRpcjogJ0M6L1VzZXJzL0FuZHJldy9Ecm9wYm94L1IvaG9yc2UtcmVzZWFyY2gvJw0KLS0tDQpSIE1hcmtkb3duIEluc3RydWN0aW9ucw0KDQpUaGlzIGlzIGFuIFtSIE1hcmtkb3duXShodHRwOi8vcm1hcmtkb3duLnJzdHVkaW8uY29tKSBOb3RlYm9vay4gV2hlbiB5b3UgZXhlY3V0ZSBjb2RlIHdpdGhpbiB0aGUgbm90ZWJvb2ssIHRoZSByZXN1bHRzIGFwcGVhciBiZW5lYXRoIHRoZSBjb2RlLiANCg0KVHJ5IGV4ZWN1dGluZyB0aGlzIGNodW5rIGJ5IGNsaWNraW5nIHRoZSAqUnVuKiBidXR0b24gd2l0aGluIHRoZSBjaHVuayBvciBieSBwbGFjaW5nIHlvdXIgY3Vyc29yIGluc2lkZSBpdCBhbmQgcHJlc3NpbmcgKkN0cmwrU2hpZnQrRW50ZXIqLiANCg0KQWRkIGEgbmV3IGNodW5rIGJ5IGNsaWNraW5nIHRoZSAqSW5zZXJ0IENodW5rKiBidXR0b24gb24gdGhlIHRvb2xiYXIgb3IgYnkgcHJlc3NpbmcgKkN0cmwrQWx0K0kqLg0KDQpXaGVuIHlvdSBzYXZlIHRoZSBub3RlYm9vaywgYW4gSFRNTCBmaWxlIGNvbnRhaW5pbmcgdGhlIGNvZGUgYW5kIG91dHB1dCB3aWxsIGJlIHNhdmVkIGFsb25nc2lkZSBpdCAoY2xpY2sgdGhlICpQcmV2aWV3KiBidXR0b24gb3IgcHJlc3MgKkN0cmwrU2hpZnQrSyogdG8gcHJldmlldyB0aGUgSFRNTCBmaWxlKS4NCg0KVGhlIHByZXZpZXcgc2hvd3MgeW91IGEgcmVuZGVyZWQgSFRNTCBjb3B5IG9mIHRoZSBjb250ZW50cyBvZiB0aGUgZWRpdG9yLiBDb25zZXF1ZW50bHksIHVubGlrZSAqS25pdCosICpQcmV2aWV3KiBkb2VzIG5vdCBydW4gYW55IFIgY29kZSBjaHVua3MuIEluc3RlYWQsIHRoZSBvdXRwdXQgb2YgdGhlIGNodW5rIHdoZW4gaXQgd2FzIGxhc3QgcnVuIGluIHRoZSBlZGl0b3IgaXMgZGlzcGxheWVkLg0KDQotLS0NClRpbWVsYXBzZSBQaG90byBEYXRhIFByZS1Qcm9jZXNzaW5nDQoNCkZpcnN0LCBsZXQncyBnZXQgb3VyIFIgZW52aXJvbm1lbnQgcmVhZHkgYnkgbG9hZGluZyBzb21lIHVzZWZ1bCBwYWNrYWdlcy4NCmBgYHtyfQ0KbGlicmFyeSgiZ2dwbG90MiIsIGxpYi5sb2M9ICJ+L1Ivd2luLWxpYnJhcnkvMy41IikNCmxpYnJhcnkoImRwbHlyIiwgbGliLmxvYz0gIn4vUi93aW4tbGlicmFyeS8zLjUiKQ0KbGlicmFyeSgianBlZyIsIGxpYi5sb2M9ICJ+L1Ivd2luLWxpYnJhcnkvMy41IikNCmxpYnJhcnkoInZpcmlkaXMiLCBsaWIubG9jID0gIn4vUi93aW4tbGlicmFyeS8zLjUiKQ0KbGlicmFyeSgic2NhbGVzIiwgbGliLmxvYyA9ICJ+L1Ivd2luLWxpYnJhcnkvMy41IikNCmBgYA0KDQpUaGVuLCBsZXQncyByZW1vdmUgYWxsIG9iamVjdHMgZnJvbSB0aGUgZW52aXJvbm1lbnQgdG8gc3RhcnQgZnJlc2ggZWFjaCB0aW1lLg0KYGBge3J9DQojIyBjbGVhciB0aGUgZW52aXJvbWVudA0Kcm0obGlzdD1scyhhbGw9VFJVRSkpDQpgYGANCg0KTGV0J3MgY2hlY2sgdGhlIHdvcmtpbmcgZGlyZWN0b3J5IHRvIHNlZSBpZiBpdCdzIGNvcnJlY3QuDQpgYGB7cn0NCmdldHdkKCkNCmBgYA0KDQoNCg==</div>
 
 
 

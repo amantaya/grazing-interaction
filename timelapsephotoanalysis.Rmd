@@ -1,6 +1,7 @@
 ---
 title: "Timelapse Photo Analysis- White Mountains, Arizona"
 output: html_notebook
+root.dir: 'C:/Users/Andrew/Dropbox/R/horse-research/'
 ---
 R Markdown Instructions
 
@@ -15,5 +16,26 @@ When you save the notebook, an HTML file containing the code and output will be 
 The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
 
 ---
-Timelapse Photo Data Processing
+Timelapse Photo Data Pre-Processing
+
+First, let's get our R environment ready by loading some useful packages.
+```{r}
+library("ggplot2", lib.loc= "~/R/win-library/3.5")
+library("dplyr", lib.loc= "~/R/win-library/3.5")
+library("jpeg", lib.loc= "~/R/win-library/3.5")
+library("viridis", lib.loc = "~/R/win-library/3.5")
+library("scales", lib.loc = "~/R/win-library/3.5")
+```
+
+Then, let's remove all objects from the environment to start fresh each time.
+```{r}
+## clear the enviroment
+rm(list=ls(all=TRUE))
+```
+
+Let's check the working directory to see if it's correct.
+```{r}
+getwd()
+```
+
 
