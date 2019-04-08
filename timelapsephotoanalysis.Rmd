@@ -1,8 +1,10 @@
 ---
-title: "Timelapse Photo Data Pre-Processing- White Mountains, Arizona"
+title: "Photo Data Pre-Processing- White Mountains, Arizona"
 output: html_notebook
-root.dir: 'C:/Users/Andrew/Dropbox/R/horse-research/'
+root.dir: 'C:/Users/Andrew/Dropbox/R/horse-research'
 ---
+***
+First, let's get our R environment ready by loading some useful packages.
 ```{r}
 # load packages and dependencies
 library("ggplot2", lib.loc= "~/R/win-library/3.5")
@@ -11,18 +13,31 @@ library("jpeg", lib.loc= "~/R/win-library/3.5")
 library("viridis", lib.loc = "~/R/win-library/3.5")
 library("scales", lib.loc = "~/R/win-library/3.5")
 ```
-First, let's get our R environment ready by loading some useful packages.
-
-
+***
+Then, let's remove all objects from the environment to start fresh each time.
 ```{r}
 # clear the enviroment
 rm(list=ls(all=TRUE))
 ```
-Then, let's remove all objects from the environment to start fresh each time.
 
-
+***
+Let's check the working directory to see if it's correct.
 ```{r}
 # check working directory
 getwd()
 ```
-Let's check the working directory to see if it's correct.
+Looks good for my (Andrew's) PC 
+
+***
+Let's read in the RAW photo data from 2017 and 2018, which human observers classified in a custom Excel macro (written in VBA) which have a file extension of .xlsm. We then saved the .xlsm files as a .csv file for ease of use in a non-proprietary format.
+```{r}
+## read in the 2018 data, treating all blanks, spaces, and "NA"s as NA's
+BGX18RAW<-read.csv('./Data/Photo/BGX_Analysis_2018.csv', header=TRUE, na.strings=c(""," ","NA"))
+BGW18RAW<-read.csv('./Data/Photo/BGW_Analysis_2018.csv', header=TRUE, na.strings=c(""," ","NA"))
+BGT18RAW<-read.csv('./Data/Photo/BGT_Analysis_2018.csv', header=TRUE, na.strings=c(""," ","NA"))
+WCX18RAW<-read.csv('./Data/Photo/WCX_Analysis_2018.csv', header=TRUE, na.strings=c(""," ","NA"))
+WCS18RAW<-read.csv('./Data/Photo/WCS_Analysis_2018.csv', header=TRUE, na.strings=c(""," ","NA"))
+WCT18RAW<-read.csv('./Data/Photo/WCT_Analysis_2018.csv', header=TRUE, na.strings=c(""," ","NA"))
+```
+For the first step in cleaing up the data, we are going to remove all fields with "NA" (Not Applicable), "" (Blanks), or " " (Spaces- typically accidental input which is invisble in Excel)
+***
