@@ -1,9 +1,14 @@
+# ignore R user data generated from the project
 .Rproj.user
 .Rhistory
 .Rprofile
 .RData
 .Ruserdata
+
+# ignore all packrat files
 packrat/lib*/
-packrat
+packrat/
 packrat/src/
-photoprocessing.nb.html
+
+# ignore generated html files
+*.html
