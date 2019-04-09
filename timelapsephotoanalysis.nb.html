@@ -250,14 +250,42 @@ $(document).ready(function () {
 <p>First, let’s get our R environment ready by loading some useful packages.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBsb2FkIHBhY2thZ2VzIGFuZCBkZXBlbmRlbmNpZXNcbmxpYnJhcnkoXCJnZ3Bsb3QyXCIsIGxpYi5sb2M9IFwifi9SL3dpbi1saWJyYXJ5LzMuNVwiKVxubGlicmFyeShcImRwbHlyXCIsIGxpYi5sb2M9IFwifi9SL3dpbi1saWJyYXJ5LzMuNVwiKVxubGlicmFyeShcImpwZWdcIiwgbGliLmxvYz0gXCJ+L1Ivd2luLWxpYnJhcnkvMy41XCIpXG5saWJyYXJ5KFwidmlyaWRpc1wiLCBsaWIubG9jID0gXCJ+L1Ivd2luLWxpYnJhcnkvMy41XCIpXG5saWJyYXJ5KFwic2NhbGVzXCIsIGxpYi5sb2MgPSBcIn4vUi93aW4tbGlicmFyeS8zLjVcIilcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBsb2FkIHBhY2thZ2VzIGFuZCBkZXBlbmRlbmNpZXNcbmxpYnJhcnkoXCJnZ3Bsb3QyXCIsIGxpYi5sb2M9IFwifi9SL3dpbi1saWJyYXJ5LzMuNVwiKVxubGlicmFyeShcImRwbHlyXCIsIGxpYi5sb2M9IFwifi9SL3dpbi1saWJyYXJ5LzMuNVwiKVxuYGBgIn0= -->
 <pre class="r"><code># load packages and dependencies
 library(&quot;ggplot2&quot;, lib.loc= &quot;~/R/win-library/3.5&quot;)
-library(&quot;dplyr&quot;, lib.loc= &quot;~/R/win-library/3.5&quot;)
-library(&quot;jpeg&quot;, lib.loc= &quot;~/R/win-library/3.5&quot;)
-library(&quot;viridis&quot;, lib.loc = &quot;~/R/win-library/3.5&quot;)
-library(&quot;scales&quot;, lib.loc = &quot;~/R/win-library/3.5&quot;)</code></pre>
+library(&quot;dplyr&quot;, lib.loc= &quot;~/R/win-library/3.5&quot;)</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hpbmcgcGFja2FnZTog46S847ixZHBseXLjpLzjuLJcblxuVGhlIGZvbGxvd2luZyBvYmplY3RzIGFyZSBtYXNrZWQgZnJvbSDjpLzjuLFwYWNrYWdlOnN0YXRz46S847iyOlxuXG4gICAgZmlsdGVyLCBsYWdcblxuVGhlIGZvbGxvd2luZyBvYmplY3RzIGFyZSBtYXNrZWQgZnJvbSDjpLzjuLFwYWNrYWdlOmJhc2XjpLzjuLI6XG5cbiAgICBpbnRlcnNlY3QsIHNldGRpZmYsIHNldGVxdWFsLCB1bmlvblxuIn0= -->
+<pre><code>
+Attaching package: 㤼㸱dplyr㤼㸲
+
+The following objects are masked from 㤼㸱package:stats㤼㸲:
+
+    filter, lag
+
+The following objects are masked from 㤼㸱package:base㤼㸲:
+
+    intersect, setdiff, setequal, union</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShcImpwZWdcIiwgbGliLmxvYz0gXCJ+L1Ivd2luLWxpYnJhcnkvMy41XCIpXG5saWJyYXJ5KFwidmlyaWRpc1wiLCBsaWIubG9jID0gXCJ+L1Ivd2luLWxpYnJhcnkvMy41XCIpXG5gYGAifQ== -->
+<pre class="r"><code>library(&quot;jpeg&quot;, lib.loc= &quot;~/R/win-library/3.5&quot;)
+library(&quot;viridis&quot;, lib.loc = &quot;~/R/win-library/3.5&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiTG9hZGluZyByZXF1aXJlZCBwYWNrYWdlOiB2aXJpZGlzTGl0ZVxucGFja2FnZSDjpLzjuLF2aXJpZGlzTGl0ZeOkvOO4siB3YXMgYnVpbHQgdW5kZXIgUiB2ZXJzaW9uIDMuNS4zXG4ifQ== -->
+<pre><code>Loading required package: viridisLite
+package 㤼㸱viridisLite㤼㸲 was built under R version 3.5.3</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShcInNjYWxlc1wiLCBsaWIubG9jID0gXCJ+L1Ivd2luLWxpYnJhcnkvMy41XCIpXG5gYGAifQ== -->
+<pre class="r"><code>library(&quot;scales&quot;, lib.loc = &quot;~/R/win-library/3.5&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hpbmcgcGFja2FnZTog46S847ixc2NhbGVz46S847iyXG5cblRoZSBmb2xsb3dpbmcgb2JqZWN0IGlzIG1hc2tlZCBmcm9tIOOkvOO4sXBhY2thZ2U6dmlyaWRpc+OkvOO4sjpcblxuICAgIHZpcmlkaXNfcGFsXG4ifQ== -->
+<pre><code>
+Attaching package: 㤼㸱scales㤼㸲
+
+The following object is masked from 㤼㸱package:viridis㤼㸲:
+
+    viridis_pal</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <hr />
@@ -278,8 +306,8 @@ rm(list=ls(all=TRUE))</code></pre>
 <pre class="r"><code># check working directory
 getwd()</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiQzovVXNlcnMvQW5kcmV3L0Ryb3Bib3gvUi9ob3JzZS1yZXNlYXJjaC9Ib3JzZS1DYXR0bGUtRWxrLUdyYXppbmctSW50ZXJhY3Rpb24tU3R1ZHlcIlxuIn0= -->
-<pre><code>[1] &quot;C:/Users/Andrew/Dropbox/R/horse-research/Horse-Cattle-Elk-Grazing-Interaction-Study&quot;</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiQzovVXNlcnMvQW5kcmV3L0Ryb3Bib3gvSG9yc2VfUmVzZWFyY2gvQW5hbHlzaXMvSG9yc2UtQ2F0dGxlLUVsay1HcmF6aW5nLUludGVyYWN0aW9uLVN0dWR5XCJcbiJ9 -->
+<pre><code>[1] &quot;C:/Users/Andrew/Dropbox/Horse_Research/Analysis/Horse-Cattle-Elk-Grazing-Interaction-Study&quot;</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -288,13 +316,15 @@ getwd()</code></pre>
 <p>Let’s read in the RAW photo data from 2017 and 2018, which human observers classified in a custom Excel macro (written in VBA) which have a file extension of .xlsm. We then saved the .xlsm files as a .csv file for ease of use in a non-proprietary format.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgcmVhZCBpbiB0aGUgMjAxOCBkYXRhLCB0cmVhdGluZyBhbGwgYmxhbmtzLCBzcGFjZXMsIGFuZCBcIk5BXCJzIGFzIE5BJ3NcbkJHWDE4UkFXPC1yZWFkLmNzdignLi9EYXRhL1Bob3RvL0JHWF9BbmFseXNpc18yMDE4LmNzdicsIGhlYWRlcj1UUlVFLCBuYS5zdHJpbmdzPWMoXCJcIixcIiBcIixcIk5BXCIpKVxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgcmVhZCBpbiB0aGUgMjAxOCBkYXRhLCB0cmVhdGluZyBhbGwgYmxhbmtzLCBzcGFjZXMsIGFuZCBcIk5BXCJzIGFzIE5BJ3NcbkJHWDE4UkFXPC1yZWFkLmNzdignLi9EYXRhL1Bob3RvL0JHWF9BbmFseXNpc18yMDE4LmNzdicsIGhlYWRlcj1UUlVFLCBuYS5zdHJpbmdzPWMoXCJcIixcIiBcIixcIk5BXCIpKVxuQkdXMThSQVc8LXJlYWQuY3N2KCcuL0RhdGEvUGhvdG8vQkdXX0FuYWx5c2lzXzIwMTguY3N2JywgaGVhZGVyPVRSVUUsIG5hLnN0cmluZ3M9YyhcIlwiLFwiIFwiLFwiTkFcIikpXG5CR1QxOFJBVzwtcmVhZC5jc3YoJy4vRGF0YS9QaG90by9CR1RfQW5hbHlzaXNfMjAxOC5jc3YnLCBoZWFkZXI9VFJVRSwgbmEuc3RyaW5ncz1jKFwiXCIsXCIgXCIsXCJOQVwiKSlcbldDWDE4UkFXPC1yZWFkLmNzdignLi9EYXRhL1Bob3RvL1dDWF9BbmFseXNpc18yMDE4LmNzdicsIGhlYWRlcj1UUlVFLCBuYS5zdHJpbmdzPWMoXCJcIixcIiBcIixcIk5BXCIpKVxuV0NTMThSQVc8LXJlYWQuY3N2KCcuL0RhdGEvUGhvdG8vV0NTX0FuYWx5c2lzXzIwMTguY3N2JywgaGVhZGVyPVRSVUUsIG5hLnN0cmluZ3M9YyhcIlwiLFwiIFwiLFwiTkFcIikpXG5XQ1QxOFJBVzwtcmVhZC5jc3YoJy4vRGF0YS9QaG90by9XQ1RfQW5hbHlzaXNfMjAxOC5jc3YnLCBoZWFkZXI9VFJVRSwgbmEuc3RyaW5ncz1jKFwiXCIsXCIgXCIsXCJOQVwiKSlcbmBgYCJ9 -->
 <pre class="r"><code>## read in the 2018 data, treating all blanks, spaces, and &quot;NA&quot;s as NA's
-BGX18RAW&lt;-read.csv('./Data/Photo/BGX_Analysis_2018.csv', header=TRUE, na.strings=c(&quot;&quot;,&quot; &quot;,&quot;NA&quot;))</code></pre>
+BGX18RAW&lt;-read.csv('./Data/Photo/BGX_Analysis_2018.csv', header=TRUE, na.strings=c(&quot;&quot;,&quot; &quot;,&quot;NA&quot;))
+BGW18RAW&lt;-read.csv('./Data/Photo/BGW_Analysis_2018.csv', header=TRUE, na.strings=c(&quot;&quot;,&quot; &quot;,&quot;NA&quot;))
+BGT18RAW&lt;-read.csv('./Data/Photo/BGT_Analysis_2018.csv', header=TRUE, na.strings=c(&quot;&quot;,&quot; &quot;,&quot;NA&quot;))
+WCX18RAW&lt;-read.csv('./Data/Photo/WCX_Analysis_2018.csv', header=TRUE, na.strings=c(&quot;&quot;,&quot; &quot;,&quot;NA&quot;))
+WCS18RAW&lt;-read.csv('./Data/Photo/WCS_Analysis_2018.csv', header=TRUE, na.strings=c(&quot;&quot;,&quot; &quot;,&quot;NA&quot;))
+WCT18RAW&lt;-read.csv('./Data/Photo/WCT_Analysis_2018.csv', header=TRUE, na.strings=c(&quot;&quot;,&quot; &quot;,&quot;NA&quot;))</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiY2Fubm90IG9wZW4gZmlsZSAnLi9EYXRhL1Bob3RvL0JHWF9BbmFseXNpc18yMDE4LmNzdic6IE5vIHN1Y2ggZmlsZSBvciBkaXJlY3RvcnlFcnJvciBpbiBmaWxlKGZpbGUsIFwicnRcIikgOiBjYW5ub3Qgb3BlbiB0aGUgY29ubmVjdGlvblxuIn0= -->
-<pre><code>cannot open file './Data/Photo/BGX_Analysis_2018.csv': No such file or directoryError in file(file, &quot;rt&quot;) : cannot open the connection</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>For the first step in cleaing up the data, we are going to remove all fields with “NA” (Not Applicable), “” (Blanks), or &quot; &quot; (Spaces- typically accidental input which is invisble in Excel) ***</p>
