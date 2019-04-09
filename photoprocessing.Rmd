@@ -14,6 +14,7 @@ library("viridis", lib.loc = "~/R/win-library/3.5")
 library("scales", lib.loc = "~/R/win-library/3.5")
 ```
 ***
+
 Then, let's remove all objects from the environment to start fresh each time.
 ```{r}
 # clear the enviroment
@@ -26,20 +27,19 @@ Let's check the working directory to see if it's correct.
 # check working directory
 getwd()
 ```
-Looks good for my (Andrew's) PC 
+Looks good for my (Andrew's) PC
 
 ***
-Let's read in the RAW photo data from 2017 and 2018, which human observers classified in a custom Excel macro (written in VBA) which have a file extension of .xlsm. We then saved the .xlsm files as a .csv file for ease of use in a non-proprietary format.
+Let's read in the RAW photo data from 2017 and 2018, which human observers classified in a custom Excel macro (written in VBA). These RAW photo data files have a file extension of .xlsm. We then saved the .xlsm files as .csv files for ease of use in R and to convert to a non-proprietary format.
 ```{r}
 ## read in the 2018 data, treating all blanks, spaces, and "NA"s as NA's
-BGX18RAW<-read.csv('~/Horse_Research/Analysis/data/photo/BGX_Analysis_2018.csv', header=TRUE, na.strings=c(""," ","NA"))
-BGW18RAW<-read.csv('~/Analysis/data/photo/BGW_Analysis_2018.csv', header=TRUE, na.strings=c(""," ","NA"))
-BGT18RAW<-read.csv('~/Analysis/data/photo/BGT_Analysis_2018.csv', header=TRUE, na.strings=c(""," ","NA"))
-WCX18RAW<-read.csv('~/Analysis/data/photo/WCX_Analysis_2018.csv', header=TRUE, na.strings=c(""," ","NA"))
-WCS18RAW<-read.csv('~/Analysis/data/photo/WCS_Analysis_2018.csv', header=TRUE, na.strings=c(""," ","NA"))
-WCT18RAW<-read.csv('~/Analysis/data/photo/WCT_Analysis_2018.csv', header=TRUE, na.strings=c(""," ","NA"))
+BGX18RAW<-read.csv('data/photo/BGX_Analysis_2018.csv', header=TRUE, na.strings=c(""," ","NA"))
+BGW18RAW<-read.csv('data/photo/BGW_Analysis_2018.csv', header=TRUE, na.strings=c(""," ","NA"))
+BGT18RAW<-read.csv('data/photo/BGT_Analysis_2018.csv', header=TRUE, na.strings=c(""," ","NA"))
+WCX18RAW<-read.csv('data/photo/WCX_Analysis_2018.csv', header=TRUE, na.strings=c(""," ","NA"))
+WCS18RAW<-read.csv('data/photo/WCS_Analysis_2018.csv', header=TRUE, na.strings=c(""," ","NA"))
+WCT18RAW<-read.csv('data/photo/WCT_Analysis_2018.csv', header=TRUE, na.strings=c(""," ","NA"))
 ```
-C:\Users\Andrew\Dropbox\Horse_Research\Analysis\data\photo
+For the first step in cleaing up the data, we are going to treat all fields with "NA" (characters), "" (blanks), or " " (spaces- typically accidental input which is invisble in Excel) as NAs inside R. This will help us deal with missing information in our dataset.
 
-For the first step in cleaing up the data, we are going to remove all fields with "NA" (Not Applicable), "" (Blanks), or " " (Spaces- typically accidental input which is invisble in Excel)
 ***
