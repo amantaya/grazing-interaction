@@ -12,3 +12,10 @@ packrat/src/
 
 # ignore generated html files
 *.html
+
+# ignore data files
+data
+excelmacro
+results
+scripts
+
