@@ -34,6 +34,8 @@ Looks good for my (Andrew's) PC
 
 ***
 Let's read in the RAW photo data from 2017 and 2018, which human observers classified in a custom Excel macro (written in VBA). These RAW photo data files have a file extension of .xlsm. We then saved the .xlsm files as .csv files for ease of use in R and to convert to a non-proprietary format.
+
+For the first step in cleaing up the data, we are going to treat all fields with "" (blanks), " " (spaces- typically accidental input which is invisble in Excel), or "NA" (characters),  as NA's inside R. This will help us deal with missing information in our dataset.
 ```{r}
 ## read in the 2017 data, treating all blanks, spaces, and "NA"s as NA's
 BGW17RAW<-read.csv('data/photo/BGW_Analysis_2017.csv', header=TRUE, na.strings=c(""," ","NA"))
@@ -46,15 +48,16 @@ WCX18RAW<-read.csv('data/photo/WCX_Analysis_2018.csv', header=TRUE, na.strings=c
 WCS18RAW<-read.csv('data/photo/WCS_Analysis_2018.csv', header=TRUE, na.strings=c(""," ","NA"))
 WCT18RAW<-read.csv('data/photo/WCT_Analysis_2018.csv', header=TRUE, na.strings=c(""," ","NA"))
 ```
-For the first step in cleaing up the data, we are going to treat all fields with "NA" (characters), "" (blanks), or " " (spaces- typically accidental input which is invisble in Excel) as NAs inside R. This will help us deal with missing information in our dataset.
+
 ***
-We read in 8 CSV files containing the camera data. Each dataframe corresponds to a site and year (e.g., BGW18 is Boggy West Timelapse, data from year 2018). Each dataframe has 165 columns and a variable number of rows. Each row corresponds to a single image.
+We read in 8 CSV files containing the camera data. Each dataframe corresponds to a site and year (e.g., BGW18 is Boggy West Timelapse, data from year 2018). Each dataframe has a variable number of rows, with each row corresponding to a single image. Each dataframe has 165 columns with correspond to variables.
 ```{r}
-## look at data frame structure
-str(BGW18RAW)
+str(BGW17RAW)
 ```
 ***
-Some of the images we classified in the Excel macro were 'empty' (i.e. the observer could not detect a subject in the image). The 'Count1Species' column in each dataframe corresponds to the 1st detected species (i.e. the primary species if more than one species is detected in a photo. If the image is 'empty' then it will have 'NA' for a value. We're going to use the function complete.cases() to remove all of the rows that have NA in the 'Count1Species' column, from each of the dataframes, and save these new dataframes into new objects. 
+Some of the images we classified in the Excel macro were 'empty' (i.e. the observer could not detect a subject in the image). We want remove these empty images from analysis.
+
+The 'Count1Species' column in each dataframe corresponds to the 1st detected species (i.e. the primary species (>50%) if more than one species is detected in a photo). If the image is 'empty' then it will have 'NA' for a value in the 'Count1Species' column. We're going to use the function complete.cases() to remove all of the rows that have NA in the 'Count1Species' column, from each of the dataframes, and save these new dataframes into new objects. 
 ```{r}
 ## remove the observations that have NAs in the Count1Species column
 BGT18<- BGT18RAW[complete.cases(BGT18RAW[ , 'Count1Species']),]
@@ -65,8 +68,13 @@ WCS17<- WCS17RAW[complete.cases(WCS17RAW[ , 'Count1Species']),]
 WCS18<- WCS18RAW[complete.cases(WCS18RAW[ , 'Count1Species']),]
 WCT18<- WCT18RAW[complete.cases(BGW18RAW[ , 'Count1Species']),]
 WCX18<- WCX18RAW[complete.cases(BGW18RAW[ , 'Count1Species']),]
-
 ```
+
 ***
+We no longer need the Raw dataframes, so we can remove them from our environment.
+```{r}
+rm(BGT18RAW, BGW17RAW, BGW18RAW, BGX18RAW, WCS17RAW, WCS18RAW, WCT18RAW, WCX18RAW)
+```
+
 
 
