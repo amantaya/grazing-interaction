@@ -57,7 +57,7 @@ WCT18RAW<-read.csv('data/photo/WCT_Analysis_2018.csv', header=TRUE, na.strings=c
 ```
 
 ***
-We read in 8 CSV files containing the camera data. Each dataframe corresponds to a site and year (e.g., BGW18 is Boggy West Timelapse, data from year 2018). Each dataframe has a variable number of rows, with each row corresponding to a single image. Each dataframe has 165 columns with correspond to variables.
+We read in 8 CSV files containing the camera data. Each dataframe corresponds to a site and year (e.g., BGW18 is Boggy West Timelapse, data from year 2018). Each dataframe has a variable number of rows, with each row corresponding to a single image. Each dataframe has 165 columns which correspond to variables.
 ```{r}
 str(BGW17RAW)
 ```
