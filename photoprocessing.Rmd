@@ -1,5 +1,5 @@
 ---
-title: "Photo Data Pre-Processing- White Mountains, Arizona"
+title: "Photo Data Processing- White Mountains, Arizona"
 author: "Andrew Antaya"
 output:
   html_notebook: default
@@ -10,11 +10,12 @@ output:
 First, let's get our R environment ready by loading some useful packages.
 ```{r}
 # load packages and dependencies
-library("ggplot2", lib.loc= "~/R/win-library/3.5")
-library("dplyr", lib.loc= "~/R/win-library/3.5")
-library("jpeg", lib.loc= "~/R/win-library/3.5")
-library("viridis", lib.loc = "~/R/win-library/3.5")
-library("scales", lib.loc = "~/R/win-library/3.5")
+library("ggplot2")
+library("dplyr")
+library("jpeg")
+library("viridis")
+library("scales")
+library("knitr")
 ```
 ***
 
@@ -86,13 +87,25 @@ rm(BGT18RAW, BGW17RAW, BGW18RAW, BGX18RAW, WCS17RAW, WCS18RAW, WCT18RAW, WCX18RA
 ***
 We're going to use a function I created called "speciestotal" (see the functions.R script) which is specific to the way we classified our data. The issue is that the 'Count1Species' column in our dataframes doesn't correspond to a specific species, rather it corresponds to whatever species is the primary species detected (>50% of individuals if a multiple species are detected in an image). 
 
-The "speciestotal" function will count up the number of individuals for each species detected in a camera trap photo and then create a new column in the corresponding dataframe to store this species count. The new column is labled by the species and contains a count of the number of individuals deteced in an image.
+The "speciestotal" function will count up the number of individuals for each species detected in a camera trap photo and then create a new column in the corresponding dataframe to store this species count. The new column is labled by the species and contains a count of the number of individuals detected in each image.
+
+A second funtion "allspecies" uses the "speciestotal" function for all of the species possible (24 total), and creates a new column for each species. 
+
+Let's calculate the species total for all of the dataframes (i.e. all sites).
 ```{r}
-BGW18$horses <- speciestotal (BGW18, "Horse")
-BGW18$cows <- speciestotal (BGW18, "Cow")
-BGW18$elk <- speciestotal (BGW18, "Elk")
-BGW18$muledeer <- speciestotal (BGW18, "Muledeer")
-BGW18$pronghorn <- speciestotal (BGW18, "Pronghorn")
+BGT18 <- allspecies(BGT18)
+BGW17 <- allspecies(BGW17)
+BGW18 <- allspecies(BGW18)
+BGX18 <- allspecies(BGX18)
+WCS17 <- allspecies(WCS17)
+WCS18 <- allspecies(WCS18)
+WCT18 <- allspecies(WCT18)
+WCX18 <- allspecies(WCX18)
+```
+
+***
+
+
 ```
 
 
