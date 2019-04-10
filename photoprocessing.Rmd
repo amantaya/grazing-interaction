@@ -40,9 +40,9 @@ source(file = "functions.R")
 ```
 
 ***
-Let's read in the RAW photo data from 2017 and 2018, which human observers classified in a custom Excel macro (written in VBA). These RAW photo data files have a file extension of .xlsm. We then saved the .xlsm files as .csv files for ease of use in R and to convert to a non-proprietary format.
+Let's read in the RAW photo data from 2017 and 2018, which human observers classified in a custom Excel macro (.xlsm) (written in VBA). The macro generates information for each image based on observes clicking different options based on what they see in each photo. We saved each of the .xlsm files (each file corresponding to a site and year) as .csv files for ease of use in R and to convert to a non-proprietary format.
 
-For the first step in cleaing up the data, we are going to treat all fields with "" (blanks), " " (spaces- typically accidental input which is invisble in Excel), or "NA" (characters),  as NA's inside R. This will help us deal with missing information in our dataset.
+For the first step in cleaing up the camera data, we are going to treat all fields with "" (blanks), " " (spaces- typically accidental input which is invisble in Excel), or "NA" (characters), as NA's inside R using the function na.strings(). This will help us deal with missing information in our dataset.
 ```{r}
 ## read in the 2017 data, treating all blanks, spaces, and "NA"s as NA's
 BGW17RAW<-read.csv('data/photo/BGW_Analysis_2017.csv', header=TRUE, na.strings=c(""," ","NA"))
@@ -57,14 +57,14 @@ WCT18RAW<-read.csv('data/photo/WCT_Analysis_2018.csv', header=TRUE, na.strings=c
 ```
 
 ***
-We read in 8 CSV files containing the camera data. Each dataframe corresponds to a site and year (e.g., BGW18 is Boggy West Timelapse, data from year 2018). Each dataframe has a variable number of rows, with each row corresponding to a single image. Each dataframe has 165 columns which correspond to variables.
+We read in 8 CSV files containing the camera data. Each dataframe corresponds to a site and year (e.g., BGW18 is Boggy West Timelapse, data from year 2018). In all of the dataframes, each row corresponds to a single image and each column corresponds to a single 'variable'. Some of these 'variables' are actually metadata, such as the file name of the image and the file path.
 ```{r}
-str(BGW17RAW)
+head(BGW17RAW)
 ```
 ***
-Some of the images we classified in the Excel macro were 'empty' (i.e. the observer could not detect a subject in the image). We want remove these empty images from analysis.
+Some of the images we classified in the Excel macro were 'empty' (i.e. the observer could not detect a subject in the image). We want to remove these empty images from analysis.
 
-The 'Count1Species' column in each dataframe corresponds to the 1st detected species (i.e. the primary species (>50%) if more than one species is detected in a photo). If the image is 'empty' then it will have 'NA' for a value in the 'Count1Species' column. We're going to use the function complete.cases() to remove all of the rows that have NA in the 'Count1Species' column, from each of the dataframes, and save these new dataframes into new objects. 
+We're going to use the "Count1Species"" column in each dataframe to remove 'empty' photos. The "Count1Species" column corresponds to the 1st detected species in each photo (i.e. the primary species (>50%) if more than one species is detected in a photo). If the image is 'empty' then it will have "NA" for a value in the "Count1Species" column. We're going to use the function complete.cases() to remove all of the rows that have "NA" in the "Count1Species" column. We'll do this for each of the dataframes, and save these new dataframes into new objects. 
 ```{r}
 ## remove the observations that have NAs in the Count1Species column
 BGT18<- BGT18RAW[complete.cases(BGT18RAW[ , 'Count1Species']),]
@@ -78,22 +78,21 @@ WCX18<- WCX18RAW[complete.cases(BGW18RAW[ , 'Count1Species']),]
 ```
 
 ***
-We no longer need the Raw dataframes, so we can remove them from our environment.
+We no longer need the raw dataframes, so we can remove them from our environment just to clean things up a bit.
 ```{r}
 rm(BGT18RAW, BGW17RAW, BGW18RAW, BGX18RAW, WCS17RAW, WCS18RAW, WCT18RAW, WCX18RAW)
 ```
 
+***
+We're going to use a function I created called "speciestotal" (see the functions.R script) which is specific to the way we classified our data. The issue is that the 'Count1Species' column in our dataframes doesn't correspond to a specific species, rather it corresponds to whatever species is the primary species detected (>50% of individuals if a multiple species are detected in an image). 
 
+The "speciestotal" function will count up the number of individuals for each species detected in a camera trap photo and then create a new column in the corresponding dataframe to store this species count. The new column is labled by the species and contains a count of the number of individuals deteced in an image.
 ```{r}
-speciestotal <- function(cameradf, species) {
-  ## calculate the number of horses in from the 1st detection, store that in new column 
-
-  count1 <- ifelse(cameradf$Count1Species %in% species, cameradf$Count1Total, 0)
-  count2 <- ifelse(cameradf$Count2Species %in% species, cameradf$Count2Total, 0)
-  count3 <- ifelse(cameradf$Count3Species %in% species, cameradf$Count3Total, 0)
-  total <- (count1+count2+count3)
-  return(total)
-}
+BGW18$horses <- speciestotal (BGW18, "Horse")
+BGW18$cows <- speciestotal (BGW18, "Cow")
+BGW18$elk <- speciestotal (BGW18, "Elk")
+BGW18$muledeer <- speciestotal (BGW18, "Muledeer")
+BGW18$pronghorn <- speciestotal (BGW18, "Pronghorn")
 ```
 
 
