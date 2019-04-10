@@ -33,6 +33,13 @@ getwd()
 Looks good for my (Andrew's) PC
 
 ***
+I created an external R script with contains all of the functions that I commongly use across different scripts. This chunk of code reads in those functions into the global R environment. 
+```{r}
+## the source() funciton executes all lines of code in the "mentioned" script (i.e. the pathway)
+source(file = "functions.R")
+```
+
+***
 Let's read in the RAW photo data from 2017 and 2018, which human observers classified in a custom Excel macro (written in VBA). These RAW photo data files have a file extension of .xlsm. We then saved the .xlsm files as .csv files for ease of use in R and to convert to a non-proprietary format.
 
 For the first step in cleaing up the data, we are going to treat all fields with "" (blanks), " " (spaces- typically accidental input which is invisble in Excel), or "NA" (characters),  as NA's inside R. This will help us deal with missing information in our dataset.
@@ -76,5 +83,17 @@ We no longer need the Raw dataframes, so we can remove them from our environment
 rm(BGT18RAW, BGW17RAW, BGW18RAW, BGX18RAW, WCS17RAW, WCS18RAW, WCT18RAW, WCX18RAW)
 ```
 
+
+```{r}
+speciestotal <- function(cameradf, species) {
+  ## calculate the number of horses in from the 1st detection, store that in new column 
+
+  count1 <- ifelse(cameradf$Count1Species %in% species, cameradf$Count1Total, 0)
+  count2 <- ifelse(cameradf$Count2Species %in% species, cameradf$Count2Total, 0)
+  count3 <- ifelse(cameradf$Count3Species %in% species, cameradf$Count3Total, 0)
+  total <- (count1+count2+count3)
+  return(total)
+}
+```
 
 
