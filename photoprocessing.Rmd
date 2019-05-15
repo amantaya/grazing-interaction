@@ -16,6 +16,7 @@ library("jpeg")
 library("viridis")
 library("scales")
 library("knitr")
+library("lubridate")
 ```
 ***
 
@@ -104,8 +105,15 @@ WCX18 <- allspecies(WCX18)
 ```
 
 ***
+Take a look a the new dataframe, after we've removed NAs and did some calculations to the dataframe which created new columns with species counts.
 
-
+```{r}
+head(BGW17)
 ```
 
+***
+
+```{r}
+
+```
 
