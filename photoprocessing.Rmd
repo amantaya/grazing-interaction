@@ -138,6 +138,10 @@ To approximate herd dynamics using sequential photos, we will group photos toget
 BGW17horses <- BGW17[BGW17$horse >0, ]
 
 head(BGW17horses)
+
+WCS17horses <- WCS17[WCS17$horse >0, ]
+
+head(WCS17horses)
 ```
 ```{r}
 BGW17horses <- unite(BGW17horses, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
@@ -145,6 +149,12 @@ BGW17horses <- unite(BGW17horses, ImageDate, ImageTime, col = "DateTime", sep = 
 BGW17horses$DateTime <- mdy_hms(BGW17horses$DateTime)
 
 head(BGW17horses)
+
+WCS17horses <- unite(WCS17horses, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
+
+WCS17horses$DateTime <- mdy_hms(WCS17horses$DateTime)
+
+head(WCS17horses)
 ```
 
 ```{r}
@@ -153,6 +163,12 @@ lag_time_diff <- difftime(BGW17horses$DateTime, lag(BGW17horses$DateTime, defaul
 BGW17horses$group <- cumsum(ifelse(lag_time_diff>10,1,0))
 
 BGW17horses$group
+
+lag_time_diff2 <- difftime(WCS17horses$DateTime, lag(WCS17horses$DateTime, default = WCS17horses$DateTime[1]), units = "mins")
+
+WCS17horses$group <- cumsum(ifelse(lag_time_diff2>10,1,0))
+
+WCS17horses$group
 ```
 
 
