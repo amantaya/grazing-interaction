@@ -162,13 +162,18 @@ lag_time_diff <- difftime(BGW17horses$DateTime, lag(BGW17horses$DateTime, defaul
 
 BGW17horses$group <- cumsum(ifelse(lag_time_diff>10,1,0))
 
-BGW17horses$group
+BGW17horses$group <- BGW17horses$group+1
 
+head(BGW17horses)
+```
+```{r}
 lag_time_diff2 <- difftime(WCS17horses$DateTime, lag(WCS17horses$DateTime, default = WCS17horses$DateTime[1]), units = "mins")
 
 WCS17horses$group <- cumsum(ifelse(lag_time_diff2>10,1,0))
 
-WCS17horses$group
+WCS17horses$group <- WCS17horses$group+1
+
+head(WCS17horses)
 ```
 
 
