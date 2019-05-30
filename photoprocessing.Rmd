@@ -164,17 +164,57 @@ BGW17horses$group <- cumsum(ifelse(lag_time_diff>10,1,0))
 
 BGW17horses$group <- BGW17horses$group+1
 
-head(BGW17horses)
+tail(BGW17horses)
 ```
 ```{r}
+WCS17horses <- arrange(WCS17horses, DateTime)
+
 lag_time_diff2 <- difftime(WCS17horses$DateTime, lag(WCS17horses$DateTime, default = WCS17horses$DateTime[1]), units = "mins")
 
 WCS17horses$group <- cumsum(ifelse(lag_time_diff2>10,1,0))
 
 WCS17horses$group <- WCS17horses$group+1
 
-head(WCS17horses)
+head(WCS17horses$DateTime)
+tail(WCS17horses$DateTime)
 ```
 
+Grouping the groups by the pre-Monsoon period. 
+```{r}
+BGW17horses_pre <- filter(BGW17horses, DateTime < "2017-07-08 00:00:00")
+
+tail(BGW17horses_pre$group)
+
+WCS17horses_pre <- filter(WCS17horses, DateTime < "2017-07-08 00:00:00")
+
+tail(WCS17horses_pre$group)
+```
+
+Grouping the groups by the Monsoon period (8 July to 9 September)
+```{r}
+BGW17horses_mons <- filter(BGW17horses, DateTime >= "2017-07-08 00:00:00" & DateTime <"2017-09-10 00:00:00")
+
+tail(BGW17horses_mons$group)
+
+WCS17horses_mons <- filter(WCS17horses, DateTime >= "2017-07-08 00:00:00" & DateTime <"2017-09-10 00:00:00")
+
+head(WCS17horses_mons$group)
+tail(WCS17horses_mons$group)
+```
+Group the groups by the post-Monsoon period
+```{r}
+BGW17horses_post <- filter(BGW17horses, DateTime >= "2017-09-10 00:00:00")
+
+tail(BGW17horses_post$group)
+
+WCS17horses_post <- filter(WCS17horses, DateTime >= "2017-09-10 00:00:00")
+
+head(WCS17horses_post$group)
+tail(WCS17horses_post$group)
+```
+
+```{r}
+sequence <- seq(0,1,by=i)
+```
 
 
