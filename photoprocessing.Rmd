@@ -114,107 +114,146 @@ head(BGW17)
 ***
 Now that the data is cleaned up and we did some preliminary calculations, we're ready to start the analysis. First, let's calculate the Total Detections metric, which is the number of individuals of each species in a photo, summed for all the photos taken at a site for the season. Note: Total Detections does not represent the number of unique individuals using a site, rather Total Detections represents the same individuals revisiting a site across time and are counted again.
 ```{r}
-BGT18TotalDetections <- counts.df(BGT18)
-BGW17TotalDetections <- counts.df(BGW17)
-BGW18TotalDetections <- counts.df(BGW18)
-BGX18TotalDetections <- counts.df(BGX18)
-WCS17TotalDetections <- counts.df(WCS17)
-WCS18TotalDetections <- counts.df(WCS18)
-WCT18TotalDetections <- counts.df(WCT18)
-WCX18TotalDetections <- counts.df(WCX18)
-
-head(BGT18TotalDetections)
-head(BGW17TotalDetections)
-head(BGW18TotalDetections)
-head(BGX18TotalDetections)
-head(WCS17TotalDetections)
-head(WCS18TotalDetections)
-head(WCT18TotalDetections)
-head(WCX18TotalDetections)
+# BGT18TotalDetections <- counts.df(BGT18)
+# BGW17TotalDetections <- counts.df(BGW17)
+# BGW18TotalDetections <- counts.df(BGW18)
+# BGX18TotalDetections <- counts.df(BGX18)
+# WCS17TotalDetections <- counts.df(WCS17)
+# WCS18TotalDetections <- counts.df(WCS18)
+# WCT18TotalDetections <- counts.df(WCT18)
+# WCX18TotalDetections <- counts.df(WCX18)
+# 
+# head(BGT18TotalDetections)
+# head(BGW17TotalDetections)
+# head(BGW18TotalDetections)
+# head(BGX18TotalDetections)
+# head(WCS17TotalDetections)
+# head(WCS18TotalDetections)
+# head(WCT18TotalDetections)
+# head(WCX18TotalDetections)
 ```
 ***
 To approximate herd dynamics using sequential photos, we will group photos together based on an observation window, where a sequential series of photos were aggregated together based on timestamps. Photos taken ≤10 minutes from the previous photo were included in a single Group Detection. If the next photo in the series was taken >10 minutes from the previous photo, this photo was grouped into the next Group Detection.
 ```{r}
 BGW17horses <- BGW17[BGW17$horse >0, ]
+BGW17cows <- BGW17[BGW17$cow >0, ]
+BGW17elk <- BGW17[BGW17$elk >0, ]
 
 head(BGW17horses)
-
+head(BGW17cows)
+head(BGW17elk)
+```
+```{r}
 WCS17horses <- WCS17[WCS17$horse >0, ]
+WCS17cows <- WCS17[WCS17$cow >0, ]
+WCS17elk <- WCS17[WCS17$elk >0, ]
 
 head(WCS17horses)
+head(WCS17cows)
+head(WCS17elk)
 ```
+
+
 ```{r}
 BGW17horses <- unite(BGW17horses, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
+BGW17cows <- unite(BGW17cows, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
+BGW17elk <- unite(BGW17elk, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
 
 BGW17horses$DateTime <- mdy_hms(BGW17horses$DateTime)
+BGW17cows$DateTime <- mdy_hms(BGW17cows$DateTime)
+BGW17elk$DateTime <- mdy_hms(BGW17elk$DateTime)
+```
 
-head(BGW17horses)
-
+```{r}
 WCS17horses <- unite(WCS17horses, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
+WCS17cows <- unite(WCS17cows, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
+WCS17elk <- unite(WCS17elk, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
 
 WCS17horses$DateTime <- mdy_hms(WCS17horses$DateTime)
-
-head(WCS17horses)
+WCS17cows$DateTime <- mdy_hms(WCS17cows$DateTime)
+WCS17elk$DateTime <- mdy_hms(WCS17elk$DateTime)
 ```
 
 ```{r}
+BGW17horses <- arrange(BGW17horses, DateTime)
 lag_time_diff <- difftime(BGW17horses$DateTime, lag(BGW17horses$DateTime, default = BGW17horses$DateTime[1]), units = "mins")
-
 BGW17horses$group <- cumsum(ifelse(lag_time_diff>10,1,0))
-
 BGW17horses$group <- BGW17horses$group+1
 
-tail(BGW17horses)
+BGW17cows <- arrange(BGW17cows, DateTime)
+lag_time_diff <- difftime(BGW17cows$DateTime, lag(BGW17cows$DateTime, default = BGW17cows$DateTime[1]), units = "mins")
+BGW17cows$group <- cumsum(ifelse(lag_time_diff>10,1,0))
+BGW17cows$group <- BGW17cows$group+1
+BGW17cows <- arrange(BGW17cows, DateTime)
+
+BGW17elk <- arrange(BGW17elk, DateTime)
+lag_time_diff <- difftime(BGW17elk$DateTime, lag(BGW17elk$DateTime, default = BGW17elk$DateTime[1]), units = "mins")
+BGW17elk$group <- cumsum(ifelse(lag_time_diff>10,1,0))
+BGW17elk$group <- BGW17elk$group+1
+
+tail(BGW17horses$group)
+tail(BGW17cows$group)
+tail(BGW17elk$group)
 ```
+
 ```{r}
 WCS17horses <- arrange(WCS17horses, DateTime)
-
-lag_time_diff2 <- difftime(WCS17horses$DateTime, lag(WCS17horses$DateTime, default = WCS17horses$DateTime[1]), units = "mins")
-
-WCS17horses$group <- cumsum(ifelse(lag_time_diff2>10,1,0))
-
+lag_time_diff <- difftime(WCS17horses$DateTime, lag(WCS17horses$DateTime, default = WCS17horses$DateTime[1]), units = "mins")
+WCS17horses$group <- cumsum(ifelse(lag_time_diff>10,1,0))
 WCS17horses$group <- WCS17horses$group+1
 
-head(WCS17horses$DateTime)
-tail(WCS17horses$DateTime)
+WCS17cows <- arrange(WCS17cows, DateTime)
+lag_time_diff <- difftime(WCS17cows$DateTime, lag(WCS17cows$DateTime, default = WCS17cows$DateTime[1]), units = "mins")
+WCS17cows$group <- cumsum(ifelse(lag_time_diff>10,1,0))
+WCS17cows$group <- WCS17cows$group+1
+WCS17cows <- arrange(WCS17cows, DateTime)
+
+WCS17elk <- arrange(WCS17elk, DateTime)
+lag_time_diff <- difftime(WCS17elk$DateTime, lag(WCS17elk$DateTime, default = WCS17elk$DateTime[1]), units = "mins")
+WCS17elk$group <- cumsum(ifelse(lag_time_diff>10,1,0))
+WCS17elk$group <- WCS17elk$group+1
+
+tail(WCS17horses$group)
+tail(WCS17cows$group)
+tail(WCS17elk$group)
 ```
 
 Grouping the groups by the pre-Monsoon period. 
 ```{r}
-BGW17horses_pre <- filter(BGW17horses, DateTime < "2017-07-08 00:00:00")
-
-tail(BGW17horses_pre$group)
-
-WCS17horses_pre <- filter(WCS17horses, DateTime < "2017-07-08 00:00:00")
-
-tail(WCS17horses_pre$group)
+# BGW17horses_pre <- filter(BGW17horses, DateTime < "2017-07-08 00:00:00")
+# 
+# tail(BGW17horses_pre$group)
+# 
+# WCS17horses_pre <- filter(WCS17horses, DateTime < "2017-07-08 00:00:00")
+# 
+# tail(WCS17horses_pre$group)
 ```
 
 Grouping the groups by the Monsoon period (8 July to 9 September)
 ```{r}
-BGW17horses_mons <- filter(BGW17horses, DateTime >= "2017-07-08 00:00:00" & DateTime <"2017-09-10 00:00:00")
-
-tail(BGW17horses_mons$group)
-
-WCS17horses_mons <- filter(WCS17horses, DateTime >= "2017-07-08 00:00:00" & DateTime <"2017-09-10 00:00:00")
-
-head(WCS17horses_mons$group)
-tail(WCS17horses_mons$group)
+# BGW17horses_mons <- filter(BGW17horses, DateTime >= "2017-07-08 00:00:00" & DateTime <"2017-09-10 00:00:00")
+# 
+# tail(BGW17horses_mons$group)
+# 
+# WCS17horses_mons <- filter(WCS17horses, DateTime >= "2017-07-08 00:00:00" & DateTime <"2017-09-10 00:00:00")
+# 
+# head(WCS17horses_mons$group)
+# tail(WCS17horses_mons$group)
 ```
 Group the groups by the post-Monsoon period
 ```{r}
-BGW17horses_post <- filter(BGW17horses, DateTime >= "2017-09-10 00:00:00")
-
-tail(BGW17horses_post$group)
-
-WCS17horses_post <- filter(WCS17horses, DateTime >= "2017-09-10 00:00:00")
-
-head(WCS17horses_post$group)
-tail(WCS17horses_post$group)
+# BGW17horses_post <- filter(BGW17horses, DateTime >= "2017-09-10 00:00:00")
+# 
+# tail(BGW17horses_post$group)
+# 
+# WCS17horses_post <- filter(WCS17horses, DateTime >= "2017-09-10 00:00:00")
+# 
+# head(WCS17horses_post$group)
+# tail(WCS17horses_post$group)
 ```
 
 ```{r}
-sequence <- seq(0,1,by=i)
+
 ```
 
 
