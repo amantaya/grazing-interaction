@@ -1,7 +1,7 @@
 # Graphs
 # Outputs JPG files of each graph into the working directory
 
-jpeg(filename = "BGW17_Detections.jpeg",
+jpeg(filename = "figures/BGW17_GroupDetections.jpeg",
      width=12,
      height=12,
      units="in",
@@ -17,7 +17,7 @@ barplot(BGW17Detections$freq,
         cex.names = 2,
         axes = FALSE,
         xlab = NA,
-        ylab ="Number of Detections",
+        ylab ="Number of Group Detections",
         ylim = c(0, 150),
         las = 0)
 axis(1, at = seq(0.7, 3.1, by=1.2), labels = c("Horses", "Cattle", "Elk"), cex.axis = 1.5)
