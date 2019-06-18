@@ -143,6 +143,36 @@ head(BGW17horses)
 head(BGW17cows)
 head(BGW17elk)
 ```
+```{r}
+BGT18horses <- BGT18[BGT18$horse >0, ]
+BGT18cows <- BGT18[BGT18$cow >0, ]
+BGT18elk <- BGT18[BGT18$elk >0, ]
+
+BGW18horses <- BGW18[BGW18$horse >0, ]
+BGW18cows <- BGW18[BGW18$cow >0, ]
+BGW18elk <- BGW18[BGW18$elk >0, ]
+
+BGX18horses <- BGX18[BGX18$horse >0, ]
+BGX18cows <- BGX18[BGX18$cow >0, ]
+BGX18elk <- BGX18[BGX18$elk >0, ]
+
+WCS17horses <- WCS17[WCS17$horse >0, ]
+WCS17cows <- WCS17[WCS17$cow >0, ]
+WCS17elk <- WCS17[WCS17$elk >0, ]
+
+WCS18horses <- WCS18[WCS18$horse >0, ]
+WCS18cows <- WCS18[WCS18$cow >0, ]
+WCS18elk <- WCS18[WCS18$elk >0, ]
+
+WCT18horses <- WCT18[WCT18$horse >0, ]
+WCT18cows <- WCT18[WCT18$cow >0, ]
+WCT18elk <- WCT18[WCT18$elk >0, ]
+
+WCX18horses <- WCX18[WCX18$horse >0, ]
+WCX18cows <- WCX18[WCX18$cow >0, ]
+WCX18elk <- WCX18[WCX18$elk >0, ]
+```
+
 
 ```{r}
 BGW17horses <- unite(BGW17horses, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
@@ -231,10 +261,6 @@ WCX18horses <- WCX18[WCX18$horse >0, ]
 WCX18cows <- WCX18[WCX18$cow >0, ]
 WCX18elk <- WCX18[WCX18$elk >0, ]
 
-head(WCX18horses)
-head(WCX18cows$cow)
-head(WCX18elk$elk)
-
 WCX18horses <- unite(WCX18horses, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
 WCX18cows <- unite(WCX18cows, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
 WCX18elk <- unite(WCX18elk, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
@@ -244,23 +270,23 @@ WCX18cows$DateTime <- mdy_hms(WCX18cows$DateTime)
 WCX18elk$DateTime <- mdy_hms(WCX18elk$DateTime)
 
 WCX18horses <- arrange(WCX18horses, DateTime)
-lag_time_diff <- difftime(WCX18horses$DateTime, lag(WCX18horses$DateTime, default = WCX18horses$DateTime[1]), units = "mins")
-WCX18horses$group <- cumsum(ifelse(lag_time_diff>10,1,0))
+lag_time_diff1 <- difftime(WCX18horses$DateTime, lag(WCX18horses$DateTime, default = WCX18horses$DateTime[1]), units = "mins")
+WCX18horses$group <- cumsum(ifelse(lag_time_diff1>10,1,0))
 WCX18horses$group <- WCX18horses$group+1
 
 WCX18cows <- arrange(WCX18cows, DateTime)
-lag_time_diff <- difftime(WCX18cows$DateTime, lag(WCX18cows$DateTime, default = WCX18cows$DateTime[1]), units = "mins")
-WCX18cows$group <- cumsum(ifelse(lag_time_diff>10,1,0))
+lag_time_diff2 <- difftime(WCX18cows$DateTime, lag(WCX18cows$DateTime, default = WCX18cows$DateTime[1]), units = "mins")
+WCX18cows$group <- cumsum(ifelse(lag_time_diff2>10,1,0))
 WCX18cows$group <- WCX18cows$group+1
 
 WCX18elk <- arrange(WCX18elk, DateTime)
-lag_time_diff <- difftime(WCX18elk$DateTime, lag(WCX18elk$DateTime, default = WCX18elk$DateTime[1]), units = "mins")
-WCX18elk$group <- cumsum(ifelse(lag_time_diff>10,1,0))
+lag_time_diff3 <- difftime(WCX18elk$DateTime, lag(WCX18elk$DateTime, default = WCX18elk$DateTime[1]), units = "mins")
+WCX18elk$group <- cumsum(ifelse(lag_time_diff3>10,1,0))
 WCX18elk$group <- WCX18elk$group+1
 
-tail(WCX18horses$group, n = 1)
-tail(WCX18cows$group, n = 1)
-tail(WCX18elk$group, n = 1)
+WCX18horses
+WCX18cows
+WCX18elk
 
 WCX18Groups<- data.frame(species = c("horses", "cows", "elk"), 
                 groups = (c(tail(WCX18horses$group, n = 1), 0, tail(WCX18elk$group, n = 1)
