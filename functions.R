@@ -54,3 +54,38 @@ counts.df <- function(cameradf) {
   cameradf.counts <- data.frame(species = c("horse", "cattle", "elk", "muledeer", "pronghorn"), 
              freq = (c(sum(cameradf$horse), sum(cameradf$cow), sum(cameradf$elk), sum(cameradf$deer), sum(cameradf$pronghorn))))
 }
+
+# function to abstract group detections for each site
+group.df <- function (cameradf){
+cameradfhorses <- cameradf[cameradf$horse >0, ]
+cameradfcows <- cameradf[cameradf$cow >0, ]
+cameradfelk <- cameradf[cameradf$elk >0, ]
+
+cameradfhorses <- unite(cameradfhorses, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
+cameradfcows <- unite(cameradfcows, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
+cameradfelk <- unite(cameradfelk, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
+
+cameradfhorses$DateTime <- mdy_hms(cameradfhorses$DateTime)
+cameradfcows$DateTime <- mdy_hms(cameradfcows$DateTime)
+cameradfelk$DateTime <- mdy_hms(cameradfelk$DateTime)
+
+cameradfhorses <- arrange(cameradfhorses, DateTime)
+lag_time_diff1 <- difftime(cameradfhorses$DateTime, lag(cameradfhorses$DateTime, default = cameradfhorses$DateTime[1]), units = "mins")
+cameradfhorses$group <- cumsum(ifelse(lag_time_diff1>10,1,0))
+cameradfhorses$group <- cameradfhorses$group+1
+
+cameradfcows <- arrange(cameradfcows, DateTime)
+lag_time_diff2 <- difftime(cameradfcows$DateTime, lag(cameradfcows$DateTime, default = cameradfcows$DateTime[1]), units = "mins")
+cameradfcows$group <- cumsum(ifelse(lag_time_diff2>10,1,0))
+cameradfcows$group <- cameradfcows$group+1
+
+cameradfelk <- arrange(cameradfelk, DateTime)
+lag_time_diff3 <- difftime(cameradfelk$DateTime, lag(cameradfelk$DateTime, default = cameradfelk$DateTime[1]), units = "mins")
+cameradfelk$group <- cumsum(ifelse(lag_time_dif3f>10,1,0))
+cameradfelk$group <- cameradfelk$group+1
+
+return(cameradfDetections<- data.frame(species = c("horses", "cows", "elk"), 
+                             groups = (c(tail(cameradfhorses$group, n = 1), 
+                                         tail(cameradfcows$group, n = 1), 
+                                         tail(cameradfelk$group, n = 1)))))
+}
