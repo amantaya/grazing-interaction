@@ -133,7 +133,7 @@ Now that the data is cleaned up and we did some preliminary calculations, we're 
 # head(WCX18TotalDetections)
 ```
 ***
-To approximate herd dynamics using sequential photos, we will group photos together based on an observation window, where a sequential series of photos were aggregated together based on timestamps. Photos taken ≤10 minutes from the previous photo were included in a single Group Detection. If the next photo in the series was taken >10 minutes from the previous photo, this photo was grouped into the next Group Detection.
+To approximate herd dynamics using sequential photos, we will group photos together based on an observation window, where a sequential series of photos were aggregated together based on timestamps. Photos taken <10 minutes from the previous photo were included in a single Group Detection. If the next photo in the series was taken >= 10 minutes from the previous photo, this photo was grouped into the next Group Detection.
 ```{r}
 BGW17horses <- BGW17[BGW17$horse >0, ]
 BGW17cows <- BGW17[BGW17$cow >0, ]
@@ -143,16 +143,6 @@ head(BGW17horses)
 head(BGW17cows)
 head(BGW17elk)
 ```
-```{r}
-WCS17horses <- WCS17[WCS17$horse >0, ]
-WCS17cows <- WCS17[WCS17$cow >0, ]
-WCS17elk <- WCS17[WCS17$elk >0, ]
-
-head(WCS17horses)
-head(WCS17cows)
-head(WCS17elk)
-```
-
 
 ```{r}
 BGW17horses <- unite(BGW17horses, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
@@ -165,16 +155,6 @@ BGW17elk$DateTime <- mdy_hms(BGW17elk$DateTime)
 ```
 
 ```{r}
-WCS17horses <- unite(WCS17horses, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
-WCS17cows <- unite(WCS17cows, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
-WCS17elk <- unite(WCS17elk, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
-
-WCS17horses$DateTime <- mdy_hms(WCS17horses$DateTime)
-WCS17cows$DateTime <- mdy_hms(WCS17cows$DateTime)
-WCS17elk$DateTime <- mdy_hms(WCS17elk$DateTime)
-```
-
-```{r}
 BGW17horses <- arrange(BGW17horses, DateTime)
 lag_time_diff <- difftime(BGW17horses$DateTime, lag(BGW17horses$DateTime, default = BGW17horses$DateTime[1]), units = "mins")
 BGW17horses$group <- cumsum(ifelse(lag_time_diff>10,1,0))
@@ -184,7 +164,6 @@ BGW17cows <- arrange(BGW17cows, DateTime)
 lag_time_diff <- difftime(BGW17cows$DateTime, lag(BGW17cows$DateTime, default = BGW17cows$DateTime[1]), units = "mins")
 BGW17cows$group <- cumsum(ifelse(lag_time_diff>10,1,0))
 BGW17cows$group <- BGW17cows$group+1
-BGW17cows <- arrange(BGW17cows, DateTime)
 
 BGW17elk <- arrange(BGW17elk, DateTime)
 lag_time_diff <- difftime(BGW17elk$DateTime, lag(BGW17elk$DateTime, default = BGW17elk$DateTime[1]), units = "mins")
@@ -195,40 +174,12 @@ tail(BGW17horses$group, n = 1)
 tail(BGW17cows$group, n = 1)
 tail(BGW17elk$group, n = 1)
 ```
+
 ```{r}
-BGW17Detections<- data.frame(species = c("horses", "cows", "elk"), 
+BGW17Groups<- data.frame(species = c("horses", "cows", "elk"), 
                 groups = (c(tail(BGW17horses$group, n = 1), tail(BGW17cows$group, n = 1), tail(BGW17elk$group, n = 1))))
 
-head(BGW17Detections)
-```
-
-```{r}
-WCS17horses <- arrange(WCS17horses, DateTime)
-lag_time_diff <- difftime(WCS17horses$DateTime, lag(WCS17horses$DateTime, default = WCS17horses$DateTime[1]), units = "mins")
-WCS17horses$group <- cumsum(ifelse(lag_time_diff>10,1,0))
-WCS17horses$group <- WCS17horses$group+1
-
-WCS17cows <- arrange(WCS17cows, DateTime)
-lag_time_diff <- difftime(WCS17cows$DateTime, lag(WCS17cows$DateTime, default = WCS17cows$DateTime[1]), units = "mins")
-WCS17cows$group <- cumsum(ifelse(lag_time_diff>10,1,0))
-WCS17cows$group <- WCS17cows$group+1
-WCS17cows <- arrange(WCS17cows, DateTime)
-
-WCS17elk <- arrange(WCS17elk, DateTime)
-lag_time_diff <- difftime(WCS17elk$DateTime, lag(WCS17elk$DateTime, default = WCS17elk$DateTime[1]), units = "mins")
-WCS17elk$group <- cumsum(ifelse(lag_time_diff>10,1,0))
-WCS17elk$group <- WCS17elk$group+1
-
-tail(WCS17horses$group, n = 1)
-tail(WCS17cows$group, n = 1)
-tail(WCS17elk$group, n = 1)
-```
-
-```{r}
-WCS17Detections<- data.frame(species = c("horses", "cows", "elk"), 
-                groups = (c(tail(WCS17horses$group, n = 1), tail(WCS17cows$group, n = 1), tail(WCS17elk$group, n = 1))))
-
-head(WCS17Detections)
+head(BGW17Groups)
 ```
 
 Grouping the groups by the pre-Monsoon period. 
@@ -265,8 +216,59 @@ Group the groups by the post-Monsoon period
 # tail(WCS17horses_post$group)
 ```
 
-```{r}
 
+```{r}
+BGT18Groups <- group.df(BGT18)
+BGW18Groups <- group.df(BGW18)
+BGX18Groups <- group.df(BGX18)
+WCS17Groups <- group.df(WCS17)
+WCS18Groups <- group.df(WCS18)
+WCT18Groups <- group.df(WCT18)
+```
+
+```{r}
+WCX18horses <- WCX18[WCX18$horse >0, ]
+WCX18cows <- WCX18[WCX18$cow >0, ]
+WCX18elk <- WCX18[WCX18$elk >0, ]
+
+head(WCX18horses)
+head(WCX18cows$cow)
+head(WCX18elk$elk)
+
+WCX18horses <- unite(WCX18horses, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
+WCX18cows <- unite(WCX18cows, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
+WCX18elk <- unite(WCX18elk, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
+
+WCX18horses$DateTime <- mdy_hms(WCX18horses$DateTime)
+WCX18cows$DateTime <- mdy_hms(WCX18cows$DateTime)
+WCX18elk$DateTime <- mdy_hms(WCX18elk$DateTime)
+
+WCX18horses <- arrange(WCX18horses, DateTime)
+lag_time_diff <- difftime(WCX18horses$DateTime, lag(WCX18horses$DateTime, default = WCX18horses$DateTime[1]), units = "mins")
+WCX18horses$group <- cumsum(ifelse(lag_time_diff>10,1,0))
+WCX18horses$group <- WCX18horses$group+1
+
+WCX18cows <- arrange(WCX18cows, DateTime)
+lag_time_diff <- difftime(WCX18cows$DateTime, lag(WCX18cows$DateTime, default = WCX18cows$DateTime[1]), units = "mins")
+WCX18cows$group <- cumsum(ifelse(lag_time_diff>10,1,0))
+WCX18cows$group <- WCX18cows$group+1
+
+WCX18elk <- arrange(WCX18elk, DateTime)
+lag_time_diff <- difftime(WCX18elk$DateTime, lag(WCX18elk$DateTime, default = WCX18elk$DateTime[1]), units = "mins")
+WCX18elk$group <- cumsum(ifelse(lag_time_diff>10,1,0))
+WCX18elk$group <- WCX18elk$group+1
+
+tail(WCX18horses$group, n = 1)
+tail(WCX18cows$group, n = 1)
+tail(WCX18elk$group, n = 1)
+
+WCX18Groups<- data.frame(species = c("horses", "cows", "elk"), 
+                groups = (c(tail(WCX18horses$group, n = 1), 0, tail(WCX18elk$group, n = 1)
+                            )
+                          )
+                )
+
+head(WCX18Groups)
 ```
 
 
