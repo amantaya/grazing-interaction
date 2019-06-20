@@ -9,6 +9,9 @@
 # "species" is the name of the species you want to count (Note: sensitive to case and spelling errors)
 # returns a new column in the specified camera dataframe labled by the specified species 
 
+## custom Standard Error function
+se <- function(x) sqrt(var(x)/length(x))
+
 speciestotal <- function(cameradf, species) {
   ## calculate the number of horses in from the 1st detection, store that in new column 
   
@@ -51,8 +54,8 @@ allspecies <- function(cameradf) {
 }
 
 counts.df <- function(cameradf) {
-  cameradf.counts <- data.frame(species = c("horse", "cattle", "elk", "muledeer", "pronghorn"), 
-             freq = (c(sum(cameradf$horse), sum(cameradf$cow), sum(cameradf$elk), sum(cameradf$deer), sum(cameradf$pronghorn))))
+  cameradf.counts <- data.frame(species = c("Horses", "Cattle", "Elk"), 
+             freq = (c(sum(cameradf$horse), sum(cameradf$cow), sum(cameradf$elk))))
 }
 
 # function to abstract group detections for each site
@@ -84,8 +87,25 @@ lag_time_diff <- difftime(cameradfelk$DateTime, lag(cameradfelk$DateTime, defaul
 cameradfelk$group <- cumsum(ifelse(lag_time_diff>10,1,0))
 cameradfelk$group <- cameradfelk$group+1
 
-return(cameradfDetections<- data.frame(species = c("horses", "cows", "elk"), 
-                             groups = (c(tail(cameradfhorses$group, n = 1), 
-                                         tail(cameradfcows$group, n = 1), 
-                                         tail(cameradfelk$group, n = 1)))))
+horses <- if(length(tail(cameradfhorses$group, n = 1)) >0){
+  tail(cameradfhorses$group, n = 1)
+} else {
+  0
+}
+
+cows <- if(length(tail(cameradfcows$group, n = 1)) >0){
+  tail(cameradfcows$group, n = 1)
+} else {
+  0
+}
+
+elk <- if(length(tail(cameradfelk$group, n = 1)) >0){
+  tail(cameradfelk$group, n = 1)
+} else {
+  0
+}
+
+return (cameradfGroups<- data.frame(species = c("horses", "cows", "elk"), 
+                         groups = (c(horses, cows, elk)))
+)
 }
