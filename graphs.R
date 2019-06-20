@@ -2,7 +2,7 @@
 # Outputs JPG files of each graph into the working directory
 
 # Boggy Trail 2018 Group Detections
-jpeg(filename = "figures/BGT18_GroupDetections.jpeg",
+jpeg(filename = "figures/groups/BGT18_GroupDetections.jpeg",
      width=12,
      height=12,
      units="in",
