@@ -13,6 +13,8 @@ library("ggplot2", lib.loc="~/R/win-library/3.5")
 library("dplyr", lib.loc="~/R/win-library/3.5")
 library("jpeg", lib.loc="~/R/win-library/3.5")
 
+source(file = "functions.R")
+
 ## read in data
 mydata <- read.csv('data/vegetation/White Mountain Production.csv')
 mydata
@@ -86,10 +88,6 @@ mystats[6, 5] <- 8.92179*sd(BGW18G$TotalDry)
 mystats[7, 5] <- 8.92179*sd(WCS18E$TotalDry)
 mystats[8, 5] <- 8.92179*sd(WCS18G$TotalDry)
 
-mystats
-```
-
-```{r}
 mystats[1, 6] <- 8.92179*se(BGW17E$TotalDry)
 mystats[2, 6] <- 8.92179*se(BGW17G$TotalDry)
 mystats[3, 6] <- 8.92179*se(WCS17E$TotalDry)
@@ -124,170 +122,160 @@ colnames(mystats) <- c("sites", "prod_g_m2", "prod_kg_ha", "prod_lbs_acre", "SD"
 
 mystats
 ```
+```{r}
+BGW17prod <- data.frame(BGW17 = c("Ungrazed", "Grazed"), production = c(mystats[1,4], mystats[2,4]))
+BGW17prod
+BGW18prod <- data.frame(BGW18 = c("Ungrazed", "Grazed"), production = c(mystats[5,4], mystats[6,4]))
+BGW18prod
+WCS17prod <- data.frame(WCS17 = c("Ungrazed", "Grazed"), production = c(mystats[3,4], mystats[4,4]))
+WCS17prod
+WCS18prod <- data.frame(WCS18 = c("Ungrazed", "Grazed"), production = c(mystats[7,4], mystats[8,4]))
+WCS18prod
+```
+
 
 ```{r}
-jpeg(filename = "figures/vegetation/Boggy_Creek_Production 2017.jpg",
-     width=12,
-     height=12,
+jpeg(filename = "figures/vegetation/Boggy_Creek_Production_2017.jpg",
+     width=3.2,
+     height=3.2,
      units="in",
      res=300)
 plot.new()
-## bottom, left, top, right
-par(mar=c(5, 7, 5, 0), mfrow = c(1,2))
-barplot(mystats[1,3],
-        col = "#404788FF",
-        main = NA,
+# bottom, left, top, right
+par(mar=c(2, 4, 2, 2))
+barplot(BGW17prod$production,
+        col = c("#404788FF", "#FDE725FF"),
+        main = "Boggy Creek Production 2017",
         axes = FALSE,
-        xlab = "Ungrazed",
-        ylab = expression(paste("kg ", "ha"^"-1", " ± SE")),
-        cex.lab = 3,
+        names.arg=(c("Production", "Availability")),
+        ylab = expression(paste("lbs ", "acre"^"-1", " ± SE")),
+        cex.lab = 1,
+        cex.main = 1,
         ylim = c(0, 6500))
-axis(2,at=c(seq(0,6500,1000)),labels=c(seq(0,6500,1000)), cex.axis=2)
-segments(0.7, mystats[1, 3] - mystats[1, 5], 0.7,
-         mystats[1, 3] + mystats[1, 5], lwd = 2)
-arrows(0.7, mystats[1, 3] - mystats[1, 5], 0.7,
-       mystats[1, 3] + mystats[1, 5], lwd = 2, angle = 90,
+axis(2,at=c(seq(0,6500,1000)),labels=c(seq(0,6500,1000)), cex.axis= 0.5, las = 2)
+segments(0.7, mystats[1, 4] - mystats[1, 6], 0.7,
+         mystats[1, 4] + mystats[1, 6], lwd = 1)
+arrows(0.7, mystats[1, 4] - mystats[1, 6], 0.7,
+       mystats[1, 4] + mystats[1, 6], lwd = 1, angle = 90,
        code = 3, length = 0.05)
-barplot(mystats[2,3],
-        col = "#FDE725FF",
-        add=F,
-        main=NA,
-        axes=FALSE,
-        xlab = "Grazed",
-        cex.lab = 3,
-        ylim = c(0, 6500))
-segments(0.7, mystats[2, 3] - mystats[2, 5], 0.7,
-         mystats[2, 3] + mystats[2, 5], lwd = 2)
-arrows(0.7, mystats[2, 3] - mystats[2, 5], 0.7,
-       mystats[2, 3] + mystats[2, 5], lwd = 2, angle = 90,
+segments(1.9, mystats[2, 4] - mystats[2, 6], 1.9,
+         mystats[2, 4] + mystats[2, 6], lwd = 1)
+arrows(1.9, mystats[2, 4] - mystats[2, 6], 1.9,
+       mystats[2, 4] + mystats[2, 6], lwd = 1, angle = 90,
        code = 3, length = 0.05)
-mtext("Boggy Creek Production", 3, las = 0 , cex = 1)
+text(0.7, 5700, "4705", pos = 3, cex = 0.75)
+text(1.9, 750, "598", pos = 3, cex = 0.75)
 dev.off()
 ```
 
 ```{r}
-jpeg(filename = "figures/vegetation/Boggy Creek Utilization 2018.jpg",
-     width=12,
-     height=12,
+jpeg(filename = "figures/vegetation/Boggy_Creek_Production_2018.jpg",
+     width=3.2,
+     height=3.2,
      units="in",
      res=300)
 plot.new()
-## bottom, left, top, right
-par(mar=c(5, 7, 5, 0), mfrow = c(1,2))
-barplot(mystats[5, 3],
-        col = "#404788FF",
-        main = NA,
+# bottom, left, top, right
+par(mar=c(2, 4, 2, 2))
+barplot(BGW18prod$production,
+        col = c("#404788FF", "#FDE725FF"),
+        main = "Boggy Creek Production 2018",
         axes = FALSE,
-        xlab = "Ungrazed",
-        ylab = expression(paste("kg ", "ha"^"-1", " ± SE")),
-        cex.lab = 3,
+        names.arg=(c("Production", "Availability")),
+        ylab = expression(paste("lbs ", "acre"^"-1", " ± SE")),
+        cex.lab = 1,
+        cex.main = 1,
         ylim = c(0, 6500))
-axis(2,at=c(seq(0,6500,1000)),labels=c(seq(0,6500,1000)), cex.axis=2)
-segments(0.7, mystats[5, 3] - mystats[5, 5], 0.7,
-         mystats[5, 3] + mystats[5, 5], lwd = 2)
-arrows(0.7, mystats[5, 3] - mystats[5, 5], 0.7,
-       mystats[5, 3] + mystats[5, 5], lwd = 2, angle = 90,
+axis(2,at=c(seq(0,6500,1000)),labels=c(seq(0,6500,1000)), cex.axis= 0.5, las = 2)
+segments(0.7, mystats[5, 4] - mystats[5, 6], 0.7,
+         mystats[5, 4] + mystats[5, 6], lwd = 1)
+arrows(0.7, mystats[5, 4] - mystats[5, 6], 0.7,
+       mystats[5, 4] + mystats[5, 6], lwd = 1, angle = 90,
        code = 3, length = 0.05)
-barplot(mystats[6,3],
-        col = "#FDE725FF",
-        add=F,
-        main=NA,
-        axes=FALSE,
-        xlab = "Grazed",
-        cex.lab = 3,
-        ylim = c(0, 6500))
-segments(0.7, mystats[6, 3] - mystats[6, 5], 0.7,
-         mystats[6, 3] + mystats[6, 5], lwd = 2)
-arrows(0.7, mystats[6, 3] - mystats[6, 5], 0.7,
-       mystats[6, 3] + mystats[6, 5], lwd = 2, angle = 90,
+segments(1.9, mystats[6, 4] - mystats[6, 6], 1.9,
+         mystats[6, 4] + mystats[6, 6], lwd = 1)
+arrows(1.9, mystats[6, 4] - mystats[6, 6], 1.9,
+       mystats[6, 4] + mystats[6, 6], lwd = 1, angle = 90,
        code = 3, length = 0.05)
+text(0.7, 4200, "3483", pos = 3, cex = 0.75)
+text(1.9, 125, "93.9", pos = 3, cex = 0.75)
 dev.off()
 ```
 
 ```{r}
-jpeg(filename = "figures/vegetation/Wildcat Creek Utilization 2017.jpg",
-     width=12,
-     height=12,
+jpeg(filename = "figures/vegetation/Wildcat_Creek_Production_2017.jpg",
+     width=3.2,
+     height=3.2,
      units="in",
      res=300)
 plot.new()
-## bottom, left, top, right
-par(mar=c(5, 7, 5, 0), mfrow = c(1,2))
-barplot(mystats[3, 3],
-        col = "#404788FF",
-        main = NA,
+# bottom, left, top, right
+par(mar=c(2, 4, 2, 2))
+barplot(WCS17prod$production,
+        col = c("#404788FF", "#FDE725FF"),
+        main = "Wildcat Creek Production 2017",
         axes = FALSE,
-        xlab = "Ungrazed",
-        ylab = expression(paste("kg ", "ha"^"-1", " ± SE")),
-        cex.lab = 3,
+        names.arg=(c("Production", "Availability")),
+        ylab = expression(paste("lbs ", "acre"^"-1", " ± SE")),
+        cex.lab = 1,
+        cex.main = 1,
         ylim = c(0, 6500))
-axis(2,at=c(seq(0,6500,1000)),labels=c(seq(0,6500,1000)), cex.axis=2)
-segments(0.7, mystats[3, 3] - mystats[3, 5], 0.7,
-         mystats[3, 3] + mystats[3, 5], lwd = 2)
-arrows(0.7, mystats[3, 3] - mystats[3, 5], 0.7,
-       mystats[3, 3] + mystats[3, 5], lwd = 2, angle = 90,
+axis(2,at=c(seq(0,6500,1000)),labels=c(seq(0,6500,1000)), cex.axis= 0.5, las = 2)
+segments(0.7, mystats[3, 4] - mystats[3, 6], 0.7,
+         mystats[3, 4] + mystats[3, 6], lwd = 1)
+arrows(0.7, mystats[3, 4] - mystats[3, 6], 0.7,
+       mystats[3, 4] + mystats[3, 6], lwd = 1, angle = 90,
        code = 3, length = 0.05)
-barplot(mystats[4,3],
-        col = "#FDE725FF",
-        add=F,
-        main=NA,
-        axes=FALSE,
-        xlab = "Grazed",
-        cex.lab = 3,
-        ylim = c(0, 6500))
-segments(0.7, mystats[4, 3] - mystats[4, 5], 0.7,
-         mystats[4, 3] + mystats[4, 5], lwd = 2)
-arrows(0.7, mystats[4, 3] - mystats[4, 5], 0.7,
-       mystats[4, 3] + mystats[4, 5], lwd = 2, angle = 90,
+segments(1.9, mystats[4, 4] - mystats[4, 6], 1.9,
+         mystats[4, 4] + mystats[4, 6], lwd = 1)
+arrows(1.9, mystats[4, 4] - mystats[4, 6], 1.9,
+       mystats[4, 4] + mystats[4, 6], lwd = 1, angle = 90,
        code = 3, length = 0.05)
+text(0.7, 5500, "4766", pos = 3, cex = 0.75)
+text(1.9, 600, "457", pos = 3, cex = 0.75)
 dev.off()
 ```
 
 ```{r}
-jpeg(filename = "figures/vegetation/Wildcat Creek Utilization 2018.jpg",
-     width=12,
-     height=12,
+jpeg(filename = "figures/vegetation/Wildcat_Creek_Production_2018.jpg",
+     width=3.2,
+     height=3.2,
      units="in",
      res=300)
 plot.new()
-## bottom, left, top, right
-par(mar=c(5, 7, 5, 0), mfrow = c(1,2))
-barplot(mystats[7, 3],
-        col = "#404788FF",
-        main = NA,
+# bottom, left, top, right
+par(mar=c(2, 4, 2, 2))
+barplot(WCS18prod$production,
+        col = c("#404788FF", "#FDE725FF"),
+        main = "Wildcat Creek Production 2018",
         axes = FALSE,
-        xlab = "Ungrazed",
-        ylab = expression(paste("kg ", "ha"^"-1", " ± SE")),
-        cex.lab = 3,
+        names.arg=(c("Production", "Availability")),
+        ylab = expression(paste("lbs ", "acre"^"-1", " ± SE")),
+        cex.lab = 1,
+        cex.main = 1,
         ylim = c(0, 6500))
-axis(2,at=c(seq(0,6500,1000)),labels=c(seq(0,6500,1000)), cex.axis=2)
-segments(0.7, mystats[7, 3] - mystats[7, 5], 0.7,
-         mystats[7, 3] + mystats[7, 5], lwd = 2)
-arrows(0.7, mystats[7, 3] - mystats[7, 5], 0.7,
-       mystats[7, 3] + mystats[7, 5], lwd = 2, angle = 90,
+axis(2,at=c(seq(0,6500,1000)),labels=c(seq(0,6500,1000)), cex.axis= 0.5, las = 2)
+segments(0.7, mystats[7, 4] - mystats[7, 6], 0.7,
+         mystats[7, 4] + mystats[7, 6], lwd = 1)
+arrows(0.7, mystats[7, 4] - mystats[7, 6], 0.7,
+       mystats[7, 4] + mystats[7, 6], lwd = 1, angle = 90,
        code = 3, length = 0.05)
-barplot(mystats[8,3],
-        col = "#FDE725FF",
-        add=F,
-        main=NA,
-        axes=FALSE,
-        xlab = "Grazed",
-        cex.lab = 3,
-        ylim = c(0, 6500))
-segments(0.7, mystats[8, 3] - mystats[8, 5], 0.7,
-         mystats[8, 3] + mystats[8, 5], lwd = 2)
-arrows(0.7, mystats[8, 3] - mystats[8, 5], 0.7,
-       mystats[8, 3] + mystats[8, 5], lwd = 2, angle = 90,
+segments(1.9, mystats[8, 4] - mystats[8, 6], 1.9,
+         mystats[8, 4] + mystats[8, 6], lwd = 1)
+arrows(1.9, mystats[8, 4] - mystats[8, 6], 1.9,
+       mystats[8, 4] + mystats[8, 6], lwd = 1, angle = 90,
        code = 3, length = 0.05)
+text(0.7, 3900, "3271", pos = 3, cex = 0.75)
+text(1.9, 300, "192", pos = 3, cex = 0.75)
 dev.off()
 ```
 
 ```{r}
 ## calculate % utilization
-BGW17Utilization <- (mystats[1, 3]-mystats[2, 3])/mystats[1, 3]
-WCS17Utilization <- (mystats[3, 3]-mystats[4, 3])/mystats[3, 3]
-BGW18Utilization <- (mystats[5, 3]-mystats[6, 3])/mystats[5, 3]
-WCS18Utilization <- (mystats[7, 3]-mystats[8, 3])/mystats[7, 3]
+BGW17Utilization <- (mystats[1, 4]-mystats[2, 4])/mystats[1, 4]
+WCS17Utilization <- (mystats[3, 4]-mystats[4, 4])/mystats[3, 4]
+BGW18Utilization <- (mystats[5, 4]-mystats[6, 4])/mystats[5, 4]
+WCS18Utilization <- (mystats[7, 4]-mystats[8, 4])/mystats[7, 4]
 
 ## t test for production values between years
 t.test(BGW17E$TotalDry, BGW18E$TotalDry)
