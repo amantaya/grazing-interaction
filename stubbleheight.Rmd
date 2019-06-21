@@ -1,0 +1,158 @@
+---
+title: "Stubble Height"
+author: "Andrew Antaya"
+date: "June 20, 2019"
+output: html_document
+---
+```{r}
+## Wild Horse Ecological Interactions Analysis
+## White Mountain Sites
+## Boggy and Wildcat Creek Grazed Sites
+## Stubble Height Caclculations
+## 02/07/2019
+## Written by Andrew Antaya
+
+library("ggplot2", lib.loc= "~/R/win-library/3.5")
+library("dplyr", lib.loc= "~/R/win-library/3.5")
+library("jpeg", lib.loc= "~/R/win-library/3.5")
+library("viridis", lib.loc = "~/R/win-library/3.5")
+library("scales", lib.loc = "~/R/win-library/3.5")
+```
+
+```{r}
+## read in data
+Boggy18stubRAW <- read.csv('data/vegetation/Boggy Stubble Height 2018.csv',
+                       header=TRUE, 
+                       na.strings=c(""," ","NA"))
+Wildcat18stubRAW <- read.csv('data/vegetation/Wildcat Stubble Height 2018.csv',
+                         header=TRUE,
+                         na.strings=c(""," ","NA"))
+Boggy17stubRAW <- read.csv('data/vegetation/Boggy Stubble Height 2017.csv',
+                       header=TRUE, 
+                       na.strings=c(""," ","NA"))
+Wildcat17stubRAW <- read.csv('data/vegetation/Wildcat Stubble Height 2017.csv',
+                         header=TRUE,
+                         na.strings=c(""," ","NA"))
+Boggy17stubRAW
+Boggy18stubRAW
+Wildcat17stubRAW
+Wildcat18stubRAW
+```
+
+```{r}
+## clean up the data by removing any missing values
+Boggy18stub <- Boggy18stubRAW[complete.cases(Boggy18stubRAW[ ,'Height.in']),]
+Boggy17stub <- Boggy17stubRAW[complete.cases(Boggy17stubRAW[ ,'Height.in']),]
+Wildcat18stub <- Wildcat18stubRAW[complete.cases(Wildcat18stubRAW[ ,'Height.in']),]
+Wildcat17stub <- Wildcat17stubRAW[complete.cases(Wildcat17stubRAW[ ,'Height.in']),]
+
+Boggy17stub
+Boggy18stub
+Wildcat17stub
+Wildcat18stub
+```
+
+Remove raw data from the environment
+```{r}
+rm(Boggy18stubRAW, Boggy17stubRAW, Wildcat18stubRAW, Wildcat17stubRAW)
+```
+
+Data was measured to the nearest half-inch;converting to cm implies a level of precision with the additional sig figs.
+```{r}
+## convert from inches to cm
+# Boggy18[ , "Height.cm"] <- Boggy18$Height.in*2.54
+# Boggy17[ , "Height.cm"] <- Boggy17$Height.in*2.54
+# Wildcat18[ , "Height.cm"] <- Wildcat18$Height.in*2.54
+# Wildcat17[ , "Height.cm"] <- Wildcat17$Height.in*2.54
+```
+
+```{r}
+boggy18avg <- mean(Boggy18stub$Height.in)
+boggy17avg <- mean(Boggy17stub$Height.in)
+wildcat18avg <- mean(Wildcat18stub$Height.in)
+wildcat17avg <- mean(Wildcat17stub$Height.in)
+
+boggy18sd <- sd(Boggy18stub$Height.in)
+boggy17sd <- sd(Boggy17stub$Height.in)
+wildcat18sd <- sd(Wildcat18stub$Height.in)
+wildcat17sd <- sd(Wildcat17stub$Height.in)
+
+boggy18se <- se(Boggy18stub$Height.in)
+boggy17se <- se(Boggy17stub$Height.in)
+wildcat18se <- se(Wildcat18stub$Height.in)
+wildcat17se <- se(Wildcat17stub$Height.in)
+
+boggystubble <- data.frame(site = c("Boggy", "Boggy"), year = c(2017, 2018), avg.in = c(boggy17avg, boggy18avg), sd = c(boggy17sd, boggy18sd), se = c(boggy17se, boggy18se))
+
+boggystubble
+
+wildcatstubble <- data.frame(site = c("Wildcat", "Wildcat"), year = c(2017, 2018), avg.in = c(wildcat17avg, wildcat18avg), sd = c(wildcat17sd, wildcat18sd), se = c(wildcat17se, wildcat18se))
+
+wildcatstubble
+```
+
+```{r}
+show_col(viridis_pal(option="inferno")(8))
+viridis_pal(option="inferno")(8)
+```
+```{r}
+jpeg(filename = "figures/vegetation/Boggy_Stubble_Height.jpg",
+     width=3.2,
+     height=3.2,
+     units="in",
+     res=300)
+plot.new() ## call a new plot
+## bottom, left, top, right
+par(mar=c(2, 4, 2, 2))
+barplot(boggystubble$avg.in,
+        col = c("#65156EFF", "#F57D15FF"),
+        main = "Boggy Creek Stubble Height",
+        cex.lab = 1,
+        cex.names = 1,
+        cex.main = 1,
+        axes = FALSE,
+        names.arg=(c("2017", "2018")),
+        ylab = expression(paste("Stubble Height (in)", " ± SE")),
+        ylim = c(0, 11))
+axis(2, at=c(seq(0, 10, 1)), labels=c(seq(0, 10, 1)), cex.axis = 1)
+segments(0.7, boggy17avg - boggy17se, 0.7, boggy17avg + boggy17se, lwd = 1)
+arrows(0.7, boggy17avg - boggy17se, 0.7, boggy17avg + boggy17se, lwd = 1, angle = 90,code = 3, length = 0.05)
+segments(1.9, boggy18avg - boggy18se, 1.9, boggy18avg + boggy18se, lwd = 1)
+arrows(1.9, boggy18avg - boggy18se, 1.9, boggy18avg +  boggy18se, lwd = 1, angle = 90,code = 3, length = 0.05)
+text(0.7, 4, "3.3", pos = 3, cex = 1)
+text(1.9, 3, "2.6", pos = 3, cex = 1)
+dev.off()
+```
+```{r}
+jpeg(filename = "figures/vegetation/Wildcat_Stubble_Height.jpg",
+     width=3.2,
+     height=3.2,
+     units="in",
+     res=300)
+plot.new() ## call a new plot
+## bottom, left, top, right
+par(mar=c(2, 4, 2, 2))
+barplot(wildcatstubble$avg.in,
+        col = c("#65156EFF", "#F57D15FF"),
+        main = "Wildcat Creek Stubble Height",
+        cex.lab = 1,
+        cex.names = 1,
+        cex.main = 1,
+        axes = FALSE,
+        names.arg=(c("2017", "2018")),
+        ylab = expression(paste("Stubble Height (in)", " ± SE")),
+        ylim = c(0, 11))
+axis(2, at=c(seq(0, 10, 1)), labels=c(seq(0, 10, 1)), cex.axis = 1)
+segments(0.7, wildcat17avg - wildcat17se, 0.7, wildcat17avg + wildcat17se, lwd = 1)
+arrows(0.7, wildcat17avg - wildcat17se, 0.7, wildcat17avg + wildcat17se, lwd = 1, angle = 90,code = 3, length = 0.05)
+segments(1.9, wildcat18avg - wildcat18se, 1.9, wildcat18avg + wildcat18se, lwd = 1)
+arrows(1.9, wildcat18avg - wildcat18se, 1.9, wildcat18avg +  wildcat18se, lwd = 1, angle = 90,code = 3, length = 0.05)
+text(0.7, 1.5, "1.2", pos = 3, cex = 1)
+text(1.9, 4, "3.3", pos = 3, cex = 1)
+dev.off()
+```
+
+```{r}
+t.test(Boggy17stub$Height.in, Boggy18stub$Height.in)
+t.test(Wildcat17stub$Height.in, Wildcat18stub$Height.in)
+```
