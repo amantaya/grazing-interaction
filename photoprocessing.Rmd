@@ -214,5 +214,156 @@ Group the groups by the post-Monsoon period
 # tail(WCS17horses_post$group)
 ```
 
+```{r}
+BGW17horses <- unite(BGW17horses, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
+BGW17cows <- unite(BGW17cows, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
+BGW17elk <- unite(BGW17elk, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
+
+BGW17horses$DateTime <- mdy_hms(BGW17horses$DateTime)
+BGW17cows$DateTime <- mdy_hms(BGW17cows$DateTime)
+BGW17elk$DateTime <- mdy_hms(BGW17elk$DateTime)
+
+BGW17horses <- arrange(BGW17horses, DateTime)
+lag_time_diff <- difftime(BGW17horses$DateTime, lag(BGW17horses$DateTime, default = BGW17horses$DateTime[1]), units = "mins")
+
+BGW17horses$group <- cumsum(ifelse(lag_time_diff>10,1,0))
+BGW17horses$group <- BGW17horses$group+1
+
+BGW17horses
+```
+
+```{r}
+#BGW17time[] <- cbind(BGW17horses$group, BGW17horses$DateTime)
+# BGW17time <- data.frame(HorseCount = (BGW17horses$horse), DateTime = (BGW17horses$DateTime), Group = (BGW17horses$group))
+# BGW17time
+# 
+# months<- month(BGW17time$DateTime, label = TRUE)
+# barplot(table(months))
+# 
+# hours<- hour(BGW17time$DateTime)
+# as.factor(hours)
+# barplot(table(hours))
+```
+
+
+```{r}
+# BGW17horsegroups<- unique(BGW17horses$group)
+# str(BGW17horsegroups)
+```
+
+```{r}
+# BGW17SiteUse <-data.frame(Group = BGW17horsegroups, Hour1 = NA, Hour2 = NA, Hour3 = NA, Hour4 = NA, Hour5 = NA)
+# BGW17SiteUse
+```
+
+```{r}
+summary(BGW17horses$horse)
+BGW17horses2 <- arrange(BGW17horses, BGW17horses$hour)
+BGW17horses2
+```
+```{r}
+BGW17hourlyfreq <- as.data.frame(table(BGW17horses$hour))
+colnames(BGW17hourlyfreq) <- c("Hour", "Freq")
+BGW17hourlyfreq
+```
+```{r}
+str(BGW17hourlyfreq)
+```
+
+```{r}
+df <- data.frame(hour0 = (NA), hour1 = (NA), hour2 = (NA), hour3 = (NA), hour4 = (NA), hour5 = (NA), 
+                 hour6 = (NA), hour7 = (NA), hour8 = (NA), hour9 = (NA), hour10 = (NA), hour11 = (NA),
+                 hour12 = (NA), hour13 = (NA), hour14 = (NA), hour15 = (NA), hour16 = (NA), hour17 = (NA),
+                 hour18 = (NA), hour19 = (NA), hour20 = (NA), hour21 = (NA), hour22 = (NA), hour23 = (NA))
+df
+```
+
+
+```{r}
+hour0 <- sum(ifelse (BGW17horses$hour == 0, BGW17horses$horse, 0))
+hour1 <- sum(ifelse (BGW17horses$hour == 1, BGW17horses$horse, 0))
+hour2 <- sum(ifelse (BGW17horses$hour == 2, BGW17horses$horse, 0))
+hour3 <- sum(ifelse (BGW17horses$hour == 3, BGW17horses$horse, 0))
+hour4 <- sum(ifelse (BGW17horses$hour == 4, BGW17horses$horse, 0))
+hour5 <- sum(ifelse (BGW17horses$hour == 5, BGW17horses$horse, 0))
+hour6 <- sum(ifelse (BGW17horses$hour == 6, BGW17horses$horse, 0))
+hour7 <- sum(ifelse (BGW17horses$hour == 7, BGW17horses$horse, 0))
+hour8 <- sum(ifelse (BGW17horses$hour == 8, BGW17horses$horse, 0))
+hour9 <- sum(ifelse (BGW17horses$hour == 9, BGW17horses$horse, 0))
+hour10 <- sum(ifelse (BGW17horses$hour == 10, BGW17horses$horse, 0))
+hour11 <- sum(ifelse (BGW17horses$hour == 11, BGW17horses$horse, 0))
+hour12 <- sum(ifelse (BGW17horses$hour == 12, BGW17horses$horse, 0))
+hour13 <- sum(ifelse (BGW17horses$hour == 13, BGW17horses$horse, 0))
+hour14 <- sum(ifelse (BGW17horses$hour == 14, BGW17horses$horse, 0))
+hour15 <- sum(ifelse (BGW17horses$hour == 15, BGW17horses$horse, 0))
+hour16 <- sum(ifelse (BGW17horses$hour == 16, BGW17horses$horse, 0))
+hour17 <- sum(ifelse (BGW17horses$hour == 17, BGW17horses$horse, 0))
+hour18 <- sum(ifelse (BGW17horses$hour == 18, BGW17horses$horse, 0))
+hour19 <- sum(ifelse (BGW17horses$hour == 19, BGW17horses$horse, 0))
+hour20 <- sum(ifelse (BGW17horses$hour == 20, BGW17horses$horse, 0))
+hour21 <- sum(ifelse (BGW17horses$hour == 21, BGW17horses$horse, 0))
+hour22 <- sum(ifelse (BGW17horses$hour == 22, BGW17horses$horse, 0))
+hour23 <- sum(ifelse (BGW17horses$hour == 23, BGW17horses$horse, 0))
+```
+
+```{r}
+df <- data.frame(hour = c(0:23), Freq = c(hour0, hour1, hour2, hour3, hour4, hour5, hour6, hour7, hour8, hour9, hour10, hour11, hour12, hour13, hour14, hour15, hour16, hour17, hour18, hour19, hour20, hour21, hour22, hour23))
+
+df
+```
+
+```{r}
+jpeg(filename = "figures/timeofday/BGW17_Counts_Small.jpg",
+     width=5,
+     height=5,
+     units="in",
+     res=300)
+## bottom, left, top, right
+par(mar=c(2, 2, 1, 1))
+plot(df$Freq,
+     main = "Site Use by Time of Day",
+     axes = FALSE,
+     type = "n")
+lines(x = df$hour, y = df$Freq)
+points(x = df$hour, y = df$Freq, pch = 16)
+axis(1, at = c(0:23), labels = c(0:23), cex.axis = 0.50)
+axis(2, at = seq(0, 2000, by=500), cex.axis = 0.50)
+dev.off()
+
+```
+
+
+```{r}
+BGW17horses$hour <- as.factor(hour(BGW17horses$DateTime))
+
+str(BGW17horses$hour)
+```
+
+```{r}
+View(table(BGW17horses$hour))
+barplot(table(BGW17horses$hour))
+```
+
+```{r}
+BGW17group1 <- BGW17time[BGW17time$Group == 1,]
+BGW17group1$hour <- hour(BGW17group1$DateTime)
+
+BGW17group1
+
+BGW17group2 <- BGW17time[BGW17time$Group == 2,]
+BGW17group2$hour <- hour(BGW17group2$DateTime)
+
+BGW17group2
+
+hour <- unique(BGW17group1$hour)
+hour <- as.factor(hour)
+str(hour)
+```
+
+```{r}
+View(table(hour))
+```
+
+
 
 
