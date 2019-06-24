@@ -75,15 +75,64 @@ BGW18<- BGW18RAW[complete.cases(BGW18RAW[ , 'Count1Species']),]
 BGX18<- BGX18RAW[complete.cases(BGX18RAW[ , 'Count1Species']),]
 WCS17<- WCS17RAW[complete.cases(WCS17RAW[ , 'Count1Species']),]
 WCS18<- WCS18RAW[complete.cases(WCS18RAW[ , 'Count1Species']),]
-WCT18<- WCT18RAW[complete.cases(BGW18RAW[ , 'Count1Species']),]
-WCX18<- WCX18RAW[complete.cases(BGW18RAW[ , 'Count1Species']),]
+WCT18<- WCT18RAW[complete.cases(WCT18RAW[ , 'Count1Species']),]
+WCX18<- WCX18RAW[complete.cases(WCX18RAW[ , 'Count1Species']),]
+
+WCX18<- WCX18RAW[complete.cases(WCX18RAW[ , 'ImageDate']),]
 ```
 
 ***
 We no longer need the raw dataframes, so we can remove them from our environment just to clean things up a bit.
 ```{r}
-rm(BGT18RAW, BGW17RAW, BGW18RAW, BGX18RAW, WCS17RAW, WCS18RAW, WCT18RAW, WCX18RAW)
+#rm(BGT18RAW, BGW17RAW, BGW18RAW, BGX18RAW, WCS17RAW, WCS18RAW, WCT18RAW, WCX18RAW)
 ```
+
+```{r}
+WCX18new <- arrange(WCX18, WCX18$ImageTime)
+WCX18new
+
+WCX18errors <- filter(WCX18, is.na(WCX18$ImageDate))
+WCX18errors
+```
+
+
+```{r}
+BGT18 <- cleandates(BGT18)
+BGW17 <- cleandates(BGW17)
+BGW18 <- cleandates(BGW18)
+BGX18 <- cleandates(BGX18)
+WCS17 <- cleandates(WCS17)
+WCS18 <- cleandates(WCS18)
+WCT18 <- cleandates(WCT18)
+WCX18 <- cleandates(WCX18)
+
+#BGT18error <- which(is.na(BGT18$DateTime))
+#which(is.na(BGW17$DateTime))
+#which(is.na(BGW18$DateTime))
+#which(is.na(BGX18$DateTime))
+#which(is.na(WCS17$DateTime))
+#which(is.na(WCS18$DateTime))
+#which(is.na(WCT18$DateTime))
+#which(is.na(WCX18$DateTime))
+
+BGT18errors <- filter(BGT18, is.na(BGT18$DateTime))
+BGT18errors
+BGW17errors <- filter(BGW17, is.na(BGW17$DateTime))
+BGW17errors
+BGW18errors <- filter(BGW18, is.na(BGW18$DateTime))
+BGW18errors
+BGX18errors <- filter(BGX18, is.na(BGX18$DateTime))
+BGX18errors
+WCS17errors <- filter(WCS17, is.na(WCS17$DateTime))
+WCS17errors
+WCS18errors <- filter(WCS18, is.na(WCS18$DateTime))
+WCS18errors
+WCT18errors <- filter(WCT18, is.na(WCT18$DateTime))
+WCT18errors
+WCX18errors <- filter(WCX18, is.na(WCX18$DateTime))
+WCX18errors
+```
+
 
 ***
 We're going to use a function I created called "speciestotal" (see the functions.R script) which is specific to the way we classified our data. The issue is that the 'Count1Species' column in our dataframes doesn't correspond to a specific species, rather it corresponds to whatever species is the primary species detected (>50% of individuals if a multiple species are detected in an image). 
@@ -215,15 +264,15 @@ Group the groups by the post-Monsoon period
 ```
 
 ```{r}
-BGW17horses <- unite(BGW17horses, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
-BGW17cows <- unite(BGW17cows, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
-BGW17elk <- unite(BGW17elk, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
+# BGW17horses <- unite(BGW17horses, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
+# BGW17cows <- unite(BGW17cows, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
+# BGW17elk <- unite(BGW17elk, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
+# 
+# BGW17horses$DateTime <- mdy_hms(BGW17horses$DateTime)
+# BGW17cows$DateTime <- mdy_hms(BGW17cows$DateTime)
+# BGW17elk$DateTime <- mdy_hms(BGW17elk$DateTime)
+# BGW17horses <- arrange(BGW17horses, DateTime)
 
-BGW17horses$DateTime <- mdy_hms(BGW17horses$DateTime)
-BGW17cows$DateTime <- mdy_hms(BGW17cows$DateTime)
-BGW17elk$DateTime <- mdy_hms(BGW17elk$DateTime)
-
-BGW17horses <- arrange(BGW17horses, DateTime)
 lag_time_diff <- difftime(BGW17horses$DateTime, lag(BGW17horses$DateTime, default = BGW17horses$DateTime[1]), units = "mins")
 
 BGW17horses$group <- cumsum(ifelse(lag_time_diff>10,1,0))
@@ -257,113 +306,124 @@ BGW17horses
 ```
 
 ```{r}
-summary(BGW17horses$horse)
-BGW17horses2 <- arrange(BGW17horses, BGW17horses$hour)
-BGW17horses2
+# summary(BGW17horses$horse)
+# BGW17horses2 <- arrange(BGW17horses, BGW17horses$hour)
+# BGW17horses2
 ```
 ```{r}
-BGW17hourlyfreq <- as.data.frame(table(BGW17horses$hour))
-colnames(BGW17hourlyfreq) <- c("Hour", "Freq")
-BGW17hourlyfreq
+# BGW17hourlyfreq <- as.data.frame(table(BGW17horses$hour))
+# colnames(BGW17hourlyfreq) <- c("Hour", "Freq")
+# BGW17hourlyfreq
 ```
 ```{r}
-str(BGW17hourlyfreq)
-```
-
-```{r}
-df <- data.frame(hour0 = (NA), hour1 = (NA), hour2 = (NA), hour3 = (NA), hour4 = (NA), hour5 = (NA), 
-                 hour6 = (NA), hour7 = (NA), hour8 = (NA), hour9 = (NA), hour10 = (NA), hour11 = (NA),
-                 hour12 = (NA), hour13 = (NA), hour14 = (NA), hour15 = (NA), hour16 = (NA), hour17 = (NA),
-                 hour18 = (NA), hour19 = (NA), hour20 = (NA), hour21 = (NA), hour22 = (NA), hour23 = (NA))
-df
-```
-
-
-```{r}
-hour0 <- sum(ifelse (BGW17horses$hour == 0, BGW17horses$horse, 0))
-hour1 <- sum(ifelse (BGW17horses$hour == 1, BGW17horses$horse, 0))
-hour2 <- sum(ifelse (BGW17horses$hour == 2, BGW17horses$horse, 0))
-hour3 <- sum(ifelse (BGW17horses$hour == 3, BGW17horses$horse, 0))
-hour4 <- sum(ifelse (BGW17horses$hour == 4, BGW17horses$horse, 0))
-hour5 <- sum(ifelse (BGW17horses$hour == 5, BGW17horses$horse, 0))
-hour6 <- sum(ifelse (BGW17horses$hour == 6, BGW17horses$horse, 0))
-hour7 <- sum(ifelse (BGW17horses$hour == 7, BGW17horses$horse, 0))
-hour8 <- sum(ifelse (BGW17horses$hour == 8, BGW17horses$horse, 0))
-hour9 <- sum(ifelse (BGW17horses$hour == 9, BGW17horses$horse, 0))
-hour10 <- sum(ifelse (BGW17horses$hour == 10, BGW17horses$horse, 0))
-hour11 <- sum(ifelse (BGW17horses$hour == 11, BGW17horses$horse, 0))
-hour12 <- sum(ifelse (BGW17horses$hour == 12, BGW17horses$horse, 0))
-hour13 <- sum(ifelse (BGW17horses$hour == 13, BGW17horses$horse, 0))
-hour14 <- sum(ifelse (BGW17horses$hour == 14, BGW17horses$horse, 0))
-hour15 <- sum(ifelse (BGW17horses$hour == 15, BGW17horses$horse, 0))
-hour16 <- sum(ifelse (BGW17horses$hour == 16, BGW17horses$horse, 0))
-hour17 <- sum(ifelse (BGW17horses$hour == 17, BGW17horses$horse, 0))
-hour18 <- sum(ifelse (BGW17horses$hour == 18, BGW17horses$horse, 0))
-hour19 <- sum(ifelse (BGW17horses$hour == 19, BGW17horses$horse, 0))
-hour20 <- sum(ifelse (BGW17horses$hour == 20, BGW17horses$horse, 0))
-hour21 <- sum(ifelse (BGW17horses$hour == 21, BGW17horses$horse, 0))
-hour22 <- sum(ifelse (BGW17horses$hour == 22, BGW17horses$horse, 0))
-hour23 <- sum(ifelse (BGW17horses$hour == 23, BGW17horses$horse, 0))
+# str(BGW17hourlyfreq)
 ```
 
 ```{r}
-df <- data.frame(hour = c(0:23), Freq = c(hour0, hour1, hour2, hour3, hour4, hour5, hour6, hour7, hour8, hour9, hour10, hour11, hour12, hour13, hour14, hour15, hour16, hour17, hour18, hour19, hour20, hour21, hour22, hour23))
-
-df
+# hour0 <- sum(ifelse (BGW17horses$hour == 0, BGW17horses$horse, 0))
+# hour1 <- sum(ifelse (BGW17horses$hour == 1, BGW17horses$horse, 0))
+# hour2 <- sum(ifelse (BGW17horses$hour == 2, BGW17horses$horse, 0))
+# hour3 <- sum(ifelse (BGW17horses$hour == 3, BGW17horses$horse, 0))
+# hour4 <- sum(ifelse (BGW17horses$hour == 4, BGW17horses$horse, 0))
+# hour5 <- sum(ifelse (BGW17horses$hour == 5, BGW17horses$horse, 0))
+# hour6 <- sum(ifelse (BGW17horses$hour == 6, BGW17horses$horse, 0))
+# hour7 <- sum(ifelse (BGW17horses$hour == 7, BGW17horses$horse, 0))
+# hour8 <- sum(ifelse (BGW17horses$hour == 8, BGW17horses$horse, 0))
+# hour9 <- sum(ifelse (BGW17horses$hour == 9, BGW17horses$horse, 0))
+# hour10 <- sum(ifelse (BGW17horses$hour == 10, BGW17horses$horse, 0))
+# hour11 <- sum(ifelse (BGW17horses$hour == 11, BGW17horses$horse, 0))
+# hour12 <- sum(ifelse (BGW17horses$hour == 12, BGW17horses$horse, 0))
+# hour13 <- sum(ifelse (BGW17horses$hour == 13, BGW17horses$horse, 0))
+# hour14 <- sum(ifelse (BGW17horses$hour == 14, BGW17horses$horse, 0))
+# hour15 <- sum(ifelse (BGW17horses$hour == 15, BGW17horses$horse, 0))
+# hour16 <- sum(ifelse (BGW17horses$hour == 16, BGW17horses$horse, 0))
+# hour17 <- sum(ifelse (BGW17horses$hour == 17, BGW17horses$horse, 0))
+# hour18 <- sum(ifelse (BGW17horses$hour == 18, BGW17horses$horse, 0))
+# hour19 <- sum(ifelse (BGW17horses$hour == 19, BGW17horses$horse, 0))
+# hour20 <- sum(ifelse (BGW17horses$hour == 20, BGW17horses$horse, 0))
+# hour21 <- sum(ifelse (BGW17horses$hour == 21, BGW17horses$horse, 0))
+# hour22 <- sum(ifelse (BGW17horses$hour == 22, BGW17horses$horse, 0))
+# hour23 <- sum(ifelse (BGW17horses$hour == 23, BGW17horses$horse, 0))
 ```
 
 ```{r}
-jpeg(filename = "figures/timeofday/BGW17_Counts_Small.jpg",
-     width=5,
-     height=5,
-     units="in",
-     res=300)
-## bottom, left, top, right
-par(mar=c(2, 2, 1, 1))
-plot(df$Freq,
-     main = "Site Use by Time of Day",
-     axes = FALSE,
-     type = "n")
-lines(x = df$hour, y = df$Freq)
-points(x = df$hour, y = df$Freq, pch = 16)
-axis(1, at = c(0:23), labels = c(0:23), cex.axis = 0.50)
-axis(2, at = seq(0, 2000, by=500), cex.axis = 0.50)
-dev.off()
-
-```
-
-
-```{r}
-BGW17horses$hour <- as.factor(hour(BGW17horses$DateTime))
-
-str(BGW17horses$hour)
+# df <- data.frame(hour = c(0:23), Freq = c(hour0, hour1, hour2, hour3, hour4, hour5, hour6, hour7, hour8, hour9, hour10, hour11, hour12, hour13, hour14, hour15, hour16, hour17, hour18, hour19, hour20, hour21, hour22, hour23))
+# 
+# df
 ```
 
 ```{r}
-View(table(BGW17horses$hour))
-barplot(table(BGW17horses$hour))
+BGW17horsetime <- sumbyhour(BGW17horses, "horse")
+BGW17cowtime <- sumbyhour(BGW17cows, "cow")
+BGW17elktime <- sumbyhour(BGW17elk, "elk")
+
+BGW17horsetime
+BGW17cowtime
+BGW17elktime
+
+BGW17time <- data.frame(horsefreq = (BGW17horsetime$freq), cowfreq = (BGW17cowtime$freq), elkfreq = (BGW17elktime$freq))
+
+BGW17time
+
+BGW17time<- as.matrix(BGW17time)
+
+BGW17time
 ```
 
 ```{r}
-BGW17group1 <- BGW17time[BGW17time$Group == 1,]
-BGW17group1$hour <- hour(BGW17group1$DateTime)
-
-BGW17group1
-
-BGW17group2 <- BGW17time[BGW17time$Group == 2,]
-BGW17group2$hour <- hour(BGW17group2$DateTime)
-
-BGW17group2
-
-hour <- unique(BGW17group1$hour)
-hour <- as.factor(hour)
-str(hour)
+hrs <- as.character(c("00:00:00", "01:00:00", "02:00:00", "03:00:00", "04:00:00", "05:00:00", "06:00:00", "07:00:00", "08:00:00", "09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00", "17:00:00", "18:00:00", "19:00:00", "20:00:00", "21:00:00", "22:00:00", "23:00:00"))
+str(hrs)
 ```
 
 ```{r}
-View(table(hour))
+#Boggy Trail 2018
+BGT18horsetime <- sumbyhour(BGT18horses, "horse")
+BGT18cowtime <- sumbyhour(BGT18cows, "cow")
+BGT18elktime <- sumbyhour(BGT18elk, "elk")
+BGT18time <- data.frame(horsefreq = (BGT18horsetime$freq), cowfreq = (BGT18cowtime$freq), elkfreq = (BGT18elktime$freq))
+BGT18time<- as.matrix(BGT18time)
+
+# Boggy West 2018
+BGW18horsetime <- sumbyhour(BGW18horses, "horse")
+BGW18cowtime <- sumbyhour(BGW18cows, "cow")
+BGW18elktime <- sumbyhour(BGW18elk, "elk")
+BGW18time <- data.frame(horsefreq = (BGW18horsetime$freq), cowfreq = (BGW18cowtime$freq), elkfreq = (BGW18elktime$freq))
+BGW18time<- as.matrix(BGW18time)
+
+# Boggy Exclosure 2018
+BGX18horsetime <- sumbyhour(BGX18horses, "horse")
+BGX18cowtime <- sumbyhour(BGX18cows, "cow")
+BGX18elktime <- sumbyhour(BGX18elk, "elk")
+BGX18time <- data.frame(horsefreq = (BGX18horsetime$freq), cowfreq = (BGX18cowtime$freq), elkfreq = (BGX18elktime$freq))
+BGX18time<- as.matrix(BGX18time)
+
+# Wildcat South 2017
+WCS17horsetime <- sumbyhour(WCS17horses, "horse")
+WCS17cowtime <- sumbyhour(WCS17cows, "cow")
+WCS17elktime <- sumbyhour(WCS17elk, "elk")
+WCS17time <- data.frame(horsefreq = (WCS17horsetime$freq), cowfreq = (WCS17cowtime$freq), elkfreq = (WCS17elktime$freq))
+WCS17time<- as.matrix(WCS17time)
+
+# Wildcat South 2018
+WCS18horsetime <- sumbyhour(WCS18horses, "horse")
+WCS18cowtime <- sumbyhour(WCS18cows, "cow")
+WCS18elktime <- sumbyhour(WCS18elk, "elk")
+WCS18time <- data.frame(horsefreq = (WCS18horsetime$freq), cowfreq = (WCS18cowtime$freq), elkfreq = (WCS18elktime$freq))
+WCS18time<- as.matrix(WCS18time)
+
+# Wildcat Trail 2018
+WCT18horsetime <- sumbyhour(WCT18horses, "horse")
+WCT18cowtime <- sumbyhour(WCT18cows, "cow")
+WCT18elktime <- sumbyhour(WCT18elk, "elk")
+WCT18time <- data.frame(horsefreq = (WCT18horsetime$freq), cowfreq = (WCT18cowtime$freq), elkfreq = (WCT18elktime$freq))
+WCT18time<- as.matrix(WCT18time)
+
+# Wildcat Exclosure 2018
+WCX18horsetime <- sumbyhour(WCX18horses, "horse")
+WCX18cowtime <- sumbyhour(WCX18cows, "cow")
+WCX18elktime <- sumbyhour(WCX18elk, "elk")
+WCX18time <- data.frame(horsefreq = (WCX18horsetime$freq), cowfreq = (WCX18cowtime$freq), elkfreq = (WCX18elktime$freq))
+WCX18time<- as.matrix(WCX18time)
+
 ```
-
-
-
 
