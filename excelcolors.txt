@@ -1,1 +1,1 @@
-# Cow = "#ED7D31", Elk = "#A5A5A5", Horse = "#4472C4", Muledeer = "#FFC000" Zebra
+# Cow = "#ED7D31", Elk = "#A5A5A5", Horse = "#4472C4", Muledeer = "#FFC000" Zebra = "white"
