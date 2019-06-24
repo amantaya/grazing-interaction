@@ -123,6 +123,7 @@ text(0.7, 4, "3.3", pos = 3, cex = 1)
 text(1.9, 3, "2.6", pos = 3, cex = 1)
 dev.off()
 ```
+
 ```{r}
 jpeg(filename = "figures/vegetation/Wildcat_Stubble_Height.jpg",
      width=3.2,
