@@ -543,7 +543,7 @@ mtext("Time of Day (24hrs)", 1, las = 0 , cex = 1, padj = 6)
 mtext("Count", 2, las = 0 , cex = 1, padj = -3)
 dev.off()
 
-### Wildcat Exclosure 2017 Site Use by Time of Day 
+### Wildcat Timelapse 2017 Site Use by Time of Day 
 jpeg(filename = "figures/timeofday/WCS17_Time_Small.jpg",
      width=6.5,
      height=6.5,
@@ -554,6 +554,66 @@ par(mar=c(5, 4, 2, 2))
 matplot(c(0:23), WCS17time, 
         type = c("o"),
         main = "Wildcat Creek Timelapse 2017",
+        axes = FALSE,
+        xlab = NA,
+        ylab = NA,
+        ylim = c(0,4500),
+        pch = 16,
+        lty = 1,
+        lwd = 2,
+        col = c("#4472C4", "#ED7D31", "#FFC000"))
+legend("topleft", 
+       legend = c("Horses", "Cattle", "Elk"),
+       cex = 1.25,
+       col = c("#4472C4", "#ED7D31", "#FFC000"), 
+       pch = 16)
+axis(2, at = seq(0, 4500, by=500), labels = c(seq(0, 4500, by=500)), cex.axis = 0.75)
+axis(1, at = 0:23, labels = (hrs), las = 2, cex.axis = 0.75)
+mtext("Time of Day (24hrs)", 1, las = 0 , cex = 1, padj = 6)
+mtext("Count", 2, las = 0 , cex = 1, padj = -3)
+dev.off()
+
+### Wildcat Timelapse 2018 Site Use by Time of Day 
+jpeg(filename = "figures/timeofday/WCS18_Time_Small.jpg",
+     width=6.5,
+     height=6.5,
+     units="in",
+     res=300)
+## bottom, left, top, right
+par(mar=c(5, 4, 2, 2))
+matplot(c(0:23), WCS18time, 
+        type = c("o"),
+        main = "Wildcat Creek Timelapse 2018",
+        axes = FALSE,
+        xlab = NA,
+        ylab = NA,
+        ylim = c(0,2000),
+        pch = 16,
+        lty = 1,
+        lwd = 2,
+        col = c("#4472C4", "#ED7D31", "#FFC000"))
+legend("topleft", 
+       legend = c("Horses", "Cattle", "Elk"),
+       cex = 1.25,
+       col = c("#4472C4", "#ED7D31", "#FFC000"), 
+       pch = 16)
+axis(2, at = seq(0, 2000, by=100), labels = c(seq(0, 2000, by=100)), cex.axis = 0.75)
+axis(1, at = 0:23, labels = (hrs), las = 2, cex.axis = 0.75)
+mtext("Time of Day (24hrs)", 1, las = 0 , cex = 1, padj = 6)
+mtext("Count", 2, las = 0 , cex = 1, padj = -3)
+dev.off()
+
+### Wildcat Trail 2018 Site Use by Time of Day 
+jpeg(filename = "figures/timeofday/WCT18_Time_Small.jpg",
+     width=6.5,
+     height=6.5,
+     units="in",
+     res=300)
+## bottom, left, top, right
+par(mar=c(5, 4, 2, 2))
+matplot(c(0:23), WCT18time, 
+        type = c("o"),
+        main = "Wildcat Creek Trail 2018",
         axes = FALSE,
         xlab = NA,
         ylab = NA,
@@ -574,16 +634,16 @@ mtext("Count", 2, las = 0 , cex = 1, padj = -3)
 dev.off()
 
 ### Wildcat Exclosure 2018 Site Use by Time of Day 
-jpeg(filename = "figures/timeofday/WCS18_Time_Small.jpg",
+jpeg(filename = "figures/timeofday/WCX18_Time_Small.jpg",
      width=6.5,
      height=6.5,
      units="in",
      res=300)
 ## bottom, left, top, right
 par(mar=c(5, 4, 2, 2))
-matplot(c(0:23), WCS18time, 
+matplot(c(0:23), WCX18time, 
         type = c("o"),
-        main = "Wildcat Creek Timelapse 2018",
+        main = "Wildcat Creek Exclosure 2018",
         axes = FALSE,
         xlab = NA,
         ylab = NA,
