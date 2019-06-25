@@ -2,7 +2,7 @@
 title: "graphs"
 author: "Andrew Antaya"
 date: "June 24, 2019"
-output: html_document
+output: html_notebook
 ---
 
 ```{r}
@@ -14,7 +14,7 @@ jpeg(filename = "figures/counts/BGT18_Counts_Small.jpeg",
      res=300)
 ## bottom, left, top, right
 par(mar=c(2, 2, 1, 2))
-barplot(BGT18Counts$freq,
+barplot(BGT18counts$freq,
         col = c("#4472C4", "#ED7D31", "#FFC000"),
         main = "Boggy Creek Trail 2018",
         cex.main = 0.75,
@@ -43,7 +43,7 @@ jpeg(filename = "figures/counts/BGW17_Counts_Small.jpeg",
      res=300)
 ## bottom, left, top, right
 par(mar=c(2, 2, 1, 2))
-barplot(BGW17Counts$freq,
+barplot(BGW17counts$freq,
         col = c("#4472C4", "#ED7D31", "#FFC000"),
         main = "Boggy Creek Timelapse 2017",
         cex.main = 0.75,
@@ -72,7 +72,7 @@ jpeg(filename = "figures/counts/BGW18_Counts_Small.jpeg",
      res=300)
 ## bottom, left, top, right
 par(mar=c(2, 2, 1, 2))
-barplot(BGW18Counts$freq,
+barplot(BGW18counts$freq,
         col = c("#4472C4", "#ED7D31", "#FFC000"),
         main = "Boggy Creek Timelapse 2018",
         cex.main = 0.75,
@@ -101,7 +101,7 @@ jpeg(filename = "figures/counts/BGX18_Counts_Small.jpeg",
      res=300)
 ## bottom, left, top, right
 par(mar=c(2, 2, 1, 2))
-barplot(BGX18Counts$freq,
+barplot(BGX18counts$freq,
         col = c("#4472C4", "#ED7D31", "#FFC000"),
         main = "Boggy Creek Exclosure 2018",
         cex.main = 0.75,
@@ -130,7 +130,7 @@ jpeg(filename = "figures/counts/WCS17_Counts_Small.jpeg",
      res=300)
 ## bottom, left, top, right
 par(mar=c(2, 2, 1, 2))
-barplot(WCS17Counts$freq,
+barplot(WCS17counts$freq,
         col = c("#4472C4", "#ED7D31", "#FFC000"),
         main = "Wildcat Creek Timelapse 2017",
         cex.main = 0.75,
@@ -159,7 +159,7 @@ jpeg(filename = "figures/counts/WCS18_Counts_Small.jpeg",
      res=300)
 ## bottom, left, top, right
 par(mar=c(2, 2, 1, 2))
-barplot(WCS18Counts$freq,
+barplot(WCS18counts$freq,
         col = c("#4472C4", "#ED7D31", "#FFC000"),
         main = "Wildcat Creek Timelapse 2018",
         cex.main = 0.75,
@@ -188,7 +188,7 @@ jpeg(filename = "figures/counts/WCT18_Counts_Small.jpeg",
      res=300)
 ## bottom, left, top, right
 par(mar=c(2, 2, 1, 2))
-barplot(WCT18Counts$freq,
+barplot(WCT18counts$freq,
         col = c("#4472C4", "#ED7D31", "#FFC000"),
         main = "Wildcat Creek Trail 2018",
         cex.main = 0.75,
@@ -217,7 +217,7 @@ jpeg(filename = "figures/counts/WCX18_Counts_Small.jpeg",
      res=300)
 ## bottom, left, top, right
 par(mar=c(2, 2, 1, 2))
-barplot(WCX18Counts$freq,
+barplot(WCX18counts$freq,
         col = c("#4472C4", "#ED7D31", "#FFC000"),
         main = "Wildcat Creek Exclosure 2018",
         cex.main = 0.75,
@@ -237,6 +237,8 @@ axis(2, at = seq(0, 25000, by=5000), cex.axis = .5, padj = 2)
 dev.off()
 ```
 
+### Plotting Groups
+
 ```{r}
 # Boggy Trail 2018 Groups
 jpeg(filename = "figures/BGT18_Groups_Small.jpeg",
@@ -246,7 +248,7 @@ jpeg(filename = "figures/BGT18_Groups_Small.jpeg",
      res=300)
 ## bottom, left, top, right
 par(mar=c(2, 2, 2, 2))
-barplot(BGT18Groups$groups,
+barplot(BGT18grouptotals$groups,
         col = c("#4472C4", "#ED7D31", "#FFC000"),
         main = "Boggy Creek Trail 2018",
         cex.main = 0.75,
@@ -274,7 +276,7 @@ jpeg(filename = "figures/BGW17_Groups_Small.jpeg",
      units="in",
      res=300)
 par(mar=c(2, 2, 2, 2))
-barplot(BGW17Groups$groups,
+barplot(BGW17grouptotals$groups,
         col = c("#4472C4", "#ED7D31", "#FFC000"),
         main ="Boggy Creek Timelapse 2017",
         cex.main = 0.75,
@@ -302,7 +304,7 @@ jpeg(filename = "figures/BGW18_Groups_Small.jpeg",
      units="in",
      res=300)
 par(mar=c(2, 2, 2, 2))
-barplot(BGW18Groups$groups,
+barplot(BGW18grouptotals$groups,
         col = c("#4472C4", "#ED7D31", "#FFC000"),
         main ="Boggy Creek Timelapse 2018",
         cex.main = 0.75,
@@ -330,7 +332,7 @@ jpeg(filename = "figures/BGX18_Groups_Small.jpeg",
      units="in",
      res=300)
 par(mar=c(2, 2, 2, 2))
-barplot(BGX18Groups$groups,
+barplot(BGX18grouptotals$groups,
         col = c("#4472C4", "#ED7D31", "#FFC000"),
         main ="Boggy Creek Exclosure 2018",
         cex.main = 0.75,
@@ -358,7 +360,7 @@ jpeg(filename = "figures/WCS17_Groups_Small.jpeg",
      units="in",
      res=300)
 par(mar=c(2, 2, 2, 2))
-barplot(WCS17Groups$groups,
+barplot(WCS17grouptotals$groups,
         col = c("#4472C4", "#ED7D31", "#FFC000"),
         main ="Wildcat Creek Timelapse 2017",
         cex.main = 0.75,
@@ -386,7 +388,7 @@ jpeg(filename = "figures/WCS18_Groups_Small.jpeg",
      units="in",
      res=300)
 par(mar=c(2, 2, 2, 2))
-barplot(WCS18Groups$groups,
+barplot(WCS18grouptotals$groups,
         col = c("#4472C4", "#ED7D31", "#FFC000"),
         main ="Wildcat Creek Timelapse 2018",
         cex.main = 0.75,
@@ -415,7 +417,7 @@ jpeg(filename = "figures/WCT18_Groups_Small.jpeg",
      units="in",
      res=300)
 par(mar=c(2, 2, 2, 2))
-barplot(WCT18Groups$groups,
+barplot(WCT18grouptotals$groups,
         col = c("#4472C4", "#ED7D31", "#FFC000"),
         main ="Wildcat Creek Trail 2018",
         cex.main = 0.75,
@@ -443,7 +445,7 @@ jpeg(filename = "figures/WCX18_Groups_Small.jpeg",
      units="in",
      res=300)
 par(mar=c(2, 2, 2, 2))
-barplot(WCX18Groups$groups,
+barplot(WCX18grouptotals$groups,
         col = c("#4472C4", "#ED7D31", "#FFC000"),
         main ="Wildcat Creek Exclosure 2018",
         cex.main = 0.75,
@@ -717,9 +719,5 @@ axis(1, at = 0:23, labels = (hrs), las = 2, cex.axis = 0.75)
 mtext("Time of Day (24hrs)", 1, las = 0 , cex = 1, padj = 6)
 mtext("Count", 2, las = 0 , cex = 1, padj = -3)
 dev.off()
-```
-
-```{r}
-
 ```
 
