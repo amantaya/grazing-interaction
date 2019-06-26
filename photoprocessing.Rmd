@@ -211,43 +211,327 @@ WCX18grouptotals <- group.total(WCX18)
 BGW17horses <- group.df(BGW17horses)
 BGW17cows <- group.df(BGW17cows)
 BGW17elk <- group.df(BGW17elk)
-
+BGW18horses <- group.df(BGW18horses)
+BGW18cows <- group.df(BGW18cows)
+BGW18elk <- group.df(BGW18elk)
+BGT18horses <- group.df(BGT18horses)
+BGT18cows <- group.df(BGT18cows)
+BGT18elk <- group.df(BGT18elk)
+BGX18horses <- group.df(BGX18horses)
+BGX18cows <- group.df(BGX18cows)
+BGX18elk <- group.df(BGX18elk)
+WCS17horses <- group.df(WCS17horses)
+WCS17cows <- group.df(WCS17cows)
+WCS17elk <- group.df(WCS17elk)
+WCS18horses <- group.df(WCS18horses)
+WCS18cows <- group.df(WCS18cows)
+WCS18elk <- group.df(WCS18elk)
+WCT18horses <- group.df(WCT18horses)
+WCT18cows <- group.df(WCT18cows)
+WCT18elk <- group.df(WCT18elk)
+WCX18horses <- group.df(WCX18horses)
+WCX18cows <- group.df(WCX18cows)
+WCX18elk <- group.df(WCX18elk)
 ```
-
 ***
 #### Grouping the groups by the pre-Monsoon period. 
 ```{r}
 BGW17horses_pre <- filter(BGW17horses, DateTime < "2017-07-08 00:00:00")
-
-BGW17horses_pre
-
-#WCS17horses_pre <- filter(WCS17horses, DateTime < "2017-07-08 00:00:00")
-
-#WCS17horses_pre$group
+BGW17cows_pre <- filter(BGW17cows, DateTime < "2017-07-08 00:00:00")
+BGW17elk_pre <- filter(BGW17elk, DateTime < "2017-07-08 00:00:00")
+head(BGW17horses_pre$DateTime, n = 1)
+tail(BGW17horses_pre$DateTime, n = 1)
+head(BGW17cows_pre$DateTime, n = 1)
+tail(BGW17cows_pre$DateTime, n = 1)
+head(BGW17elk_pre$DateTime, n = 1)
+tail(BGW17elk_pre$DateTime, n = 1)
+```
+***
+```{r}
+BGW18horses_pre <- filter(BGW18horses, DateTime < "2018-07-08 00:00:00")
+BGW18cows_pre <- filter(BGW18cows, DateTime < "2018-07-08 00:00:00")
+BGW18elk_pre <- filter(BGW18elk, DateTime < "2018-07-08 00:00:00")
+head(BGW18horses_pre$DateTime, n = 1)
+tail(BGW18horses_pre$DateTime, n = 1)
+head(BGW18cows_pre$DateTime, n = 1)
+tail(BGW18cows_pre$DateTime, n = 1)
+head(BGW18elk_pre$DateTime, n = 1)
+tail(BGW18elk_pre$DateTime, n = 1)
+```
+***
+```{r}
+WCS17horses_pre <- filter(WCS17horses, DateTime < "2017-07-08 00:00:00")
+WCS17cows_pre <- filter(WCS17cows, DateTime < "2017-07-08 00:00:00")
+WCS17elk_pre <- filter(WCS17elk, DateTime < "2017-07-08 00:00:00")
+head(WCS17horses_pre$DateTime, n = 1)
+tail(WCS17horses_pre$DateTime, n = 1)
+head(WCS17cows_pre$DateTime, n = 1)
+tail(WCS17cows_pre$DateTime, n = 1)
+head(WCS17elk_pre$DateTime, n = 1)
+tail(WCS17elk_pre$DateTime, n = 1)
+```
+***
+```{r}
+WCS18horses_pre <- filter(WCS18horses, DateTime < "2018-07-08 00:00:00")
+WCS18cows_pre <- filter(WCS18cows, DateTime < "2018-07-08 00:00:00")
+WCS18elk_pre <- filter(WCS18elk, DateTime < "2018-07-08 00:00:00")
+head(WCS18horses_pre$DateTime, n = 1)
+tail(WCS18horses_pre$DateTime, n = 1)
+head(WCS18cows_pre$DateTime, n = 1)
+tail(WCS18cows_pre$DateTime, n = 1)
+head(WCS18elk_pre$DateTime, n = 1)
+tail(WCS18elk_pre$DateTime, n = 1)
 ```
 ***
 #### Grouping the groups by the Monsoon period (8 July to 9 September)
 ```{r}
 BGW17horses_mons <- filter(BGW17horses, DateTime >= "2017-07-08 00:00:00" & DateTime <"2017-09-10 00:00:00")
-
-tail(BGW17horses_mons$group)
-
+BGW17cows_mons <- filter(BGW17cows, DateTime >= "2017-07-08 00:00:00" & DateTime <"2017-09-10 00:00:00")
+BGW17elk_mons <- filter(BGW17elk, DateTime >= "2017-07-08 00:00:00" & DateTime <"2017-09-10 00:00:00")
+head(BGW17horses_mons$DateTime, n = 1)
+tail(BGW17horses_mons$DateTime, n = 1)
+head(BGW17cows_mons$DateTime, n = 1)
+tail(BGW17cows_mons$DateTime, n = 1)
+head(BGW17elk_mons$DateTime, n = 1)
+tail(BGW17elk_mons$DateTime, n = 1)
+```
+***
+```{r}
+BGW18horses_mons <- filter(BGW18horses, DateTime >= "2018-07-08 00:00:00" & DateTime <"2018-09-10 00:00:00")
+BGW18cows_mons <- filter(BGW18cows, DateTime >= "2018-07-08 00:00:00" & DateTime <"2018-09-10 00:00:00")
+BGW18elk_mons <- filter(BGW18elk, DateTime >= "2018-07-08 00:00:00" & DateTime <"2018-09-10 00:00:00")
+head(BGW18horses_mons$DateTime, n = 1)
+tail(BGW18horses_mons$DateTime, n = 1)
+head(BGW18cows_mons$DateTime, n = 1)
+tail(BGW18cows_mons$DateTime, n = 1)
+head(BGW18elk_mons$DateTime, n = 1)
+tail(BGW18elk_mons$DateTime, n = 1)
+```
+***
+####
+```{r}
 WCS17horses_mons <- filter(WCS17horses, DateTime >= "2017-07-08 00:00:00" & DateTime <"2017-09-10 00:00:00")
-
-head(WCS17horses_mons$group)
-tail(WCS17horses_mons$group)
+WCS17cows_mons <- filter(WCS17cows, DateTime >= "2017-07-08 00:00:00" & DateTime <"2017-09-10 00:00:00")
+WCS17elk_mons <- filter(WCS17elk, DateTime >= "2017-07-08 00:00:00" & DateTime <"2017-09-10 00:00:00")
+head(WCS17horses_mons$DateTime, n = 1)
+tail(WCS17horses_mons$DateTime, n = 1)
+head(WCS17cows_mons$DateTime, n = 1)
+tail(WCS17cows_mons$DateTime, n = 1)
+head(WCS17elk_mons$DateTime, n = 1)
+tail(WCS17elk_mons$DateTime, n = 1)
+```
+***
+```{r}
+WCS18horses_mons <- filter(WCS18horses, DateTime >= "2018-07-08 00:00:00" & DateTime <"2018-09-10 00:00:00")
+WCS18cows_mons <- filter(WCS18cows, DateTime >= "2018-07-08 00:00:00" & DateTime <"2018-09-10 00:00:00")
+WCS18elk_mons <- filter(WCS18elk, DateTime >= "2018-07-08 00:00:00" & DateTime <"2018-09-10 00:00:00")
+head(WCS18horses_mons$DateTime, n = 1)
+tail(WCS18horses_mons$DateTime, n = 1)
+head(WCS18cows_mons$DateTime, n = 1)
+tail(WCS18cows_mons$DateTime, n = 1)
+head(WCS18elk_mons$DateTime, n = 1)
+tail(WCS18elk_mons$DateTime, n = 1)
 ```
 ***
 #### Group the groups by the post-Monsoon period
 ```{r}
 BGW17horses_post <- filter(BGW17horses, DateTime >= "2017-09-10 00:00:00")
-
-tail(BGW17horses_post$group)
-
+BGW17cows_post <- filter(BGW17cows, DateTime >= "2017-09-10 00:00:00")
+BGW17elk_post <- filter(BGW17elk, DateTime >= "2017-09-10 00:00:00")
+head(BGW17horses_post$DateTime, n = 1)
+tail(BGW17horses_post$DateTime, n = 1)
+head(BGW17cows_post$DateTime, n = 1)
+tail(BGW17cows_post$DateTime, n = 1)
+head(BGW17elk_post$DateTime, n = 1)
+tail(BGW17elk_post$DateTime, n = 1)
+```
+***
+```{r}
+BGW18horses_post <- filter(BGW18horses, DateTime >= "2018-09-10 00:00:00")
+BGW18cows_post <- filter(BGW18cows, DateTime >= "2018-09-10 00:00:00")
+BGW18elk_post <- filter(BGW18elk, DateTime >= "2018-09-10 00:00:00")
+head(BGW18horses_post$DateTime, n = 1)
+tail(BGW18horses_post$DateTime, n = 1)
+head(BGW18cows_post$DateTime, n = 1)
+tail(BGW18cows_post$DateTime, n = 1)
+head(BGW18elk_post$DateTime, n = 1)
+tail(BGW18elk_post$DateTime, n = 1)
+```
+####
+```{r}
 WCS17horses_post <- filter(WCS17horses, DateTime >= "2017-09-10 00:00:00")
-
-head(WCS17horses_post$group)
-tail(WCS17horses_post$group)
+WCS17cows_post <- filter(WCS17cows, DateTime >= "2017-09-10 00:00:00")
+WCS17elk_post <- filter(WCS17elk, DateTime >= "2017-09-10 00:00:00")
+head(WCS17horses_post$DateTime, n = 1)
+tail(WCS17horses_post$DateTime, n = 1)
+head(WCS17cows_post$DateTime, n = 1)
+tail(WCS17cows_post$DateTime, n = 1)
+head(WCS17elk_post$DateTime, n = 1)
+tail(WCS17elk_post$DateTime, n = 1)
+```
+***
+```{r}
+WCS18horses_post <- filter(WCS18horses, DateTime >= "2018-09-10 00:00:00")
+WCS18cows_post <- filter(WCS18cows, DateTime >= "2018-09-10 00:00:00")
+WCS18elk_post <- filter(WCS18elk, DateTime >= "2018-09-10 00:00:00")
+head(WCS18horses_post$DateTime, n = 1)
+tail(WCS18horses_post$DateTime, n = 1)
+head(WCS18cows_post$DateTime, n = 1)
+tail(WCS18cows_post$DateTime, n = 1)
+head(WCS18elk_post$DateTime, n = 1)
+tail(WCS18elk_post$DateTime, n = 1)
+```
+***
+####
+```{r}
+BGW17h_pre <- as.numeric(summarise(BGW17horses_pre, n_distinct(BGW17horses_pre$group)))
+BGW17c_pre <- as.numeric(summarise(BGW17cows_pre, n_distinct(BGW17cows_pre$group)))
+BGW17e_pre <- as.numeric(summarise(BGW17elk_pre, n_distinct(BGW17elk_pre$group)))
+BGW17h_pre
+BGW17c_pre
+BGW17e_pre
+```
+***
+####
+```{r}
+BGW18h_pre <- as.numeric(summarise(BGW18horses_pre, n_distinct(BGW18horses_pre$group)))
+BGW18c_pre <- as.numeric(summarise(BGW18cows_pre, n_distinct(BGW18cows_pre$group)))
+BGW18e_pre <- as.numeric(summarise(BGW18elk_pre, n_distinct(BGW18elk_pre$group)))
+BGW18h_pre
+BGW18c_pre
+BGW18e_pre
+```
+***
+####
+```{r}
+BGW17h_mons <- as.numeric(summarise(BGW17horses_mons, n_distinct(BGW17horses_mons$group)))
+BGW17c_mons <- as.numeric(summarise(BGW17cows_mons, n_distinct(BGW17cows_mons$group)))
+BGW17e_mons <- as.numeric(summarise(BGW17elk_mons, n_distinct(BGW17elk_mons$group)))
+BGW17h_mons
+BGW17c_mons
+BGW17e_mons
+```
+***
+####
+```{r}
+BGW18h_mons <- as.numeric(summarise(BGW18horses_mons, n_distinct(BGW18horses_mons$group)))
+BGW18c_mons <- as.numeric(summarise(BGW18cows_mons, n_distinct(BGW18cows_mons$group)))
+BGW18e_mons <- as.numeric(summarise(BGW18elk_mons, n_distinct(BGW18elk_mons$group)))
+BGW18h_mons
+BGW18c_mons
+BGW18e_mons
+```
+***
+####
+```{r}
+BGW17h_post <- as.numeric(summarise(BGW17horses_post, n_distinct(BGW17horses_post$group)))
+BGW17c_post <- as.numeric(summarise(BGW17cows_post, n_distinct(BGW17cows_post$group)))
+BGW17e_post <- as.numeric(summarise(BGW17elk_post, n_distinct(BGW17elk_post$group)))
+BGW17h_post
+BGW17c_post
+BGW17e_post
+```
+***
+####
+```{r}
+BGW18h_post <- as.numeric(summarise(BGW18horses_post, n_distinct(BGW18horses_post$group)))
+BGW18c_post <- as.numeric(summarise(BGW18cows_post, n_distinct(BGW18cows_post$group)))
+BGW18e_post <- as.numeric(summarise(BGW18elk_post, n_distinct(BGW18elk_post$group)))
+BGW18h_post
+BGW18c_post
+BGW18e_post
+```
+***
+####
+```{r}
+WCS17h_pre <- as.numeric(summarise(WCS17horses_pre, n_distinct(WCS17horses_pre$group)))
+WCS17c_pre <- as.numeric(summarise(WCS17cows_pre, n_distinct(WCS17cows_pre$group)))
+WCS17e_pre <- as.numeric(summarise(WCS17elk_pre, n_distinct(WCS17elk_pre$group)))
+WCS17h_pre
+WCS17c_pre
+WCS17e_pre
+```
+***
+####
+```{r}
+WCS18h_pre <- as.numeric(summarise(WCS18horses_pre, n_distinct(WCS18horses_pre$group)))
+WCS18c_pre <- as.numeric(summarise(WCS18cows_pre, n_distinct(WCS18cows_pre$group)))
+WCS18e_pre <- as.numeric(summarise(WCS18elk_pre, n_distinct(WCS18elk_pre$group)))
+WCS18h_pre
+WCS18c_pre
+WCS18e_pre
+```
+***
+####
+```{r}
+WCS17h_mons <- as.numeric(summarise(WCS17horses_mons, n_distinct(WCS17horses_mons$group)))
+WCS17c_mons <- as.numeric(summarise(WCS17cows_mons, n_distinct(WCS17cows_mons$group)))
+WCS17e_mons <- as.numeric(summarise(WCS17elk_mons, n_distinct(WCS17elk_mons$group)))
+WCS17h_mons
+WCS17c_mons
+WCS17e_mons
+```
+***
+####
+```{r}
+WCS18h_mons <- as.numeric(summarise(WCS18horses_mons, n_distinct(WCS18horses_mons$group)))
+WCS18c_mons <- as.numeric(summarise(WCS18cows_mons, n_distinct(WCS18cows_mons$group)))
+WCS18e_mons <- as.numeric(summarise(WCS18elk_mons, n_distinct(WCS18elk_mons$group)))
+WCS18h_mons
+WCS18c_mons
+WCS18e_mons
+```
+***
+####
+```{r}
+WCS17h_post <- as.numeric(summarise(WCS17horses_post, n_distinct(WCS17horses_post$group)))
+WCS17c_post <- as.numeric(summarise(WCS17cows_post, n_distinct(WCS17cows_post$group)))
+WCS17e_post <- as.numeric(summarise(WCS17elk_post, n_distinct(WCS17elk_post$group)))
+WCS17h_post
+WCS17c_post
+WCS17e_post
+```
+***
+####
+```{r}
+WCS18h_post <- as.numeric(summarise(WCS18horses_post, n_distinct(WCS18horses_post$group)))
+WCS18c_post <- as.numeric(summarise(WCS18cows_post, n_distinct(WCS18cows_post$group)))
+WCS18e_post <- as.numeric(summarise(WCS18elk_post, n_distinct(WCS18elk_post$group)))
+WCS18h_post
+WCS18c_post
+WCS18e_post
+```
+***
+####
+```{r}
+BGW17groups = matrix(c(BGW17h_pre, BGW17c_pre, BGW17e_pre, BGW17h_mons, BGW17c_mons, BGW17e_mons, BGW17h_post, BGW17c_post, BGW17e_post), nrow = 3)
+colnames(BGW17groups) = c("Pre-Monsoon", "Monsoon", "Post-Monsoon")
+rownames(BGW17groups) = c("Horses", "Cattle", "Elk")
+BGW17groups
+```
+***
+####
+```{r}
+BGW18groups = matrix(c(BGW18h_pre, BGW18c_pre, BGW18e_pre, BGW18h_mons, BGW18c_mons, BGW18e_mons, BGW18h_post, BGW18c_post, BGW18e_post), nrow = 3)
+colnames(BGW18groups) = c("Pre-Monsoon", "Monsoon", "Post-Monsoon")
+rownames(BGW18groups) = c("Horses", "Cattle", "Elk")
+BGW18groups
+```
+***
+####
+```{r}
+WCS17groups = matrix(c(WCS17h_pre, WCS17c_pre, WCS17e_pre, WCS17h_mons, WCS17c_mons, WCS17e_mons, WCS17h_post, WCS17c_post, WCS17e_post), nrow = 3)
+colnames(WCS17groups) = c("Pre-Monsoon", "Monsoon", "Post-Monsoon")
+rownames(WCS17groups) = c("Horses", "Cattle", "Elk")
+WCS17groups
+```
+***
+####
+```{r}
+WCS18groups = matrix(c(WCS18h_pre, WCS18c_pre, WCS18e_pre, WCS18h_mons, WCS18c_mons, WCS18e_mons, WCS18h_post, WCS18c_post, WCS18e_post), nrow = 3)
+colnames(WCS18groups) = c("Pre-Monsoon", "Monsoon", "Post-Monsoon")
+rownames(WCS18groups) = c("Horses", "Cattle", "Elk")
+WCS18groups
 ```
 ***
 #### Site Use by Time of Day
