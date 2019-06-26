@@ -222,7 +222,39 @@ return(df)
 }
 ```
 ***
-### The Crazy Brandon Function
+### The "group.duration" Function
+
+**Input:** A camera trap data frame with only 1 species, such as BGW17horses. 
+
+**What it Does:** This function calculates the amount of time each group spent at site (both in minutes and seconds). It does this by sequentially numbering each photo in a group. It then subracts the DateTime of the last photo from the DateTime of the first photo in each group sequence. It stores this value in a new object "total". If the total difference is less than 60 (seconds) such as when a single photo constitutes a group, we include an assumption that this single photo actually represents 60 seconds of site use. 
+
+**Output:** Returns a numerical vector containing the number of minutes each group spent at that site.
+```{r}
+group.duration <- function(cameradfspecies) {
+  if (length(cameradfspecies$group) < 1) { 
+    cameradfspecies <- 0 # this is for dataframes that had 0 species detections (e.g., BGX18horses)
+    cameradfspecies$group_sequence <- 0
+    groupduration <- (as.numeric(cameradfspecies$group))
+  } else {
+    cameradfspecies$group_sequence <- 1
+    for (i in 2:(length(cameradfspecies$group))) {  
+      if (cameradfspecies[i,"group"] == cameradfspecies[(i-1),"group"]) {  
+        cameradfspecies[i,"group_sequence"] <-cameradfspecies[i-1,"group_sequence"]+1  
+      }
+    }
+    first_last <- cameradfspecies %>% arrange(group_sequence) %>% group_by(group) %>% slice(c(1,n()))
+    first_last <- first_last %>% group_by(group) %>% mutate(Diff = DateTime - lag(DateTime)) 
+    total <- first_last[!is.na(first_last$Diff),]
+    total$Diff[total$Diff < 60] <- 60  # this assumes that if the time difference between the first and last photo is less than 0, then set it to 60 seconds. This value may be changed to 300 seconds (5 minutes) for sites that had 5 minute timelapse.
+    groupduration <- (as.numeric(total$Diff))
+#    groupduration <- remove_outliers(groupduration)
+    duration.secs <- groupduration[!is.na(groupduration)]
+    duration.mins <- (duration.secs/60) # ceiling() returns the smallest interger value that is not less than the input value (essentially it rounds up to the next highest interger value) 
+  }
+}
+```
+***
+###
 
 **Input:** 
 
@@ -230,28 +262,13 @@ return(df)
 
 **Output:**
 ```{r}
-group_seq <- function(subdf) {
-  if (length(subdf$group) <= 1) {
-    subdf <- 0
-    subdf$group_sequence <- 0
-    grpgrazingtime <- (as.numeric(subdf$group))
-  }else{
-    subdf$group_sequence <- 1
-    for (i in 2:(length(subdf$group))) {  
-      if (subdf[i,"group"]==subdf[(i-1),"group"]) {  
-        subdf[i,"group_sequence"]<-subdf[i-1,"group_sequence"]+1  
-      }
-    }
-    first_last <- subdf %>% arrange(group_sequence) %>% group_by(group) %>% slice(c(1,n()))
-    first_last<- first_last %>%
-      group_by(group) %>% mutate(Diff = DateTime - lag(DateTime)) 
-    
-    tot<- first_last[!is.na(first_last$Diff),]
-    tot$Diff[tot$Diff < 60] <- 60
-    grpgrazingtime <- (as.numeric(tot$Diff))
-    # grpgrazingtime <- remove_outliers(grpgrazingtime)
-    grpgrazingtime <- grpgrazingtime[!is.na(grpgrazingtime)]
-    grpgrazingtime <- ceiling(grpgrazingtime/60)
-  }
+remove_outliers <- function(x, na.rm = TRUE, ...) {
+  qnt <- quantile(x, probs=c(.25, .75), na.rm = na.rm, ...)
+  H <- 1.5 * IQR(x, na.rm = na.rm)
+  y <- x
+  y[x < (qnt[1] - H)] <- NA
+  y[x > (qnt[2] + H)] <- NA
+  y
 }
 ```
+
