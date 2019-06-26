@@ -608,8 +608,110 @@ WCX18elktime <- sumbyhour(WCX18elk, "elk")
 WCX18time <- data.frame(horsefreq = (WCX18horsetime$freq), cowfreq = (WCX18cowtime$freq), elkfreq = (WCX18elktime$freq))
 WCX18time<- as.matrix(WCX18time)
 ```
+***
+#### Duration
+```{r}
+BGW17h_duration <- group.duration(BGW17horses)
+BGW17c_duration <- group.duration(BGW17cows)
+BGW17e_duration <- group.duration(BGW17elk)
+hist(BGW17h_duration, breaks = 10)
+hist(BGW17c_duration, breaks = 10)
+hist(BGW17e_duration, breaks = 10)
+```
+```{r}
+BGT18h_duration <- group.duration(BGT18horses)
+BGT18c_duration <- group.duration(BGT18cows)
+BGT18e_duration <- group.duration(BGT18elk)
+
+BGW18h_duration <- group.duration(BGW18horses)
+BGW18c_duration <- group.duration(BGW18cows)
+BGW18e_duration <- group.duration(BGW18elk)
+
+BGX18h_duration <- group.duration(BGX18horses)
+BGX18c_duration <- group.duration(BGX18cows)
+BGX18e_duration <- group.duration(BGX18elk)
+
+WCS17h_duration <- group.duration(WCS17horses)
+WCS17c_duration <- group.duration(WCS17cows)
+WCS17e_duration <- group.duration(WCS17elk)
+
+WCS18h_duration <- group.duration(WCS18horses)
+WCS18c_duration <- group.duration(WCS18cows)
+WCS18e_duration <- group.duration(WCS18elk)
+
+WCT18h_duration <- group.duration(WCT18horses)
+WCT18c_duration <- group.duration(WCT18cows)
+WCT18e_duration <- group.duration(WCT18elk)
+
+WCX18h_duration <- group.duration(WCX18horses)
+WCX18c_duration <- group.duration(WCX18cows)
+WCX18e_duration <- group.duration(WCX18elk)
+```
 
 ```{r}
+BGT18duration <- data.frame(species = c("Horses", "Cattle", "Elk"), freq = c(sum(BGT18h_duration), sum(BGT18c_duration), sum(BGT18e_duration)))
+BGT18duration
 
+BGW17duration <- data.frame(species = c("Horses", "Cattle", "Elk"), freq = c(sum(BGW17h_duration), sum(BGW17c_duration), sum(BGW17e_duration)))
+BGW17duration
+
+BGW18duration <- data.frame(species = c("Horses", "Cattle", "Elk"), freq = c(sum(BGW18h_duration), sum(BGW18c_duration), sum(BGW18e_duration)))
+BGW18duration
+
+BGX18duration <- data.frame(species = c("Horses", "Cattle", "Elk"), freq = c(sum(BGX18h_duration), sum(BGX18c_duration), sum(BGX18e_duration)))
+BGX18duration
+
+WCS17duration <- data.frame(species = c("Horses", "Cattle", "Elk"), freq = c(sum(WCS17h_duration), sum(WCS17c_duration), sum(WCS17e_duration)))
+WCS17duration
+
+WCS18duration <- data.frame(species = c("Horses", "Cattle", "Elk"), freq = c(sum(WCS18h_duration), sum(WCS18c_duration), sum(WCS18e_duration)))
+WCS18duration
+
+WCT18duration <- data.frame(species = c("Horses", "Cattle", "Elk"), freq = c(sum(WCT18h_duration), sum(WCT18c_duration), sum(WCT18e_duration)))
+WCT18duration
+
+WCX18duration <- data.frame(species = c("Horses", "Cattle", "Elk"), freq = c(sum(WCX18h_duration), sum(WCX18c_duration), sum(WCX18e_duration)))
+WCX18duration
 ```
+```{r}
+BGT18duration$freq <- round(BGT18duration$freq)
+BGT18duration
+
+BGW17duration$freq <- round(BGW17duration$freq)
+BGW17duration
+
+BGW18duration$freq <- round(BGW18duration$freq)
+BGW18duration
+
+BGX18duration$freq <- round(BGX18duration$freq)
+BGX18duration
+
+WCS17duration$freq <- round(WCS17duration$freq)
+WCS17duration
+
+WCS18duration$freq <- round(WCS18duration$freq)
+WCS18duration
+
+WCT18duration$freq <- round(WCT18duration$freq)
+WCT18duration
+
+WCX18duration$freq <- round(WCX18duration$freq)
+WCX18duration
+```
+
+
+```{r}
+BGW17 = matrix(c(BGW17h_pre, BGW17c_pre, BGW17e_pre, BGW17h_mons, BGW17c_mons, BGW17e_mons, BGW17h_post, BGW17c_post, BGW17e_post), nrow = 3)
+colnames(BGW17groups) = c("Pre-Monsoon", "Monsoon", "Post-Monsoon")
+rownames(BGW17groups) = c("Horses", "Cattle", "Elk")
+BGW17groups
+```
+
+
+
+
+
+
+
+
 
