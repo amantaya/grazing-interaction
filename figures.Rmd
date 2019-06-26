@@ -847,3 +847,180 @@ text(10.5, 23, "23", pos = 3, cex = 0.75)
 text(11.5, 32, "32", pos = 3, cex = 0.75)
 dev.off()
 ```
+### Duration Figures
+#### Boggy Creek Trail Duration 2018
+```{r}
+jpeg(filename = "figures/duration/BGT18_Duration_Small.jpg",
+     width=6.5,
+     height=6.5,
+     units="in",
+     res=300)
+## bottom, left, top, right
+barplot(BGT18duration$freq,
+        main = "Boggy Creek Trail 2018",
+        col = c("#4472C4", "#ED7D31", "#FFC000"),
+        axes = FALSE,
+        ylab = "Total Time Spent at Site (mins)",
+        ylim = c(0,1500),
+        xlab = NA)
+axis(1, at = c(0.7, 1.9, 3.1), labels = c("Horses", "Cattle", "Elk"))
+axis(2, at = seq(0, 1500, by=100), labels = c(seq(0, 1500, by=100)), cex.axis = 0.75, las = 2)
+text(0.7, 499, "499", pos = 3, cex = 0.75)
+text(1.9, 22, "22", pos = 3, cex = 0.75)
+text(3.1, 85, "85", pos = 3, cex = 0.75)
+dev.off()
+```
+#### Boggy Creek Timelapse Duration 2017
+```{r}
+jpeg(filename = "figures/duration/BGW17_Duration_Small.jpg",
+     width=6.5,
+     height=6.5,
+     units="in",
+     res=300)
+## bottom, left, top, right
+barplot(BGW17duration$freq,
+        main = "Boggy Creek Timelapse 2017",
+        col = c("#4472C4", "#ED7D31", "#FFC000"),
+        axes = FALSE,
+        ylab = "Total Time Spent at Site (mins)",
+        ylim = c(0,1500),
+        xlab = NA)
+axis(1, at = c(0.7, 1.9, 3.1), labels = c("Horses", "Cattle", "Elk"))
+axis(2, at = seq(0, 1500, by=100), labels = c(seq(0, 1500, by=100)), cex.axis = 0.75, las = 2)
+text(0.7, 1320, "1320", pos = 3, cex = 0.75)
+text(1.9, 749, "749", pos = 3, cex = 0.75)
+text(3.1, 540, "540", pos = 3, cex = 0.75)
+dev.off()
+```
+#### Boggy Creek Timelapse Duration 2018
+```{r}
+jpeg(filename = "figures/duration/BGW18_Duration_Small.jpg",
+     width=6.5,
+     height=6.5,
+     units="in",
+     res=300)
+## bottom, left, top, right
+barplot(BGW18duration$freq,
+        main = "Boggy Creek Timelapse 2018",
+        col = c("#4472C4", "#ED7D31", "#FFC000"),
+        axes = FALSE,
+        ylab = "Total Time Spent at Site (mins)",
+        ylim = c(0,1500),
+        xlab = NA)
+axis(1, at = c(0.7, 1.9, 3.1), labels = c("Horses", "Cattle", "Elk"))
+axis(2, at = seq(0, 1500, by=100), labels = c(seq(0, 1500, by=100)), cex.axis = 0.75, las = 2)
+text(0.7, 899, "899", pos = 3, cex = 0.75)
+text(1.9, 89, "89", pos = 3, cex = 0.75)
+text(3.1, 347, "347", pos = 3, cex = 0.75)
+dev.off()
+```
+#### Boggy Creek Exclosure Duration 2018
+```{r}
+jpeg(filename = "figures/duration/BGX18_Duration_Small.jpg",
+     width=6.5,
+     height=6.5,
+     units="in",
+     res=300)
+## bottom, left, top, right
+barplot(BGX18duration$freq,
+        main = "Boggy Creek Exclosure 2018",
+        col = c("#4472C4", "#ED7D31", "#FFC000"),
+        axes = FALSE,
+        ylab = "Total Time Spent at Site (mins)",
+        ylim = c(0,1500),
+        xlab = NA)
+axis(1, at = c(0.7, 1.9, 3.1), labels = c("Horses", "Cattle", "Elk"))
+axis(2, at = seq(0, 1500, by=100), labels = c(seq(0, 1500, by=100)), cex.axis = 0.75, las = 2)
+text(0.7, 0, "0", pos = 3, cex = 0.75)
+text(1.9, 0, "0", pos = 3, cex = 0.75)
+text(3.1, 299, "299", pos = 3, cex = 0.75)
+dev.off()
+```
+#### Wildcat Creek Timelapse Duration 2017
+```{r}
+jpeg(filename = "figures/duration/WCS17_Duration_Small.jpg",
+     width=6.5,
+     height=6.5,
+     units="in",
+     res=300)
+## bottom, left, top, right
+barplot(WCS17duration$freq,
+        main = "Wildcat Creek Timelapse 2017",
+        col = c("#4472C4", "#ED7D31", "#FFC000"),
+        axes = FALSE,
+        ylab = "Total Time Spent at Site (mins)",
+        ylim = c(0,6500),
+        xlab = NA)
+axis(1, at = c(0.7, 1.9, 3.1), labels = c("Horses", "Cattle", "Elk"))
+axis(2, at = seq(0, 6500, by=500), labels = c(seq(0, 6500, by=500)), cex.axis = 0.75, las = 2)
+text(0.7, 5903, "5903", pos = 3, cex = 0.75)
+text(1.9, 2975, "2975", pos = 3, cex = 0.75)
+text(3.1, 2287, "2287", pos = 3, cex = 0.75)
+dev.off()
+```
+#### Wildcat Creek Timelapse Duration 2018
+```{r}
+jpeg(filename = "figures/duration/WCS18_Duration_Small.jpg",
+     width=6.5,
+     height=6.5,
+     units="in",
+     res=300)
+## bottom, left, top, right
+barplot(WCS18duration$freq,
+        main = "Wildcat Creek Timelapse 2018",
+        col = c("#4472C4", "#ED7D31", "#FFC000"),
+        axes = FALSE,
+        ylab = "Total Time Spent at Site (mins)",
+        ylim = c(0,6500),
+        xlab = NA)
+axis(1, at = c(0.7, 1.9, 3.1), labels = c("Horses", "Cattle", "Elk"))
+axis(2, at = seq(0, 6500, by=500), labels = c(seq(0, 6500, by=500)), cex.axis = 0.75, las = 2)
+text(0.7, 3172, "3172", pos = 3, cex = 0.75)
+text(1.9, 1382, "1382", pos = 3, cex = 0.75)
+text(3.1, 802, "802", pos = 3, cex = 0.75)
+dev.off()
+```
+#### Wildcat Creek Trail Duration 2018
+```{r}
+jpeg(filename = "figures/duration/WCT18_Duration_Small.jpg",
+     width=6.5,
+     height=6.5,
+     units="in",
+     res=300)
+## bottom, left, top, right
+barplot(WCT18duration$freq,
+        main = "Wildcat Creek Trail 2018",
+        col = c("#4472C4", "#ED7D31", "#FFC000"),
+        axes = FALSE,
+        ylab = "Total Time Spent at Site (mins)",
+        ylim = c(0,6500),
+        xlab = NA)
+axis(1, at = c(0.7, 1.9, 3.1), labels = c("Horses", "Cattle", "Elk"))
+axis(2, at = seq(0, 6500, by=500), labels = c(seq(0, 6500, by=500)), cex.axis = 0.75, las = 2)
+text(0.7, 1112, "1112", pos = 3, cex = 0.75)
+text(1.9, 122, "122", pos = 3, cex = 0.75)
+text(3.1, 137, "137", pos = 3, cex = 0.75)
+dev.off()
+```
+#### Wildcat Creek Exclosure Duration 2018
+```{r}
+jpeg(filename = "figures/duration/WCX18_Duration_Small.jpg",
+     width=6.5,
+     height=6.5,
+     units="in",
+     res=300)
+## bottom, left, top, right
+barplot(WCX18duration$freq,
+        main = "Wildcat Creek Exclosure 2018",
+        col = c("#4472C4", "#ED7D31", "#FFC000"),
+        axes = FALSE,
+        ylab = "Total Time Spent at Site (mins)",
+        ylim = c(0,6500),
+        xlab = NA)
+axis(1, at = c(0.7, 1.9, 3.1), labels = c("Horses", "Cattle", "Elk"))
+axis(2, at = seq(0, 6500, by=500), labels = c(seq(0, 6500, by=500)), cex.axis = 0.75, las = 2)
+text(0.7, 376, "376", pos = 3, cex = 0.75)
+text(1.9, 0, "0", pos = 3, cex = 0.75)
+text(3.1, 955, "955", pos = 3, cex = 0.75)
+dev.off()
+```
