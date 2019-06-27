@@ -113,8 +113,20 @@ WCX18 <- cleandates(WCX18)
 
 BGW17
 ```
-***
+```{r}
+BGT18$SiteName <- rep("BGT18", n = length(BGT18))
+BGW17$SiteName <- rep("BGW17", n = length(BGW17))
+BGW18$SiteName <- rep("BGW18", n = length(BGW18))
+BGX18$SiteName <- rep("BGX18", n = length(BGX18))
+WCS17$SiteName <- rep("WCS17", n = length(WCS17))
+WCS18$SiteName <- rep("WCS18", n = length(WCS18))
+WCT18$SiteName <- rep("WCT18", n = length(WCT18))
+WCX18$SiteName <- rep("WCX18", n = length(WCX18))
 
+BGT18$SiteName
+```
+
+***
 We're going to use a function I created called "speciestotal" (see the functions.R script) which is specific to the way we classified our data. The issue is that the 'Count1Species' column in our dataframes doesn't correspond to a specific species, rather it corresponds to whatever species is the primary species detected (>50% of individuals if a multiple species are detected in an image). 
 
 The "speciestotal" function will count up the number of individuals for each species detected in a camera trap photo and then create a new column in the corresponding dataframe to store this species count. The new column is labled by the species and contains a count of the number of individuals detected in each image.
@@ -701,10 +713,89 @@ WCX18duration
 
 
 ```{r}
-BGW17 = matrix(c(BGW17h_pre, BGW17c_pre, BGW17e_pre, BGW17h_mons, BGW17c_mons, BGW17e_mons, BGW17h_post, BGW17c_post, BGW17e_post), nrow = 3)
-colnames(BGW17groups) = c("Pre-Monsoon", "Monsoon", "Post-Monsoon")
-rownames(BGW17groups) = c("Horses", "Cattle", "Elk")
-BGW17groups
+# BGW17 = matrix(c(BGW17h_pre, BGW17c_pre, BGW17e_pre, BGW17h_mons, BGW17c_mons, BGW17e_mons, BGW17h_post, BGW17c_post, BGW17e_post), nrow = 3)
+# colnames(BGW17groups) = c("Pre-Monsoon", "Monsoon", "Post-Monsoon")
+# rownames(BGW17groups) = c("Horses", "Cattle", "Elk")
+# BGW17groups
+```
+
+```{r}
+BGW17
+```
+
+***
+```{r}
+#   horses <- BGW17[BGW17$horse >0, ]
+#   cattle <- BGW17[BGW17$cow >0, ]
+#   elk <- BGW17[BGW17$elk >0, ]
+#   deer <- BGW17[BGW17$deer >0, ]
+# 
+#   horses <- arrange(horses, DateTime)
+#   cattle <- arrange(cattle, DateTime)
+#   elk <- arrange(elk, DateTime)
+#   deer <- arrange(deer, DateTime)
+# 
+#   lag_time_diffh <- difftime(horses$DateTime, lag(horses$DateTime, default = horses$DateTime[1]), units = "mins")
+#   lag_time_diffc <- difftime(cattle$DateTime, lag(cattle$DateTime, default = cattle$DateTime[1]), units = "mins")
+#   lag_time_diffe <- difftime(elk$DateTime, lag(elk$DateTime, default = elk$DateTime[1]), units = "mins")
+#   lag_time_diffd <- difftime(deer$DateTime, lag(deer$DateTime, default = deer$DateTime[1]), units = "mins")
+# 
+#   horses$group <- cumsum(ifelse(lag_time_diffh>10,1,0))
+#   cattle$group <- cumsum(ifelse(lag_time_diffc>10,1,0))
+#   elk$group <- cumsum(ifelse(lag_time_diffe>10,1,0))
+#   deer$group <- cumsum(ifelse(lag_time_diffd>10,1,0))
+# 
+#   horses$group <- horses$group+1
+#   cattle$group <- cattle$group+1
+#   elk$group <- elk$group+1
+#   deer$group <- deer$group+1
+# 
+# BGW17h_max <- horses %<>% group_by(group) %>% summarize(Species = "Horses", max = max(horse))
+# BGW17c_max <- cattle %<>% group_by(group) %>% summarize(Species = "Cattle", max = max(cow))
+# BGW17e_max <- elk %<>% group_by(group) %>% summarize(Species = "Elk", max = max(elk))
+# BGW17d_max <- deer %<>% group_by(group) %>% summarize(Species = "Muledeer", max = max(deer))
+
+# groupsize <- data.frame(Site = ("BGW17"),
+#                         Year = as.factor(2017),
+#                         Species = c("Horse", "Cattle", "Elk", "Muledeer"),
+#                         maxaverage_group = (c(round(mean(horses$max)),
+#                                               round(mean(cattle$max)),
+#                                               round(mean(elk$max)),
+#                                               round(mean(deer$max))
+#                                               )
+#                                             )
+#                         )
+# is.nan.data.frame <- function(x)
+#   do.call(cbind, lapply(x, is.nan))
+# 
+# groupsize$maxaverage_group[is.nan(groupsize$maxaverage_group)] <- 0
+# 
+# groupsize
+# max(BGW17h_max$max)
+# max(BGW17c_max$max)
+# max(BGW17e_max$max)
+# max(BGW17d_max$max)
+```
+
+```{r}
+BGT18groupsize <- group.size(BGT18)
+BGT18groupsize
+BGW17groupsize <- group.size(BGW17)
+BGW17groupsize
+BGW18groupsize <- group.size(BGW18)
+BGW18groupsize
+BGX18groupsize <- group.size(BGX18)
+BGX18groupsize
+WCS17groupsize <- group.size(WCS17)
+WCS17groupsize
+WCS18groupsize <- group.size(WCS18)
+WCS18groupsize
+WCT18groupsize <- group.size(WCT18)
+WCT18groupsize
+WCX18groupsize <- group.size(WCX18)
+WCX18groupsize
+```
+```{r}
 ```
 
 

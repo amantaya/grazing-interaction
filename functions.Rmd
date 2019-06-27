@@ -254,13 +254,13 @@ group.duration <- function(cameradfspecies) {
 }
 ```
 ***
-###
+### The "remove_outliers" Function
 
-**Input:** 
+**Input:** A numerical vector, can also be a column from a data frame if the column is numerical.
 
-**What it Does:**
+**What it Does:** This function first computes a quantile (i.e. 1/4 of the data's spread) and then assigns any data values outside of 1.5 times the interquartile range as NA. This excludes these extreme data values from any later caculations. USE WITH CAUTION- be sure to detail whenever legitimate data points are removed from the dataset.
 
-**Output:**
+**Output:** Returns a copy of the orginal data where the extreme values are NAs.
 ```{r}
 remove_outliers <- function(x, na.rm = TRUE, ...) {
   qnt <- quantile(x, probs=c(.25, .75), na.rm = na.rm, ...)
@@ -269,6 +269,81 @@ remove_outliers <- function(x, na.rm = TRUE, ...) {
   y[x < (qnt[1] - H)] <- NA
   y[x > (qnt[2] + H)] <- NA
   y
+}
+```
+***
+### The "group.size" Function
+
+**Input:** 
+
+**What it Does:**
+
+**Output:**
+```{r}
+group.size <- function(cameradf, sitename) {
+  horses <- cameradf[cameradf$horse >0, ]
+  cattle <- cameradf[cameradf$cow >0, ]
+  elk <- cameradf[cameradf$elk >0, ]
+#  deer <- cameradf[cameradf$deer >0, ]
+  
+  horses <- arrange(horses, DateTime)
+  cattle <- arrange(cattle, DateTime)
+  elk <- arrange(elk, DateTime)
+#  deer <- arrange(deer, DateTime)
+  
+  lag_time_diffh <- difftime(horses$DateTime, lag(horses$DateTime, default = horses$DateTime[1]), units = "mins")
+  lag_time_diffc <- difftime(cattle$DateTime, lag(cattle$DateTime, default = cattle$DateTime[1]), units = "mins")
+  lag_time_diffe <- difftime(elk$DateTime, lag(elk$DateTime, default = elk$DateTime[1]), units = "mins")
+#  lag_time_diffd <- difftime(deer$DateTime, lag(deer$DateTime, default = deer$DateTime[1]), units = "mins")
+  
+  horses$group <- cumsum(ifelse(lag_time_diffh>10,1,0))
+  cattle$group <- cumsum(ifelse(lag_time_diffc>10,1,0))
+  elk$group <- cumsum(ifelse(lag_time_diffe>10,1,0))
+#  deer$group <- cumsum(ifelse(lag_time_diffd>10,1,0))
+  
+  horses$group <- horses$group+1
+  cattle$group <- cattle$group+1
+  elk$group <- elk$group+1
+#  deer$group <- deer$group+1
+  
+  horses %<>% group_by(group) %>% summarize(Species = "Horses", max = max(horse))
+  cattle %<>% group_by(group) %>% summarize(Species = "Cattle", max = max(cow))
+  elk %<>% group_by(group) %>% summarize(Species = "Elk", max = max(elk))
+#  deer %<>% group_by(group) %>% summarize(Species = "Muledeer", max = max(deer))
+
+  df <- data.frame(site = c(cameradf$SiteName[1:3]),
+                        year = c(rep(unique(year(cameradf$DateTime)),3)),
+                        species = c("Horse", "Cattle", "Elk"), 
+                        avg = c(round(mean(horses$max)), round(mean(cattle$max)), round(mean(elk$max))),
+                        se = c(se(horses$max), se(cattle$max), se(elk$max)))
+  
+  is.nan.data.frame <- function(x)
+    do.call(cbind, lapply(x, is.nan))
+    df$avg[is.nan(df$avg)] <- 0
+  
+return(df)
+}
+```
+***
+### The "calculate.mode" Function
+
+**Input:** 
+
+**What it Does:**
+
+**Output:**
+```{r}
+calculate.mode <-  function(x){ 
+    ta = table(x)
+    tam = max(ta)
+    if (all(ta == tam))
+         mod = NA
+    else
+         if(is.numeric(x))
+    mod = as.numeric(names(ta)[ta == tam])
+    else
+         mod = names(ta)[ta == tam]
+    return(mod)
 }
 ```
 
