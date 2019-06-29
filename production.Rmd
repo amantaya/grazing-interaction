@@ -13,7 +13,7 @@ library("ggplot2", lib.loc="~/R/win-library/3.5")
 library("dplyr", lib.loc="~/R/win-library/3.5")
 library("jpeg", lib.loc="~/R/win-library/3.5")
 
-source(file = "functions.R")
+source_rmd("functions.Rmd")
 
 ## read in data
 mydata <- read.csv('data/vegetation/White Mountain Production.csv')
@@ -285,5 +285,4 @@ t.test(WCS17E$TotalDry, WCS18E$TotalDry)
 t.test(BGW17G$TotalDry, BGW18G$TotalDry)
 t.test(WCS17G$TotalDry, WCS18G$TotalDry)
 ```
-
 
