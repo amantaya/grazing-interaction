@@ -1,5 +1,5 @@
 ---
-title: "graphs"
+title: "Figures"
 author: "Andrew Antaya"
 date: "June 24, 2019"
 output: html_notebook
@@ -237,7 +237,7 @@ axis(2, at = seq(0, 25000, by=5000), cex.axis = .5, padj = 2)
 dev.off()
 ```
 
-### Plotting Groups
+### Number of Groups
 
 ```{r}
 # Boggy Trail 2018 Groups
@@ -464,7 +464,7 @@ text(3.1, 47, "47", pos = 3, cex = 0.75)
 axis(2, at = seq(0, 250, by=50), cex.axis = .5, padj = 2)
 dev.off()
 ```
-
+### Site Use by Time of Day
 ```{r}
 ### Boggy Trail 2018 Site Use by Time of Day 
 jpeg(filename = "figures/timeofday/BGT18_Time_Small.jpg",
@@ -720,7 +720,7 @@ mtext("Time of Day (24hrs)", 1, las = 0 , cex = 1, padj = 6)
 mtext("Count", 2, las = 0 , cex = 1, padj = -3)
 dev.off()
 ```
-
+### Number of Groups by Monsoonal Period
 ```{r}
 jpeg(filename = "figures/monsoon/BGW17_Monsoon_Small.jpg",
      width=6.5,
@@ -752,6 +752,7 @@ text(10.5, 31, "31", pos = 3, cex = 0.75)
 text(11.5, 38, "38", pos = 3, cex = 0.75)
 dev.off()
 ```
+
 ```{r}
 jpeg(filename = "figures/monsoon/BGW18_Monsoon_Small.jpg",
      width=6.5,
@@ -1277,7 +1278,6 @@ text(1.9, 7.75, "7", pos = 3, cex = 0.75)
 text(3.1, 2.5, "2", pos = 3, cex = 0.75)
 dev.off()
 ```
-
 ***
 ### 
 ```{r}
@@ -1360,5 +1360,226 @@ mtext("Average Group Size", 3, las = 0 , cex = 1, padj = 3)
 text(0.7, 2.25, "2", pos = 3, cex = 0.75)
 text(1.9, 0, "0", pos = 3, cex = 0.75)
 text(3.1, 3.5, "3", pos = 3, cex = 0.75)
+dev.off()
+```
+***
+### Multi Species Interactions
+```{r}
+jpeg(filename = "figures/multi/BGT18_Multi.jpg",
+     width=6.5,
+     height=6.5,
+     units="in",
+     res=300)
+plot.new()
+# bottom, left, top, right
+par(mar=c(3, 4, 2, 2))
+barplot(BGT18multi$freq,
+        col = viridis(6),
+        main = "Boggy Creek Trail 2018",
+        axes = FALSE,
+        cex.lab = 1,
+        cex.main = 1, 
+        ylim = c(0, 400))
+axis(2,at=c(seq(0, 400, 50)), labels=c(seq(0, 400, 50)), cex.axis= 0.5, las = 2)
+axis(1, at = c(0.7, 1.9, 3.1, 4.3, 5.5, 6.7), labels = c("Horse/Cow", "Horse/Elk", "Cow/Elk", "Horse/Deer", "Elk/Deer", "Elk/Pronghorn"), cex.axis = 0.75)
+mtext("Number of Interactions", 2, las = 0 , cex = 1, padj = -4)
+text(0.7, 0, "0", pos = 3, cex = 0.75)
+text(1.9, 19, "19", pos = 3, cex = 0.75)
+text(3.1, 0, "0", pos = 3, cex = 0.75)
+text(4.3, 0, "0", pos = 3, cex = 0.75)
+text(5.5, 0, "0", pos = 3, cex = 0.75)
+text(6.7, 0, "0", pos = 3, cex = 0.75)
+dev.off()
+```
+```{r}
+jpeg(filename = "figures/multi/BGW17_Multi.jpg",
+     width=6.5,
+     height=6.5,
+     units="in",
+     res=300)
+plot.new()
+# bottom, left, top, right
+par(mar=c(3, 4, 2, 2))
+barplot(BGW17multi$freq,
+        col = viridis(6),
+        main = "Boggy Creek Timelapse 2017",
+        axes = FALSE,
+        cex.lab = 1,
+        cex.main = 1, 
+        ylim = c(0, 400))
+axis(2,at=c(seq(0, 400, 50)), labels=c(seq(0, 400, 50)), cex.axis= 0.5, las = 2)
+axis(1, at = c(0.7, 1.9, 3.1, 4.3, 5.5, 6.7), labels = c("Horse/Cow", "Horse/Elk", "Cow/Elk", "Horse/Deer", "Elk/Deer", "Elk/Pronghorn"), cex.axis = 0.75)
+mtext("Number of Interactions", 2, las = 0 , cex = 1, padj = -4)
+text(0.7, 55, "55", pos = 3, cex = 0.75)
+text(1.9, 33, "33", pos = 3, cex = 0.75)
+text(3.1, 0, "0", pos = 3, cex = 0.75)
+text(4.3, 0, "0", pos = 3, cex = 0.75)
+text(5.5, 0, "0", pos = 3, cex = 0.75)
+text(6.7, 0, "0", pos = 3, cex = 0.75)
+dev.off()
+```
+```{r}
+jpeg(filename = "figures/multi/BGW18_Multi.jpg",
+     width=6.5,
+     height=6.5,
+     units="in",
+     res=300)
+plot.new()
+# bottom, left, top, right
+par(mar=c(3, 4, 2, 2))
+barplot(BGW18multi$freq,
+        col = viridis(6),
+        main = "Boggy Creek Timelapse 2018",
+        axes = FALSE,
+        cex.lab = 1,
+        cex.main = 1, 
+        ylim = c(0, 400))
+axis(2,at=c(seq(0, 400, 50)), labels=c(seq(0, 400, 50)), cex.axis= 0.5, las = 2)
+axis(1, at = c(0.7, 1.9, 3.1, 4.3, 5.5, 6.7), labels = c("Horse/Cow", "Horse/Elk", "Cow/Elk", "Horse/Deer", "Elk/Deer", "Elk/Pronghorn"), cex.axis = 0.75)
+mtext("Number of Interactions", 2, las = 0 , cex = 1, padj = -4)
+text(0.7, 0, "0", pos = 3, cex = 0.75)
+text(1.9, 34, "34", pos = 3, cex = 0.75)
+text(3.1, 0, "0", pos = 3, cex = 0.75)
+text(4.3, 0, "0", pos = 3, cex = 0.75)
+text(5.5, 0, "0", pos = 3, cex = 0.75)
+text(6.7, 0, "0", pos = 3, cex = 0.75)
+dev.off()
+```
+```{r}
+jpeg(filename = "figures/multi/BGX18_Multi.jpg",
+     width=6.5,
+     height=6.5,
+     units="in",
+     res=300)
+plot.new()
+# bottom, left, top, right
+par(mar=c(3, 4, 2, 2))
+barplot(BGX18multi$freq,
+        col = viridis(6),
+        main = "Boggy Creek Exclosure 2018",
+        axes = FALSE,
+        cex.lab = 1,
+        cex.main = 1, 
+        ylim = c(0, 400))
+axis(2,at=c(seq(0, 400, 50)), labels=c(seq(0, 400, 50)), cex.axis= 0.5, las = 2)
+axis(1, at = c(0.7, 1.9, 3.1, 4.3, 5.5, 6.7), labels = c("Horse/Cow", "Horse/Elk", "Cow/Elk", "Horse/Deer", "Elk/Deer", "Elk/Pronghorn"), cex.axis = 0.75)
+mtext("Number of Interactions", 2, las = 0 , cex = 1, padj = -4)
+text(0.7, 0, "0", pos = 3, cex = 0.75)
+text(1.9, 0, "0", pos = 3, cex = 0.75)
+text(3.1, 0, "0", pos = 3, cex = 0.75)
+text(4.3, 0, "0", pos = 3, cex = 0.75)
+text(5.5, 0, "0", pos = 3, cex = 0.75)
+text(6.7, 0, "0", pos = 3, cex = 0.75)
+dev.off()
+```
+
+```{r}
+jpeg(filename = "figures/multi/WCS17_Multi.jpg",
+     width=6.5,
+     height=6.5,
+     units="in",
+     res=300)
+plot.new()
+# bottom, left, top, right
+par(mar=c(3, 4, 2, 2))
+barplot(WCS17multi$freq,
+        col = viridis(6),
+        main = "Wildcat Creek Timelapse 2017",
+        axes = FALSE,
+        cex.lab = 1,
+        cex.main = 1, 
+        ylim = c(0, 400))
+axis(2,at=c(seq(0, 400, 50)), labels=c(seq(0, 400, 50)), cex.axis= 0.5, las = 2)
+axis(1, at = c(0.7, 1.9, 3.1, 4.3, 5.5, 6.7), labels = c("Horse/Cow", "Horse/Elk", "Cow/Elk", "Horse/Deer", "Elk/Deer", "Elk/Pronghorn"), cex.axis = 0.75)
+mtext("Number of Interactions", 2, las = 0 , cex = 1, padj = -4)
+text(0.7, 341, "341", pos = 3, cex = 0.75)
+text(1.9, 140, "140", pos = 3, cex = 0.75)
+text(3.1, 110, "110", pos = 3, cex = 0.75)
+text(4.3, 31, "31", pos = 3, cex = 0.75)
+text(5.5, 19, "19", pos = 3, cex = 0.75)
+text(6.7, 6, "6", pos = 3, cex = 0.75)
+dev.off()
+```
+```{r}
+jpeg(filename = "figures/multi/WCS18_Multi.jpg",
+     width=6.5,
+     height=6.5,
+     units="in",
+     res=300)
+plot.new()
+# bottom, left, top, right
+par(mar=c(3, 4, 2, 2))
+barplot(WCS18multi$freq,
+        col = viridis(6),
+        main = "Wildcat Creek Timelapse 2018",
+        axes = FALSE,
+        cex.lab = 1,
+        cex.main = 1, 
+        ylim = c(0, 400))
+axis(2,at=c(seq(0, 400, 50)), labels=c(seq(0, 400, 50)), cex.axis= 0.5, las = 2)
+axis(1, at = c(0.7, 1.9, 3.1, 4.3, 5.5, 6.7), labels = c("Horse/Cow", "Horse/Elk", "Cow/Elk", "Horse/Deer", "Elk/Deer", "Elk/Pronghorn"), cex.axis = 0.75)
+mtext("Number of Interactions", 2, las = 0 , cex = 1, padj = -4)
+text(0.7, 11, "11", pos = 3, cex = 0.75)
+text(1.9, 116, "116", pos = 3, cex = 0.75)
+text(3.1, 15, "15", pos = 3, cex = 0.75)
+text(4.3, 0, "0", pos = 3, cex = 0.75)
+text(5.5, 0, "0", pos = 3, cex = 0.75)
+text(6.7, 8, "8", pos = 3, cex = 0.75)
+dev.off()
+```
+
+```{r}
+jpeg(filename = "figures/multi/WCT18_Multi.jpg",
+     width=6.5,
+     height=6.5,
+     units="in",
+     res=300)
+plot.new()
+# bottom, left, top, right
+par(mar=c(3, 4, 2, 2))
+barplot(WCT18multi$freq,
+        col = viridis(6),
+        main = "Wildcat Creek Trail 2018",
+        axes = FALSE,
+        cex.lab = 1,
+        cex.main = 1, 
+        ylim = c(0, 400))
+axis(2,at=c(seq(0, 400, 50)), labels=c(seq(0, 400, 50)), cex.axis= 0.5, las = 2)
+axis(1, at = c(0.7, 1.9, 3.1, 4.3, 5.5, 6.7), labels = c("Horse/Cow", "Horse/Elk", "Cow/Elk", "Horse/Deer", "Elk/Deer", "Elk/Pronghorn"), cex.axis = 0.75)
+mtext("Number of Interactions", 2, las = 0 , cex = 1, padj = -4)
+text(0.7, 0, "0", pos = 3, cex = 0.75)
+text(1.9, 7, "7", pos = 3, cex = 0.75)
+text(3.1, 0, "0", pos = 3, cex = 0.75)
+text(4.3, 0, "0", pos = 3, cex = 0.75)
+text(5.5, 0, "0", pos = 3, cex = 0.75)
+text(6.7, 3, "3", pos = 3, cex = 0.75)
+dev.off()
+```
+
+```{r}
+jpeg(filename = "figures/multi/WCX18_Multi.jpg",
+     width=6.5,
+     height=6.5,
+     units="in",
+     res=300)
+plot.new()
+# bottom, left, top, right
+par(mar=c(3, 4, 2, 2))
+barplot(WCX18multi$freq,
+        col = viridis(6),
+        main = "Wildcat Creek Exclosure 2018",
+        axes = FALSE,
+        cex.lab = 1,
+        cex.main = 1, 
+        ylim = c(0, 400))
+axis(2,at=c(seq(0, 400, 50)), labels=c(seq(0, 400, 50)), cex.axis= 0.5, las = 2)
+axis(1, at = c(0.7, 1.9, 3.1, 4.3, 5.5, 6.7), labels = c("Horse/Cow", "Horse/Elk", "Cow/Elk", "Horse/Deer", "Elk/Deer", "Elk/Pronghorn"), cex.axis = 0.75)
+mtext("Number of Interactions", 2, las = 0 , cex = 1, padj = -4)
+text(0.7, 0, "0", pos = 3, cex = 0.75)
+text(1.9, 0, "0", pos = 3, cex = 0.75)
+text(3.1, 0, "0", pos = 3, cex = 0.75)
+text(4.3, 0, "0", pos = 3, cex = 0.75)
+text(5.5, 0, "0", pos = 3, cex = 0.75)
+text(6.7, 0, "0", pos = 3, cex = 0.75)
 dev.off()
 ```

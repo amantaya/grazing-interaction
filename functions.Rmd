@@ -346,4 +346,58 @@ calculate.mode <-  function(x){
     return(mod)
 }
 ```
+***
+### The "multi.inter" Function
+
+**Input:** 
+
+**What it Does:**
+
+**Output:**
+
+```{r}
+multi.inter <- function(cameradf){ 
+
+cameradfhc.df <- cameradf[cameradf$horse > 0 & cameradf$cow > 0, ]
+cameradfhc <- if (length(cameradfhc.df) > 0){
+  cameradfhc_table <- count(cameradfhc.df, cameradfhc.df$multi)
+  cameradfhc <- sum(cameradfhc_table$n)
+} else {0}
+
+cameradfhe.df <- cameradf[cameradf$horse > 0 & cameradf$elk > 0, ]
+cameradfhe <- if (length(cameradfhe.df) > 0){
+  cameradfhe_table <- count(cameradfhe.df, cameradfhe.df$multi)
+  cameradfhe <- sum(cameradfhe_table$n)
+} else {0}
+
+cameradfce.df <- cameradf[cameradf$cow > 0 & cameradf$elk > 0, ]
+cameradfce <- if (length(cameradfce.df) > 0){
+  cameradfce_table <- count(cameradfce.df, cameradfce.df$multi)
+  cameradfce <- sum(cameradfce_table$n)
+} else {0}
+  
+cameradfhd.df <- cameradf[cameradf$horse > 0 & cameradf$deer > 0, ]
+cameradfhd <- if (length(cameradfhd.df) > 0){
+  cameradfhd_table <- count(cameradfhd.df, cameradfhd.df$multi)
+  cameradfhd <- sum(cameradfhd_table$n)
+} else {0}
+
+cameradfed.df <- cameradf[cameradf$elk > 0 & cameradf$deer > 0, ]
+cameradfed <- if (length(cameradfed.df) > 0){
+  cameradfed_table <- count(cameradfed.df, cameradfed.df$multi)
+  cameradfed <- sum(cameradfed_table$n)
+} else {0}
+
+cameradfep.df <- cameradf[cameradf$elk > 0 & cameradf$pronghorn > 0, ]
+cameradfep <- if (length(cameradfep.df) > 0){
+  cameradfep_table <- count(cameradfep.df, cameradfep.df$multi)
+  cameradfep <- sum(cameradfep_table$n)
+} else {0}
+
+cameradfmulti <- data.frame(interaction = c("Horse/Cow", "Horse/Elk", "Cow/Elk", "Horse/Deer", "Elk/Deer", "Elk/Pronghorn"), freq = c(cameradfhc, cameradfhe, cameradfce, cameradfhd, cameradfed, cameradfep))
+
+return(cameradfmulti)
+
+}
+```
 

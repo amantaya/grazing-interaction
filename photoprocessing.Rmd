@@ -7,6 +7,7 @@ output: html_notebook
 First, let's get our R environment ready by loading some useful packages.
 ```{r}
 library("ggplot2")
+library("ggthemes")
 library("dplyr")
 library("tidyr")
 library("jpeg")
@@ -123,10 +124,19 @@ WCS18$SiteName <- rep("WCS18", n = length(WCS18))
 WCT18$SiteName <- rep("WCT18", n = length(WCT18))
 WCX18$SiteName <- rep("WCX18", n = length(WCX18))
 
-BGT18$SiteName
+#BGT18$SiteName
+```
+***
+```{r}
+BGT18 <- BGT18 %>% rename(multi = TraitB2)
+BGW18 <- BGW18 %>% rename(multi = TraitB2)
+BGX18 <- BGX18 %>% rename(multi = TraitB2)
+
+WCS18 <- WCS18 %>% rename(multi = TraitB2)
+WCT18 <- WCT18 %>% rename(multi = TraitB2)
+WCX18 <- WCX18 %>% rename(multi = TraitB2)
 ```
 
-***
 We're going to use a function I created called "speciestotal" (see the functions.R script) which is specific to the way we classified our data. The issue is that the 'Count1Species' column in our dataframes doesn't correspond to a specific species, rather it corresponds to whatever species is the primary species detected (>50% of individuals if a multiple species are detected in an image). 
 
 The "speciestotal" function will count up the number of individuals for each species detected in a camera trap photo and then create a new column in the corresponding dataframe to store this species count. The new column is labled by the species and contains a count of the number of individuals detected in each image.
@@ -795,7 +805,164 @@ WCT18groupsize
 WCX18groupsize <- group.size(WCX18)
 WCX18groupsize
 ```
+***
+### Behavioral Frequency
 ```{r}
+BGW17ukn  <- filter(BGW17, BGW17$ConditionsB6 == "Unknown")
+#summary(BGW17)
+```
+
+```{r}
+BGW17forage<- count(BGW17, BGW17$ConditionsB1)
+BGW17forage
+BGW17h_forage <- count(BGW17horses, BGW17horses$ConditionsB1)
+BGW17h_forage
+```
+```{r}
+BGW17multi <- filter(BGW17, BGW17$multi == "Yes")
+BGW17multi
+
+count(BGW17multi, BGW17multi$Count1Species)
+count(BGW17multi, BGW17multi$Count2Species)
+count(BGW17multi, BGW17multi$Count3Species)
+count(BGW17multi, BGW17multi$Count4Species)
+count(BGW17multi, BGW17multi$Count5Species)
+```
+```{r}
+BGW17hc <- BGW17[BGW17$horse > 0 & BGW17$cow > 0, ]
+BGW17hc
+
+BGW17he <- BGW17[BGW17$horse > 0 & BGW17$elk > 0, ]
+BGW17he
+
+BGW17ce <- BGW17[BGW17$cow > 0 & BGW17$elk > 0, ]
+BGW17ce
+
+BGW17hd <- BGW17[BGW17$horse > 0 & BGW17$deer > 0, ]
+BGW17hd
+
+BGW17ed <- BGW17[BGW17$elk > 0 & BGW17$deer > 0, ]
+BGW17ed
+
+BGW17ep <- BGW17[BGW17$elk > 0 & BGW17$pronghorn > 0, ]
+BGW17ep
+```
+```{r}
+WCS17hc <- WCS17[WCS17$horse > 0 & WCS17$cow > 0, ]
+WCS17hc
+WCS17hc_table <- count(WCS17hc, WCS17hc$multi)
+WCS17hc_table$n
+
+WCS17he <- WCS17[WCS17$horse > 0 & WCS17$elk > 0, ]
+WCS17he
+WCS17he_table <- count(WCS17he, WCS17he$multi)
+WCS17he_table$n
+
+WCS17ce <- WCS17[WCS17$cow > 0 & WCS17$elk > 0, ]
+WCS17ce
+WCS17ce_table <- count(WCS17ce, WCS17ce$multi)
+WCS17ce_table$n
+
+WCS17hd <- WCS17[WCS17$horse > 0 & WCS17$deer > 0, ]
+WCS17hd
+WCS17hd_table <- count(WCS17hd, WCS17hd$multi)
+WCS17hd_table$n
+
+WCS17ed <- WCS17[WCS17$elk > 0 & WCS17$deer > 0, ]
+WCS17ed
+WCS17ed_table <- count(WCS17ed, WCS17ed$multi)
+WCS17ed_table$n
+
+WCS17ep <- WCS17[WCS17$elk > 0 & WCS17$pronghorn > 0, ]
+WCS17ep
+WCS17ep_table <- count(WCS17ep, WCS17ep$multi)
+WCS17ep_table$n
+
+WCS17multi <- matrix(c(WCS17hc_table$n, 
+                       WCS17he_table$n, 
+                       WCS17ce_table$n, 
+                       WCS17hd_table$n, 
+                       WCS17ed_table$n, 
+                       WCS17ep_table$n))
+colnames(WCS17multi) = c("freq")
+rownames(WCS17multi) = c("Horse/Cow", "Horse/Elk", "Cow/Elk", "Horse/Deer", "Elk/Deer", "Elk/Pronghorn")
+WCS17multi
+
+WCS17 %>% 
+  rename(TraitB2 = multi)
+
+WCS17
+```
+```{r}
+WCS17multi.df<- as.data.frame(WCS17multi)
+str(WCS17multi.df)
+```
+```{r}
+# WCS18hc.df <- WCS18[WCS18$horse > 0 & WCS18$cow > 0, ]
+# WCS18hc <- if (length(WCS18hc.df) > 0){
+#   WCS18hc_table <- count(WCS18hc.df, WCS18hc.df$multi)
+#   WCS18hc <- sum(WCS18hc_table$n)
+# } else {0}
+# WCS18hc
+# 
+# WCS18he.df <- WCS18[WCS18$horse > 0 & WCS18$elk > 0, ]
+# WCS18he <- if (length(WCS18he.df) > 0){
+#   WCS18he_table <- count(WCS18he.df, WCS18he.df$multi)
+#   WCS18he <- sum(WCS18he_table$n)
+# } else {0}
+# WCS18he
+# 
+# WCS18ce.df <- WCS18[WCS18$cow > 0 & WCS18$elk > 0, ]
+# WCS18ce <- if (length(WCS18ce.df) > 0){
+#   WCS18ce_table <- count(WCS18ce.df, WCS18ce.df$multi)
+#   WCS18ce <- sum(WCS18ce_table$n)
+# } else {0}
+# WCS18ce
+#   
+# WCS18hd.df <- WCS18[WCS18$horse > 0 & WCS18$deer > 0, ]
+# WCS18hd <- if (length(WCS18hd.df) > 0){
+#   WCS18hd_table <- count(WCS18hd.df, WCS18hd.df$multi)
+#   WCS18hd <- sum(WCS18hd_table$n)
+# } else {0}
+# WCS18hd
+# 
+# WCS18ed.df <- WCS18[WCS18$elk > 0 & WCS18$deer > 0, ]
+# WCS18ed <- if (length(WCS18ed.df) > 0){
+#   WCS18ed_table <- count(WCS18ed.df, WCS18ed.df$multi)
+#   WCS18ed <- sum(WCS18ed_table$n)
+# } else {0}
+# WCS18ed
+# 
+# WCS18ep.df <- WCS18[WCS18$elk > 0 & WCS18$pronghorn > 0, ]
+# WCS18ep <- if (length(WCS18ep.df) > 0){
+#   WCS18ep_table <- count(WCS18ep.df, WCS18ep.df$multi)
+#   WCS18ep <- sum(WCS18ep_table$n)
+# } else {0}
+# WCS18ep
+# 
+# WCS18multi <- data.frame(interaction = c("Horse/Cow", "Horse/Elk", "Cow/Elk", "Horse/Deer", "Elk/Deer", "Elk/Pronghorn"), freq = c(WCS18hc, WCS18he, WCS18ce, WCS18hd, WCS18ed, WCS18ep))
+# 
+# WCS18multi
+```
+
+```{r}
+BGT18multi <- multi.inter(BGT18)
+BGT18multi
+BGW17multi <- multi.inter(BGW17)
+BGW17multi
+BGW18multi <- multi.inter(BGW18)
+BGW18multi
+BGX18multi <- multi.inter(BGX18)
+BGX18multi
+
+WCS17multi <- multi.inter(WCS17)
+WCS17multi
+WCS18multi <- multi.inter(WCS18)
+WCS18multi
+WCT18multi <- multi.inter(WCT18)
+WCT18multi
+WCX18multi <- multi.inter(WCX18)
+WCX18multi
 ```
 
 
