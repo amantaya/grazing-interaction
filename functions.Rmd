@@ -400,4 +400,39 @@ return(cameradfmulti)
 
 }
 ```
+***
+### The "waterway" Function
+
+**Input:** 
+
+**What it Does:**
+
+**Output:**
+
+```{r}
+waterway <- function(cameradf){
+
+cameradfwater.df <- cameradf[complete.cases(cameradf[ , 'water']),]
+
+cameradfwater <- cameradfwater.df[cameradfwater.df$water == "Yes" & cameradfwater.df$multi == "No", ]
+
+cameradfwater <- cameradfwater[cameradfwater$Count1Species == "Cow" | cameradfwater$Count1Species == "Horse" | cameradfwater$Count1Species == "Elk", ]
+
+cameradfwater <- count(cameradfwater, cameradfwater$Count1Species)
+
+na.exclude(cameradfwater)
+
+x <- c("Horse", "Cow", "Elk") # custom order
+
+cameradfwater <- cameradfwater %>% slice(match(x, cameradfwater$`cameradfwater$Count1Species`))
+
+return(cameradfwater)
+}
+```
+
+```{r}
+
+```
+
+
 

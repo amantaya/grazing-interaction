@@ -136,7 +136,16 @@ WCS18 <- WCS18 %>% rename(multi = TraitB2)
 WCT18 <- WCT18 %>% rename(multi = TraitB2)
 WCX18 <- WCX18 %>% rename(multi = TraitB2)
 ```
+***
+```{r}
+BGT18 <- BGT18 %>% rename(water = Trait4)
+BGW18 <- BGW18 %>% rename(water = Trait4)
+BGX18 <- BGX18 %>% rename(water = Trait4)
 
+WCS18 <- WCS18 %>% rename(water = Trait4)
+WCT18 <- WCT18 %>% rename(water = Trait4)
+WCX18 <- WCX18 %>% rename(water = Trait4)
+```
 We're going to use a function I created called "speciestotal" (see the functions.R script) which is specific to the way we classified our data. The issue is that the 'Count1Species' column in our dataframes doesn't correspond to a specific species, rather it corresponds to whatever species is the primary species detected (>50% of individuals if a multiple species are detected in an image). 
 
 The "speciestotal" function will count up the number of individuals for each species detected in a camera trap photo and then create a new column in the corresponding dataframe to store this species count. The new column is labled by the species and contains a count of the number of individuals detected in each image.
@@ -963,6 +972,61 @@ WCT18multi <- multi.inter(WCT18)
 WCT18multi
 WCX18multi <- multi.inter(WCX18)
 WCX18multi
+```
+***
+### Use of Waterway
+```{r}
+BGW17water.df <- BGW17[complete.cases(BGW17[ , 'water']),]
+
+BGW17water <- BGW17water.df[BGW17water.df$water == "Yes" & BGW17water.df$multi == "No", ]
+
+BGW17water <- BGW17water[BGW17water$Count1Species == "Cow" | BGW17water$Count1Species == "Horse" | BGW17water$Count1Species == "Elk", ]
+
+BGW17water <- count(BGW17water, BGW17water$Count1Species)
+
+na.exclude(BGW17water)
+
+
+BGW18water.df <- BGW18[complete.cases(BGW18[ , 'water']),]
+
+BGW18water <- BGW18water.df[BGW18water.df$water == "Yes" & BGW18water.df$multi == "No", ]
+
+BGW18water <- BGW18water[BGW18water$Count1Species == "Cow" | BGW18water$Count1Species == "Horse" | BGW18water$Count1Species == "Elk", ]
+
+BGW18water <- count(BGW18water, BGW18water$Count1Species)
+
+BGW18water <- na.exclude(BGW18water)
+
+x <- c("Horse", "Cow", "Elk")
+
+BGW18water %>% slice(match(x, BGW18water$`BGW18water$Count1Species`))
+
+```
+
+```{r}
+BGT18water <- waterway(BGT18)
+BGW17water <- waterway(BGW17)
+BGW18water <- waterway(BGW18)
+BGX18water <- waterway(BGX18)
+WCS17water <- waterway(WCS17)
+WCS18water <- waterway(WCS18)
+WCT18water <- waterway(WCT18)
+WCX18water <- waterway(WCX18)
+
+BGX18water <- add_row(BGX18water, 'cameradfwater$Count1Species' = "Horse", n = 0)
+BGX18water <- add_row(BGX18water, 'cameradfwater$Count1Species' = "Cow", n = 0)
+BGX18water <- add_row(BGX18water, 'cameradfwater$Count1Species' = "Elk", n = 0)
+
+WCX18water <- add_row(WCX18water, 'cameradfwater$Count1Species' = "Cow", n = 0, .after = 1)
+
+BGT18water
+BGW17water
+BGW18water
+BGX18water
+WCS17water
+WCS18water
+WCT18water
+WCX18water
 ```
 
 
