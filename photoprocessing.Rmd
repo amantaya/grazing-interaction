@@ -815,18 +815,7 @@ WCX18groupsize <- group.size(WCX18)
 WCX18groupsize
 ```
 ***
-### Behavioral Frequency
-```{r}
-BGW17ukn  <- filter(BGW17, BGW17$ConditionsB6 == "Unknown")
-#summary(BGW17)
-```
-
-```{r}
-BGW17forage<- count(BGW17, BGW17$ConditionsB1)
-BGW17forage
-BGW17h_forage <- count(BGW17horses, BGW17horses$ConditionsB1)
-BGW17h_forage
-```
+### Multi Species
 ```{r}
 BGW17multi <- filter(BGW17, BGW17$multi == "Yes")
 BGW17multi
@@ -1028,9 +1017,196 @@ WCS18water
 WCT18water
 WCX18water
 ```
+***
+### Behavioral Frequency
+```{r}
+BGW17ukn  <- filter(BGW17, BGW17$ConditionsB6 == "Unknown")
+#summary(BGW17)
+```
+
+```{r}
+BGW17horses
+```
 
 
+```{r}
+BGT18c_nomulti <- filter(BGT18cows, multi == "No")
 
+cameradf_forage <- na.omit(count(BGT18c_nomulti, ConditionsB1))
+cameradf_forage <- if (sum(is.na(BGT18c_nomulti$ConditionsB1)) == nrow(BGT18c_nomulti)) {
+add_row(cameradf_forage, ConditionsB1 = "Forage", n = 0)
+} else {na.omit(count(BGT18c_nomulti, ConditionsB1))
+  } 
+
+cameradf_drink <- na.omit(count(BGT18c_nomulti, ConditionsB2))
+cameradf_drink <- if (sum(is.na(BGT18c_nomulti$ConditionsB2)) == nrow(BGT18c_nomulti)) {
+add_row(cameradf_drink, ConditionsB2 = "Drink", n = 0)
+} else {na.omit(count(BGT18c_nomulti, ConditionsB2))
+} 
+
+cameradf_walkrun <- na.omit(count(BGT18c_nomulti, ConditionsB3))
+cameradf_walkrun <- if (sum(is.na(BGT18c_nomulti$ConditionsB3)) == nrow(BGT18c_nomulti)) {
+add_row(cameradf_walkrun, ConditionsB3 = "Walk/Run", n = 0)
+} else {na.omit(count(BGT18c_nomulti, ConditionsB1))
+  } 
+
+cameradf_bed <- na.omit(count(BGT18c_nomulti, ConditionsB4))
+cameradf_bed <- if (sum(is.na(BGT18c_nomulti$ConditionsB4)) == nrow(BGT18c_nomulti)) {
+add_row(cameradf_bed, ConditionsB4 = "Bed", n = 0)
+} else {na.omit(count(BGT18c_nomulti, ConditionsB4))
+  } 
+
+cameradf_stand <- na.omit(count(BGT18c_nomulti, ConditionsB5))
+cameradf_stand <- if (sum(is.na(BGT18c_nomulti$ConditionsB5)) == nrow(BGT18c_nomulti)) {
+add_row(cameradf_stand, ConditionsB5 = "Stand", n = 0)
+} else {na.omit(count(BGT18c_nomulti, ConditionsB1))
+  } 
+
+cameradf_unknown <- na.omit(count(BGT18c_nomulti, ConditionsB6))
+cameradf_unknown <- if (sum(is.na(BGT18c_nomulti$ConditionsB6)) == nrow(BGT18c_nomulti)) {
+add_row(cameradf_unknown, ConditionsB6 = "Unknown", n = 0)
+} else {na.omit(count(BGT18c_nomulti, ConditionsB6))
+  } 
+
+total <- sum(cameradf_forage$n, cameradf_drink$n, cameradf_walkrun$n, cameradf_bed$n, cameradf_stand$n, cameradf_unknown$n)
+
+cameradf_behav <- data.frame(behavior = c("Forage", "Drink", "Walk/Run", "Bedded", "Stand", "Unknown"), 
+                              count = c(cameradf_forage$n, 
+                                        cameradf_drink$n, 
+                                        cameradf_walkrun$n, 
+                                        cameradf_bed$n, 
+                                        cameradf_stand$n, 
+                                        cameradf_unknown$n), 
+                              percent = c(cameradf_forage$n/total,
+                                          cameradf_drink$n/total,
+                                          cameradf_walkrun$n/total,
+                                          cameradf_bed$n/total,
+                                          cameradf_stand$n/total,
+                                          cameradf_unknown$n/total))
+cameradf_behav
+```
+```{r}
+# for some reason the multi species comlumn has all NA's,. which throws off the behavior calculcation (specifically because the "calc.behav" function sorts out all the multi-species detections which also excludes NA's)
+BGX18elk$multi <- "No"
+BGX18elk$multi <- as.factor(BGX18elk$multi)
+BGX18elk$multi
+```
+
+```{r}
+BGT18h_behav <- calc.behav(BGT18horses)
+BGT18c_behav <- calc.behav(BGT18cows)
+BGT18e_behav <- calc.behav(BGT18elk)
+
+BGW17h_behav <- calc.behav(BGW17horses)
+BGW17c_behav <- calc.behav(BGW17cows)
+BGW17e_behav <- calc.behav(BGW17elk)
+
+BGW18h_behav <- calc.behav(BGW18horses)
+BGW18c_behav <- calc.behav(BGW18cows)
+BGW18e_behav <- calc.behav(BGW18elk)
+
+BGX18h_behav <- calc.behav(BGX18horses)
+BGX18c_behav <- calc.behav(BGX18cows)
+BGX18e_behav <- calc.behav(BGX18elk)
+
+WCS17h_behav <- calc.behav(WCS17horses)
+WCS17c_behav <- calc.behav(WCS17cows)
+WCS17e_behav <- calc.behav(WCS17elk)
+
+WCS18h_behav <- calc.behav(WCS18horses)
+WCS18c_behav <- calc.behav(WCS18cows)
+WCS18e_behav <- calc.behav(WCS18elk)
+
+WCT18h_behav <- calc.behav(WCT18horses)
+WCT18c_behav <- calc.behav(WCT18cows)
+WCT18e_behav <- calc.behav(WCT18elk)
+
+WCX18h_behav <- calc.behav(WCX18horses)
+WCX18c_behav <- calc.behav(WCX18cows)
+WCX18e_behav <- calc.behav(WCX18elk)
+
+BGT18h_behav
+BGT18c_behav
+BGT18e_behav
+
+BGW17h_behav
+BGW17c_behav
+BGW17e_behav
+
+BGW18h_behav
+BGW18c_behav
+BGW18e_behav
+
+BGX18h_behav
+BGX18c_behav
+BGX18e_behav
+
+WCS17h_behav
+WCS17c_behav
+WCS17e_behav
+
+WCS18h_behav
+WCS18c_behav
+WCS18e_behav
+
+WCT18h_behav
+WCT18c_behav
+WCT18e_behav
+
+WCX18h_behav
+WCX18c_behav
+WCX18e_behav
+```
+
+```{r}
+BGW17behav <- matrix(c(BGW17h_behav$percent[1],
+                       BGW17c_behav$percent[1],
+                       BGW17e_behav$percent[1],
+                       BGW17h_behav$percent[2],
+                       BGW17c_behav$percent[2],
+                       BGW17e_behav$percent[2],
+                       BGW17h_behav$percent[3],
+                       BGW17c_behav$percent[3],
+                       BGW17e_behav$percent[3],
+                       BGW17h_behav$percent[4],
+                       BGW17c_behav$percent[4],
+                       BGW17e_behav$percent[4],
+                       BGW17h_behav$percent[5], 
+                       BGW17c_behav$percent[5],
+                       BGW17e_behav$percent[5],
+                       BGW17h_behav$percent[6],
+                       BGW17c_behav$percent[6],
+                       BGW17e_behav$percent[6]), nrow = 3)
+rownames(BGW17behav) = c("Horses", "Cattle", "Elk")
+colnames(BGW17behav) = c("Foraging", "Drinking", "Moving", "Bedded", "Standing", "Unknown")
+BGW17behav
+```
+```{r}
+dim(BGW17behav)
+```
+
+```{r}
+BGT18behav <- behav.matrix(BGT18h_behav, BGT18c_behav, BGT18e_behav)
+BGT18behav
+BGW187behav <- behav.matrix(BGW17h_behav, BGW17c_behav, BGW17e_behav)
+BGW17behav
+BGW18behav <- behav.matrix(BGW18h_behav, BGW18c_behav, BGW18e_behav)
+BGW18behav
+BGX18behav <- behav.matrix(BGX18h_behav, BGX18c_behav, BGX18e_behav)
+BGX18behav
+WCS17behav <- behav.matrix(WCS17h_behav, WCS17c_behav, WCS17e_behav)
+WCS17behav
+WCS18behav <- behav.matrix(WCS18h_behav, WCS18c_behav, WCS18e_behav)
+WCS18behav
+WCT18behav <- behav.matrix(WCT18h_behav, WCT18c_behav, WCT18e_behav)
+WCT18behav
+WCX18behav <- behav.matrix(WCX18h_behav, WCX18c_behav, WCX18e_behav)
+WCX18behav
+```
+
+```{r}
+BGX18
+```
 
 
 

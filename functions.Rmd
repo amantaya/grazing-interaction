@@ -431,8 +431,92 @@ return(cameradfwater)
 ```
 
 ```{r}
+calc.behav <- function(cameradfspecies){
+  cameradf_nomulti <- filter(cameradfspecies, multi == "No")
 
+cameradf_forage <- na.omit(count(cameradf_nomulti, ConditionsB1))
+cameradf_forage <- if (sum(is.na(cameradf_nomulti$ConditionsB1)) == nrow(cameradf_nomulti)) {
+add_row(cameradf_forage, ConditionsB1 = "Forage", n = 0)
+} else {na.omit(count(cameradf_nomulti, ConditionsB1))
+  } 
+
+cameradf_drink <- na.omit(count(cameradf_nomulti, ConditionsB2))
+cameradf_drink <- if (sum(is.na(cameradf_nomulti$ConditionsB2)) == nrow(cameradf_nomulti)) {
+add_row(cameradf_drink, ConditionsB2 = "Drink", n = 0)
+} else {na.omit(count(cameradf_nomulti, ConditionsB2))
+} 
+
+cameradf_walkrun <- na.omit(count(cameradf_nomulti, ConditionsB3))
+cameradf_walkrun <- if (sum(is.na(cameradf_nomulti$ConditionsB3)) == nrow(cameradf_nomulti)) {
+add_row(cameradf_walkrun, ConditionsB3 = "Walk/Run", n = 0)
+} else {na.omit(count(cameradf_nomulti, ConditionsB3))
+  } 
+
+cameradf_bed <- na.omit(count(cameradf_nomulti, ConditionsB4))
+cameradf_bed <- if (sum(is.na(cameradf_nomulti$ConditionsB4)) == nrow(cameradf_nomulti)) {
+add_row(cameradf_bed, ConditionsB4 = "Bed", n = 0)
+} else {na.omit(count(cameradf_nomulti, ConditionsB4))
+  } 
+
+cameradf_stand <- na.omit(count(cameradf_nomulti, ConditionsB5))
+cameradf_stand <- if (sum(is.na(cameradf_nomulti$ConditionsB5)) == nrow(cameradf_nomulti)) {
+add_row(cameradf_stand, ConditionsB5 = "Stand", n = 0)
+} else {na.omit(count(cameradf_nomulti, ConditionsB5))
+  } 
+
+cameradf_unknown <- na.omit(count(cameradf_nomulti, ConditionsB6))
+cameradf_unknown <- if (sum(is.na(cameradf_nomulti$ConditionsB6)) == nrow(cameradf_nomulti)) {
+add_row(cameradf_unknown, ConditionsB6 = "Unknown", n = 0)
+} else {na.omit(count(cameradf_nomulti, ConditionsB6))
+  } 
+
+total <- sum(cameradf_forage$n, cameradf_drink$n, cameradf_walkrun$n, cameradf_bed$n, cameradf_stand$n, cameradf_unknown$n)
+
+total <- if (total == 0) {total <- 1
+} else {total}
+
+
+cameradf_behav <- data.frame(behavior = c("Forage", "Drink", "Walk/Run", "Bedded", "Stand", "Unknown"), 
+                              count = c(cameradf_forage$n, 
+                                        cameradf_drink$n, 
+                                        cameradf_walkrun$n, 
+                                        cameradf_bed$n, 
+                                        cameradf_stand$n, 
+                                        cameradf_unknown$n), 
+                              percent = c(round(100*(cameradf_forage$n/total), digits = 2),
+                                          round(100*(cameradf_drink$n/total), digits = 2),
+                                          round(100*(cameradf_walkrun$n/total), digits = 2),
+                                          round(100*(cameradf_bed$n/total), digits = 2),
+                                          round(100*(cameradf_stand$n/total), digits = 2),
+                                          round(100*(cameradf_unknown$n/total), digits = 2)))
+return(cameradf_behav)
+}
 ```
 
+```{r}
+behav.matrix <- function(behav.dfhorses, behav.dfcattle, behav.dfelk ){
+  cameradf_behav <- matrix(c(behav.dfhorses$percent[1],
+                       behav.dfcattle$percent[1],
+                       behav.dfelk$percent[1],
+                       behav.dfhorses$percent[2],
+                       behav.dfcattle$percent[2],
+                       behav.dfelk$percent[2],
+                       behav.dfhorses$percent[3],
+                       behav.dfcattle$percent[3],
+                       behav.dfelk$percent[3],
+                       behav.dfhorses$percent[4],
+                       behav.dfcattle$percent[4],
+                       behav.dfelk$percent[4],
+                       behav.dfhorses$percent[5], 
+                       behav.dfcattle$percent[5],
+                       behav.dfelk$percent[5],
+                       behav.dfhorses$percent[6],
+                       behav.dfcattle$percent[6],
+                       behav.dfelk$percent[6]), nrow = 3)
+rownames(cameradf_behav) = c("Horses", "Cattle", "Elk")
+colnames(cameradf_behav) = c("Foraging", "Drinking", "Moving", "Bedded", "Standing", "Unknown")
+return(cameradf_behav)
+}
+```
 
 

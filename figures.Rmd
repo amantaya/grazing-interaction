@@ -1,69 +1,72 @@
-# ---
-# title: "Figures"
-# author: "Andrew Antaya"
-# date: "June 24, 2019"
-# output: html_notebook
-# ---
+---
+title: "Figures"
+author: "Andrew Antaya"
+date: "June 24, 2019"
+output: html_notebook
+---
+
+```{r}
+# Boggy Trail 2018 Counts
+ jpeg(filename = "figures/counts/BGT18_Counts_Small.jpeg",
+      width=3.2,
+      height=3.2,
+      units="in",
+      res=300)
+ ## bottom, left, top, right
+ par(mar=c(2, 2, 1, 2))
+ barplot(BGT18counts$freq,
+         col = c("#4472C4", "#ED7D31", "#FFC000"),
+         main = "Boggy Creek Trail 2018",
+         cex.main = 0.75,
+         cex.lab = 0.5,
+         cex.names = 0.75,
+         axes = FALSE,
+xlab = NA,
+         ylab = NA,
+         ylim = c(0, 10000),
+         las = 0)
+axis(1, at = seq(0.7, 3.1, by=1.2), labels = c("Horses", "Cattle", "Elk"), cex.axis = 0.75)
+ mtext("Counts", 2, las = 0 , cex = 0.66, padj = -3)
+ text(0.7, 2775, "2775", pos = 3, cex = 0.75)
+ text(1.9, 114, "114", pos = 3, cex = 0.75)
+ text(3.1, 344, "344", pos = 3, cex = 0.75)
+ axis(2, at = seq(0, 10000, by=500), cex.axis = .5, padj = 2)
+ dev.off()
+```
+
 # 
-# ```{r}
-# # Boggy Trail 2018 Counts
-# jpeg(filename = "figures/counts/BGT18_Counts_Small.jpeg",
-#      width=3.2,
-#      height=3.2,
-#      units="in",
-#      res=300)
-# ## bottom, left, top, right
-# par(mar=c(2, 2, 1, 2))
-# barplot(BGT18counts$freq,
-#         col = c("#4472C4", "#ED7D31", "#FFC000"),
-#         main = "Boggy Creek Trail 2018",
-#         cex.main = 0.75,
-#         cex.lab = 0.5,
-#         cex.names = 0.75,
-#         axes = FALSE,
-#         xlab = NA,
-#         ylab = NA,
-#         ylim = c(0, 10000),
-#         las = 0)
-# axis(1, at = seq(0.7, 3.1, by=1.2), labels = c("Horses", "Cattle", "Elk"), cex.axis = 0.75)
-# mtext("Counts", 2, las = 0 , cex = 0.66, padj = -3)
-# text(0.7, 2775, "2775", pos = 3, cex = 0.75)
-# text(1.9, 114, "114", pos = 3, cex = 0.75)
-# text(3.1, 344, "344", pos = 3, cex = 0.75)
-# axis(2, at = seq(0, 10000, by=500), cex.axis = .5, padj = 2)
-# dev.off()
-# ```
+```{r}
+# Boggy West 2017 Counts
+jpeg(filename = "figures/counts/BGW17_Counts_Small.jpeg",
+     width=3.2,
+     height=3.2,
+     units="in",
+     res=300)
+## bottom, left, top, right
+par(mar=c(2, 2, 1, 2))
+barplot(BGW17counts$freq,
+        col = c("#4472C4", "#ED7D31", "#FFC000"),
+        main = "Boggy Creek Timelapse 2017",
+        cex.main = 0.75,
+        cex.lab = 0.5,
+        cex.names = 0.75,
+        axes = FALSE,
+        xlab = NA,
+        ylab = NA,
+        ylim = c(0, 10000),
+        las = 0)
+axis(1, at = seq(0.7, 3.1, by=1.2), labels = c("Horses", "Cattle", "Elk"), cex.axis = 0.75)
+mtext("Counts", 2, las = 0 , cex = 0.66, padj = -3)
+text(0.7, 7686, "7686", pos = 3, cex = 0.75)
+text(1.9, 2095, "2095", pos = 3, cex = 0.75)
+text(3.1, 1942, "1942", pos = 3, cex = 0.75)
+axis(2, at = seq(0, 10000, by=500), cex.axis = .5, padj = 2)
+dev.off()
+```
+
 # 
-# ```{r}
-# # Boggy West 2017 Counts
-# jpeg(filename = "figures/counts/BGW17_Counts_Small.jpeg",
-#      width=3.2,
-#      height=3.2,
-#      units="in",
-#      res=300)
-# ## bottom, left, top, right
-# par(mar=c(2, 2, 1, 2))
-# barplot(BGW17counts$freq,
-#         col = c("#4472C4", "#ED7D31", "#FFC000"),
-#         main = "Boggy Creek Timelapse 2017",
-#         cex.main = 0.75,
-#         cex.lab = 0.5,
-#         cex.names = 0.75,
-#         axes = FALSE,
-#         xlab = NA,
-#         ylab = NA,
-#         ylim = c(0, 10000),
-#         las = 0)
-# axis(1, at = seq(0.7, 3.1, by=1.2), labels = c("Horses", "Cattle", "Elk"), cex.axis = 0.75)
-# mtext("Counts", 2, las = 0 , cex = 0.66, padj = -3)
-# text(0.7, 7686, "7686", pos = 3, cex = 0.75)
-# text(1.9, 2095, "2095", pos = 3, cex = 0.75)
-# text(3.1, 1942, "1942", pos = 3, cex = 0.75)
-# axis(2, at = seq(0, 10000, by=500), cex.axis = .5, padj = 2)
-# dev.off()
-# ```
 # 
-# ```{r}
+```{r}
 # # Boggy West 2018 Counts
 # jpeg(filename = "figures/counts/BGW18_Counts_Small.jpeg",
 #      width=3.2,
@@ -90,9 +93,9 @@
 # text(3.1, 898, "898", pos = 3, cex = 0.75)
 # axis(2, at = seq(0, 10000, by=500), cex.axis = .5, padj = 2)
 # dev.off()
-# ```
+```
 # 
-# ```{r}
+```{r}
 # # Boggy Exclosure 2018 Counts
 # jpeg(filename = "figures/counts/BGX18_Counts_Small.jpeg",
 #      width=3.2,
@@ -119,9 +122,11 @@
 # text(3.1, 634, "634", pos = 3, cex = 0.75)
 # axis(2, at = seq(0, 10000, by=500), cex.axis = .5, padj = 2)
 # dev.off()
-# ```
 # 
-# ```{r}
+```
+# 
+# 
+```{r}
 # # Wildcat Timelapse 2017 Counts
 # jpeg(filename = "figures/counts/WCS17_Counts_Small.jpeg",
 #      width=3.2,
@@ -148,9 +153,11 @@
 # text(3.1, 13486, "13486", pos = 3, cex = 0.75)
 # axis(2, at = seq(0, 25000, by=5000), cex.axis = .5, padj = 2)
 # dev.off()
-# ```
 # 
-# ```{r}
+```
+# 
+# 
+```{r}
 # # Wildcat Timelapse 2018 Counts
 # jpeg(filename = "figures/counts/WCS18_Counts_Small.jpeg",
 #      width=3.2,
@@ -177,9 +184,11 @@
 # text(3.1, 1817, "1817", pos = 3, cex = 0.75)
 # axis(2, at = seq(0, 25000, by=5000), cex.axis = .5, padj = 2)
 # dev.off()
-# ```
 # 
-# ```{r}
+```
+# 
+# 
+```{r}
 # # Wildcat Trail 2018 Counts
 # jpeg(filename = "figures/counts/WCT18_Counts_Small.jpeg",
 #      width=3.2,
@@ -206,9 +215,11 @@
 # text(3.1, 398, "398", pos = 3, cex = 0.75)
 # axis(2, at = seq(0, 25000, by=5000), cex.axis = .5, padj = 2)
 # dev.off()
-# ```
 # 
-# ```{r}
+```
+# 
+# 
+```{r}
 # # Wildcat Exclosure 2018 Counts
 # jpeg(filename = "figures/counts/WCX18_Counts_Small.jpeg",
 #      width=3.2,
@@ -235,11 +246,13 @@
 # text(3.1, 2110, "2110", pos = 3, cex = 0.75)
 # axis(2, at = seq(0, 25000, by=5000), cex.axis = .5, padj = 2)
 # dev.off()
-# ```
+# 
+```
 # 
 # ### Number of Groups
 # 
-# ```{r}
+# 
+```{r}
 # # Boggy Trail 2018 Groups
 # jpeg(filename = "figures/BGT18_Groups_Small.jpeg",
 #      width=3.2,
@@ -266,9 +279,11 @@
 # text(3.1, 36, "36", pos = 3, cex = 0.75)
 # axis(2, at = seq(0, 250, by=50), cex.axis = .5, padj = 2)
 # dev.off()
-# ```
 # 
-# ```{r}
+```
+# 
+# 
+```{r}
 # # Boggy West 2017 Groups
 # jpeg(filename = "figures/BGW17_Groups_Small.jpeg",
 #      width=3.2,
@@ -294,9 +309,11 @@
 # text(3.1, 72, "72", pos = 3, cex = 0.75)
 # axis(2, at = seq(0, 250, by=50), cex.axis = .5, padj = 2)
 # dev.off()
-# ```
 # 
-# ```{r}
+```
+# 
+# 
+```{r}
 # # Boggy West 2018 Groups
 # jpeg(filename = "figures/BGW18_Groups_Small.jpeg",
 #      width=3.2,
@@ -322,9 +339,11 @@
 # text(3.1, 57, "57", pos = 3, cex = 0.75)
 # axis(2, at = seq(0, 250, by=50), cex.axis = .5, padj = 2)
 # dev.off()
-# ```
 # 
-# ```{r}
+```
+# 
+# 
+```{r}
 # # Boggy Exclosure 2018 Groups
 # jpeg(filename = "figures/BGX18_Groups_Small.jpeg",
 #      width=3.2,
@@ -350,9 +369,11 @@
 # text(3.1, 16, "16", pos = 3, cex = 0.75)
 # axis(2, at = seq(0, 250, by=50), cex.axis = .5, padj = 2)
 # dev.off()
-# ```
 # 
-# ```{r}
+```
+# 
+# 
+```{r}
 # # Wildcat South 2017 Groups
 # jpeg(filename = "figures/WCS17_Groups_Small.jpeg",
 #      width=3.2,
@@ -378,9 +399,11 @@
 # text(3.1, 135, "135", pos = 3, cex = 0.75)
 # axis(2, at = seq(0, 250, by=50), cex.axis = .5, padj = 2)
 # dev.off()
-# ```
 # 
-# ```{r}
+```
+# 
+# 
+```{r}
 # # Wildcat South 2018 Groups
 # jpeg(filename = "figures/WCS18_Groups_Small.jpeg",
 #      width=3.2,
@@ -407,9 +430,11 @@
 # axis(2, at = seq(0, 250, by=50), cex.axis = .5, padj = 2)
 # dev.off()
 # 
-# ```
 # 
-# ```{r}
+```
+# 
+# 
+```{r}
 # # Wildcat Trail 2018 Groups
 # jpeg(filename = "figures/WCT18_Groups_Small.jpeg",
 #      width=3.2,
@@ -435,9 +460,11 @@
 # text(3.1, 52, "52", pos = 3, cex = 0.75)
 # axis(2, at = seq(0, 250, by=50), cex.axis = .5, padj = 2)
 # dev.off()
-# ```
 # 
-# ```{r}
+```
+# 
+# 
+```{r}
 # # Wildcat Exclosure 2018 Groups
 # jpeg(filename = "figures/WCX18_Groups_Small.jpeg",
 #      width=3.2,
@@ -463,9 +490,11 @@
 # text(3.1, 47, "47", pos = 3, cex = 0.75)
 # axis(2, at = seq(0, 250, by=50), cex.axis = .5, padj = 2)
 # dev.off()
-# ```
+# 
+```
 # ### Site Use by Time of Day
-# ```{r}
+# 
+```{r}
 # ### Boggy Trail 2018 Site Use by Time of Day 
 # jpeg(filename = "figures/timeofday/BGT18_Time_Small.jpg",
 #      width=6.5,
@@ -495,9 +524,11 @@
 # mtext("Time of Day (24hrs)", 1, las = 0 , cex = 1, padj = 6)
 # mtext("Count", 2, las = 0 , cex = 1, padj = -3)
 # dev.off()
-# ```
 # 
-# ```{r}
+```
+# 
+# 
+```{r}
 # ### Boggy West Timelapse 2017 Site Use by Time of Day 
 # jpeg(filename = "figures/timeofday/BGW17_Time_Small.jpg",
 #      width=6.5,
@@ -527,9 +558,11 @@
 # mtext("Time of Day (24hrs)", 1, las = 0 , cex = 1, padj = 6)
 # mtext("Count", 2, las = 0 , cex = 1, padj = -3)
 # dev.off()
-# ```
 # 
-# ```{r}
+```
+# 
+# 
+```{r}
 # ### Boggy West Timelapse 2018 Site Use by Time of Day 
 # jpeg(filename = "figures/timeofday/BGW18_Time_Small.jpg",
 #      width=6.5,
@@ -559,9 +592,11 @@
 # mtext("Time of Day (24hrs)", 1, las = 0 , cex = 1, padj = 6)
 # mtext("Count", 2, las = 0 , cex = 1, padj = -3)
 # dev.off()
-# ```
 # 
-# ```{r}
+```
+# 
+# 
+```{r}
 # ### Boggy Exclosure 2018 Site Use by Time of Day 
 # jpeg(filename = "figures/timeofday/BGX18_Time_Small.jpg",
 #      width=6.5,
@@ -591,9 +626,11 @@
 # mtext("Time of Day (24hrs)", 1, las = 0 , cex = 1, padj = 6)
 # mtext("Count", 2, las = 0 , cex = 1, padj = -3)
 # dev.off()
-# ```
 # 
-# ```{r}
+```
+# 
+# 
+```{r}
 # ### Wildcat Timelapse 2017 Site Use by Time of Day 
 # jpeg(filename = "figures/timeofday/WCS17_Time_Small.jpg",
 #      width=6.5,
@@ -623,9 +660,10 @@
 # mtext("Time of Day (24hrs)", 1, las = 0 , cex = 1, padj = 6)
 # mtext("Count", 2, las = 0 , cex = 1, padj = -3)
 # dev.off()
-# ```
 # 
-# ```{r}
+```
+
+```{r}
 # ### Wildcat Timelapse 2018 Site Use by Time of Day 
 # jpeg(filename = "figures/timeofday/WCS18_Time_Small.jpg",
 #      width=6.5,
@@ -655,9 +693,11 @@
 # mtext("Time of Day (24hrs)", 1, las = 0 , cex = 1, padj = 6)
 # mtext("Count", 2, las = 0 , cex = 1, padj = -3)
 # dev.off()
-# ```
 # 
-# ```{r}
+```
+# 
+# 
+```{r}
 # ### Wildcat Trail 2018 Site Use by Time of Day 
 # jpeg(filename = "figures/timeofday/WCT18_Time_Small.jpg",
 #      width=6.5,
@@ -687,9 +727,11 @@
 # mtext("Time of Day (24hrs)", 1, las = 0 , cex = 1, padj = 6)
 # mtext("Count", 2, las = 0 , cex = 1, padj = -3)
 # dev.off()
-# ```
 # 
-# ```{r}
+```
+# 
+# 
+```{r}
 # ### Wildcat Exclosure 2018 Site Use by Time of Day 
 # jpeg(filename = "figures/timeofday/WCX18_Time_Small.jpg",
 #      width=6.5,
@@ -719,9 +761,11 @@
 # mtext("Time of Day (24hrs)", 1, las = 0 , cex = 1, padj = 6)
 # mtext("Count", 2, las = 0 , cex = 1, padj = -3)
 # dev.off()
-# ```
+# 
+```
 # ### Number of Groups by Monsoonal Period
-# ```{r}
+# 
+```{r}
 # jpeg(filename = "figures/monsoon/BGW17_Monsoon_Small.jpg",
 #      width=6.5,
 #      height=6.5,
@@ -751,9 +795,11 @@
 # text(10.5, 31, "31", pos = 3, cex = 0.75)
 # text(11.5, 38, "38", pos = 3, cex = 0.75)
 # dev.off()
-# ```
 # 
-# ```{r}
+```
+# 
+# 
+```{r}
 # jpeg(filename = "figures/monsoon/BGW18_Monsoon_Small.jpg",
 #      width=6.5,
 #      height=6.5,
@@ -783,9 +829,11 @@
 # text(10.5, 10, "10", pos = 3, cex = 0.75)
 # text(11.5, 11, "11", pos = 3, cex = 0.75)
 # dev.off()
-# ```
 # 
-# ```{r}
+```
+# 
+# 
+```{r}
 # jpeg(filename = "figures/monsoon/WCS17_Monsoon_Small.jpg",
 #      width=6.5,
 #      height=6.5,
@@ -815,9 +863,11 @@
 # text(10.5, 26, "26", pos = 3, cex = 0.75)
 # text(11.5, 44, "44", pos = 3, cex = 0.75)
 # dev.off()
-# ```
 # 
-# ```{r}
+```
+# 
+# 
+```{r}
 # jpeg(filename = "figures/monsoon/WCS18_Monsoon_Small.jpg",
 #      width=6.5,
 #      height=6.5,
@@ -850,7 +900,8 @@
 # ```
 # ### Duration Figures
 # #### Boggy Creek Trail Duration 2018
-# ```{r}
+# 
+```{r}
 # jpeg(filename = "figures/duration/BGT18_Duration_Small.jpg",
 #      width=6.5,
 #      height=6.5,
@@ -870,9 +921,11 @@
 # text(1.9, 22, "22", pos = 3, cex = 0.75)
 # text(3.1, 85, "85", pos = 3, cex = 0.75)
 # dev.off()
-# ```
+# 
+```
 # #### Boggy Creek Timelapse Duration 2017
-# ```{r}
+# 
+```{r}
 # jpeg(filename = "figures/duration/BGW17_Duration_Small.jpg",
 #      width=6.5,
 #      height=6.5,
@@ -892,9 +945,11 @@
 # text(1.9, 749, "749", pos = 3, cex = 0.75)
 # text(3.1, 540, "540", pos = 3, cex = 0.75)
 # dev.off()
-# ```
+# 
+```
 # #### Boggy Creek Timelapse Duration 2018
-# ```{r}
+# 
+```{r}
 # jpeg(filename = "figures/duration/BGW18_Duration_Small.jpg",
 #      width=6.5,
 #      height=6.5,
@@ -914,9 +969,11 @@
 # text(1.9, 89, "89", pos = 3, cex = 0.75)
 # text(3.1, 347, "347", pos = 3, cex = 0.75)
 # dev.off()
-# ```
+# 
+```
 # #### Boggy Creek Exclosure Duration 2018
-# ```{r}
+# 
+```{r}
 # jpeg(filename = "figures/duration/BGX18_Duration_Small.jpg",
 #      width=6.5,
 #      height=6.5,
@@ -958,9 +1015,11 @@
 # text(1.9, 2975, "2975", pos = 3, cex = 0.75)
 # text(3.1, 2287, "2287", pos = 3, cex = 0.75)
 # dev.off()
-# ```
+# 
+```
 # #### Wildcat Creek Timelapse Duration 2018
-# ```{r}
+# 
+```{r}
 # jpeg(filename = "figures/duration/WCS18_Duration_Small.jpg",
 #      width=6.5,
 #      height=6.5,
@@ -980,9 +1039,11 @@
 # text(1.9, 1382, "1382", pos = 3, cex = 0.75)
 # text(3.1, 802, "802", pos = 3, cex = 0.75)
 # dev.off()
-# ```
+# 
+```
 # #### Wildcat Creek Trail Duration 2018
-# ```{r}
+# 
+```{r}
 # jpeg(filename = "figures/duration/WCT18_Duration_Small.jpg",
 #      width=6.5,
 #      height=6.5,
@@ -1067,10 +1128,11 @@
 # text(1.9, 2.5, "2", pos = 3, cex = 0.75)
 # text(3.1, 2.5, "2", pos = 3, cex = 0.75)
 # dev.off()
-# ```
-# ***
-# ### 
-# ```{r}
+```
+
+***
+### 
+```{r}
 # jpeg(filename = "figures/groupsize/BGW17_GroupSize.jpg",
 #      width=6.5,
 #      height=6.5,
@@ -1109,10 +1171,10 @@
 # text(1.9, 4.5, "4", pos = 3, cex = 0.75)
 # text(3.1, 4.5, "4", pos = 3, cex = 0.75)
 # dev.off()
-# ```
-# ***
-# ### 
-# ```{r}
+```
+***
+### 
+```{r}
 # jpeg(filename = "figures/groupsize/BGW18_GroupSize.jpg",
 #      width=6.5,
 #      height=6.5,
@@ -1151,10 +1213,10 @@
 # text(1.9, 2.5, "2", pos = 3, cex = 0.75)
 # text(3.1, 2.5, "2", pos = 3, cex = 0.75)
 # dev.off()
-# ```
-# ***
-# ### 
-# ```{r}
+```
+***
+### 
+```{r}
 # jpeg(filename = "figures/groupsize/BGX18_GroupSize.jpg",
 #      width=6.5,
 #      height=6.5,
@@ -1193,10 +1255,10 @@
 # text(1.9, 0, "0", pos = 3, cex = 0.75)
 # text(3.1, 3.5, "3", pos = 3, cex = 0.75)
 # dev.off()
-# ```
-# ***
-# ### 
-# ```{r}
+```
+***
+### 
+```{r}
 # jpeg(filename = "figures/groupsize/WCS17_GroupSize.jpg",
 #      width=6.5,
 #      height=6.5,
@@ -1235,10 +1297,10 @@
 # text(1.9, 6.5, "6", pos = 3, cex = 0.75)
 # text(3.1, 4.5, "4", pos = 3, cex = 0.75)
 # dev.off()
-# ```
-# ***
-# ### 
-# ```{r}
+```
+***
+### 
+```{r}
 # jpeg(filename = "figures/groupsize/WCS18_GroupSize.jpg",
 #      width=6.5,
 #      height=6.5,
@@ -1277,10 +1339,10 @@
 # text(1.9, 7.75, "7", pos = 3, cex = 0.75)
 # text(3.1, 2.5, "2", pos = 3, cex = 0.75)
 # dev.off()
-# ```
-# ***
-# ### 
-# ```{r}
+```
+***
+### 
+```{r}
 # jpeg(filename = "figures/groupsize/WCT18_GroupSize.jpg",
 #      width=6.5,
 #      height=6.5,
@@ -1319,10 +1381,10 @@
 # text(1.9, 3.5, "3", pos = 3, cex = 0.75)
 # text(3.1, 2.5, "2", pos = 3, cex = 0.75)
 # dev.off()
-# ```
-# ***
-# ### 
-# ```{r}
+```
+***
+### 
+```{r}
 # jpeg(filename = "figures/groupsize/WCX18_GroupSize.jpg",
 #      width=6.5,
 #      height=6.5,
@@ -1361,10 +1423,10 @@
 # text(1.9, 0, "0", pos = 3, cex = 0.75)
 # text(3.1, 3.5, "3", pos = 3, cex = 0.75)
 # dev.off()
-# ```
-# ***
-# ### Multi Species Interactions
-# ```{r}
+```
+***
+### Multi Species Interactions
+```{r}
 # jpeg(filename = "figures/multi/BGT18_Multi.jpg",
 #      width=6.5,
 #      height=6.5,
@@ -1390,8 +1452,9 @@
 # text(5.5, 0, "0", pos = 3, cex = 0.75)
 # text(6.7, 0, "0", pos = 3, cex = 0.75)
 # dev.off()
-# ```
-# ```{r}
+```
+
+```{r}
 # jpeg(filename = "figures/multi/BGW17_Multi.jpg",
 #      width=6.5,
 #      height=6.5,
@@ -1417,8 +1480,9 @@
 # text(5.5, 0, "0", pos = 3, cex = 0.75)
 # text(6.7, 0, "0", pos = 3, cex = 0.75)
 # dev.off()
-# ```
-# ```{r}
+```
+
+```{r}
 # jpeg(filename = "figures/multi/BGW18_Multi.jpg",
 #      width=6.5,
 #      height=6.5,
@@ -1444,8 +1508,9 @@
 # text(5.5, 0, "0", pos = 3, cex = 0.75)
 # text(6.7, 0, "0", pos = 3, cex = 0.75)
 # dev.off()
-# ```
-# ```{r}
+```
+
+```{r}
 # jpeg(filename = "figures/multi/BGX18_Multi.jpg",
 #      width=6.5,
 #      height=6.5,
@@ -1471,9 +1536,9 @@
 # text(5.5, 0, "0", pos = 3, cex = 0.75)
 # text(6.7, 0, "0", pos = 3, cex = 0.75)
 # dev.off()
-# ```
-# 
-# ```{r}
+```
+
+```{r}
 # jpeg(filename = "figures/multi/WCS17_Multi.jpg",
 #      width=6.5,
 #      height=6.5,
@@ -1499,8 +1564,9 @@
 # text(5.5, 19, "19", pos = 3, cex = 0.75)
 # text(6.7, 6, "6", pos = 3, cex = 0.75)
 # dev.off()
-# ```
-# ```{r}
+```
+
+```{r}
 # jpeg(filename = "figures/multi/WCS18_Multi.jpg",
 #      width=6.5,
 #      height=6.5,
@@ -1526,9 +1592,9 @@
 # text(5.5, 0, "0", pos = 3, cex = 0.75)
 # text(6.7, 8, "8", pos = 3, cex = 0.75)
 # dev.off()
-# ```
-# 
-# ```{r}
+```
+
+```{r}
 # jpeg(filename = "figures/multi/WCT18_Multi.jpg",
 #      width=6.5,
 #      height=6.5,
@@ -1542,7 +1608,7 @@
 #         main = "Wildcat Creek Trail 2018",
 #         axes = FALSE,
 #         cex.lab = 1,
-#         cex.main = 1, 
+#         cex.main = 1,
 #         ylim = c(0, 400))
 # axis(2,at=c(seq(0, 400, 50)), labels=c(seq(0, 400, 50)), cex.axis= 0.5, las = 2)
 # axis(1, at = c(0.7, 1.9, 3.1, 4.3, 5.5, 6.7), labels = c("Horse/Cow", "Horse/Elk", "Cow/Elk", "Horse/Deer", "Elk/Deer", "Elk/Pronghorn"), cex.axis = 0.75)
@@ -1554,9 +1620,9 @@
 # text(5.5, 0, "0", pos = 3, cex = 0.75)
 # text(6.7, 3, "3", pos = 3, cex = 0.75)
 # dev.off()
-# ```
-# 
-# ```{r}
+```
+
+```{r}
 # jpeg(filename = "figures/multi/WCX18_Multi.jpg",
 #      width=6.5,
 #      height=6.5,
@@ -1582,213 +1648,574 @@
 # text(5.5, 0, "0", pos = 3, cex = 0.75)
 # text(6.7, 0, "0", pos = 3, cex = 0.75)
 # dev.off()
-# ```
-# ***
-# ### Use of Waterway
+```
+***
+### Use of Waterway
 
 ```{r}
-jpeg(filename = "figures/waterway/BGT18_Waterway.jpg",
-     width=6.5,
-     height=6.5,
-     units="in",
-     res=300)
-plot.new()
-# bottom, left, top, right
-par(mar=c(3, 4, 2, 2))
-barplot(BGT18water$n,
-        col = c("#4472C4", "#ED7D31", "#FFC000"),
-        main = "Boggy Creek Trail 2018",
-        axes = FALSE,
-        cex.lab = 1,
-        cex.main = 1, 
-        ylim = c(0, 1100))
-axis(2,at=c(seq(0, 1100, 100)), labels=c(seq(0, 1100, 100)), cex.axis= 0.5, las = 2)
-axis(1, at = c(0.7, 1.9, 3.1), labels = c("Horses", "Cattle", "Elk"), cex.axis = 0.75)
-mtext("Number of Detections in the Waterway", 2, las = 0 , cex = 1, padj = -4)
-text(0.7, 337, "337", pos = 3, cex = 0.75)
-text(1.9, 9, "9", pos = 3, cex = 0.75)
-text(3.1, 31, "31", pos = 3, cex = 0.75)
-dev.off()
+# jpeg(filename = "figures/waterway/BGT18_Waterway.jpg",
+#      width=6.5,
+#      height=6.5,
+#      units="in",
+#      res=300)
+# plot.new()
+# # bottom, left, top, right
+# par(mar=c(3, 4, 2, 2))
+# barplot(BGT18water$n,
+#         col = c("#4472C4", "#ED7D31", "#FFC000"),
+#         main = "Boggy Creek Trail 2018",
+#         axes = FALSE,
+#         cex.lab = 1,
+#         cex.main = 1, 
+#         ylim = c(0, 1100))
+# axis(2,at=c(seq(0, 1100, 100)), labels=c(seq(0, 1100, 100)), cex.axis= 0.5, las = 2)
+# axis(1, at = c(0.7, 1.9, 3.1), labels = c("Horses", "Cattle", "Elk"), cex.axis = 0.75)
+# mtext("Number of Detections in the Waterway", 2, las = 0 , cex = 1, padj = -4)
+# text(0.7, 337, "337", pos = 3, cex = 0.75)
+# text(1.9, 9, "9", pos = 3, cex = 0.75)
+# text(3.1, 31, "31", pos = 3, cex = 0.75)
+# dev.off()
 ```
 ***
 ### Boggy Creek Timelapse 2017
 ```{r}
-jpeg(filename = "figures/waterway/BGW17_Waterway.jpg",
-     width=6.5,
-     height=6.5,
-     units="in",
-     res=300)
-plot.new()
-# bottom, left, top, right
-par(mar=c(3, 4, 2, 2))
-barplot(BGW17water$n,
-        col = c("#4472C4", "#ED7D31", "#FFC000"),
-        main = "Boggy Creek Timelapse 2017",
-        axes = FALSE,
-        cex.lab = 1,
-        cex.main = 1, 
-        ylim = c(0, 1100))
-axis(2,at=c(seq(0, 1100, 100)), labels=c(seq(0, 1100, 100)), cex.axis= 0.5, las = 2)
-axis(1, at = c(0.7, 1.9, 3.1), labels = c("Horses", "Cattle", "Elk"), cex.axis = 0.75)
-mtext("Number of Detections in the Waterway", 2, las = 0 , cex = 1, padj = -4)
-text(0.7, 785, "785", pos = 3, cex = 0.75)
-text(1.9, 179, "179", pos = 3, cex = 0.75)
-text(3.1, 240, "240", pos = 3, cex = 0.75)
-dev.off()
+# jpeg(filename = "figures/waterway/BGW17_Waterway.jpg",
+#      width=6.5,
+#      height=6.5,
+#      units="in",
+#      res=300)
+# plot.new()
+# # bottom, left, top, right
+# par(mar=c(3, 4, 2, 2))
+# barplot(BGW17water$n,
+#         col = c("#4472C4", "#ED7D31", "#FFC000"),
+#         main = "Boggy Creek Timelapse 2017",
+#         axes = FALSE,
+#         cex.lab = 1,
+#         cex.main = 1, 
+#         ylim = c(0, 1100))
+# axis(2,at=c(seq(0, 1100, 100)), labels=c(seq(0, 1100, 100)), cex.axis= 0.5, las = 2)
+# axis(1, at = c(0.7, 1.9, 3.1), labels = c("Horses", "Cattle", "Elk"), cex.axis = 0.75)
+# mtext("Number of Detections in the Waterway", 2, las = 0 , cex = 1, padj = -4)
+# text(0.7, 785, "785", pos = 3, cex = 0.75)
+# text(1.9, 179, "179", pos = 3, cex = 0.75)
+# text(3.1, 240, "240", pos = 3, cex = 0.75)
+# dev.off()
 ```
 ***
 ### Boggy Creek Timelapse 2018
 ```{r}
-jpeg(filename = "figures/waterway/BGW18_Waterway.jpg",
+# jpeg(filename = "figures/waterway/BGW18_Waterway.jpg",
+#      width=6.5,
+#      height=6.5,
+#      units="in",
+#      res=300)
+# plot.new()
+# # bottom, left, top, right
+# par(mar=c(3, 4, 2, 2))
+# barplot(BGW18water$n,
+#         col = c("#4472C4", "#ED7D31", "#FFC000"),
+#         main = "Boggy Creek Timelapse 2018",
+#         axes = FALSE,
+#         cex.lab = 1,
+#         cex.main = 1, 
+#         ylim = c(0, 1100))
+# axis(2,at=c(seq(0, 1100, 100)), labels=c(seq(0, 1100, 100)), cex.axis= 0.5, las = 2)
+# axis(1, at = c(0.7, 1.9, 3.1), labels = c("Horses", "Cattle", "Elk"), cex.axis = 0.75)
+# mtext("Number of Detections in the Waterway", 2, las = 0 , cex = 1, padj = -4)
+# text(0.7, 550, "550", pos = 3, cex = 0.75)
+# text(1.9, 12, "12", pos = 3, cex = 0.75)
+# text(3.1, 83, "83", pos = 3, cex = 0.75)
+# dev.off()
+```
+***
+### Boggy Creek Exclosure 2018
+```{r}
+# jpeg(filename = "figures/waterway/BGX18_Waterway.jpg",
+#      width=6.5,
+#      height=6.5,
+#      units="in",
+#      res=300)
+# plot.new()
+# # bottom, left, top, right
+# par(mar=c(3, 4, 2, 2))
+# barplot(BGX18water$n,
+#         col = c("#4472C4", "#ED7D31", "#FFC000"),
+#         main = "Boggy Creek Exclosure 2018",
+#         axes = FALSE,
+#         cex.lab = 1,
+#         cex.main = 1,
+#         ylim = c(0, 1100))
+# axis(2,at=c(seq(0, 1100, 100)), labels=c(seq(0, 1100, 100)), cex.axis= 0.5, las = 2)
+# axis(1, at = c(0.7, 1.9, 3.1), labels = c("Horses", "Cattle", "Elk"), cex.axis = 0.75)
+# mtext("Number of Detections in the Waterway", 2, las = 0 , cex = 1, padj = -4)
+# text(0.7, 0, "0", pos = 3, cex = 0.75)
+# text(1.9, 0, "0", pos = 3, cex = 0.75)
+# text(3.1, 0, "0", pos = 3, cex = 0.75)
+# dev.off()
+```
+***
+### Wildcat Creek Timelapse 2017
+```{r}
+# jpeg(filename = "figures/waterway/WCS17_Waterway.jpg",
+#      width=6.5,
+#      height=6.5,
+#      units="in",
+#      res=300)
+# plot.new()
+# # bottom, left, top, right
+# par(mar=c(3, 4, 2, 2))
+# barplot(WCS17water$n,
+#         col = c("#4472C4", "#ED7D31", "#FFC000"),
+#         main = "Wildcat Creek Timelapse 2017",
+#         axes = FALSE,
+#         cex.lab = 1,
+#         cex.main = 1,
+#         ylim = c(0, 1100))
+# axis(2,at=c(seq(0, 1100, 100)), labels=c(seq(0, 1100, 100)), cex.axis= 0.5, las = 2)
+# axis(1, at = c(0.7, 1.9, 3.1), labels = c("Horses", "Cattle", "Elk"), cex.axis = 0.75)
+# mtext("Number of Detections in the Waterway", 2, las = 0 , cex = 1, padj = -4)
+# text(0.7, 1009, "1009", pos = 3, cex = 0.75)
+# text(1.9, 675, "675", pos = 3, cex = 0.75)
+# text(3.1, 644, "644", pos = 3, cex = 0.75)
+# dev.off()
+```
+***
+### Wildcat Creek Timelapse 2018
+```{r}
+# jpeg(filename = "figures/waterway/WCS18_Waterway.jpg",
+#      width=6.5,
+#      height=6.5,
+#      units="in",
+#      res=300)
+# plot.new()
+# # bottom, left, top, right
+# par(mar=c(3, 4, 2, 2))
+# barplot(WCS18water$n,
+#         col = c("#4472C4", "#ED7D31", "#FFC000"),
+#         main = "Wildcat Creek Timelapse 2018",
+#         axes = FALSE,
+#         cex.lab = 1,
+#         cex.main = 1,
+#         ylim = c(0, 1100))
+# axis(2,at=c(seq(0, 1100, 100)), labels=c(seq(0, 1100, 100)), cex.axis= 0.5, las = 2)
+# axis(1, at = c(0.7, 1.9, 3.1), labels = c("Horses", "Cattle", "Elk"), cex.axis = 0.75)
+# mtext("Number of Detections in the Waterway", 2, las = 0 , cex = 1, padj = -4)
+# text(0.7, 540, "540", pos = 3, cex = 0.75)
+# text(1.9, 546, "546", pos = 3, cex = 0.75)
+# text(3.1, 93, "93", pos = 3, cex = 0.75)
+# dev.off()
+```
+***
+### Wildcat Creek Trail 2018
+```{r}
+# jpeg(filename = "figures/waterway/WCT18_Waterway.jpg",
+#      width=6.5,
+#      height=6.5,
+#      units="in",
+#      res=300)
+# plot.new()
+# # bottom, left, top, right
+# par(mar=c(3, 4, 2, 2))
+# barplot(WCT18water$n,
+#         col = c("#4472C4", "#ED7D31", "#FFC000"),
+#         main = "Wildcat Creek Trail 2018",
+#         axes = FALSE,
+#         cex.lab = 1,
+#         cex.main = 1,
+#         ylim = c(0, 1100))
+# axis(2,at=c(seq(0, 1100, 100)), labels=c(seq(0, 1100, 100)), cex.axis= 0.5, las = 2)
+# axis(1, at = c(0.7, 1.9, 3.1), labels = c("Horses", "Cattle", "Elk"), cex.axis = 0.75)
+# mtext("Number of Detections in the Waterway", 2, las = 0 , cex = 1, padj = -4)
+# text(0.7, 10, "10", pos = 3, cex = 0.75)
+# text(1.9, 54, "54", pos = 3, cex = 0.75)
+# text(3.1, 2, "2", pos = 3, cex = 0.75)
+# dev.off()
+```
+***
+### Wildcat Creek Exclosure 2018
+```{r}
+# jpeg(filename = "figures/waterway/WCX18_Waterway.jpg",
+#      width=6.5,
+#      height=6.5,
+#      units="in",
+#      res=300)
+# plot.new()
+# # bottom, left, top, right
+# par(mar=c(3, 4, 2, 2))
+# barplot(WCX18water$n,
+#         col = c("#4472C4", "#ED7D31", "#FFC000"),
+#         main = "Wildcat Creek Exclosure 2018",
+#         axes = FALSE,
+#         cex.lab = 1,
+#         cex.main = 1,
+#         ylim = c(0, 1100))
+# axis(2,at=c(seq(0, 1100, 100)), labels=c(seq(0, 1100, 100)), cex.axis= 0.5, las = 2)
+# axis(1, at = c(0.7, 1.9, 3.1), labels = c("Horses", "Cattle", "Elk"), cex.axis = 0.75)
+# mtext("Number of Detections in the Waterway", 2, las = 0 , cex = 1, padj = -4)
+# text(0.7, 204, "204", pos = 3, cex = 0.75)
+# text(1.9, 0, "0", pos = 3, cex = 0.75)
+# text(3.1, 112, "112", pos = 3, cex = 0.75)
+# dev.off()
+```
+***
+### Behavior
+#### Boggy Creek Trail 2018
+```{r}
+jpeg(filename = "figures/behavior/BGT18_behav.jpg",
      width=6.5,
      height=6.5,
      units="in",
      res=300)
 plot.new()
-# bottom, left, top, right
-par(mar=c(3, 4, 2, 2))
-barplot(BGW18water$n,
+barplot(BGT18behav,
+        main = "Boggy Creek Trail 2018",
+        ylim = c(0, 100),
+        ylab = "Percent of Total Observed Behaviors",
+        border = "black",
         col = c("#4472C4", "#ED7D31", "#FFC000"),
+        beside = TRUE,
+        legend = rownames(BGT18behav),
+        axes =  FALSE)
+axis(2,at=c(seq(0, 100, 10)), labels=c(seq(0, 100, 10)), cex.axis= 0.5, las = 2)
+
+text(1.75, BGT18h_behav$percent[1]+2, BGT18h_behav$percent[1], pos = 3, cex = 0.75, srt = 90)
+text(2.75, BGT18c_behav$percent[1]+2, BGT18c_behav$percent[1], pos = 3, cex = 0.75, srt = 90)
+text(3.75, BGT18e_behav$percent[1]+2, BGT18e_behav$percent[1], pos = 3, cex = 0.75, srt = 90)
+
+text(5.75, BGT18h_behav$percent[2]+2, BGT18h_behav$percent[2], pos = 3, cex = 0.75, srt = 90)
+text(6.75, BGT18c_behav$percent[2]+2, BGT18c_behav$percent[2], pos = 3, cex = 0.75, srt = 90)
+text(7.75, BGT18e_behav$percent[2]+2, BGT18e_behav$percent[2], pos = 3, cex = 0.75, srt = 90)
+
+text(9.75, BGT18h_behav$percent[3]+2, BGT18h_behav$percent[3], pos = 3, cex = 0.75, srt = 90)
+text(10.75, BGT18c_behav$percent[3]+2, BGT18c_behav$percent[3], pos = 3, cex = 0.75, srt = 90)
+text(11.75, BGT18e_behav$percent[3]+2, BGT18e_behav$percent[3], pos = 3, cex = 0.75, srt = 90)
+
+text(13.75, BGT18h_behav$percent[4]+2, BGT18h_behav$percent[4], pos = 3, cex = 0.75, srt = 90)
+text(14.75, BGT18c_behav$percent[4]+2, BGT18c_behav$percent[4], pos = 3, cex = 0.75, srt = 90)
+text(15.75, BGT18e_behav$percent[4]+2, BGT18e_behav$percent[4], pos = 3, cex = 0.75, srt = 90)
+
+text(17.75, BGT18h_behav$percent[5]+2, BGT18h_behav$percent[5], pos = 3, cex = 0.75, srt = 90)
+text(18.75, BGT18c_behav$percent[5]+2, BGT18c_behav$percent[5], pos = 3, cex = 0.75, srt = 90)
+text(19.75, BGT18e_behav$percent[5]+2, BGT18e_behav$percent[5], pos = 3, cex = 0.75, srt = 90)
+
+text(21.75, BGT18h_behav$percent[6]+2, BGT18h_behav$percent[6], pos = 3, cex = 0.75, srt = 90)
+text(22.75, BGT18c_behav$percent[6]+2, BGT18c_behav$percent[6], pos = 3, cex = 0.75, srt = 90)
+text(23.75, BGT18e_behav$percent[6]+2, BGT18e_behav$percent[6], pos = 3, cex = 0.75, srt = 90)
+dev.off()
+```
+***
+#### Boggy Creek Timelapse 2017 Behavioral Frequency
+```{r}
+jpeg(filename = "figures/behavior/BGW17_behav.jpg",
+     width=6.5,
+     height=6.5,
+     units="in",
+     res=300)
+plot.new()
+barplot(BGW17behav,
+        main = "Boggy Creek Timelapse 2017",
+        ylim = c(0, 100),
+        ylab = "Percent of Total Observed Behaviors",
+        border = "black",
+        col = c("#4472C4", "#ED7D31", "#FFC000"),
+        beside = TRUE,
+        legend = rownames(BGW17behav),
+        axes =  FALSE)
+axis(2,at=c(seq(0, 100, 10)), labels=c(seq(0, 100, 10)), cex.axis= 0.5, las = 2)
+
+text(1.75, BGW17h_behav$percent[1]+2, BGW17h_behav$percent[1], pos = 3, cex = 0.75, srt = 90)
+text(2.75, BGW17c_behav$percent[1]+2, BGW17c_behav$percent[1], pos = 3, cex = 0.75, srt = 90)
+text(3.75, BGW17e_behav$percent[1]+2, BGW17e_behav$percent[1], pos = 3, cex = 0.75, srt = 90)
+
+text(5.75, BGW17h_behav$percent[2]+2, BGW17h_behav$percent[2], pos = 3, cex = 0.75, srt = 90)
+text(6.75, BGW17c_behav$percent[2]+2, BGW17c_behav$percent[2], pos = 3, cex = 0.75, srt = 90)
+text(7.75, BGW17e_behav$percent[2]+2, BGW17e_behav$percent[2], pos = 3, cex = 0.75, srt = 90)
+
+text(9.75, BGW17h_behav$percent[3]+2, BGW17h_behav$percent[3], pos = 3, cex = 0.75, srt = 90)
+text(10.75, BGW17c_behav$percent[3]+2, BGW17c_behav$percent[3], pos = 3, cex = 0.75, srt = 90)
+text(11.75, BGW17e_behav$percent[3]+2, BGW17e_behav$percent[3], pos = 3, cex = 0.75, srt = 90)
+
+text(13.75, BGW17h_behav$percent[4]+2, BGW17h_behav$percent[4], pos = 3, cex = 0.75, srt = 90)
+text(14.75, BGW17c_behav$percent[4]+2, BGW17c_behav$percent[4], pos = 3, cex = 0.75, srt = 90)
+text(15.75, BGW17e_behav$percent[4]+2, BGW17e_behav$percent[4], pos = 3, cex = 0.75, srt = 90)
+
+text(17.75, BGW17h_behav$percent[5]+2, BGW17h_behav$percent[5], pos = 3, cex = 0.75, srt = 90)
+text(18.75, BGW17c_behav$percent[5]+2, BGW17c_behav$percent[5], pos = 3, cex = 0.75, srt = 90)
+text(19.75, BGW17e_behav$percent[5]+2, BGW17e_behav$percent[5], pos = 3, cex = 0.75, srt = 90)
+
+text(21.75, BGW17h_behav$percent[6]+2, BGW17h_behav$percent[6], pos = 3, cex = 0.75, srt = 90)
+text(22.75, BGW17c_behav$percent[6]+2, BGW17c_behav$percent[6], pos = 3, cex = 0.75, srt = 90)
+text(23.75, BGW17e_behav$percent[6]+2, BGW17e_behav$percent[6], pos = 3, cex = 0.75, srt = 90)
+dev.off()
+```
+***
+#### Boggy Creek Timelapse 2018 Behavioral Frequency
+```{r}
+jpeg(filename = "figures/behavior/BGW18_behav.jpg",
+     width=6.5,
+     height=6.5,
+     units="in",
+     res=300)
+plot.new()
+barplot(BGW18behav,
         main = "Boggy Creek Timelapse 2018",
-        axes = FALSE,
-        cex.lab = 1,
-        cex.main = 1, 
-        ylim = c(0, 1100))
-axis(2,at=c(seq(0, 1100, 100)), labels=c(seq(0, 1100, 100)), cex.axis= 0.5, las = 2)
-axis(1, at = c(0.7, 1.9, 3.1), labels = c("Horses", "Cattle", "Elk"), cex.axis = 0.75)
-mtext("Number of Detections in the Waterway", 2, las = 0 , cex = 1, padj = -4)
-text(0.7, 550, "550", pos = 3, cex = 0.75)
-text(1.9, 12, "12", pos = 3, cex = 0.75)
-text(3.1, 83, "83", pos = 3, cex = 0.75)
+        ylim = c(0, 100),
+        ylab = "Percent of Total Observed Behaviors",
+        border = "black",
+        col = c("#4472C4", "#ED7D31", "#FFC000"),
+        beside = TRUE,
+        legend = rownames(BGW18behav),
+        axes =  FALSE)
+axis(2,at=c(seq(0, 100, 10)), labels=c(seq(0, 100, 10)), cex.axis= 0.5, las = 2)
+
+text(1.75, BGW18h_behav$percent[1]+2, BGW18h_behav$percent[1], pos = 3, cex = 0.75, srt = 90)
+text(2.75, BGW18c_behav$percent[1]+2, BGW18c_behav$percent[1], pos = 3, cex = 0.75, srt = 90)
+text(3.75, BGW18e_behav$percent[1]+2, BGW18e_behav$percent[1], pos = 3, cex = 0.75, srt = 90)
+
+text(5.75, BGW18h_behav$percent[2]+2, BGW18h_behav$percent[2], pos = 3, cex = 0.75, srt = 90)
+text(6.75, BGW18c_behav$percent[2]+2, BGW18c_behav$percent[2], pos = 3, cex = 0.75, srt = 90)
+text(7.75, BGW18e_behav$percent[2]+2, BGW18e_behav$percent[2], pos = 3, cex = 0.75, srt = 90)
+
+text(9.75, BGW18h_behav$percent[3]+2, BGW18h_behav$percent[3], pos = 3, cex = 0.75, srt = 90)
+text(10.75, BGW18c_behav$percent[3]+2, BGW18c_behav$percent[3], pos = 3, cex = 0.75, srt = 90)
+text(11.75, BGW18e_behav$percent[3]+2, BGW18e_behav$percent[3], pos = 3, cex = 0.75, srt = 90)
+
+text(13.75, BGW18h_behav$percent[4]+2, BGW18h_behav$percent[4], pos = 3, cex = 0.75, srt = 90)
+text(14.75, BGW18c_behav$percent[4]+2, BGW18c_behav$percent[4], pos = 3, cex = 0.75, srt = 90)
+text(15.75, BGW18e_behav$percent[4]+2, BGW18e_behav$percent[4], pos = 3, cex = 0.75, srt = 90)
+
+text(17.75, BGW18h_behav$percent[5]+2, BGW18h_behav$percent[5], pos = 3, cex = 0.75, srt = 90)
+text(18.75, BGW18c_behav$percent[5]+2, BGW18c_behav$percent[5], pos = 3, cex = 0.75, srt = 90)
+text(19.75, BGW18e_behav$percent[5]+2, BGW18e_behav$percent[5], pos = 3, cex = 0.75, srt = 90)
+
+text(21.75, BGW18h_behav$percent[6]+2, BGW18h_behav$percent[6], pos = 3, cex = 0.75, srt = 90)
+text(22.75, BGW18c_behav$percent[6]+2, BGW18c_behav$percent[6], pos = 3, cex = 0.75, srt = 90)
+text(23.75, BGW18e_behav$percent[6]+2, BGW18e_behav$percent[6], pos = 3, cex = 0.75, srt = 90)
 dev.off()
 ```
 ***
 ### Boggy Creek Exclosure 2018
 ```{r}
-jpeg(filename = "figures/waterway/BGX18_Waterway.jpg",
+jpeg(filename = "figures/behavior/BGX18_behav.jpg",
      width=6.5,
      height=6.5,
      units="in",
      res=300)
 plot.new()
-# bottom, left, top, right
-par(mar=c(3, 4, 2, 2))
-barplot(BGX18water$n,
-        col = c("#4472C4", "#ED7D31", "#FFC000"),
+barplot(BGX18behav,
         main = "Boggy Creek Exclosure 2018",
-        axes = FALSE,
-        cex.lab = 1,
-        cex.main = 1,
-        ylim = c(0, 1100))
-axis(2,at=c(seq(0, 1100, 100)), labels=c(seq(0, 1100, 100)), cex.axis= 0.5, las = 2)
-axis(1, at = c(0.7, 1.9, 3.1), labels = c("Horses", "Cattle", "Elk"), cex.axis = 0.75)
-mtext("Number of Detections in the Waterway", 2, las = 0 , cex = 1, padj = -4)
-text(0.7, 0, "0", pos = 3, cex = 0.75)
-text(1.9, 0, "0", pos = 3, cex = 0.75)
-text(3.1, 0, "0", pos = 3, cex = 0.75)
+        ylim = c(0, 100),
+        ylab = "Percent of Total Observed Behaviors",
+        border = "black",
+        col = c("#4472C4", "#ED7D31", "#FFC000"),
+        beside = TRUE,
+        legend = rownames(BGX18behav),
+        axes =  FALSE)
+axis(2,at=c(seq(0, 100, 10)), labels=c(seq(0, 100, 10)), cex.axis= 0.5, las = 2)
+
+text(1.75, BGX18h_behav$percent[1]+2, BGX18h_behav$percent[1], pos = 3, cex = 0.75, srt = 90)
+text(2.75, BGX18c_behav$percent[1]+2, BGX18c_behav$percent[1], pos = 3, cex = 0.75, srt = 90)
+text(3.75, BGX18e_behav$percent[1]+2, BGX18e_behav$percent[1], pos = 3, cex = 0.75, srt = 90)
+
+text(5.75, BGX18h_behav$percent[2]+2, BGX18h_behav$percent[2], pos = 3, cex = 0.75, srt = 90)
+text(6.75, BGX18c_behav$percent[2]+2, BGX18c_behav$percent[2], pos = 3, cex = 0.75, srt = 90)
+text(7.75, BGX18e_behav$percent[2]+2, BGX18e_behav$percent[2], pos = 3, cex = 0.75, srt = 90)
+
+text(9.75, BGX18h_behav$percent[3]+2, BGX18h_behav$percent[3], pos = 3, cex = 0.75, srt = 90)
+text(10.75, BGX18c_behav$percent[3]+2, BGX18c_behav$percent[3], pos = 3, cex = 0.75, srt = 90)
+text(11.75, BGX18e_behav$percent[3]+2, BGX18e_behav$percent[3], pos = 3, cex = 0.75, srt = 90)
+
+text(13.75, BGX18h_behav$percent[4]+2, BGX18h_behav$percent[4], pos = 3, cex = 0.75, srt = 90)
+text(14.75, BGX18c_behav$percent[4]+2, BGX18c_behav$percent[4], pos = 3, cex = 0.75, srt = 90)
+text(15.75, BGX18e_behav$percent[4]+2, BGX18e_behav$percent[4], pos = 3, cex = 0.75, srt = 90)
+
+text(17.75, BGX18h_behav$percent[5]+2, BGX18h_behav$percent[5], pos = 3, cex = 0.75, srt = 90)
+text(18.75, BGX18c_behav$percent[5]+2, BGX18c_behav$percent[5], pos = 3, cex = 0.75, srt = 90)
+text(19.75, BGX18e_behav$percent[5]+2, BGX18e_behav$percent[5], pos = 3, cex = 0.75, srt = 90)
+
+text(21.75, BGX18h_behav$percent[6]+2, BGX18h_behav$percent[6], pos = 3, cex = 0.75, srt = 90)
+text(22.75, BGX18c_behav$percent[6]+2, BGX18c_behav$percent[6], pos = 3, cex = 0.75, srt = 90)
+text(23.75, BGX18e_behav$percent[6]+2, BGX18e_behav$percent[6], pos = 3, cex = 0.75, srt = 90)
 dev.off()
 ```
 ***
-### Wildcat Creek Timelapse 2017
+#### Wildcat Creek Timelapse Behavioral Frequency
 ```{r}
-jpeg(filename = "figures/waterway/WCS17_Waterway.jpg",
+jpeg(filename = "figures/behavior/WCS17_behav.jpg",
      width=6.5,
      height=6.5,
      units="in",
      res=300)
 plot.new()
-# bottom, left, top, right
-par(mar=c(3, 4, 2, 2))
-barplot(WCS17water$n,
-        col = c("#4472C4", "#ED7D31", "#FFC000"),
+barplot(WCS17behav,
         main = "Wildcat Creek Timelapse 2017",
-        axes = FALSE,
-        cex.lab = 1,
-        cex.main = 1,
-        ylim = c(0, 1100))
-axis(2,at=c(seq(0, 1100, 100)), labels=c(seq(0, 1100, 100)), cex.axis= 0.5, las = 2)
-axis(1, at = c(0.7, 1.9, 3.1), labels = c("Horses", "Cattle", "Elk"), cex.axis = 0.75)
-mtext("Number of Detections in the Waterway", 2, las = 0 , cex = 1, padj = -4)
-text(0.7, 1009, "1009", pos = 3, cex = 0.75)
-text(1.9, 675, "675", pos = 3, cex = 0.75)
-text(3.1, 644, "644", pos = 3, cex = 0.75)
+        ylim = c(0, 100),
+        ylab = "Percent of Total Observed Behaviors",
+        border = "black",
+        col = c("#4472C4", "#ED7D31", "#FFC000"),
+        beside = TRUE,
+        legend = rownames(WCS17behav),
+        axes =  FALSE)
+axis(2,at=c(seq(0, 100, 10)), labels=c(seq(0, 100, 10)), cex.axis= 0.5, las = 2)
+
+text(1.75, WCS17h_behav$percent[1]+2, WCS17h_behav$percent[1], pos = 3, cex = 0.75, srt = 90)
+text(2.75, WCS17c_behav$percent[1]+2, WCS17c_behav$percent[1], pos = 3, cex = 0.75, srt = 90)
+text(3.75, WCS17e_behav$percent[1]+2, WCS17e_behav$percent[1], pos = 3, cex = 0.75, srt = 90)
+
+text(5.75, WCS17h_behav$percent[2]+2, WCS17h_behav$percent[2], pos = 3, cex = 0.75, srt = 90)
+text(6.75, WCS17c_behav$percent[2]+2, WCS17c_behav$percent[2], pos = 3, cex = 0.75, srt = 90)
+text(7.75, WCS17e_behav$percent[2]+2, WCS17e_behav$percent[2], pos = 3, cex = 0.75, srt = 90)
+
+text(9.75, WCS17h_behav$percent[3]+2, WCS17h_behav$percent[3], pos = 3, cex = 0.75, srt = 90)
+text(10.75, WCS17c_behav$percent[3]+2, WCS17c_behav$percent[3], pos = 3, cex = 0.75, srt = 90)
+text(11.75, WCS17e_behav$percent[3]+2, WCS17e_behav$percent[3], pos = 3, cex = 0.75, srt = 90)
+
+text(13.75, WCS17h_behav$percent[4]+2, WCS17h_behav$percent[4], pos = 3, cex = 0.75, srt = 90)
+text(14.75, WCS17c_behav$percent[4]+2, WCS17c_behav$percent[4], pos = 3, cex = 0.75, srt = 90)
+text(15.75, WCS17e_behav$percent[4]+2, WCS17e_behav$percent[4], pos = 3, cex = 0.75, srt = 90)
+
+text(17.75, WCS17h_behav$percent[5]+2, WCS17h_behav$percent[5], pos = 3, cex = 0.75, srt = 90)
+text(18.75, WCS17c_behav$percent[5]+2, WCS17c_behav$percent[5], pos = 3, cex = 0.75, srt = 90)
+text(19.75, WCS17e_behav$percent[5]+2, WCS17e_behav$percent[5], pos = 3, cex = 0.75, srt = 90)
+
+text(21.75, WCS17h_behav$percent[6]+2, WCS17h_behav$percent[6], pos = 3, cex = 0.75, srt = 90)
+text(22.75, WCS17c_behav$percent[6]+2, WCS17c_behav$percent[6], pos = 3, cex = 0.75, srt = 90)
+text(23.75, WCS17e_behav$percent[6]+2, WCS17e_behav$percent[6], pos = 3, cex = 0.75, srt = 90)
 dev.off()
 ```
 ***
-### Wildcat Creek Timelapse 2018
+#### Wildcat Creek Timelapse 2018 Behavioral Frequency
 ```{r}
-jpeg(filename = "figures/waterway/WCS18_Waterway.jpg",
+jpeg(filename = "figures/behavior/WCS18_behav.jpg",
      width=6.5,
      height=6.5,
      units="in",
      res=300)
 plot.new()
-# bottom, left, top, right
-par(mar=c(3, 4, 2, 2))
-barplot(WCS18water$n,
-        col = c("#4472C4", "#ED7D31", "#FFC000"),
+barplot(WCS18behav,
         main = "Wildcat Creek Timelapse 2018",
-        axes = FALSE,
-        cex.lab = 1,
-        cex.main = 1,
-        ylim = c(0, 1100))
-axis(2,at=c(seq(0, 1100, 100)), labels=c(seq(0, 1100, 100)), cex.axis= 0.5, las = 2)
-axis(1, at = c(0.7, 1.9, 3.1), labels = c("Horses", "Cattle", "Elk"), cex.axis = 0.75)
-mtext("Number of Detections in the Waterway", 2, las = 0 , cex = 1, padj = -4)
-text(0.7, 540, "540", pos = 3, cex = 0.75)
-text(1.9, 546, "546", pos = 3, cex = 0.75)
-text(3.1, 93, "93", pos = 3, cex = 0.75)
+        ylim = c(0, 100),
+        ylab = "Percent of Total Observed Behaviors",
+        border = "black",
+        col = c("#4472C4", "#ED7D31", "#FFC000"),
+        beside = TRUE,
+        legend = rownames(WCS18behav),
+        axes =  FALSE)
+axis(2,at=c(seq(0, 100, 10)), labels=c(seq(0, 100, 10)), cex.axis= 0.5, las = 2)
+
+text(1.75, WCS18h_behav$percent[1]+2, WCS18h_behav$percent[1], pos = 3, cex = 0.75, srt = 90)
+text(2.75, WCS18c_behav$percent[1]+2, WCS18c_behav$percent[1], pos = 3, cex = 0.75, srt = 90)
+text(3.75, WCS18e_behav$percent[1]+2, WCS18e_behav$percent[1], pos = 3, cex = 0.75, srt = 90)
+
+text(5.75, WCS18h_behav$percent[2]+2, WCS18h_behav$percent[2], pos = 3, cex = 0.75, srt = 90)
+text(6.75, WCS18c_behav$percent[2]+2, WCS18c_behav$percent[2], pos = 3, cex = 0.75, srt = 90)
+text(7.75, WCS18e_behav$percent[2]+2, WCS18e_behav$percent[2], pos = 3, cex = 0.75, srt = 90)
+
+text(9.75, WCS18h_behav$percent[3]+2, WCS18h_behav$percent[3], pos = 3, cex = 0.75, srt = 90)
+text(10.75, WCS18c_behav$percent[3]+2, WCS18c_behav$percent[3], pos = 3, cex = 0.75, srt = 90)
+text(11.75, WCS18e_behav$percent[3]+2, WCS18e_behav$percent[3], pos = 3, cex = 0.75, srt = 90)
+
+text(13.75, WCS18h_behav$percent[4]+2, WCS18h_behav$percent[4], pos = 3, cex = 0.75, srt = 90)
+text(14.75, WCS18c_behav$percent[4]+2, WCS18c_behav$percent[4], pos = 3, cex = 0.75, srt = 90)
+text(15.75, WCS18e_behav$percent[4]+2, WCS18e_behav$percent[4], pos = 3, cex = 0.75, srt = 90)
+
+text(17.75, WCS18h_behav$percent[5]+2, WCS18h_behav$percent[5], pos = 3, cex = 0.75, srt = 90)
+text(18.75, WCS18c_behav$percent[5]+2, WCS18c_behav$percent[5], pos = 3, cex = 0.75, srt = 90)
+text(19.75, WCS18e_behav$percent[5]+2, WCS18e_behav$percent[5], pos = 3, cex = 0.75, srt = 90)
+
+text(21.75, WCS18h_behav$percent[6]+2, WCS18h_behav$percent[6], pos = 3, cex = 0.75, srt = 90)
+text(22.75, WCS18c_behav$percent[6]+2, WCS18c_behav$percent[6], pos = 3, cex = 0.75, srt = 90)
+text(23.75, WCS18e_behav$percent[6]+2, WCS18e_behav$percent[6], pos = 3, cex = 0.75, srt = 90)
 dev.off()
 ```
 ***
-### Wildcat Creek Trail 2018
+#### Wildcat Creek Trail 2018 Behavioral Frequency
 ```{r}
-jpeg(filename = "figures/waterway/WCT18_Waterway.jpg",
+jpeg(filename = "figures/behavior/WCT18_behav.jpg",
      width=6.5,
      height=6.5,
      units="in",
      res=300)
 plot.new()
-# bottom, left, top, right
-par(mar=c(3, 4, 2, 2))
-barplot(WCT18water$n,
-        col = c("#4472C4", "#ED7D31", "#FFC000"),
+barplot(WCT18behav,
         main = "Wildcat Creek Trail 2018",
-        axes = FALSE,
-        cex.lab = 1,
-        cex.main = 1,
-        ylim = c(0, 1100))
-axis(2,at=c(seq(0, 1100, 100)), labels=c(seq(0, 1100, 100)), cex.axis= 0.5, las = 2)
-axis(1, at = c(0.7, 1.9, 3.1), labels = c("Horses", "Cattle", "Elk"), cex.axis = 0.75)
-mtext("Number of Detections in the Waterway", 2, las = 0 , cex = 1, padj = -4)
-text(0.7, 10, "10", pos = 3, cex = 0.75)
-text(1.9, 54, "54", pos = 3, cex = 0.75)
-text(3.1, 2, "2", pos = 3, cex = 0.75)
+        ylim = c(0, 100),
+        ylab = "Percent of Total Observed Behaviors",
+        border = "black",
+        col = c("#4472C4", "#ED7D31", "#FFC000"),
+        beside = TRUE,
+        legend = rownames(WCT18behav),
+        axes =  FALSE)
+axis(2,at=c(seq(0, 100, 10)), labels=c(seq(0, 100, 10)), cex.axis= 0.5, las = 2)
+
+text(1.75, WCT18h_behav$percent[1]+2, WCT18h_behav$percent[1], pos = 3, cex = 0.75, srt = 90)
+text(2.75, WCT18c_behav$percent[1]+2, WCT18c_behav$percent[1], pos = 3, cex = 0.75, srt = 90)
+text(3.75, WCT18e_behav$percent[1]+2, WCT18e_behav$percent[1], pos = 3, cex = 0.75, srt = 90)
+
+text(5.75, WCT18h_behav$percent[2]+2, WCT18h_behav$percent[2], pos = 3, cex = 0.75, srt = 90)
+text(6.75, WCT18c_behav$percent[2]+2, WCT18c_behav$percent[2], pos = 3, cex = 0.75, srt = 90)
+text(7.75, WCT18e_behav$percent[2]+2, WCT18e_behav$percent[2], pos = 3, cex = 0.75, srt = 90)
+
+text(9.75, WCT18h_behav$percent[3]+2, WCT18h_behav$percent[3], pos = 3, cex = 0.75, srt = 90)
+text(10.75, WCT18c_behav$percent[3]+2, WCT18c_behav$percent[3], pos = 3, cex = 0.75, srt = 90)
+text(11.75, WCT18e_behav$percent[3]+2, WCT18e_behav$percent[3], pos = 3, cex = 0.75, srt = 90)
+
+text(13.75, WCT18h_behav$percent[4]+2, WCT18h_behav$percent[4], pos = 3, cex = 0.75, srt = 90)
+text(14.75, WCT18c_behav$percent[4]+2, WCT18c_behav$percent[4], pos = 3, cex = 0.75, srt = 90)
+text(15.75, WCT18e_behav$percent[4]+2, WCT18e_behav$percent[4], pos = 3, cex = 0.75, srt = 90)
+
+text(17.75, WCT18h_behav$percent[5]+2, WCT18h_behav$percent[5], pos = 3, cex = 0.75, srt = 90)
+text(18.75, WCT18c_behav$percent[5]+2, WCT18c_behav$percent[5], pos = 3, cex = 0.75, srt = 90)
+text(19.75, WCT18e_behav$percent[5]+2, WCT18e_behav$percent[5], pos = 3, cex = 0.75, srt = 90)
+
+text(21.75, WCT18h_behav$percent[6]+2, WCT18h_behav$percent[6], pos = 3, cex = 0.75, srt = 90)
+text(22.75, WCT18c_behav$percent[6]+2, WCT18c_behav$percent[6], pos = 3, cex = 0.75, srt = 90)
+text(23.75, WCT18e_behav$percent[6]+2, WCT18e_behav$percent[6], pos = 3, cex = 0.75, srt = 90)
 dev.off()
 ```
 ***
-### Wildcat Creek Exclosure 2018
+#### Wildcat Creek Exclosure 2018 Behavioral Frequency
 ```{r}
-jpeg(filename = "figures/waterway/WCX18_Waterway.jpg",
+jpeg(filename = "figures/behavior/WCX18_behav.jpg",
      width=6.5,
      height=6.5,
      units="in",
      res=300)
 plot.new()
-# bottom, left, top, right
-par(mar=c(3, 4, 2, 2))
-barplot(WCX18water$n,
-        col = c("#4472C4", "#ED7D31", "#FFC000"),
+barplot(WCX18behav,
         main = "Wildcat Creek Exclosure 2018",
-        axes = FALSE,
-        cex.lab = 1,
-        cex.main = 1,
-        ylim = c(0, 1100))
-axis(2,at=c(seq(0, 1100, 100)), labels=c(seq(0, 1100, 100)), cex.axis= 0.5, las = 2)
-axis(1, at = c(0.7, 1.9, 3.1), labels = c("Horses", "Cattle", "Elk"), cex.axis = 0.75)
-mtext("Number of Detections in the Waterway", 2, las = 0 , cex = 1, padj = -4)
-text(0.7, 204, "204", pos = 3, cex = 0.75)
-text(1.9, 0, "0", pos = 3, cex = 0.75)
-text(3.1, 112, "112", pos = 3, cex = 0.75)
+        ylim = c(0, 100),
+        ylab = "Percent of Total Observed Behaviors",
+        border = "black",
+        col = c("#4472C4", "#ED7D31", "#FFC000"),
+        beside = TRUE,
+        legend = rownames(WCX18behav),
+        axes =  FALSE)
+axis(2,at=c(seq(0, 100, 10)), labels=c(seq(0, 100, 10)), cex.axis= 0.5, las = 2)
+
+text(1.75, WCX18h_behav$percent[1]+2, WCX18h_behav$percent[1], pos = 3, cex = 0.75, srt = 90)
+text(2.75, WCX18c_behav$percent[1]+2, WCX18c_behav$percent[1], pos = 3, cex = 0.75, srt = 90)
+text(3.75, WCX18e_behav$percent[1]+2, WCX18e_behav$percent[1], pos = 3, cex = 0.75, srt = 90)
+
+text(5.75, WCX18h_behav$percent[2]+2, WCX18h_behav$percent[2], pos = 3, cex = 0.75, srt = 90)
+text(6.75, WCX18c_behav$percent[2]+2, WCX18c_behav$percent[2], pos = 3, cex = 0.75, srt = 90)
+text(7.75, WCX18e_behav$percent[2]+2, WCX18e_behav$percent[2], pos = 3, cex = 0.75, srt = 90)
+
+text(9.75, WCX18h_behav$percent[3]+2, WCX18h_behav$percent[3], pos = 3, cex = 0.75, srt = 90)
+text(10.75, WCX18c_behav$percent[3]+2, WCX18c_behav$percent[3], pos = 3, cex = 0.75, srt = 90)
+text(11.75, WCX18e_behav$percent[3]+2, WCX18e_behav$percent[3], pos = 3, cex = 0.75, srt = 90)
+
+text(13.75, WCX18h_behav$percent[4]+2, WCX18h_behav$percent[4], pos = 3, cex = 0.75, srt = 90)
+text(14.75, WCX18c_behav$percent[4]+2, WCX18c_behav$percent[4], pos = 3, cex = 0.75, srt = 90)
+text(15.75, WCX18e_behav$percent[4]+2, WCX18e_behav$percent[4], pos = 3, cex = 0.75, srt = 90)
+
+text(17.75, WCX18h_behav$percent[5]+2, WCX18h_behav$percent[5], pos = 3, cex = 0.75, srt = 90)
+text(18.75, WCX18c_behav$percent[5]+2, WCX18c_behav$percent[5], pos = 3, cex = 0.75, srt = 90)
+text(19.75, WCX18e_behav$percent[5]+2, WCX18e_behav$percent[5], pos = 3, cex = 0.75, srt = 90)
+
+text(21.75, WCX18h_behav$percent[6]+2, WCX18h_behav$percent[6], pos = 3, cex = 0.75, srt = 90)
+text(22.75, WCX18c_behav$percent[6]+2, WCX18c_behav$percent[6], pos = 3, cex = 0.75, srt = 90)
+text(23.75, WCX18e_behav$percent[6]+2, WCX18e_behav$percent[6], pos = 3, cex = 0.75, srt = 90)
 dev.off()
 ```
