@@ -1,0 +1,257 @@
+# Write the path to the Bulk Rename Command
+C:\Users\Andrew\Desktop\BRC64.exe
+
+# Pathway to the program
+C:\Users\Andrew\Desktop\BRC64.exe 
+# Assign directory
+/DIR:"C:Users\Andrew\Desktop\temp"
+# Prevents the any changes to folder names
+/NOFOLDERS
+# Command to go into folders in directory folder
+/RECURSIVE
+# Remove name
+/REMOVENAME  
+# Apend date "modified data" option, prefix,"-","-","9" = YearMonthDayHourMinuteSecond option 
+/APPENDDATE:M:P::-:9
+# New filename is separated by "-" so this eliminates it
+/STRIPSYMBOLS 
+# needed to complete the command
+/EXECUTE
+
+# Wills Canyon Riparian
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\WLR_03262019_05102019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Upper Wills Canyon
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\UWL_03262019_05102019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Wills Canyon Upland
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\WLU_03262019_05102019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Agua Chiquita Exclosure
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\ACE_03272019_05102019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Rio Penasco Upland
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\RPU_03262019_05092019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Rip Penasco Riparian
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\RPR_03262019_05092019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Agua Chiquita Homestead
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\ACH_03272019_05102019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Agua Chiquita Upland
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\ACU_03272019_05102019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Wildcat Exclosure
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\WCX_04192019_05212019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Boggy West Timelapse 5 min
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\BGW_5min_04182019_05212019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Boggy West Timelapse
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\BGW_04182019_05212019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Boggy Trail
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\BGT_05212019_06042019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Boggy West Timelapse 5 min
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\BGW_5min_05212019_06042019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Wildcat Timelapse
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\WCS_04192019_05212019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Wildcat Trail
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\WCT_04192019_05212019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Boggy Exclosure
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\BGX_04182019_05212019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Wildcat South Timelapse 5 min
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\WCS_5min_04192019_05212019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Boggy West Timelapse
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\BGW_05212019_06042019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Wildcat Timelapse
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\WCS_05212019_06032019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Wildcat Trail
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\WCT_05212019_06032019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Wildcat Timelapse 5 min
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\WCS_5min_05212019_06032019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# East Fork Timelapse
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\EFK_11012018_05212019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\EFK_07122018_08252018\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\EFK_08252018_10012018\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\EFK_10012018_11012018\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Wildcat South Timelapse 5 min
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\WCS_5min_06032019_06242019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Boggy Trail
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\BGT_06042019_06252019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Boggy West Timelapse 5 min
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\BGW_5min_06042019_06112019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Boggy Exclosure Timelapse
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\BGX_05212019_06212019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Boggy West Timelapse
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\BGW_06042019_06252019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Wildcat Trail
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\WCT_06032019_06242019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+July 8, 2019------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Black Canyon Timelapse South
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\BKL_06052019_07022019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Black Canyon Dam Timelapse
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\BKD_06112019_07022019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+July 8, 2019------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Bear Timelapse
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"E:\cameratraps\bear\timelapse\BRL_06052019_07022019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"K:\cameratraps\bear\timelapse\BRL_06052019_07022019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Black Canyon Timelapse North
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"E:\cameratraps\blackcanyon\timelapsenorth\BKN_06112019_07022019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"K:\cameratraps\blackcanyon\timelapsenorth\BKN_06112019_07022019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Back Road 51
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"E:\cameratraps\fiftyone\timelapse\B51_06112019_07022019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"K:\cameratraps\fiftyone\timelapse\B51_06112019_07022019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+July 24, 2019------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# James Canyon
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\JCY_05102019_07032019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Agua Chiquita Upland
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\ACU_05102019_06242019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Rio Penasco Riparian
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\RPR_05092019_07042019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Rio Penasco Upland
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\RPU_05092019_06112019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Wills Canyon Riparian
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\WLR_05102019_06262019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Upper Wills Canyon
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\UWL_05102019_05172019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Agua Chiquita Exclosure
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\ACE_05102019_06182019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Agua Chiquita Homestead
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\ACH_05102019_06132019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Agua Chiquita Barbed
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\ACB_05102019_06212019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Agua Chiquita Canyon Upland
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\ACU_05102019_06302019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+August 4, 2019------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Wildcat Timelapse South
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\WCS_06242019_07022019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Wildcat Trail
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\WCT_06242019_07302019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Boggy Exclosure
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\BGX_06252019_07262019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Wildcat Exclosure
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\WCX_05212019_07102019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Boggy West Timelapse
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\BGW_06252019_07042019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# East Fork
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\EFK_05212019_06242019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Wildcat Timelapse South 5min
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\WCS_5min_06242019_07302019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Boggy Trail
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\BGT_06252019_07302019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+August 21, 2019------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Black Canyon North
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\BKN_07022019_08132019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Area 51
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\A51_07022019_08132019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Black Canyon Dam
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\BKD_07022019_08132019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+August 22, 2019------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\BRL_07022019_08132019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+September 11, 2019------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Agua Chiquita Canyon Upland
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\ACU_07162019_09072019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# James Canyon
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\JCY_07162019_09012019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Upper Wills Canyon
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\UWL_07162019_09072019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Wills Canyon Riparian
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\WLR_07162019_09072019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Wills Canyon Upland
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\WLU_07162019_09072019\" /NOFOLDERS /RECURSIVE /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+September 12, 2019------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Agua Chiquita Homestead
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\ACH_07162019_09072019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Agua Chiquita Barbed
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\ACB_05102019_06212019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Rio Penasco Upland
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\RPU_07152019_09062019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Rio Penasco Riparian
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\RPR_07152019_09062019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Agua Chiquita Exclosure
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\ACE_07162019_09072019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+September 23, 2019------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Wildcat South Timelapse
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\WCS_07302019_09182019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Boggy Exclosure
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\BGX_07302019_08172019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Boggy Trail
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\BGT_07302019_09182019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Boggy West Timelapse
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\BGW_07302019_08082019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Boggy West Timelapse 5min
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\BGW_5min_07302019_08032019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# East Fork
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\EFK_07302019_09152019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Wildcat Exclosure
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\WCX_07302019_08082019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Wildcat South Timelapse 5 min
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\WCS_5min_07302019_09182019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Wildcat Trail
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\WCT_07302019_09182019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+

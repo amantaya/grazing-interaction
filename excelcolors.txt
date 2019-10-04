@@ -1,1 +1,3 @@
 # Cow = "#ED7D31", Elk = "#A5A5A5", Horse = "#4472C4", Muledeer = "#FFC000"
+
+show_col(viridis_pal(option = "E")(10))
