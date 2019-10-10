@@ -254,4 +254,19 @@ C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\WCS_5min_07
 # Wildcat Trail
 C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\Users\Andrew\Desktop\temp\WCT_07302019_09182019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
 
+# October 9, 2019
+# fixing duplicate file names
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\uploads\BKL_07132017_07242017" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\uploads\BKL_07202018_08242018" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\uploads\BKL_07212017_07292017" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\uploads\BKL_08132017_08212017" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\uploads\BKL_08292017_09152017" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\uploads\BKL_09152017_09212017" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\uploads\BKL_10082017_12012017" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\uploads\BKL_Analysis_2017" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\uploads\duplicates\BKL_12012017_01082018" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# October 10, 2019
+# fixing duplicate file names
+C:\Users\Andrew\Desktop\BRC64.exe /DIR:"C:\uploads\BKL_01112018_02132018" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
 
