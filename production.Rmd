@@ -9,280 +9,252 @@ Production and Utilization calculations
 Written by Andrew Antaya
 
 ```{r}
-library("ggplot2", lib.loc="~/R/win-library/3.5")
-library("dplyr", lib.loc="~/R/win-library/3.5")
-library("jpeg", lib.loc="~/R/win-library/3.5")
+# clear the enviroment
+rm(list=ls(all=TRUE))
+```
+
+```{r}
+source("packages.R")
+```
+
+```{r}
+## the source() function executes all lines of code in the "mentioned" script (i.e. the pathway)
+source_rmd <- function(file_path) {
+  stopifnot(is.character(file_path) && length(file_path) == 1)
+  .tmpfile <- tempfile(fileext = ".R")
+  .con <- file(.tmpfile) 
+  on.exit(close(.con))
+  full_rmd <- read_file(file_path)
+  codes <- str_match_all(string = full_rmd, pattern = "```(?s)\\{r[^{}]*\\}\\s*\\n(.*?)```")
+  stopifnot(length(codes) == 1 && ncol(codes[[1]]) == 2)
+  codes <- paste(codes[[1]][, 2], collapse = "\n")
+  writeLines(codes, .con)
+  flush(.con)
+  cat(sprintf("R code extracted to tempfile: %s\nSourcing tempfile...", .tmpfile))
+  source(.tmpfile)
+}
 
 source_rmd("functions.Rmd")
+```
 
+```{r}
 ## read in data
-mydata <- read.csv('data/vegetation/White Mountain Production.csv')
-mydata
+prod1718 <- read.csv('data/vegetation/White Mountain Production 2017-2018.csv', header=TRUE, na.strings=c(""," ","NA"))
 
-## select the 2017 Boggy Grazed values
-BGW17G <- mydata[28:32, ]
+prod19 <- read.csv('data/vegetation/White Mountain Production 2019.csv', header=TRUE, na.strings=c(""," ","NA"))
 
-## select the 2017 Boggy Exclosure values
-BGW17E <- mydata[23:27, ]
+# remove the first column
+prod1718$Record <- NULL
+# rename the ID column to "Cage" to match the 2019 data
+prod1718 <- prod1718 %>% rename(Plot = ID)
+# reorder the 2017-2018 data to align with the 2019 data
+prod1718<- prod1718[ , c("Site", "Type", "Year", "Plot", "Bag1DryWt", "Bag2DryWt", "Bag3DryWt", "Bag4DryWt", "Bag5DryWt", "Bag6DryWt", "Bag7DryWt", "Bag8DryWt", "TotalDry")]
 
-## select the 2017 Wildcat Grazed values
-WCS17G <- mydata[38:42, ]
+prod19$Bag6DryWt <- NA
+prod19$Bag7DryWt <- NA
+prod19$Bag8DryWt <- NA
 
-## select the 2017 Wildcat Exclosure values
-WCS17E <- mydata[33:37, ]
+prod19<- prod19[ , c("Site", "Type", "Year", "Plot", "Bag1DryWt", "Bag2DryWt", "Bag3DryWt", "Bag4DryWt", "Bag5DryWt", "Bag6DryWt", "Bag7DryWt", "Bag8DryWt", "TotalDry")]
 
-## select the 2018 Boggy Grazed values
-BGW18G <- mydata[7:11, ]
+prod1718[prod1718 == 0] <- NA
+prod19[prod19 == 0] <- NA
 
-## select the 2018 Boggy Exclosure values
-BGW18E <- mydata[1:6, ]
+prod19$Plot <- as.factor(prod19$Plot)
 
-## select the 2018 Wildcat Grazed values
-WCS18G <- mydata[18:22, ]
-
-## select the 2018 Wildcat Exclosure values
-WCS18E <- mydata[12:17, ]
+# view the data frames
+prod1718
+prod19
 ```
 
 ```{r}
-## create empty table to store mean, standard deviation, standard error, 95% confidence interval
-mystats<- data.frame(sites=c("BGW17E", "BGW17G", "WCS17E", "WCS17G", "BGW18E", "BGW18G",  "WCS18E", "WCS18G"))
+dim_x = set_units(40, cm) # length of dimension X in centimeters
+dim_y = set_units(40, cm) # length of dimension Y in centimeters
+n = 3                     # number of quadrats
 
-## calculate mean production values for each year and site (g/m2)
-mystats[1, 2] <- mean(BGW17E$TotalDry)
-mystats[2, 2] <- mean(BGW17G$TotalDry)
-mystats[3, 2] <- mean(WCS17E$TotalDry)
-mystats[4, 2] <- mean(WCS17G$TotalDry)
-mystats[5, 2] <- mean(BGW18E$TotalDry)
-mystats[6, 2] <- mean(BGW18G$TotalDry)
-mystats[7, 2] <- mean(WCS18E$TotalDry)
-mystats[8, 2] <- mean(WCS18G$TotalDry)
+area = dim_x*dim_y
+area
 
-## convert mean production values from g/m2 to kg/ha by *10
-mystats[1, 3] <- 10*mean(BGW17E$TotalDry)
-mystats[2, 3] <- 10*mean(BGW17G$TotalDry)
-mystats[3, 3] <- 10*mean(WCS17E$TotalDry)
-mystats[4, 3] <- 10*mean(WCS17G$TotalDry)
-mystats[5, 3] <- 10*mean(BGW18E$TotalDry)
-mystats[6, 3] <- 10*mean(BGW18G$TotalDry)
-mystats[7, 3] <- 10*mean(WCS18E$TotalDry)
-mystats[8, 3] <- 10*mean(WCS18G$TotalDry)
+totalarea = area*n
+totalarea
 
-## convert mean production values from g/m2 to lbs/acre
-mystats[1, 4] <- 8.92179*mean(BGW17E$TotalDry)
-mystats[2, 4] <- 8.92179*mean(BGW17G$TotalDry)
-mystats[3, 4] <- 8.92179*mean(WCS17E$TotalDry)
-mystats[4, 4] <- 8.92179*mean(WCS17G$TotalDry)
-mystats[5, 4] <- 8.92179*mean(BGW18E$TotalDry)
-mystats[6, 4] <- 8.92179*mean(BGW18G$TotalDry)
-mystats[7, 4] <- 8.92179*mean(WCS18E$TotalDry)
-mystats[8, 4] <- 8.92179*mean(WCS18G$TotalDry)
+area_m2 = set_units(totalarea, m^2)
+area_m2
 
-## standard deviation SD
-mystats[1, 5] <- 8.92179*sd(BGW17E$TotalDry)
-mystats[2, 5] <- 8.92179*sd(BGW17G$TotalDry)
-mystats[3, 5] <- 8.92179*sd(WCS17E$TotalDry)
-mystats[4, 5] <- 8.92179*sd(WCS17G$TotalDry)
-mystats[5, 5] <- 8.92179*sd(BGW18E$TotalDry)
-mystats[6, 5] <- 8.92179*sd(BGW18G$TotalDry)
-mystats[7, 5] <- 8.92179*sd(WCS18E$TotalDry)
-mystats[8, 5] <- 8.92179*sd(WCS18G$TotalDry)
+conversion = as.numeric(1/area_m2)
 
-mystats[1, 6] <- 8.92179*se(BGW17E$TotalDry)
-mystats[2, 6] <- 8.92179*se(BGW17G$TotalDry)
-mystats[3, 6] <- 8.92179*se(WCS17E$TotalDry)
-mystats[4, 6] <- 8.92179*se(WCS17G$TotalDry)
-mystats[5, 6] <- 8.92179*se(BGW18E$TotalDry)
-mystats[6, 6] <- 8.92179*se(BGW18G$TotalDry)
-mystats[7, 6] <- 8.92179*se(WCS18E$TotalDry)
-mystats[8, 6] <- 8.92179*se(WCS18G$TotalDry)
+prod19$TotalDry <- ifelse (prod19$Site == "Wildcat" & prod19$Type == "Exclosure", prod19$TotalDry*conversion, prod19$TotalDry)
 
-## Lower 95% confidence intervals of the production mean 
-mystats[1, 7] <- 8.92179*(mean(BGW17E$TotalDry)-2.571*se(BGW17E$TotalDry))
-mystats[2, 7] <- 8.92179*(mean(BGW17G$TotalDry)-2.571*se(BGW17G$TotalDry))
-mystats[3, 7] <- 8.92179*(mean(WCS17E$TotalDry)-2.571*se(WCS17E$TotalDry))
-mystats[4, 7] <- 8.92179*(mean(WCS17G$TotalDry)-2.571*se(WCS17G$TotalDry))
-mystats[5, 7] <- 8.92179*(mean(BGW18E$TotalDry)-2.571*se(BGW18E$TotalDry))
-mystats[6, 7] <- 8.92179*(mean(BGW18G$TotalDry)-2.571*se(BGW18G$TotalDry))
-mystats[7, 7] <- 8.92179*(mean(WCS18E$TotalDry)-2.571*se(WCS18E$TotalDry))
-mystats[8, 7] <- 8.92179*(mean(WCS18G$TotalDry)-2.571*se(WCS18G$TotalDry))
+prod19
 
-## Upper 95% confidence intervals of the production mean
-mystats[1, 8] <- 8.92179*(mean(BGW17E$TotalDry)+2.571*se(BGW17E$TotalDry))
-mystats[2, 8] <- 8.92179*(mean(BGW17G$TotalDry)+2.571*se(BGW17G$TotalDry))
-mystats[3, 8] <- 8.92179*(mean(WCS17E$TotalDry)+2.571*se(WCS17E$TotalDry))
-mystats[4, 8] <- 8.92179*(mean(WCS17G$TotalDry)+2.571*se(WCS17G$TotalDry))
-mystats[5, 8] <- 8.92179*(mean(BGW18E$TotalDry)+2.571*se(BGW18E$TotalDry))
-mystats[6, 8] <- 8.92179*(mean(BGW18G$TotalDry)+2.571*se(BGW18G$TotalDry))
-mystats[7, 8] <- 8.92179*(mean(WCS18E$TotalDry)+2.571*se(WCS18E$TotalDry))
-mystats[8, 8] <- 8.92179*(mean(WCS18G$TotalDry)+2.571*se(WCS18G$TotalDry))
-
-## add column names to the dataframe used to organize
-colnames(mystats) <- c("sites", "prod_g_m2", "prod_kg_ha", "prod_lbs_acre", "SD", "SE", "L95%CI", "U95%CI")
-
-mystats
-```
-```{r}
-BGW17prod <- data.frame(BGW17 = c("Ungrazed", "Grazed"), production = c(mystats[1,4], mystats[2,4]))
-BGW17prod
-BGW18prod <- data.frame(BGW18 = c("Ungrazed", "Grazed"), production = c(mystats[5,4], mystats[6,4]))
-BGW18prod
-WCS17prod <- data.frame(WCS17 = c("Ungrazed", "Grazed"), production = c(mystats[3,4], mystats[4,4]))
-WCS17prod
-WCS18prod <- data.frame(WCS18 = c("Ungrazed", "Grazed"), production = c(mystats[7,4], mystats[8,4]))
-WCS18prod
+#write.csv(prod19, 'data/vegetation/White-Mountain-Production-2019-Wildcat-Adjusted.csv', row.names = FALSE)
 ```
 
+```{r}
+prod17 <- filter(prod1718, Year == 2017)
+
+prod17 <- arrange(prod17, Type)
+
+prod17
+#write.csv(prod17, 'data/vegetation/White-Mountain-Production-2017-Reordered.csv', row.names = FALSE)
+```
 
 ```{r}
-jpeg(filename = "figures/vegetation/Boggy_Creek_Production_2017.jpg",
-     width=3.2,
-     height=3.2,
-     units="in",
-     res=300)
+prod18 <- filter(prod1718, Year == 2018)
+
+prod18 <- arrange(prod18, Type)
+
+prod18
+
+#write.csv(prod18, 'data/vegetation/White-Mountain-Production-2018-Reordered.csv', row.names = FALSE)
+```
+```{r}
+#rm(prod1718)
+```
+
+```{r}
+prod <- rbind(prod17, prod18, prod19)
+
+resd <- filter(prod, Type == "Residual")
+
+prod <- filter(prod, Type == "Exclosure")
+
+#View(prod)
+#View(resd)
+```
+
+```{r}
+prod$TotalDry <- set_units(prod$TotalDry, g/m^2)
+prod$kg_ha <- NA
+prod$kg_ha <- set_units(prod$TotalDry, kg/hectare)
+prod$lb_acre <- NA
+prod$lb_acre <- set_units(prod$TotalDry, lb/acre)
+prod
+```
+
+Create empty data frame to store the mean, standard deviation, standard error, 95% confidence interval for all sites.
+```{r}
+stats<- data.frame(sites=c("BGW17", "BGW18", "BGW19", "WCS17", "WCS18", "WCS19"), avg_grams_meter = NA, avg_kg_hectare = NA, avg_lbs_acre = NA, sd = NA, se = NA, L95 = NA, U95 = NA)
+stats
+```
+
+```{r}
+## calculate mean production values for each year and site (in g/m2)
+stats$avg_grams_meter[1] <- mean(pull(filter(prod, Site == "Boggy" & Year == "2017"), "TotalDry"))
+stats$avg_grams_meter[2] <- mean(pull(filter(prod, Site == "Boggy" & Year == "2018"), "TotalDry"))
+stats$avg_grams_meter[3] <- mean(pull(filter(prod, Site == "Boggy" & Year == "2019"), "TotalDry"))
+stats$avg_grams_meter[4] <- mean(pull(filter(prod, Site == "Wildcat" & Year == "2017"), "TotalDry"))
+stats$avg_grams_meter[5] <- mean(pull(filter(prod, Site == "Wildcat" & Year == "2018"), "TotalDry"))
+stats$avg_grams_meter[6] <- mean(pull(filter(prod, Site == "Wildcat" & Year == "2019"), "TotalDry"))
+stats
+```
+
+```{r}
+# Convert to different units using the set_units() function
+stats$avg_grams_meter <- set_units(stats$avg_grams_meter, g/m^2)
+stats$avg_kg_hectare <- set_units(stats$avg_grams_meter, kg/hectare)
+stats$avg_lbs_acre <- set_units(stats$avg_grams_meter, lb/acre)
+stats$avg_grams_meter <- as.numeric(stats$avg_grams_meter)
+stats$avg_kg_hectare <- as.numeric(stats$avg_kg_hectare)
+stats$avg_lbs_acre <- as.numeric(stats$avg_lbs_acre)
+stats
+```
+```{r}
+testavg <- mean(pull(filter(prod, Site == "Boggy" & Year == "2017"), "lb_acre"))
+testavg
+
+testsd <- sd(pull(filter(prod, Site == "Boggy" & Year == "2017"), "lb_acre"))
+testsd
+
+testse <- se(pull(filter(prod, Site == "Boggy" & Year == "2017"), "lb_acre"))
+testse
+```
+
+```{r}
+## calculate standard deviation SD for each year and site (in g/m2)
+stats$sd[1] <- sd(pull(filter(prod, Site == "Boggy" & Year == "2017"), "lb_acre"))
+stats$sd[2] <- sd(pull(filter(prod, Site == "Boggy" & Year == "2018"), "lb_acre"))
+stats$sd[3] <- sd(pull(filter(prod, Site == "Boggy" & Year == "2019"), "lb_acre"))
+stats$sd[4] <- sd(pull(filter(prod, Site == "Wildcat" & Year == "2017"), "lb_acre"))
+stats$sd[5] <- sd(pull(filter(prod, Site == "Wildcat" & Year == "2018"), "lb_acre"))
+stats$sd[6] <- sd(pull(filter(prod, Site == "Wildcat" & Year == "2019"), "lb_acre"))
+stats
+```
+
+```{r}
+## calculate standard deviation SD for each year and site (in g/m2)
+stats$se[1] <- se(pull(filter(prod, Site == "Boggy" & Year == "2017"), "lb_acre"))
+stats$se[2] <- se(pull(filter(prod, Site == "Boggy" & Year == "2018"), "lb_acre"))
+stats$se[3] <- se(pull(filter(prod, Site == "Boggy" & Year == "2019"), "lb_acre"))
+stats$se[4] <- se(pull(filter(prod, Site == "Wildcat" & Year == "2017"), "lb_acre"))
+stats$se[5] <- se(pull(filter(prod, Site == "Wildcat" & Year == "2018"), "lb_acre"))
+stats$se[6] <- se(pull(filter(prod, Site == "Wildcat" & Year == "2019"), "lb_acre"))
+stats
+```
+```{r}
+## calculate standard deviation SD for each year and site (in g/m2)
+stats$se[1] <- se(pull(filter(prod, Site == "Boggy" & Year == "2017"), "lb_acre"))
+stats$se[2] <- se(pull(filter(prod, Site == "Boggy" & Year == "2018"), "lb_acre"))
+stats$se[3] <- se(pull(filter(prod, Site == "Boggy" & Year == "2019"), "lb_acre"))
+stats$se[4] <- se(pull(filter(prod, Site == "Wildcat" & Year == "2017"), "lb_acre"))
+stats$se[5] <- se(pull(filter(prod, Site == "Wildcat" & Year == "2018"), "lb_acre"))
+stats$se[6] <- se(pull(filter(prod, Site == "Wildcat" & Year == "2019"), "lb_acre"))
+stats
+```
+
+ <- 8.92179*(mean(BGW17E$TotalDry)-2.571*se(BGW17E$TotalDry))
+```{r}
+stats$L95 <- stats$avg_lbs_acre-2.571*stats$se
+stats$U95 <- stats$avg_lbs_acre+2.571*stats$se
+stats
+```
+
+```{r}
+jpeg(filename = "figures/test/Production.jpeg",
+    width=6.5,
+    height=6.5,
+    units="in",
+    res=300)
 plot.new()
 # bottom, left, top, right
-par(mar=c(2, 4, 2, 2))
-barplot(BGW17prod$production,
-        col = c("#404788FF", "#FDE725FF"),
-        main = "Boggy Creek Production 2017",
+par(mar=c(5, 5, 5, 2))
+barplot(as.numeric(stats$avg_lbs_acre),
+        col = c(rep("red", 3), rep("blue", 3)),
         axes = FALSE,
-        names.arg=(c("Production", "Availability")),
-        ylab = expression(paste("lbs ", "acre"^"-1", " ± SE")),
+        #names.arg=(c("Production", "Availability")),
+        ylab = expression(paste("pounds ", "acre"^"-1", " ± SE")),
         cex.lab = 1,
         cex.main = 1,
         ylim = c(0, 6500))
-axis(2,at=c(seq(0,6500,1000)),labels=c(seq(0,6500,1000)), cex.axis= 0.5, las = 2)
-segments(0.7, mystats[1, 4] - mystats[1, 6], 0.7,
-         mystats[1, 4] + mystats[1, 6], lwd = 1)
-arrows(0.7, mystats[1, 4] - mystats[1, 6], 0.7,
-       mystats[1, 4] + mystats[1, 6], lwd = 1, angle = 90,
-       code = 3, length = 0.05)
-segments(1.9, mystats[2, 4] - mystats[2, 6], 1.9,
-         mystats[2, 4] + mystats[2, 6], lwd = 1)
-arrows(1.9, mystats[2, 4] - mystats[2, 6], 1.9,
-       mystats[2, 4] + mystats[2, 6], lwd = 1, angle = 90,
-       code = 3, length = 0.05)
+title(main = "White Mountain Vegetation Production")
+mtext("2017-2019", 3, adj = 0.5)
+
+axis(2, at=c(seq(0,6500,1000)),labels=c(seq(0,6500,1000)), cex.axis= 0.75, las = 2)
+axis(1, at=c(0.7, 1.9, 3.1, 4.3, 5.5, 6.7), labels = c("Boggy 2017", "Boggy 2018", "Boggy 2019", "Wildcat 2017", "Wildcat 2018", "Wildcat 2019"), cex.axis= 0.75, las = 2)
+
+segments(0.7, stats$avg_lbs_acre[1] - stats$se[1], 0.7, stats$avg_lbs_acre[1] + stats$se[1], lwd = 1)
+arrows(0.7, stats$avg_lbs_acre[1]-stats$se[1], 0.7, stats$avg_lbs_acre[1] + stats$se[1], lwd = 1, angle = 90, code = 3, length = 0.05)
+
+segments(1.9, stats$avg_lbs_acre[2] - stats$se[2], 1.9, stats$avg_lbs_acre[2] + stats$se[2], lwd = 1)
+arrows(1.9, stats$avg_lbs_acre[2] - stats$se[2], 1.9, stats$avg_lbs_acre[2] + stats$se[2], lwd = 1, angle = 90,code = 3, length = 0.05)
+
+segments(3.1, stats$avg_lbs_acre[3] - stats$se[3], 3.1, stats$avg_lbs_acre[3] + stats$se[3], lwd = 1)
+arrows(3.1, stats$avg_lbs_acre[3] - stats$se[3], 3.1, stats$avg_lbs_acre[3] + stats$se[3], lwd = 1, angle = 90,code = 3, length = 0.05)
+
+segments(4.3, stats$avg_lbs_acre[4] - stats$se[4], 4.3, stats$avg_lbs_acre[4] + stats$se[4], lwd = 1)
+arrows(4.3, stats$avg_lbs_acre[4] - stats$se[4], 4.3, stats$avg_lbs_acre[4] + stats$se[4], lwd = 1, angle = 90,code = 3, length = 0.05)
+
+segments(5.5, stats$avg_lbs_acre[5] - stats$se[5], 5.5, stats$avg_lbs_acre[5] + stats$se[5], lwd = 1)
+arrows(5.5, stats$avg_lbs_acre[5] - stats$se[5], 5.5, stats$avg_lbs_acre[5] + stats$se[5], lwd = 1, angle = 90,code = 3, length = 0.05)
+
+segments(6.7, stats$avg_lbs_acre[6] - stats$se[6], 6.7, stats$avg_lbs_acre[6] + stats$se[6], lwd = 1)
+arrows(6.7, stats$avg_lbs_acre[6] - stats$se[6], 6.7, stats$avg_lbs_acre[6] + stats$se[6], lwd = 1, angle = 90,code = 3, length = 0.05)
+
 text(0.7, 5700, "4705", pos = 3, cex = 0.75)
-text(1.9, 750, "598", pos = 3, cex = 0.75)
+text(1.9, 4200, "3483", pos = 3, cex = 0.75)
+text(3.1, 3800, "3035", pos = 3, cex = 0.75)
+text(4.3, 5500, "4766", pos = 3, cex = 0.75)
+text(5.5, 3900, "3271", pos = 3, cex = 0.75)
+text(6.7, 5400, "4813", pos = 3, cex = 0.75)
+
 dev.off()
 ```
-
-```{r}
-jpeg(filename = "figures/vegetation/Boggy_Creek_Production_2018.jpg",
-     width=3.2,
-     height=3.2,
-     units="in",
-     res=300)
-plot.new()
-# bottom, left, top, right
-par(mar=c(2, 4, 2, 2))
-barplot(BGW18prod$production,
-        col = c("#404788FF", "#FDE725FF"),
-        main = "Boggy Creek Production 2018",
-        axes = FALSE,
-        names.arg=(c("Production", "Availability")),
-        ylab = expression(paste("lbs ", "acre"^"-1", " ± SE")),
-        cex.lab = 1,
-        cex.main = 1,
-        ylim = c(0, 6500))
-axis(2,at=c(seq(0,6500,1000)),labels=c(seq(0,6500,1000)), cex.axis= 0.5, las = 2)
-segments(0.7, mystats[5, 4] - mystats[5, 6], 0.7,
-         mystats[5, 4] + mystats[5, 6], lwd = 1)
-arrows(0.7, mystats[5, 4] - mystats[5, 6], 0.7,
-       mystats[5, 4] + mystats[5, 6], lwd = 1, angle = 90,
-       code = 3, length = 0.05)
-segments(1.9, mystats[6, 4] - mystats[6, 6], 1.9,
-         mystats[6, 4] + mystats[6, 6], lwd = 1)
-arrows(1.9, mystats[6, 4] - mystats[6, 6], 1.9,
-       mystats[6, 4] + mystats[6, 6], lwd = 1, angle = 90,
-       code = 3, length = 0.05)
-text(0.7, 4200, "3483", pos = 3, cex = 0.75)
-text(1.9, 125, "93.9", pos = 3, cex = 0.75)
-dev.off()
-```
-
-```{r}
-jpeg(filename = "figures/vegetation/Wildcat_Creek_Production_2017.jpg",
-     width=3.2,
-     height=3.2,
-     units="in",
-     res=300)
-plot.new()
-# bottom, left, top, right
-par(mar=c(2, 4, 2, 2))
-barplot(WCS17prod$production,
-        col = c("#404788FF", "#FDE725FF"),
-        main = "Wildcat Creek Production 2017",
-        axes = FALSE,
-        names.arg=(c("Production", "Availability")),
-        ylab = expression(paste("lbs ", "acre"^"-1", " ± SE")),
-        cex.lab = 1,
-        cex.main = 1,
-        ylim = c(0, 6500))
-axis(2,at=c(seq(0,6500,1000)),labels=c(seq(0,6500,1000)), cex.axis= 0.5, las = 2)
-segments(0.7, mystats[3, 4] - mystats[3, 6], 0.7,
-         mystats[3, 4] + mystats[3, 6], lwd = 1)
-arrows(0.7, mystats[3, 4] - mystats[3, 6], 0.7,
-       mystats[3, 4] + mystats[3, 6], lwd = 1, angle = 90,
-       code = 3, length = 0.05)
-segments(1.9, mystats[4, 4] - mystats[4, 6], 1.9,
-         mystats[4, 4] + mystats[4, 6], lwd = 1)
-arrows(1.9, mystats[4, 4] - mystats[4, 6], 1.9,
-       mystats[4, 4] + mystats[4, 6], lwd = 1, angle = 90,
-       code = 3, length = 0.05)
-text(0.7, 5500, "4766", pos = 3, cex = 0.75)
-text(1.9, 600, "457", pos = 3, cex = 0.75)
-dev.off()
-```
-
-```{r}
-jpeg(filename = "figures/vegetation/Wildcat_Creek_Production_2018.jpg",
-     width=3.2,
-     height=3.2,
-     units="in",
-     res=300)
-plot.new()
-# bottom, left, top, right
-par(mar=c(2, 4, 2, 2))
-barplot(WCS18prod$production,
-        col = c("#404788FF", "#FDE725FF"),
-        main = "Wildcat Creek Production 2018",
-        axes = FALSE,
-        names.arg=(c("Production", "Availability")),
-        ylab = expression(paste("lbs ", "acre"^"-1", " ± SE")),
-        cex.lab = 1,
-        cex.main = 1,
-        ylim = c(0, 6500))
-axis(2,at=c(seq(0,6500,1000)),labels=c(seq(0,6500,1000)), cex.axis= 0.5, las = 2)
-segments(0.7, mystats[7, 4] - mystats[7, 6], 0.7,
-         mystats[7, 4] + mystats[7, 6], lwd = 1)
-arrows(0.7, mystats[7, 4] - mystats[7, 6], 0.7,
-       mystats[7, 4] + mystats[7, 6], lwd = 1, angle = 90,
-       code = 3, length = 0.05)
-segments(1.9, mystats[8, 4] - mystats[8, 6], 1.9,
-         mystats[8, 4] + mystats[8, 6], lwd = 1)
-arrows(1.9, mystats[8, 4] - mystats[8, 6], 1.9,
-       mystats[8, 4] + mystats[8, 6], lwd = 1, angle = 90,
-       code = 3, length = 0.05)
-text(0.7, 3900, "3271", pos = 3, cex = 0.75)
-text(1.9, 300, "192", pos = 3, cex = 0.75)
-dev.off()
-```
-
-```{r}
-## calculate % utilization
-BGW17Utilization <- (mystats[1, 4]-mystats[2, 4])/mystats[1, 4]
-WCS17Utilization <- (mystats[3, 4]-mystats[4, 4])/mystats[3, 4]
-BGW18Utilization <- (mystats[5, 4]-mystats[6, 4])/mystats[5, 4]
-WCS18Utilization <- (mystats[7, 4]-mystats[8, 4])/mystats[7, 4]
-
-## t test for production values between years
-t.test(BGW17E$TotalDry, BGW18E$TotalDry)
-t.test(WCS17E$TotalDry, WCS18E$TotalDry)
-
-## t test for utilization values between years
-t.test(BGW17G$TotalDry, BGW18G$TotalDry)
-t.test(WCS17G$TotalDry, WCS18G$TotalDry)
-```
-
