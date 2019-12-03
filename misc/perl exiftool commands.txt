@@ -1,0 +1,19 @@
+ # Perl ExifTool commands
+ 
+ # install ExifTool
+ 
+  perl Makefile.PL
+  make
+  make test
+  make install
+  
+ 
+ perl C:\Users\Andrew\Image-ExifTool-11.67\exiftool.PL C:\Users\Andrew\Image-ExifTool-11.67\t\images\ExifTool.jpg
+
+ perl C:\Users\Andrew\Image-ExifTool-11.67\exiftool.PL C:\Users\Andrew\Desktop\ef_lcr_photos\DSCN7936.JPG
+
+# extract image metadata from a directory into a .csv file
+C:\>Exiftool\exiftool.pl C:\temp\ACH_09072019_09212019 -r -csv >C:\Users\Andrew\Desktop\ACH_09072019_09212019.csv
+
+# December 2, 2019
+C:\>Exiftool\exiftool.pl C:\temp\BGW_09182019_09182019 -r -csv >C:\temp\BGW_09182019_09182019\BGW_09182019_09182019_Exif_Image_Metadata.csv
