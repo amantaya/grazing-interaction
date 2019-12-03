@@ -4,7 +4,7 @@
 
 rm(list=ls(all=TRUE))
 
-setwd("C:/uploads")
+setwd("C:/uploads/duplicates")
 
 wd <- getwd()
 
@@ -29,7 +29,7 @@ imagefilesinfo<-imagefilesinfo[imagefilesinfo$ImageSize!=0,]
 
 # selects files that have file names less than or equal to 12 characters
 # if you renamed the photos using the Bulk Rename Tool, then file names should 23 characters
-imagefilesinfo_dupl <- subset(imagefilesinfo, nchar(imagefilesinfo$ImageFilename) < 20)
+imagefilesinfo_dupl <- subset(imagefilesinfo, nchar(imagefilesinfo$ImageFilename) <= 12)
 
-# removes duplicate files from your system- use carefully!
+# removes duplicate files from you system- use carefully!
 file.remove(imagefilesinfo_dupl$ImagePath)
