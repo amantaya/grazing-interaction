@@ -5,20 +5,7 @@ output: html_notebook
 ---
 ***
 First, let's get our R environment ready by loading some useful packages.
-```{r}
-library("ggplot2")
-library("ggthemes")
-library("dplyr")
-library("tidyr")
-library("jpeg")
-library("viridis")
-library("scales")
-library("knitr")
-library("lubridate")
-library("magrittr")
-library("readr")
-library("stringr")
-```
+
 ***
 
 Then, let's remove all objects from the environment to start fresh each time.
