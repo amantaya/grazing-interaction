@@ -1,6 +1,0 @@
-C:\Users\Andrew\Desktop\uploads\test.txt
-duck --upload "irods://data.cyverse.org/iplant/home/aantaya/cameras" "C:\Users\Andrew\Desktop\uploads\test.txt"
-
-duck --upload "http://data.cyverse.org/iplant/home/aantaya/test.txt" "C:\Users\Andrew\Desktop\uploads\test.txt"
-http://data.cyverse.org/iplant/home/aantaya/test.txt
-C:\Users\Andrew\Desktop\downloads
