@@ -373,10 +373,14 @@ C:\BRC64.exe /DIR:"C:\uploads\BKD_08132019_10292019\" /NOFOLDERS /RECURSIVE /PAT
 # Wills Canyon Upland
 C:\BRC64.exe /DIR:"C:\uploads\WLU_09072019_11082019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
 
-November 21, 2019---------------------------------------------------------------------------------------------------------------------------------------
+November 21, 2019----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Agua Chiquita Homestead
 C:\BRC64.exe /DIR:"C:\temp\ACH_09072019_09212019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
 
-December 2, 2019
+December 2, 2019------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Boggy West Timelapse
 C:\BRC64.exe /DIR:"C:\temp\BGW_09182019_09182019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+December 3, 2019
+# Agua Chiquita Barbed
+C:\BRC64.exe /DIR:"C:\temp\ACB_07162019_09072019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
