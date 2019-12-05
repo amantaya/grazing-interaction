@@ -4,9 +4,9 @@
 
 rm(list=ls(all=TRUE))
 
-setwd("C:/uploads/duplicates")
+setwd("C:/temp/duplicates")
 
-wd <- getwd()
+currentfolder <- getwd()
 
 # read the file names
 imagefiles<-list.files(path=getwd(),full.names=T,pattern=c(".JPG|.jpg"),include.dirs = T,recursive=T)
@@ -25,11 +25,11 @@ imagefilesinfo$ImageSize<-as.numeric(imagefilesinfo$size)
 imagefilesinfo<-imagefilesinfo[,c(8,5,3,4,9,6,7)]
 
 # remove images of size 0 - some cameras have image write-errors that cannot be processed
-imagefilesinfo<-imagefilesinfo[imagefilesinfo$ImageSize!=0,]
+# imagefilesinfo<-imagefilesinfo[imagefilesinfo$ImageSize!=0,]
 
 # selects files that have file names less than or equal to 12 characters
 # if you renamed the photos using the Bulk Rename Tool, then file names should 23 characters
-imagefilesinfo_dupl <- subset(imagefilesinfo, nchar(imagefilesinfo$ImageFilename) <= 12)
+imagefilesinfo_dupl <- subset(imagefilesinfo, nchar(imagefilesinfo$ImageFilename) < 23)
 
 # removes duplicate files from you system- use carefully!
 file.remove(imagefilesinfo_dupl$ImagePath)
