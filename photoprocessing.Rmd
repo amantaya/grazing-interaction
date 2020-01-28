@@ -25,6 +25,7 @@ I created an external R script with contains all of the functions that I commong
 ```{r}
 ## the source() funciton executes all lines of code in the "mentioned" script (i.e. the pathway)
 source("packages.R")
+source("functions.R")
 ```
 ***
 Let's read in the RAW photo data from 2017 and 2018, which human observers classified in a custom Excel macro (.xlsm written in VBA). The macro generates data for each image when a human observer selects different options based on what they see in each photo. We saved each of the .xlsm files (each file corresponding to a site and year) as .csv files for ease of use in R and to convert the .xlsm to a non-proprietary format.
@@ -42,21 +43,19 @@ WCX18RAW<-read.csv('data/photo/WCX_Analysis_2018.csv', header=TRUE, na.strings=c
 WCS18RAW<-read.csv('data/photo/WCS_Analysis_2018.csv', header=TRUE, na.strings=c(""," ","NA"))
 WCT18RAW<-read.csv('data/photo/WCT_Analysis_2018.csv', header=TRUE, na.strings=c(""," ","NA"))
 test<-read.csv('data/photo/HorseImaging_test.csv', header=TRUE, na.strings=c(""," ","NA"))
+
+BGW18RAW
 ```
 ***
 
 We read in 8 CSV files containing the camera data. Each dataframe corresponds to a site and year (e.g., BGW18 is Boggy West Timelapse, data from year 2018). In all of the dataframes, each row corresponds to a single image and each column corresponds to a single 'variable'. Some of these 'variables' are actually metadata, such as the file name of the image and the file path.
-```{r}
-head(BGW17RAW)
-head(test)
-```
 ***
 
 Some of the images we classified in the Excel macro were 'empty' (i.e. the observer could not detect a subject in the image). We want to remove these empty images from analysis.
 
 We're going to use the "Count1Species"" column in each dataframe to remove 'empty' photos. The "Count1Species" column corresponds to the 1st detected species in each photo (i.e. the primary species (>50%) if more than one species is detected in a photo). If the image is 'empty' then it will have "NA" for a value in the "Count1Species" column. We're going to use the function complete.cases() to remove all of the rows that have "NA" in the "Count1Species" column. We'll do this for each of the dataframes, and save these new dataframes into new objects. 
 ```{r}
-## remove the observations that have NAs in the Count1Species column
+# remove the observations that have NAs in the Count1Species column
 BGT18<- BGT18RAW[complete.cases(BGT18RAW[ , 'Count1Species']),]
 BGW17<- BGW17RAW[complete.cases(BGW17RAW[ , 'Count1Species']),]
 BGW18<- BGW18RAW[complete.cases(BGW18RAW[ , 'Count1Species']),]
@@ -72,10 +71,9 @@ ACH19<- test[complete.cases(test[ , 'Count1Species']),]
 
 We no longer need the raw dataframes, so we can remove them from our environment just to clean things up a bit.
 ```{r}
-#rm(BGT18RAW, BGW17RAW, BGW18RAW, BGX18RAW, WCS17RAW, WCS18RAW, WCT18RAW, WCX18RAW)
+rm(BGT18RAW, BGW17RAW, BGW18RAW, BGX18RAW, WCS17RAW, WCS18RAW, WCT18RAW, WCX18RAW)
 ```
 ***
-
 Now we apply the clean dates function to our data.
 ```{r}
 BGT18 <- cleandates(BGT18)
@@ -89,6 +87,19 @@ WCX18 <- cleandates(WCX18)
 
 BGW17
 ```
+
+```{r}
+WCS17dates <- unique(date(WCS17$DateTime))
+write.csv(WCS17dates, file = "Wildcat_2017_Operational_Dates.csv", row.names = FALSE)
+WCS18dates <- unique(date(WCS18$DateTime))
+write.csv(WCS18dates, file = "Wildcat_2018_Operational_Dates.csv", row.names = FALSE)
+BGW17dates <- unique(date(BGW17$DateTime))
+write.csv(BGW17dates, file = "Boggy_2017_Operational_Dates.csv", row.names = FALSE)
+BGW18dates <- unique(date(BGW18$DateTime))
+write.csv(BGW18dates, file = "Boggy_2018_Operational_Dates.csv", row.names = FALSE)
+```
+
+
 ```{r}
 BGT18$SiteName <- rep("BGT18", n = length(BGT18))
 BGW17$SiteName <- rep("BGW17", n = length(BGW17))
