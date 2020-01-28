@@ -384,3 +384,43 @@ C:\BRC64.exe /DIR:"C:\temp\BGW_09182019_09182019\" /NOFOLDERS /RECURSIVE /PATTER
 December 3, 2019
 # Agua Chiquita Barbed
 C:\BRC64.exe /DIR:"C:\temp\ACB_07162019_09072019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+December 4, 2019-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Boggy West Timelapse
+C:\BRC64.exe /DIR:"K:\cameratraps\boggy\timelapsewest\BGW_05162018_06112018" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+C:\BRC64.exe /DIR:"J:\cameratraps\boggy\timelapsewest\BGW_05162018_06112018" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+C:\BRC64.exe /DIR:"K:\cameratraps\boggy\timelapsewest\BGW_05262017_06042017" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+C:\BRC64.exe /DIR:"J:\cameratraps\boggy\timelapsewest\BGW_05262017_06042017" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+C:\BRC64.exe /DIR:"K:\cameratraps\boggy\timelapsewest\BGW_06112018_06202018" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+C:\BRC64.exe /DIR:"J:\cameratraps\boggy\timelapsewest\BGW_06112018_06202018" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+C:\BRC64.exe /DIR:"K:\cameratraps\boggy\timelapsewest\BGW_06232017_07132017" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+C:\BRC64.exe /DIR:"J:\cameratraps\boggy\timelapsewest\BGW_06232017_07132017" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+C:\BRC64.exe /DIR:"K:\cameratraps\boggy\timelapsewest\BGW_07122018_07282018" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+C:\BRC64.exe /DIR:"J:\cameratraps\boggy\timelapsewest\BGW_07122018_07282018" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+C:\BRC64.exe /DIR:"K:\cameratraps\boggy\timelapsewest\BGW_07132017_07222017" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+C:\BRC64.exe /DIR:"J:\cameratraps\boggy\timelapsewest\BGW_07132017_07222017" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+December 10, 2019-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Bear Timelapse
+C:\BRC64.exe /DIR:"C:\temp\BRL_11052019_12072019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+December 17, 2019
+# Black Canyon South
+C:\BRC64.exe /DIR:"C:\temp\BKS_11052019_12022019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Black Canyon Dam
+C:\BRC64.exe /DIR:"C:\temp\BKD_11062019_12072019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Bear Trail
+C:\BRC64.exe /DIR:"C:\temp\BRT_11052019_12072019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Black Canyon North
+C:\BRC64.exe /DIR:"C:\temp\BKN_11052019_12072019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
+
+# Area 51
+C:\BRC64.exe /DIR:"C:\temp\A51_11052019_12062019\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
