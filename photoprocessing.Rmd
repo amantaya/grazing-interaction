@@ -21,28 +21,13 @@ getwd()
 ```
 Looks good for my (Andrew's) PC
 ***
-I created an external R script with contains all of the functions that I commongly use across different scripts. This chunk of code reads in those functions into the global R environment. 
+I created an external R script with contains all of the functions that I commongly use across different scripts. This chunk of code reads in those functions into the global R environment.
 ```{r}
 ## the source() funciton executes all lines of code in the "mentioned" script (i.e. the pathway)
-source_rmd <- function(file_path) {
-  stopifnot(is.character(file_path) && length(file_path) == 1)
-  .tmpfile <- tempfile(fileext = ".R")
-  .con <- file(.tmpfile) 
-  on.exit(close(.con))
-  full_rmd <- read_file(file_path)
-  codes <- str_match_all(string = full_rmd, pattern = "```(?s)\\{r[^{}]*\\}\\s*\\n(.*?)```")
-  stopifnot(length(codes) == 1 && ncol(codes[[1]]) == 2)
-  codes <- paste(codes[[1]][, 2], collapse = "\n")
-  writeLines(codes, .con)
-  flush(.con)
-  cat(sprintf("R code extracted to tempfile: %s\nSourcing tempfile...", .tmpfile))
-  source(.tmpfile)
-}
-
-source_rmd("functions.Rmd")
+source("packages.R")
 ```
 ***
-Let's read in the RAW photo data from 2017 and 2018, which human observers classified in a custom Excel macro (.xlsm) (written in VBA). The macro generates information for each image based on observes clicking different options based on what they see in each photo. We saved each of the .xlsm files (each file corresponding to a site and year) as .csv files for ease of use in R and to convert to a non-proprietary format.
+Let's read in the RAW photo data from 2017 and 2018, which human observers classified in a custom Excel macro (.xlsm written in VBA). The macro generates data for each image when a human observer selects different options based on what they see in each photo. We saved each of the .xlsm files (each file corresponding to a site and year) as .csv files for ease of use in R and to convert the .xlsm to a non-proprietary format.
 
 For the first step in cleaing up the camera data, we are going to treat all fields with "" (blanks), " " (spaces- typically accidental input which is invisble in Excel), or "NA" (characters), as NA's inside R using the function na.strings(). This will help us deal with missing information in our dataset.
 ```{r}
@@ -56,12 +41,14 @@ BGT18RAW<-read.csv('data/photo/BGT_Analysis_2018.csv', header=TRUE, na.strings=c
 WCX18RAW<-read.csv('data/photo/WCX_Analysis_2018.csv', header=TRUE, na.strings=c(""," ","NA"))
 WCS18RAW<-read.csv('data/photo/WCS_Analysis_2018.csv', header=TRUE, na.strings=c(""," ","NA"))
 WCT18RAW<-read.csv('data/photo/WCT_Analysis_2018.csv', header=TRUE, na.strings=c(""," ","NA"))
+test<-read.csv('data/photo/HorseImaging_test.csv', header=TRUE, na.strings=c(""," ","NA"))
 ```
 ***
 
 We read in 8 CSV files containing the camera data. Each dataframe corresponds to a site and year (e.g., BGW18 is Boggy West Timelapse, data from year 2018). In all of the dataframes, each row corresponds to a single image and each column corresponds to a single 'variable'. Some of these 'variables' are actually metadata, such as the file name of the image and the file path.
 ```{r}
 head(BGW17RAW)
+head(test)
 ```
 ***
 
@@ -79,6 +66,7 @@ WCS18<- WCS18RAW[complete.cases(WCS18RAW[ , 'Count1Species']),]
 WCT18<- WCT18RAW[complete.cases(WCT18RAW[ , 'Count1Species']),]
 WCX18<- WCX18RAW[complete.cases(WCX18RAW[ , 'Count1Species']),]
 WCX18<- WCX18RAW[complete.cases(WCX18RAW[ , 'ImageDate']),]
+ACH19<- test[complete.cases(test[ , 'Count1Species']),]
 ```
 ***
 
