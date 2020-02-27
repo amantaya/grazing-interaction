@@ -4,7 +4,7 @@ library(tidyverse)
 rm(list=ls(all=TRUE))
 
 # scan the external hard drive and read in the sub-folder and files as a character vector
-all_files<- list.files(path = "J:/cameratraps", full.names = TRUE, recursive = TRUE, include.dirs = TRUE)
+all_files<- list.files(path = "J:/cameratraps", full.names = TRUE, all.files = TRUE, recursive = TRUE, include.dirs = TRUE)
 
 # view the resulting character vector
 # View(all_files)
@@ -40,12 +40,17 @@ head(all_files_tibble_separated_into_columns)
 # create a new tibble that is a subset of the all files tibble
 # this tibble will store the number of files in each subfolder
 # separate from the all files tibble
-subfolders.tibble <- (filter(all_files_tibble_separated_into_columns, is.na(all_files_tibble_separated_into_columns$file) == TRUE & nchar(all_files_tibble_separated_into_columns$subfolder) < 9))
+subfolders.tibble <- (filter(all_files_tibble_separated_into_columns, is.na(all_files_tibble_separated_into_columns$file) == TRUE))
 
 # view this new tibble
 head(subfolders.tibble)
 
-# Read this custom function into the global environment to automate counting files in each subfolder
+collections.tibble <- (filter(all_files_tibble_separated_into_columns, is.na(all_files_tibble_separated_into_columns$subfolder) == TRUE))
+
+# view this new tibble
+head(collections.tibble)
+
+# Custom function: count.files.in.subfolders
 # What it does: This function reads in the all files tibble and then counts the number of files in each subfolder. It removes NA values before counting files.
 # What it needs: The inputs of this function are the tibble of files, the name of the collection folder (e.g., ACB_03272019_05102019), and the name of the subfolder (e.g., 100EK113)
 # What it outputs: This function outputs a single integer value of the number of files from the specified subfolder
@@ -55,6 +60,22 @@ count.files.in.subfolders<- function(files.tibble, collection, folder){
   filecount <- as.integer(count(files))
 return(filecount)
 }
+
+# Custom function: count.files.in.collections
+# What it does: This function reads in the all files tibble and then counts the number of files in each collection folder. It removes NA values before counting files.
+# What it needs: The inputs of this function are the tibble of files and the name of the collection folder (e.g., ACB_03272019_05102019).
+# What it outputs: This function outputs a single integer value of the number of files from the collection folder.
+count.files.in.collections <- function(files.tibble, folder){
+  files.in.collection.folder <- filter(files.tibble, collectionfolder == folder)
+  removed.na.files.in.collection.folder <- na.omit(files.in.collection.folder)
+  filecount <- as.integer(count(removed.na.files.in.collection.folder))
+  return(filecount)
+}
+
+# example use of this function
+# this function requires that there be a 'metadata' folder inside of the collection folder
+count.files.in.collections(all_files_tibble_separated_into_columns, "ACB_03272019_05102019")
+
 
 # Apply the 'count.files.in.subfolders' function over the entire the subfolders.tibble
 # This will count the number of files in each subfolder
@@ -66,7 +87,14 @@ subfolders.tibble$file[i]  <- count.files.in.subfolders(all_files_tibble_separat
 head(subfolders.tibble)
 tail(subfolders.tibble)
 
-head(all_files_tibble_separated_into_columns)
+# Apply the 'count.files.in.collections' function over the entire the subfolders.tibble
+# This will count the number of files in each subfolder
+# Each time the for loop will append the file count result to the corresponding file column in the subfolders.tibble
+for (i in 1:length(collections.tibble$file)) {
+  collections.tibble$file[i]  <- count.files.in.collections(all_files_tibble_separated_into_columns, collections.tibble$collectionfolder[i])
+}
+
+head(collections.tibble)
 
 # write.csv(subfolders.tibble, file = "file-count-by-subfolder-2020-02-27.csv", row.names = F)
 
