@@ -3,8 +3,11 @@ library(tidyverse)
 # clear the enviroment
 rm(list=ls(all=TRUE))
 
+# set working directory
+wd <- setwd("J:/cameratraps")
+
 # scan the external hard drive and read in the sub-folder and files as a character vector
-all_files<- list.files(path = "J:/cameratraps", full.names = TRUE, all.files = TRUE, recursive = TRUE, include.dirs = TRUE)
+all_files<- list.files(path = wd, full.names = TRUE, recursive = TRUE, include.dirs = TRUE)
 
 # view the resulting character vector
 # View(all_files)
@@ -40,7 +43,7 @@ head(all_files_tibble_separated_into_columns)
 # create a new tibble that is a subset of the all files tibble
 # this tibble will store the number of files in each subfolder
 # separate from the all files tibble
-subfolders.tibble <- (filter(all_files_tibble_separated_into_columns, is.na(all_files_tibble_separated_into_columns$file) == TRUE))
+subfolders.tibble <- (filter(all_files_tibble_separated_into_columns, is.na(all_files_tibble_separated_into_columns$file) == TRUE & nchar(all_files_tibble_separated_into_columns$subfolder) <9))
 
 # view this new tibble
 head(subfolders.tibble)
@@ -96,9 +99,11 @@ for (i in 1:length(collections.tibble$file)) {
 
 head(collections.tibble)
 
-# write.csv(subfolders.tibble, file = "file-count-by-subfolder-2020-02-27.csv", row.names = F)
+write.csv(subfolders.tibble, file = "file-count-by-subfolder-2020-04-30.csv", row.names = F)
 
-# write.csv(all_files_tibble_separated_into_columns, file = "all-camera-files-2020-02-27.csv", row.names = F)
+write.csv(all_files_tibble_separated_into_columns, file = "all-camera-files-2020-04-30.csv", row.names = F)
+
+write.csv(collections.tibble, file = "file-count-by-collection-folder-2020-04-30.csv", row.names = F)
 
 # View(allcamerafiles)
 
