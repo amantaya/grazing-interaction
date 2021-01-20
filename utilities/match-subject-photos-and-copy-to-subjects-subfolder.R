@@ -1,10 +1,11 @@
+# load in the required libraries
 library(tidyverse)
 library(stringi)
 
-# clear the enviroment
+# clear the R environment
 rm(list=ls(all=TRUE))
 
-# set the working directoy to read in the files from the correct location on the external hard drive
+# set the working directoy to read in the files from the correct location on your hard drive or on an external hard drive
 setwd("C:/TEMP/A51_06112019_07022019/metadata")
 
 # double check the working directory to make sure its correct
@@ -13,8 +14,10 @@ getwd()
 # read in the csv file that contains the metadata for all photos in the collection folder (e.g., BRL_06052019_07022019)
 all_photos_in_collection <- read.csv("A51_06112019_07022019.csv")
 
-# convert the data fram into a tibble to improve its behavior when printed in the console
+# convert the data frame into a tibble to improve its behavior when printed in the console
 all_photos_tibble <- as_tibble(all_photos_in_collection)
+
+# print the tibble in the console to check its contents
 all_photos_tibble
 
 # read in the text files from the metadata folder
