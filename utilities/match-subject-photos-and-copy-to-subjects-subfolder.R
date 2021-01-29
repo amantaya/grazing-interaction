@@ -1,6 +1,14 @@
 # load in the required libraries
 library(tidyverse)
 library(stringi)
+library(readr)
+
+# print the current R version in the console to check if your R version matches mine (which is 4.0.3)
+R.Version()
+
+# print the session info to check which language locale is currently configured for this environment
+# this is important because the locale sets the text file encoding on the OS
+sessionInfo()
 
 # clear the R environment
 rm(list=ls(all=TRUE))
@@ -25,11 +33,31 @@ all_photos_in_collection_tibble
 # TODO implement a fix that converts the encoding to UTF-8 if necessary
 subject_txt_files <- list.files(getwd(), pattern = ".txt")
 
-# print the character vector in the console to check which text files were read into the R environment
+# print the list of files (stored in a character vector) in the console to check which text files were read into the R environment
 subject_txt_files
+
+readLines(con <- file("Unicode.txt", encoding = "UCS-2LE"))
+close(con)
+
+# test how the readLines() function from the base R package differs from read_lines in 
+first_subjects_text_file <- readLines(subject_txt_files[1])
+
+# check if files are properly encoded as UTF-8
+stri_enc_isutf8(first_subjects_text_file)
+
+stri_enc_mark(first_subjects_text_file)
+
+stri_encode(first_subjects_text_file, "ASCII", "UTF-8") # re-mark encodings
+
+stri_enc_mark(first_subjects_text_file)
 
 # create an empty vector to hold all of the photos with subjects
 all_subjects_vector <- NULL
+
+subject_text_files_raw <- read_lines_raw(subject_txt_files[1])
+
+
+write_lines(subject_text_files_raw, "C:/TEMP/", append = FALSE)
 
 # use this for loop to read in all of subject text files and append (add) them to the vector
 for (i in 1:length(subject_txt_files)){
@@ -37,7 +65,10 @@ for (i in 1:length(subject_txt_files)){
   }
 
 # print the character vector in the console to check the structure of the character strings
-all_subjects_vector
+all_subjects_vector_utf8 <- enc2utf8(all_subjects_vector)
+
+# print the encoded utf8 character vector
+all_subjects_vector_utf8
 
 # the character strings are stored in the R environment as \\ (double-backslashes) which are reserved characters
 # replace these reserved characters with a single forward-slash, which is how R reads in file paths 
