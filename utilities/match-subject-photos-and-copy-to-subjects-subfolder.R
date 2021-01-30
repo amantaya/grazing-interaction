@@ -1,7 +1,7 @@
 # load in the required libraries
+library(packrat)
 library(tidyverse)
 library(stringi)
-library(readr)
 
 # print the current R version in the console to check if your R version matches mine (which is 4.0.3)
 R.Version()
@@ -28,47 +28,37 @@ all_photos_in_collection_tibble <- as_tibble(all_photos_in_collection)
 # print the tibble in the console to check its contents
 all_photos_in_collection_tibble
 
-# read in the text files from the metadata folder
-# these text files may have an encoding error, if so, open them in Notepad++ and save the encoding as UTF-8
-# TODO implement a fix that converts the encoding to UTF-8 if necessary
+# read in the text files from the metadata sub-folder
+# be careful not to put any other files with the file extension ".txt" inside of the metadata sub-folder because this function will read them in to R
 subject_txt_files <- list.files(getwd(), pattern = ".txt")
 
-# print the list of files (stored in a character vector) in the console to check which text files were read into the R environment
+# print the list of files (stored in a character vector inside R) in the console to check which text files were read into the R environment
 subject_txt_files
 
-readLines(con <- file("Unicode.txt", encoding = "UCS-2LE"))
-close(con)
+# open a file connection to the first text file (inside of each text file is a list of photo files that contain subjects)
+# define the text file encoding explicitly because R has trouble recognizing this type of file encoding
+# print the character string to the console to check if R read in the strings correctly
+# if R misreads the text files, you will see embedded nulls or blank strings printed in the console
+readLines(con <- file(subject_txt_files[1], encoding = "UCS-2LE"))
 
-# test how the readLines() function from the base R package differs from read_lines in 
-first_subjects_text_file <- readLines(subject_txt_files[1])
+# store the photos with subjects from the first text file in the metadata subfolder into a character vector
+# this will allow us to test converting from UCS-2LE to UTF-8
+first_subjects_text_file <- readLines(con <- file(subject_txt_files[1], encoding = "UCS-2LE"))
 
-# check if files are properly encoded as UTF-8
-stri_enc_isutf8(first_subjects_text_file)
-
-stri_enc_mark(first_subjects_text_file)
-
-stri_encode(first_subjects_text_file, "ASCII", "UTF-8") # re-mark encodings
-
-stri_enc_mark(first_subjects_text_file)
+# this does not work
+# cannot open file permission denied error
+# writeLines(first_subjects_text_file, getwd())
 
 # create an empty vector to hold all of the photos with subjects
 all_subjects_vector <- NULL
 
-subject_text_files_raw <- read_lines_raw(subject_txt_files[1])
-
-
-write_lines(subject_text_files_raw, "C:/TEMP/", append = FALSE)
-
 # use this for loop to read in all of subject text files and append (add) them to the vector
 for (i in 1:length(subject_txt_files)){
-  all_subjects_vector <- append(all_subjects_vector, read_lines(subject_txt_files[i]))
+  all_subjects_vector <- append(all_subjects_vector, readLines(con <- file(subject_txt_files[i], encoding = "UCS-2LE")))
   }
 
 # print the character vector in the console to check the structure of the character strings
-all_subjects_vector_utf8 <- enc2utf8(all_subjects_vector)
-
-# print the encoded utf8 character vector
-all_subjects_vector_utf8
+all_subjects_vector
 
 # the character strings are stored in the R environment as \\ (double-backslashes) which are reserved characters
 # replace these reserved characters with a single forward-slash, which is how R reads in file paths 
@@ -81,6 +71,8 @@ all_subjects_vector_string_replaced
 # convert the vector containing all of photos with subjects into a tibble
 # this will improve its display behavior in the console
 all_subjects_tibble <- as_tibble(all_subjects_vector_string_replaced)
+
+# print the tibble in the console to check its contents
 all_subjects_tibble
 
 # rename the first column in the tibble to something more descriptive
@@ -100,12 +92,12 @@ all_subjects_tibble_separated_into_columns
 # the %in% checks for matches from the left object in the object to the right
 # if the name of file in the subjects tibble matches the name of the file in the all photos tibble, it will report as TRUE
 # all values should report as TRUE because the subjects tibble is a subset of the all photos tibble
-all_subjects_tibble_separated_into_columns$file %in% all_photos_tibble$ImageFilename
+all_subjects_tibble_separated_into_columns$file %in% all_photos_in_collection_tibble$ImageFilename
 
 # reversing matching function should illustrate how it works
 # in this case, it is looking for matches in the all photos tibble using the file names in the subjects tibble
 # only some of the values should report as TRUE (i.e. they match) because not all photos contain subjects
-all_photos_tibble$ImageFilename %in% all_subjects_tibble_separated_into_columns$file
+all_photos_in_collection_tibble$ImageFilename %in% all_subjects_tibble_separated_into_columns$file
 
 # now that we have identified which files contain subjects by reading in the text files created by IrFanView
 # we want to copy them to a "subjects" sub-folder in the file directory
