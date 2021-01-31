@@ -45,10 +45,6 @@ readLines(con <- file(subject_txt_files[1], encoding = "UCS-2LE"))
 # this will allow us to test converting from UCS-2LE to UTF-8
 first_subjects_text_file <- readLines(con <- file(subject_txt_files[1], encoding = "UCS-2LE"))
 
-# this does not work
-# cannot open file permission denied error
-# writeLines(first_subjects_text_file, getwd())
-
 # create an empty vector to hold all of the photos with subjects
 all_subjects_vector <- NULL
 
@@ -109,3 +105,7 @@ to <- "C:/TEMP/subjects_test_copy"
 
 # copy the photos containing subjects into the folders locations defined in the previous step
 file.copy(from, to, overwrite = FALSE)
+
+# TODO create an csv output that matches the all_photos_in_collection_tibble to the all_subjects_tibble
+# and writes a csv file that says "subject? = TRUE" or conversely "empty = FALSE"
+# probably subject = TRUE makes more sense
