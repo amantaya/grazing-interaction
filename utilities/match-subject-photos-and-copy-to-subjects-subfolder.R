@@ -14,13 +14,13 @@ sessionInfo()
 rm(list=ls(all=TRUE))
 
 # set the working directory to read in the files from the correct location on your hard drive (or on an external hard drive)
-setwd("C:/TEMP/A51_06112019_07022019/metadata")
+setwd(file.path("J:", "cameratraps", "boggy", "trail", "BGT_06252019_07302019"))
 
 # double check the working directory to make sure its correct
 getwd()
 
 # read in the csv file that contains the metadata for all photos in the collection folder (e.g., BRL_06052019_07022019)
-all_photos_in_collection <- read.csv("A51_06112019_07022019.csv")
+all_photos_in_collection <- read.csv("metadata/BGT_06252019_07302019.csv")
 
 # convert the data frame into a tibble to improve its behavior when printed in the console
 all_photos_in_collection_tibble <- as_tibble(all_photos_in_collection)
@@ -30,7 +30,7 @@ all_photos_in_collection_tibble
 
 # read in the text files from the metadata sub-folder
 # be careful not to put any other files with the file extension ".txt" inside of the metadata sub-folder because this function will read them in to R
-subject_txt_files <- list.files(getwd(), pattern = ".txt")
+subject_txt_files <- list.files(paste0(getwd(), "/metadata"), pattern = ".txt", full.names = TRUE)
 
 # print the list of files (stored in a character vector inside R) in the console to check which text files were read into the R environment
 subject_txt_files
@@ -75,11 +75,12 @@ all_subjects_tibble
 names(all_subjects_tibble)[names(all_subjects_tibble) == "value"] <- "path"
 
 # print the tibble in the console to see how its display behavior changed
-all_subjects_tibble
+all_subjects_separated <- do.call("rbind", strsplit(all_subjects_vector_string_replaced, split = "/"))
+all_subjects_separated
 
 # separate the tibble into multiple columns for better display in the console
 # this will also make it easier to subset the tibble
-all_subjects_tibble_separated_into_columns <- separate(all_subjects_tibble, path, into = c("rootfolder","mainfolder", "locationfolder", "sitefolder", "collectionfolder", "subfolder", "file"), sep = "/", remove = FALSE)
+# all_subjects_tibble_separated_into_columns <- separate(all_subjects_tibble, path, into = c("rootfolder","", "locationfolder", "sitefolder", "collectionfolder", "subfolder", "file"), sep = "/", remove = FALSE)
 
 # print the tibble in the console to check its structure
 all_subjects_tibble_separated_into_columns
@@ -101,7 +102,7 @@ all_photos_in_collection_tibble$ImageFilename %in% all_subjects_tibble_separated
 # define explicitly where the files are coming from, and where we want to copy them to
 # TODO ideally we can use relative file paths to copy files rather than absolute file paths
 from <- as.character(all_subjects_tibble_separated_into_columns$path)
-to <- "C:/TEMP/subjects_test_copy"
+to <- paste0(getwd(), "subjects")
 
 # copy the photos containing subjects into the folders locations defined in the previous step
 file.copy(from, to, overwrite = FALSE)
