@@ -97,20 +97,22 @@ subject_photos <- all_subjects_df[ , ncol(all_subjects_df)]
 # the %in% checks for matches from the left object in the object to the right
 # if the name of file in the subjects tibble matches the name of the file in the all photos tibble, it will report as TRUE
 # all values should report as TRUE because the subjects tibble is a subset of the all photos tibble
-all_subjects_tibble_separated_into_columns$file %in% all_photos_in_collection_tibble$ImageFilename
+# all_subjects_tibble_separated_into_columns$file %in% all_photos_in_collection_tibble$ImageFilename
 
 # reversing matching function should illustrate how it works
 # in this case, it is looking for matches in the all photos tibble using the file names in the subjects tibble
 # only some of the values should report as TRUE (i.e. they match) because not all photos contain subjects
-all_photos_in_collection_tibble$ImageFilename %in% all_subjects_tibble_separated_into_columns$file
+# all_photos_in_collection_tibble$ImageFilename %in% all_subjects_tibble_separated_into_columns$file
 
 # now that we have identified which files contain subjects by reading in the text files created by IrFanView
 # we want to copy them to a "subjects" sub-folder in the file directory
-# that way we can run the Excel macro on only the photos that contain subjects, greatly speeding up the scoring process
+# that way we can run the Excel macro on only the photos that containing subjects, greatly speeding up the scoring process
+
 # define explicitly where the files are coming from, and where we want to copy them to
-# TODO ideally we can use relative file paths to copy files rather than absolute file paths
-from <- as.character(all_subjects_tibble_separated_into_columns$path)
-to <- paste0(getwd(), "subjects")
+# this function uses vectors defined in a previous step to create file paths for our external hard drives
+from <- file.path("J:", "cameratraps", "boggy", "trail", collection_folder, sub_folder, subject_photos)
+
+to <- paste0(getwd(), "/subjects")
 
 # copy the photos containing subjects into the folders locations defined in the previous step
 file.copy(from, to, overwrite = FALSE)
