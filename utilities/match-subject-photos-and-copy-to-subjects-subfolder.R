@@ -14,6 +14,7 @@ sessionInfo()
 rm(list=ls(all=TRUE))
 
 # set the working directory to read in the files from the correct location on your hard drive (or on an external hard drive)
+# the files you need to access might be in a different location on your computer therefore you likely will need to change the line below
 setwd(file.path("J:", "cameratraps", "boggy", "trail", "BGT_06252019_07302019"))
 
 # double check the working directory to make sure its correct
@@ -21,12 +22,6 @@ getwd()
 
 # read in the csv file that contains the metadata for all photos in the collection folder (e.g., BRL_06052019_07022019)
 all_photos_in_collection <- read.csv("metadata/BGT_06252019_07302019.csv")
-
-# convert the data frame into a tibble to improve its behavior when printed in the console
-all_photos_in_collection_tibble <- as_tibble(all_photos_in_collection)
-
-# print the tibble in the console to check its contents
-all_photos_in_collection_tibble
 
 # read in the text files from the metadata sub-folder
 # be careful not to put any other files with the file extension ".txt" inside of the metadata sub-folder because this function will read them in to R
@@ -64,26 +59,39 @@ all_subjects_vector_string_replaced <- str_replace_all(all_subjects_vector, "\\\
 # print the character vector to check the structure of the character strings
 all_subjects_vector_string_replaced
 
-# convert the vector containing all of photos with subjects into a tibble
-# this will improve its display behavior in the console
-all_subjects_tibble <- as_tibble(all_subjects_vector_string_replaced)
-
-# print the tibble in the console to check its contents
-all_subjects_tibble
-
 # rename the first column in the tibble to something more descriptive
-names(all_subjects_tibble)[names(all_subjects_tibble) == "value"] <- "path"
+# names(all_subjects_vector_string_replaced)[names(all_subjects_vector_string_replaced) == "value"] <- "path"
 
-# print the tibble in the console to see how its display behavior changed
+# the path of each photo may be different on each computer so we need to make this script as flexible as possible to work on as many computers as possible
+# we'll do this by splitting the file path string into multiple parts, throwing away the parts of the string that we don't need
+# i.e. we'll use the absolute path and use it create relative paths
 all_subjects_separated <- do.call("rbind", strsplit(all_subjects_vector_string_replaced, split = "/"))
+
+# print the character vector to check if the string split worked correctly
+# there should be multiple parts to each string if this worked correctly
 all_subjects_separated
+
+# covert the linked list into a data frame to improve it's behavior in the console
+all_subjects_df <- as.data.frame(all_subjects_separated)
+
+# print the data frame in the console to check its structure
+all_subjects_df
+
+# subset the data frame to make the file paths relative rather than absolute
+# there are many ways to do this, in our case we want to be as flexible as possible to account for differences in computers
+
+# extract the third column from the last
+collection_folder <- all_subjects_df[ , ncol(all_subjects_df) - 2]
+
+# extract the second column from the last
+sub_folder <- all_subjects_df[ , ncol(all_subjects_df) - 1]
+
+# extract the last column
+subject_photos <- all_subjects_df[ , ncol(all_subjects_df)]
 
 # separate the tibble into multiple columns for better display in the console
 # this will also make it easier to subset the tibble
 # all_subjects_tibble_separated_into_columns <- separate(all_subjects_tibble, path, into = c("rootfolder","", "locationfolder", "sitefolder", "collectionfolder", "subfolder", "file"), sep = "/", remove = FALSE)
-
-# print the tibble in the console to check its structure
-all_subjects_tibble_separated_into_columns
 
 # compare the subjects tibble to all of the photos in the collection to check for matching photos
 # the %in% checks for matches from the left object in the object to the right
