@@ -15,13 +15,13 @@ rm(list=ls(all=TRUE))
 
 # set the working directory to read in the files from the correct location on your hard drive (or on an external hard drive)
 # the files you need to access might be in a different location on your computer therefore you likely will need to change the line below
-setwd(file.path("J:", "cameratraps", "boggy", "trail", "BGT_06252019_07302019"))
+setwd(file.path("J:", "cameratraps", "boggy", "trail", "BGT_09182019_10152019"))
 
 # double check the working directory to make sure its correct
 getwd()
 
 # read in the csv file that contains the metadata for all photos in the collection folder (e.g., BRL_06052019_07022019)
-all_photos_in_collection <- read.csv("metadata/BGT_06252019_07302019.csv")
+all_photos_in_collection <- read.csv("metadata/BGT_09182019_10152019.csv")
 
 # read in the text files from the metadata sub-folder
 # be careful not to put any other files with the file extension ".txt" inside of the metadata sub-folder because this function will read them in to R
@@ -83,26 +83,45 @@ all_subjects_df
 # extract the third column from the last
 collection_folder <- all_subjects_df[ , ncol(all_subjects_df) - 2]
 
+head(collection_folder)
+
 # extract the second column from the last
 sub_folder <- all_subjects_df[ , ncol(all_subjects_df) - 1]
+
+head(sub_folder)
 
 # extract the last column
 subject_photos <- all_subjects_df[ , ncol(all_subjects_df)]
 
-# separate the tibble into multiple columns for better display in the console
-# this will also make it easier to subset the tibble
-# all_subjects_tibble_separated_into_columns <- separate(all_subjects_tibble, path, into = c("rootfolder","", "locationfolder", "sitefolder", "collectionfolder", "subfolder", "file"), sep = "/", remove = FALSE)
+head(subject_photos)
 
 # compare the subjects tibble to all of the photos in the collection to check for matching photos
 # the %in% checks for matches from the left object in the object to the right
 # if the name of file in the subjects tibble matches the name of the file in the all photos tibble, it will report as TRUE
 # all values should report as TRUE because the subjects tibble is a subset of the all photos tibble
-# all_subjects_tibble_separated_into_columns$file %in% all_photos_in_collection_tibble$ImageFilename
+subject_photos %in% all_photos_in_collection$ImageFilename
 
 # reversing matching function should illustrate how it works
 # in this case, it is looking for matches in the all photos tibble using the file names in the subjects tibble
 # only some of the values should report as TRUE (i.e. they match) because not all photos contain subjects
-# all_photos_in_collection_tibble$ImageFilename %in% all_subjects_tibble_separated_into_columns$file
+all_photos_in_collection$ImageFilename %in% subject_photos
+
+# store all the subject photos that match to all the photos in the collection in a vector
+photo_contains_subject <- all_photos_in_collection$ImageFilename %in% subject_photos
+
+# create a new column in the all photos data frame that identifies that if the photo has a subject
+# i.e. if SubjectPhoto = TRUE then that photo has been recorded in the subject text files as having something in it (i.e. a subject)
+all_photos_in_collection_add_subjects_column<- add_column(all_photos_in_collection, SubjectPhoto = photo_contains_subject)
+
+# print this data frame in the console to view the new column
+all_photos_in_collection_add_subjects_column
+
+# create a flexible excel file name that uses the first row of the collection folder
+excelfilename <- paste0(paste(collection_folder[1], "matched_subject_photos", sep = "_"), ".csv")
+
+# write the new csv to the working directory
+# we can use this new file at a later point (for machine learning) to identify empty photos from photos with something in them 
+write.csv(all_photos_in_collection_add_subjects_column, excelfilename, row.names=F)
 
 # now that we have identified which files contain subjects by reading in the text files created by IrFanView
 # we want to copy them to a "subjects" sub-folder in the file directory
@@ -116,7 +135,3 @@ to <- paste0(getwd(), "/subjects")
 
 # copy the photos containing subjects into the folders locations defined in the previous step
 file.copy(from, to, overwrite = FALSE)
-
-# TODO create an csv output that matches the all_photos_in_collection_tibble to the all_subjects_tibble
-# and writes a csv file that says "subject? = TRUE" or conversely "empty = FALSE"
-# probably subject = TRUE makes more sense
