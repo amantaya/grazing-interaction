@@ -13,15 +13,28 @@ sessionInfo()
 # clear the R environment
 rm(list=ls(all=TRUE))
 
+# Define the location of the files on the external hard drive
+# Changing these inputs here makes it so you don't have to change them elsewhere in the script
+# Don't repeat yourself (DRY)
+root_folder <- "J:"
+
+main_folder <- "cameratraps"
+
+location_folder <- "blackcanyon"
+
+site_folder <- "timelapsesouth"
+
+collection_folder <- "BKS_07102020_10222020"
+
 # set the working directory to read in the files from the correct location on your hard drive (or on an external hard drive)
 # the files you need to access might be in a different location on your computer therefore you likely will need to change the line below
-setwd(file.path("J:", "cameratraps", "boggy", "trail", "BGT_09182019_10152019"))
+setwd(file.path(root_folder, main_folder, location_folder, site_folder, collection_folder))
 
 # double check the working directory to make sure its correct
 getwd()
 
 # read in the csv file that contains the metadata for all photos in the collection folder (e.g., BRL_06052019_07022019)
-all_photos_in_collection <- read.csv("metadata/BGT_09182019_10152019.csv")
+all_photos_in_collection <- read.csv(paste0(getwd(), paste0("/metadata/", collection_folder, ".csv")))
 
 # read in the text files from the metadata sub-folder
 # be careful not to put any other files with the file extension ".txt" inside of the metadata sub-folder because this function will read them in to R
@@ -65,6 +78,7 @@ all_subjects_vector_string_replaced
 # the path of each photo may be different on each computer so we need to make this script as flexible as possible to work on as many computers as possible
 # we'll do this by splitting the file path string into multiple parts, throwing away the parts of the string that we don't need
 # i.e. we'll use the absolute path and use it create relative paths
+
 all_subjects_separated <- do.call("rbind", strsplit(all_subjects_vector_string_replaced, split = "/"))
 
 # print the character vector to check if the string split worked correctly
@@ -81,19 +95,19 @@ all_subjects_df
 # there are many ways to do this, in our case we want to be as flexible as possible to account for differences in computers
 
 # extract the third column from the last
-collection_folder <- all_subjects_df[ , ncol(all_subjects_df) - 2]
+collection <- all_subjects_df[ , ncol(all_subjects_df) - 2]
 
-head(collection_folder)
+collection
 
 # extract the second column from the last
 sub_folder <- all_subjects_df[ , ncol(all_subjects_df) - 1]
 
-head(sub_folder)
+sub_folder
 
 # extract the last column
 subject_photos <- all_subjects_df[ , ncol(all_subjects_df)]
 
-head(subject_photos)
+subject_photos
 
 # compare the subjects tibble to all of the photos in the collection to check for matching photos
 # the %in% checks for matches from the left object in the object to the right
@@ -117,7 +131,7 @@ all_photos_in_collection_add_subjects_column<- add_column(all_photos_in_collecti
 all_photos_in_collection_add_subjects_column
 
 # create a flexible excel file name that uses the first row of the collection folder
-excelfilename <- paste0(paste(collection_folder[1], "matched_subject_photos", sep = "_"), ".csv")
+excelfilename <- paste0(paste(collection_folder, "matched_subject_photos", sep = "_"), ".csv")
 
 # write the new csv to the working directory
 # we can use this new file at a later point (for machine learning) to identify empty photos from photos with something in them 
@@ -129,7 +143,7 @@ write.csv(all_photos_in_collection_add_subjects_column, excelfilename, row.names
 
 # define explicitly where the files are coming from, and where we want to copy them to
 # this function uses vectors defined in a previous step to create file paths for our external hard drives
-from <- file.path("J:", "cameratraps", "boggy", "trail", collection_folder, sub_folder, subject_photos)
+from <- file.path(root_folder, main_folder, location_folder, site_folder, collection_folder, sub_folder, subject_photos)
 
 to <- paste0(getwd(), "/subjects")
 
