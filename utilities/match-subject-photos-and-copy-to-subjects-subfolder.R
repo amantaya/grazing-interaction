@@ -13,6 +13,8 @@ sessionInfo()
 # clear the R environment
 rm(list=ls(all=TRUE))
 
+# J:\cameratraps\bear\timelapse\BRL_07112020_08112020\metadata
+
 # Define the location of the files on the external hard drive
 # Changing these inputs here makes it so you don't have to change them elsewhere in the script
 # Don't repeat yourself (DRY)
@@ -20,11 +22,11 @@ root_folder <- "J:"
 
 main_folder <- "cameratraps"
 
-location_folder <- "blackcanyon"
+location_folder <- "bear"
 
-site_folder <- "timelapsesouth"
+site_folder <- "timelapse"
 
-collection_folder <- "BKS_07102020_10222020"
+collection_folder <- "BRL_07112020_08112020"
 
 # set the working directory to read in the files from the correct location on your hard drive (or on an external hard drive)
 # the files you need to access might be in a different location on your computer therefore you likely will need to change the line below
@@ -95,9 +97,9 @@ all_subjects_df
 # there are many ways to do this, in our case we want to be as flexible as possible to account for differences in computers
 
 # extract the third column from the last
-collection <- all_subjects_df[ , ncol(all_subjects_df) - 2]
+# collection <- all_subjects_df[ , ncol(all_subjects_df) - 2]
 
-collection
+# collection
 
 # extract the second column from the last
 sub_folder <- all_subjects_df[ , ncol(all_subjects_df) - 1]
