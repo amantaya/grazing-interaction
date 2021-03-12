@@ -2,6 +2,7 @@
 library(packrat)
 library(tidyverse)
 library(stringi)
+library(beepr)
 
 # print the current R version in the console to check if your R version matches mine (which is 4.0.3)
 R.Version()
@@ -13,7 +14,7 @@ sessionInfo()
 # clear the R environment
 rm(list=ls(all=TRUE))
 
-# J:\cameratraps\bear\timelapse\BRL_07112020_08112020\metadata
+# J:\cameratraps\wildcat\exclosure\WCX_09182019_10062019
 
 # Define the location of the files on the external hard drive
 # Changing these inputs here makes it so you don't have to change them elsewhere in the script
@@ -22,11 +23,11 @@ root_folder <- "J:"
 
 main_folder <- "cameratraps"
 
-location_folder <- "bear"
+location_folder <- "wildcat"
 
-site_folder <- "timelapse"
+site_folder <- "exclosure"
 
-collection_folder <- "BRL_07112020_08112020"
+collection_folder <- "WCX_09182019_10062019"
 
 # set the working directory to read in the files from the correct location on your hard drive (or on an external hard drive)
 # the files you need to access might be in a different location on your computer therefore you likely will need to change the line below
@@ -80,7 +81,9 @@ all_subjects_vector_string_replaced
 # the path of each photo may be different on each computer so we need to make this script as flexible as possible to work on as many computers as possible
 # we'll do this by splitting the file path string into multiple parts, throwing away the parts of the string that we don't need
 # i.e. we'll use the absolute path and use it create relative paths
-
+# TODO this function needs to accept strings with different lengths/sections
+# I could do this by string splitting each text file separately, then combining only the sections that I need after
+# I could then write out the correct text files 
 all_subjects_separated <- do.call("rbind", strsplit(all_subjects_vector_string_replaced, split = "/"))
 
 # print the character vector to check if the string split worked correctly
@@ -137,6 +140,7 @@ excelfilename <- paste0(paste(collection_folder, "matched_subject_photos", sep =
 
 # write the new csv to the working directory
 # we can use this new file at a later point (for machine learning) to identify empty photos from photos with something in them 
+# TODO ideally this new csv file would be put in the metadata sub-folder
 write.csv(all_photos_in_collection_add_subjects_column, excelfilename, row.names=F)
 
 # now that we have identified which files contain subjects by reading in the text files created by IrFanView
@@ -151,3 +155,9 @@ to <- paste0(getwd(), "/subjects")
 
 # copy the photos containing subjects into the folders locations defined in the previous step
 file.copy(from, to, overwrite = FALSE)
+
+# TODO Add a some logic to check in an files were not copied due to incorrect paths
+
+# play a sound to indicate the transfer is complete
+beep("coin")
+
