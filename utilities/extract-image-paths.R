@@ -21,7 +21,28 @@
 ## If these options are not desired, the entire script can be run in R without alteration. the code is annoated to provide 
 ## an explanation of the process, should this need to be update
 
-## R SCRIPT
+# clear the R environment
+rm(list=ls(all=TRUE))
+
+# load the required packages
+library(beepr)
+
+root_folder <- "J:"
+
+main_folder <- "cameratraps"
+
+location_folder <- "wildcat"
+
+site_folder <- "exclosure"
+
+collection_folder <- "WCX_07132020_09082020"
+
+# set the working directory to read in the files from the correct location on your hard drive (or on an external hard drive)
+# the files you need to access might be in a different location on your computer therefore you likely will need to change the line below
+setwd(file.path(root_folder, main_folder, location_folder, site_folder, collection_folder))
+
+# double check the working directory to make sure its correct
+getwd()
 
 ## get the current directory, if this script was copied into the image storage folder, then
 ## the working directory is that folder.
@@ -95,3 +116,6 @@ if (Alert==T){
 
 excelfilename<-paste(rev(strsplit(currentfolder,split="/")[[1]])[1],".csv",sep="")
 write.csv(imagefilesinfo,excelfilename,row.names=F)
+
+# play a sound to indicate the transfer is complete
+beep("coin")
