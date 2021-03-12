@@ -156,7 +156,9 @@ to <- paste0(getwd(), "/subjects")
 # copy the photos containing subjects into the folders locations defined in the previous step
 file.copy(from, to, overwrite = FALSE)
 
-# TODO Add a some logic to check in an files were not copied due to incorrect paths
+# TODO Add a some logic to check if files were not copied due to incorrect paths
+# one way to do this would be to compare the number of observations on the all subjects dataframe
+# and compare it to the number of copied files
 
 # play a sound to indicate the transfer is complete
 beep("coin")
