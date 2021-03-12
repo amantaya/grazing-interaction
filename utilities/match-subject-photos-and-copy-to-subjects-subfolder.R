@@ -86,6 +86,9 @@ all_subjects_vector_string_replaced
 # I could then write out the correct text files 
 all_subjects_separated <- do.call("rbind", strsplit(all_subjects_vector_string_replaced, split = "/"))
 
+# TODO ideally, instead of using the inputs of the student's file paths and cutting out the back half of the string
+# this script would replace the front half of student's file paths and replace the string with the location of the files on the external hard drives
+
 # print the character vector to check if the string split worked correctly
 # there should be multiple parts to each string if this worked correctly
 all_subjects_separated
@@ -157,8 +160,7 @@ to <- paste0(getwd(), "/subjects")
 file.copy(from, to, overwrite = FALSE)
 
 # TODO Add a some logic to check if files were not copied due to incorrect paths
-# one way to do this would be to compare the number of observations on the all subjects dataframe
-# and compare it to the number of copied files
+# one way to do this would be to compare the number of observations on the all subjects data frame to the number of copied files
 
 # play a sound to indicate the transfer is complete
 beep("coin")
