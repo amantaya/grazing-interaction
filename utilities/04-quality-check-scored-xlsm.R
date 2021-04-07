@@ -40,4 +40,24 @@ getwd()
 # read in the csv file that contains the metadata for all photos in the collection folder (e.g., BRL_06052019_07022019)
 chunk1csv <- read.csv(paste0(paste(collection_folder, "subjects", chunk_folder, sep = "_"), ".csv"))
 
+sample_size <- ceiling(nrow(chunk1csv) / 10)
 
+test_data <- slice_sample(chunk1csv, n = sample_size)
+
+excelfilename <- paste0(paste(collection_folder, "subjects", chunk_folder, "test_data", sep = "_"), ".csv")
+
+write.csv(test_data, excelfilename, row.names=FALSE)
+
+andrew_data <- read.csv(paste0(paste(collection_folder, "subjects", chunk_folder, "andrew_data", sep = "_"), ".csv"))
+
+andrew_species <- allspecies(andrew_data)
+
+test_species <- allspecies(test_data)
+
+andrew_counts <- counts.df(andrew_species)
+
+andrew_counts
+
+test_counts <- counts.df(test_species)
+
+test_counts
