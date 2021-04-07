@@ -14,26 +14,30 @@ sessionInfo()
 # clear the R environment
 rm(list=ls(all=TRUE))
 
-# K:\cameratraps\blackcanyon\timelapsenorth\BKN_08132019_11052019
+# C:\TEMP\completed_xlsm\quality-check\in-progress\BKN_06112019_07022019\chunk11
 
 # Define the location of the files on the external hard drive
-root_folder <- "K:"
+root_folder <- "C:"
 
-main_folder <- "cameratraps"
+main_folder <- "TEMP"
 
-location_folder <- "blackcanyon"
+location_folder <- "completed_xlsm"
 
-site_folder <- "timelapsenorth"
+site_folder <- "quality-check"
 
-collection_folder <- "BKN_08132019_11052019"
+status_folder <- "in-progress"
 
-subjects_folder <- "subjects"
+collection_folder <- "BKN_06112019_07022019"
+
+chunk_folder <- "chunk1"
 
 # set the working directory to read in the files from the correct location on your hard drive (or on an external hard drive)
-setwd(file.path(root_folder, main_folder, location_folder, site_folder, collection_folder))
+setwd(file.path(root_folder, main_folder, location_folder, site_folder, status_folder, collection_folder, chunk_folder))
 
 # double check the working directory to make sure its correct
 getwd()
 
 # read in the csv file that contains the metadata for all photos in the collection folder (e.g., BRL_06052019_07022019)
-all_photos_in_collection <- read.csv(paste0(getwd(), paste0("/metadata/", collection_folder, "_matched_subject_photos", ".csv")))
+chunk1csv <- read.csv(paste0(paste(collection_folder, "subjects", chunk_folder, sep = "_"), ".csv"))
+
+
