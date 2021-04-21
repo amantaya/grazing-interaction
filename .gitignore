@@ -13,8 +13,9 @@ packrat/src/
 # ignore generated html files
 *.html
 
-# ignore data files
+# ignore data folders and files
 data
 excelmacro
 results
 figures
+*.csv
