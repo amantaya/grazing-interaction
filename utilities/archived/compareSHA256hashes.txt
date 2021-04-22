@@ -1,0 +1,1 @@
+C:\Users\andre\OneDrive\Documents\Rproj\utilities\compareSHA256hashes.ps1 -Source 'C:\TEMP\transfer\A51_10222020_12022020' -Destination 'J:\cameratraps\fiftyone\timelapse\A51_10222020_12022020' -ShowMatches | Export-CSV -path C:\TEMP\transfer\A51_10222020_12022020_MD5.csv

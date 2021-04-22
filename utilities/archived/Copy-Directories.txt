@@ -1,0 +1,1 @@
+C:\Users\andre\OneDrive\Documents\Rproj\utilities\Copy-Directories.ps1 -Source 'C:\TEMP\transfer\EFK_07142020_09072020' -Destination 'K:\cameratraps\eastfork\timelapse'
