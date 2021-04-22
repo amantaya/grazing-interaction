@@ -1,0 +1,1 @@
+Get-ChildItem -Path .\temp\duplicates\ -Recurse -File | Copy-Item -Destination .\temp\photos\ -verbose

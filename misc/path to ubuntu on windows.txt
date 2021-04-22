@@ -1,0 +1,18 @@
+C:\Users\Andrew\AppData\Local\Microsoft\WindowsApps\ubuntu1604.exe
+
+# this worked in bash to install iCommands
+wget https://files.renci.org/pub/irods/releases/4.1.10/ubuntu14/irods-icommands-4.1.10-ubuntu14-x86_64.deb
+sudo dpkg -i irods-icommands-4.1.10-ubuntu14-x86_64.deb
+
+# this worked to see files in the Windows Subsystem for Linix
+# the "." after explorer.exe refers to the current working directory
+explorer.exe .
+
+# this worked for downloading files from cyverse to a folder on my C drive
+iget test.txt /mnt/c/dev
+
+# example code for uploading a batch of files to Cyverse
+iput -V /mnt/c/uploads/BKL_01112018_02132018
+
+C:\uploads\BKL_02132018_02232018
+
