@@ -20,3 +20,4 @@ results
 figures
 misc
 *.csv
+.git.bfg-report
