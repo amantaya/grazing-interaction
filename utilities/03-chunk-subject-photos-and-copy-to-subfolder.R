@@ -11,29 +11,29 @@ R.Version()
 # this is important because the locale sets the text file encoding on the OS
 sessionInfo()
 
-# clear the R environment
-# rm(list=ls(all=TRUE))
-# 
-# # J:\cameratraps\fiftyone\timelapse\A51_07122020_10112020
-# 
-# # Define the location of the files on the external hard drive
-# root_folder <- "J:"
-# 
-# main_folder <- "cameratraps"
-# 
-# location_folder <- "fiftyone"
-# 
-# site_folder <- "timelapse"
-# 
-# collection_folder <- "A51_07122020_10112020"
-# 
-# subjects_folder <- "subjects"
+#clear the R environment
+rm(list=ls(all=TRUE))
+
+# J:\cameratraps\fiftyone\timelapse\A51_07022019_08132019
+
+# Define the location of the files on the external hard drive
+root_folder <- "J:"
+
+main_folder <- "cameratraps"
+
+location_folder <- "fiftyone"
+
+site_folder <- "timelapse"
+
+collection_folder <- "A51_07022019_08132019"
+
+subjects_folder <- "subjects"
 
 # set the working directory to read in the files from the correct location on your hard drive (or on an external hard drive)
-# setwd(file.path(root_folder, main_folder, location_folder, site_folder, collection_folder))
+setwd(file.path(root_folder, main_folder, location_folder, site_folder, collection_folder))
 
 # double check the working directory to make sure its correct
-# getwd()
+getwd()
 
 # read in the csv file that contains the metadata for all photos in the collection folder (e.g., BRL_06052019_07022019)
 all_photos_in_collection <- read.csv(paste0(getwd(), paste0("/metadata/", collection_folder, "_matched_subject_photos", ".csv")))
@@ -84,7 +84,7 @@ chunks <- split(subject_photos_in_collection, pattern)
 # these directories will be temporary and can be deleted after scoring each group of photos
 # this for loop creates a new directory for each chunk
 for (i in chunk_number) {
-  dir.create(file.path(root_folder, main_folder, location_folder, site_folder, collection_folder, subjects_folder, chunk_names[i]))
+  dir.create(file.path(root_folder, main_folder, location_folder, site_folder, collection_folder, chunk_names[i]))
 }
 
 # copy the subject photos for each chunk into their corresponding folder
@@ -92,7 +92,7 @@ for (i in chunk_number) {
   
   from <- file.path(root_folder, main_folder, location_folder, site_folder, collection_folder, chunks[[i]]$ImageRelative)
   
-  to <- file.path(root_folder, main_folder, location_folder, site_folder, collection_folder, subjects_folder, chunk_names[i])
+  to <- file.path(root_folder, main_folder, location_folder, site_folder, collection_folder, chunk_names[i])
   
   file.copy(from, to, overwrite = FALSE)
 }
