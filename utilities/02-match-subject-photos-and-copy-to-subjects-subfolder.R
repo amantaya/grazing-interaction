@@ -22,11 +22,11 @@ root_folder <- "J:"
 
 main_folder <- "cameratraps"
 
-location_folder <- "blackcanyon"
+location_folder <- "fiftyone"
 
-site_folder <- "timelapsenorth"
+site_folder <- "timelapse"
 
-collection_folder <- "BKN_11052019_12072019"
+collection_folder <- "A51_07022019_08132019"
 
 subjects_folder <- "subjects"
 
@@ -147,8 +147,7 @@ excelfilename <- paste0(paste(collection_folder, "matched_subject_photos", sep =
 
 # write the new csv to the working directory
 # we can use this new file at a later point (for machine learning) to identify empty photos from photos with something in them 
-# TODO ideally this new csv file would be put in the metadata sub-folder
-write.csv(all_photos_in_collection_add_subjects_column, excelfilename, row.names=F)
+write.csv(all_photos_in_collection_add_subjects_column, file = paste0("metadata/", excelfilename), row.names=F)
 
 # now that we have identified which files contain subjects by reading in the text files created by IrFanView
 # we want to copy them to a "subjects" sub-folder in the file directory
