@@ -101,8 +101,7 @@ for (i in chunk_number) {
 # name each csv file the collection folder and the name of the chunk (e.g., BGT_07302019_09182019_subjects_chunk1.csv)
 for (i in chunk_number) {
   excelfilename <- paste0(paste(collection_folder, subjects_folder, chunk_names[i], sep = "_"), ".csv")
-  write.csv(chunks[[i]], excelfilename, row.names=FALSE)
+  write.csv(chunks[[i]], paste0("metadata/", excelfilename), row.names=FALSE)
 }
 
 beep("coin")
-
