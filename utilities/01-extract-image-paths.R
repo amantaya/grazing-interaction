@@ -22,10 +22,7 @@
 ## an explanation of the process, should this need to be update
 
 # load in the required libraries
-library(packrat)
-library(tidyverse)
-library(stringi)
-library(beepr)
+source("C:/Users/andre/Dropbox/Rproj/Horse-Cattle-Elk-Grazing-Interaction-Study/packages.R")
 
 # print the current R version in the console to check if your R version matches mine (which is 4.0.3)
 R.Version()
@@ -37,6 +34,7 @@ sessionInfo()
 # clear the R environment
 rm(list=ls(all=TRUE))
 
+# set the working directory and environment variables
 source("C:/Users/andre/Dropbox/Rproj/Horse-Cattle-Elk-Grazing-Interaction-Study/environment.R")
 
 getwd()
