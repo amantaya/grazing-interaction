@@ -14,28 +14,10 @@ sessionInfo()
 # clear the R environment
 rm(list=ls(all=TRUE))
 
-# Define the location of the files on the external hard drive
-# Changing these inputs here makes it so you don't have to change them elsewhere in the script
-# Don't repeat yourself (DRY)
-
-root_folder <- "J:"
-
-main_folder <- "cameratraps"
-
-location_folder <- "fiftyone"
-
-site_folder <- "timelapse"
-
-collection_folder <- "A51_07022019_08132019"
-
-subjects_folder <- "subjects"
-
-# set the working directory to read in the files from the correct location on your hard drive (or on an external hard drive)
-# the files you need to access might be in a different location on your computer therefore you likely will need to change the line below
-setwd(file.path(root_folder, main_folder, location_folder, site_folder, collection_folder))
+source("C:/Users/andre/Dropbox/Rproj/Horse-Cattle-Elk-Grazing-Interaction-Study/environment.R")
 
 # double check the working directory to make sure its correct
-# getwd()
+getwd()
 
 # read in the csv file that contains the metadata for all photos in the collection folder (e.g., BRL_06052019_07022019)
 all_photos_in_collection <- read.csv(paste0(getwd(), paste0("/metadata/", collection_folder, ".csv")))
@@ -169,4 +151,3 @@ close.connection(con)
 
 # play a sound to indicate the transfer is complete
 beep("coin")
-

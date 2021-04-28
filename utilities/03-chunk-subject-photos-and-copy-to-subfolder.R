@@ -14,23 +14,7 @@ sessionInfo()
 #clear the R environment
 rm(list=ls(all=TRUE))
 
-# J:\cameratraps\fiftyone\timelapse\A51_07022019_08132019
-
-# Define the location of the files on the external hard drive
-root_folder <- "J:"
-
-main_folder <- "cameratraps"
-
-location_folder <- "fiftyone"
-
-site_folder <- "timelapse"
-
-collection_folder <- "A51_07022019_08132019"
-
-subjects_folder <- "subjects"
-
-# set the working directory to read in the files from the correct location on your hard drive (or on an external hard drive)
-setwd(file.path(root_folder, main_folder, location_folder, site_folder, collection_folder))
+source("C:/Users/andre/Dropbox/Rproj/Horse-Cattle-Elk-Grazing-Interaction-Study/environment.R")
 
 # double check the working directory to make sure its correct
 getwd()

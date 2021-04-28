@@ -37,23 +37,7 @@ sessionInfo()
 # clear the R environment
 rm(list=ls(all=TRUE))
 
-# J:\cameratraps\blackcanyon\timelapsesouth\BKS_10222020_10252020
-
-root_folder <- "J:"
-
-main_folder <- "cameratraps"
-
-location_folder <- "blackcanyon"
-
-site_folder <- "timelapsesouth"
-
-collection_folder <- "BKS_10222020_10252020"
-
-# set the working directory to read in the files from the correct location on your hard drive (or on an external hard drive)
-# the files you need to access might be in a different location on your computer therefore you likely will need to change the line below
-currentfolder <- file.path(root_folder, main_folder, location_folder, site_folder, collection_folder)
-
-setwd(currentfolder)
+source("C:/Users/andre/Dropbox/Rproj/Horse-Cattle-Elk-Grazing-Interaction-Study/environment.R")
 
 getwd()
 
@@ -128,4 +112,3 @@ write.csv(imagefilesinfo, file = paste0("metadata/", excelfilename),row.names=F)
 
 # play a sound to indicate the transfer is complete
 beep("coin")
-
