@@ -1,5 +1,13 @@
+# clear the R environment
+rm(list=ls(all=TRUE))
+
 # load in the required libraries
 source("C:/Users/andre/Dropbox/Rproj/Horse-Cattle-Elk-Grazing-Interaction-Study/packages.R")
+
+# set the working directory and environment variables
+source("C:/Users/andre/Dropbox/Rproj/Horse-Cattle-Elk-Grazing-Interaction-Study/environment.R")
+
+getwd()
 
 # print the current R version in the console to check if your R version matches mine (which is 4.0.3)
 R.Version()
@@ -7,14 +15,6 @@ R.Version()
 # print the session info to check which language locale is currently configured for this environment
 # this is important because the locale sets the text file encoding on the OS
 sessionInfo()
-
-# clear the R environment
-rm(list=ls(all=TRUE))
-
-source("C:/Users/andre/Dropbox/Rproj/Horse-Cattle-Elk-Grazing-Interaction-Study/environment.R")
-
-# double check the working directory to make sure its correct
-getwd()
 
 # read in the csv file that contains the metadata for all photos in the collection folder (e.g., BRL_06052019_07022019)
 all_photos_in_collection <- read.csv(paste0(getwd(), paste0("/metadata/", collection_folder, ".csv")))

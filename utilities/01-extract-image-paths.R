@@ -21,8 +21,16 @@
 ## If these options are not desired, the entire script can be run in R without alteration. the code is annoated to provide 
 ## an explanation of the process, should this need to be update
 
+# clear the R environment
+rm(list=ls(all=TRUE))
+
 # load in the required libraries
 source("C:/Users/andre/Dropbox/Rproj/Horse-Cattle-Elk-Grazing-Interaction-Study/packages.R")
+
+# set the working directory and environment variables
+source("C:/Users/andre/Dropbox/Rproj/Horse-Cattle-Elk-Grazing-Interaction-Study/environment.R")
+
+getwd()
 
 # print the current R version in the console to check if your R version matches mine (which is 4.0.3)
 R.Version()
@@ -30,14 +38,6 @@ R.Version()
 # print the session info to check which language locale is currently configured for this environment
 # this is important because the locale sets the text file encoding on the OS
 sessionInfo()
-
-# clear the R environment
-rm(list=ls(all=TRUE))
-
-# set the working directory and environment variables
-source("C:/Users/andre/Dropbox/Rproj/Horse-Cattle-Elk-Grazing-Interaction-Study/environment.R")
-
-getwd()
 
 ## make a list of all the JPEGs in the file, if images are stored in some other format, update the code below
 imagefiles<-list.files(path=currentfolder,full.names=T,pattern=c(".JPG|.jpg"),include.dirs = T,recursive=T)
