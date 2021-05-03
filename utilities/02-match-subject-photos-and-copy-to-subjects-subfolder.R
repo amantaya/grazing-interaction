@@ -67,7 +67,19 @@ all_subjects_vector_string_replaced
 # TODO this function needs to accept strings with different lengths/sections
 # I could do this by string splitting each text file separately, then combining only the sections that I need after
 # I could then write out the correct text files 
-all_subjects_separated <- do.call("rbind", strsplit(all_subjects_vector_string_replaced, split = "/"))
+all_subjects_separated <- strsplit(all_subjects_vector_string_replaced, split = "/")
+
+str(all_subjects_separated)
+
+# this subsetting technique selects only the last two elements
+all_subjects_separated[[500]][8:9]
+
+# this subsetting technique selects everything but the first 7 elements (leaving the last 2 elements)
+all_subjects_separated[[500]][-(1:7)]
+
+# all_subjects_separated_df <- data.frame(all_subjects_separated)
+
+# all_subjects_separated <- do.call("rbind", strsplit(all_subjects_vector_string_replaced, split = "/"))
 
 # TODO instead of using the inputs of the student's file paths and cutting out the back half of the string
 # this script would replace the front half of student's file paths and replace the string with the location of the files on the external hard drives
