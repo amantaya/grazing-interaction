@@ -1,19 +1,33 @@
+## Horse-Cattle-Elk Grazing Interaction Study Rproj
+## Step 2: Match Subject Photo Text Files and Copy to Subjects Sub-Folder
+
+## What this script does:
+## Reads in the subject text files from a photo collection folder
+## Copies the subject photos from the text files to the "subjects" sub-folder
+## Writes out a csv declaring if each photo in the collection contains a subject
+
+## What this script requires:
+## csv file from "01-extract-image-paths.R" containing all photos in a collection (this csv file needs to be located in the "metadata" sub-folder within the collection)
+## subject text files (these text files need to be located in the "metadata" sub-folder within the collection)
+
 # clear the R environment
 rm(list=ls(all=TRUE))
 
-# load in the required libraries
+# load in the required libraries/packages
 source("C:/Users/andre/Dropbox/Rproj/Horse-Cattle-Elk-Grazing-Interaction-Study/packages.R")
 
 # set the working directory and environment variables
+# make sure you change the working directory in the external script below
 source("C:/Users/andre/Dropbox/Rproj/Horse-Cattle-Elk-Grazing-Interaction-Study/environment.R")
 
+# check if the working directory is correct
 getwd()
 
-# print the current R version in the console to check if your R version matches mine (which is 4.0.3)
+# check if your R version matches mine (which is 4.0.3)
 R.Version()
 
-# print the session info to check which language locale is currently configured for this environment
-# this is important because the locale sets the text file encoding on the OS
+# check which language locale is currently configured for your environment
+# this is important because the locale sets the text file encoding for the operating system
 sessionInfo()
 
 # read in the csv file that contains the metadata for all photos in the collection folder (e.g., BRL_06052019_07022019)
@@ -21,6 +35,7 @@ all_photos_in_collection <- read.csv(paste0(getwd(), paste0("/metadata/", collec
 
 # read in the text files from the metadata sub-folder
 # be careful not to put any other files with the file extension ".txt" inside of the metadata sub-folder because this function will read them in to R
+# TODO prevent reading in the "~all_subjects.txt" file in case this script is re-run on the same collection folder
 subject_txt_files <- list.files(paste0(getwd(), "/metadata"), pattern = ".txt", full.names = TRUE)
 
 # print the list of files (stored in a character vector inside R) in the console to check which text files were read into the R environment
@@ -29,7 +44,7 @@ subject_txt_files
 # open a file connection to the first text file (inside of each text file is a list of photo files that contain subjects)
 # define the text file encoding explicitly because R has trouble recognizing this type of file encoding
 # print the character string to the console to check if R read in the strings correctly
-# if R misreads the text files, you will see embedded nulls or blank strings printed in the console
+# if R misreads the text files, you will see embedded nulls, strange characters, or blank strings printed in the console
 readLines(con <- file(subject_txt_files[1], encoding = "UCS-2LE"))
 
 # store the photos with subjects from the first text file in the metadata subfolder into a character vector
@@ -58,19 +73,46 @@ all_subjects_vector_string_replaced <- str_replace_all(all_subjects_vector, "\\\
 # print the character vector to check the structure of the character strings
 all_subjects_vector_string_replaced
 
+# create a variable to hold the differences in number of characters in each string
+character_count <- nchar(all_subjects_vector_string_replaced)
+
+# display this character count as a summary table with counts
+table(character_count)
+
+# the path of each photo may be different on each computer so we need to make this script as flexible as possible to work on as many computers as possible
+# we'll do this by splitting the file path string into multiple parts, discarding the parts of the string that we don't need
+
+# try indexing each string by keeping only the last characters representing the sub-folder (e.g., 100EK113) and the file name (e.g., 2019-06-05-11-08-18.JPG)
+all_subjects_vector_extract_substrings <- stringr::str_sub(all_subjects_vector_string_replaced, start = -32, end = -1)
+all_subjects_vector_extract_substrings
+
+# using the current working directory, keep the first half of the working directory string
+# append the working directory to string to the back half of the string containing the path to the sub-folder and filepath
+all_subjects_vector_append_working_directory <- file.path(root_folder, main_folder, location_folder, site_folder, collection_folder, all_subjects_vector_extract_substrings)
+all_subjects_vector_append_working_directory
+
+# create a file name for the single subjects text file
+textfilename <- paste(collection_folder, "all_subjects.txt", sep = "_")
+
+# write out a single text file containing the concatenated subject text files
+# encode this text file as UTF-8 depending on your locale
+write_lines(all_subjects_vector_append_working_directory, file = paste0(getwd(), "/metadata/", textfilename))
+
 # rename the first column in the tibble to something more descriptive
 # names(all_subjects_vector_string_replaced)[names(all_subjects_vector_string_replaced) == "value"] <- "path"
 
-# the path of each photo may be different on each computer so we need to make this script as flexible as possible to work on as many computers as possible
-# we'll do this by splitting the file path string into multiple parts, throwing away the parts of the string that we don't need
-# i.e. we'll use the absolute path and use it create relative paths
-# TODO this function needs to accept strings with different lengths/sections
-# I could do this by string splitting each text file separately, then combining only the sections that I need after
-# I could then write out the correct text files 
-all_subjects_separated <- do.call("rbind", strsplit(all_subjects_vector_string_replaced, split = "/"))
+# this subsetting technique selects only the last two elements
+# all_subjects_separated[[500]][8:9]
 
-# TODO instead of using the inputs of the student's file paths and cutting out the back half of the string
-# this script would replace the front half of student's file paths and replace the string with the location of the files on the external hard drives
+# this subsetting technique selects everything but the first 7 elements (leaving the last 2 elements)
+# all_subjects_separated[[500]][-(1:7)]
+
+# TODO instead of string splitting and then rbinding, it would be more efficient to just use the "~all_subjects.txt" to copy the subject photos into the subjects sub-folder
+# however, this would require re-writing the photo matching logic because it's expecting a subjects vector
+
+# split the path strings by their separator (forward slash "/")
+# then row bind them together
+all_subjects_separated <- do.call("rbind", strsplit(all_subjects_vector_append_working_directory, split = "/"))
 
 # print the character vector to check if the string split worked correctly
 # there should be multiple parts to each string if this worked correctly
@@ -82,13 +124,10 @@ all_subjects_df <- as.data.frame(all_subjects_separated)
 # print the data frame in the console to check its structure
 all_subjects_df
 
-# subset the data frame to make the file paths relative rather than absolute
-# there are many ways to do this, in our case we want to be as flexible as possible to account for differences in computers
-
 # extract the third column from the last
-# collection <- all_subjects_df[ , ncol(all_subjects_df) - 2]
+collection <- all_subjects_df[ , ncol(all_subjects_df) - 2]
 
-# collection
+collection
 
 # extract the second column from the last
 sub_folder <- all_subjects_df[ , ncol(all_subjects_df) - 1]
@@ -100,14 +139,14 @@ subject_photos <- all_subjects_df[ , ncol(all_subjects_df)]
 
 subject_photos
 
-# compare the subjects tibble to all of the photos in the collection to check for matching photos
+# compare the subjects vector to all of the photos in the collection to check for matching photos
 # the %in% checks for matches from the left object in the object to the right
-# if the name of file in the subjects tibble matches the name of the file in the all photos tibble, it will report as TRUE
-# all values should report as TRUE because the subjects tibble is a subset of the all photos tibble
+# if the name of file in the subjects vector matches the name of the file in the all photos data frame, it will report as TRUE
+# all values should report as TRUE because the subjects vector is a subset of the all photos data frame
 subject_photos %in% all_photos_in_collection$ImageFilename
 
 # reversing matching function should illustrate how it works
-# in this case, it is looking for matches in the all photos tibble using the file names in the subjects tibble
+# in this case, it is looking for matches in the all photos data frame using the file names in the subjects vector
 # only some of the values should report as TRUE (i.e. they match) because not all photos contain subjects
 all_photos_in_collection$ImageFilename %in% subject_photos
 
