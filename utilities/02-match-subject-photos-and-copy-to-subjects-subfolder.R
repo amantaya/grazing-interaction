@@ -65,6 +65,10 @@ for (i in 1:length(subject_txt_files)){
 # print the character vector in the console to check the structure of the character strings
 all_subjects_vector
 
+# TODO closing the file connection still results in warnings() printed in the console
+# close the open file connections
+close(con)
+
 # the character strings are stored in the R environment as \\ (double-backslashes) which are reserved characters
 # replace these reserved characters with a single forward-slash, which is how R reads in file paths 
 # (Windows 10 uses a single back-slash for file paths)
@@ -183,7 +187,6 @@ file.copy(from, to, overwrite = FALSE)
 # TODO Add a some logic to check if files were not copied due to incorrect paths
 # one way to do this would be to compare the number of observations on the all subjects data frame to the number of copied files
 
-close.connection(con)
-
 # play a sound to indicate the transfer is complete
 beep("coin")
+
