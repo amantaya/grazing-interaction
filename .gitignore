@@ -19,5 +19,6 @@ excelmacro
 results
 figures
 misc
+learning
 *.csv
 .git.bfg-report
