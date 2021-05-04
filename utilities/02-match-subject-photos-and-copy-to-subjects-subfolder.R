@@ -35,6 +35,7 @@ all_photos_in_collection <- read.csv(paste0(getwd(), paste0("/metadata/", collec
 
 # read in the text files from the metadata sub-folder
 # be careful not to put any other files with the file extension ".txt" inside of the metadata sub-folder because this function will read them in to R
+# TODO prevent reading in the "~all_subjects.txt" file in case this script is re-run on the same collection folder
 subject_txt_files <- list.files(paste0(getwd(), "/metadata"), pattern = ".txt", full.names = TRUE)
 
 # print the list of files (stored in a character vector inside R) in the console to check which text files were read into the R environment
@@ -94,29 +95,24 @@ all_subjects_vector_append_working_directory
 textfilename <- paste(collection_folder, "all_subjects.txt", sep = "_")
 
 # write out a single text file containing the concatenated subject text files
-# encode this text file as UTF-8
+# encode this text file as UTF-8 depending on your locale
 write_lines(all_subjects_vector_append_working_directory, file = paste0(getwd(), "/metadata/", textfilename))
 
 # rename the first column in the tibble to something more descriptive
 # names(all_subjects_vector_string_replaced)[names(all_subjects_vector_string_replaced) == "value"] <- "path"
 
 # this subsetting technique selects only the last two elements
-all_subjects_separated[[500]][8:9]
+# all_subjects_separated[[500]][8:9]
 
 # this subsetting technique selects everything but the first 7 elements (leaving the last 2 elements)
-all_subjects_separated[[500]][-(1:7)]
+# all_subjects_separated[[500]][-(1:7)]
 
+# TODO instead of string splitting and then rbinding, it would be more efficient to just use the "~all_subjects.txt" to copy the subject photos into the subjects sub-folder
+# however, this would require re-writing the photo matching logic because it's expecting a subjects vector
 
-all_subjects_separated <- strsplit(all_subjects_vector_string_replaced, split = "/")
-
-str(all_subjects_separated)
-
-# all_subjects_separated_df <- data.frame(all_subjects_separated)
-
-# all_subjects_separated <- do.call("rbind", strsplit(all_subjects_vector_string_replaced, split = "/"))
-
-# TODO instead of using the inputs of the student's file paths and cutting out the back half of the string
-# this script would replace the front half of student's file paths and replace the string with the location of the files on the external hard drives
+# split the path strings by their separator (forward slash "/")
+# then row bind them together
+all_subjects_separated <- do.call("rbind", strsplit(all_subjects_vector_append_working_directory, split = "/"))
 
 # print the character vector to check if the string split worked correctly
 # there should be multiple parts to each string if this worked correctly
@@ -128,13 +124,10 @@ all_subjects_df <- as.data.frame(all_subjects_separated)
 # print the data frame in the console to check its structure
 all_subjects_df
 
-# subset the data frame to make the file paths relative rather than absolute
-# there are many ways to do this, in our case we want to be as flexible as possible to account for differences in computers
-
 # extract the third column from the last
-# collection <- all_subjects_df[ , ncol(all_subjects_df) - 2]
+collection <- all_subjects_df[ , ncol(all_subjects_df) - 2]
 
-# collection
+collection
 
 # extract the second column from the last
 sub_folder <- all_subjects_df[ , ncol(all_subjects_df) - 1]
@@ -146,14 +139,14 @@ subject_photos <- all_subjects_df[ , ncol(all_subjects_df)]
 
 subject_photos
 
-# compare the subjects tibble to all of the photos in the collection to check for matching photos
+# compare the subjects vector to all of the photos in the collection to check for matching photos
 # the %in% checks for matches from the left object in the object to the right
-# if the name of file in the subjects tibble matches the name of the file in the all photos tibble, it will report as TRUE
-# all values should report as TRUE because the subjects tibble is a subset of the all photos tibble
+# if the name of file in the subjects vector matches the name of the file in the all photos data frame, it will report as TRUE
+# all values should report as TRUE because the subjects vector is a subset of the all photos data frame
 subject_photos %in% all_photos_in_collection$ImageFilename
 
 # reversing matching function should illustrate how it works
-# in this case, it is looking for matches in the all photos tibble using the file names in the subjects tibble
+# in this case, it is looking for matches in the all photos data frame using the file names in the subjects vector
 # only some of the values should report as TRUE (i.e. they match) because not all photos contain subjects
 all_photos_in_collection$ImageFilename %in% subject_photos
 
