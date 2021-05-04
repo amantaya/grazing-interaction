@@ -1,3 +1,15 @@
+## Horse-Cattle-Elk Grazing Interaction Study Rproj
+## Step 2: Match Subject Photo Text Files and Copy to Subjects Sub-Folder
+
+## What this script does:
+## Reads in the subject text files from a photo collection folder
+## Copies the subject photos from the text files to the "subjects" sub-folder
+## Writes out a csv declaring if each photo in the collection contains a subject
+
+## What this script requires:
+## csv file from "01-extract-image-paths.R" containing all photos in a collection (this csv file needs to be located in the "metadata" sub-folder within the collection)
+## subject text files (these text files need to be located in the "metadata" sub-folder within the collection)
+
 # clear the R environment
 rm(list=ls(all=TRUE))
 
@@ -56,7 +68,7 @@ all_subjects_vector
 all_subjects_vector_string_replaced <- str_replace_all(all_subjects_vector, "\\\\", "/")
 
 # print the character vector to check the structure of the character strings
-all_subjects_vector_string_replaced
+View(all_subjects_vector_string_replaced)
 
 # rename the first column in the tibble to something more descriptive
 # names(all_subjects_vector_string_replaced)[names(all_subjects_vector_string_replaced) == "value"] <- "path"
@@ -67,6 +79,14 @@ all_subjects_vector_string_replaced
 # TODO this function needs to accept strings with different lengths/sections
 # I could do this by string splitting each text file separately, then combining only the sections that I need after
 # I could then write out the correct text files 
+character_count <- nchar(all_subjects_vector_string_replaced)
+
+str(character_count)
+
+table(character_count)
+
+hist(character_count)
+
 all_subjects_separated <- strsplit(all_subjects_vector_string_replaced, split = "/")
 
 str(all_subjects_separated)
