@@ -43,7 +43,7 @@ subject_txt_files
 # open a file connection to the first text file (inside of each text file is a list of photo files that contain subjects)
 # define the text file encoding explicitly because R has trouble recognizing this type of file encoding
 # print the character string to the console to check if R read in the strings correctly
-# if R misreads the text files, you will see embedded nulls or blank strings printed in the console
+# if R misreads the text files, you will see embedded nulls, strange characters, or blank strings printed in the console
 readLines(con <- file(subject_txt_files[1], encoding = "UCS-2LE"))
 
 # store the photos with subjects from the first text file in the metadata subfolder into a character vector
@@ -70,34 +70,46 @@ all_subjects_vector
 all_subjects_vector_string_replaced <- str_replace_all(all_subjects_vector, "\\\\", "/")
 
 # print the character vector to check the structure of the character strings
-View(all_subjects_vector_string_replaced)
+all_subjects_vector_string_replaced
+
+# create a variable to hold the differences in number of characters in each string
+character_count <- nchar(all_subjects_vector_string_replaced)
+
+# display this character count as a summary table with counts
+table(character_count)
+
+# the path of each photo may be different on each computer so we need to make this script as flexible as possible to work on as many computers as possible
+# we'll do this by splitting the file path string into multiple parts, discarding the parts of the string that we don't need
+
+# try indexing each string by keeping only the last characters representing the sub-folder (e.g., 100EK113) and the file name (e.g., 2019-06-05-11-08-18.JPG)
+all_subjects_vector_extract_substrings <- stringr::str_sub(all_subjects_vector_string_replaced, start = -32, end = -1)
+all_subjects_vector_extract_substrings
+
+# using the current working directory, keep the first half of the working directory string
+# append the working directory to string to the back half of the string containing the path to the sub-folder and filepath
+all_subjects_vector_append_working_directory <- file.path(root_folder, main_folder, location_folder, site_folder, collection_folder, all_subjects_vector_extract_substrings)
+all_subjects_vector_append_working_directory
+
+# create a file name for the single subjects text file
+textfilename <- paste(collection_folder, "all_subjects.txt", sep = "_")
+
+# write out a single text file containing the concatenated subject text files
+# encode this text file as UTF-8
+write_lines(all_subjects_vector_append_working_directory, file = paste0(getwd(), "/metadata/", textfilename))
 
 # rename the first column in the tibble to something more descriptive
 # names(all_subjects_vector_string_replaced)[names(all_subjects_vector_string_replaced) == "value"] <- "path"
-
-# the path of each photo may be different on each computer so we need to make this script as flexible as possible to work on as many computers as possible
-# we'll do this by splitting the file path string into multiple parts, throwing away the parts of the string that we don't need
-# i.e. we'll use the absolute path and use it create relative paths
-# TODO this function needs to accept strings with different lengths/sections
-# I could do this by string splitting each text file separately, then combining only the sections that I need after
-# I could then write out the correct text files 
-character_count <- nchar(all_subjects_vector_string_replaced)
-
-str(character_count)
-
-table(character_count)
-
-hist(character_count)
-
-all_subjects_separated <- strsplit(all_subjects_vector_string_replaced, split = "/")
-
-str(all_subjects_separated)
 
 # this subsetting technique selects only the last two elements
 all_subjects_separated[[500]][8:9]
 
 # this subsetting technique selects everything but the first 7 elements (leaving the last 2 elements)
 all_subjects_separated[[500]][-(1:7)]
+
+
+all_subjects_separated <- strsplit(all_subjects_vector_string_replaced, split = "/")
+
+str(all_subjects_separated)
 
 # all_subjects_separated_df <- data.frame(all_subjects_separated)
 
