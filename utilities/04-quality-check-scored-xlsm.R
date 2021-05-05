@@ -1,3 +1,21 @@
+## Horse-Cattle-Elk Grazing Interaction Study Rproj
+## Step 4: Quality Check Scored Excel Scoring Macro (XLSM)
+
+## What this script does:
+## Reads in the completed excel macro (must be first saved as a csv)
+## Randomly selects a percentage of the completed records for review
+## Writes out a csv with these records to be copied into the excel macro
+## this csv can then be copied and pasted into the excel macro (HorseImaging2018.xlsm) for scoring 
+
+## What this script requires:
+## the csv file from the completed excel macro "BRT_06052019_10032019_subjects_chunk1.csv" 
+## this csv file needs to be located in a chunk folder within the collection folder
+## this csv file is named by the photo collection folder and "~subjects_chunk[x]" 
+## e.g., BRT_06052019_10032019_subjects_chunk1.csv
+
+# clear the R environment
+rm(list=ls(all=TRUE))
+
 # load in the required libraries
 source("C:/Users/andre/Dropbox/Rproj/Horse-Cattle-Elk-Grazing-Interaction-Study/packages.R")
 
@@ -8,12 +26,9 @@ R.Version()
 # this is important because the locale sets the text file encoding on the OS
 sessionInfo()
 
-# clear the R environment
-rm(list=ls(all=TRUE))
-
 # C:\TEMP\completed_xlsm\quality-check\in-progress\BKN_06112019_07022019\chunk11
 
-# Define the location of the files on the external hard drive
+# Define the location of the files
 root_folder <- "C:"
 
 main_folder <- "TEMP"

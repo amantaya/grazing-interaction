@@ -1,3 +1,18 @@
+## Horse-Cattle-Elk Grazing Interaction Study Rproj
+## Step 3: Chunk Subject Photos and Copy to Sub-Folder
+
+## What this script does:
+## Reads in the csv file from the photo collection metadata folder
+## Copies the subject photos from the column into separate folders (chunks)
+## Writes out a csv for each chunk of photos
+## this csv can then be copied and pasted into the excel macro (HorseImaging2018.xlsm) for scoring 
+
+## What this script requires:
+## the csv file from "02-match-subject-photos-and-copy-to-subjects-subfolder.R" 
+## this csv file should be located in the "metadata" sub-folder within the collection folder
+## this csv file is named by the photo collection folder and "~matched_subject_photos.csv" 
+## e.g., BRT_11052019_12072019_matched_subject_photos.csv
+
 # clear the R environment
 rm(list=ls(all=TRUE))
 
