@@ -86,13 +86,61 @@ table(character_count)
 # the path of each photo may be different on each computer so we need to make this script as flexible as possible to work on as many computers as possible
 # we'll do this by splitting the file path string into multiple parts, discarding the parts of the string that we don't need
 
+all_subjects_string_split <- stringr::str_split(all_subjects_vector_string_replaced, "/")
+all_subjects_string_split
+
+# lengths() detects the number of objects in each list
+num_data_objects <- lengths(all_subjects_string_split)
+num_data_objects
+
+last_object <- num_data_objects
+
+second_to_last_object <- num_data_objects - 1
+
+# keep_last_object <- all_subjects_string_split[[1]][last_object[1]]
+# keep_last_object
+
+# keep_second_to_last_object <- all_subjects_string_split[[1]][second_to_last_object[1]]
+# keep_second_to_last_object
+
+# first_all_subjects_rebound <- str_c(keep_second_to_last_object, keep_last_object, sep = "/", collapse = "")
+# first_all_subjects_rebound
+
+all_subjects_keep_last_two_splits <- NULL
+keep_last_object <- NULL
+keep_second_to_last_object <- NULL
+
+for (i in 1:length(all_subjects_string_split)) {
+  
+  keep_last_object[i] <- all_subjects_string_split[[i]][last_object[i]]
+
+  keep_second_to_last_object[i] <- all_subjects_string_split[[i]][second_to_last_object[i]]
+
+  all_subjects_keep_last_two_splits[i] <- str_c(keep_second_to_last_object[i],
+                                                keep_last_object[i],
+                                                sep = "/",
+                                                collapse = "")
+
+  # print(keep_second_to_last_object)
+  # print(keep_last_object)
+  # print(all_subjects_keep_last_two_splits)
+}
+# print the vector to check its contents
+all_subjects_keep_last_two_splits
+
+# this subsetting technique selects only the last two elements
+# all_subjects_separated[[500]][8:9]
+
+# this subsetting technique selects everything but the first 7 elements (leaving the last 2 elements)
+# all_subjects_separated[[500]][-(1:7)]
+
 # try indexing each string by keeping only the last characters representing the sub-folder (e.g., 100EK113) and the file name (e.g., 2019-06-05-11-08-18.JPG)
-all_subjects_vector_extract_substrings <- stringr::str_sub(all_subjects_vector_string_replaced, start = -32, end = -1)
-all_subjects_vector_extract_substrings
+# all_subjects_vector_extract_substrings <- stringr::str_sub(all_subjects_vector_string_replaced, start = -32, end = -1)
+# all_subjects_vector_extract_substrings
 
 # using the current working directory, keep the first half of the working directory string
 # append the working directory to string to the back half of the string containing the path to the sub-folder and filepath
-all_subjects_vector_append_working_directory <- file.path(root_folder, main_folder, location_folder, site_folder, collection_folder, all_subjects_vector_extract_substrings)
+all_subjects_vector_append_working_directory <- file.path(root_folder, main_folder, location_folder, site_folder, collection_folder, all_subjects_keep_last_two_splits)
 all_subjects_vector_append_working_directory
 
 # create a file name for the single subjects text file
@@ -100,16 +148,10 @@ textfilename <- paste(collection_folder, "all_subjects.txt", sep = "_")
 
 # write out a single text file containing the concatenated subject text files
 # encode this text file as UTF-8 depending on your locale
-write_lines(all_subjects_vector_append_working_directory, file = paste0(getwd(), "/metadata/", textfilename))
+readr::write_lines(all_subjects_vector_append_working_directory, file = paste0(getwd(), "/metadata/", textfilename))
 
 # rename the first column in the tibble to something more descriptive
 # names(all_subjects_vector_string_replaced)[names(all_subjects_vector_string_replaced) == "value"] <- "path"
-
-# this subsetting technique selects only the last two elements
-# all_subjects_separated[[500]][8:9]
-
-# this subsetting technique selects everything but the first 7 elements (leaving the last 2 elements)
-# all_subjects_separated[[500]][-(1:7)]
 
 # TODO instead of string splitting and then rbinding, it would be more efficient to just use the "~all_subjects.txt" to copy the subject photos into the subjects sub-folder
 # however, this would require re-writing the photo matching logic because it's expecting a subjects vector
@@ -189,4 +231,3 @@ file.copy(from, to, overwrite = FALSE)
 
 # play a sound to indicate the transfer is complete
 beep("coin")
-
