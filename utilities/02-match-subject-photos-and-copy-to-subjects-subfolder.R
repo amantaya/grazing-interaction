@@ -223,6 +223,9 @@ from <- file.path(root_folder, main_folder, location_folder, site_folder, collec
 
 to <- paste0(getwd(), "/subjects")
 
+# make a subjects folder if one doesn't already exist
+dir.create(paste(currentfolder, "subjects", sep = "/"))
+
 # copy the photos containing subjects into the folders locations defined in the previous step
 file.copy(from, to, overwrite = FALSE)
 
