@@ -1,5 +1,4 @@
-# Commongly Used Packages
-
+# Commonly Used Packages
 library("ggplot2")
 library("ggthemes")
 library("dplyr")
@@ -17,3 +16,4 @@ library("packrat")
 library("tidyverse")
 library("stringi")
 library("beepr")
+library("rio")
