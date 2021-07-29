@@ -10,3 +10,19 @@
 ## What this script requires:
 ## Must specify the location of the folder containing XLSM files
 ## Must specify where to write out CSV files
+
+# clear the R environment
+rm(list=ls(all=TRUE))
+
+# set working directory to location of excel files
+# file.path() is system agnostic (i.e. works on Mac/PC/Linux)
+setwd(file.path("C:", "temp", "xlsm"))
+
+# check that working directory is correct
+getwd()
+
+# store the location of the current working directory
+currentwd <- getwd()
+
+# scan the current working directory for excel macro files
+xlsm <- dir(path = currentwd, pattern = "xlsm")
