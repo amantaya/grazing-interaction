@@ -78,3 +78,22 @@ for (i in 1:length(xlsx_files)) {
                )
 }
 beep("coin")
+
+# try splitting the strings
+csv_file_names_string_split<- str_split(csv_file_names, "_")
+
+# look at how many splits were made in each file name
+lengths(csv_file_names_string_split)
+
+collection_folders <- save.first.three.parts.of.strings(csv_file_names_string_split)
+
+df <- data.frame(cbind(collection_folders, csv_file_names))
+
+
+# need to match chunks based on their names
+
+# need to put each chunk in the correct order (i.e., chunk1, chunk2, chunk3)
+
+# append chunks together in the correct order
+
+# write out a single CSV containing all chunks
