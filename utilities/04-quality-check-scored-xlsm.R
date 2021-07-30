@@ -27,15 +27,15 @@ R.Version()
 # this is important because the locale sets the text file encoding on the OS
 sessionInfo()
 
-# C:\TEMP\quality-check\in-progress\A51_07122020_10112020\chunk2
+# C:\TEMP\completed_xlsm\quality-check\in-progress\BKN_11052019_12072019\chunk1
 
 # TODO setup the working directory using the environment.R script
 # Define the location of the files
-currentwd <- file.path("C:", "TEMP", "quality-check", "in-progress", "A51_07122020_10112020", "chunk2")
+currentwd <- file.path("C:", "TEMP", "quality-check", "in-progress", "BKN_11052019_12072019", "chunk1")
 
-collection_folder <- "A51_07122020_10112020"
+collection_folder <- "BKN_11052019_12072019"
 
-chunk_folder <- "chunk2"
+chunk_folder <- "chunk1"
 
 # set the working directory to read in the files from the correct location on your hard drive (or on an external hard drive)
 setwd(currentwd)
@@ -111,4 +111,3 @@ student_counts <- counts.df(student_species)
 
 # print this value to check its contents
 student_counts
-

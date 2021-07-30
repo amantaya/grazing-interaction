@@ -5,18 +5,18 @@
 # therefore you likely will need to change the path to working directory
 
 # Copy and paste the path to working directory into the comment below
-# C:\TEMP\quality-check\in-progress\A51_07122020_10112020\chunk3
+# J:\cameratraps\blackcanyon\timelapsesouth\BKS_07022019_08132019
 
 # these objects are required across multiple scripts, do not delete them
-root_folder <- "K:"
+root_folder <- "J:"
 
 main_folder <- "cameratraps"
 
-location_folder <- "fiftyone"
+location_folder <- "blackcanyon"
 
-site_folder <- "timelapse"
+site_folder <- "timelapsesouth"
 
-collection_folder <- "A51_07122020_10112020"
+collection_folder <- "BKS_07022019_08132019"
 
 subjects_folder <- "subjects"
 
