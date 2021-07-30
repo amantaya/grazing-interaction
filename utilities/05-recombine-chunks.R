@@ -40,7 +40,10 @@ xlsm_data <- readWorkbook(xlsm_workbook, sheet = 1)
 
 # replace the xlsm file extension with xlsx
 # use this vector as the xlsx file names
-xlsx_file_names <- str_replace_all(xlsm_files, "xlsm", "xlsx")
+xlsm_file_names <- str_replace_all(xlsm_files, "xlsm", "xlsx")
+
+# create a sub-directory to store the xlsx files
+dir.create(paste0(currentwd, "/xlsx"))
 
 # read in data from xlsm file as a data frame
 # write out data frame as xlsx into sub-directory "xlsx"
@@ -51,7 +54,7 @@ for (i in 1:length(xlsm_files)) {
   # read the data from the first sheet
   xlsm_data <- readWorkbook(xlsm_workbook, sheet = 1)
   # write out the xlsm data as an xlsx
-  write.xlsx(xlsm_data, paste0(currentwd, "/xlsx/", xlsx_file_names[i]), row.names = FALSE)
+  write.xlsx(xlsm_data, paste0(currentwd, "/xlsx/", xlsm_file_names[i]), row.names = FALSE)
 }
 
 # play a sound to indicate the loop has completed
@@ -62,7 +65,7 @@ xlsx_files <- dir(path = paste0(currentwd, "/xlsx"), pattern = "xlsx")
 
 # replace the xlsx file extension with csv
 # use this vector as our file names for the csv files
-csv_file_names <- str_replace_all(xlsx_file_names, "xlsx", "csv")
+csv_file_names <- str_replace_all(xlsx_files, "xlsx", "csv")
 
 # create a sub-directory to store the csv files
 dir.create(paste0(currentwd, "/csv"))
@@ -75,5 +78,3 @@ for (i in 1:length(xlsx_files)) {
                )
 }
 beep("coin")
-
-
