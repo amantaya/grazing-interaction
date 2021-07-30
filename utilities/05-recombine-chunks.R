@@ -33,7 +33,10 @@ xlsm_files <- dir(path = currentwd, pattern = "xlsm")
 
 # read in the xlsm files and convert them to xlsx files
 # this only keeps the first sheet. It strips out the macro and other sheets
-xlsm_data <- read.xlsx(xlsm_files[1], 1)
+xlsm_workbook <- loadWorkbook(xlsm_files[1])
+
+# read the workbook
+xlsm_data <- readWorkbook(xlsm_workbook, sheet = 1)
 
 # replace the xlsm file extension with xlsx
 # use this vector as the xlsx file names
@@ -41,9 +44,13 @@ xlsx_file_names <- str_replace_all(xlsm_files, "xlsm", "xlsx")
 
 # read in data from xlsm file as a data frame
 # write out data frame as xlsx into sub-directory "xlsx"
-# do this for all xlsm files in a directory (this may take quite awhile)
+# do this for all xlsm files in the current working directory
 for (i in 1:length(xlsm_files)) {
-  xlsm_data <- read.xlsx(xlsm_files[i], 1)
+  # load the xlsm file
+  xlsm_workbook <- loadWorkbook(xlsm_files[i])
+  # read the data from the first sheet
+  xlsm_data <- readWorkbook(xlsm_workbook, sheet = 1)
+  # write out the xlsm data as an xlsx
   write.xlsx(xlsm_data, paste0(currentwd, "/xlsx/", xlsx_file_names[i]), row.names = FALSE)
 }
 
@@ -68,3 +75,5 @@ for (i in 1:length(xlsx_files)) {
                )
 }
 beep("coin")
+
+
