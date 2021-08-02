@@ -89,8 +89,42 @@ collection_folders <- save.first.three.parts.of.strings(csv_file_names_string_sp
 
 df <- data.frame(cbind(collection_folders, csv_file_names))
 
+# try a different approach
+# list all the csv files in directory
+csv_file_list <- list.files(path = paste0(currentwd, "/csv"), full.names = FALSE)
+
+csv_files_df <- data.frame(csv_file_list)
+
+names(csv_files_df)[names(csv_files_df) == "csv_file_list"] <- "path"
+
+csv_files_df_separated <- separate(csv_files_df, path, 
+                                                    into = c("sitecode",
+                                                             "deploydate",
+                                                             "collectdate",
+                                                             "subjects",
+                                                             "chunknumber",
+                                                             "completed",
+                                                             "qc"), 
+                                                    sep = "_", 
+                                                    remove = FALSE)
+
+# unique sites
+str(unique(csv_files_df_separated$sitecode))
 
 # need to match chunks based on their names
+test_site <- filter(csv_files_df_separated, sitecode == "A51")
+
+str(unique(test_site$deploydate))
+
+deployment_07122020 <- filter(test_site, deploydate == "07122020")
+
+str(deployment_07122020$chunknumber)
+
+deployment_07122020_as_factors$chunknumber <- as_factor(deployment_07120202$chunknumber)
+
+str(deployment_07122020_as_factors$chunknumber)
+
+arrange(deployment_07122020_as_factors, chunknumber)
 
 # need to put each chunk in the correct order (i.e., chunk1, chunk2, chunk3)
 
