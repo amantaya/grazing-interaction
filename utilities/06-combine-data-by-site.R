@@ -35,16 +35,20 @@ csv_files_df_separated <- separate(csv_files_df, path,
                                    sep = "_", 
                                    remove = FALSE)
 
-View(csv_files_df_separated)
+# View(csv_files_df_separated)
 
 # print the site codes in console
 unique(csv_files_df_separated$sitecode)
 
-A51 <- filter(csv_files_df_separated, sitecode == "A51")
-BKD <- filter(csv_files_df_separated, sitecode == "BKD")
-BKN <- filter(csv_files_df_separated, sitecode == "BKN")
-BKS <- filter(csv_files_df_separated, sitecode == "BKS")
-BRL <- filter(csv_files_df_separated, sitecode == "BRL")
-BRT <- filter(csv_files_df_separated, sitecode == "BRT")
+A51_files <- filter(csv_files_df_separated, sitecode == "A51")
+BKD_files <- filter(csv_files_df_separated, sitecode == "BKD")
+BKN_files <- filter(csv_files_df_separated, sitecode == "BKN")
+BKS_files <- filter(csv_files_df_separated, sitecode == "BKS")
+BRL_files <- filter(csv_files_df_separated, sitecode == "BRL")
+BRT_files <- filter(csv_files_df_separated, sitecode == "BRT")
 
+A51_data <- paste(currentwd, A51_files$path, sep = "/") %>% lapply(readr::read_csv) %>% bind_rows()
 
+View(A51_data)
+
+A51_2019 <- filter(A51_data, )
