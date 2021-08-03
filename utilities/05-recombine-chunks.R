@@ -74,8 +74,7 @@ dir.create(paste0(currentwd, "/csv"))
 # write out data into the "csv" sub-directory
 for (i in 1:length(xlsx_files)) {
   rio::convert(paste0(currentwd, "/xlsx/", xlsx_files[i]), 
-               paste0(currentwd, "/csv/", csv_file_names[i])
-               )
+               paste0(currentwd, "/csv/", csv_file_names[i]))
 }
 beep("coin")
 
@@ -120,14 +119,40 @@ deployment_07122020 <- filter(test_site, deploydate == "07122020")
 
 str(deployment_07122020$chunknumber)
 
-deployment_07122020_as_factors$chunknumber <- as_factor(deployment_07120202$chunknumber)
+deployment_07122020$chunknumber <- as_factor(deployment_07122020$chunknumber)
 
-str(deployment_07122020_as_factors$chunknumber)
-
-arrange(deployment_07122020_as_factors, chunknumber)
+str(deployment_07122020$chunknumber)
 
 # need to put each chunk in the correct order (i.e., chunk1, chunk2, chunk3)
+deployment_07122020 <- arrange(deployment_07122020, chunknumber)
 
 # append chunks together in the correct order
+View(deployment_07122020)
+
+# test if the data is correctly read into the environment'
+# this can be deleted to clean up the code
+deployment_07122020_data <- readr::read_csv(paste0(currentwd, "/csv/", deployment_07122020$path[1]))
+
+# create an empty vector to hold all of the recombined data
+recombined_chunks_deployment_07122020 <- NULL
+
+# 
+recombined_chunks_deployment_07122020 <- paste0(currentwd, "/csv/", deployment_07122020$path) %>% 
+  lapply(readr::read_csv) %>% 
+  bind_rows
+
+# View(recombined_chunks_deployment_071220)
+
+# create a new directory to hold the recombined chunks
+dir.create(paste0(currentwd, "/csv/", "recombined"))
+
+# create a file name string using the data frame
+filename <- paste(deployment_07122020$sitecode[1], 
+                   deployment_07122020$deploydate[1], 
+                   deployment_07122020$collectdate[1],
+                   deployment_07122020$subjects[1],
+                   "all_chunks.csv",
+                  sep = "_")
 
 # write out a single CSV containing all chunks
+write_csv(recombined_chunks_deployment_07122020, paste0(currentwd, "/csv/", "recombined/", filename))
