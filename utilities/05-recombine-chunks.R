@@ -78,15 +78,15 @@ for (i in 1:length(xlsx_files)) {
 }
 beep("coin")
 
-# try splitting the strings
-csv_file_names_string_split<- str_split(csv_file_names, "_")
-
-# look at how many splits were made in each file name
-lengths(csv_file_names_string_split)
-
-collection_folders <- save.first.three.parts.of.strings(csv_file_names_string_split)
-
-df <- data.frame(cbind(collection_folders, csv_file_names))
+# # try splitting the strings
+# csv_file_names_string_split<- str_split(csv_file_names, "_")
+# 
+# # look at how many splits were made in each file name
+# lengths(csv_file_names_string_split)
+# 
+# collection_folders <- save.first.three.parts.of.strings(csv_file_names_string_split)
+# 
+# df <- data.frame(cbind(collection_folders, csv_file_names))
 
 # try a different approach
 # list all the csv files in directory
@@ -113,46 +113,31 @@ str(unique(csv_files_df_separated$sitecode))
 # need to match chunks based on their names
 test_site <- filter(csv_files_df_separated, sitecode == "A51")
 
-str(unique(test_site$deploydate))
+# TODO this would work for only a handful of sites but needs to be optimized for many sites
+A51 <- filter(csv_files_df_separated, sitecode == "A51")
+BKD <- filter(csv_files_df_separated, sitecode == "BKD")
+BKN <- filter(csv_files_df_separated, sitecode == "BKN")
+BKS <- filter(csv_files_df_separated, sitecode == "BKS")
+BRL <- filter(csv_files_df_separated, sitecode == "BRL")
+BRT <- filter(csv_files_df_separated, sitecode == "BRT")
 
-deployment_07122020 <- filter(test_site, deploydate == "07122020")
+# look at the number of deployments for Area 51
+str(unique(A51_files$deploydate))
 
-str(deployment_07122020$chunknumber)
-
-deployment_07122020$chunknumber <- as_factor(deployment_07122020$chunknumber)
-
-str(deployment_07122020$chunknumber)
-
-# need to put each chunk in the correct order (i.e., chunk1, chunk2, chunk3)
-deployment_07122020 <- arrange(deployment_07122020, chunknumber)
-
-# append chunks together in the correct order
-View(deployment_07122020)
-
-# test if the data is correctly read into the environment'
-# this can be deleted to clean up the code
-deployment_07122020_data <- readr::read_csv(paste0(currentwd, "/csv/", deployment_07122020$path[1]))
-
-# create an empty vector to hold all of the recombined data
-recombined_chunks_deployment_07122020 <- NULL
-
-# 
-recombined_chunks_deployment_07122020 <- paste0(currentwd, "/csv/", deployment_07122020$path) %>% 
-  lapply(readr::read_csv) %>% 
-  bind_rows
-
-# View(recombined_chunks_deployment_071220)
+deployments <- unique(A51_files$deploydate)
 
 # create a new directory to hold the recombined chunks
 dir.create(paste0(currentwd, "/csv/", "recombined"))
 
-# create a file name string using the data frame
-filename <- paste(deployment_07122020$sitecode[1], 
-                   deployment_07122020$deploydate[1], 
-                   deployment_07122020$collectdate[1],
-                   deployment_07122020$subjects[1],
-                   "all_chunks.csv",
-                  sep = "_")
+# print the name of the sites in the console to put into the 
+sites <- unique(csv_files_df_separated$sitecode)
 
-# write out a single CSV containing all chunks
-write_csv(recombined_chunks_deployment_07122020, paste0(currentwd, "/csv/", "recombined/", filename))
+# this function recombines chunks together in the correct order
+# for each site, it writes out a csv file for each deployment date
+# TODO ideally this would for loop through a site list instead of repeating the function
+recombine.chunks(A51)
+recombine.chunks(BKD)
+recombine.chunks(BKN)
+recombine.chunks(BKS)
+recombine.chunks(BRL)
+recombine.chunks(BRT)
