@@ -597,6 +597,6 @@ recombine.chunks<- function(site){
                       sep = "_")
     
     # write out the data
-    write_csv(site_filtered_data, paste0(currentwd, "/csv/", "recombined/", filename))
+    write_excel_csv(site_filtered_data, paste0(currentwd, "/csv/", "recombined/", filename))
   }
 }
