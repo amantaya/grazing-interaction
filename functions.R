@@ -564,3 +564,39 @@ save.first.three.parts.of.strings <- function(file_names_string_split){
   }
   return(keep_frist_three_splits)
 }
+
+# The "recombine.chunks" Function
+# 
+# **Input:**
+# Requires a data frame of the list of csv files filtered by site. 
+# (i.e. there is a data frame for each site listing the csv files for that site)
+# 
+# **What it Does:** 
+# Filters  by deployment date. Reads in csv data from each deployment, 
+# and then binds rows together.
+# 
+# **Output:**
+# Writes out a csv file that has all of the chunks recombined together, in order.
+
+recombine.chunks<- function(site){
+  
+  deployments <- unique(site$deploydate)
+  
+  for (i in 1:length(deployments)) {
+    
+    site_filtered <- filter(site, deploydate == deployments[i])
+    
+    site_filtered_data <- paste0(currentwd, "/csv/", site_filtered$path) %>% lapply(readr::read_csv) %>% bind_rows()
+    
+    # create a file name string
+    filename <- paste(unique(site_filtered$sitecode), 
+                      unique(site_filtered$deploydate), 
+                      unique(site_filtered$collectdate),
+                      "subjects",
+                      "all_chunks.csv", 
+                      sep = "_")
+    
+    # write out the data
+    write_csv(site_filtered_data, paste0(currentwd, "/csv/", "recombined/", filename))
+  }
+}
