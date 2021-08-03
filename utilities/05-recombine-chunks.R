@@ -38,6 +38,12 @@ xlsm_workbook <- loadWorkbook(xlsm_files[1])
 # read the workbook
 xlsm_data <- readWorkbook(xlsm_workbook, sheet = 1)
 
+# create a new column by adding the time and date columns together
+xlsm_data <- mutate(xlsm_data, DateTime = ImageDate + ImageTime, .after = ImageDate)
+
+# convert the date time to a POSIXct class
+xlsm_data$DateTime <- openxlsx::convertToDateTime(xlsm_data$DateTime)
+
 # replace the xlsm file extension with xlsx
 # use this vector as the xlsx file names
 xlsm_file_names <- str_replace_all(xlsm_files, "xlsm", "xlsx")
@@ -53,12 +59,13 @@ for (i in 1:length(xlsm_files)) {
   xlsm_workbook <- loadWorkbook(xlsm_files[i])
   # read the data from the first sheet
   xlsm_data <- readWorkbook(xlsm_workbook, sheet = 1)
+  # create a new column by adding the time and date columns together
+  xlsm_data <- mutate(xlsm_data, DateTime = ImageDate + ImageTime, .after = ImageDate)
+  # convert the date time to a POSIXct class
+  xlsm_data$DateTime <- openxlsx::convertToDateTime(xlsm_data$DateTime)
   # write out the xlsm data as an xlsx
   write.xlsx(xlsm_data, paste0(currentwd, "/xlsx/", xlsm_file_names[i]), row.names = FALSE)
 }
-
-# play a sound to indicate the loop has completed
-beep("coin")
 
 # scan the current working directory for xlsx files
 xlsx_files <- dir(path = paste0(currentwd, "/xlsx"), pattern = "xlsx")
@@ -76,7 +83,6 @@ for (i in 1:length(xlsx_files)) {
   rio::convert(paste0(currentwd, "/xlsx/", xlsx_files[i]), 
                paste0(currentwd, "/csv/", csv_file_names[i]))
 }
-beep("coin")
 
 # # try splitting the strings
 # csv_file_names_string_split<- str_split(csv_file_names, "_")
@@ -141,3 +147,5 @@ recombine.chunks(BKN)
 recombine.chunks(BKS)
 recombine.chunks(BRL)
 recombine.chunks(BRT)
+
+beep("complete")
