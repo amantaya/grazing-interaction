@@ -35,7 +35,16 @@ head(all_files_tibble)
 # separate the first column of the tibble into new columns to make them easier to read
 # preserve the first column, as we may use it to navigate to those files later
 # Note: any empty spaces in the resulting tibble will be filled with NAs
-all_files_tibble_separated_into_columns <- separate(all_files_tibble, path, into = c("rootfolder","mainfolder", "locationfolder", "sitefolder", "collectionfolder", "subfolder", "file"), sep = "/", remove = FALSE)
+all_files_tibble_separated_into_columns <- separate(all_files_tibble, path, 
+                                                    into = c("rootfolder",
+                                                             "mainfolder",
+                                                             "locationfolder",
+                                                             "sitefolder", 
+                                                             "collectionfolder",
+                                                             "subfolder",
+                                                             "file"), 
+                                                    sep = "/", 
+                                                    remove = FALSE)
 
 # view the resulting tibble, now split into multiple columns
 head(all_files_tibble_separated_into_columns)
