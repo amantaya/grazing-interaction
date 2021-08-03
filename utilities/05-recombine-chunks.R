@@ -128,9 +128,9 @@ BRL <- filter(csv_files_df_separated, sitecode == "BRL")
 BRT <- filter(csv_files_df_separated, sitecode == "BRT")
 
 # look at the number of deployments for Area 51
-str(unique(A51_files$deploydate))
+str(unique(A51$deploydate))
 
-deployments <- unique(A51_files$deploydate)
+deployments <- unique(A51$deploydate)
 
 # create a new directory to hold the recombined chunks
 dir.create(paste0(currentwd, "/csv/", "recombined"))
