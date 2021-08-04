@@ -24,8 +24,8 @@ Looks good for my (Andrew's) PC
 I created an external R script with contains all of the functions that I commongly use across different scripts. This chunk of code reads in those functions into the global R environment.
 ```{r}
 ## the source() funciton executes all lines of code in the "mentioned" script (i.e. the pathway)
-source("packages.R")
-source("functions.R")
+source("C:/Users/andre/Dropbox/Rproj/Horse-Cattle-Elk-Grazing-Interaction-Study/packages.R")
+source("C:/Users/andre/Dropbox/Rproj/Horse-Cattle-Elk-Grazing-Interaction-Study/functions.R")
 ```
 ***
 Let's read in the RAW photo data from 2017 and 2018, which human observers classified in a custom Excel macro (.xlsm written in VBA). The macro generates data for each image when a human observer selects different options based on what they see in each photo. We saved each of the .xlsm files (each file corresponding to a site and year) as .csv files for ease of use in R and to convert the .xlsm to a non-proprietary format.
@@ -44,7 +44,20 @@ WCS18RAW<-read.csv('data/photo/WCS_Analysis_2018.csv', header=TRUE, na.strings=c
 WCT18RAW<-read.csv('data/photo/WCT_Analysis_2018.csv', header=TRUE, na.strings=c(""," ","NA"))
 test<-read.csv('data/photo/HorseImaging_test.csv', header=TRUE, na.strings=c(""," ","NA"))
 
-BGW18RAW
+# BGW18RAW
+
+A51_2019_RAW <- read_csv("data/photo/A51_2019.csv", na = c(""," ","NA"))
+A51_2020_RAW <- read_csv("data/photo/A51_2020.csv", na = c(""," ","NA"))
+BKD_2019_RAW <- read_csv("data/photo/BKD_2019.csv", na = c(""," ","NA"))
+BKD_2020_RAW <- read_csv("data/photo/BKD_2020.csv", na = c(""," ","NA"))
+BKN_2019_RAW <- read_csv("data/photo/BKN_2019.csv", na = c(""," ","NA"))
+BKN_2020_RAW <- read_csv("data/photo/BKN_2020.csv", na = c(""," ","NA"))
+BKS_2019_RAW <- read_csv("data/photo/BKS_2019.csv", na = c(""," ","NA"))
+BKS_2020_RAW <- read_csv("data/photo/BKS_2020.csv", na = c(""," ","NA"))
+BRL_2019_RAW <- read_csv("data/photo/BRL_2019.csv", na = c(""," ","NA"))
+BRL_2020_RAW <- read_csv("data/photo/BRL_2020.csv", na = c(""," ","NA"))
+BRT_2019_RAW <- read_csv("data/photo/BRT_2019.csv", na = c(""," ","NA"))
+BRT_2020_RAW <- read_csv("data/photo/BRT_2020.csv", na = c(""," ","NA"))
 ```
 ***
 
@@ -55,7 +68,6 @@ Some of the images we classified in the Excel macro were 'empty' (i.e. the obser
 
 We're going to use the "Count1Species"" column in each dataframe to remove 'empty' photos. The "Count1Species" column corresponds to the 1st detected species in each photo (i.e. the primary species (>50%) if more than one species is detected in a photo). If the image is 'empty' then it will have "NA" for a value in the "Count1Species" column. We're going to use the function complete.cases() to remove all of the rows that have "NA" in the "Count1Species" column. We'll do this for each of the dataframes, and save these new dataframes into new objects. 
 ```{r}
-# remove the observations that have NAs in the Count1Species column
 BGT18<- BGT18RAW[complete.cases(BGT18RAW[ , 'Count1Species']),]
 BGW17<- BGW17RAW[complete.cases(BGW17RAW[ , 'Count1Species']),]
 BGW18<- BGW18RAW[complete.cases(BGW18RAW[ , 'Count1Species']),]
@@ -66,6 +78,19 @@ WCT18<- WCT18RAW[complete.cases(WCT18RAW[ , 'Count1Species']),]
 WCX18<- WCX18RAW[complete.cases(WCX18RAW[ , 'Count1Species']),]
 WCX18<- WCX18RAW[complete.cases(WCX18RAW[ , 'ImageDate']),]
 ACH19<- test[complete.cases(test[ , 'Count1Species']),]
+
+A51_2019 <- A51_2019_RAW[complete.cases(A51_2019_RAW[ , 'Count1Species']),]
+A51_2020 <- A51_2020_RAW[complete.cases(A51_2020_RAW[ , 'Count1Species']),]
+BKD_2019 <- BKD_2019_RAW[complete.cases(BKD_2019_RAW[ , 'Count1Species']),]
+BKD_2020 <- BKD_2020_RAW[complete.cases(BKD_2020_RAW[ , 'Count1Species']),]
+BKN_2019 <- BKN_2019_RAW[complete.cases(BKN_2019_RAW[ , 'Count1Species']),]
+BKN_2020 <- BKN_2020_RAW[complete.cases(BKN_2020_RAW[ , 'Count1Species']),]
+BKS_2019 <- BKS_2019_RAW[complete.cases(BKS_2019_RAW[ , 'Count1Species']),]
+BKS_2020 <- BKS_2020_RAW[complete.cases(BKS_2020_RAW[ , 'Count1Species']),]
+BRL_2019 <- BRL_2019_RAW[complete.cases(BRL_2019_RAW[ , 'Count1Species']),]
+BRL_2020 <- BRL_2020_RAW[complete.cases(BRL_2020_RAW[ , 'Count1Species']),]
+BRT_2019 <- BRT_2019_RAW[complete.cases(BRT_2019_RAW[ , 'Count1Species']),]
+BRT_2020 <- BRT_2020_RAW[complete.cases(BRT_2020_RAW[ , 'Count1Species']),]
 ```
 ***
 
@@ -86,6 +111,21 @@ WCT18 <- cleandates(WCT18)
 WCX18 <- cleandates(WCX18)
 
 BGW17
+
+A51_2019$DateTime <- ymd_hms(A51_2019$DateTime)
+A51_2020$DateTime <- ymd_hms(A51_2020$DateTime)
+BKD_2019$DateTime <- ymd_hms(BKD_2019$DateTime)
+BKD_2020$DateTime <- ymd_hms(BKD_2020$DateTime)
+BKN_2019$DateTime <- ymd_hms(BKN_2019$DateTime)
+BKN_2020$DateTime <- ymd_hms(BKN_2020$DateTime)
+BKS_2019$DateTime <- ymd_hms(BKS_2019$DateTime)
+BKS_2020$DateTime <- ymd_hms(BKS_2020$DateTime)
+BRL_2019$DateTime <- ymd_hms(BRL_2019$DateTime)
+BRL_2020$DateTime <- ymd_hms(BRL_2020$DateTime)
+BRT_2019$DateTime <- ymd_hms(BRT_2019$DateTime)
+BRT_2020$DateTime <- ymd_hms(BRT_2020$DateTime)
+
+BKS_2019
 ```
 
 ```{r}
@@ -146,12 +186,26 @@ WCS17 <- allspecies(WCS17)
 WCS18 <- allspecies(WCS18)
 WCT18 <- allspecies(WCT18)
 WCX18 <- allspecies(WCX18)
+
+A51_2019 <- allspecies(A51_2019)
+A51_2020 <- allspecies(A51_2020)
+BKD_2019 <- allspecies(BKD_2019)
+BKD_2020 <- allspecies(BKD_2020)
+BKN_2019 <- allspecies(BKN_2019)
+BKN_2020 <- allspecies(BKN_2020)
+BKS_2019 <- allspecies(BKS_2019)
+BKS_2020 <- allspecies(BKS_2020)
+BRL_2019 <- allspecies(BRL_2019)
+BRL_2020 <- allspecies(BRL_2020)
+BRT_2019 <- allspecies(BRT_2019)
+BRT_2020 <- allspecies(BRT_2020)
 ```
 ***
 
 Take a look a the new dataframe. We've removed NAs and did some calculations to the dataframe which created new columns with species counts.
 ```{r}
-head(BGW17)
+# head(BGW17)
+BKS_2020
 ```
 ***
 
@@ -165,6 +219,19 @@ WCS17counts <- counts.df(WCS17)
 WCS18counts <- counts.df(WCS18)
 WCT18counts <- counts.df(WCT18)
 WCX18counts <- counts.df(WCX18)
+
+A51_2019counts <- counts.df(A51_2019)
+A51_2020counts <- counts.df(A51_2020)
+BKD_2019counts <- counts.df(BKD_2019)
+BKD_2020counts <- counts.df(BKD_2020)
+BKN_2019counts <- counts.df(BKN_2019)
+BKN_2020counts <- counts.df(BKN_2020)
+BKS_2019counts <- counts.df(BKS_2019)
+BKS_2020counts <- counts.df(BKS_2020)
+BRL_2019counts <- counts.df(BRL_2019)
+BRL_2020counts <- counts.df(BRL_2020)
+BRT_2019counts <- counts.df(BRT_2019)
+BRT_2020counts <- counts.df(BRT_2020)
 ```
 ***
 To simplify the code, we're going to create new dataframes that contain only one species. In this case we are creating three new dataframes from each site, one dataframe corresponding to horses, another for cows, and the third for elk.
@@ -200,6 +267,55 @@ WCT18elk <- WCT18[WCT18$elk >0, ]
 WCX18horses <- WCX18[WCX18$horse >0, ]
 WCX18cows <- WCX18[WCX18$cow >0, ]
 WCX18elk <- WCX18[WCX18$elk >0, ]
+
+A51_2019horses <- A51_2019[A51_2019$horse >0, ]
+A51_2019cows <- A51_2019[A51_2019$cow >0, ]
+A51_2019elk <- A51_2019[A51_2019$elk >0, ]
+
+A51_2020horses <- A51_2020[A51_2020$horse >0, ]
+A51_2020cows <- A51_2020[A51_2020$cow >0, ]
+A51_2020elk <- A51_2020[A51_2020$elk >0, ]
+
+BKD_2019horses <- BKD_2019[BKD_2019$horse >0, ]
+BKD_2019cows <- BKD_2019[BKD_2019$cow >0, ]
+BKD_2019elk <- BKD_2019[BKD_2019$elk >0, ]
+
+BKD_2020horses <- BKD_2020[BKD_2020$horse >0, ]
+BKD_2020cows <- BKD_2020[BKD_2020$cow >0, ]
+BKD_2020elk <- BKD_2020[BKD_2020$elk >0, ]
+
+BKN_2019horses <- BKN_2019[BKN_2019$horse >0, ]
+BKN_2019cows <- BKN_2019[BKN_2019$cow >0, ]
+BKN_2019elk <- BKN_2019[BKN_2019$elk >0, ]
+
+BKN_2020horses <- BKN_2020[BKN_2020$horse >0, ]
+BKN_2020cows <- BKN_2020[BKN_2020$cow >0, ]
+BKN_2020elk <- BKN_2020[BKN_2020$elk >0, ]
+
+BKS_2019horses <- BKS_2019[BKS_2019$horse >0, ]
+BKS_2019cows <- BKS_2019[BKS_2019$cow >0, ]
+BKS_2019elk <- BKS_2019[BKS_2019$elk >0, ]
+
+BKS_2020horses <- BKS_2020[BKS_2020$horse >0, ]
+BKS_2020cows <- BKS_2020[BKS_2020$cow >0, ]
+BKS_2020elk <- BKS_2020[BKS_2020$elk >0, ]
+
+BRL_2019horses <- BRL_2019[BRL_2019$horse >0, ]
+BRL_2019cows <- BRL_2019[BRL_2019$cow >0, ]
+BRL_2019elk <- BRL_2019[BRL_2019$elk >0, ]
+
+BRL_2020horses <- BRL_2020[BRL_2020$horse >0, ]
+BRL_2020cows <- BRL_2020[BRL_2020$cow >0, ]
+BRL_2020elk <- BRL_2020[BRL_2020$elk >0, ]
+
+BRT_2019horses <- BRT_2019[BRT_2019$horse >0, ]
+BRT_2019cows <- BRT_2019[BRT_2019$cow >0, ]
+BRT_2019elk <- BRT_2019[BRT_2019$elk >0, ]
+
+BRT_2020horses <- BRT_2020[BRT_2020$horse >0, ]
+BRT_2020cows <- BRT_2020[BRT_2020$cow >0, ]
+BRT_2020elk <- BRT_2020[BRT_2020$elk >0, ]
+
 ```
 ***
 To approximate herd dynamics using sequential photos, we're grouping photos together based on an observation window, where a sequential series of photos are aggregated together based on timestamps. Photos taken <10 minutes from the previous photo were included together in a gorup. If the next photo in the series was taken >= 10 minutes from the previous photo, this next photo was placed into the next group.
@@ -212,6 +328,19 @@ WCS17grouptotals <- group.total(WCS17)
 WCS18grouptotals <- group.total(WCS18)
 WCT18grouptotals <- group.total(WCT18)
 WCX18grouptotals <- group.total(WCX18)
+
+A51_2019grouptotals <- group.total(A51_2019)
+A51_2020grouptotals <- group.total(A51_2020)
+BKD_2019grouptotals <- group.total(BKD_2019)
+BKD_2020grouptotals <- group.total(BKD_2020)
+BKN_2019grouptotals <- group.total(BKN_2019)
+BKN_2020grouptotals <- group.total(BKN_2020)
+BKS_2019grouptotals <- group.total(BKS_2019)
+BKS_2020grouptotals <- group.total(BKS_2020)
+BRL_2019grouptotals <- group.total(BRL_2019)
+BRL_2020grouptotals <- group.total(BRL_2020)
+BRT_2019grouptotals <- group.total(BRT_2019)
+BRT_2020grouptotals <- group.total(BRT_2020)
 ```
 ***
 #### This commented out code does exatcly the same thing as the "group.df" function.
@@ -249,6 +378,10 @@ WCT18elk <- group.df(WCT18elk)
 WCX18horses <- group.df(WCX18horses)
 WCX18cows <- group.df(WCX18cows)
 WCX18elk <- group.df(WCX18elk)
+
+A51_2019cows <- group.df(A51_2019cows)
+A51_2019horses <- group.df(A51_2019horses)
+A51_2019elk <- group.df(A51_2019elk)
 ```
 ***
 #### Grouping the groups by the pre-Monsoon period. 
@@ -568,6 +701,14 @@ BGW17time
 BGW17time<- as.matrix(BGW17time)
 
 BGW17time
+
+A51_2019cowtime <- sumbyhour(A51_2019cows, "cow")
+A51_2019horsetime <- sumbyhour(A51_2019horses, "horse")
+A51_2019elktime <- sumbyhour(A51_2019elk, "elk")
+
+A51_2019cowtime
+A51_2019horsetime
+A51_2019elktime
 ```
 
 ```{r}

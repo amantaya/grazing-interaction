@@ -6,62 +6,62 @@ output: html_notebook
 ---
 
 ```{r}
-# Boggy Trail 2018 Counts
- jpeg(filename = "figures/counts/BGT18_Counts_Small.jpeg",
-      width=3.2,
-      height=3.2,
-      units="in",
-      res=300)
- ## bottom, left, top, right
- par(mar=c(2, 2, 1, 2))
- barplot(BGT18counts$freq,
-         col = c("#4472C4", "#ED7D31", "#FFC000"),
-         main = "Boggy Creek Trail 2018",
-         cex.main = 0.75,
-         cex.lab = 0.5,
-         cex.names = 0.75,
-         axes = FALSE,
-xlab = NA,
-         ylab = NA,
-         ylim = c(0, 10000),
-         las = 0)
-axis(1, at = seq(0.7, 3.1, by=1.2), labels = c("Horses", "Cattle", "Elk"), cex.axis = 0.75)
- mtext("Counts", 2, las = 0 , cex = 0.66, padj = -3)
- text(0.7, 2775, "2775", pos = 3, cex = 0.75)
- text(1.9, 114, "114", pos = 3, cex = 0.75)
- text(3.1, 344, "344", pos = 3, cex = 0.75)
- axis(2, at = seq(0, 10000, by=500), cex.axis = .5, padj = 2)
- dev.off()
+# # Boggy Trail 2018 Counts
+#  jpeg(filename = "figures/counts/BGT18_Counts_Small.jpeg",
+#       width=3.2,
+#       height=3.2,
+#       units="in",
+#       res=300)
+#  ## bottom, left, top, right
+#  par(mar=c(2, 2, 1, 2))
+#  barplot(BGT18counts$freq,
+#          col = c("#4472C4", "#ED7D31", "#FFC000"),
+#          main = "Boggy Creek Trail 2018",
+#          cex.main = 0.75,
+#          cex.lab = 0.5,
+#          cex.names = 0.75,
+#          axes = FALSE,
+# xlab = NA,
+#          ylab = NA,
+#          ylim = c(0, 10000),
+#          las = 0)
+# axis(1, at = seq(0.7, 3.1, by=1.2), labels = c("Horses", "Cattle", "Elk"), cex.axis = 0.75)
+#  mtext("Counts", 2, las = 0 , cex = 0.66, padj = -3)
+#  text(0.7, 2775, "2775", pos = 3, cex = 0.75)
+#  text(1.9, 114, "114", pos = 3, cex = 0.75)
+#  text(3.1, 344, "344", pos = 3, cex = 0.75)
+#  axis(2, at = seq(0, 10000, by=500), cex.axis = .5, padj = 2)
+#  dev.off()
 ```
 
 # 
 ```{r}
-# Boggy West 2017 Counts
-jpeg(filename = "figures/counts/BGW17_Counts_Small.jpeg",
-     width=3.2,
-     height=3.2,
-     units="in",
-     res=300)
-## bottom, left, top, right
-par(mar=c(2, 2, 1, 2))
-barplot(BGW17counts$freq,
-        col = c("#4472C4", "#ED7D31", "#FFC000"),
-        main = "Boggy Creek Timelapse 2017",
-        cex.main = 0.75,
-        cex.lab = 0.5,
-        cex.names = 0.75,
-        axes = FALSE,
-        xlab = NA,
-        ylab = NA,
-        ylim = c(0, 10000),
-        las = 0)
-axis(1, at = seq(0.7, 3.1, by=1.2), labels = c("Horses", "Cattle", "Elk"), cex.axis = 0.75)
-mtext("Counts", 2, las = 0 , cex = 0.66, padj = -3)
-text(0.7, 7686, "7686", pos = 3, cex = 0.75)
-text(1.9, 2095, "2095", pos = 3, cex = 0.75)
-text(3.1, 1942, "1942", pos = 3, cex = 0.75)
-axis(2, at = seq(0, 10000, by=500), cex.axis = .5, padj = 2)
-dev.off()
+# # Boggy West 2017 Counts
+# jpeg(filename = "figures/counts/BGW17_Counts_Small.jpeg",
+#      width=3.2,
+#      height=3.2,
+#      units="in",
+#      res=300)
+# ## bottom, left, top, right
+# par(mar=c(2, 2, 1, 2))
+# barplot(BGW17counts$freq,
+#         col = c("#4472C4", "#ED7D31", "#FFC000"),
+#         main = "Boggy Creek Timelapse 2017",
+#         cex.main = 0.75,
+#         cex.lab = 0.5,
+#         cex.names = 0.75,
+#         axes = FALSE,
+#         xlab = NA,
+#         ylab = NA,
+#         ylim = c(0, 10000),
+#         las = 0)
+# axis(1, at = seq(0.7, 3.1, by=1.2), labels = c("Horses", "Cattle", "Elk"), cex.axis = 0.75)
+# mtext("Counts", 2, las = 0 , cex = 0.66, padj = -3)
+# text(0.7, 7686, "7686", pos = 3, cex = 0.75)
+# text(1.9, 2095, "2095", pos = 3, cex = 0.75)
+# text(3.1, 1942, "1942", pos = 3, cex = 0.75)
+# axis(2, at = seq(0, 10000, by=500), cex.axis = .5, padj = 2)
+# dev.off()
 ```
 
 # 
@@ -248,6 +248,66 @@ dev.off()
 # dev.off()
 # 
 ```
+
+```{r}
+# Area 51 Counts 2019
+ jpeg(filename = "figures/counts/A51_2019_Small.jpeg",
+      width=3.2,
+      height=3.2,
+      units="in",
+      res=300)
+ ## bottom, left, top, right
+ par(mar=c(2, 2, 1, 2))
+ barplot(A51_2019counts$freq,
+         col = c("#4472C4", "#ED7D31", "#FFC000"),
+         main = "Area Fifty One Counts 2019",
+         cex.main = 0.75,
+         cex.lab = 0.5,
+         cex.names = 0.75,
+         axes = FALSE,
+xlab = NA,
+         ylab = NA,
+         ylim = c(0, 10000),
+         las = 0)
+axis(1, at = seq(0.7, 3.1, by=1.2), labels = c("Horses", "Cattle", "Elk"), cex.axis = 0.75)
+ mtext("Counts", 2, las = 0 , cex = 0.66, padj = -3)
+ text(0.7, 2775, "2714", pos = 3, cex = 0.75)
+ text(1.9, 2200, "2186", pos = 3, cex = 0.75)
+ text(3.1, 10, "7", pos = 3, cex = 0.75)
+ axis(2, at = seq(0, 10000, by=500), cex.axis = .5, padj = 2)
+ dev.off()
+```
+
+```{r}
+# Area 51 Counts 2020
+ jpeg(filename = "figures/counts/A51_2020_Small.jpeg",
+      width=3.2,
+      height=3.2,
+      units="in",
+      res=300)
+ ## bottom, left, top, right
+ par(mar=c(2, 2, 1, 2))
+ barplot(A51_2020counts$freq,
+         col = c("#4472C4", "#ED7D31", "#FFC000"),
+         main = "Area Fifty One Counts 2020",
+         cex.main = 0.75,
+         cex.lab = 0.5,
+         cex.names = 0.75,
+         axes = FALSE,
+xlab = NA,
+         ylab = NA,
+         ylim = c(0, 10000),
+         las = 0)
+axis(1, at = seq(0.7, 3.1, by=1.2), labels = c("Horses", "Cattle", "Elk"), cex.axis = 0.75)
+ mtext("Counts", 2, las = 0 , cex = 0.66, padj = -3)
+ text(0.7, 4500, "4304", pos = 3, cex = 0.75)
+ text(1.9, 1100, "1069", pos = 3, cex = 0.75)
+ text(3.1, 25, "17", pos = 3, cex = 0.75)
+ axis(2, at = seq(0, 10000, by=500), cex.axis = .5, padj = 2)
+ dev.off()
+```
+
+
 # 
 # ### Number of Groups
 # 
