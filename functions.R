@@ -600,3 +600,19 @@ recombine.chunks<- function(site){
     write_excel_csv(site_filtered_data, paste0(currentwd, "/csv/", "recombined/", filename))
   }
 }
+
+## the source() function executes all lines of code in the "mentioned" script (i.e. the pathway)
+source_rmd <- function(file_path) {
+  stopifnot(is.character(file_path) && length(file_path) == 1)
+  .tmpfile <- tempfile(fileext = ".R")
+  .con <- file(.tmpfile) 
+  on.exit(close(.con))
+  full_rmd <- read_file(file_path)
+  codes <- str_match_all(string = full_rmd, pattern = "```(?s)\\{r[^{}]*\\}\\s*\\n(.*?)```")
+  stopifnot(length(codes) == 1 && ncol(codes[[1]]) == 2)
+  codes <- paste(codes[[1]][, 2], collapse = "\n")
+  writeLines(codes, .con)
+  flush(.con)
+  cat(sprintf("R code extracted to tempfile: %s\nSourcing tempfile...", .tmpfile))
+  source(.tmpfile)
+}
