@@ -8,41 +8,49 @@ Production and Utilization calculations
 02/07/2019
 Written by Andrew Antaya
 
-```{r}
+```{r echo=False}
 # clear the enviroment
 rm(list=ls(all=TRUE))
 ```
 
-```{r}
+```{r echo=FALSE}
 source("packages.R")
 ```
 
 ```{r}
-## the source() function executes all lines of code in the "mentioned" script (i.e. the pathway)
-source_rmd <- function(file_path) {
-  stopifnot(is.character(file_path) && length(file_path) == 1)
-  .tmpfile <- tempfile(fileext = ".R")
-  .con <- file(.tmpfile) 
-  on.exit(close(.con))
-  full_rmd <- read_file(file_path)
-  codes <- str_match_all(string = full_rmd, pattern = "```(?s)\\{r[^{}]*\\}\\s*\\n(.*?)```")
-  stopifnot(length(codes) == 1 && ncol(codes[[1]]) == 2)
-  codes <- paste(codes[[1]][, 2], collapse = "\n")
-  writeLines(codes, .con)
-  flush(.con)
-  cat(sprintf("R code extracted to tempfile: %s\nSourcing tempfile...", .tmpfile))
-  source(.tmpfile)
-}
-
-source_rmd("functions.Rmd")
+source("functions.R")
 ```
 
+Read in the vegetation data from the White Mountains study sites.
 ```{r}
 ## read in data
-prod1718 <- read.csv('data/vegetation/White Mountain Production 2017-2018.csv', header=TRUE, na.strings=c(""," ","NA"))
+wm_prod_2017 <- readr::read_csv('data/vegetation/white-mountains/2017-white-mountains-production-reordered.csv',
+                                col_names = TRUE, 
+                                na = c(""," ","NA"))
 
-prod19 <- read.csv('data/vegetation/White Mountain Production 2019.csv', header=TRUE, na.strings=c(""," ","NA"))
+wm_prod_2018 <- readr::read_csv('data/vegetation/white-mountains/2018-white-mountains-production-reordered.csv',
+                                col_names = TRUE,
+                                na = c(""," ","NA"))
 
+wm_prod_2019 <- readr::read_csv('data/vegetation/white-mountains/2019-white-mountains-production.csv',
+                                col_names = TRUE,
+                                na = c(""," ","NA"))
+
+```
+The output of readr::read_csv shows our column names, and how they're stored inside R.
+For example, the "Plot" column is recognized as a character column in 2017 and 2018, but as a double column in 2019.
+
+Printing the data frames lets us take a look at 
+```{r}
+print(wm_prod_2017)
+
+print(wm_prod_2018)
+
+print(wm_prod_2019)
+```
+
+
+```{r}
 # remove the first column
 prod1718$Record <- NULL
 # rename the ID column to "Cage" to match the 2019 data
@@ -107,6 +115,7 @@ prod18
 
 #write.csv(prod18, 'data/vegetation/White-Mountain-Production-2018-Reordered.csv', row.names = FALSE)
 ```
+
 ```{r}
 #rm(prod1718)
 ```
