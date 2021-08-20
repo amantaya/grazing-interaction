@@ -440,3 +440,8 @@ C:\BRC64.exe /DIR:"C:\temp\rename\WCT_10082017_11042017\" /NOFOLDERS /RECURSIVE 
 C:\BRC64.exe /DIR:"C:\temp\rename\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /EXECUTE
 
 C:\Program` Files\BRC64\BRC64.exe /DIR:"C:\temp\rename\" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /NODUP /EXECUTE
+
+# this does not do exactly what I want it to do
+# what it currently does is take the accessed date from the directory and renames it using year month day and appends the parent directory name
+# I want it to take the first file date and append it to the directory name and then take the last file date and append it to the file name
+C:\Program` Files\BRC64\BRC64.exe /DIR:"C:\temp\rename\A51\" /NOFILES /REMOVENAME /APPENDDATE:A:S::_:10:"%Y_%m_%d" /APPENDFOLDER:P:_:1 /NODUP /EXECUTE
