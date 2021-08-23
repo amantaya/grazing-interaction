@@ -191,24 +191,51 @@ print(production)
 
 print(residual)
 ```
-Write out the combined and adjusted csv data.
-```{r}
-#readr::write_csv(combined_df, "data/vegetation/white-mountains/white-mountains-production-all-years-combined.csv")
-```
 
 Convert to new units.
 ```{r}
 production$AdjustedWt <- set_units(production$AdjustedWt, g/m^2)
 
-production$kg_ha <- NA
+production$g_m <- NULL
+  
+production$g_m <- production$AdjustedWt
+
+production$kg_ha <- NULL
 
 production$kg_ha <- set_units(production$AdjustedWt, kg/hectare)
 
-production$lb_acre <- NA
+production$lb_acre <- NULL
 
 production$lb_acre <- set_units(production$AdjustedWt, lb/acre)
 
 print(production)
+```
+Write out the production data to a csv file. This will let others take a look at the data and check our work.
+```{r}
+#readr::write_csv(production, "data/vegetation/white-mountains/white-mountains-production-all-years-combined.csv")
+```
+
+Do the same for the residual. Convert to new units.
+```{r}
+residual$AdjustedWt <- set_units(residual$AdjustedWt, g/m^2)
+
+residual$g_m <- NULL
+  
+residual$g_m <- residual$AdjustedWt
+
+residual$kg_ha <- NULL
+
+residual$kg_ha <- set_units(residual$AdjustedWt, kg/hectare)
+
+residual$lb_acre <- NULL
+
+residual$lb_acre <- set_units(residual$AdjustedWt, lb/acre)
+
+print(residual)
+```
+Write out the residual data to a csv file. This will let others take a look at the data and check our work.
+```{r}
+#readr::write_csv(residual, "data/vegetation/white-mountains/white-mountains-residual-all-years-combined.csv")
 ```
 
 Create empty data frame to store the mean, standard deviation, standard error, 95% confidence interval for all sites.
@@ -230,17 +257,22 @@ stats$avg_grams_meter[6] <- mean(pull(filter(production, Site == "Wildcat" & Yea
 print(stats)
 ```
 
+Convert the grams per square meter to other units, kilograms per hectare and pounds per acre.
 ```{r}
-# Convert to different units using the set_units() function
+# convert to different units using the set_units() function
 stats$avg_grams_meter <- set_units(stats$avg_grams_meter, g/m^2)
 stats$avg_kg_hectare <- set_units(stats$avg_grams_meter, kg/hectare)
 stats$avg_lbs_acre <- set_units(stats$avg_grams_meter, lb/acre)
+
+# convert the S3 units class to numeric to prevent future problems
 stats$avg_grams_meter <- as.numeric(stats$avg_grams_meter)
 stats$avg_kg_hectare <- as.numeric(stats$avg_kg_hectare)
 stats$avg_lbs_acre <- as.numeric(stats$avg_lbs_acre)
+
 print(stats)
 ```
 
+Test the standard deviation and standard error functions on a single site and year before applying it to all of the data. Check to see if the values are correct.
 ```{r}
 testavg <- mean(pull(filter(production, Site == "Boggy" & Year == "2017"), "lb_acre"))
 testavg
@@ -253,7 +285,7 @@ testse
 ```
 
 ```{r}
-## calculate standard deviation SD for each year and site (in g/m2)
+## calculate standard deviation SD for each year and site (in lb_acre)
 stats$sd[1] <- sd(pull(filter(production, Site == "Boggy" & Year == "2017"), "lb_acre"))
 stats$sd[2] <- sd(pull(filter(production, Site == "Boggy" & Year == "2018"), "lb_acre"))
 stats$sd[3] <- sd(pull(filter(production, Site == "Boggy" & Year == "2019"), "lb_acre"))
@@ -264,7 +296,7 @@ print(stats)
 ```
 
 ```{r}
-## calculate standard deviation SD for each year and site (in g/m2)
+## calculate standard deviation SD for each year and site (in lb_acre)
 stats$se[1] <- se(pull(filter(production, Site == "Boggy" & Year == "2017"), "lb_acre"))
 stats$se[2] <- se(pull(filter(production, Site == "Boggy" & Year == "2018"), "lb_acre"))
 stats$se[3] <- se(pull(filter(production, Site == "Boggy" & Year == "2019"), "lb_acre"))
@@ -291,11 +323,6 @@ stats$U95 <- stats$avg_lbs_acre+2.571*stats$se
 print(stats)
 ```
 ```{r}
-# Color-blind friendly colors
-colors <- viridis(2)
-
-print(colors)
-
 # Excel colors
 c("#4472C4", "#ED7D31", "#FFC000")
 ```
