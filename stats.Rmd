@@ -73,19 +73,56 @@ Let's investigate the relationship in production between years for Wildcat. Beca
 # force conversion of Year from a double to a factor
 production$Year <- forcats::as_factor(production$Year)
 
-production %>% 
+stat_test6 <- production %>% 
   dplyr::filter(Site == "Wildcat") %>%
   rstatix::tukey_hsd(lb_acre ~ Year) %>%
   add_significance()
+stat_test6
 ```
 The results of the Tukey HSD test indicate that there is no difference in production between 2017 and 2018, or 2018 and 2019. There is a difference, however, in production between 2017 and 2019 for Wildcat. This difference might be attributable to lack of rainfall or some other explanatory variable. Exploratory analysis might include looking at rainfall for those years.
 
 Let's see for curiosity's sake what Tukey's HSD test says for Boggy.
 ```{r}
-production %>% 
+stat_test7 <- production %>% 
   dplyr::filter(Site == "Boggy") %>%
   rstatix::tukey_hsd(lb_acre ~ Year) %>%
   add_significance()
+stat_test7
 ```
 No suprise, the ANOVA indicated there was no difference in production between years for Boggy. It's also good to see this same result from the Tukey's HSD test.
 
+```{r}
+# Create a box-plot
+wildcat <- production %>% dplyr::filter(Site == "Wildcat")
+
+bxp <- ggboxplot(
+  wildcat, x = "Year", y = "lb_acre", 
+  ylab = expression(paste("pounds ", "acre"^"-1")), xlab = "Year", add = "jitter",
+  )
+
+# Add p-value and significance levels
+stat_test6 <- stat_test6 %>% add_xy_position(x = "Year")
+
+bxp +
+  stat_pvalue_manual(stat_test6, tip.length = 0) +
+  labs(title = "Wildcat Production 2017-2019", subtitle = "Tukey HSD t-test") +
+  theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5))
+```
+
+```{r}
+# Create a box-plot
+boggy <- production %>% dplyr::filter(Site == "Boggy")
+
+bxp <- ggboxplot(
+  boggy, x = "Year", y = "lb_acre", 
+  ylab = expression(paste("pounds ", "acre"^"-1")), xlab = "Year", add = "jitter",
+  )
+
+# Add p-value and significance levels
+stat_test7 <- stat_test7 %>% add_xy_position(x = "Year")
+
+bxp +
+  stat_pvalue_manual(stat_test7, tip.length = 0) +
+  labs(title = "Boggy Production 2017-2019", subtitle = "Tukey HSD t-test") +
+  theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5))
+```
