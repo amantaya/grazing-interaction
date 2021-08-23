@@ -1,0 +1,91 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+source("packages.R")
+```
+
+```{r}
+# this is a more efficient way to get mean, SD, and degrees of freedom
+production %>% filter(Year == "2018" & Site == "Boggy") %>% get_summary_stats(AdjustedWt, type = "mean_sd")
+```
+
+```{r}
+production %>% 
+  filter(Year == "2017") %>% 
+  group_by(Site) %>% 
+  get_summary_stats(lb_acre, type = "mean_sd")
+
+production %>% 
+  filter(Year == "2018") %>% 
+  group_by(Site) %>% 
+  get_summary_stats(lb_acre, type = "mean_sd")
+
+production %>% 
+  filter(Year == "2019") %>% 
+  group_by(Site) %>% 
+  get_summary_stats(lb_acre, type = "mean_sd")
+```
+Use Welchs t-test to test for differences in production between sites (Boggy and Wildcat) for the same year. Welchs t-test does not assume equal variances between samples (Student's t-test does). 
+```{r}
+production$AdjustedWt <- as.numeric(production$AdjustedWt)
+production$lb_acre <- as.numeric(production$lb_acre)
+
+stat_test1 <-  production %>% 
+  dplyr::filter(Year == "2017") %>% 
+  t_test(lb_acre ~ Site, detailed = TRUE) %>%  
+  add_significance()
+stat_test1
+
+stat_test2 <-  production %>% 
+  dplyr::filter(Year == "2018") %>% 
+  t_test(lb_acre ~ Site, detailed = TRUE) %>%  
+  add_significance()
+stat_test2
+
+stat_test3 <-  production %>% 
+  dplyr::filter(Year == "2019") %>% 
+  t_test(lb_acre ~ Site, detailed = TRUE) %>%  
+  add_significance()
+stat_test3
+```
+The output shows that there is no difference in mean production between sites for the same year. Given that these sites are only a couple of miles apart, with fairly similar rainfall, topography, and soil moisture, we wouldn't necessarily expect these value to be different. Additionally, the heterogeneity around vegetation samples might be obscuring any relationship between sites.
+
+Now, let's test for differences in the mean production for the same site, but between years. Because we have multiple years (2017 to 2019), we'll first perform an analysis of variance (ANOVA).
+```{r}
+stat_test4 <- production %>% 
+  dplyr::filter(Site == "Boggy") %>% 
+  rstatix::anova_test(lb_acre ~ Year, detailed = TRUE) %>% 
+  add_significance()
+stat_test4
+
+stat_test5 <- production %>% 
+  dplyr::filter(Site == "Wildcat") %>% 
+  rstatix::anova_test(lb_acre ~ Year, detailed = TRUE) %>% 
+  add_significance()
+stat_test5
+```
+The results indicate that there is no difference in production between years for Boggy, but there is a difference in production between years for Wildcat.
+
+Let's investigate the relationship in production between years for Wildcat. Because we're conducting multiple t-tests, we need to use Tukey's honest significant difference to correct for the bias involved in making multiple comparisons.
+```{r}
+# force conversion of Year from a double to a factor
+production$Year <- forcats::as_factor(production$Year)
+
+production %>% 
+  dplyr::filter(Site == "Wildcat") %>%
+  rstatix::tukey_hsd(lb_acre ~ Year) %>%
+  add_significance()
+```
+The results of the Tukey HSD test indicate that there is no difference in production between 2017 and 2018, or 2018 and 2019. There is a difference, however, in production between 2017 and 2019 for Wildcat. This difference might be attributable to lack of rainfall or some other explanatory variable. Exploratory analysis might include looking at rainfall for those years.
+
+Let's see for curiosity's sake what Tukey's HSD test says for Boggy.
+```{r}
+production %>% 
+  dplyr::filter(Site == "Boggy") %>%
+  rstatix::tukey_hsd(lb_acre ~ Year) %>%
+  add_significance()
+```
+No suprise, the ANOVA indicated there was no difference in production between years for Boggy. It's also good to see this same result from the Tukey's HSD test.
+
