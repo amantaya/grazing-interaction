@@ -62,16 +62,16 @@ print(wm_prod_2019)
 Each data frame has 13 columns (variables). The data from 2017 and 2019 have 20 rows (observations).
 However, the data from 2018 has 22 rows. We sampled 6 riparian frames from Boggy and Wildcat in 2018 instead of the usual 5 frames.
 
-It's a good practice to recalculate columns that were calculated in Excel. It's easy to make a mistake in Excel. Since Excel calculated the "TotalDryWt" column, let's re-calculate the total dry weight by adding the bag weights columns together, and storing these values in a new column "TotalWt".
+It's a good practice to recalculate columns that were calculated in Excel. It's easy to make a mistake in Excel. Since Excel calculated the "TotalDryWt" column, let's re-calculate the total dry weight by adding the bag weights columns together, and overwriting the values in the "TotalDryWt" column.
 ```{r}
 wm_prod_2017 <- wm_prod_2017 %>% 
-  dplyr::mutate(TotalWt = select(., Bag1DryWt:Bag8DryWt) %>% rowSums(na.rm = TRUE))
+  dplyr::mutate(TotalDryWt = select(., Bag1DryWt:Bag8DryWt) %>% rowSums(na.rm = TRUE))
 
 wm_prod_2018 <- wm_prod_2018 %>% 
-  dplyr::mutate(TotalWt = select(., Bag1DryWt:Bag8DryWt) %>% rowSums(na.rm = TRUE))
+  dplyr::mutate(TotalDryWt = select(., Bag1DryWt:Bag8DryWt) %>% rowSums(na.rm = TRUE))
 
 wm_prod_2019 <- wm_prod_2019 %>% 
-  dplyr::mutate(TotalWt = select(., Bag1DryWt:Bag8DryWt) %>% rowSums(na.rm = TRUE))
+  dplyr::mutate(TotalDryWt = select(., Bag1DryWt:Bag8DryWt) %>% rowSums(na.rm = TRUE))
 
 print(wm_prod_2017)
 print(wm_prod_2018)
