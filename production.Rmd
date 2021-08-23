@@ -42,35 +42,45 @@ wm_prod_2019 <- readr::read_csv('data/vegetation/white-mountains/2019-white-moun
                                 na = c(""," ","NA"))
 
 ```
-
 The output shows our column names, and how they're stored inside R. This is important because the variable type can affect our analysis if we're not careful. For example, the "Plot" column is recognized as a character in 2017 and 2018, but as a double in 2019.
 
-Let's take a look at the data.
-
-```{r}
-# TODO instead of reading in "TotalDry" calculate it from the columns
-print(wm_prod_2017)
-
-print(wm_prod_2018)
-
-print(wm_prod_2019)
-```
-
-Force conversion of the 2019 "Plot" column to a character.
+To fix this. force conversion of the 2019 "Plot" column to a character type. We could also force it into a factor, but for our purposes it doesn't really matter. The "Plot" column is really more for organization than for anything else.
 ```{r}
 wm_prod_2019$Plot <- as.character(wm_prod_2019$Plot)
 
 wm_prod_2019
 ```
 
+Let's take a closer look at the data.
+```{r}
+print(wm_prod_2017)
+
+print(wm_prod_2018)
+
+print(wm_prod_2019)
+```
 Each data frame has 13 columns (variables). The data from 2017 and 2019 have 20 rows (observations).
 However, the data from 2018 has 22 rows. We sampled 6 riparian frames from Boggy and Wildcat in 2018 instead of the usual 5 frames.
 
-There is an error in our 2019 data, however, that we need to adjust. 
-For Wildcat, instead of clipping the entire 1m X 1m grazing exclosure, we clipped three 40cm x 40 cm quadrats randomly placed inside of the exclosure. We decided to clip a smaller area to save time.
-This differs from how we clipped the Boggy Creek site for the same year. For Boggy, we clipped the entire 1m x 1m exclosure.
+It's a good practice to recalculate columns that were calculated in Excel. It's easy to make a mistake in Excel. Since Excel calculated the "TotalDryWt" column, let's re-calculate the total dry weight by adding the bag weights columns together, and storing these values in a new column "TotalWt".
+```{r}
+wm_prod_2017 <- wm_prod_2017 %>% 
+  dplyr::mutate(TotalWt = select(., Bag1DryWt:Bag8DryWt) %>% rowSums(na.rm = TRUE))
 
-To correct this error, first let's calculate the area of one 40cm x 40 cm quadrat.
+wm_prod_2018 <- wm_prod_2018 %>% 
+  dplyr::mutate(TotalWt = select(., Bag1DryWt:Bag8DryWt) %>% rowSums(na.rm = TRUE))
+
+wm_prod_2019 <- wm_prod_2019 %>% 
+  dplyr::mutate(TotalWt = select(., Bag1DryWt:Bag8DryWt) %>% rowSums(na.rm = TRUE))
+
+print(wm_prod_2017)
+print(wm_prod_2018)
+print(wm_prod_2019)
+```
+There are erroneous data points in our 2019 data, however, that we need to adjust. 
+For 2019 in Wildcat, instead of clipping the entire 1m X 1m grazing exclosure, we clipped three 40cm x 40 cm quadrats randomly placed inside of the exclosure. We decided to clip a smaller area to save time. This differs from how we clipped the Boggy Creek site for the same year. For Boggy, we clipped the entire 1m x 1m exclosure.
+
+To correct this error, the first step is to calculate the area of (1) 40cm x 40 cm quadrat.
 ```{r}
 # length of quadrat dimension X (in centimeters)
 dim_x <- units::set_units(40, cm)
@@ -83,7 +93,7 @@ sample_area_cm <- dim_x*dim_y
 
 print(sample_area_cm)
 ```
-Next, find the total area of three 40cm x 40cm quadrats in centimeters[^2].
+Next, find the total area of (3) 40cm x 40cm quadrats in centimeters[^2].
 ```{r}
 # number of sampling frames/quadrats
 n_frames <- 3
@@ -113,8 +123,8 @@ wm_prod_2019$AdjustedWt <- NULL
 
 # if you run this line it will multiply it by the conversion multiple times
 wm_prod_2019$AdjustedWt <- ifelse (wm_prod_2019$Site == "Wildcat" & wm_prod_2019$Type == "Exclosure", 
-                           wm_prod_2019$TotalDry*conversion, 
-                           wm_prod_2019$TotalDry)
+                           wm_prod_2019$TotalDryWt*conversion, 
+                           wm_prod_2019$TotalDryWt)
 
 print(wm_prod_2019)
 ```
@@ -155,16 +165,16 @@ Adjust the total dry weight of the residual frames for both sites. The adjusted 
 # TODO another way to do this would be to combine cases, perform the operation, and then filter by year
 # this would reduce repetitive code
 wm_prod_2017$AdjustedWt <- dplyr::if_else (wm_prod_2017$Type == "Residual", 
-                                   wm_prod_2017$TotalDry*conversion, 
-                                   wm_prod_2017$TotalDry)
+                                   wm_prod_2017$TotalDryWt*conversion, 
+                                   wm_prod_2017$TotalDryWt)
 
 wm_prod_2018$AdjustedWt <- dplyr::if_else (wm_prod_2018$Type == "Residual", 
-                                   wm_prod_2018$TotalDry*conversion, 
-                                   wm_prod_2018$TotalDry)
+                                   wm_prod_2018$TotalDryWt*conversion, 
+                                   wm_prod_2018$TotalDryWt)
 
 wm_prod_2019$AdjustedWt <- dplyr::if_else (wm_prod_2019$Type == "Residual", 
-                                   wm_prod_2019$TotalDry*conversion, 
-                                   wm_prod_2019$TotalDry)
+                                   wm_prod_2019$TotalDryWt*conversion, 
+                                   wm_prod_2019$TotalDryWt)
 print(wm_prod_2017)
 print(wm_prod_2018)
 print(wm_prod_2019)
@@ -183,7 +193,7 @@ print(residual)
 ```
 Write out the combined and adjusted csv data.
 ```{r}
-# readr::write_csv(combined_df, "data/vegetation/white-mountains/white-mountains-production-all-years-combined.csv")
+#readr::write_csv(combined_df, "data/vegetation/white-mountains/white-mountains-production-all-years-combined.csv")
 ```
 
 Convert to new units.
