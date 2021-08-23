@@ -49,7 +49,6 @@ Let's take a look at the data.
 
 ```{r}
 # TODO instead of reading in "TotalDry" calculate it from the columns
-# TODO rename the "TotalDry" column to "TotalDryWt"
 print(wm_prod_2017)
 
 print(wm_prod_2018)
@@ -292,7 +291,7 @@ c("#4472C4", "#ED7D31", "#FFC000")
 ```
 
 ```{r}
-jpeg(filename = "figures/test/Production.jpeg",
+jpeg(filename = "figures/production/Production.jpeg",
     width=6.5,
     height=6.5,
     units="in",
