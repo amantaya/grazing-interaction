@@ -2,4 +2,69 @@
 title: "R Notebook"
 output: html_notebook
 ---
+Clear the R environment to start from a clean slate.
+```{r}
+# clear the environment
+rm(list=ls(all=TRUE))
+```
 
+```{r}
+source("packages.R")
+```
+
+```{r}
+source("functions.R")
+```
+
+```{r include=FALSE}
+source_rmd("production.Rmd")
+```
+
+```{r}
+print(production)
+print(residual)
+```
+Calculate the summary statistics for each site and year. This method is slightly different from the previous method, instead of grouping by year, each site-year (e.g., Boggy 2017) has summary statistics generated and stored into a object. Then those objects are bound together into a data frame.
+```{r}
+residual_stats <- NULL
+
+BGW17 <- residual %>% 
+  dplyr::filter(Site == "Boggy" & Year == 2017) %>% 
+  rstatix::get_summary_stats(lb_acre, type = "common")
+BGW18 <- residual %>% 
+  dplyr::filter(Site == "Boggy" & Year == 2018) %>% 
+  rstatix::get_summary_stats(lb_acre, type = "common")
+BGW19 <- residual %>% 
+  dplyr::filter(Site == "Boggy" & Year == 2019) %>% 
+  rstatix::get_summary_stats(lb_acre, type = "common")
+WCS17 <- residual %>% 
+  dplyr::filter(Site == "Wildcat" & Year == 2017) %>% 
+  rstatix::get_summary_stats(lb_acre, type = "common")
+WCS18 <- residual %>% 
+  dplyr::filter(Site == "Wildcat" & Year == 2018) %>% 
+  rstatix::get_summary_stats(lb_acre, type = "common")
+WCS19 <- residual %>% 
+  dplyr::filter(Site == "Wildcat" & Year == 2019) %>% 
+  rstatix::get_summary_stats(lb_acre, type = "common")
+
+residual_stats <- residual_stats %>% bind_rows(BGW17, BGW18, BGW19, WCS17, WCS18, WCS19)
+
+# add the site names to the data frame 
+residual_stats <- residual_stats %>% 
+  add_column(site = c("BGW17", "BGW18", "BGW19", "WCS17", "WCS18", "WCS19"), .before = 1)
+
+print(residual_stats)
+```
+```{r}
+residual_stats$min <- as.numeric(residual_stats$min) 
+residual_stats$max <- as.numeric(residual_stats$max)
+residual_stats$median <- as.numeric(residual_stats$median)
+residual_stats$mean <- as.numeric(residual_stats$mean)
+
+print(residual_stats)
+```
+
+
+```{r}
+production_stats$mean - residual_stats$mean
+```
