@@ -307,7 +307,7 @@ print(stats)
 ```
 
 ```{r}
-## calculate standard deviation SD for each year and site (in g/m2)
+## calculate standard deviation SD for each year and site (in lb_acre)
 stats$se[1] <- se(pull(filter(production, Site == "Boggy" & Year == "2017"), "lb_acre"))
 stats$se[2] <- se(pull(filter(production, Site == "Boggy" & Year == "2018"), "lb_acre"))
 stats$se[3] <- se(pull(filter(production, Site == "Boggy" & Year == "2019"), "lb_acre"))
@@ -316,12 +316,33 @@ stats$se[5] <- se(pull(filter(production, Site == "Wildcat" & Year == "2018"), "
 stats$se[6] <- se(pull(filter(production, Site == "Wildcat" & Year == "2019"), "lb_acre"))
 print(stats)
 ```
-
 ```{r}
-stats$L95 <- stats$avg_lbs_acre-2.571*stats$se
-stats$U95 <- stats$avg_lbs_acre+2.571*stats$se
+# there is a better way to calculate the confidence interval than by using a t value
+# reason we don't want to do is this way is because the degrees of freedom changes between years
+# TODO overwrite the stats dataframe using the get_summary_stats() function
+stats$L95 <- stats$avg_lbs_acre-2.776*stats$se
+stats$U95 <- stats$avg_lbs_acre+2.776*stats$se
 print(stats)
+
+production %>% 
+  dplyr::filter(Year == 2017) %>% 
+  dplyr::group_by(Site) %>% 
+  get_summary_stats(lb_acre, type = "common")
+
+production %>% 
+  dplyr::filter(Year == 2018) %>% 
+  dplyr::group_by(Site) %>% 
+  get_summary_stats(lb_acre, type = "common")
+
+production %>% 
+  dplyr::filter(Year == 2019) %>% 
+  dplyr::group_by(Site) %>% 
+  get_summary_stats(lb_acre, type = "common")
 ```
+```{r}
+stats %>% dplyr::filter(sites == "BGW19")
+```
+
 ```{r}
 # Excel colors
 c("#4472C4", "#ED7D31", "#FFC000")
@@ -337,7 +358,6 @@ plot.new()
 # bottom, left, top, right
 par(mar=c(5, 5, 5, 2))
 barplot(as.numeric(stats$avg_lbs_acre),
-        #col = c(rep(colors[1], 3), rep(colors[2], 3)),
         col = c(rep("#4472C4", 3), rep("#ED7D31", 3)),
         axes = FALSE,
         #names.arg=(c("Production", "Availability")),
