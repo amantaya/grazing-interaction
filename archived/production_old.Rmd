@@ -272,6 +272,8 @@ dev.off()
 
 ```{r}
 ## calculate % utilization
+# this is a bad way to calculate utilization
+# subsetting dataframes by index is prone to error
 BGW17Utilization <- (mystats[1, 4]-mystats[2, 4])/mystats[1, 4]
 WCS17Utilization <- (mystats[3, 4]-mystats[4, 4])/mystats[3, 4]
 BGW18Utilization <- (mystats[5, 4]-mystats[6, 4])/mystats[5, 4]
