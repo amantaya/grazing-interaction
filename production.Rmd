@@ -271,7 +271,7 @@ print(stats_combined)
 
 Calculate the summary statistics for each site and year. This method is slightly different from the previous method, instead of grouping by year, each site-year (e.g., Boggy 2017) has summary statistics generated and stored into a object. Then those objects are bound together into a data frame.
 ```{r}
-stats_rstatix <- NULL
+stats <- NULL
 
 BGW17 <- production %>% 
   dplyr::filter(Site == "Boggy" & Year == 2017) %>% 
@@ -292,13 +292,22 @@ WCS19 <- production %>%
   dplyr::filter(Site == "Wildcat" & Year == 2019) %>% 
   rstatix::get_summary_stats(lb_acre, type = "common")
 
-stats_rstatix <- stats_rstatix %>% bind_rows(BGW17, WCS17, BGW18, WCS18, BGW19, WCS19)
+stats <- stats %>% bind_rows(BGW17, BGW18, BGW19, WCS17, WCS18, WCS19)
 
 # add the site names to the data frame 
-stats_rstatix <- stats_rstatix %>% 
-  add_column(site = c("BGW17", "WCS17", "BGW18", "WCS18", "BGW19", "WCS19"), .before = 1)
+stats <- stats %>% 
+  add_column(site = c("BGW17", "BGW18", "BGW19", "WCS17", "WCS18", "WCS19"), .before = 1)
 
-print(stats_rstatix)
+print(stats)
+```
+
+```{r}
+stats$min <- as.numeric(stats$min) 
+stats$max <- as.numeric(stats$max)
+stats$median <- as.numeric(stats$median)
+stats$mean <- as.numeric(stats$mean)
+
+print(stats)
 ```
 
 ```{r}
@@ -307,7 +316,7 @@ c("#4472C4", "#ED7D31", "#FFC000")
 ```
 
 ```{r Production Figure, eval=FALSE, include=FALSE}
-jpeg(filename = "figures/production/Production.jpeg",
+jpeg(filename = "figures/production/White-Mountains-Production-2017-2019.jpeg",
     width=6.5,
     height=6.5,
     units="in",
@@ -315,7 +324,7 @@ jpeg(filename = "figures/production/Production.jpeg",
 plot.new()
 # bottom, left, top, right
 par(mar=c(5, 5, 5, 2))
-barplot(as.numeric(stats$avg_lbs_acre),
+barplot(stats$mean,
         col = c(rep("#4472C4", 3), rep("#ED7D31", 3)),
         axes = FALSE,
         #names.arg=(c("Production", "Availability")),
@@ -329,23 +338,23 @@ mtext("2017-2019", 3, adj = 0.5)
 axis(2, at=c(seq(0,6500,1000)),labels=c(seq(0,6500,1000)), cex.axis= 0.75, las = 2)
 axis(1, at=c(0.7, 1.9, 3.1, 4.3, 5.5, 6.7), labels = c("Boggy 2017", "Boggy 2018", "Boggy 2019", "Wildcat 2017", "Wildcat 2018", "Wildcat 2019"), cex.axis= 0.75, las = 2)
 
-segments(0.7, stats$avg_lbs_acre[1] - stats$se[1], 0.7, stats$avg_lbs_acre[1] + stats$se[1], lwd = 1)
-arrows(0.7, stats$avg_lbs_acre[1]-stats$se[1], 0.7, stats$avg_lbs_acre[1] + stats$se[1], lwd = 1, angle = 90, code = 3, length = 0.05)
+segments(0.7, stats$mean[1] - stats$se[1], 0.7, stats$mean[1] + stats$se[1], lwd = 1)
+arrows(0.7, stats$mean[1]-stats$se[1], 0.7, stats$mean[1] + stats$se[1], lwd = 1, angle = 90, code = 3, length = 0.05)
 
-segments(1.9, stats$avg_lbs_acre[2] - stats$se[2], 1.9, stats$avg_lbs_acre[2] + stats$se[2], lwd = 1)
-arrows(1.9, stats$avg_lbs_acre[2] - stats$se[2], 1.9, stats$avg_lbs_acre[2] + stats$se[2], lwd = 1, angle = 90,code = 3, length = 0.05)
+segments(1.9, stats$mean[2] - stats$se[2], 1.9, stats$mean[2] + stats$se[2], lwd = 1)
+arrows(1.9, stats$mean[2] - stats$se[2], 1.9, stats$mean[2] + stats$se[2], lwd = 1, angle = 90,code = 3, length = 0.05)
 
-segments(3.1, stats$avg_lbs_acre[3] - stats$se[3], 3.1, stats$avg_lbs_acre[3] + stats$se[3], lwd = 1)
-arrows(3.1, stats$avg_lbs_acre[3] - stats$se[3], 3.1, stats$avg_lbs_acre[3] + stats$se[3], lwd = 1, angle = 90,code = 3, length = 0.05)
+segments(3.1, stats$mean[3] - stats$se[3], 3.1, stats$mean[3] + stats$se[3], lwd = 1)
+arrows(3.1, stats$mean[3] - stats$se[3], 3.1, stats$mean[3] + stats$se[3], lwd = 1, angle = 90,code = 3, length = 0.05)
 
-segments(4.3, stats$avg_lbs_acre[4] - stats$se[4], 4.3, stats$avg_lbs_acre[4] + stats$se[4], lwd = 1)
-arrows(4.3, stats$avg_lbs_acre[4] - stats$se[4], 4.3, stats$avg_lbs_acre[4] + stats$se[4], lwd = 1, angle = 90,code = 3, length = 0.05)
+segments(4.3, stats$mean[4] - stats$se[4], 4.3, stats$mean[4] + stats$se[4], lwd = 1)
+arrows(4.3, stats$mean[4] - stats$se[4], 4.3, stats$mean[4] + stats$se[4], lwd = 1, angle = 90,code = 3, length = 0.05)
 
-segments(5.5, stats$avg_lbs_acre[5] - stats$se[5], 5.5, stats$avg_lbs_acre[5] + stats$se[5], lwd = 1)
-arrows(5.5, stats$avg_lbs_acre[5] - stats$se[5], 5.5, stats$avg_lbs_acre[5] + stats$se[5], lwd = 1, angle = 90,code = 3, length = 0.05)
+segments(5.5, stats$mean[5] - stats$se[5], 5.5, stats$mean[5] + stats$se[5], lwd = 1)
+arrows(5.5, stats$mean[5] - stats$se[5], 5.5, stats$mean[5] + stats$se[5], lwd = 1, angle = 90,code = 3, length = 0.05)
 
-segments(6.7, stats$avg_lbs_acre[6] - stats$se[6], 6.7, stats$avg_lbs_acre[6] + stats$se[6], lwd = 1)
-arrows(6.7, stats$avg_lbs_acre[6] - stats$se[6], 6.7, stats$avg_lbs_acre[6] + stats$se[6], lwd = 1, angle = 90,code = 3, length = 0.05)
+segments(6.7, stats$mean[6] - stats$se[6], 6.7, stats$mean[6] + stats$se[6], lwd = 1)
+arrows(6.7, stats$mean[6] - stats$se[6], 6.7, stats$mean[6] + stats$se[6], lwd = 1, angle = 90,code = 3, length = 0.05)
 
 text(0.7, 5700, "4705", pos = 3, cex = 0.75)
 text(1.9, 4200, "3483", pos = 3, cex = 0.75)
