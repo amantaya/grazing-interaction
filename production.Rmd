@@ -240,11 +240,13 @@ Write out the residual data to a csv file. This will let others take a look at t
 
 Create empty data frame to store the mean, standard deviation, standard error, 95% confidence interval for all sites.
 ```{r}
-stats<- data.frame(sites=c("BGW17", "BGW18", "BGW19", "WCS17", "WCS18", "WCS19"), avg_grams_meter = NA, 
+stats<- data.frame(sites=c("BGW17", "BGW18", "BGW19", "WCS17", "WCS18", "WCS19"), 
+                   avg_grams_meter = NA, 
                    avg_kg_hectare = NA, avg_lbs_acre = NA, sd = NA, se = NA, L95 = NA, U95 = NA)
 print(stats)
 ```
 
+Calculate summary statistics for each site, by year. This will give us a look at the mean, standard deviation, standard error, and 95% confidence intervals using the correct degrees of freedom. In an earlier version, I used a single t-statistic for 5 degrees of freedom, but two of our years had only 4 degrees of freedom. That caused the standard error to be underestimated for those two years. This method selects the appropriate degrees of freedom based on the sample size (n).
 ```{r}
 # get summary stats on each site by year
 stats_2017 <- production %>% 
@@ -275,6 +277,39 @@ stats_combined<- stats_combined %>%
 print(stats_combined)
 ```
 
+Calculate the summary statistics for each site and year. This method is slightly different from the previous method, instead of grouping by year, each site-year (e.g., Boggy 2017) has summary statistics generated and stored into a object. Then those objects are bound together into a data frame.
+```{r}
+stats_rstatix <- NULL
+
+BGW17 <- production %>% 
+  dplyr::filter(Site == "Boggy" & Year == 2017) %>% 
+  rstatix::get_summary_stats(lb_acre, type = "common")
+BGW18 <- production %>% 
+  dplyr::filter(Site == "Boggy" & Year == 2018) %>% 
+  rstatix::get_summary_stats(lb_acre, type = "common")
+BGW19 <- production %>% 
+  dplyr::filter(Site == "Boggy" & Year == 2019) %>% 
+  rstatix::get_summary_stats(lb_acre, type = "common")
+WCS17 <- production %>% 
+  dplyr::filter(Site == "Wildcat" & Year == 2017) %>% 
+  rstatix::get_summary_stats(lb_acre, type = "common")
+WCS18 <- production %>% 
+  dplyr::filter(Site == "Wildcat" & Year == 2018) %>% 
+  rstatix::get_summary_stats(lb_acre, type = "common")
+WCS19 <- production %>% 
+  dplyr::filter(Site == "Wildcat" & Year == 2019) %>% 
+  rstatix::get_summary_stats(lb_acre, type = "common")
+
+stats_rstatix <- stats_rstatix %>% bind_rows(BGW17, WCS17, BGW18, WCS18, BGW19, WCS19)
+
+# add the site names to the data frame 
+stats_rstatix <- stats_rstatix %>% 
+  add_column(site = c("BGW17", "WCS17", "BGW18", "WCS18", "BGW19", "WCS19"), .before = 1)
+
+print(stats_rstatix)
+```
+
+
 ```{r}
 ## calculate mean production values for each year and site (in g/m2)
 stats$avg_grams_meter[1] <- mean(pull(filter(production, Site == "Boggy" & Year == "2017"), "AdjustedWt"))
@@ -301,6 +336,7 @@ stats$avg_lbs_acre <- as.numeric(stats$avg_lbs_acre)
 
 print(stats)
 ```
+
 
 Test the standard deviation and standard error functions on a single site and year before applying it to all of the data. Check to see if the values are correct.
 ```{r}
@@ -354,8 +390,9 @@ stats$L95 <- stats$avg_lbs_acre-2.776*stats$se
 stats$U95 <- stats$avg_lbs_acre+2.776*stats$se
 print(stats)
 ```
+
 ```{r}
-stats %>% dplyr::filter(sites == "BGW19")
+print(stats_rstatix)
 ```
 
 ```{r}
