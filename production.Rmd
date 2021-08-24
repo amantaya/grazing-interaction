@@ -247,7 +247,7 @@ residual$lb_acre <- set_units(residual$AdjustedWt, lb/acre)
 print(residual)
 ```
 Write out the residual data to a csv file. This will let others take a look at the data and check our work.
-```{r}
+```{r eval=FALSE, include=FALSE}
 readr::write_csv(residual, "data/vegetation/white-mountains/white-mountains-residual-all-years-combined-corrected.csv")
 ```
 
@@ -299,8 +299,8 @@ print(production_stats)
 c("#4472C4", "#ED7D31", "#FFC000")
 ```
 
-```{r Production Figure}
-jpeg(filename = "figures/production/White-Mountains-Production-2017-2019-corrected.jpeg",
+```{r Production Figure, eval=FALSE, include=FALSE}
+jpeg(filename = "figures/production/White-Mountains-Production-2017-2019.jpeg",
     width=6.5,
     height=6.5,
     units="in",
@@ -345,7 +345,7 @@ text(1.9, 4200, "3483", pos = 3, cex = 0.75)
 text(3.1, 3800, "3035", pos = 3, cex = 0.75)
 text(4.3, 5500, "4766", pos = 3, cex = 0.75)
 text(5.5, 3900, "3271", pos = 3, cex = 0.75)
-text(6.7, 5300, "4813", pos = 3, cex = 0.75)
+text(6.7, 5400, "4813", pos = 3, cex = 0.75)
 
 dev.off()
 ```
