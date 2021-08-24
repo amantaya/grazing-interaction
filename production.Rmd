@@ -238,14 +238,6 @@ Write out the residual data to a csv file. This will let others take a look at t
 #readr::write_csv(residual, "data/vegetation/white-mountains/white-mountains-residual-all-years-combined.csv")
 ```
 
-Create empty data frame to store the mean, standard deviation, standard error, 95% confidence interval for all sites.
-```{r}
-stats<- data.frame(sites=c("BGW17", "BGW18", "BGW19", "WCS17", "WCS18", "WCS19"), 
-                   avg_grams_meter = NA, 
-                   avg_kg_hectare = NA, avg_lbs_acre = NA, sd = NA, se = NA, L95 = NA, U95 = NA)
-print(stats)
-```
-
 Calculate summary statistics for each site, by year. This will give us a look at the mean, standard deviation, standard error, and 95% confidence intervals using the correct degrees of freedom. In an earlier version, I used a single t-statistic for 5 degrees of freedom, but two of our years had only 4 degrees of freedom. That caused the standard error to be underestimated for those two years. This method selects the appropriate degrees of freedom based on the sample size (n).
 ```{r}
 # get summary stats on each site by year
@@ -306,92 +298,6 @@ stats_rstatix <- stats_rstatix %>% bind_rows(BGW17, WCS17, BGW18, WCS18, BGW19, 
 stats_rstatix <- stats_rstatix %>% 
   add_column(site = c("BGW17", "WCS17", "BGW18", "WCS18", "BGW19", "WCS19"), .before = 1)
 
-print(stats_rstatix)
-```
-
-
-```{r}
-## calculate mean production values for each year and site (in g/m2)
-stats$avg_grams_meter[1] <- mean(pull(filter(production, Site == "Boggy" & Year == "2017"), "AdjustedWt"))
-stats$avg_grams_meter[2] <- mean(pull(filter(production, Site == "Boggy" & Year == "2018"), "AdjustedWt"))
-stats$avg_grams_meter[3] <- mean(pull(filter(production, Site == "Boggy" & Year == "2019"), "AdjustedWt"))
-stats$avg_grams_meter[4] <- mean(pull(filter(production, Site == "Wildcat" & Year == "2017"), "AdjustedWt"))
-stats$avg_grams_meter[5] <- mean(pull(filter(production, Site == "Wildcat" & Year == "2018"), "AdjustedWt"))
-stats$avg_grams_meter[6] <- mean(pull(filter(production, Site == "Wildcat" & Year == "2019"), "AdjustedWt"))
-
-print(stats)
-```
-
-Convert the grams per square meter to other units, kilograms per hectare and pounds per acre.
-```{r}
-# convert to different units using the set_units() function
-stats$avg_grams_meter <- set_units(stats$avg_grams_meter, g/m^2)
-stats$avg_kg_hectare <- set_units(stats$avg_grams_meter, kg/hectare)
-stats$avg_lbs_acre <- set_units(stats$avg_grams_meter, lb/acre)
-
-# convert the S3 units class to numeric to prevent future problems
-stats$avg_grams_meter <- as.numeric(stats$avg_grams_meter)
-stats$avg_kg_hectare <- as.numeric(stats$avg_kg_hectare)
-stats$avg_lbs_acre <- as.numeric(stats$avg_lbs_acre)
-
-print(stats)
-```
-
-
-Test the standard deviation and standard error functions on a single site and year before applying it to all of the data. Check to see if the values are correct.
-```{r}
-testavg <- mean(pull(filter(production, Site == "Boggy" & Year == "2017"), "lb_acre"))
-testavg
-
-testsd <- sd(pull(filter(production, Site == "Boggy" & Year == "2017"), "lb_acre"))
-testsd
-
-testse <- se(pull(filter(production, Site == "Boggy" & Year == "2017"), "lb_acre"))
-testse
-```
-
-```{r}
-## calculate standard deviation SD for each year and site (in lb_acre)
-stats$sd[1] <- sd(pull(filter(production, Site == "Boggy" & Year == "2017"), "lb_acre"))
-stats$sd[2] <- sd(pull(filter(production, Site == "Boggy" & Year == "2018"), "lb_acre"))
-stats$sd[3] <- sd(pull(filter(production, Site == "Boggy" & Year == "2019"), "lb_acre"))
-stats$sd[4] <- sd(pull(filter(production, Site == "Wildcat" & Year == "2017"), "lb_acre"))
-stats$sd[5] <- sd(pull(filter(production, Site == "Wildcat" & Year == "2018"), "lb_acre"))
-stats$sd[6] <- sd(pull(filter(production, Site == "Wildcat" & Year == "2019"), "lb_acre"))
-print(stats)
-```
-
-```{r}
-## calculate standard deviation SD for each year and site (in lb_acre)
-stats$se[1] <- se(pull(filter(production, Site == "Boggy" & Year == "2017"), "lb_acre"))
-stats$se[2] <- se(pull(filter(production, Site == "Boggy" & Year == "2018"), "lb_acre"))
-stats$se[3] <- se(pull(filter(production, Site == "Boggy" & Year == "2019"), "lb_acre"))
-stats$se[4] <- se(pull(filter(production, Site == "Wildcat" & Year == "2017"), "lb_acre"))
-stats$se[5] <- se(pull(filter(production, Site == "Wildcat" & Year == "2018"), "lb_acre"))
-stats$se[6] <- se(pull(filter(production, Site == "Wildcat" & Year == "2019"), "lb_acre"))
-print(stats)
-```
-
-```{r}
-## calculate standard deviation SD for each year and site (in lb_acre)
-stats$se[1] <- se(pull(filter(production, Site == "Boggy" & Year == "2017"), "lb_acre"))
-stats$se[2] <- se(pull(filter(production, Site == "Boggy" & Year == "2018"), "lb_acre"))
-stats$se[3] <- se(pull(filter(production, Site == "Boggy" & Year == "2019"), "lb_acre"))
-stats$se[4] <- se(pull(filter(production, Site == "Wildcat" & Year == "2017"), "lb_acre"))
-stats$se[5] <- se(pull(filter(production, Site == "Wildcat" & Year == "2018"), "lb_acre"))
-stats$se[6] <- se(pull(filter(production, Site == "Wildcat" & Year == "2019"), "lb_acre"))
-print(stats)
-```
-```{r}
-# there is a better way to calculate the confidence interval than by using a t value
-# reason we don't want to do is this way is because the degrees of freedom changes between years
-# TODO overwrite the stats dataframe using the get_summary_stats() function
-stats$L95 <- stats$avg_lbs_acre-2.776*stats$se
-stats$U95 <- stats$avg_lbs_acre+2.776*stats$se
-print(stats)
-```
-
-```{r}
 print(stats_rstatix)
 ```
 
