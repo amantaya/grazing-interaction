@@ -246,6 +246,36 @@ print(stats)
 ```
 
 ```{r}
+# get summary stats on each site by year
+stats_2017 <- production %>% 
+  dplyr::filter(Year == 2017) %>% 
+  dplyr::group_by(Site) %>% 
+  get_summary_stats(lb_acre, type = "common")
+
+stats_2018 <- production %>% 
+  dplyr::filter(Year == 2018) %>% 
+  dplyr::group_by(Site) %>% 
+  get_summary_stats(lb_acre, type = "common")
+
+stats_2019 <- production %>% 
+  dplyr::filter(Year == 2019) %>% 
+  dplyr::group_by(Site) %>% 
+  get_summary_stats(lb_acre, type = "common")
+
+stats_combined <- bind_rows(stats_2017, stats_2018, stats_2019)
+
+# quick and dirty way to add year back into the data frame
+# ideally, I would like to prevent the year from being removed
+# one possible solution would be to filter by site and by year 
+# store each value in an object and combine these objects together into a data frame
+
+stats_combined<- stats_combined %>% 
+  add_column(Year = c(2017, 2017, 2018, 2018, 2019, 2019), .after = "Site")
+
+print(stats_combined)
+```
+
+```{r}
 ## calculate mean production values for each year and site (in g/m2)
 stats$avg_grams_meter[1] <- mean(pull(filter(production, Site == "Boggy" & Year == "2017"), "AdjustedWt"))
 stats$avg_grams_meter[2] <- mean(pull(filter(production, Site == "Boggy" & Year == "2018"), "AdjustedWt"))
@@ -323,21 +353,6 @@ print(stats)
 stats$L95 <- stats$avg_lbs_acre-2.776*stats$se
 stats$U95 <- stats$avg_lbs_acre+2.776*stats$se
 print(stats)
-
-production %>% 
-  dplyr::filter(Year == 2017) %>% 
-  dplyr::group_by(Site) %>% 
-  get_summary_stats(lb_acre, type = "common")
-
-production %>% 
-  dplyr::filter(Year == 2018) %>% 
-  dplyr::group_by(Site) %>% 
-  get_summary_stats(lb_acre, type = "common")
-
-production %>% 
-  dplyr::filter(Year == 2019) %>% 
-  dplyr::group_by(Site) %>% 
-  get_summary_stats(lb_acre, type = "common")
 ```
 ```{r}
 stats %>% dplyr::filter(sites == "BGW19")
@@ -348,7 +363,7 @@ stats %>% dplyr::filter(sites == "BGW19")
 c("#4472C4", "#ED7D31", "#FFC000")
 ```
 
-```{r}
+```{r Production Figure, eval=FALSE, include=FALSE}
 jpeg(filename = "figures/production/Production.jpeg",
     width=6.5,
     height=6.5,
