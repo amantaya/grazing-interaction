@@ -66,7 +66,7 @@ stat_test5 <- production %>%
   add_significance()
 stat_test5
 ```
-The results indicate that there is no difference in production between years for Boggy, but there is a difference in production between years for Wildcat.
+The results indicate that there is no difference in production between years for Boggy and for Wildcat.
 
 Let's investigate the relationship in production between years for Wildcat. Because we're conducting multiple t-tests, we need to use Tukey's honest significant difference to correct for the bias involved in making multiple comparisons.
 ```{r}
@@ -107,6 +107,9 @@ bxp +
   stat_pvalue_manual(stat_test6, tip.length = 0) +
   labs(title = "Wildcat Production 2017-2019", subtitle = "Tukey HSD t-test") +
   theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5))
+
+ggsave("Wildcat-Production-Across-Year-Comparison.jpg", 
+       path = paste0(getwd(),"/figures", "/production"))
 ```
 
 ```{r}
@@ -125,4 +128,7 @@ bxp +
   stat_pvalue_manual(stat_test7, tip.length = 0) +
   labs(title = "Boggy Production 2017-2019", subtitle = "Tukey HSD t-test") +
   theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5))
+
+ggsave("Boggy-Production-Across-Year-Comparison.jpg", 
+       path = paste0(getwd(),"/figures", "/production"))
 ```
