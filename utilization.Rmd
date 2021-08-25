@@ -119,14 +119,14 @@ ggplot(veg_data, aes(fill = Type, y = mean, x = site)) +
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 5, r = 0, b = 10, l = 0)),
         axis.ticks.x.bottom = element_blank()) +
-  annotate(geom = "text", x = 1.1, y = -500, label = paste0(utilization[1], "%")) +
-  annotate(geom = "text", x = 2.1, y = -500, label = paste0(utilization[2], "%")) +
-  annotate(geom = "text", x = 3.1, y = -500, label = paste0(utilization[3], "%")) +
-  annotate(geom = "text", x = 4.1, y = -500, label = paste0(utilization[4], "%")) +
-  annotate(geom = "text", x = 5.1, y = -500, label = paste0(utilization[5], "%")) +
-  annotate(geom = "text", x = 6.1, y = -500, label = paste0(utilization[6], "%"))
+  annotate(geom = "text", x = 1, y = -500, label = paste0(utilization[1], "%")) +
+  annotate(geom = "text", x = 2, y = -500, label = paste0(utilization[2], "%")) +
+  annotate(geom = "text", x = 3, y = -500, label = paste0(utilization[3], "%")) +
+  annotate(geom = "text", x = 4, y = -500, label = paste0(utilization[4], "%")) +
+  annotate(geom = "text", x = 5, y = -500, label = paste0(utilization[5], "%")) +
+  annotate(geom = "text", x = 6, y = -500, label = paste0(utilization[6], "%"))
   
-ggsave("Utilization-Across-Year-Comparison-Values-Under-Bars.jpg", 
+ggsave("Utilization-Across-Year-Comparison-Values-Under-Bars-Adjust-Center.jpg", 
     path = paste0(getwd(),"/figures", "/utilization"))
 ```
 
