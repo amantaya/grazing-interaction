@@ -97,8 +97,7 @@ wildcat <- production %>% dplyr::filter(Site == "Wildcat")
 
 bxp <- ggboxplot(
   wildcat, x = "Year", y = "lb_acre", 
-  ylab = expression(paste("pounds ", "acre"^"-1")), xlab = "Year", add = "jitter",
-  )
+  ylab = expression(paste("pounds ", "acre"^"-1")), xlab = "Year", add = "jitter")
 
 # Add p-value and significance levels
 stat_test6 <- stat_test6 %>% add_xy_position(x = "Year")
