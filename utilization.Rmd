@@ -77,17 +77,53 @@ percent_utilization <- (production_stats$mean - residual_stats$mean) / productio
 
 utilization <- percent_utilization * 100
 
+utilization <- round(utilization)
+
 print(utilization)
 ```
+```{r}
+veg_data <- dplyr::bind_rows(production_stats, residual_stats)
+
+veg_data <- veg_data %>% tibble::add_column(Type = c(rep("Production", 6), rep("Availability", 6)), .after = "site")
+
+print(veg_data)
+```
+```{r}
+veg_data$Type <- veg_data$Type %>% fct_inorder()
+
+print(veg_data)
+```
+
 ```{r}
 excel_colors <- c(rep("#4472C4", 3), rep("#ED7D31", 3))
 ```
 
 ```{r}
-ggbarplot(production_stats, 
-          x = "site", 
-          y = "mean",
-          color = "site",
-          fill = "site",
-          palette = excel_colors)
+production_stats$mean - production_stats$se
+production_stats$mean + production_stats$se
 ```
+```{r}
+residual_stats$mean - residual_stats$se
+residual_stats$mean + residual_stats$se
+```
+
+```{r}
+ggplot(veg_data, aes(fill = Type, y = mean, x = site)) +
+  geom_col(width = 0.7, position = position_dodge(0.7)) +
+  labs(title = "White Mountain Vegetation Utilization", subtitle = "2017-2019") +
+  ylab(expression(paste("Pounds ", "Acre"^"-1", " ± SE"))) + 
+  xlab("Site") +
+  theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5)) +
+  geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = dodge, width = 0.25) +
+  scale_y_continuous(breaks = c(seq(1000, 6000, by = 1000))) +
+  annotate(geom = "text", x = 1.1, y = 6000, label = paste0(utilization[1], "%")) +
+  annotate(geom = "text", x = 2.1, y = 4700, label = paste0(utilization[2], "%")) +
+  annotate(geom = "text", x = 3.1, y = 4200, label = paste0(utilization[3], "%")) +
+  annotate(geom = "text", x = 4.1, y = 5900, label = paste0(utilization[4], "%")) +
+  annotate(geom = "text", x = 5.1, y = 4200, label = paste0(utilization[5], "%")) +
+  annotate(geom = "text", x = 6.1, y = 5800, label = paste0(utilization[6], "%"))
+
+#ggsave("Utilization-Across-Year-Comparison-Error-Bars.jpg", 
+#       path = paste0(getwd(),"/figures", "/utilization"))
+```
+
