@@ -22,7 +22,4 @@ library("Rcpp")
 library("renv")
 library("ggpubr")
 library("rstatix")
-library("datarium")
 library("forcats")
-library("gridExtra")
-
