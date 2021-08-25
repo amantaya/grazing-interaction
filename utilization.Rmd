@@ -79,3 +79,15 @@ utilization <- percent_utilization * 100
 
 print(utilization)
 ```
+```{r}
+excel_colors <- c(rep("#4472C4", 3), rep("#ED7D31", 3))
+```
+
+```{r}
+ggbarplot(production_stats, 
+          x = "site", 
+          y = "mean",
+          color = "site",
+          fill = "site",
+          palette = excel_colors)
+```
