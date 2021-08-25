@@ -110,20 +110,23 @@ residual_stats$mean + residual_stats$se
 ```{r}
 ggplot(veg_data, aes(fill = Type, y = mean, x = site)) +
   geom_col(width = 0.7, position = position_dodge(0.7)) +
-  labs(title = "White Mountain Vegetation Utilization", subtitle = "2017-2019") +
+  labs(title = "White Mountains Vegetation Utilization", subtitle = "2017-2019") +
   ylab(expression(paste("Pounds ", "Acre"^"-1", " ± SE"))) + 
-  xlab("Site") +
-  theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5)) +
-  geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = dodge, width = 0.25) +
-  scale_y_continuous(breaks = c(seq(1000, 6000, by = 1000))) +
-  annotate(geom = "text", x = 1.1, y = 6000, label = paste0(utilization[1], "%")) +
-  annotate(geom = "text", x = 2.1, y = 4700, label = paste0(utilization[2], "%")) +
-  annotate(geom = "text", x = 3.1, y = 4200, label = paste0(utilization[3], "%")) +
-  annotate(geom = "text", x = 4.1, y = 5900, label = paste0(utilization[4], "%")) +
-  annotate(geom = "text", x = 5.1, y = 4200, label = paste0(utilization[5], "%")) +
-  annotate(geom = "text", x = 6.1, y = 5800, label = paste0(utilization[6], "%"))
-
-#ggsave("Utilization-Across-Year-Comparison-Error-Bars.jpg", 
-#       path = paste0(getwd(),"/figures", "/utilization"))
+  xlab("Percent Utilization") +
+  scale_y_continuous(limits = c(-500,6000), breaks = c(seq(1000, 5000, by = 1000))) +
+  geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.7), width = 0.25) +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 5, r = 0, b = 10, l = 0)),
+        axis.ticks.x.bottom = element_blank()) +
+  annotate(geom = "text", x = 1.1, y = -500, label = paste0(utilization[1], "%")) +
+  annotate(geom = "text", x = 2.1, y = -500, label = paste0(utilization[2], "%")) +
+  annotate(geom = "text", x = 3.1, y = -500, label = paste0(utilization[3], "%")) +
+  annotate(geom = "text", x = 4.1, y = -500, label = paste0(utilization[4], "%")) +
+  annotate(geom = "text", x = 5.1, y = -500, label = paste0(utilization[5], "%")) +
+  annotate(geom = "text", x = 6.1, y = -500, label = paste0(utilization[6], "%"))
+  
+ggsave("Utilization-Across-Year-Comparison-Values-Under-Bars.jpg", 
+    path = paste0(getwd(),"/figures", "/utilization"))
 ```
 
