@@ -4,59 +4,46 @@ author: "Andrew Antaya"
 date: "June 20, 2019"
 output: html_notebook
 ---
-```{r}
-## Wild Horse Ecological Interactions Analysis
-## White Mountain Sites
-## Boggy and Wildcat Creek Grazed Sites
-## Stubble Height Caclculations
-## 02/07/2019
-## Written by Andrew Antaya
 
-library("ggplot2", lib.loc= "~/R/win-library/3.5")
-library("dplyr", lib.loc= "~/R/win-library/3.5")
-library("jpeg", lib.loc= "~/R/win-library/3.5")
-library("viridis", lib.loc = "~/R/win-library/3.5")
-library("scales", lib.loc = "~/R/win-library/3.5")
+```{r}
+# clear the environment
+rm(list=ls(all=TRUE))
+```
+
+```{r}
+source("packages.R")
+```
+
+```{r}
+source("functions.R")
 ```
 
 ```{r}
 ## read in data
-Boggy18stubRAW <- read.csv('data/vegetation/Boggy Stubble Height 2018.csv',
-                       header=TRUE, 
-                       na.strings=c(""," ","NA"))
-Wildcat18stubRAW <- read.csv('data/vegetation/Wildcat Stubble Height 2018.csv',
-                         header=TRUE,
-                         na.strings=c(""," ","NA"))
-Boggy17stubRAW <- read.csv('data/vegetation/Boggy Stubble Height 2017.csv',
-                       header=TRUE, 
-                       na.strings=c(""," ","NA"))
-Wildcat17stubRAW <- read.csv('data/vegetation/Wildcat Stubble Height 2017.csv',
-                         header=TRUE,
-                         na.strings=c(""," ","NA"))
-Boggy17stubRAW
-Boggy18stubRAW
-Wildcat17stubRAW
-Wildcat18stubRAW
-```
+BGW17stubble <- readr::read_csv('data/vegetation/white-mountains/2017-boggy-stubble-height.csv',
+                                col_names = TRUE, 
+                                na = c(""," ","NA"))
+WCS17stubble <- readr::read_csv('data/vegetation/white-mountains/2017-wildcat-stubble-height.csv',
+                                col_names = TRUE,
+                                na = c(""," ","NA"))
+BGW18stubble <- readr::read_csv('data/vegetation/white-mountains/2018-boggy-stubble-height.csv', 
+                                col_names = TRUE, 
+                                na = c(""," ","NA"))
+WCS18stubble <- readr::read_csv('data/vegetation/white-mountains/2018-wildcat-stubble-height.csv',
+                                col_names = TRUE, 
+                                na = c(""," ","NA"))
 
+stubble_data <- bind_rows(BGW17stubble, WCS17stubble, BGW18stubble, WCS18stubble)
+
+print(stubble_data)
+```
+We have 1 missing height value in the data that we need to remove.
 ```{r}
 ## clean up the data by removing any missing values
-Boggy18stub <- Boggy18stubRAW[complete.cases(Boggy18stubRAW[ ,'Height.in']),]
-Boggy17stub <- Boggy17stubRAW[complete.cases(Boggy17stubRAW[ ,'Height.in']),]
-Wildcat18stub <- Wildcat18stubRAW[complete.cases(Wildcat18stubRAW[ ,'Height.in']),]
-Wildcat17stub <- Wildcat17stubRAW[complete.cases(Wildcat17stubRAW[ ,'Height.in']),]
+stubble_data <- stubble_data %>% tidyr::drop_na("Height-in")
 
-Boggy17stub
-Boggy18stub
-Wildcat17stub
-Wildcat18stub
+print(stubble_data)
 ```
-
-Remove raw data from the environment
-```{r}
-rm(Boggy18stubRAW, Boggy17stubRAW, Wildcat18stubRAW, Wildcat17stubRAW)
-```
-
 Data was measured to the nearest half-inch;converting to cm implies a level of precision with the additional sig figs.
 ```{r}
 ## convert from inches to cm
