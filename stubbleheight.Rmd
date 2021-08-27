@@ -53,7 +53,7 @@ stubble_data
 ```
 
 Plot a histogram of Kentucky bluegrass to visualize the distribution of stubble heights. 
-```{r}
+```{r Boggy 2017 Histogram}
 # Boggy 2017
 stubble_data %>% 
         dplyr::filter(Site == "Boggy" & Year == "2017") %>% 
@@ -72,7 +72,9 @@ axis(2, at = seq(0, 100, by = 10),
      labels = seq(0, 100, by = 10), 
      cex.axis= 0.75, las = 2)
 mtext("Boggy 2017", 3, adj = 0.5, line = -1)
+```
 
+```{r Wildcat 2017 Histogram}
 # Wildcat 2017
 stubble_data %>% 
         dplyr::filter(Site == "Wildcat" & Year == "2017") %>% 
@@ -134,7 +136,8 @@ BGW17stubblestats_top3 <- BGW17stubblestats %>% dplyr::slice(1:3)
 
 BGW17stubblestats_top3
 ```
-```{r Boggy 2017 Stubble Height}
+
+```{r Boggy 2017 Stubble Height Figure}
 ggplot(BGW17stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
   geom_col(width = 0.75) +
   scale_fill_discrete(name = "Species", labels = c("Poa pratensis", "Carex sp.", "Poa fendleriana")) +
@@ -156,7 +159,8 @@ ggplot(BGW17stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
 ggsave("Boggy-2017-Stubble-Height.jpg", 
     path = paste0(getwd(),"/figures", "/stubbleheight"))
 ```
-```{r Wildcat 2017 Stubble Height}
+
+```{r Wildcat 2017 Stubble Height Figure}
 ggplot(WCS17stubblestats, aes(fill = Species, y = mean, x = Species)) +
   geom_col(width = 0.75) +
   scale_fill_discrete(name = "Species", labels = c("Poa pratensis", "Carex sp.", "Poa fendleriana")) +
@@ -178,7 +182,8 @@ ggplot(WCS17stubblestats, aes(fill = Species, y = mean, x = Species)) +
 ggsave("Wildcat-2017-Stubble-Height.jpg", 
 path = paste0(getwd(),"/figures", "/stubbleheight"))
 ```
-```{r Boggy 2018 Stubble Height}
+
+```{r Boggy 2018 Stubble Height Figure}
 ggplot(BGW18stubblestats, aes(fill = Species, y = mean, x = Species)) +
   geom_col(width = 0.25) +
   labs(title = "Boggy Creek Stubble Height", subtitle = "2018") +
@@ -188,12 +193,15 @@ ggplot(BGW18stubblestats, aes(fill = Species, y = mean, x = Species)) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)))
-
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+  # add stubble height values above the  error bars
+  # round the mean stubble height value using significant figures
+  annotate(geom = "text", x = 1, y = 3.25, label = signif(BGW18stubblestats$mean[1], 2))
 ggsave("Boggy-2018-Stubble-Height.jpg", 
     path = paste0(getwd(),"/figures", "/stubbleheight"))
 ```
-```{r Wildcat 2018 Stubble Height}
+
+```{r Wildcat 2018 Stubble Height Figure}
 ggplot(WCS18stubblestats, aes(fill = Species, y = mean, x = Species)) +
   geom_col(width = 0.25) +
   labs(title = "Wildcat Creek Stubble Height", subtitle = "2018") +
@@ -203,8 +211,15 @@ ggplot(WCS18stubblestats, aes(fill = Species, y = mean, x = Species)) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)))
-
-#ggsave("Wildcat-2018-Stubble-Height.jpg", 
-#    path = paste0(getwd(),"/figures", "/stubbleheight"))
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+  # add stubble height values above the  error bars
+  # round the mean stubble height value using significant figures
+  annotate(geom = "text", x = 1, y = 4.25, label = signif(WCS18stubblestats$mean[1], 2))
+ggsave("Wildcat-2018-Stubble-Height.jpg", 
+    path = paste0(getwd(),"/figures", "/stubbleheight"))
 ```
+
+```{r}
+
+```
+
