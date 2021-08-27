@@ -232,7 +232,7 @@ WCS19stubblestats_top3
 ggplot(BGW17stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
   geom_col(width = 0.75) +
   scale_fill_discrete(name = "Species", labels = c("Poa pratensis", "Carex sp.", "Poa fendleriana")) +
-  labs(title = "Boggy Creek Stubble Height", subtitle = "2017") +
+  labs(title = "Boggy Creek Stubble Height 2017") +
   ylab(expression(paste("Stubble Height", " ", "(Inch)", " ± SE"))) +
   scale_y_continuous(limits = c(0, 5)) +
   geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.5), width = 0.25) +
@@ -255,7 +255,7 @@ ggsave("Boggy-2017-Stubble-Height.jpg",
 ggplot(WCS17stubblestats, aes(fill = Species, y = mean, x = Species)) +
   geom_col(width = 0.75) +
   scale_fill_discrete(name = "Species", labels = c("Poa pratensis", "Carex sp.", "Poa fendleriana")) +
-  labs(title = "Wildcat Creek Stubble Height", subtitle = "2017") +
+  labs(title = "Wildcat Creek Stubble Height 2017") +
   ylab(expression(paste("Stubble Height", " ", "(Inch)", " ± SE"))) +
   scale_y_continuous(limits = c(0, 5)) +
   geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.5), width = 0.25) +
@@ -277,7 +277,7 @@ path = paste0(getwd(),"/figures", "/stubbleheight"))
 ```{r Boggy 2018 Stubble Height Figure}
 ggplot(BGW18stubblestats, aes(fill = Species, y = mean, x = Species)) +
   geom_col(width = 0.25) +
-  labs(title = "Boggy Creek Stubble Height", subtitle = "2018") +
+  labs(title = "Boggy Creek Stubble Height 2018") +
   ylab(expression(paste("Stubble Height", " ", "(Inch)", " ± SE"))) +
   scale_y_continuous(limits = c(0, 5)) +
   geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.5), width = 0.1) +
@@ -295,7 +295,7 @@ ggsave("Boggy-2018-Stubble-Height.jpg",
 ```{r Wildcat 2018 Stubble Height Figure}
 ggplot(WCS18stubblestats, aes(fill = Species, y = mean, x = Species)) +
   geom_col(width = 0.25) +
-  labs(title = "Wildcat Creek Stubble Height", subtitle = "2018") +
+  labs(title = "Wildcat Creek Stubble Height 2018") +
   ylab(expression(paste("Stubble Height", " ", "(Inch)", " ± SE"))) +
   scale_y_continuous(limits = c(0, 5)) +
   geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.5), width = 0.1) +
@@ -314,12 +314,12 @@ ggsave("Wildcat-2018-Stubble-Height.jpg",
 ggplot(BGW19stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
   geom_col(width = 0.75) +
   scale_fill_discrete(name = "Species", labels = c("Poa sp.", "Carex sp.", "Bromus inermis")) +
-  labs(title = "Boggy Creek Stubble Height", subtitle = "2019") +
+  labs(title = "Boggy Creek Stubble Height 2019") +
   ylab(expression(paste("Stubble Height", " ", "(Inch)", " ± SE"))) +
   scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
   geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.5), width = 0.25) +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
+  theme(plot.title = element_text(hjust = 0.66),
+        plot.subtitle = element_text(hjust = 0.66),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
 
@@ -327,9 +327,79 @@ ggplot(BGW19stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
   # round the mean stubble height value using significant figures
   annotate(geom = "text", x = 1, y = 3.5, label = signif(BGW19stubblestats_top3$mean[1], 2)) +
   annotate(geom = "text", x = 2, y = 9, label = signif(BGW19stubblestats_top3$mean[2], 2)) +
-  annotate(geom = "text", x = 3, y = 4.5, label = signif(BGW19stubblestats_top3$mean[3], 2))
+  annotate(geom = "text", x = 3, y = 4.5, label = signif(BGW19stubblestats_top3$mean[3], 2)) +
 
-ggsave("Boggy-2019-Stubble-Height.jpg", 
-   path = paste0(getwd(),"/figures", "/stubbleheight"))
+  # add the number of samples inside the bars
+  annotate(geom = "text", x = 1, y = (BGW19stubblestats_top3$mean[1]/2), 
+           label = paste0("n=", BGW19stubblestats_top3$n[1]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = (BGW19stubblestats_top3$mean[2]/2), 
+           label = paste0("n=", BGW19stubblestats_top3$n[2]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text", 
+           x = 3, 
+           y = (BGW19stubblestats_top3$mean[3]/2), 
+           label = paste0("n=", BGW19stubblestats_top3$n[3]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text",
+           x = 4,
+           y = 0,
+           label = "*n=number of samples",
+           size = 3) +
+  coord_cartesian(clip = "off")
+ggsave("Boggy-2019-Stubble-Height-n-samples.jpg", 
+       path = paste0(getwd(),"/figures", "/stubbleheight"))
 ```
+```{r Wildcat 2019 Stubble Height Figure}
+ggplot(WCS19stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
+  geom_col(width = 0.75) +
+  scale_fill_discrete(name = "Species", labels = c("Poa sp.", "Carex sp.", "Pascopyrum smithii")) +
+  labs(title = "Wildcat Creek Stubble Height 2019") +
+  ylab(expression(paste("Stubble Height", " ", "(Inch)", " ± SE"))) +
+  scale_y_continuous(limits = c(0, 11), breaks = seq(0, 10, by = 1)) +
+  geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.5), width = 0.25) +
+  theme(plot.title = element_text(hjust = 0.66),
+        plot.subtitle = element_text(hjust = 0.66),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
 
+  # add stubble height values above the error bars
+  # round the mean stubble height value using significant figures
+  annotate(geom = "text", x = 1, y = 2.5, label = signif(WCS19stubblestats_top3$mean[1], 2)) +
+  annotate(geom = "text", x = 2, y = 3, label = signif(WCS19stubblestats_top3$mean[2], 2)) +
+  annotate(geom = "text", x = 3, y = 11, label = signif(WCS19stubblestats_top3$mean[3], 2)) +
+
+  # add the number of samples inside the bars
+  annotate(geom = "text", 
+           x = 1, 
+           y = (WCS19stubblestats_top3$mean[1]/2), 
+           label = paste0("n=", WCS19stubblestats_top3$n[1]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = (WCS19stubblestats_top3$mean[2]/2), 
+           label = paste0("n=", WCS19stubblestats_top3$n[2]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text", 
+           x = 3, 
+           y = (WCS19stubblestats_top3$mean[3]/2), 
+           label = paste0("n=", WCS19stubblestats_top3$n[3]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text",
+           x = 4,
+           y = 0,
+           label = "*n=number of samples",
+           size = 3) +
+  coord_cartesian(clip = "off")
+
+ggsave("Wildcat-2019-Stubble-Height-n-samples.jpg", 
+       path = paste0(getwd(),"/figures", "/stubbleheight"))
+```
