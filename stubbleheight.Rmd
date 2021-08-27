@@ -145,7 +145,13 @@ ggplot(BGW17stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)))
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+
+  # add stubble height values above the  error bars
+  # round the mean stubble height value using significant figures
+  annotate(geom = "text", x = 1, y = 3.5, label = signif(BGW17stubblestats_top3$mean[1], 2)) +
+  annotate(geom = "text", x = 2, y = 4.75, label = signif(BGW17stubblestats_top3$mean[2], 2)) +
+  annotate(geom = "text", x = 3, y = 4, label = signif(BGW17stubblestats_top3$mean[3], 2))
 
 ggsave("Boggy-2017-Stubble-Height.jpg", 
     path = paste0(getwd(),"/figures", "/stubbleheight"))
@@ -161,8 +167,44 @@ ggplot(WCS17stubblestats, aes(fill = Species, y = mean, x = Species)) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 5)))
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 5))) +
+
+  # add stubble height values above the  error bars
+  # round the mean stubble height value using significant figures
+  annotate(geom = "text", x = 1, y = 1.5, label = signif(WCS17stubblestats$mean[1], 2)) +
+  annotate(geom = "text", x = 2, y = 4.5, label = signif(WCS17stubblestats$mean[2], 2)) +
+  annotate(geom = "text", x = 3, y = 1.5, label = signif(WCS17stubblestats$mean[3], 2))
 
 ggsave("Wildcat-2017-Stubble-Height.jpg", 
+path = paste0(getwd(),"/figures", "/stubbleheight"))
+```
+```{r Boggy 2018 Stubble Height}
+ggplot(BGW18stubblestats, aes(fill = Species, y = mean, x = Species)) +
+  geom_col(width = 0.25) +
+  labs(title = "Boggy Creek Stubble Height", subtitle = "2018") +
+  ylab(expression(paste("Subble Height", " ", "(Inch)", " ± SE"))) +
+  scale_y_continuous(limits = c(0, 5)) +
+  geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.5), width = 0.1) +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)))
+
+ggsave("Boggy-2018-Stubble-Height.jpg", 
     path = paste0(getwd(),"/figures", "/stubbleheight"))
+```
+```{r Wildcat 2018 Stubble Height}
+ggplot(WCS18stubblestats, aes(fill = Species, y = mean, x = Species)) +
+  geom_col(width = 0.25) +
+  labs(title = "Wildcat Creek Stubble Height", subtitle = "2018") +
+  ylab(expression(paste("Subble Height", " ", "(Inch)", " ± SE"))) +
+  scale_y_continuous(limits = c(0, 5)) +
+  geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.5), width = 0.1) +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)))
+
+#ggsave("Wildcat-2018-Stubble-Height.jpg", 
+#    path = paste0(getwd(),"/figures", "/stubbleheight"))
 ```
