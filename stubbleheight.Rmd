@@ -44,39 +44,95 @@ stubble_data <- stubble_data %>% tidyr::drop_na("Height-in")
 
 print(stubble_data)
 ```
-Data was measured to the nearest half-inch;converting to cm implies a level of precision with the additional sig figs.
 ```{r}
-## convert from inches to cm
-# Boggy18[ , "Height.cm"] <- Boggy18$Height.in*2.54
-# Boggy17[ , "Height.cm"] <- Boggy17$Height.in*2.54
-# Wildcat18[ , "Height.cm"] <- Wildcat18$Height.in*2.54
-# Wildcat17[ , "Height.cm"] <- Wildcat17$Height.in*2.54
+stubble_data$Species <- stubble_data %>% pull(Species) %>% forcats::as_factor()
+
+stubble_data$Species <- stubble_data %>% pull(Species) %>% fct_explicit_na(na_level = "Missing")
+
+stubble_data
+```
+```{r}
+# Boggy 2017
+stubble_data %>% 
+        dplyr::filter(Site == "Boggy" & Year == "2017") %>% 
+        dplyr::filter(Species == "POPR") %>% 
+        pull("Height-in") %>% 
+        hist(breaks = seq(0, 10, by = 1), 
+             axes = FALSE,
+             main = "Frequency Count of Poa Pratensis (Kentucky Bluegrass)",
+             xlab = "Stubble Height (in)",
+             xlim = c(0, 10),
+             ylim = c(0, 100))
+axis(1, at = seq(0, 10, by = 1), 
+     labels = seq(0, 10, by = 1), 
+     cex.axis= 0.75, las = 2)
+axis(2, at = seq(0, 100, by = 10), 
+     labels = seq(0, 100, by = 10), 
+     cex.axis= 0.75, las = 2)
+mtext("Boggy 2017", 3, adj = 0.5, line = -1)
+
+# Wildcat 2017
+stubble_data %>% 
+        dplyr::filter(Site == "Wildcat" & Year == "2017") %>% 
+        dplyr::filter(Species == "POPR") %>% 
+        pull("Height-in") %>% 
+        hist(breaks = seq(0, 10, by = 1), 
+             axes = FALSE,
+             main = "Frequency Count of Poa Pratensis (Kentucky Bluegrass)",
+             xlab = "Stubble Height (in)",
+             xlim = c(0, 10),
+             ylim = c(0, 100))
+axis(1, at = seq(0, 10, by = 1), 
+     labels = seq(0, 10, by = 1), 
+     cex.axis= 0.75, las = 2)
+axis(2, at = seq(0, 100, by = 10), 
+     labels = seq(0, 100, by = 10), 
+     cex.axis= 0.75, las = 2)
+mtext("Wildcat 2017", 3, adj = 0.5, line = -1)
+```
+Get the mean, standard deviation, standard error for the stubble height data.
+```{r}
+BGW17stubblestats <- stubble_data %>% 
+  dplyr::filter(Site == "Boggy" & Year == 2017) %>% 
+        group_by(Species) %>% 
+        rstatix::get_summary_stats("Height-in", type = "common")
+
+BGW18stubblestats <- stubble_data %>% 
+  dplyr::filter(Site == "Boggy" & Year == 2018) %>% 
+        group_by(Species) %>% 
+        rstatix::get_summary_stats("Height-in", type = "common")
+
+WCS17stubblestats <- stubble_data %>% 
+  dplyr::filter(Site == "Wildcat" & Year == 2017) %>% 
+        group_by(Species) %>% 
+        rstatix::get_summary_stats("Height-in", type = "common")
+
+WCS18stubblestats <- stubble_data %>% 
+  dplyr::filter(Site == "Wildcat" & Year == 2018) %>% 
+        group_by(Species) %>% 
+        rstatix::get_summary_stats("Height-in", type = "common")
+
+BGW17stubblestats
+BGW18stubblestats
+WCS17stubblestats
+WCS18stubblestats
+```
+Rearrange the order of the species count, descending from highest count to lowest count.
+```{r}
+BGW17stubblestats <- BGW17stubblestats %>% dplyr::arrange(desc(n))
+
+WCS17stubblestats <-WCS17stubblestats %>% dplyr::arrange(desc(n))
+
+BGW17stubblestats
+WCS17stubblestats
+```
+Take the top 3 species for each site. 
+```{r}
+BGW17stubblestats_top3 <- BGW17stubblestats %>% dplyr::slice(1:3)
+
+BGW17stubblestats_top3
 ```
 
-```{r}
-boggy18avg <- mean(Boggy18stub$Height.in)
-boggy17avg <- mean(Boggy17stub$Height.in)
-wildcat18avg <- mean(Wildcat18stub$Height.in)
-wildcat17avg <- mean(Wildcat17stub$Height.in)
-
-boggy18sd <- sd(Boggy18stub$Height.in)
-boggy17sd <- sd(Boggy17stub$Height.in)
-wildcat18sd <- sd(Wildcat18stub$Height.in)
-wildcat17sd <- sd(Wildcat17stub$Height.in)
-
-boggy18se <- se(Boggy18stub$Height.in)
-boggy17se <- se(Boggy17stub$Height.in)
-wildcat18se <- se(Wildcat18stub$Height.in)
-wildcat17se <- se(Wildcat17stub$Height.in)
-
-boggystubble <- data.frame(site = c("Boggy", "Boggy"), year = c(2017, 2018), avg.in = c(boggy17avg, boggy18avg), sd = c(boggy17sd, boggy18sd), se = c(boggy17se, boggy18se))
-
-boggystubble
-
-wildcatstubble <- data.frame(site = c("Wildcat", "Wildcat"), year = c(2017, 2018), avg.in = c(wildcat17avg, wildcat18avg), sd = c(wildcat17sd, wildcat18sd), se = c(wildcat17se, wildcat18se))
-
-wildcatstubble
-```
 
 ```{r}
 show_col(viridis_pal(option="inferno")(8))
