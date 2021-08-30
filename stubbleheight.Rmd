@@ -614,6 +614,119 @@ BKS20stubblestats_top3
 BRL20stubblestats_top3
 ```
 
+```{r drop unused levels and reorder levels White Mountains}
+BGW17stubblestats_top3$Species <- BGW17stubblestats_top3 %>% 
+  pull(Species) %>% 
+  forcats::fct_drop()
+
+BGW17stubblestats_top3$Species <- BGW17stubblestats_top3 %>% 
+  pull(Species) %>% 
+  forcats::fct_inorder()
+
+BGW18stubblestats_top3$Species <- BGW18stubblestats_top3 %>% 
+  pull(Species) %>% 
+  forcats::fct_drop()
+
+BGW18stubblestats_top3$Species <- BGW18stubblestats_top3 %>% 
+  pull(Species) %>% 
+  forcats::fct_inorder()
+
+BGW19stubblestats_top3$Species <- BGW19stubblestats_top3 %>% 
+  pull(Species) %>% 
+  forcats::fct_drop()
+
+BGW19stubblestats_top3$Species <- BGW19stubblestats_top3 %>% 
+  pull(Species) %>% 
+  forcats::fct_inorder()
+
+WCS17stubblestats_top3$Species <- WCS17stubblestats_top3 %>% 
+  pull(Species) %>% 
+  forcats::fct_drop()
+
+WCS18stubblestats_top3$Species <- WCS18stubblestats_top3 %>% 
+  pull(Species) %>% 
+  forcats::fct_drop()
+
+WCS19stubblestats_top3$Species <- WCS19stubblestats_top3 %>% 
+  pull(Species) %>% 
+  forcats::fct_drop()
+```
+
+```{r drop unused levels and reorder levels Heber}
+BKS18stubblestats_top3$Species <- BKS18stubblestats_top3 %>% 
+  pull(Species) %>% 
+  forcats::fct_drop()
+
+BKS18stubblestats_top3$Species <- BKS18stubblestats_top3 %>% 
+  pull(Species) %>% 
+  forcats::fct_inorder()
+
+BRL18stubblestats_top3$Species <- BRL18stubblestats_top3 %>% 
+  pull(Species) %>% 
+  forcats::fct_drop()
+
+BRL18stubblestats_top3$Species <- BRL18stubblestats_top3 %>% 
+  pull(Species) %>% 
+  forcats::fct_inorder()
+
+A5119stubblestats_top3$Species <- A5119stubblestats_top3 %>% 
+  pull(Species) %>% 
+  forcats::fct_drop()
+
+A5119stubblestats_top3$Species <- A5119stubblestats_top3 %>% 
+  pull(Species) %>% 
+  forcats::fct_inorder()
+
+BKN19stubblestats_top3$Species <- BKN19stubblestats_top3 %>% 
+  pull(Species) %>% 
+  forcats::fct_drop()
+
+BKN19stubblestats_top3$Species <- BKN19stubblestats_top3 %>% 
+  pull(Species) %>% 
+  forcats::fct_inorder()
+
+BRL19stubblestats_top3$Species <- BRL19stubblestats_top3 %>% 
+  pull(Species) %>% 
+  forcats::fct_drop()
+
+BRL19stubblestats_top3$Species <- BRL19stubblestats_top3 %>% 
+  pull(Species) %>% 
+  forcats::fct_inorder()
+
+A5120stubblestats_top3$Species <- A5120stubblestats_top3 %>% 
+  pull(Species) %>% 
+  forcats::fct_drop()
+
+A5120stubblestats_top3$Species <- A5120stubblestats_top3 %>% 
+  pull(Species) %>% 
+  forcats::fct_inorder()
+
+BKN20stubblestats_top3$Species <- BKN20stubblestats_top3 %>% 
+  pull(Species) %>% 
+  forcats::fct_drop()
+
+BKN20stubblestats_top3$Species <- BKN20stubblestats_top3 %>% 
+  pull(Species) %>% 
+  forcats::fct_inorder()
+
+BKS20stubblestats_top3$Species <- BKS20stubblestats_top3 %>% 
+  pull(Species) %>% 
+  forcats::fct_drop()
+
+BKS20stubblestats_top3$Species <- BKS20stubblestats_top3 %>% 
+  pull(Species) %>% 
+  forcats::fct_inorder()
+
+BRL20stubblestats_top3$Species <- BRL20stubblestats_top3 %>% 
+  pull(Species) %>% 
+  forcats::fct_drop()
+
+BRL20stubblestats_top3$Species <- BRL20stubblestats_top3 %>% 
+  pull(Species) %>% 
+  forcats::fct_inorder()
+```
+
+
 ```{r Boggy 2017 Stubble Height Figure}
 ggplot(BGW17stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
   geom_col(width = 0.75) +
@@ -705,12 +818,12 @@ ggplot(WCS17stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
   coord_cartesian(clip = "off")
 
 
-ggsave("Wildcat-2017-Stubble-Height-n-samples.jpg", 
-path = paste0(getwd(),"/figures", "/stubbleheight"))
+#ggsave("Wildcat-2017-Stubble-Height-n-samples.jpg", 
+#path = paste0(getwd(),"/figures", "/stubbleheight"))
 ```
 
 ```{r Boggy 2018 Stubble Height Figure}
-ggplot(BGW18stubblestats, aes(fill = Species, y = mean, x = Species)) +
+ggplot(BGW18stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
   geom_col(width = 0.25) +
   labs(title = "Boggy Creek Stubble Height 2018") +
   ylab(expression(paste("Stubble Height", " ", "(Inch)", " ± SE"))) +
@@ -723,11 +836,11 @@ ggplot(BGW18stubblestats, aes(fill = Species, y = mean, x = Species)) +
 
 # add stubble height values above the  error bars
 # round the mean stubble height value using significant figures
-  annotate(geom = "text", x = 1, y = 3.5, label = signif(BGW18stubblestats$mean[1], 2)) +
+  annotate(geom = "text", x = 1, y = 3.5, label = signif(BGW18stubblestats_top3$mean[1], 2)) +
   
 # add the number of samples inside the bars
-  annotate(geom = "text", x = 1, y = (BGW18stubblestats$mean[1]/2), 
-           label = paste0("n=", BGW18stubblestats$n[1]), 
+  annotate(geom = "text", x = 1, y = (BGW18stubblestats_top3$mean[1]/2), 
+           label = paste0("n=", BGW18stubblestats_top3$n[1]), 
            size = 3, 
            alpha = 0.75) +
   annotate(geom = "text",
@@ -737,12 +850,12 @@ ggplot(BGW18stubblestats, aes(fill = Species, y = mean, x = Species)) +
            size = 3) +
   coord_cartesian(clip = "off")
   
-ggsave("Boggy-2018-Stubble-Height-n-samples.jpg", 
-    path = paste0(getwd(),"/figures", "/stubbleheight"))
+#ggsave("Boggy-2018-Stubble-Height-n-samples.jpg", 
+#    path = paste0(getwd(),"/figures", "/stubbleheight"))
 ```
 
 ```{r Wildcat 2018 Stubble Height Figure}
-ggplot(WCS18stubblestats, aes(fill = Species, y = mean, x = Species)) +
+ggplot(WCS18stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
   geom_col(width = 0.25) +
   labs(title = "Wildcat Creek Stubble Height 2018") +
   ylab(expression(paste("Stubble Height", " ", "(Inch)", " ± SE"))) +
@@ -755,11 +868,11 @@ ggplot(WCS18stubblestats, aes(fill = Species, y = mean, x = Species)) +
   
   # add stubble height values above the  error bars
   # round the mean stubble height value using significant figures
-  annotate(geom = "text", x = 1, y = 4.25, label = signif(WCS18stubblestats$mean[1], 2)) +
+  annotate(geom = "text", x = 1, y = 4.25, label = signif(WCS18stubblestats_top3$mean[1], 2)) +
 
   # add the number of samples inside the bars
-  annotate(geom = "text", x = 1, y = (WCS18stubblestats$mean[1]/2), 
-           label = paste0("n=", WCS18stubblestats$n[1]), 
+  annotate(geom = "text", x = 1, y = (WCS18stubblestats_top3$mean[1]/2), 
+           label = paste0("n=", WCS18stubblestats_top3$n[1]), 
            size = 3, 
            alpha = 0.75) +
   annotate(geom = "text",
@@ -769,8 +882,8 @@ ggplot(WCS18stubblestats, aes(fill = Species, y = mean, x = Species)) +
            size = 3) +
   coord_cartesian(clip = "off")
   
-ggsave("Wildcat-2018-Stubble-Height-n-samples.jpg", 
-       path = paste0(getwd(),"/figures", "/stubbleheight"))
+#ggsave("Wildcat-2018-Stubble-Height-n-samples.jpg", 
+#       path = paste0(getwd(),"/figures", "/stubbleheight"))
 ```
 
 ```{r Boggy 2019 Stubble Height Figure}
@@ -816,9 +929,10 @@ ggplot(BGW19stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
            size = 3) +
   coord_cartesian(clip = "off")
 
-ggsave("Boggy-2019-Stubble-Height-n-samples.jpg", 
-       path = paste0(getwd(),"/figures", "/stubbleheight"))
+#ggsave("Boggy-2019-Stubble-Height-n-samples.jpg", 
+#       path = paste0(getwd(),"/figures", "/stubbleheight"))
 ```
+
 ```{r Wildcat 2019 Stubble Height Figure}
 ggplot(WCS19stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
   geom_col(width = 0.75) +
@@ -864,6 +978,410 @@ ggplot(WCS19stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
            size = 3) +
   coord_cartesian(clip = "off")
 
-ggsave("Wildcat-2019-Stubble-Height-n-samples.jpg", 
+#ggsave("Wildcat-2019-Stubble-Height-n-samples.jpg", 
+#       path = paste0(getwd(),"/figures", "/stubbleheight"))
+```
+```{r Black Canyon South 2018 Stubble Height Figure}
+ggplot(BKS18stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
+  geom_col(width = 0.25) +
+  labs(title = "Black Canyon South Stubble Height 2018") +
+  ylab(expression(paste("Stubble Height", " ", "(Inch)", " ± SE"))) +
+  scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
+  geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.5), width = 0.1) +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+  
+  # add stubble height values above the  error bars
+  # round the mean stubble height value using significant figures
+  annotate(geom = "text", x = 1, y = 8, label = signif(BKS18stubblestats_top3$mean[1], 2)) +
+
+  # add the number of samples inside the bars
+  annotate(geom = "text", x = 1, y = (BKS18stubblestats_top3$mean[1]/2), 
+           label = paste0("n=", BKS18stubblestats_top3$n[1]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text",
+           x = 1.5,
+           y = 0,
+           label = "*n=number of samples",
+           size = 3) +
+  coord_cartesian(clip = "off")
+  
+#ggsave("Black-Canyon-South-2018-Stubble-Height-n-samples.jpg", 
+#       path = paste0(getwd(),"/figures", "/stubbleheight"))
+
+```
+```{r Bear 2018 Stubble Height Figure}
+ggplot(BRL18stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
+  geom_col(width = 0.25) +
+  labs(title = "Bear Stubble Height 2018") +
+  ylab(expression(paste("Stubble Height", " ", "(Inch)", " ± SE"))) +
+  scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
+  geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.5), width = 0.1) +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+  
+  # add stubble height values above the  error bars
+  # round the mean stubble height value using significant figures
+  annotate(geom = "text", x = 1, y = 4.75, label = signif(BRL18stubblestats_top3$mean[1], 2)) +
+
+  # add the number of samples inside the bars
+  annotate(geom = "text", x = 1, y = (BRL18stubblestats_top3$mean[1]/2), 
+           label = paste0("n=", BRL18stubblestats_top3$n[1]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text",
+           x = 1.5,
+           y = 0,
+           label = "*n=number of samples",
+           size = 3) +
+  coord_cartesian(clip = "off")
+  
+#ggsave("Black-Canyon-South-2018-Stubble-Height-n-samples.jpg", 
+#       path = paste0(getwd(),"/figures", "/stubbleheight"))
+```
+
+```{r A51 2019 Stubble Height Figure}
+ggplot(A5119stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
+  geom_col(width = 0.75) +
+  scale_fill_discrete(name = "Species", labels = c("Poa pratensis", "Elymus elymoides", "Aristida sp.")) +
+  labs(title = "Fifty One Stubble Height 2019") +
+  ylab(expression(paste("Stubble Height", " ", "(Inch)", " ± SE"))) +
+  scale_y_continuous(limits = c(0, 11), breaks = seq(0, 10, by = 1)) +
+  geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.5), width = 0.25) +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+
+  # add stubble height values above the error bars
+  # round the mean stubble height value using significant figures
+  annotate(geom = "text", x = 1, y = 2, label = signif(A5119stubblestats_top3$mean[1], 2)) +
+  annotate(geom = "text", x = 2, y = 3, label = signif(A5119stubblestats_top3$mean[2], 2)) +
+  annotate(geom = "text", x = 3, y = 4, label = signif(A5119stubblestats_top3$mean[3], 2)) +
+
+  # add the number of samples inside the bars
+  annotate(geom = "text", 
+           x = 1, 
+           y = (A5119stubblestats_top3$mean[1]/2), 
+           label = paste0("n=", A5119stubblestats_top3$n[1]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = (A5119stubblestats_top3$mean[2]/2), 
+           label = paste0("n=", A5119stubblestats_top3$n[2]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text", 
+           x = 3, 
+           y = (A5119stubblestats_top3$mean[3]/2), 
+           label = paste0("n=", A5119stubblestats_top3$n[3]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text",
+           x = 4,
+           y = 0,
+           label = "*n=number of samples",
+           size = 3) +
+  coord_cartesian(clip = "off")
+
+#ggsave("Fifty-One-2019-Stubble-Height-n-samples.jpg", 
+#       path = paste0(getwd(),"/figures", "/stubbleheight"))
+```
+```{r BKN 2019 Stubble Height Figure}
+ggplot(BKN19stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
+  geom_col(width = 0.75) +
+  scale_fill_discrete(name = "Species", labels = c("Bouteloua gracilis", "Pascopyrum smithii", "Hesperostipa comata")) +
+  labs(title = "Black Canyon North Stubble Height 2019") +
+  ylab(expression(paste("Stubble Height", " ", "(Inch)", " ± SE"))) +
+  scale_y_continuous(limits = c(0, 16), breaks = seq(0, 15, by = 1)) +
+  geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.5), width = 0.25) +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+
+  # add stubble height values above the error bars
+  # round the mean stubble height value using significant figures
+  annotate(geom = "text", x = 1, y = 3, label = signif(BKN19stubblestats_top3$mean[1], 2)) +
+  annotate(geom = "text", x = 2, y = 10, label = signif(BKN19stubblestats_top3$mean[2], 2)) +
+  annotate(geom = "text", x = 3, y = 16, label = signif(BKN19stubblestats_top3$mean[3], 2)) +
+
+  # add the number of samples inside the bars
+  annotate(geom = "text", 
+           x = 1, 
+           y = (BKN19stubblestats_top3$mean[1]/2), 
+           label = paste0("n=", BKN19stubblestats_top3$n[1]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = (BKN19stubblestats_top3$mean[2]/2), 
+           label = paste0("n=", BKN19stubblestats_top3$n[2]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text", 
+           x = 3, 
+           y = (BKN19stubblestats_top3$mean[3]/2), 
+           label = paste0("n=", BKN19stubblestats_top3$n[3]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text",
+           x = 4,
+           y = 0,
+           label = "*n=number of samples",
+           size = 3) +
+  coord_cartesian(clip = "off")
+
+#ggsave("Black-Canyon-North-2019-Stubble-Height-n-samples.jpg", 
+#       path = paste0(getwd(),"/figures", "/stubbleheight"))
+```
+```{r BRL 2019 Stubble Height Figure}
+ggplot(BRL19stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
+  geom_col(width = 0.75) +
+  scale_fill_discrete(name = "Species", labels = c("Bouteloua gracilis", "Elymus elymoides", "Pascopyrum smithii")) +
+  labs(title = "Bear Stubble Height 2019") +
+  ylab(expression(paste("Stubble Height", " ", "(Inch)", " ± SE"))) +
+  scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
+  geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.5), width = 0.25) +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+
+  # add stubble height values above the error bars
+  # round the mean stubble height value using significant figures
+  annotate(geom = "text", x = 1, y = 2.5, label = signif(BRL19stubblestats_top3$mean[1], 2)) +
+  annotate(geom = "text", x = 2, y = 4, label = signif(BRL19stubblestats_top3$mean[2], 2)) +
+  annotate(geom = "text", x = 3, y = 5, label = signif(BRL19stubblestats_top3$mean[3], 2)) +
+
+  # add the number of samples inside the bars
+  annotate(geom = "text", 
+           x = 1, 
+           y = (BRL19stubblestats_top3$mean[1]/2), 
+           label = paste0("n=", BRL19stubblestats_top3$n[1]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = (BRL19stubblestats_top3$mean[2]/2), 
+           label = paste0("n=", BRL19stubblestats_top3$n[2]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text", 
+           x = 3, 
+           y = (BRL19stubblestats_top3$mean[3]/2), 
+           label = paste0("n=", BRL19stubblestats_top3$n[3]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text",
+           x = 4,
+           y = 0,
+           label = "*n=number of samples",
+           size = 3) +
+  coord_cartesian(clip = "off")
+
+#ggsave("Bear-2019-Stubble-Height-n-samples.jpg", 
+#       path = paste0(getwd(),"/figures", "/stubbleheight"))
+```
+
+```{r A51 2020 Stubble Height Figure}
+ggplot(A5120stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
+  geom_col(width = 0.75) +
+  scale_fill_discrete(name = "Species", labels = c("Pascopyrum smithii", "Aristida sp.", "Koeleria macrantha")) +
+  labs(title = "Fifty One Stubble Height 2020") +
+  ylab(expression(paste("Stubble Height", " ", "(Inch)", " ± SE"))) +
+  scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
+  geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.5), width = 0.25) +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+
+  # add stubble height values above the error bars
+  # round the mean stubble height value using significant figures
+  annotate(geom = "text", x = 1, y = 3.5, label = signif(A5120stubblestats_top3$mean[1], 2)) +
+  annotate(geom = "text", x = 2, y = 3.25, label = signif(A5120stubblestats_top3$mean[2], 2)) +
+  annotate(geom = "text", x = 3, y = 3, label = signif(A5120stubblestats_top3$mean[3], 2)) +
+
+  # add the number of samples inside the bars
+  annotate(geom = "text", 
+           x = 1, 
+           y = (A5120stubblestats_top3$mean[1]/2), 
+           label = paste0("n=", A5120stubblestats_top3$n[1]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = (A5120stubblestats_top3$mean[2]/2), 
+           label = paste0("n=", A5120stubblestats_top3$n[2]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text", 
+           x = 3, 
+           y = (A5120stubblestats_top3$mean[3]/2), 
+           label = paste0("n=", A5120stubblestats_top3$n[3]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text",
+           x = 4,
+           y = 0,
+           label = "*n=number of samples",
+           size = 3) +
+  coord_cartesian(clip = "off")
+
+#ggsave("Fifty-One-2020-Stubble-Height-n-samples.jpg", 
+#       path = paste0(getwd(),"/figures", "/stubbleheight"))
+```
+
+```{r BKN 2020 Stubble Height Figure}
+ggplot(BKN20stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
+  geom_col(width = 0.75) +
+  scale_fill_discrete(name = "Species", labels = c("Bouteloua gracilis", "Aristida sp.", "Bouteloua curtipendula")) +
+  labs(title = "Black Canyon North Stubble Height 2020") +
+  ylab(expression(paste("Stubble Height", " ", "(Inch)", " ± SE"))) +
+  scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
+  geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.5), width = 0.25) +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+
+  # add stubble height values above the error bars
+  # round the mean stubble height value using significant figures
+  annotate(geom = "text", x = 1, y = 2, label = signif(BKN20stubblestats_top3$mean[1], 2)) +
+  annotate(geom = "text", x = 2, y = 5, label = signif(BKN20stubblestats_top3$mean[2], 2)) +
+  annotate(geom = "text", x = 3, y = 4, label = signif(BKN20stubblestats_top3$mean[3], 2)) +
+
+  # add the number of samples inside the bars
+  annotate(geom = "text", 
+           x = 1, 
+           y = (BKN20stubblestats_top3$mean[1]/2), 
+           label = paste0("n=", BKN20stubblestats_top3$n[1]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = (BKN20stubblestats_top3$mean[2]/2), 
+           label = paste0("n=", BKN20stubblestats_top3$n[2]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text", 
+           x = 3, 
+           y = (BKN20stubblestats_top3$mean[3]/2), 
+           label = paste0("n=", BKN20stubblestats_top3$n[3]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text",
+           x = 4,
+           y = 0,
+           label = "*n=number of samples",
+           size = 3) +
+  coord_cartesian(clip = "off")
+
+#ggsave("Black-Canyon-North-2020-Stubble-Height-n-samples.jpg", 
+#       path = paste0(getwd(),"/figures", "/stubbleheight"))
+```
+
+```{r BKS 2020 Stubble Height Figure}
+ggplot(BKS20stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
+  geom_col(width = 0.75) +
+  scale_fill_discrete(name = "Species", labels = c("Poa sp.", "Muhlenbergia montana", "Bromus inermis")) +
+  labs(title = "Black Canyon South Stubble Height 2020") +
+  ylab(expression(paste("Stubble Height", " ", "(Inch)", " ± SE"))) +
+  scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
+  geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.5), width = 0.25) +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+
+  # add stubble height values above the error bars
+  # round the mean stubble height value using significant figures
+  annotate(geom = "text", x = 1, y = 2, label = signif(BKS20stubblestats_top3$mean[1], 2)) +
+  annotate(geom = "text", x = 2, y = 6, label = signif(BKS20stubblestats_top3$mean[2], 2)) +
+  annotate(geom = "text", x = 3, y = 2, label = signif(BKS20stubblestats_top3$mean[3], 2)) +
+
+  # add the number of samples inside the bars
+  annotate(geom = "text", 
+           x = 1, 
+           y = (BKS20stubblestats_top3$mean[1]/2), 
+           label = paste0("n=", BKS20stubblestats_top3$n[1]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = (BKS20stubblestats_top3$mean[2]/2), 
+           label = paste0("n=", BKS20stubblestats_top3$n[2]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text", 
+           x = 3, 
+           y = (BKS20stubblestats_top3$mean[3]/2), 
+           label = paste0("n=", BKS20stubblestats_top3$n[3]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text",
+           x = 4,
+           y = 0,
+           label = "*n=number of samples",
+           size = 3) +
+  coord_cartesian(clip = "off")
+
+ggsave("Black-Canyon-South-2020-Stubble-Height-n-samples.jpg", 
        path = paste0(getwd(),"/figures", "/stubbleheight"))
+```
+
+```{r BRL 2020 Stubble Height Figure}
+ggplot(BRL20stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
+  geom_col(width = 0.75) +
+  scale_fill_discrete(name = "Species", labels = c("Bouteloua gracilis", "Poa sp.", "Aristida sp.")) +
+  labs(title = "Bear Stubble Height 2020") +
+  ylab(expression(paste("Stubble Height", " ", "(Inch)", " ± SE"))) +
+  scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
+  geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.5), width = 0.25) +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+
+  # add stubble height values above the error bars
+  # round the mean stubble height value using significant figures
+  annotate(geom = "text", x = 1, y = 2, label = signif(BRL20stubblestats_top3$mean[1], 2)) +
+  annotate(geom = "text", x = 2, y = 1.25, label = signif(BRL20stubblestats_top3$mean[2], 2)) +
+  annotate(geom = "text", x = 3, y = 3.5, label = signif(BRL20stubblestats_top3$mean[3], 2)) +
+
+  # add the number of samples inside the bars
+  annotate(geom = "text", 
+           x = 1, 
+           y = (BRL20stubblestats_top3$mean[1]/2), 
+           label = paste0("n=", BRL20stubblestats_top3$n[1]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = (BRL20stubblestats_top3$mean[2]/2), 
+           label = paste0("n=", BRL20stubblestats_top3$n[2]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text", 
+           x = 3, 
+           y = (BRL20stubblestats_top3$mean[3]/2), 
+           label = paste0("n=", BRL20stubblestats_top3$n[3]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text",
+           x = 4,
+           y = 0,
+           label = "*n=number of samples",
+           size = 3) +
+  coord_cartesian(clip = "off")
+
+#ggsave("Bear-2020-Stubble-Height-n-samples.jpg", 
+#       path = paste0(getwd(),"/figures", "/stubbleheight"))
 ```
