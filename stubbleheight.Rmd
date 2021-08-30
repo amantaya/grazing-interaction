@@ -1041,8 +1041,8 @@ ggplot(BRL18stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
            size = 3) +
   coord_cartesian(clip = "off")
   
-#ggsave("Black-Canyon-South-2018-Stubble-Height-n-samples.jpg", 
-#       path = paste0(getwd(),"/figures", "/stubbleheight"))
+#ggsave("Bear-2018-Stubble-Height-n-samples.jpg", 
+#       path = paste0(getwd(),"/figures", "/stubbleheight", "/heber"))
 ```
 
 ```{r A51 2019 Stubble Height Figure}
