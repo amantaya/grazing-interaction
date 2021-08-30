@@ -9,6 +9,11 @@ output: html_notebook
 # clear the environment
 rm(list=ls(all=TRUE))
 ```
+```{r}
+currentwd <- getwd()
+currentwd
+```
+
 
 ```{r echo=FALSE}
 source("packages.R")
@@ -18,7 +23,31 @@ source("packages.R")
 source("functions.R")
 ```
 
-```{r}
+```{r Read in Excel data and convert to csv, eval=FALSE, include=FALSE}
+xlsx_file_list <- list.files("data/vegetation/heber/stubble-height/xlsx", pattern = "xlsx")
+
+xlsx_file_list
+
+file_names <- str_replace_all(xlsx_file_list, "xlsx", "csv")
+
+file_names
+
+file_source <- paste0(currentwd, "/data/vegetation/heber/stubble-height/xlsx/", xlsx_file_list)
+
+file_source
+
+file_destination <- paste0(currentwd, "/data/vegetation/heber/stubble-height/csv/", file_names)
+
+file_destination
+
+for (i in 1:length(file_source)) {
+  # read the data from the first sheet
+  xlsx_data <- read.xlsx(file_source[i], sheet = "Stubble Height")
+  # write out the xlsm data as an xlsx
+  write_csv(xlsx_data, paste0(file_destination[i]), na = "NA")}
+```
+
+```{r load data}
 ## read in data
 BGW17stubble <- readr::read_csv('data/vegetation/white-mountains/2017-boggy-stubble-height.csv',
                                 col_names = TRUE, 
@@ -38,12 +67,50 @@ BGW19stubble <- readr::read_csv('data/vegetation/white-mountains/2019-boggy-graz
 WCS19stubble <- readr::read_csv('data/vegetation/white-mountains/2019-wildcat-grazed-stubble-height.csv',
                                 col_names = TRUE,
                                 na = c("", " ", "NA"))
+BKS18stubble <- readr::read_csv('data/vegetation/heber/2018-BKS-stubble-height.csv',
+                                col_names = TRUE,
+                                na = c("", " ", "NA"))
+BRL18stubble <- readr::read_csv('data/vegetation/heber/2018-BRL-stubble-height.csv',
+                                col_names = TRUE,
+                                na = c("", " ", "NA"))
+A5119stubble <- readr::read_csv('data/vegetation/heber/stubble-height/csv/2019-A51-stubble-height.csv',
+                                col_names = TRUE,
+                                na = c("", " ", "NA"))
+BKN19stubble <- readr::read_csv('data/vegetation/heber/stubble-height/csv/2019-BKN-stubble-height.csv',
+                                col_names = TRUE,
+                                na = c("", " ", "NA"))
+BRL19stubble <- readr::read_csv('data/vegetation/heber/stubble-height/csv/2019-BRL-stubble-height.csv',
+                                col_names = TRUE,
+                                na = c("", " ", "NA"))
+A5120stubble <- readr::read_csv('data/vegetation/heber/stubble-height/csv/2020-A51-stubble-height.csv',
+                                col_names = TRUE,
+                                na = c("", " ", "NA"))
+BKN20stubble <- readr::read_csv('data/vegetation/heber/stubble-height/csv/2020-BKN-stubble-height.csv',
+                                col_names = TRUE,
+                                na = c("", " ", "NA"))
+BKS20stubble <- readr::read_csv('data/vegetation/heber/stubble-height/csv/2020-BKS-stubble-height.csv',
+                                col_names = TRUE,
+                                na = c("", " ", "NA"))
+BRL20stubble <- readr::read_csv('data/vegetation/heber/stubble-height/csv/2020-BRL-stubble-height.csv',
+                                col_names = TRUE,
+                                na = c("", " ", "NA"))
+
 BGW17stubble
 WCS17stubble
 WCS18stubble
 BGW19stubble
 WCS19stubble
+BKS18stubble
+BRL18stubble
+A5119stubble
+BKN19stubble
+BRL19stubble
+A5120stubble
+BKN20stubble
+BKS20stubble
+BRL20stubble
 ```
+
 ```{r rename columns}
 # add a "Site" column and a "Year" column to the 2019 data
 # this will make it easier to keep track of the data as we clean it up
@@ -326,8 +393,8 @@ ggplot(BGW18stubblestats, aes(fill = Species, y = mean, x = Species)) +
   ylab(expression(paste("Stubble Height", " ", "(Inch)", " ± SE"))) +
   scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
   geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.5), width = 0.1) +
-  theme(plot.title = element_text(hjust = 0.66),
-        plot.subtitle = element_text(hjust = 0.66),
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
 
@@ -358,8 +425,8 @@ ggplot(WCS18stubblestats, aes(fill = Species, y = mean, x = Species)) +
   ylab(expression(paste("Stubble Height", " ", "(Inch)", " ± SE"))) +
   scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
   geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.5), width = 0.1) +
-  theme(plot.title = element_text(hjust = 0.66),
-        plot.subtitle = element_text(hjust = 0.66),
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
   
@@ -391,8 +458,8 @@ ggplot(BGW19stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
   ylab(expression(paste("Stubble Height", " ", "(Inch)", " ± SE"))) +
   scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
   geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.5), width = 0.25) +
-  theme(plot.title = element_text(hjust = 0.66),
-        plot.subtitle = element_text(hjust = 0.66),
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
 
@@ -437,8 +504,8 @@ ggplot(WCS19stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
   ylab(expression(paste("Stubble Height", " ", "(Inch)", " ± SE"))) +
   scale_y_continuous(limits = c(0, 11), breaks = seq(0, 10, by = 1)) +
   geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.5), width = 0.25) +
-  theme(plot.title = element_text(hjust = 0.66),
-        plot.subtitle = element_text(hjust = 0.66),
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
 
