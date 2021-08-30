@@ -9,11 +9,11 @@ output: html_notebook
 # clear the environment
 rm(list=ls(all=TRUE))
 ```
+
 ```{r}
 currentwd <- getwd()
 currentwd
 ```
-
 
 ```{r echo=FALSE}
 source("packages.R")
@@ -23,83 +23,118 @@ source("packages.R")
 source("functions.R")
 ```
 
+The data exported from VGS is an xlsx file with two sheets. The first sheet is "metadata" and does not contain any data. The second sheet is "Stubble Height" and contains our stubble height data. For our purposes, we only want to keep the sheet with the data.
 ```{r Read in Excel data and convert to csv, eval=FALSE, include=FALSE}
+# this code chunk only needs to be turned on once when converting data
+# then it can be turned off after the files are converted
+
+# list all of the xlsx data files in the directory
 xlsx_file_list <- list.files("data/vegetation/heber/stubble-height/xlsx", pattern = "xlsx")
 
-xlsx_file_list
-
+# create a vector of file names that we will use to rename our xlsx files into csv files
+# do this by replacing the file extension but otherwise keep the file name the same
 file_names <- str_replace_all(xlsx_file_list, "xlsx", "csv")
 
-file_names
-
+# create a vector of file paths to tell R where to find the source xlsx data
 file_source <- paste0(currentwd, "/data/vegetation/heber/stubble-height/xlsx/", xlsx_file_list)
 
-file_source
-
+# create a vector of file paths to tell R where to put the files after conversion
 file_destination <- paste0(currentwd, "/data/vegetation/heber/stubble-height/csv/", file_names)
 
-file_destination
-
+# for loop through the file list to convert all xlsx files in the directory
+# to csv files
 for (i in 1:length(file_source)) {
-  # read the data from the first sheet
-  xlsx_data <- read.xlsx(file_source[i], sheet = "Stubble Height")
+  # read the data from the Stubble Height sheet
+  openxlsx::xlsx_data <- read.xlsx(file_source[i], sheet = "Stubble Height")
   # write out the xlsm data as an xlsx
-  write_csv(xlsx_data, paste0(file_destination[i]), na = "NA")}
+  readr::write_csv(xlsx_data, paste0(file_destination[i]), na = "NA")}
 ```
 
-```{r load data}
-## read in data
-BGW17stubble <- readr::read_csv('data/vegetation/white-mountains/2017-boggy-stubble-height.csv',
-                                col_names = TRUE, 
-                                na = c(""," ","NA"))
-WCS17stubble <- readr::read_csv('data/vegetation/white-mountains/2017-wildcat-stubble-height.csv',
-                                col_names = TRUE,
-                                na = c(""," ","NA"))
-BGW18stubble <- readr::read_csv('data/vegetation/white-mountains/2018-boggy-stubble-height.csv', 
-                                col_names = TRUE, 
-                                na = c(""," ","NA"))
-WCS18stubble <- readr::read_csv('data/vegetation/white-mountains/2018-wildcat-stubble-height.csv',
-                                col_names = TRUE, 
-                                na = c(""," ","NA"))
-BGW19stubble <- readr::read_csv('data/vegetation/white-mountains/2019-boggy-grazed-stubble-height.csv',
-                                col_names = TRUE,
-                                na = c("", " ", "NA"))
-WCS19stubble <- readr::read_csv('data/vegetation/white-mountains/2019-wildcat-grazed-stubble-height.csv',
-                                col_names = TRUE,
-                                na = c("", " ", "NA"))
-BKS18stubble <- readr::read_csv('data/vegetation/heber/2018-BKS-stubble-height.csv',
-                                col_names = TRUE,
-                                na = c("", " ", "NA"))
-BRL18stubble <- readr::read_csv('data/vegetation/heber/2018-BRL-stubble-height.csv',
-                                col_names = TRUE,
-                                na = c("", " ", "NA"))
-A5119stubble <- readr::read_csv('data/vegetation/heber/stubble-height/csv/2019-A51-stubble-height.csv',
-                                col_names = TRUE,
-                                na = c("", " ", "NA"))
-BKN19stubble <- readr::read_csv('data/vegetation/heber/stubble-height/csv/2019-BKN-stubble-height.csv',
-                                col_names = TRUE,
-                                na = c("", " ", "NA"))
-BRL19stubble <- readr::read_csv('data/vegetation/heber/stubble-height/csv/2019-BRL-stubble-height.csv',
-                                col_names = TRUE,
-                                na = c("", " ", "NA"))
-A5120stubble <- readr::read_csv('data/vegetation/heber/stubble-height/csv/2020-A51-stubble-height.csv',
-                                col_names = TRUE,
-                                na = c("", " ", "NA"))
-BKN20stubble <- readr::read_csv('data/vegetation/heber/stubble-height/csv/2020-BKN-stubble-height.csv',
-                                col_names = TRUE,
-                                na = c("", " ", "NA"))
-BKS20stubble <- readr::read_csv('data/vegetation/heber/stubble-height/csv/2020-BKS-stubble-height.csv',
-                                col_names = TRUE,
-                                na = c("", " ", "NA"))
-BRL20stubble <- readr::read_csv('data/vegetation/heber/stubble-height/csv/2020-BRL-stubble-height.csv',
-                                col_names = TRUE,
-                                na = c("", " ", "NA"))
+Read in the White Mountain data, from 2017 to 2019.
+```{r load White Mountain data}
+BGW17stubble <- readr::read_csv(
+  'data/vegetation/white-mountains/2017-boggy-stubble-height.csv',
+  col_names = TRUE, 
+  na = c(""," ","NA"))
+
+WCS17stubble <- readr::read_csv(
+  'data/vegetation/white-mountains/2017-wildcat-stubble-height.csv',
+  col_names = TRUE,
+  na = c(""," ","NA"))
+
+BGW18stubble <- readr::read_csv(
+  'data/vegetation/white-mountains/2018-boggy-stubble-height.csv', 
+  col_names = TRUE, 
+  na = c(""," ","NA"))
+
+WCS18stubble <- readr::read_csv(
+  'data/vegetation/white-mountains/2018-wildcat-stubble-height.csv',
+  col_names = TRUE,
+  na = c(""," ","NA"))
+
+BGW19stubble <- readr::read_csv(
+  'data/vegetation/white-mountains/2019-boggy-grazed-stubble-height.csv',
+  col_names = TRUE,
+  na = c("", " ", "NA"))
+
+WCS19stubble <- readr::read_csv(
+  'data/vegetation/white-mountains/2019-wildcat-grazed-stubble-height.csv',
+  col_names = TRUE,
+  na = c("", " ", "NA"))
 
 BGW17stubble
 WCS17stubble
 WCS18stubble
 BGW19stubble
 WCS19stubble
+```
+
+Read in the Heber data, from 2018 to 2020.
+```{r load Heber data}
+BKS18stubble <- readr::read_csv(
+  'data/vegetation/heber/2018-BKS-stubble-height.csv',
+  col_names = TRUE,
+  na = c("", " ", "NA"))
+
+BRL18stubble <- readr::read_csv(
+  'data/vegetation/heber/2018-BRL-stubble-height.csv',
+  col_names = TRUE,
+  na = c("", " ", "NA"))
+
+A5119stubble <- readr::read_csv(
+  'data/vegetation/heber/stubble-height/csv/2019-A51-stubble-height.csv',
+  col_names = TRUE,
+  na = c("", " ", "NA"))
+
+BKN19stubble <- readr::read_csv(
+  'data/vegetation/heber/stubble-height/csv/2019-BKN-stubble-height.csv',
+  col_names = TRUE,
+  na = c("", " ", "NA"))
+
+BRL19stubble <- readr::read_csv(
+  'data/vegetation/heber/stubble-height/csv/2019-BRL-stubble-height.csv',
+  col_names = TRUE,
+  na = c("", " ", "NA"))
+A5120stubble <- readr::read_csv(
+  'data/vegetation/heber/stubble-height/csv/2020-A51-stubble-height.csv',
+  col_names = TRUE,
+  na = c("", " ", "NA"))
+
+BKN20stubble <- readr::read_csv(
+  'data/vegetation/heber/stubble-height/csv/2020-BKN-stubble-height.csv',
+  col_names = TRUE,
+  na = c("", " ", "NA"))
+
+BKS20stubble <- readr::read_csv(
+  'data/vegetation/heber/stubble-height/csv/2020-BKS-stubble-height.csv',
+  col_names = TRUE,
+  na = c("", " ", "NA"))
+
+BRL20stubble <- readr::read_csv(
+  'data/vegetation/heber/stubble-height/csv/2020-BRL-stubble-height.csv',
+  col_names = TRUE,
+  na = c("", " ", "NA"))
+
 BKS18stubble
 BRL18stubble
 A5119stubble
@@ -110,111 +145,206 @@ BKN20stubble
 BKS20stubble
 BRL20stubble
 ```
-The 2018 Heber stubble height data was collected differently and only has three columns. We need to convert the "grazed" and "ungrazed" columns into a single column to make it the same as the 2019 and 2020 data.
-```{r}
-# add two columns with the Site and Year to help us keep track of the data
-BKS18stubble <- BKS18stubble %>% dplyr::mutate(Site = "BKS", Year = 2018)
 
-BRL18stubble <- BRL18stubble %>% dplyr::mutate(Site = "BRL", Year = 2018)
+The 2018 Heber stubble height data was collected differently and only has three columns. We need to convert the "grazed" and "ungrazed" columns into a single column to make it the same as the 2019 and 2020 data.
+```{r mutate 2018 Heber data}
+# add two columns with the Site and Year to help us keep track of the data
+BKS18stubble <- BKS18stubble %>% 
+  dplyr::mutate(Site = "BKS", Year = 2018)
+
+BRL18stubble <- BRL18stubble %>% 
+  dplyr::mutate(Site = "BRL", Year = 2018)
 
 # bind the 2018 heber data together for easier manipulation
 heber_stubble_2018 <- dplyr::bind_rows(BKS18stubble, BRL18stubble)
 
 # rename the "sample" column to "Record" to bring it inline with the 2019 and 2020 data
-heber_stubble_2018 <- heber_stubble_2018 %>% dplyr::rename(Sample = sample)
+heber_stubble_2018 <- heber_stubble_2018 %>% 
+  dplyr::rename(Sample = sample)
 
-# convert the NA values in the "ungrazed" column to zero to make it easier to add values together 
+# convert the NA values in the "ungrazed" column to zero 
+# this will make it easier to add values together 
 # (i.e., you can't add a number to a NA) 
-heber_stubble_2018$ungrazed <- heber_stubble_2018 %>% pull(ungrazed) %>% tidyr::replace_na(0)
+heber_stubble_2018$ungrazed <- heber_stubble_2018 %>% 
+  pull(ungrazed) %>% 
+  tidyr::replace_na(0)
 
-# convert the NA values in the "grazed" column to zero to make it easier to add values together 
-heber_stubble_2018$grazed <- heber_stubble_2018 %>% pull(grazed) %>% tidyr::replace_na(0)
+# convert the NA values in the "grazed" column to zero 
+# this will make it easier to add values together 
+heber_stubble_2018$grazed <- heber_stubble_2018 %>% 
+  pull(grazed) %>% 
+  tidyr::replace_na(0)
 
 # add the "grazed" and "ungrazed" values together into a new column 
 # this will bring it inline with the 2019 and 2020 data
 # also drop the "grazed" and "ungrazed" columns and keep the unused columns
-heber_stubble_2018 <- heber_stubble_2018 %>% dplyr::mutate("Height" = grazed + ungrazed, .keep = "unused")
+heber_stubble_2018 <- heber_stubble_2018 %>% 
+  dplyr::mutate("Height" = grazed + ungrazed, .keep = "unused")
 
 # print the data frame to view the changes
 heber_stubble_2018
 ```
 
-
+The 2019 and 2020 Heber data was collected with VGS and is very similar to
+but not exactly the same as the White Mountains data for the same years.
+Two column names are slightly different in the Heber data that we need to fix.
 ```{r}
-A5119stubble <- A5119stubble %>% dplyr::mutate(Site = "A51", Year = 2019)
+# add two columns with the Site and Year to help us keep track of the data
+A5119stubble <- A5119stubble %>% 
+  dplyr::mutate(Site = "A51", Year = 2019)
 
-BKN19stubble <- BKN19stubble %>% dplyr::mutate(Site = "BKN", Year = 2019)
+BKN19stubble <- BKN19stubble %>% 
+  dplyr::mutate(Site = "BKN", Year = 2019)
 
-BRL19stubble <- BRL19stubble %>% dplyr::mutate(Site = "BRL", Year = 2019)
+BRL19stubble <- BRL19stubble %>% 
+  dplyr::mutate(Site = "BRL", Year = 2019)
 
-A5120stubble <- A5120stubble %>% dplyr::mutate(Site = "A51", Year = 2020)
+A5120stubble <- A5120stubble %>% 
+  dplyr::mutate(Site = "A51", Year = 2020)
 
-BKN20stubble <- BKN20stubble %>% dplyr::mutate(Site = "BKN", Year = 2020)
+BKN20stubble <- BKN20stubble %>% 
+  dplyr::mutate(Site = "BKN", Year = 2020)
 
-BKS20stubble <- BKS20stubble %>% dplyr::mutate(Site = "BKS", Year = 2020)
+BKS20stubble <- BKS20stubble %>% 
+  dplyr::mutate(Site = "BKS", Year = 2020)
 
-BRL20stubble <- BRL20stubble %>% dplyr::mutate(Site = "BRL", Year = 2020)
+BRL20stubble <- BRL20stubble %>% 
+  dplyr::mutate(Site = "BRL", Year = 2020)
 
-heber_stubble_data <- bind_rows(A5119stubble, BKN19stubble, BRL19stubble, A5120stubble, BKN20stubble, BKS20stubble, BRL20stubble, heber_stubble_2018)
+# bind the rows together to help with manipulation
+heber_stubble_data <- bind_rows(A5119stubble, 
+                                BKN19stubble, 
+                                BRL19stubble, 
+                                A5120stubble, 
+                                BKN20stubble, 
+                                BKS20stubble, 
+                                BRL20stubble, 
+                                heber_stubble_2018)
 
+# rename the slightly different column name in the Heber data to match the
+# column name in the White Mountains data
 heber_stubble_data <- heber_stubble_data %>% 
   dplyr::rename("Species/Category Code" = "Species/Category.Code")
 
+# rename the slightly different column name in the Heber data to match the
+# column name in the White Mountains data
 heber_stubble_data <- heber_stubble_data %>% 
   dplyr::rename("Species/Category Name" = "Species/Category.Name")
 
+# arrange the data frame in ascending order by year
+# this helps seeing the data in order from when it was collected
+heber_stubble_data <- heber_stubble_data %>% 
+  dplyr::arrange(Year)
+
+# print the data frame to view the changes
 heber_stubble_data
 ```
 
+The Heber data is now in the same format as the 2019 White Mountains data.
+However, we need to rename columns in these data frames to make them consistent
+with the 2017 and 2018 White Mountains data.
 
-```{r rename columns}
-# add a "Site" column and a "Year" column to the 2019 data
-# this will make it easier to keep track of the data as we clean it up
+First, add a "Site" column and a "Year" column to the 2019 White Mountains data.
+This will make it easier to keep track of the data as we clean it up.
+```{r mutate 2019 White Mountains data}
 BGW19stubble <- BGW19stubble %>% dplyr::mutate(Site = "Boggy", Year = 2019)
 
 WCS19stubble <- WCS19stubble %>% dplyr::mutate(Site = "Wildcat", Year = 2019)
 
+# print the data frames to view the changes
+BGW19stubble
+
+WCS19stubble
+
+# bind the rows together for easier manipulation
+wm_stubble_2019 <- dplyr::bind_rows(BGW19stubble, WCS19stubble)
+
+wm_stubble_2019
+```
+
+Next, we'll combine the 2019 White Mountains data with Heber data. We'll rename 
+the columns and drop other columns to make it consistent with the 2017 and 2018
+White Mountains data.
+```{r rename columns}
 # bind data together for easier manipulation
-mutated_stubble_data <- bind_rows(BGW19stubble, WCS19stubble, heber_stubble_data)
+mutated_stubble_data <- bind_rows(wm_stubble_2019, heber_stubble_data)
 
-# rename the "Species/Category Code" column to "Species" to be consistent with the 2017 & 2018 data
-mutated_stubble_data <- mutated_stubble_data %>% dplyr::rename(Species = "Species/Category Code")
+# rename the "Species/Category Code" column to "Species" 
+# to be consistent with the 2017 & 2018 data
+mutated_stubble_data <- mutated_stubble_data %>% 
+  dplyr::rename(Species = "Species/Category Code")
 
-# rename the "Sample" column to "Record" to be consistent with the 2017 & 2018 data
-mutated_stubble_data <- mutated_stubble_data %>% dplyr::rename(Record = "Sample")
+# rename the "Sample" column to "Record" 
+# to be consistent with the 2017 & 2018 data
+mutated_stubble_data <- mutated_stubble_data %>% 
+  dplyr::rename(Record = "Sample")
 
 # remove the columns that are not in the 2017 & 2018 data
-mutated_stubble_data <- mutated_stubble_data %>% dplyr::select(-c("Qualifier", "Transect", "Species/Category Name"))
+mutated_stubble_data <- mutated_stubble_data %>% 
+  dplyr::select(-c("Qualifier", "Transect", "Species/Category Name"))
 
-# rename the "Height" column to "Height-in" to be consistent with the 2017 & 2018 data
-mutated_stubble_data <- mutated_stubble_data %>% dplyr::rename("Height-in" = "Height")
+# rename the "Height" column to "Height-in" 
+# to be consistent with the 2017 & 2018 data
+mutated_stubble_data <- mutated_stubble_data %>% 
+  dplyr::rename("Height-in" = "Height")
 
-mutated_stubble_data <- mutated_stubble_data %>% dplyr::mutate(Condition = NA)
+# add a "Condition" column to be consistent with the 2017 and 2018 data
+mutated_stubble_data <- mutated_stubble_data %>% 
+  dplyr::mutate(Condition = NA)
 
+# view the changes to the data frame
 mutated_stubble_data
 ```
 
+Combine data frames together so all the stubble height data is in the same place.
 ```{r bind data together}
-stubble_data <- bind_rows(BGW17stubble, WCS17stubble, BGW18stubble, WCS18stubble, mutated_stubble_data)
+stubble_data <- bind_rows(BGW17stubble, 
+                          WCS17stubble, 
+                          BGW18stubble, 
+                          WCS18stubble, 
+                          mutated_stubble_data)
 
-print(stubble_data)
+# arrange the data frame in ascending order by year
+# this helps seeing the data in order from when it was collected
+stubble_data <- stubble_data %>% 
+  arrange(Year)
+
+View(stubble_data)
 ```
 
-We have 1 missing height value in the data that we need to remove.
+We have 1 missing height value in the data that we need to remove. Not sure
+how this happened, but we need to remove it nonetheless.
 ```{r remove missing data}
 ## clean up the data by removing any missing values
-stubble_data <- stubble_data %>% tidyr::drop_na("Height-in")
+stubble_data <- stubble_data %>% 
+  tidyr::drop_na("Height-in")
 
 print(stubble_data)
 ```
 
-```{r code Species as factors}
-stubble_data$Species <- stubble_data %>% pull(Species) %>% forcats::as_factor()
+We need to convert the "Species" column which is currently a character type into
+a factor type. R treats factors differently than characters, with the main
+difference being that factors have levels. Levels can be ranked in order
+(e.g., low to high, smallest to largest).
+```{r code species as factors}
+# convert the "Species" column from character to factor
+stubble_data$Species <- stubble_data %>% 
+  pull(Species) %>% 
+  forcats::as_factor()
 
-stubble_data$Species <- stubble_data %>% pull(Species) %>% fct_explicit_na(na_level = "Missing")
+# set the factor level for data that has missing species data
+# i.e. code missing species data (NA's) as "Missing"
+stubble_data$Species <- stubble_data %>% 
+  pull(Species) %>% 
+  fct_explicit_na(na_level = "Missing")
 
-stubble_data$Species <- stubble_data %>% pull(Species) %>% fct_infreq()
+# reorder the levels by the frequency in which they appear in the data
+# i.e. species that have the most observations are coded as the highest level
+stubble_data$Species <- stubble_data %>% 
+  pull(Species) %>% 
+  fct_infreq()
 
+# print the data frame to view the changes
 stubble_data
 ```
 
@@ -279,7 +409,7 @@ axis(2, at = seq(0, 100, by = 10),
 mtext("Boggy 2019", 3, adj = 0.5, line = -1)
 ```
 
-Get the mean, standard deviation, standard error for the stubble height data.
+Get the summary statistics for the White Mountains stubble height data.
 ```{r White Mountains stubble stats}
 BGW17stubblestats <- stubble_data %>% 
   dplyr::filter(Site == "Boggy" & Year == 2017) %>% 
@@ -324,6 +454,7 @@ BGW19stubblestats
 WCS19stubblestats
 ```
 
+Get the summary stats for the Heber stubble height data.
 ```{r Heber stubble stats}
 # TODO this would be good candidate for a custom function
 
@@ -383,22 +514,46 @@ BKS20stubblestats
 BRL20stubblestats
 ```
 
-Rearrange the order of the species count, descending from the species with the highest number of observations (n) to the species with  the lowest number of observations.
+Rearrange the order of the species count, descending from the species 
+with the highest number of observations (n) to the species with 
+the lowest number of observations.
 ```{r}
 BGW17stubblestats <- BGW17stubblestats %>% dplyr::arrange(desc(n))
 
 WCS17stubblestats <- WCS17stubblestats %>% dplyr::arrange(desc(n))
 
+BGW18stubblestats <- BGW18stubblestats %>% dplyr::arrange(desc(n))
+
+WCS18stubblestats <- WCS18stubblestats %>% dplyr::arrange(desc(n))
+
 BGW19stubblestats <- BGW19stubblestats %>% dplyr::arrange(desc(n))
 
 WCS19stubblestats <- WCS19stubblestats %>% dplyr::arrange(desc(n))
 
+BKS18stubblestats <- BKS18stubblestats %>% dplyr::arrange(desc(n))
+
+BRL18stubblestats <- BRL18stubblestats %>% dplyr::arrange(desc(n))
+
+A5119stubblestats <- A5119stubblestats %>% dplyr::arrange(desc(n))
+
+BKN19stubblestats <- BKN19stubblestats %>% dplyr::arrange(desc(n))
+
+BRL19stubblestats <- BRL19stubblestats %>% dplyr::arrange(desc(n))
+
+A5120stubblestats <- A5120stubblestats %>% dplyr::arrange(desc(n))
+
+BKN20stubblestats <- BKN20stubblestats %>% dplyr::arrange(desc(n))
+
+BKS20stubblestats <- BKS20stubblestats %>% dplyr::arrange(desc(n))
+
+BRL20stubblestats <- BRL20stubblestats %>% dplyr::arrange(desc(n))
+
+BGW17stubblestats
 WCS17stubblestats
+BGW18stubblestats
+WCS18stubblestats
 BGW19stubblestats
 WCS19stubblestats
-```
-
-```{r}
 BKS18stubblestats
 BRL18stubblestats
 A5119stubblestats
@@ -410,18 +565,53 @@ BKS20stubblestats
 BRL20stubblestats
 ```
 
-
 Take the top 3 species for each site. 
 ```{r}
 BGW17stubblestats_top3 <- BGW17stubblestats %>% dplyr::slice(1:3)
 
+BGW18stubblestats_top3 <- BGW18stubblestats %>% dplyr::slice(1:3)
+
 BGW19stubblestats_top3 <- BGW19stubblestats %>% dplyr::slice(1:3)
+
+WCS17stubblestats_top3 <- WCS17stubblestats %>% dplyr::slice(1:3)
+
+WCS18stubblestats_top3 <- WCS18stubblestats %>% dplyr::slice(1:3)
 
 WCS19stubblestats_top3 <- WCS19stubblestats %>% dplyr::slice(1:3)
 
+BKS18stubblestats_top3 <- BKS18stubblestats %>% dplyr::slice(1:3)
+
+BRL18stubblestats_top3 <- BRL18stubblestats %>% dplyr::slice(1:3)
+
+A5119stubblestats_top3 <- A5119stubblestats %>% dplyr::slice(1:3)
+
+BKN19stubblestats_top3 <- BKN19stubblestats %>% dplyr::slice(1:3)
+
+BRL19stubblestats_top3 <- BRL19stubblestats %>% dplyr::slice(1:3)
+
+A5120stubblestats_top3 <- A5120stubblestats %>% dplyr::slice(1:3)
+
+BKN20stubblestats_top3 <- BKN20stubblestats %>% dplyr::slice(1:3)
+
+BKS20stubblestats_top3 <- BKS20stubblestats %>% dplyr::slice(1:3)
+
+BRL20stubblestats_top3 <- BRL20stubblestats %>% dplyr::slice(1:3)
+
 BGW17stubblestats_top3
+BGW18stubblestats_top3
 BGW19stubblestats_top3
+WCS17stubblestats_top3
+WCS18stubblestats_top3
 WCS19stubblestats_top3
+BKS18stubblestats_top3
+BRL18stubblestats_top3
+A5119stubblestats_top3
+BKN19stubblestats_top3
+BRL19stubblestats_top3
+A5120stubblestats_top3
+BKN20stubblestats_top3
+BKS20stubblestats_top3
+BRL20stubblestats_top3
 ```
 
 ```{r Boggy 2017 Stubble Height Figure}
@@ -467,12 +657,12 @@ ggplot(BGW17stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
            size = 3) +
   coord_cartesian(clip = "off")
 
-ggsave("Boggy-2017-Stubble-Height-n-samples.jpg", 
-    path = paste0(getwd(),"/figures", "/stubbleheight"))
+#ggsave("Boggy-2017-Stubble-Height-n-samples.jpg", 
+#    path = paste0(getwd(),"/figures", "/stubbleheight"))
 ```
 
 ```{r Wildcat 2017 Stubble Height Figure}
-ggplot(WCS17stubblestats, aes(fill = Species, y = mean, x = Species)) +
+ggplot(WCS17stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
   geom_col(width = 0.75) +
   scale_fill_discrete(name = "Species", labels = c("Poa pratensis", "Carex sp.", "Poa fendleriana")) +
   labs(title = "Wildcat Creek Stubble Height 2017") +
