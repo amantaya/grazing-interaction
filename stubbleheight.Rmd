@@ -110,6 +110,62 @@ BKN20stubble
 BKS20stubble
 BRL20stubble
 ```
+The 2018 Heber stubble height data was collected differently and only has three columns. We need to convert the "grazed" and "ungrazed" columns into a single column to make it the same as the 2019 and 2020 data.
+```{r}
+# add two columns with the Site and Year to help us keep track of the data
+BKS18stubble <- BKS18stubble %>% dplyr::mutate(Site = "BKS", Year = 2018)
+
+BRL18stubble <- BRL18stubble %>% dplyr::mutate(Site = "BRL", Year = 2018)
+
+# bind the 2018 heber data together for easier manipulation
+heber_stubble_2018 <- dplyr::bind_rows(BKS18stubble, BRL18stubble)
+
+# rename the "sample" column to "Record" to bring it inline with the 2019 and 2020 data
+heber_stubble_2018 <- heber_stubble_2018 %>% dplyr::rename(Sample = sample)
+
+# convert the NA values in the "ungrazed" column to zero to make it easier to add values together 
+# (i.e., you can't add a number to a NA) 
+heber_stubble_2018$ungrazed <- heber_stubble_2018 %>% pull(ungrazed) %>% tidyr::replace_na(0)
+
+# convert the NA values in the "grazed" column to zero to make it easier to add values together 
+heber_stubble_2018$grazed <- heber_stubble_2018 %>% pull(grazed) %>% tidyr::replace_na(0)
+
+# add the "grazed" and "ungrazed" values together into a new column 
+# this will bring it inline with the 2019 and 2020 data
+# also drop the "grazed" and "ungrazed" columns and keep the unused columns
+heber_stubble_2018 <- heber_stubble_2018 %>% dplyr::mutate("Height" = grazed + ungrazed, .keep = "unused")
+
+# print the data frame to view the changes
+heber_stubble_2018
+```
+
+
+```{r}
+A5119stubble <- A5119stubble %>% dplyr::mutate(Site = "A51", Year = 2019)
+
+BKN19stubble <- BKN19stubble %>% dplyr::mutate(Site = "BKN", Year = 2019)
+
+BRL19stubble <- BRL19stubble %>% dplyr::mutate(Site = "BRL", Year = 2019)
+
+A5120stubble <- A5120stubble %>% dplyr::mutate(Site = "A51", Year = 2020)
+
+BKN20stubble <- BKN20stubble %>% dplyr::mutate(Site = "BKN", Year = 2020)
+
+BKS20stubble <- BKS20stubble %>% dplyr::mutate(Site = "BKS", Year = 2020)
+
+BRL20stubble <- BRL20stubble %>% dplyr::mutate(Site = "BRL", Year = 2020)
+
+heber_stubble_data <- bind_rows(A5119stubble, BKN19stubble, BRL19stubble, A5120stubble, BKN20stubble, BKS20stubble, BRL20stubble, heber_stubble_2018)
+
+heber_stubble_data <- heber_stubble_data %>% 
+  dplyr::rename("Species/Category Code" = "Species/Category.Code")
+
+heber_stubble_data <- heber_stubble_data %>% 
+  dplyr::rename("Species/Category Name" = "Species/Category.Name")
+
+heber_stubble_data
+```
+
 
 ```{r rename columns}
 # add a "Site" column and a "Year" column to the 2019 data
@@ -119,27 +175,27 @@ BGW19stubble <- BGW19stubble %>% dplyr::mutate(Site = "Boggy", Year = 2019)
 WCS19stubble <- WCS19stubble %>% dplyr::mutate(Site = "Wildcat", Year = 2019)
 
 # bind data together for easier manipulation
-stubble_2019 <- bind_rows(BGW19stubble, WCS19stubble)
+mutated_stubble_data <- bind_rows(BGW19stubble, WCS19stubble, heber_stubble_data)
 
 # rename the "Species/Category Code" column to "Species" to be consistent with the 2017 & 2018 data
-stubble_2019 <- stubble_2019 %>% dplyr::rename(Species = "Species/Category Code")
+mutated_stubble_data <- mutated_stubble_data %>% dplyr::rename(Species = "Species/Category Code")
 
 # rename the "Sample" column to "Record" to be consistent with the 2017 & 2018 data
-stubble_2019 <- stubble_2019 %>% dplyr::rename(Record = "Sample")
+mutated_stubble_data <- mutated_stubble_data %>% dplyr::rename(Record = "Sample")
 
 # remove the columns that are not in the 2017 & 2018 data
-stubble_2019 <- stubble_2019 %>% dplyr::select(-c("Qualifier", "Transect", "Species/Category Name"))
+mutated_stubble_data <- mutated_stubble_data %>% dplyr::select(-c("Qualifier", "Transect", "Species/Category Name"))
 
 # rename the "Height" column to "Height-in" to be consistent with the 2017 & 2018 data
-stubble_2019 <- stubble_2019 %>% dplyr::rename("Height-in" = "Height")
+mutated_stubble_data <- mutated_stubble_data %>% dplyr::rename("Height-in" = "Height")
 
-stubble_2019 <- stubble_2019 %>% dplyr::mutate(Condition = NA)
+mutated_stubble_data <- mutated_stubble_data %>% dplyr::mutate(Condition = NA)
 
-stubble_2019
+mutated_stubble_data
 ```
 
 ```{r bind data together}
-stubble_data <- bind_rows(BGW17stubble, WCS17stubble, BGW18stubble, WCS18stubble, stubble_2019)
+stubble_data <- bind_rows(BGW17stubble, WCS17stubble, BGW18stubble, WCS18stubble, mutated_stubble_data)
 
 print(stubble_data)
 ```
@@ -224,7 +280,7 @@ mtext("Boggy 2019", 3, adj = 0.5, line = -1)
 ```
 
 Get the mean, standard deviation, standard error for the stubble height data.
-```{r}
+```{r White Mountains stubble stats}
 BGW17stubblestats <- stubble_data %>% 
   dplyr::filter(Site == "Boggy" & Year == 2017) %>% 
         group_by(Species) %>% 
@@ -255,12 +311,76 @@ WCS19stubblestats <- stubble_data %>%
         group_by(Species) %>% 
         rstatix::get_summary_stats("Height-in", type = "common")
 
+WCS19stubblestats <- stubble_data %>% 
+  dplyr::filter(Site == "Wildcat" & Year == 2019) %>% 
+        group_by(Species) %>% 
+        rstatix::get_summary_stats("Height-in", type = "common")
+
 BGW17stubblestats
 BGW18stubblestats
 WCS17stubblestats
 WCS18stubblestats
 BGW19stubblestats
 WCS19stubblestats
+```
+
+```{r Heber stubble stats}
+# TODO this would be good candidate for a custom function
+
+BKS18stubblestats <- stubble_data %>% 
+  dplyr::filter(Site == "BKS" & Year == 2018) %>% 
+        group_by(Species) %>% 
+        rstatix::get_summary_stats("Height-in", type = "common")
+
+BRL18stubblestats <- stubble_data %>% 
+  dplyr::filter(Site == "BRL" & Year == 2018) %>% 
+        group_by(Species) %>% 
+        rstatix::get_summary_stats("Height-in", type = "common")
+
+A5119stubblestats <- stubble_data %>% 
+  dplyr::filter(Site == "A51" & Year == 2019) %>% 
+        group_by(Species) %>% 
+        rstatix::get_summary_stats("Height-in", type = "common")
+
+BKN19stubblestats <- stubble_data %>% 
+  dplyr::filter(Site == "BKN" & Year == 2019) %>% 
+        group_by(Species) %>% 
+        rstatix::get_summary_stats("Height-in", type = "common")
+
+BRL19stubblestats <- stubble_data %>% 
+  dplyr::filter(Site == "BRL" & Year == 2019) %>% 
+        group_by(Species) %>% 
+        rstatix::get_summary_stats("Height-in", type = "common")
+
+A5120stubblestats <- stubble_data %>% 
+  dplyr::filter(Site == "A51" & Year == 2020) %>% 
+        group_by(Species) %>% 
+        rstatix::get_summary_stats("Height-in", type = "common")
+
+BKN20stubblestats <- stubble_data %>% 
+  dplyr::filter(Site == "BKN" & Year == 2020) %>% 
+        group_by(Species) %>% 
+        rstatix::get_summary_stats("Height-in", type = "common")
+
+BKS20stubblestats <- stubble_data %>% 
+  dplyr::filter(Site == "BKS" & Year == 2020) %>% 
+        group_by(Species) %>% 
+        rstatix::get_summary_stats("Height-in", type = "common")
+
+BRL20stubblestats <- stubble_data %>% 
+  dplyr::filter(Site == "BRL" & Year == 2020) %>% 
+        group_by(Species) %>% 
+        rstatix::get_summary_stats("Height-in", type = "common")
+
+BKS18stubblestats
+BRL18stubblestats
+A5119stubblestats
+BKN19stubblestats
+BRL19stubblestats
+A5120stubblestats
+BKN20stubblestats
+BKS20stubblestats
+BRL20stubblestats
 ```
 
 Rearrange the order of the species count, descending from the species with the highest number of observations (n) to the species with  the lowest number of observations.
@@ -277,6 +397,19 @@ WCS17stubblestats
 BGW19stubblestats
 WCS19stubblestats
 ```
+
+```{r}
+BKS18stubblestats
+BRL18stubblestats
+A5119stubblestats
+BKN19stubblestats
+BRL19stubblestats
+A5120stubblestats
+BKN20stubblestats
+BKS20stubblestats
+BRL20stubblestats
+```
+
 
 Take the top 3 species for each site. 
 ```{r}
