@@ -40,7 +40,7 @@ file_destination <- paste0(getwd(), "/data/vegetation/heber/stubble-height/csv/"
 # to csv files
 for (i in 1:length(file_source)) {
   # read the data from the Stubble Height sheet
-  openxlsx::xlsx_data <- read.xlsx(file_source[i], sheet = "Stubble Height")
+  xlsx_data <- openxlsx::read.xlsx(file_source[i], sheet = "Stubble Height")
   # write out the xlsm data as an xlsx
   readr::write_csv(xlsx_data, paste0(file_destination[i]), na = "NA")}
 ```
