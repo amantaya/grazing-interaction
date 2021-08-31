@@ -1,0 +1,17 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+# clear the environment
+rm(list=ls(all=TRUE))
+```
+
+```{r echo=FALSE}
+source("packages.R")
+```
+
+```{r}
+source("functions.R")
+```
