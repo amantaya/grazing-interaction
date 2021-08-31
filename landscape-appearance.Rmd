@@ -58,9 +58,47 @@ for (i in 1:length(file_source)) {
 ```
 
 ```{r}
-csv_file_list <- list.files("data/vegetation/heber/landscape-appearance/csv", pattern = "csv")
+heber_file_list <- list.files("data/vegetation/heber/landscape-appearance/csv", pattern = "csv")
 
+heber_file_list
+```
 
+```{r}
+A51_2019_landscape_data <- readr::read_csv(
+  paste0(getwd(), "/data/vegetation/heber/landscape-appearance/csv/", 
+         "2019-A51-landscape-appearance.csv"))
+
+BKN_2019_landscape_data <- readr::read_csv(
+  paste0(getwd(), "/data/vegetation/heber/landscape-appearance/csv/", 
+         "2019-BKN-landscape-appearance.csv"))
+
+BRL_2019_landscape_data <- readr::read_csv(
+  paste0(getwd(), "/data/vegetation/heber/landscape-appearance/csv/", 
+         "2019-BRL-landscape-appearance.csv"))
+
+A51_2020_landscape_data <- readr::read_csv(
+  paste0(getwd(), "/data/vegetation/heber/landscape-appearance/csv/", 
+         "2020-A51-landscape-appearance.csv"))
+
+BKN_2020_landscape_data <- readr::read_csv(
+  paste0(getwd(), "/data/vegetation/heber/landscape-appearance/csv/", 
+         "2020-BKN-landscape-appearance.csv"))
+
+BKS_2020_landscape_data <- readr::read_csv(
+  paste0(getwd(), "/data/vegetation/heber/landscape-appearance/csv/", 
+         "2020-BKS-landscape-appearance.csv"))
+
+BRL_2020_landscape_data <- readr::read_csv(
+  paste0(getwd(), "/data/vegetation/heber/landscape-appearance/csv/", 
+         "2020-BRL-landscape-appearance.csv"))
+
+A51_2019_landscape_data
+BKN_2019_landscape_data
+BRL_2019_landscape_data
+A51_2020_landscape_data
+BKN_2020_landscape_data
+BKS_2020_landscape_data
+BRL_2020_landscape_data
 ```
 
 ```{r}
