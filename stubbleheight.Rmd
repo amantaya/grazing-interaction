@@ -10,11 +10,6 @@ output: html_notebook
 rm(list=ls(all=TRUE))
 ```
 
-```{r}
-currentwd <- getwd()
-currentwd
-```
-
 ```{r echo=FALSE}
 source("packages.R")
 ```
@@ -36,10 +31,10 @@ xlsx_file_list <- list.files("data/vegetation/heber/stubble-height/xlsx", patter
 file_names <- str_replace_all(xlsx_file_list, "xlsx", "csv")
 
 # create a vector of file paths to tell R where to find the source xlsx data
-file_source <- paste0(currentwd, "/data/vegetation/heber/stubble-height/xlsx/", xlsx_file_list)
+file_source <- paste0(getwd(), "/data/vegetation/heber/stubble-height/xlsx/", xlsx_file_list)
 
 # create a vector of file paths to tell R where to put the files after conversion
-file_destination <- paste0(currentwd, "/data/vegetation/heber/stubble-height/csv/", file_names)
+file_destination <- paste0(getwd(), "/data/vegetation/heber/stubble-height/csv/", file_names)
 
 # for loop through the file list to convert all xlsx files in the directory
 # to csv files
