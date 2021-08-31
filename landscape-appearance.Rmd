@@ -15,3 +15,54 @@ source("packages.R")
 ```{r}
 source("functions.R")
 ```
+
+```{r}
+BGW19_LA <- readr::read_csv(
+  'data/vegetation/white-mountains/2019-boggy-grazed-landscape-appearance.csv',
+  col_names = TRUE, 
+  na = c(""," ","NA"))
+
+WCS19_LA <- readr::read_csv(
+  'data/vegetation/white-mountains/2019-wildcat-grazed-landscape-appearance.csv',
+  col_names = TRUE, 
+  na = c(""," ","NA"))
+
+BGW19_LA
+WCS19_LA
+```
+
+```{r Read in Excel data and convert to csv, eval=FALSE, include=FALSE}
+# this code chunk only needs to be turned on once when converting data
+# then it can be turned off after the files are converted
+
+# list all of the xlsx data files in the directory
+xlsx_file_list <- list.files("data/vegetation/heber/landscape-appearance/xlsx", pattern = "xlsx")
+
+# create a vector of file names that we will use to rename our xlsx files into csv files
+# do this by replacing the file extension but otherwise keep the file name the same
+file_names <- str_replace_all(xlsx_file_list, "xlsx", "csv")
+
+# create a vector of file paths to tell R where to find the source xlsx data
+file_source <- paste0(getwd(), "/data/vegetation/heber/landscape-appearance/xlsx/", xlsx_file_list)
+
+# create a vector of file paths to tell R where to put the files after conversion
+file_destination <- paste0(getwd(), "/data/vegetation/heber/landscape-appearance/csv/", file_names)
+
+# for loop through the file list to convert all xlsx files in the directory
+# to csv files
+for (i in 1:length(file_source)) {
+  # read the data from the Stubble Height sheet
+  xlsx_data <- openxlsx::read.xlsx(file_source[i], sheet = "Ocular Estimates")
+  # write out the xlsm data as an xlsx
+  readr::write_csv(xlsx_data, paste0(file_destination[i]), na = "NA")}
+```
+
+```{r}
+csv_file_list <- list.files("data/vegetation/heber/landscape-appearance/csv", pattern = "csv")
+
+
+```
+
+```{r}
+```
+
