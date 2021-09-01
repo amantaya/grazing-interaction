@@ -17,18 +17,38 @@ source("functions.R")
 ```
 
 ```{r}
-BGW19_LA <- readr::read_csv(
+BGW_2019_landscape_appearance <- readr::read_csv(
   'data/vegetation/white-mountains/2019-boggy-grazed-landscape-appearance.csv',
   col_names = TRUE, 
   na = c(""," ","NA"))
 
-WCS19_LA <- readr::read_csv(
+WCS_2019_landscape_appearance <- readr::read_csv(
   'data/vegetation/white-mountains/2019-wildcat-grazed-landscape-appearance.csv',
   col_names = TRUE, 
   na = c(""," ","NA"))
 
-BGW19_LA
-WCS19_LA
+BGW_2019_landscape_appearance
+WCS_2019_landscape_appearance
+```
+```{r}
+BGW_2019_landscape_appearance <- 
+  BGW_2019_landscape_appearance %>% 
+  mutate(Site = "Boggy", Year = "2019")
+
+WCS_2019_landscape_appearance <- 
+  WCS_2019_landscape_appearance %>% 
+  mutate(Site = "Wildcat", Year = "2019")
+
+BGW_2019_landscape_appearance <- 
+  BGW_2019_landscape_appearance %>% 
+  dplyr::select(-c( "Species/Category Name", "Species/Category Code", "Qualifier"))
+
+WCS_2019_landscape_appearance <- 
+  WCS_2019_landscape_appearance %>% 
+  dplyr::select(-c( "Species/Category Name", "Species/Category Code", "Qualifier"))
+
+BGW_2019_landscape_appearance
+WCS_2019_landscape_appearance
 ```
 
 ```{r Read in Excel data and convert to csv, eval=FALSE, include=FALSE}
@@ -102,5 +122,455 @@ BRL_2020_landscape_data
 ```
 
 ```{r}
+A51_2019_landscape_data <- 
+  A51_2019_landscape_data %>% mutate(Site = "A51", Year = "2019")
+
+BKN_2019_landscape_data <- 
+  BKN_2019_landscape_data %>% mutate(Site = "BKN", Year = "2019")
+
+BRL_2019_landscape_data <- 
+  BRL_2019_landscape_data %>% mutate(Site = "BRL", Year = "2019")
+
+A51_2020_landscape_data <- 
+  A51_2020_landscape_data %>% mutate(Site = "A51", Year = "2020")
+
+BKN_2020_landscape_data <- 
+  BKN_2020_landscape_data %>% mutate(Site = "BKN", Year = "2020")
+
+BKS_2020_landscape_data <- 
+  BKS_2020_landscape_data %>% mutate(Site = "BKS", Year = "2020")
+
+BRL_2020_landscape_data <- 
+  BRL_2020_landscape_data %>% mutate(Site = "BRL", Year = "2020")
+
+heber_2019_landscape_appearance <- dplyr::bind_rows(A51_2019_landscape_data, 
+                                                    BKN_2019_landscape_data,
+                                                    BRL_2019_landscape_data)
+
+heber_2020_landscape_appearance <- dplyr::bind_rows(A51_2020_landscape_data,
+                                                    BKN_2020_landscape_data,
+                                                    BKS_2020_landscape_data,
+                                                    BRL_2020_landscape_data)
 ```
 
+```{r}
+heber_2019_landscape_appearance <-
+  heber_2019_landscape_appearance %>% dplyr::rename("Class Mid-Point" = "%.Estimate")
+
+heber_2019_landscape_appearance <-
+  heber_2019_landscape_appearance %>% dplyr::relocate(c("Site", "Year"), .before = "Transect")
+
+heber_2019_landscape_appearance
+```
+```{r}
+heber_2020_landscape_appearance <-
+  heber_2020_landscape_appearance %>% dplyr::rename("Class Mid-Point" = "%.Estimate")
+
+heber_2020_landscape_appearance <-
+  heber_2020_landscape_appearance %>% dplyr::relocate(c("Site", "Year"), .before = "Transect")
+
+heber_2020_landscape_appearance
+```
+
+```{r}
+# heber_2019_landscape_appearance$`Class Mid-Point`<- as.character(heber_2019_landscape_appearance$`Class Mid-Point`)
+# 
+# heber_2019_landscape_appearance
+```
+
+
+```{r}
+heber_2019_landscape_appearance$'Class Mid-Point' <- 
+  heber_2019_landscape_appearance %>% pull(`Class Mid-Point`) %>% str_replace_all("90", "88")
+
+heber_2019_landscape_appearance$'Class Mid-Point' <- heber_2019_landscape_appearance %>% 
+  pull(`Class Mid-Point`) %>% 
+  as.numeric()
+
+heber_2019_landscape_appearance
+```
+
+
+```{r}
+heber_2019_landscape_appearance <-
+  heber_2019_landscape_appearance %>%
+  mutate(Factor = forcats::as_factor(heber_2019_landscape_appearance$`Class Mid-Point`))
+
+heber_2019_landscape_appearance
+```
+
+
+```{r}
+levels(heber_2019_landscape_appearance %>% pull(Factor))
+```
+
+```{r}
+heber_2019_landscape_appearance$Factor <- heber_2019_landscape_appearance %>% 
+  pull("Factor") %>% 
+  fct_expand("97.5")
+
+levels(heber_2019_landscape_appearance %>% pull("Factor"))
+```
+
+```{r}
+# heber_2019_landscape_appearance$Factor <- heber_2019_landscape_appearance %>% 
+#   pull("Factor") %>% 
+#   fct_relabel(~ gsub("90", "88", .x))
+# 
+# levels(heber_2019_landscape_appearance %>% pull("Factor"))
+```
+
+```{r}
+BGW_2019_stats <- BGW_2019_landscape_appearance %>% 
+  rstatix::get_summary_stats('Class Mid-Point', type = "common")
+
+WCS_2019_stats <- WCS_2019_landscape_appearance %>%
+  rstatix::get_summary_stats('Class Mid-Point', type = "common")
+
+BGW_2019_stats <- BGW_2019_stats %>% add_column(Site = "Boggy Creek", .before = "variable")
+
+WCS_2019_stats <- WCS_2019_stats %>% add_column(Site = "Wildcat Creek", .before = "variable")
+
+BGW_2019_stats
+
+WCS_2019_stats
+```
+```{r}
+white_mountains_2019_stats <- dplyr::bind_rows(BGW_2019_stats, WCS_2019_stats)
+
+white_mountains_2019_stats
+```
+
+```{r}
+A51_2019_stats <- heber_2019_landscape_appearance %>% 
+  dplyr::filter(Site == "A51")  %>% 
+  rstatix::get_summary_stats('Class Mid-Point', type = "common")
+
+BKN_2019_stats <- heber_2019_landscape_appearance %>% 
+  dplyr::filter(Site == "BKN")  %>% 
+  rstatix::get_summary_stats('Class Mid-Point', type = "common")
+
+BRL_2019_stats <- heber_2019_landscape_appearance %>% 
+  dplyr::filter(Site == "BRL")  %>% 
+  rstatix::get_summary_stats('Class Mid-Point', type = "common")
+
+A51_2019_stats
+BKN_2019_stats
+BRL_2019_stats
+```
+
+```{r}
+A51_2020_stats <- heber_2020_landscape_appearance %>% 
+  dplyr::filter(Site == "A51")  %>% 
+  rstatix::get_summary_stats('Class Mid-Point', type = "common")
+
+BKN_2020_stats <- heber_2020_landscape_appearance %>% 
+  dplyr::filter(Site == "BKN")  %>% 
+  rstatix::get_summary_stats('Class Mid-Point', type = "common")
+
+BRL_2020_stats <- heber_2020_landscape_appearance %>% 
+  dplyr::filter(Site == "BRL")  %>% 
+  rstatix::get_summary_stats('Class Mid-Point', type = "common")
+
+BKS_2020_stats <- heber_2020_landscape_appearance %>% 
+  dplyr::filter(Site == "BKS")  %>% 
+  rstatix::get_summary_stats('Class Mid-Point', type = "common")
+                             
+A51_2020_stats
+BKN_2020_stats
+BRL_2020_stats
+BKS_2020_stats
+```
+
+```{r}
+A51_2019_stats <- A51_2019_stats %>% add_column(Site = "Fifty One", .before = "variable")
+
+BKN_2019_stats <- BKN_2019_stats %>% add_column(Site = "Black Canyon North", .before = "variable")
+
+BRL_2019_stats <- BRL_2019_stats %>% add_column(Site = "Bear", .before = "variable")
+
+A51_2019_stats
+BKN_2019_stats
+BRL_2019_stats
+```
+```{r}
+A51_2020_stats <- A51_2020_stats %>% add_column(Site = "Fifty One", .before = "variable")
+
+BKN_2020_stats <- BKN_2020_stats %>% add_column(Site = "Black Canyon North", .before = "variable")
+
+BRL_2020_stats <- BRL_2020_stats %>% add_column(Site = "Bear", .before = "variable")
+
+BKS_2020_stats <- BKS_2020_stats %>% add_column(Site = "Black Canyon South", .before = "variable")
+
+A51_2020_stats
+BKN_2020_stats
+BRL_2020_stats
+BKS_2020_stats
+```
+
+```{r}
+heber_2019_stats <- bind_rows(BRL_2019_stats, BKN_2019_stats, A51_2019_stats)
+
+heber_2019_stats
+```
+
+```{r}
+heber_2019_stats$Site <- heber_2019_stats %>% pull(Site) %>% forcats::as_factor()
+
+heber_2019_stats$Site <- heber_2019_stats %>% pull(Site) %>% forcats::fct_inorder()
+
+heber_2019_stats
+```
+
+```{r}
+heber_2020_stats <- bind_rows(BRL_2020_stats, BKN_2020_stats, BKS_2020_stats, A51_2020_stats)
+
+heber_2020_stats
+```
+
+```{r}
+heber_2020_stats$Site <- heber_2020_stats %>% pull(Site) %>% forcats::as_factor()
+
+heber_2020_stats$Site <- heber_2020_stats %>% pull(Site) %>% forcats::fct_inorder()
+
+heber_2020_stats
+```
+
+```{r}
+# A51_2019 <- heber_2019_landscape_appearance %>%
+#   dplyr::filter(Site == "A51") %>% 
+#   pull('Class Mid-Point') %>% 
+#   table() %>% 
+#   as.data.frame()
+# 
+# A51_2019
+```
+
+```{r}
+heber_2020_landscape_appearance <-
+  heber_2020_landscape_appearance %>% dplyr::rename("Class Mid-Point" = "%.Estimate")
+
+heber_2020_landscape_appearance <-
+  heber_2020_landscape_appearance %>% dplyr::relocate(c("Site", "Year"), .before = "Transect")
+
+heber_2020_landscape_appearance$`Class Mid-Point` <-
+  heber_2020_landscape_appearance %>%
+  pull('Class Mid-Point') %>%
+  forcats::as_factor()
+
+heber_2020_landscape_appearance
+```
+
+```{r}
+levels(heber_2020_landscape_appearance %>% pull("Class Mid-Point"))
+```
+
+```{r}
+A51_2019_class_midpoints <- 
+  heber_2019_landscape_appearance %>% 
+  dplyr::filter(Site == "A51") %>% 
+  pull(`Factor`) %>%
+  forcats::fct_count()
+
+BKN_2019_class_midpoints <-
+  heber_2019_landscape_appearance %>%
+  dplyr::filter(Site == "BKN") %>%
+  pull(`Factor`) %>%
+  forcats::fct_count()
+
+BRL_2019_class_midpoints <-
+  heber_2019_landscape_appearance %>%
+  dplyr::filter(Site == "BRL") %>%
+  pull(`Factor`) %>%
+  forcats::fct_count()
+
+A51_2019_class_midpoints
+BKN_2019_class_midpoints
+BRL_2019_class_midpoints
+```
+
+```{r}
+A51_2019_class_midpoints <- A51_2019_class_midpoints %>% mutate(midpoint = as.character(f))
+
+A51_2019_class_midpoints$midpoint <- as.numeric(A51_2019_class_midpoints$midpoint)
+
+BKN_2019_class_midpoints <- BKN_2019_class_midpoints %>% mutate(midpoint = as.character(f))
+
+BKN_2019_class_midpoints$midpoint <- as.numeric(BKN_2019_class_midpoints$midpoint)
+
+BRL_2019_class_midpoints <- BRL_2019_class_midpoints %>% mutate(midpoint = as.character(f))
+
+BRL_2019_class_midpoints$midpoint <- as.numeric(BRL_2019_class_midpoints$midpoint)
+
+A51_2019_class_midpoints
+BKN_2019_class_midpoints
+BRL_2019_class_midpoints
+```
+
+```{r}
+A51_2019_class_midpoints <- A51_2019_class_midpoints %>% mutate(product = midpoint * n)
+
+BKN_2019_class_midpoints <- BKN_2019_class_midpoints %>% mutate(product = midpoint * n)
+
+BRL_2019_class_midpoints <- BRL_2019_class_midpoints %>% mutate(product = midpoint * n)
+
+A51_2019_class_midpoints
+BKN_2019_class_midpoints
+BRL_2019_class_midpoints
+```
+```{r}
+A51_2019_sum <- sum(A51_2019_class_midpoints$product)
+
+BKN_2019_sum <- sum(BKN_2019_class_midpoints$product)
+
+BRL_2019_sum <- sum(BRL_2019_class_midpoints$product)
+
+A51_2019_sum
+BKN_2019_sum
+BRL_2019_sum
+```
+
+```{r}
+A51_2019_num_observations <- A51_2019_class_midpoints %>% pull('n') %>% sum()
+
+BKN_2019_num_observations<- BKN_2019_class_midpoints %>% pull('n') %>% sum()
+
+BRL_2019_num_observations <- BRL_2019_class_midpoints %>% pull('n') %>% sum()
+
+A51_2019_num_observations
+
+BKN_2019_num_observations
+
+BRL_2019_num_observations
+```
+
+```{r}
+A51_2019_sum / A51_2019_num_observations
+
+BKN_2019_sum / BKN_2019_num_observations
+
+BRL_2019_sum / BRL_2019_num_observations
+```
+
+```{r}
+A51_2020_class_midpoints <- 
+  heber_2020_landscape_appearance %>% 
+  dplyr::filter(Site == "A51" & Year == 2020) %>% 
+  pull(`Class Mid-Point`) %>% 
+  forcats::fct_count()
+
+BKN_2020_class_midpoints <- 
+  heber_2020_landscape_appearance %>% 
+  dplyr::filter(Site == "BKN" & Year == 2020) %>% 
+  pull(`Class Mid-Point`) %>% 
+  forcats::fct_count()
+
+BKS_2020_class_midpoints <- 
+  heber_2020_landscape_appearance %>% 
+  dplyr::filter(Site == "BKS" & Year == 2020) %>% 
+  pull(`Class Mid-Point`) %>% 
+  forcats::fct_count()
+
+BRL_2020_class_midpoints <- 
+  heber_2020_landscape_appearance %>% 
+  dplyr::filter(Site == "BRL" & Year == 2020) %>% 
+  pull(`Class Mid-Point`) %>% 
+  forcats::fct_count()
+
+A51_2020_class_midpoints
+BKN_2020_class_midpoints
+BKS_2020_class_midpoints
+BRL_2020_class_midpoints
+```
+
+```{r}
+ggplot(white_mountains_2019_stats, aes(fill = Site, x = Site, y = mean)) +
+  geom_col(width = 0.75) +
+  guides(fill = "none") +
+  labs(title = "White Mountains Landscape Appearance 2019") +
+  ylab(expression(atop("Average % Utilization ± SE", paste("(lower is better)")))) +
+  scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, by = 10)) +
+  geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.5), width = 0.25) +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+  # add % utilization values above the  error bars
+  # round the mean value using significant figures
+  annotate(geom = "text", 
+           x = 1, 
+           y = (white_mountains_2019_stats$mean[1] + 10), 
+           label = paste0(signif(white_mountains_2019_stats$mean[1], 2), "%")) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = (white_mountains_2019_stats$mean[2] + 10), 
+           label = paste0(signif(white_mountains_2019_stats$mean[2], 2), "%"))
+
+#ggsave("2019-White-Mountains-Landscape-Appearance.jpg", 
+#    path = paste0(getwd(),"/figures", "/landscape-appearance"))
+```
+
+```{r}
+ggplot(heber_2019_stats, aes(fill = Site, x = Site, y = mean)) +
+  geom_col(width = 0.75) +
+  guides(fill = "none") +
+  labs(title = "Heber Landscape Appearance 2019") +
+  ylab(expression(atop("Average % Utilization ± SE", paste("(lower is better)")))) +
+  scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, by = 10)) +
+  geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.5), width = 0.25) +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+  # add % utilization values above the  error bars
+  # round the mean value using significant figures
+  annotate(geom = "text", 
+           x = 1, 
+           y = (heber_2019_stats$mean[1] + 10), 
+           label = paste0(signif(heber_2019_stats$mean[1], 2), "%")) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = (heber_2019_stats$mean[2] + 10), 
+           label = paste0(signif(heber_2019_stats$mean[2], 2), "%")) +
+  annotate(geom = "text", 
+           x = 3, 
+           y = (heber_2019_stats$mean[3] + 10), 
+           label = paste0(signif(heber_2019_stats$mean[3], 2), "%"))
+
+#ggsave("2019-Heber-Landscape-Appearance.jpg", 
+#    path = paste0(getwd(),"/figures", "/landscape-appearance"))
+```
+
+```{r}
+ggplot(heber_2020_stats, aes(fill = Site, x = Site, y = mean)) +
+  geom_col(width = 0.75) +
+  guides(fill = "none") +
+  labs(title = "Heber Landscape Appearance 2020") +
+  ylab(expression(atop("Average % Utilization ± SE", paste("(lower is better)")))) +
+  scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, by = 10)) +
+  geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.5), width = 0.25) +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+  # add % utilization values above the  error bars
+  # round the mean value using significant figures
+  annotate(geom = "text", 
+           x = 1, 
+           y = (heber_2020_stats$mean[1] + 15), 
+           label = paste0(signif(heber_2020_stats$mean[1], 2), "%")) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = (heber_2020_stats$mean[2] + 15), 
+           label = paste0(signif(heber_2020_stats$mean[2], 2), "%")) +
+  annotate(geom = "text", 
+           x = 3, 
+           y = (heber_2020_stats$mean[3] + 15), 
+           label = paste0(signif(heber_2020_stats$mean[3], 2), "%")) +
+    annotate(geom = "text", 
+           x = 4, 
+           y = (heber_2020_stats$mean[4] + 15), 
+           label = paste0(signif(heber_2020_stats$mean[4], 2), "%"))
+#ggsave("2020-Heber-Landscape-Appearance.jpg", 
+#    path = paste0(getwd(),"/figures", "/landscape-appearance"))
+```
