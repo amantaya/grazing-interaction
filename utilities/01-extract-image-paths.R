@@ -24,15 +24,17 @@
 # clear the R environment
 rm(list=ls(all=TRUE))
 
-# load in the required libraries
-source("C:/Users/andre/Dropbox/Rproj/Horse-Cattle-Elk-Grazing-Interaction-Study/packages.R")
+currentwd <- getwd()
 
 # set the working directory and environment variables
-source("C:/Users/andre/Dropbox/Rproj/Horse-Cattle-Elk-Grazing-Interaction-Study/environment.R")
+source(paste0(currentwd, "/environment.R"))
+
+# load in the required libraries
+source(paste0(currentwd, "/packages.R"))
 
 getwd()
 
-# print the current R version in the console to check if your R version matches mine (which is 4.0.3)
+# print the current R version in the console to check if your R version matches mine (which is 4.0.5)
 R.Version()
 
 # print the session info to check which language locale is currently configured for this environment
@@ -106,7 +108,16 @@ if (Alert==T){
 ## Excel form.  The .csv file will show up in the same directory as this script once this script is run.
 excelfilename<-paste(rev(strsplit(currentfolder,split="/")[[1]])[1],".csv",sep="")
 
-write.csv(imagefilesinfo, file = paste0("metadata/", excelfilename),row.names=F)
+
+# create a "metadata" directory if one doesn't already exist in the collection folder
+if (dir.exists(paste0(currentfolder, "/metadata")) == FALSE) {
+  dir.create(paste0(currentfolder, "/metadata"))
+} else {
+  
+}
+
+
+write.csv(imagefilesinfo, file = paste0(currentfolder, "/metadata/", excelfilename), row.names=F)
 
 # play a sound to indicate the transfer is complete
 beep("coin")
