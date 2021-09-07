@@ -17,15 +17,20 @@ rm(list=ls(all=TRUE))
 ***
 Let's check the working directory to see if it's correct.
 ```{r}
-getwd()
+currentwd <- getwd()
+
+print(currentwd)
 ```
 Looks good for my (Andrew's) PC
 ***
-I created an external R script with contains all of the functions that I commongly use across different scripts. This chunk of code reads in those functions into the global R environment.
-```{r}
+I created an external R script with contains all of the functions that I commonly use across different scripts. This chunk of code reads in those functions into the global R environment.
+```{r include=FALSE}
 ## the source() funciton executes all lines of code in the "mentioned" script (i.e. the pathway)
-source("C:/Users/andre/Dropbox/Rproj/Horse-Cattle-Elk-Grazing-Interaction-Study/packages.R")
-source("C:/Users/andre/Dropbox/Rproj/Horse-Cattle-Elk-Grazing-Interaction-Study/functions.R")
+source(paste0(currentwd, "/packages.R"))
+```
+
+```{r}
+source(paste0(currentwd, "/functions.R"))
 ```
 ***
 Let's read in the RAW photo data from 2017 and 2018, which human observers classified in a custom Excel macro (.xlsm written in VBA). The macro generates data for each image when a human observer selects different options based on what they see in each photo. We saved each of the .xlsm files (each file corresponding to a site and year) as .csv files for ease of use in R and to convert the .xlsm to a non-proprietary format.
