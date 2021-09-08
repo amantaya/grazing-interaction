@@ -1,7 +1,9 @@
 ---
 title: "Photo Data Processing"
 author: "Andrew Antaya"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
 ***
 First, let's get our R environment ready by loading some useful packages.
@@ -38,67 +40,172 @@ Let's read in the RAW photo data from 2017 and 2018, which human observers class
 For the first step in cleaing up the camera data, we are going to treat all fields with "" (blanks), " " (spaces- typically accidental input which is invisble in Excel), or "NA" (characters), as NA's inside R using the function na.strings(). This will help us deal with missing information in our dataset.
 ```{r}
 # read in the 2017 data, treating all blanks, spaces, and "NA"s as NA's
-BGW17RAW<-readr::read_csv('data/photo/BGW_Analysis_2017.csv', col_names = TRUE, na = c(""," ","NA"))
-WCS17RAW<-readr::read_csv('data/photo/WCS_Analysis_2017.csv', col_names = TRUE, na = c(""," ","NA"))
+BGW17 <- readr::read_csv('data/photo/BGW_2017.csv', col_names = TRUE, na = c(""," ","NA"))
+WCS17 <- readr::read_csv('data/photo/WCS_2017.csv', col_names = TRUE, na = c(""," ","NA"))
+BRL17 <- readr::read_csv('data/photo/BRL_2017.csv', col_names = TRUE, na = c(""," ","NA"))
+BKS17 <- readr::read_csv('data/photo/BKS_2017.csv', col_names = TRUE, na = c(""," ","NA"))
 
-print(BGW17RAW)
-print(WCS17RAW)
+print(BGW17)
+print(WCS17)
+print(BRL17)
+print(BKS17)
 ```
 
 ```{r}
 # read in the 2018 data, treating all blanks, spaces, and "NA"s as NA's
-BGX18RAW<-readr::read_csv('data/photo/BGX_Analysis_2018.csv', col_names = TRUE, na = c(""," ","NA"))
-BGW18RAW<-readr::read_csv('data/photo/BGW_Analysis_2018.csv', col_names = TRUE, na = c(""," ","NA"))
-BGT18RAW<-readr::read_csv('data/photo/BGT_Analysis_2018.csv', col_names = TRUE, na = c(""," ","NA"))
-WCX18RAW<-readr::read_csv('data/photo/WCX_Analysis_2018.csv', col_names = TRUE, na = c(""," ","NA"))
-WCS18RAW<-readr::read_csv('data/photo/WCS_Analysis_2018.csv', col_names = TRUE, na = c(""," ","NA"))
-WCT18RAW<-readr::read_csv('data/photo/WCT_Analysis_2018.csv', col_names = TRUE, na = c(""," ","NA"))
+BGX18 <- readr::read_csv('data/photo/BGX_2018.csv', col_names = TRUE, na = c(""," ","NA"))
+BGW18 <- readr::read_csv('data/photo/BGW_2018.csv', col_names = TRUE, na = c(""," ","NA"))
+BGT18 <- readr::read_csv('data/photo/BGT_2018.csv', col_names = TRUE, na = c(""," ","NA"))
+WCX18 <- readr::read_csv('data/photo/WCX_2018.csv', col_names = TRUE, na = c(""," ","NA"))
+WCS18 <- readr::read_csv('data/photo/WCS_2018.csv', col_names = TRUE, na = c(""," ","NA"))
+WCT18 <- readr::read_csv('data/photo/WCT_2018.csv', col_names = TRUE, na = c(""," ","NA"))
+BRL18 <- readr::read_csv('data/photo/BRL_2018.csv', col_names = TRUE, na = c(""," ","NA"))
+# BKS18 is incomplete but once it is done it will be read in
+# BKS18RAW<-readr::read_csv('data/photo/BKS_2018.csv.csv', col_names = TRUE, na = c(""," ","NA"))
 
-print(BGX18RAW)
-print(BGW18RAW)
-print(BGT18RAW)
-print(WCX18RAW)
-print(WCS18RAW)
-print(WCT18RAW)
+print(BGX18)
+print(BGW18)
+print(BGT18)
+print(WCX18)
+print(WCS18)
+print(WCT18)
+print(BRL18)
 ```
 
 ```{r}
-# read in the 2019 data, treating all blanks, spaces, and "NA"s as NA's
-A51_2019_RAW <- readr::read_csv("data/photo/A51_2019.csv", col_names = TRUE, na = c(""," ","NA"))
-BKD_2019_RAW <- readr::read_csv("data/photo/BKD_2019.csv", col_names = TRUE, na = c(""," ","NA"))
-BKN_2019_RAW <- readr::read_csv("data/photo/BKN_2019.csv", col_names = TRUE, na = c(""," ","NA"))
-BKS_2019_RAW <- readr::read_csv("data/photo/BKS_2019.csv", col_names = TRUE, na = c(""," ","NA"))
-BRL_2019_RAW <- readr::read_csv("data/photo/BRL_2019.csv", col_names = TRUE, na = c(""," ","NA"))
-BRT_2019_RAW <- readr::read_csv("data/photo/BRT_2019.csv", col_names = TRUE, na = c(""," ","NA"))
+# read in the 2019 data, treating all blanks, spaces, and "NA"s as NA's_19_RAW <- readr::read_csv("data/photo/A51_2019.csv", col_names = TRUE, na = c(""," ","NA"))
+AFO19 <- readr::read_csv("data/photo/A51_2019.csv", col_names = TRUE, na = c(""," ","NA"))
+BKD19 <- readr::read_csv("data/photo/BKD_2019.csv", col_names = TRUE, na = c(""," ","NA"))
+BKN19 <- readr::read_csv("data/photo/BKN_2019.csv", col_names = TRUE, na = c(""," ","NA"))
+BKS19 <- readr::read_csv("data/photo/BKS_2019.csv", col_names = TRUE, na = c(""," ","NA"))
+BRL19 <- readr::read_csv("data/photo/BRL_2019.csv", col_names = TRUE, na = c(""," ","NA"))
+BRT19 <- readr::read_csv("data/photo/BRT_2019.csv", col_names = TRUE, na = c(""," ","NA"))
 
-print(A51_2019_RAW)
-print(BKD_2019_RAW)
-print(BKN_2019_RAW)
-print(BKS_2019_RAW)
-print(BRL_2019_RAW)
-print(BRT_2019_RAW)
+print(AFO19)
+print(BKD19)
+print(BKN19)
+print(BKS19)
+print(BRL19)
+print(BRT19)
 ```
 
 ```{r}
 # read in the 2020 data, treating all blanks, spaces, and "NA"s as NA's
-A51_2020_RAW <- readr::read_csv("data/photo/A51_2020.csv", col_names = TRUE, na = c(""," ","NA"))
-BKN_2020_RAW <- readr::read_csv("data/photo/BKN_2020.csv", col_names = TRUE, na = c(""," ","NA"))
-BKS_2020_RAW <- readr::read_csv("data/photo/BKS_2020.csv", col_names = TRUE, na = c(""," ","NA"))
-BRL_2020_RAW <- readr::read_csv("data/photo/BRL_2020.csv", col_names = TRUE, na = c(""," ","NA"))
+AFO20 <- readr::read_csv("data/photo/A51_2020.csv", col_names = TRUE, na = c(""," ","NA"))
+BKN20 <- readr::read_csv("data/photo/BKN_2020.csv", col_names = TRUE, na = c(""," ","NA"))
+BKS20 <- readr::read_csv("data/photo/BKS_2020.csv", col_names = TRUE, na = c(""," ","NA"))
+BRL20 <- readr::read_csv("data/photo/BRL_2020.csv", col_names = TRUE, na = c(""," ","NA"))
 
-print(A51_2020_RAW)
-print(BKN_2020_RAW)
-print(BKS_2020_RAW)
-print(BRL_2020_RAW)
+print(AFO20)
+print(BKN20)
+print(BKS20)
+print(BRL20)
+```
+***
+We read in CSV files containing the camera data. Each data frame corresponds to a site and year (e.g., BGW18 is Boggy West Timelapse, data from year 2018). In all of the data frames, each row corresponds to a single image and each column corresponds to a single 'variable'. Some of these 'variables' are actually metadata, such as the file name of the image and the file path.
+***
+
+```{r}
+BGW17 <- BGW17 %>% dplyr::mutate(Site = "Boggy", Year = 2017)
+WCS17 <- WCS17 %>% dplyr::mutate(Site = "Wildcat", Year = 2017)
+BRL17 <- BRL17 %>% dplyr::mutate(Site = "Bear", Year = 2017)
+BKS17 <- BKS17 %>% dplyr::mutate(Site = "Black Canyon South", Year = 2017)
 ```
 
-***
-We read in 8 CSV files containing the camera data. Each dataframe corresponds to a site and year (e.g., BGW18 is Boggy West Timelapse, data from year 2018). In all of the dataframes, each row corresponds to a single image and each column corresponds to a single 'variable'. Some of these 'variables' are actually metadata, such as the file name of the image and the file path.
-***
+```{r}
+data_2017 <- dplyr::bind_rows(BGW17, WCS17, BRL17, BKS17)
+
+data_2017 <- data_2017 %>% relocate(Site, .before = RecordNumber)
+
+data_2017 <- data_2017 %>% relocate(Year, .after = Site)
+
+print(data_2017)
+```
+
+```{r}
+BGX18 <- BGX18 %>% dplyr::mutate(Site = "Boggy Exclosure", Year = 2018)
+BGW18 <- BGW18 %>% dplyr::mutate(Site = "Boggy West", Year = 2018)
+BGT18 <- BGT18 %>% dplyr::mutate(Site = "Boggy Trail", Year = 2018)
+WCX18 <- WCX18 %>% dplyr::mutate(Site = "Wildcat Exclosure", Year = 2018)
+WCS18 <- WCS18 %>% dplyr::mutate(Site = "Wildcat South", Year = 2018)
+WCT18 <- WCT18 %>% dplyr::mutate(Site = "Wildcat Trail", Year = 2018)
+BRL18 <- BRL18 %>% dplyr::mutate(Site = "Bear Timelapse", Year = 2018)
+```
+
+```{r}
+data_2018 <- dplyr::bind_rows(BGX18, BGW18, BGT18, WCX18, WCS18, WCT18, BRL18)
+
+data_2018 <- data_2018 %>% relocate(Site, .before = RecordNumber)
+
+data_2018 <- data_2018 %>% relocate(Year, .after = Site)
+
+print(data_2018)
+```
+
+```{r}
+AFO19 <- AFO19 %>% dplyr::mutate(Site = "Fifty One", Year = 2019)
+BKD19 <- BKD19 %>% dplyr::mutate(Site = "Black Canyon Dam", Year = 2019)
+BKN19 <- BKN19 %>% dplyr::mutate(Site = "Black Canyon North", Year = 2019)
+BKS19 <- BKS19 %>% dplyr::mutate(Site = "Black Canyon South", Year = 2019)
+BRL19 <- BRL19 %>% dplyr::mutate(Site = "Bear Timelapse", Year = 2019)
+BRT19 <- BRT19 %>% dplyr::mutate(Site = "Bear Trail", Year = 2019)
+```
+
+```{r}
+data_2019 <- dplyr::bind_rows(AFO19, BKD19, BKN19, BKS19, BRL19, BRT19)
+
+data_2019 <- data_2019 %>% relocate(Site, .before = RecordNumber)
+
+data_2019 <- data_2019 %>% relocate(Year, .after = Site)
+
+print(data_2019)
+```
+
+```{r}
+AFO20 <- AFO20 %>% dplyr::mutate(Site = "Fifty One", Year = 2020)
+BKN20 <- BKN20 %>% dplyr::mutate(Site = "Black Canyon Dam", Year = 2020)
+BKS20 <- BKS20 %>% dplyr::mutate(Site = "Black Canyon North", Year = 2020)
+BRL20 <- BRL20 %>% dplyr::mutate(Site = "Black Canyon South", Year = 2020)
+```
+
+```{r}
+data_2020 <- dplyr::bind_rows(AFO20, BKN20, BKS20, BRL20)
+
+data_2020 <- data_2020 %>% relocate(Site, .before = RecordNumber)
+
+data_2020 <- data_2020 %>% relocate(Year, .after = Site)
+
+print(data_2020)
+```
+
+```{r}
+str(data_2017)
+```
+
+```{r}
+# all_camera_data <- dplyr::bind_rows(data_2017, data_2018, data_2019, data_2020)
+# 
+# print(all_camera_data)
+```
+
 
 Some of the images we classified in the Excel macro were 'empty' (i.e. the observer could not detect a subject in the image). We want to remove these empty images from analysis.
 
-We're going to use the "Count1Species"" column in each dataframe to remove 'empty' photos. The "Count1Species" column corresponds to the 1st detected species in each photo (i.e. the primary species (>50%) if more than one species is detected in a photo). If the image is 'empty' then it will have "NA" for a value in the "Count1Species" column. We're going to use the function complete.cases() to remove all of the rows that have "NA" in the "Count1Species" column. We'll do this for each of the dataframes, and save these new dataframes into new objects. 
+We're going to use the "Count1Species"" column in each data frame to remove 'empty' photos. The "Count1Species" column corresponds to the 1st detected species in each photo (i.e. the primary species (>50%) if more than one species is detected in a photo). If the image is 'empty' then it will have "NA" for a value in the "Count1Species" column. We're going to use the function complete.cases() to remove all of the rows that have "NA" in the "Count1Species" column. We'll do this for each of the dataframes, and save these new dataframes into new objects.
+
+```{r}
+BGW17 %>% pull(Count1Species) %>% length()
+
+BGW17_drop_na <- BGW17 %>% tidyr::drop_na(Count1Species)
+
+BGW17_drop_na %>% pull(Count1Species) %>% length()
+```
+
+```{r}
+BGW17$Count1Species %in% BGW17_drop_na$Count1Species
+```
+
+
 ```{r}
 BGT18<- BGT18RAW[complete.cases(BGT18RAW[ , 'Count1Species']),]
 BGW17<- BGW17RAW[complete.cases(BGW17RAW[ , 'Count1Species']),]
@@ -109,26 +216,44 @@ WCS18<- WCS18RAW[complete.cases(WCS18RAW[ , 'Count1Species']),]
 WCT18<- WCT18RAW[complete.cases(WCT18RAW[ , 'Count1Species']),]
 WCX18<- WCX18RAW[complete.cases(WCX18RAW[ , 'Count1Species']),]
 WCX18<- WCX18RAW[complete.cases(WCX18RAW[ , 'ImageDate']),]
-ACH19<- test[complete.cases(test[ , 'Count1Species']),]
 
+
+
+# remove any rows where there was no detection for the 2019 data
 A51_2019 <- A51_2019_RAW[complete.cases(A51_2019_RAW[ , 'Count1Species']),]
-A51_2020 <- A51_2020_RAW[complete.cases(A51_2020_RAW[ , 'Count1Species']),]
 BKD_2019 <- BKD_2019_RAW[complete.cases(BKD_2019_RAW[ , 'Count1Species']),]
-BKD_2020 <- BKD_2020_RAW[complete.cases(BKD_2020_RAW[ , 'Count1Species']),]
 BKN_2019 <- BKN_2019_RAW[complete.cases(BKN_2019_RAW[ , 'Count1Species']),]
-BKN_2020 <- BKN_2020_RAW[complete.cases(BKN_2020_RAW[ , 'Count1Species']),]
 BKS_2019 <- BKS_2019_RAW[complete.cases(BKS_2019_RAW[ , 'Count1Species']),]
-BKS_2020 <- BKS_2020_RAW[complete.cases(BKS_2020_RAW[ , 'Count1Species']),]
 BRL_2019 <- BRL_2019_RAW[complete.cases(BRL_2019_RAW[ , 'Count1Species']),]
-BRL_2020 <- BRL_2020_RAW[complete.cases(BRL_2020_RAW[ , 'Count1Species']),]
 BRT_2019 <- BRT_2019_RAW[complete.cases(BRT_2019_RAW[ , 'Count1Species']),]
-BRT_2020 <- BRT_2020_RAW[complete.cases(BRT_2020_RAW[ , 'Count1Species']),]
+
+# remove any rows where there was no detection for the 2020 data
+BRL_2020 <- BRL_2020_RAW[complete.cases(BRL_2020_RAW[ , 'Count1Species']),]
+BKS_2020 <- BKS_2020_RAW[complete.cases(BKS_2020_RAW[ , 'Count1Species']),]
+BKN_2020 <- BKN_2020_RAW[complete.cases(BKN_2020_RAW[ , 'Count1Species']),]
+A51_2020 <- A51_2020_RAW[complete.cases(A51_2020_RAW[ , 'Count1Species']),]
 ```
 ***
-
-We no longer need the raw dataframes, so we can remove them from our environment just to clean things up a bit.
+We no longer need the raw data frames, so we can remove them from our environment just to clean things up a bit.
 ```{r}
-rm(BGT18RAW, BGW17RAW, BGW18RAW, BGX18RAW, WCS17RAW, WCS18RAW, WCT18RAW, WCX18RAW)
+rm(BGT18RAW, 
+   BGW17RAW, 
+   BGW18RAW, 
+   BGX18RAW, 
+   WCS17RAW, 
+   WCS18RAW, 
+   WCT18RAW, 
+   WCX18RAW, 
+   A51_2019_RAW, 
+   BKD_2019_RAW, 
+   BKN_2019_RAW, 
+   BKS_2019_RAW, 
+   BRL_2019_RAW, 
+   BRT_2019_RAW, 
+   BRL_2020_RAW, 
+   BKS_2020_RAW,
+   BKN_2020_RAW,
+   A51_2020_RAW)
 ```
 ***
 Now we apply the clean dates function to our data.
@@ -145,28 +270,30 @@ WCX18 <- cleandates(WCX18)
 BGW17
 
 A51_2019$DateTime <- ymd_hms(A51_2019$DateTime)
-A51_2020$DateTime <- ymd_hms(A51_2020$DateTime)
 BKD_2019$DateTime <- ymd_hms(BKD_2019$DateTime)
-BKD_2020$DateTime <- ymd_hms(BKD_2020$DateTime)
 BKN_2019$DateTime <- ymd_hms(BKN_2019$DateTime)
-BKN_2020$DateTime <- ymd_hms(BKN_2020$DateTime)
 BKS_2019$DateTime <- ymd_hms(BKS_2019$DateTime)
-BKS_2020$DateTime <- ymd_hms(BKS_2020$DateTime)
 BRL_2019$DateTime <- ymd_hms(BRL_2019$DateTime)
-BRL_2020$DateTime <- ymd_hms(BRL_2020$DateTime)
 BRT_2019$DateTime <- ymd_hms(BRT_2019$DateTime)
-BRT_2020$DateTime <- ymd_hms(BRT_2020$DateTime)
+
+A51_2020$DateTime <- ymd_hms(A51_2020$DateTime)
+BKN_2020$DateTime <- ymd_hms(BKN_2020$DateTime)
+BKS_2020$DateTime <- ymd_hms(BKS_2020$DateTime)
+BRL_2020$DateTime <- ymd_hms(BRL_2020$DateTime)
 
 BKS_2019
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 WCS17dates <- unique(date(WCS17$DateTime))
 write.csv(WCS17dates, file = "Wildcat_2017_Operational_Dates.csv", row.names = FALSE)
+
 WCS18dates <- unique(date(WCS18$DateTime))
 write.csv(WCS18dates, file = "Wildcat_2018_Operational_Dates.csv", row.names = FALSE)
+
 BGW17dates <- unique(date(BGW17$DateTime))
 write.csv(BGW17dates, file = "Boggy_2017_Operational_Dates.csv", row.names = FALSE)
+
 BGW18dates <- unique(date(BGW18$DateTime))
 write.csv(BGW18dates, file = "Boggy_2018_Operational_Dates.csv", row.names = FALSE)
 ```
@@ -182,7 +309,7 @@ WCS18$SiteName <- rep("WCS18", n = length(WCS18))
 WCT18$SiteName <- rep("WCT18", n = length(WCT18))
 WCX18$SiteName <- rep("WCX18", n = length(WCX18))
 
-#BGT18$SiteName
+BGT18
 ```
 ***
 ```{r}
@@ -208,7 +335,7 @@ We're going to use a function I created called "speciestotal" (see the functions
 
 The "speciestotal" function will count up the number of individuals for each species detected in a camera trap photo and then create a new column in the corresponding dataframe to store this species count. The new column is labled by the species and contains a count of the number of individuals detected in each image.
 
-A second funtion "allspecies" uses the "speciestotal" function for all of the species possible (24 total), and creates a new column for each species. 
+A second function "allspecies" uses the "speciestotal" function for all of the species possible (24 total), and creates a new column for each species. 
 ```{r}
 BGT18 <- allspecies(BGT18)
 BGW17 <- allspecies(BGW17)
@@ -220,23 +347,21 @@ WCT18 <- allspecies(WCT18)
 WCX18 <- allspecies(WCX18)
 
 A51_2019 <- allspecies(A51_2019)
-A51_2020 <- allspecies(A51_2020)
 BKD_2019 <- allspecies(BKD_2019)
-BKD_2020 <- allspecies(BKD_2020)
 BKN_2019 <- allspecies(BKN_2019)
-BKN_2020 <- allspecies(BKN_2020)
 BKS_2019 <- allspecies(BKS_2019)
-BKS_2020 <- allspecies(BKS_2020)
 BRL_2019 <- allspecies(BRL_2019)
-BRL_2020 <- allspecies(BRL_2020)
 BRT_2019 <- allspecies(BRT_2019)
-BRT_2020 <- allspecies(BRT_2020)
+
+A51_2020 <- allspecies(A51_2020)
+BKN_2020 <- allspecies(BKN_2020)
+BKS_2020 <- allspecies(BKS_2020)
+BRL_2020 <- allspecies(BRL_2020)
 ```
 ***
 
 Take a look a the new dataframe. We've removed NAs and did some calculations to the dataframe which created new columns with species counts.
 ```{r}
-# head(BGW17)
 BKS_2020
 ```
 ***
@@ -253,17 +378,16 @@ WCT18counts <- counts.df(WCT18)
 WCX18counts <- counts.df(WCX18)
 
 A51_2019counts <- counts.df(A51_2019)
-A51_2020counts <- counts.df(A51_2020)
 BKD_2019counts <- counts.df(BKD_2019)
-BKD_2020counts <- counts.df(BKD_2020)
 BKN_2019counts <- counts.df(BKN_2019)
-BKN_2020counts <- counts.df(BKN_2020)
 BKS_2019counts <- counts.df(BKS_2019)
-BKS_2020counts <- counts.df(BKS_2020)
 BRL_2019counts <- counts.df(BRL_2019)
-BRL_2020counts <- counts.df(BRL_2020)
 BRT_2019counts <- counts.df(BRT_2019)
-BRT_2020counts <- counts.df(BRT_2020)
+
+A51_2020counts <- counts.df(A51_2020)
+BKN_2020counts <- counts.df(BKN_2020)
+BKS_2020counts <- counts.df(BKS_2020)
+BRL_2020counts <- counts.df(BRL_2020)
 ```
 ***
 To simplify the code, we're going to create new dataframes that contain only one species. In this case we are creating three new dataframes from each site, one dataframe corresponding to horses, another for cows, and the third for elk.
@@ -312,10 +436,6 @@ BKD_2019horses <- BKD_2019[BKD_2019$horse >0, ]
 BKD_2019cows <- BKD_2019[BKD_2019$cow >0, ]
 BKD_2019elk <- BKD_2019[BKD_2019$elk >0, ]
 
-BKD_2020horses <- BKD_2020[BKD_2020$horse >0, ]
-BKD_2020cows <- BKD_2020[BKD_2020$cow >0, ]
-BKD_2020elk <- BKD_2020[BKD_2020$elk >0, ]
-
 BKN_2019horses <- BKN_2019[BKN_2019$horse >0, ]
 BKN_2019cows <- BKN_2019[BKN_2019$cow >0, ]
 BKN_2019elk <- BKN_2019[BKN_2019$elk >0, ]
@@ -343,11 +463,6 @@ BRL_2020elk <- BRL_2020[BRL_2020$elk >0, ]
 BRT_2019horses <- BRT_2019[BRT_2019$horse >0, ]
 BRT_2019cows <- BRT_2019[BRT_2019$cow >0, ]
 BRT_2019elk <- BRT_2019[BRT_2019$elk >0, ]
-
-BRT_2020horses <- BRT_2020[BRT_2020$horse >0, ]
-BRT_2020cows <- BRT_2020[BRT_2020$cow >0, ]
-BRT_2020elk <- BRT_2020[BRT_2020$elk >0, ]
-
 ```
 ***
 To approximate herd dynamics using sequential photos, we're grouping photos together based on an observation window, where a sequential series of photos are aggregated together based on timestamps. Photos taken <10 minutes from the previous photo were included together in a gorup. If the next photo in the series was taken >= 10 minutes from the previous photo, this next photo was placed into the next group.
@@ -362,28 +477,18 @@ WCT18grouptotals <- group.total(WCT18)
 WCX18grouptotals <- group.total(WCX18)
 
 A51_2019grouptotals <- group.total(A51_2019)
-A51_2020grouptotals <- group.total(A51_2020)
 BKD_2019grouptotals <- group.total(BKD_2019)
-BKD_2020grouptotals <- group.total(BKD_2020)
 BKN_2019grouptotals <- group.total(BKN_2019)
-BKN_2020grouptotals <- group.total(BKN_2020)
 BKS_2019grouptotals <- group.total(BKS_2019)
-BKS_2020grouptotals <- group.total(BKS_2020)
 BRL_2019grouptotals <- group.total(BRL_2019)
-BRL_2020grouptotals <- group.total(BRL_2020)
 BRT_2019grouptotals <- group.total(BRT_2019)
-BRT_2020grouptotals <- group.total(BRT_2020)
+
+A51_2020grouptotals <- group.total(A51_2020)
+BRL_2020grouptotals <- group.total(BRL_2020)
+BKS_2020grouptotals <- group.total(BKS_2020)
+BKN_2020grouptotals <- group.total(BKN_2020)
 ```
 ***
-#### This commented out code does exatcly the same thing as the "group.df" function.
-```{r}
-# lag_time_diff <- difftime(BGW17horses$DateTime, lag(BGW17horses$DateTime, default = BGW17horses$DateTime[1]), units = "mins")
-# 
-# BGW17horses$group <- cumsum(ifelse(lag_time_diff>10,1,0))
-# BGW17horses$group <- BGW17horses$group+1
-# 
-# unique(BGW17horses$group)
-```
 
 ```{r}
 BGW17horses <- group.df(BGW17horses)
