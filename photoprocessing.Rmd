@@ -194,80 +194,40 @@ Some of the images we classified in the Excel macro were 'empty' (i.e. the obser
 We're going to use the "Count1Species"" column in each data frame to remove 'empty' photos. The "Count1Species" column corresponds to the 1st detected species in each photo (i.e. the primary species (>50%) if more than one species is detected in a photo). If the image is 'empty' then it will have "NA" for a value in the "Count1Species" column. We're going to use the function complete.cases() to remove all of the rows that have "NA" in the "Count1Species" column. We'll do this for each of the dataframes, and save these new dataframes into new objects.
 
 ```{r}
-BGW17 %>% pull(Count1Species) %>% length()
+data_2017 %>% pull(Count1Species) %>% length()
 
-BGW17_drop_na <- BGW17 %>% tidyr::drop_na(Count1Species)
+data_2017_drop_na <- data_2017 %>% tidyr::drop_na(Count1Species)
 
-BGW17_drop_na %>% pull(Count1Species) %>% length()
+data_2017_drop_na %>% pull(Count1Species) %>% length()
 ```
 
 ```{r}
-BGW17$Count1Species %in% BGW17_drop_na$Count1Species
-```
+data_2018 %>% pull(Count1Species) %>% length()
 
+data_2018_drop_na <- data_2018 %>% tidyr::drop_na(Count1Species)
+
+data_2018_drop_na %>% pull(Count1Species) %>% length()
+```
 
 ```{r}
-BGT18<- BGT18RAW[complete.cases(BGT18RAW[ , 'Count1Species']),]
-BGW17<- BGW17RAW[complete.cases(BGW17RAW[ , 'Count1Species']),]
-BGW18<- BGW18RAW[complete.cases(BGW18RAW[ , 'Count1Species']),]
-BGX18<- BGX18RAW[complete.cases(BGX18RAW[ , 'Count1Species']),]
-WCS17<- WCS17RAW[complete.cases(WCS17RAW[ , 'Count1Species']),]
-WCS18<- WCS18RAW[complete.cases(WCS18RAW[ , 'Count1Species']),]
-WCT18<- WCT18RAW[complete.cases(WCT18RAW[ , 'Count1Species']),]
-WCX18<- WCX18RAW[complete.cases(WCX18RAW[ , 'Count1Species']),]
-WCX18<- WCX18RAW[complete.cases(WCX18RAW[ , 'ImageDate']),]
+data_2019 %>% pull(Count1Species) %>% length()
 
+data_2019_drop_na <- data_2019 %>% tidyr::drop_na(Count1Species)
 
-
-# remove any rows where there was no detection for the 2019 data
-A51_2019 <- A51_2019_RAW[complete.cases(A51_2019_RAW[ , 'Count1Species']),]
-BKD_2019 <- BKD_2019_RAW[complete.cases(BKD_2019_RAW[ , 'Count1Species']),]
-BKN_2019 <- BKN_2019_RAW[complete.cases(BKN_2019_RAW[ , 'Count1Species']),]
-BKS_2019 <- BKS_2019_RAW[complete.cases(BKS_2019_RAW[ , 'Count1Species']),]
-BRL_2019 <- BRL_2019_RAW[complete.cases(BRL_2019_RAW[ , 'Count1Species']),]
-BRT_2019 <- BRT_2019_RAW[complete.cases(BRT_2019_RAW[ , 'Count1Species']),]
-
-# remove any rows where there was no detection for the 2020 data
-BRL_2020 <- BRL_2020_RAW[complete.cases(BRL_2020_RAW[ , 'Count1Species']),]
-BKS_2020 <- BKS_2020_RAW[complete.cases(BKS_2020_RAW[ , 'Count1Species']),]
-BKN_2020 <- BKN_2020_RAW[complete.cases(BKN_2020_RAW[ , 'Count1Species']),]
-A51_2020 <- A51_2020_RAW[complete.cases(A51_2020_RAW[ , 'Count1Species']),]
+data_2019_drop_na %>% pull(Count1Species) %>% length()
 ```
-***
-We no longer need the raw data frames, so we can remove them from our environment just to clean things up a bit.
+
 ```{r}
-rm(BGT18RAW, 
-   BGW17RAW, 
-   BGW18RAW, 
-   BGX18RAW, 
-   WCS17RAW, 
-   WCS18RAW, 
-   WCT18RAW, 
-   WCX18RAW, 
-   A51_2019_RAW, 
-   BKD_2019_RAW, 
-   BKN_2019_RAW, 
-   BKS_2019_RAW, 
-   BRL_2019_RAW, 
-   BRT_2019_RAW, 
-   BRL_2020_RAW, 
-   BKS_2020_RAW,
-   BKN_2020_RAW,
-   A51_2020_RAW)
+data_2020 %>% pull(Count1Species) %>% length()
+
+data_2020_drop_na <- data_2020 %>% tidyr::drop_na(Count1Species)
+
+data_2020_drop_na %>% pull(Count1Species) %>% length()
 ```
+
 ***
 Now we apply the clean dates function to our data.
 ```{r}
-BGT18 <- cleandates(BGT18)
-BGW17 <- cleandates(BGW17)
-BGW18 <- cleandates(BGW18)
-BGX18 <- cleandates(BGX18)
-WCS17 <- cleandates(WCS17)
-WCS18 <- cleandates(WCS18)
-WCT18 <- cleandates(WCT18)
-WCX18 <- cleandates(WCX18)
-
-BGW17
 
 A51_2019$DateTime <- ymd_hms(A51_2019$DateTime)
 BKD_2019$DateTime <- ymd_hms(BKD_2019$DateTime)
