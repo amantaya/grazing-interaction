@@ -26,7 +26,7 @@ se <- function(x){sqrt(var(x)/length(x))}
 #' 
 #' **Output:** A 'cleaned' dataframe that has the correct date and time format, with all rows arranged in chronological order. (Note: you have assign the output of the function to the original dataframe if you want to overwrite the original dataframe).
 ## ------------------------------------------------------------------------
-cleandates <- function(cameradf){
+clean.dates <- function(cameradf){
   cameradf <- unite(cameradf, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
   cameradf$DateTime <- mdy_hms(cameradf$DateTime)
   cameradf <- arrange(cameradf, DateTime)
