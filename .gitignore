@@ -13,6 +13,9 @@ packrat/src/
 # ignore generated html files
 *.html
 
+# ignore markdown files from knitr
+*.md
+
 # ignore data folders and files
 data
 excelmacro
