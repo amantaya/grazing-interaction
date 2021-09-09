@@ -23,5 +23,6 @@ results
 figures
 misc
 learning
+xlsm
 *.csv
 .git.bfg-report
