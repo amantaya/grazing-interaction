@@ -14,9 +14,13 @@
 # clear the R environment
 rm(list=ls(all=TRUE))
 
+currentwd <- getwd()
+
+print(currentwd)
+
 # load in the required libraries
-source("C:/Users/andre/Dropbox/Rproj/Horse-Cattle-Elk-Grazing-Interaction-Study/packages.R")
-source("C:/Users/andre/Dropbox/Rproj/Horse-Cattle-Elk-Grazing-Interaction-Study/functions.R")
+source(paste0(currentwd, "/packages.R"))
+source(paste0(currentwd, "/functions.R"))
 
 # set working directory to location of excel files
 # file.path() is system agnostic (i.e. works on Mac/PC/Linux)
