@@ -14,7 +14,7 @@
 # clear the R environment
 rm(list=ls(all=TRUE))
 
-currentwd <- getwd()
+source(paste0(getwd(), "/environment.R"))
 
 print(currentwd)
 
