@@ -1,21 +1,19 @@
 # clear the R environment
 rm(list=ls(all=TRUE))
 
+source(paste0(getwd(), "/environment.R"))
+
+print(currentwd)
+
 # load in the required libraries
-source("C:/Users/andre/Dropbox/Rproj/Horse-Cattle-Elk-Grazing-Interaction-Study/packages.R")
-source("C:/Users/andre/Dropbox/Rproj/Horse-Cattle-Elk-Grazing-Interaction-Study/functions.R")
+source(paste0(currentwd, "/packages.R"))
+source(paste0(currentwd, "/functions.R"))
 
 # set working directory to location of excel files
 # file.path() is system agnostic (i.e. works on Mac/PC/Linux)
-setwd(file.path("C:", "temp", "xlsm", "csv", "recombined"))
+filepaths <- file.path("C:", "temp", "xlsm", "csv", "recombined")
 
-# check that working directory is correct
-getwd()
-
-# store the location of the current working directory
-currentwd <- getwd()
-
-csv_file_list <- list.files(currentwd, pattern = ".csv")
+csv_file_list <- list.files(filepaths, pattern = ".csv")
 
 print(csv_file_list)
 
@@ -92,9 +90,7 @@ write_excel_csv(A51_2019, paste(currentwd, filename_2019, sep = "/"))
 write_excel_csv(A51_2020, paste(currentwd, filename_2020, sep = "/"))
 
 filename_2019 <- paste("BKD", "2019.csv", sep = "_")
-filename_2020 <- paste("BKD", "2020.csv", sep = "_")
 write_excel_csv(BKD_2019, paste(currentwd, filename_2019, sep = "/"))
-write_excel_csv(BKD_2020, paste(currentwd, filename_2020, sep = "/"))
 
 filename_2019 <- paste("BKN", "2019.csv", sep = "_")
 filename_2020 <- paste("BKN", "2020.csv", sep = "_")
@@ -112,6 +108,4 @@ write_excel_csv(BRL_2019, paste(currentwd, filename_2019, sep = "/"))
 write_excel_csv(BRL_2020, paste(currentwd, filename_2020, sep = "/"))
 
 filename_2019 <- paste("BRT", "2019.csv", sep = "_")
-filename_2020 <- paste("BRT", "2020.csv", sep = "_")
 write_excel_csv(BRT_2019, paste(currentwd, filename_2019, sep = "/"))
-write_excel_csv(BRT_2020, paste(currentwd, filename_2020, sep = "/"))
