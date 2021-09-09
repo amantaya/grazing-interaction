@@ -24,5 +24,6 @@ figures
 misc
 learning
 xlsm
+quality-check
 *.csv
 .git.bfg-report
