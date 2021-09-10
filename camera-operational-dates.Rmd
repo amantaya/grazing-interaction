@@ -1,0 +1,18 @@
+---
+title: "Camera Operational Dates"
+output: html_notebook
+---
+
+```{r}
+WCS17dates <- unique(date(WCS17$DateTime))
+write.csv(WCS17dates, file = "Wildcat_2017_Operational_Dates.csv", row.names = FALSE)
+
+WCS18dates <- unique(date(WCS18$DateTime))
+write.csv(WCS18dates, file = "Wildcat_2018_Operational_Dates.csv", row.names = FALSE)
+
+BGW17dates <- unique(date(BGW17$DateTime))
+write.csv(BGW17dates, file = "Boggy_2017_Operational_Dates.csv", row.names = FALSE)
+
+BGW18dates <- unique(date(BGW18$DateTime))
+write.csv(BGW18dates, file = "Boggy_2018_Operational_Dates.csv", row.names = FALSE)
+```
