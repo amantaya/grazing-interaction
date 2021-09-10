@@ -103,6 +103,54 @@ These operational dates represent days with observations containing subjects, bu
 Let's calculate foraging minutes using the Bear Timelapse 2018 data. From our metadata, we know that the Bear Timelapse site in 2018 used a 1 minute collection interval for timelapse photos. 
 
 ```{r}
+calc.foraging.time.unwtd <- function(cameradf, interval) {
+  cameradf <- cameradf %>% dplyr::mutate(horse_forage_unwtd = horse * interval)
+  
+  cameradf <- cameradf %>% dplyr::mutate(cow_forage_unwtd = cow * interval)
+  
+  cameradf <- cameradf %>% dplyr::mutate(elk_forage_unwtd = elk * interval)
+  
+  return(cameradf)
+}
+
+calc.foraging.time.wtd <- function(cameradf, interval) {
+  cameradf <- cameradf %>% dplyr::mutate(horse_forage_wtd = horse * interval * 1.1)
+  
+  cameradf <- cameradf %>% dplyr::mutate(cow_forage_wtd = cow * interval * 1)
+  
+  cameradf <- cameradf %>% dplyr::mutate(elk_forage_wtd = elk * interval * 0.7)
+  
+  return(cameradf)
+}
+```
+
+```{r}
+BRL_2019 <- calc.foraging.time.unwtd(BRL_2019, interval = 5)
+
+view(BRL_2019)
+```
+
+```{r}
+BRL_2019 <- calc.foraging.time.wtd(BRL_2019, interval = 5)
+
+view(BRL_2019)
+```
+
+```{r}
+BRL_2019 <- BRL_2019 %>% 
+   dplyr::mutate(Date = lubridate::date(DateTime), .after = Year)
+
+print(BRL_2019)
+```
+
+```{r}
+BRL_2019 %>% pull(horse_forage_unwtd) %>% sum()
+
+BRL_2019 %>% pull(horse_forage_wtd) %>% sum()
+```
+
+
+```{r}
 BRL_2018 <- BRL_2018 %>% mutate(horse_forage_unwtd = horse * 1)
 
 BRL_2018 <- BRL_2018 %>% mutate(cow_forage_unwtd = cow * 1)
@@ -151,7 +199,78 @@ print(BRL_2018)
 ```
 
 ```{r}
-BRL_2018_horse_forage_unwtd_summary <- BRL_2018 %>% dplyr::group_by(Date) %>% dplyr::summarise(daily_total_unwtd = sum(horse_forage_unwtd))
+BRL_2019 <- BRL_2019 %>% 
+   dplyr::mutate(Date = lubridate::date(DateTime), .after = Year)
+
+print(BRL_2019)
+```
+
+```{r}
+summarize.unwtd.daily.totals <- function(cameradf){
+
+  cameradf_horses <- NULL
+  cameradf_horses <- cameradf %>% 
+    dplyr::group_by(Date) %>% 
+    dplyr::summarise(daily_total_unwtd = sum(horse_forage_unwtd))
+  cameradf_horses <- cameradf_horses %>% mutate(Species = "Horse")
+  
+  cameradf_cows <- NULL
+  cameradf_cows <- cameradf %>% 
+    dplyr::group_by(Date) %>% 
+    dplyr::summarise(daily_total_unwtd = sum(cow_forage_unwtd))
+  cameradf_cows <- cameradf_cows %>% mutate(Species = "Cow")  
+  
+  cameradf_elk <- NULL
+  cameradf_elk <- cameradf %>% 
+    dplyr::group_by(Date) %>% 
+    dplyr::summarise(daily_total_unwtd = sum(elk_forage_unwtd))
+  cameradf_elk <- cameradf_elk %>% mutate(Species = "Elk")  
+  
+  cameradf <- dplyr::bind_rows(cameradf_horses, cameradf_cows, cameradf_elk)
+  
+  return(cameradf)
+}
+
+summarize.wtd.daily.totals <- function(cameradf){
+
+  cameradf_horses <- NULL
+  cameradf_horses <- cameradf %>% 
+    dplyr::group_by(Date) %>% 
+    dplyr::summarise(daily_total_wtd = sum(horse_forage_wtd))
+  cameradf_horses <- cameradf_horses %>% mutate(Species = "Horse")
+  
+  cameradf_cows <- NULL
+  cameradf_cows <- cameradf %>% 
+    dplyr::group_by(Date) %>% 
+    dplyr::summarise(daily_total_wtd = sum(cow_forage_wtd))
+  cameradf_cows <- cameradf_cows %>% mutate(Species = "Cow")  
+  
+  cameradf_elk <- NULL
+  cameradf_elk <- cameradf %>% 
+    dplyr::group_by(Date) %>% 
+    dplyr::summarise(daily_total_wtd = sum(elk_forage_wtd))
+  cameradf_elk <- cameradf_elk %>% mutate(Species = "Elk")  
+  
+  cameradf <- dplyr::bind_rows(cameradf_horses, cameradf_cows, cameradf_elk)
+  
+  return(cameradf)
+}
+```
+
+```{r}
+BRL_2019_unwtd_summary <- summarize.unwtd.daily.totals(BRL_2019)
+
+BRL_2019_unwtd_summary
+
+BRL_2019_wtd_summary <- summarize.wtd.daily.totals(BRL_2019)
+
+BRL_2019_wtd_summary
+```
+
+```{r}
+BRL_2018_horse_forage_unwtd_summary <- BRL_2018 %>% 
+  dplyr::group_by(Date) %>% 
+  dplyr::summarise(daily_total_unwtd = sum(horse_forage_unwtd))
 
 # BRL_2018_horse_forage_wtd_summary <- BRL_2018 %>% dplyr::group_by(Date) %>% dplyr::summarise(daily_total_wtd = sum(horse_forage_wtd))
 
@@ -198,12 +317,14 @@ print(BRL_2018_unwtd_summary)
 
 ```{r}
 p <- ggplot(BRL_2018_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = Species)) +
-   geom_col() +
-   scale_x_date(date_labels = "%b", date_breaks = "1 month") +
+  geom_col() +
+  scale_x_date(date_labels = "%b", 
+               date_breaks = "1 month", 
+               limits = c(date("2018-01-01"), date("2018-12-31"))) +
   scale_y_continuous(limits = c(0, 700), breaks = seq(0, 700, by = 100)) +
-   labs(title = "Bear Time-Lapse", subtitle = "2018") +
-   ylab("Unweighted Forage Minutes") +
-   theme(plot.title = element_text(hjust = 0.5),
+  labs(title = "Bear Time-Lapse", subtitle = "2018") +
+  ylab("Unweighted Forage Minutes") +
+  theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)))
@@ -212,6 +333,27 @@ p
 ```
 
 ```{r}
-# ggsave("Bear-Timelapse-2018-Horses-Unweighted-Forage-Minutes.jpg", 
-#     path = paste0(currentwd,"/figures", "/forage-minutes"))
+# ggsave("Bear-Timelapse-2018-Unweighted-Forage-Minutes-Combined-Species.jpg",
+#      path = paste0(currentwd,"/figures", "/forage-minutes"))
+```
+```{r}
+p <- ggplot(BRL_2019_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = Species)) +
+  geom_col(position = "dodge") +
+  scale_x_date(date_labels = "%b",
+               date_minor_breaks = "1 day",
+               date_breaks = "1 month",
+               limits = c(date("2019-06-01"), date("2019-08-31"))) +
+  labs(title = "Bear Time-Lapse", subtitle = "2019") +
+  ylab("Unweighted Forage Minutes") +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)))
+
+p
+```
+
+```{r}
+ggsave("Bear-Timelapse-2019-Unweighted-Forage-Minutes-June-01-August-31.jpg",
+     path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
