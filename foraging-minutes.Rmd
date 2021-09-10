@@ -68,13 +68,20 @@ view(all_data_all_species)
 
 This new data frame has 24 additional columns that contain counts of the 'subjects' (e.g., horses, cows, ATVs, humans) in each photo. These columns were created primarily to simplify the data frame, where a single row has the counts for each species stored in a separate column.
 
-```{r bear timelapse 2018 horses}
-BRL_horses_2018 <- all_data_all_species %>% 
+```{r bear timelapse 2018}
+BRL_2018 <- all_data_all_species %>% 
   dplyr::filter(Site == "Bear Timelapse") %>% 
-  dplyr::filter(Year == "2018") %>%
-  dplyr::filter(horse != 0)
+  dplyr::filter(Year == "2018")
   
-print(BRL_horses_2018)
+print(BRL_2018)
+```
+
+```{r bear timelapse 2019}
+BRL_2019 <- all_data_all_species %>% 
+  dplyr::filter(Site == "Bear Timelapse") %>% 
+  dplyr::filter(Year == "2019")
+  
+print(BRL_2019)
 ```
 
 ------------------------------------------------------------------------
@@ -82,7 +89,11 @@ print(BRL_horses_2018)
 Let's check the operational dates for Bear Timelapse 2018. This represents only the dates in this data frame, which corresponds only to 'subject' photos. This data frame does not contain blank or empty photos that were sorted out during an earlier phase of photo processing.
 
 ```{r}
-BRL_horses_2018 %>% pull(DateTime) %>% lubridate::date() %>% unique()
+BRL_2018 %>% pull(DateTime) %>% lubridate::date() %>% unique()
+```
+
+```{r}
+BRL_2019 %>% pull(DateTime) %>% lubridate::date() %>% unique()
 ```
 
 These operational dates represent days with observations containing subjects, but does not contain the dates without observations, but where the camera was still functioning.
@@ -92,40 +103,105 @@ These operational dates represent days with observations containing subjects, bu
 Let's calculate foraging minutes using the Bear Timelapse 2018 data. From our metadata, we know that the Bear Timelapse site in 2018 used a 1 minute collection interval for timelapse photos. 
 
 ```{r}
-BRL_horses_2018_forage_min <- BRL_horses_2018 %>% mutate(forage_min = horse * 1)
+BRL_2018 <- BRL_2018 %>% mutate(horse_forage_unwtd = horse * 1)
 
-print(BRL_horses_2018_forage_min$forage_min)
+BRL_2018 <- BRL_2018 %>% mutate(cow_forage_unwtd = cow * 1)
+
+BRL_2018 <- BRL_2018 %>% mutate(elk_forage_unwtd = elk * 1)
+
+view(BRL_2018)
 ```
 
 ```{r}
-BRL_horses_2018_forage_min <- BRL_horses_2018_forage_min %>% mutate(forage_min_weighted = forage_min * 1.1)
+BRL_2018 <- BRL_2018 %>% 
+  mutate(horse_forage_wtd = horse_forage_unwtd * 1.1)
 
-print(BRL_horses_2018_forage_min$forage_min_weighted)
+BRL_2018 <- BRL_2018 %>% 
+  mutate(cow_forage_wtd = cow_forage_unwtd * 1)
+
+BRL_2018 <- BRL_2018 %>% 
+  mutate(elk_forage_wtd = elk_forage_unwtd * 0.7)
+
+view(BRL_2018)
 ```
 
 ```{r}
-BRL_horses_2018_forage_min %>% pull(forage_min) %>% sum()
-BRL_horses_2018_forage_min %>% pull(forage_min_weighted) %>% sum()
+BRL_2018 %>% pull(horse_forage_unwtd) %>% sum()
+
+BRL_2018 %>% pull(horse_forage_wtd) %>% sum()
 ```
 
 ```{r}
-BRL_horses_2018_forage_min <- BRL_horses_2018_forage_min %>% 
-   dplyr::mutate(Date = lubridate::date(DateTime), .after = DateTime)
+BRL_2018 %>% pull(cow_forage_unwtd) %>% sum()
 
-print(BRL_horses_2018_forage_min)
+BRL_2018 %>% pull(cow_forage_wtd) %>% sum()
 ```
 
 ```{r}
-BRL_2018_summary <- BRL_horses_2018_forage_min %>% dplyr::group_by(Date) %>% dplyr::summarise(sum = sum(forage_min))
+BRL_2018 %>% pull(elk_forage_unwtd) %>% sum()
 
-BRL_2018_summary
+BRL_2018 %>% pull(elk_forage_wtd) %>% sum()
 ```
 
 ```{r}
-p <- ggplot(BRL_2018_summary, aes(x = Date, y = sum)) +
+BRL_2018 <- BRL_2018 %>% 
+   dplyr::mutate(Date = lubridate::date(DateTime), .after = Year)
+
+print(BRL_2018)
+```
+
+```{r}
+BRL_2018_horse_forage_unwtd_summary <- BRL_2018 %>% dplyr::group_by(Date) %>% dplyr::summarise(daily_total_unwtd = sum(horse_forage_unwtd))
+
+# BRL_2018_horse_forage_wtd_summary <- BRL_2018 %>% dplyr::group_by(Date) %>% dplyr::summarise(daily_total_wtd = sum(horse_forage_wtd))
+
+BRL_2018_horse_forage_unwtd_summary <- BRL_2018_horse_forage_unwtd_summary %>% 
+  dplyr::mutate(Species = "Horse")
+
+print(BRL_2018_horse_forage_unwtd_summary)
+```
+
+```{r}
+BRL_2018_cow_forage_unwtd_summary <- BRL_2018 %>% dplyr::group_by(Date) %>% dplyr::summarise(daily_total_unwtd = sum(cow_forage_unwtd))
+
+BRL_2018_cow_forage_unwtd_summary <- BRL_2018_cow_forage_unwtd_summary %>% 
+  mutate(Species = "Cow")
+
+BRL_2018_cow_forage_unwtd_summary
+```
+```{r}
+BRL_2018_elk_forage_unwtd_summary <- BRL_2018 %>% dplyr::group_by(Date) %>% dplyr::summarise(daily_total_unwtd = sum(elk_forage_unwtd))
+
+BRL_2018_elk_forage_unwtd_summary <- BRL_2018_elk_forage_unwtd_summary %>% 
+  mutate(Species = "Elk")
+
+BRL_2018_elk_forage_unwtd_summary
+```
+
+```{r}
+# BRL_2018_unwtd_summary <- dplyr::inner_join(BRL_2018_horse_forage_unwtd_summary,
+#                                             BRL_2018_cow_forage_unwtd_summary,
+#                                             by = "Date") %>% inner_join(BRL_2018_elk_forage_unwtd_summary, by = "Date")
+# 
+# BRL_2018_unwtd_summary
+```
+
+
+```{r}
+BRL_2018_unwtd_summary <- dplyr::bind_rows(BRL_2018_horse_forage_unwtd_summary,
+                                                  BRL_2018_cow_forage_unwtd_summary,
+                                                  BRL_2018_elk_forage_unwtd_summary)
+
+print(BRL_2018_unwtd_summary)
+```
+
+
+```{r}
+p <- ggplot(BRL_2018_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = Species)) +
    geom_col() +
    scale_x_date(date_labels = "%b", date_breaks = "1 month") +
-   labs(title = "Bear Timelapse 2018", subtitle = "Horses") +
+  scale_y_continuous(limits = c(0, 700), breaks = seq(0, 700, by = 100)) +
+   labs(title = "Bear Time-Lapse", subtitle = "2018") +
    ylab("Unweighted Forage Minutes") +
    theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
