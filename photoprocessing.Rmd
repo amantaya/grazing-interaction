@@ -160,9 +160,8 @@ data_2019 <- data_2019 %>% relocate(Year, .after = Site)
 
 data_2019$LastSavedOn <- data_2019 %>% pull(LastSavedOn) %>% openxlsx::convertToDateTime()
 
-view(data_2019)
+print(data_2019)
 ```
-
 
 ```{r}
 AFO20 <- AFO20 %>% dplyr::mutate(Site = "Fifty One", Year = 2020)
@@ -180,7 +179,7 @@ data_2020 <- data_2020 %>% relocate(Year, .after = Site)
 
 data_2020$LastSavedOn <- data_2020 %>% pull(LastSavedOn) %>% openxlsx::convertToDateTime()
 
-view(data_2020)
+print(data_2020)
 ```
 
 Some of the images we classified in the Excel macro were 'empty' (i.e. the observer could not detect a subject in the image). We want to remove these empty images from analysis.
@@ -228,7 +227,7 @@ data_2017_clean_dates <- clean.dates(data_2017_drop_na)
 
 data_2017_clean_dates$LastSavedOn <- data_2017_clean_dates %>% pull(LastSavedOn) %>% lubridate::mdy_hm()
 
-view(data_2017_clean_dates)
+print(data_2017_clean_dates)
 ```
 
 ```{r}
@@ -236,7 +235,7 @@ data_2018_clean_dates <- clean.dates(data_2018_drop_na)
 
 data_2018_clean_dates$LastSavedOn <- data_2018_clean_dates %>% pull(LastSavedOn) %>% lubridate::mdy_hm()
 
-view(data_2018_clean_dates)
+print(data_2018_clean_dates)
 ```
 
 ```{r}
@@ -244,7 +243,7 @@ data_2019_drop_na$DateTime <- data_2019_drop_na %>% pull(DateTime) %>% lubridate
 
 data_2019_clean_dates <- data_2019_drop_na %>% select(-c("ImageTime", "ImageDate"))
 
-view(data_2019_clean_dates)
+print(data_2019_clean_dates)
 ```
 
 ```{r}
@@ -252,21 +251,7 @@ data_2020_drop_na$DateTime <- data_2020_drop_na %>% pull(DateTime) %>% lubridate
 
 data_2020_clean_dates <- data_2020_drop_na %>% select(-c("ImageTime", "ImageDate"))
 
-view(data_2020_clean_dates)
-```
-
-```{r eval=FALSE, include=FALSE}
-WCS17dates <- unique(date(WCS17$DateTime))
-write.csv(WCS17dates, file = "Wildcat_2017_Operational_Dates.csv", row.names = FALSE)
-
-WCS18dates <- unique(date(WCS18$DateTime))
-write.csv(WCS18dates, file = "Wildcat_2018_Operational_Dates.csv", row.names = FALSE)
-
-BGW17dates <- unique(date(BGW17$DateTime))
-write.csv(BGW17dates, file = "Boggy_2017_Operational_Dates.csv", row.names = FALSE)
-
-BGW18dates <- unique(date(BGW18$DateTime))
-write.csv(BGW18dates, file = "Boggy_2018_Operational_Dates.csv", row.names = FALSE)
+print(data_2020_clean_dates)
 ```
 
 ***
@@ -305,95 +290,7 @@ view(all_photo_data)
 # readr::write_csv(all_photo_data, file.path(currentwd, "data", "photo", "all_photo_data.csv"))
 ```
 
-
 ***
-We're going to use a function I created called "speciestotal" (see the functions.R script) which is specific to the way we classified our data. The issue is that the 'Count1Species' column in our dataframes doesn't correspond to a specific species, rather it corresponds to whatever species is the primary species detected (>50% of individuals if a multiple species are detected in an image). 
-
-The "speciestotal" function will count up the number of individuals for each species detected in a camera trap photo and then create a new column in the corresponding dataframe to store this species count. The new column is labled by the species and contains a count of the number of individuals detected in each image.
-
-A second function "allspecies" uses the "speciestotal" function for all of the species possible (24 total), and creates a new column for each species. 
-```{r}
-all_data_all_species <- allspecies(all_photo_data)
-
-view(all_data_all_species)
-```
-***
-
-Take a look a the new data frame. We've removed NAs and did some calculations to the data frame which created new columns with species counts.
-
-```{r}
-all_data_only_horses <- all_data_all_species %>% dplyr::filter(horse != 0)
-
-print(all_data_only_horses)
-
-BRL_horses_2018 <- all_data_only_horses %>% dplyr::filter(Site == "Bear Timelapse")
-
-print(BRL_horses_2018)
-```
-
-```{r}
-BRL_horses_2018 %>% pull(DateTime) %>% lubridate::date() %>% unique()
-```
-
-
-```{r}
-BRL_horses_2018_forage_min <- BRL_horses_2018 %>% mutate(forage_min = horse * 1)
-
-print(BRL_horses_2018_forage_min$forage_min)
-```
-```{r}
-BRL_horses_2018_forage_min <- BRL_horses_2018_forage_min %>% mutate(forage_min_weighted = forage_min * 1.1)
-
-print(BRL_horses_2018_forage_min$forage_min_weighted)
-```
-```{r}
-BRL_horses_2018_forage_min %>% pull(forage_min) %>% sum()
-BRL_horses_2018_forage_min %>% pull(forage_min_weighted) %>% sum()
-```
-
-```{r}
-BRL_horses_2018_forage_min <- BRL_horses_2018_forage_min %>% 
-   dplyr::mutate(Date = lubridate::date(DateTime), .after = DateTime)
-
-print(BRL_horses_2018_forage_min)
-```
-
-
-```{r}
-BRL_2018_summary <- BRL_horses_2018_forage_min %>% dplyr::group_by(Date) %>% dplyr::summarise(sum = sum(forage_min))
-
-BRL_2018_summary
-```
-```{r}
-p <- ggplot(BRL_2018_summary, aes(x = Date, y = sum)) +
-   geom_col() +
-   scale_x_date(date_labels = "%b", date_breaks = "1 month") +
-   labs(title = "Bear Timelapse 2018", subtitle = "Horses") +
-   ylab("Unweighted Forage Minutes") +
-   theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)))
-
-p
-```
-```{r}
-ggsave("Bear-Timelapse-2018-Horses-Unweighted-Forage-Minutes.jpg", 
-    path = paste0(currentwd,"/figures", "/forage-minutes"))
-```
-```{r}
-nrow(data_2017_clean_dates)
-nrow(data_2018_all_species)
-nrow(data_2019_clean_dates)
-nrow(data_2020_clean_dates)
-```
-
-```{r}
-sum(nrow(data_2017_clean_dates), nrow(data_2018_all_species), nrow(data_2019_clean_dates), nrow(data_2020_clean_dates))
-```
-
-***
-
 Now that the data is cleaned up and we did some preliminary calculations, we're ready to start the analysis. First, let's calculate the Counts metric, which is the number of individuals of each species in a photo, summed for all the photos taken at a site for the season. Note: Counts does not represent the number of unique individuals using a site, rather Counts represents the same individuals revisiting a site across time and are counted again.
 ```{r}
 BGT18counts <- counts.df(BGT18)
