@@ -213,7 +213,12 @@ from <- file.path(root_folder, main_folder, location_folder, site_folder, collec
 to <- paste0(currentfolder, "/subjects")
 
 # make a subjects folder if one doesn't already exist
-dir.create(paste(currentfolder, "subjects", sep = "/"))
+# create a "metadata" directory if one doesn't already exist in the collection folder
+if (dir.exists(paste0(currentfolder, "/subjects")) == FALSE) {
+  dir.create(paste0(currentfolder, "/subjects"))
+} else {
+  
+}
 
 # copy the photos containing subjects into the folders locations defined in the previous step
 file.copy(from, to, overwrite = FALSE)
