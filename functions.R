@@ -586,7 +586,7 @@ recombine.chunks<- function(site){
     
     site_filtered <- filter(site, deploydate == deployments[i])
     
-    site_filtered_data <- paste0(currentwd, "/csv/", site_filtered$path) %>% lapply(readr::read_csv) %>% bind_rows()
+    site_filtered_data <- paste0(currentwd, "/xlsm", "/csv/", site_filtered$path) %>% lapply(readr::read_csv) %>% bind_rows()
     
     # create a file name string
     filename <- paste(unique(site_filtered$sitecode), 
@@ -597,7 +597,7 @@ recombine.chunks<- function(site){
                       sep = "_")
     
     # write out the data
-    write_excel_csv(site_filtered_data, paste0(currentwd, "/csv/", "recombined/", filename))
+    write_excel_csv(site_filtered_data, paste0(currentwd, "/xlsm", "/csv/", "recombined/", filename))
   }
 }
 
