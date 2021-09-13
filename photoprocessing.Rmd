@@ -165,9 +165,9 @@ print(data_2019)
 
 ```{r}
 AFO20 <- AFO20 %>% dplyr::mutate(Site = "Fifty One", Year = 2020)
-BKN20 <- BKN20 %>% dplyr::mutate(Site = "Black Canyon Dam", Year = 2020)
-BKS20 <- BKS20 %>% dplyr::mutate(Site = "Black Canyon North", Year = 2020)
-BRL20 <- BRL20 %>% dplyr::mutate(Site = "Black Canyon South", Year = 2020)
+BKN20 <- BKN20 %>% dplyr::mutate(Site = "Black Canyon North", Year = 2020)
+BKS20 <- BKS20 %>% dplyr::mutate(Site = "Black Canyon South", Year = 2020)
+BRL20 <- BRL20 %>% dplyr::mutate(Site = "Bear Timelapse", Year = 2020)
 ```
 
 ```{r}
@@ -209,6 +209,12 @@ data_2019_drop_na <- data_2019 %>% tidyr::drop_na(Count1Species)
 
 data_2019_drop_na %>% pull(Count1Species) %>% length()
 ```
+
+```{r}
+data_2019_drop_na %>% dplyr::filter(Site == "Bear Timelapse")
+```
+
+
 
 ```{r}
 data_2020 %>% pull(Count1Species) %>% length()
@@ -287,7 +293,12 @@ view(all_photo_data)
 ```
 
 ```{r}
-# readr::write_csv(all_photo_data, file.path(currentwd, "data", "photo", "all_photo_data.csv"))
+all_photo_data %>% dplyr::filter(Site == "Bear Timelapse" & Year == "2019") %>% view()
+```
+
+
+```{r}
+readr::write_csv(all_photo_data, file.path(currentwd, "data", "photo", "all_photo_data.csv"))
 ```
 
 ***
