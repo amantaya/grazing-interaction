@@ -24,22 +24,11 @@
 # clear the R environment
 rm(list=ls(all=TRUE))
 
-currentwd <- getwd()
-
 # set the working directory and environment variables
-source(paste0(currentwd, "/environment.R"))
+source(paste0(getwd(), "/environment.R"))
 
 # load in the required libraries
 source(paste0(currentwd, "/packages.R"))
-
-getwd()
-
-# print the current R version in the console to check if your R version matches mine (which is 4.0.5)
-R.Version()
-
-# print the session info to check which language locale is currently configured for this environment
-# this is important because the locale sets the text file encoding on the OS
-sessionInfo()
 
 ## make a list of all the JPEGs in the file, if images are stored in some other format, update the code below
 imagefiles<-list.files(path=currentfolder,full.names=T,pattern=c(".JPG|.jpg"),include.dirs = T,recursive=T)
@@ -115,7 +104,6 @@ if (dir.exists(paste0(currentfolder, "/metadata")) == FALSE) {
 } else {
   
 }
-
 
 write.csv(imagefilesinfo, file = paste0(currentfolder, "/metadata/", excelfilename), row.names=F)
 
