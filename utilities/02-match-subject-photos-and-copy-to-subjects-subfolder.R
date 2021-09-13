@@ -13,30 +13,19 @@
 # clear the R environment
 rm(list=ls(all=TRUE))
 
-# load in the required libraries/packages
-source("C:/Users/andre/Dropbox/Rproj/Horse-Cattle-Elk-Grazing-Interaction-Study/packages.R")
-
 # set the working directory and environment variables
-# make sure you change the working directory in the external script below
-source("C:/Users/andre/Dropbox/Rproj/Horse-Cattle-Elk-Grazing-Interaction-Study/environment.R")
+source(paste0(getwd(), "/environment.R"))
 
-# check if the working directory is correct
-getwd()
-
-# check if your R version matches mine (which is 4.0.3)
-R.Version()
-
-# check which language locale is currently configured for your environment
-# this is important because the locale sets the text file encoding for the operating system
-sessionInfo()
+# load in the required libraries
+source(paste0(currentwd, "/packages.R"))
 
 # read in the csv file that contains the metadata for all photos in the collection folder (e.g., BRL_06052019_07022019)
-all_photos_in_collection <- read.csv(paste0(getwd(), paste0("/metadata/", collection_folder, ".csv")))
+all_photos_in_collection <- read.csv(paste0(currentfolder, paste0("/metadata/", collection_folder, ".csv")))
 
 # read in the text files from the metadata sub-folder
 # be careful not to put any other files with the file extension ".txt" inside of the metadata sub-folder because this function will read them in to R
 # TODO prevent reading in the "~all_subjects.txt" file in case this script is re-run on the same collection folder
-subject_txt_files <- list.files(paste0(getwd(), "/metadata"), pattern = ".txt", full.names = TRUE)
+subject_txt_files <- list.files(paste0(currentfolder, "/metadata"), pattern = ".txt", full.names = TRUE)
 
 # print the list of files (stored in a character vector inside R) in the console to check which text files were read into the R environment
 subject_txt_files
@@ -148,7 +137,7 @@ textfilename <- paste(collection_folder, "all_subjects.txt", sep = "_")
 
 # write out a single text file containing the concatenated subject text files
 # encode this text file as UTF-8 depending on your locale
-readr::write_lines(all_subjects_vector_append_working_directory, file = paste0(getwd(), "/metadata/", textfilename))
+readr::write_lines(all_subjects_vector_append_working_directory, file = paste0(currentfolder, "/metadata/", textfilename))
 
 # rename the first column in the tibble to something more descriptive
 # names(all_subjects_vector_string_replaced)[names(all_subjects_vector_string_replaced) == "value"] <- "path"
@@ -221,7 +210,7 @@ write.csv(all_photos_in_collection_add_subjects_column, file = paste0("metadata/
 # this function uses vectors defined in a previous step to create file paths for our external hard drives
 from <- file.path(root_folder, main_folder, location_folder, site_folder, collection_folder, sub_folder, subject_photos)
 
-to <- paste0(getwd(), "/subjects")
+to <- paste0(currentfolder, "/subjects")
 
 # make a subjects folder if one doesn't already exist
 dir.create(paste(currentfolder, "subjects", sep = "/"))
