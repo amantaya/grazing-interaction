@@ -16,23 +16,14 @@
 # clear the R environment
 rm(list=ls(all=TRUE))
 
-# load in the required libraries
-source("C:/Users/andre/Dropbox/Rproj/Horse-Cattle-Elk-Grazing-Interaction-Study/packages.R")
-
 # set the working directory and environment variables
-source("C:/Users/andre/Dropbox/Rproj/Horse-Cattle-Elk-Grazing-Interaction-Study/environment.R")
+source(paste0(getwd(), "/environment.R"))
 
-getwd()
-
-# print the current R version in the console to check if your R version matches mine (which is 4.0.3)
-R.Version()
-
-# print the session info to check which language locale is currently configured for this environment
-# this is important because the locale sets the text file encoding on the OS
-sessionInfo()
+# load in the required libraries
+source(paste0(currentwd, "/packages.R"))
 
 # read in the csv file that contains the metadata for all photos in the collection folder (e.g., BRL_06052019_07022019)
-all_photos_in_collection <- read.csv(paste0(getwd(), paste0("/metadata/", collection_folder, "_matched_subject_photos", ".csv")))
+all_photos_in_collection <- read.csv(paste0(currentfolder, paste0("/metadata/", collection_folder, "_matched_subject_photos", ".csv")))
 
 # select only the subject photos from within the collection
 subject_photos_in_collection <- dplyr::filter(all_photos_in_collection, SubjectPhoto == TRUE)
@@ -97,7 +88,7 @@ for (i in chunk_number) {
 # name each csv file the collection folder and the name of the chunk (e.g., BGT_07302019_09182019_subjects_chunk1.csv)
 for (i in chunk_number) {
   excelfilename <- paste0(paste(collection_folder, subjects_folder, chunk_names[i], sep = "_"), ".csv")
-  write.csv(chunks[[i]], paste0("metadata/", excelfilename), row.names=FALSE)
+  write.csv(chunks[[i]], paste0(currentfolder, "/metadata/", excelfilename), row.names=FALSE)
 }
 
 beep("coin")

@@ -20,24 +20,15 @@ print(currentwd)
 
 # load in the required libraries
 source(paste0(currentwd, "/packages.R"))
+
 source(paste0(currentwd, "/functions.R"))
 
-# set working directory to location of excel files
-# file.path() is system agnostic (i.e. works on Mac/PC/Linux)
-setwd(file.path("C:", "temp", "xlsm"))
-
-# check that working directory is correct
-getwd()
-
-# store the location of the current working directory
-currentwd <- getwd()
-
 # scan the current working directory for excel macro files
-xlsm_files <- dir(path = currentwd, pattern = "xlsm")
+xlsm_files <- dir(path = paste0(currentwd, "/xlsm"), pattern = "xlsm")
 
 # read in the xlsm files and convert them to xlsx files
 # this only keeps the first sheet. It strips out the macro and other sheets
-xlsm_workbook <- loadWorkbook(xlsm_files[1])
+xlsm_workbook <- loadWorkbook(paste0(currentwd, "/xlsm/", xlsm_files[1]))
 
 # read the workbook
 xlsm_data <- readWorkbook(xlsm_workbook, sheet = 1)
@@ -53,14 +44,18 @@ xlsm_data$DateTime <- openxlsx::convertToDateTime(xlsm_data$DateTime)
 xlsm_file_names <- str_replace_all(xlsm_files, "xlsm", "xlsx")
 
 # create a sub-directory to store the xlsx files
-dir.create(paste0(currentwd, "/xlsx"))
+if (dir.exists(paste0(currentwd, "/xlsm", "/xlsx")) == FALSE) {
+  dir.create(paste0(currentwd, "/xlsm", "/xlsx"))
+} else {
+  
+}
 
 # read in data from xlsm file as a data frame
 # write out data frame as xlsx into sub-directory "xlsx"
 # do this for all xlsm files in the current working directory
 for (i in 1:length(xlsm_files)) {
   # load the xlsm file
-  xlsm_workbook <- loadWorkbook(xlsm_files[i])
+  xlsm_workbook <- loadWorkbook(paste0(currentwd, "/xlsm/", xlsm_files[i]))
   # read the data from the first sheet
   xlsm_data <- readWorkbook(xlsm_workbook, sheet = 1)
   # create a new column by adding the time and date columns together
@@ -68,24 +63,28 @@ for (i in 1:length(xlsm_files)) {
   # convert the date time to a POSIXct class
   xlsm_data$DateTime <- openxlsx::convertToDateTime(xlsm_data$DateTime)
   # write out the xlsm data as an xlsx
-  write.xlsx(xlsm_data, paste0(currentwd, "/xlsx/", xlsm_file_names[i]), row.names = FALSE)
+  write.xlsx(xlsm_data, paste0(currentwd, "/xlsm", "/xlsx/", xlsm_file_names[i]), row.names = FALSE)
 }
 
 # scan the current working directory for xlsx files
-xlsx_files <- dir(path = paste0(currentwd, "/xlsx"), pattern = "xlsx")
+xlsx_files <- dir(path = paste0(currentwd, "/xlsm", "/xlsx"), pattern = "xlsx")
 
 # replace the xlsx file extension with csv
 # use this vector as our file names for the csv files
 csv_file_names <- str_replace_all(xlsx_files, "xlsx", "csv")
 
 # create a sub-directory to store the csv files
-dir.create(paste0(currentwd, "/csv"))
+if (dir.exists(paste0(currentwd, "/xlsm", "/csv")) == FALSE) {
+  dir.create(paste0(currentwd, "/xlsm", "/csv"))
+} else {
+  
+}
 
 # convert the xlsx files into csv files
 # write out data into the "csv" sub-directory
 for (i in 1:length(xlsx_files)) {
-  rio::convert(paste0(currentwd, "/xlsx/", xlsx_files[i]), 
-               paste0(currentwd, "/csv/", csv_file_names[i]))
+  rio::convert(paste0(currentwd, "/xlsm", "/xlsx/", xlsx_files[i]), 
+               paste0(currentwd, "/xlsm", "/csv/", csv_file_names[i]))
 }
 
 # # try splitting the strings
@@ -100,7 +99,7 @@ for (i in 1:length(xlsx_files)) {
 
 # try a different approach
 # list all the csv files in directory
-csv_file_list <- list.files(path = paste0(currentwd, "/csv"), full.names = FALSE)
+csv_file_list <- list.files(path = paste0(currentwd, "/xlsm", "/csv"), full.names = FALSE)
 
 csv_files_df <- data.frame(csv_file_list)
 
@@ -137,7 +136,11 @@ str(unique(A51$deploydate))
 deployments <- unique(A51$deploydate)
 
 # create a new directory to hold the recombined chunks
-dir.create(paste0(currentwd, "/csv/", "recombined"))
+if (dir.exists(paste0(currentwd, "/xlsm", "/csv", "/recombined")) == FALSE) {
+  dir.create(paste0(currentwd, "/xlsm", "/csv", "/recombined"))
+} else {
+  
+}
 
 # print the name of the sites in the console to put into the 
 sites <- unique(csv_files_df_separated$sitecode)
