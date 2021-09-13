@@ -50,6 +50,12 @@ all_data <- readr::read_csv('data/photo/all_photo_data.csv', col_names = TRUE, n
 print(all_data)
 ```
 
+```{r}
+all_data <- all_data %>% dplyr::mutate(Date = lubridate::date(DateTime), .after = Year)
+
+print(all_data)
+```
+
 ------------------------------------------------------------------------
 
 We're going to use a function I created called "speciestotal" (see the functions.R script) which is specific to the way we classified our data. The issue is that the 'Count1Species' column in our data frames doesn't correspond to a specific species, rather it corresponds to whatever species is the primary species detected (\>50% of individuals if a multiple species are detected in an image).
@@ -68,6 +74,47 @@ view(all_data_all_species)
 
 This new data frame has 24 additional columns that contain counts of the 'subjects' (e.g., horses, cows, ATVs, humans) in each photo. These columns were created primarily to simplify the data frame, where a single row has the counts for each species stored in a separate column.
 
+```{r black canyon south 2017}
+BKS_2017 <- all_data_all_species %>% 
+  dplyr::filter(Site == "Black Canyon South") %>% 
+  dplyr::filter(Year == "2017")
+  
+print(BKS_2017)
+```
+
+```{r black canyon south 2018}
+BKS_2018 <- all_data_all_species %>% 
+  dplyr::filter(Site == "Black Canyon South") %>% 
+  dplyr::filter(Year == "2018")
+  
+print(BKS_2018)
+```
+
+```{r black canyon south 2019}
+BKS_2019 <- all_data_all_species %>% 
+  dplyr::filter(Site == "Black Canyon South") %>% 
+  dplyr::filter(Year == "2019")
+  
+print(BKS_2019)
+```
+
+```{r black canyon south 2020}
+BKS_2020 <- all_data_all_species %>% 
+  dplyr::filter(Site == "Black Canyon South") %>% 
+  dplyr::filter(Year == "2020")
+  
+print(BKS_2020)
+```
+
+```{r bear timelapse 2017}
+# TODO go back to the photo processing step and name this site as "Bear Timelapse"
+BRL_2017 <- all_data_all_species %>% 
+  dplyr::filter(Site == "Bear") %>% 
+  dplyr::filter(Year == "2017")
+  
+print(BRL_2017)
+```
+
 ```{r bear timelapse 2018}
 BRL_2018 <- all_data_all_species %>% 
   dplyr::filter(Site == "Bear Timelapse") %>% 
@@ -84,16 +131,62 @@ BRL_2019 <- all_data_all_species %>%
 print(BRL_2019)
 ```
 
+```{r bear timelapse 2020}
+BRL_2020 <- all_data_all_species %>% 
+  dplyr::filter(Site == "Bear Timelapse") %>%
+  dplyr::filter(Year == "2020")
+  
+print(BRL_2020)
+```
+
+```{r fifty one timelapse 2019}
+A51_2019 <- all_data_all_species %>% 
+  dplyr::filter(Site == "Fifty One") %>% 
+  dplyr::filter(Year == "2019")
+  
+print(A51_2019)
+```
+
+```{r fifty one timelapse 2020}
+A51_2020 <- all_data_all_species %>% 
+  dplyr::filter(Site == "Fifty One") %>% 
+  dplyr::filter(Year == "2020")
+  
+print(A51_2020)
+```
+
+```{r black canyon dam 2019}
+BKD_2019 <- all_data_all_species %>% 
+  dplyr::filter(Site == "Black Canyon Dam") %>% 
+  dplyr::filter(Year == "2019")
+  
+print(BKD_2019)
+```
+
+```{r black canyon north 2019}
+BKN_2019 <- all_data_all_species %>% 
+  dplyr::filter(Site == "Black Canyon North") %>% 
+  dplyr::filter(Year == "2019")
+  
+print(BKN_2019)
+```
+
+```{r black canyon north 2020}
+BKN_2020 <- all_data_all_species %>% 
+  dplyr::filter(Site == "Black Canyon North") %>% 
+  dplyr::filter(Year == "2020")
+  
+print(BKN_2020)
+```
+
 ------------------------------------------------------------------------
 
 Let's check the operational dates for Bear Timelapse 2018. This represents only the dates in this data frame, which corresponds only to 'subject' photos. This data frame does not contain blank or empty photos that were sorted out during an earlier phase of photo processing.
 
 ```{r}
-BRL_2018 %>% pull(DateTime) %>% lubridate::date() %>% unique()
-```
+BRL_2018 %>% pull(DateTime) %>% lubridate::date() %>% unique() %>% tibble()
 
-```{r}
-BRL_2019 %>% pull(DateTime) %>% lubridate::date() %>% unique()
+BRL_2019 %>% pull(DateTime) %>% lubridate::date() %>% unique() %>% tibble()
 ```
 
 These operational dates represent days with observations containing subjects, but does not contain the dates without observations, but where the camera was still functioning.
@@ -124,53 +217,66 @@ calc.foraging.time.wtd <- function(cameradf, interval) {
 }
 ```
 
-```{r}
+```{r calc forage bear timelapse}
+BRL_2017 <- calc.foraging.time.unwtd(BRL_2017, interval = 1)
+
+BRL_2017 <- calc.foraging.time.wtd(BRL_2017, interval = 1)
+
+BRL_2018 <- calc.foraging.time.unwtd(BRL_2018, interval = 1)
+
+BRL_2018 <- calc.foraging.time.wtd(BRL_2018, interval = 1)
+
 BRL_2019 <- calc.foraging.time.unwtd(BRL_2019, interval = 5)
 
-view(BRL_2019)
-```
-
-```{r}
 BRL_2019 <- calc.foraging.time.wtd(BRL_2019, interval = 5)
 
-view(BRL_2019)
+BRL_2020 <- calc.foraging.time.unwtd(BRL_2020, interval = 5)
+
+BRL_2020 <- calc.foraging.time.wtd(BRL_2020, interval = 5)
 ```
 
-```{r}
-BRL_2019 <- BRL_2019 %>% 
-   dplyr::mutate(Date = lubridate::date(DateTime), .after = Year)
+```{r calc forage fifty one}
+A51_2019 <- calc.foraging.time.unwtd(A51_2019, interval = 5)
 
-print(BRL_2019)
+A51_2019 <- calc.foraging.time.wtd(A51_2019, interval = 5)
+
+A51_2020 <- calc.foraging.time.unwtd(A51_2020, interval = 5)
+
+A51_2020 <- calc.foraging.time.wtd(A51_2020, interval = 5)
 ```
 
-```{r}
-BRL_2019 %>% pull(horse_forage_unwtd) %>% sum()
+```{r calc forage black canyon dam}
+BKD_2019 <- calc.foraging.time.unwtd(BKD_2019, interval = 5)
 
-BRL_2019 %>% pull(horse_forage_wtd) %>% sum()
+BKD_2019 <- calc.foraging.time.wtd(BKD_2019, interval = 5)
 ```
 
+```{r calc forage black canyon north}
+BKN_2019 <- calc.foraging.time.unwtd(BKN_2019, interval = 5)
 
-```{r}
-BRL_2018 <- BRL_2018 %>% mutate(horse_forage_unwtd = horse * 1)
+BKN_2019 <- calc.foraging.time.wtd(BKN_2019, interval = 5)
 
-BRL_2018 <- BRL_2018 %>% mutate(cow_forage_unwtd = cow * 1)
+BKN_2020 <- calc.foraging.time.unwtd(BKN_2020, interval = 5)
 
-BRL_2018 <- BRL_2018 %>% mutate(elk_forage_unwtd = elk * 1)
-
-view(BRL_2018)
+BKN_2020 <- calc.foraging.time.wtd(BKN_2020, interval = 5)
 ```
 
-```{r}
-BRL_2018 <- BRL_2018 %>% 
-  mutate(horse_forage_wtd = horse_forage_unwtd * 1.1)
+```{r calc forage black canyon south}
+BKS_2017 <- calc.foraging.time.unwtd(BKS_2017, interval = 1)
 
-BRL_2018 <- BRL_2018 %>% 
-  mutate(cow_forage_wtd = cow_forage_unwtd * 1)
+BKS_2017 <- calc.foraging.time.wtd(BKS_2017, interval = 1)
 
-BRL_2018 <- BRL_2018 %>% 
-  mutate(elk_forage_wtd = elk_forage_unwtd * 0.7)
+BKS_2018 <- calc.foraging.time.unwtd(BKS_2018, interval = 1)
 
-view(BRL_2018)
+BKS_2018 <- calc.foraging.time.wtd(BKS_2018, interval = 1)
+
+BKS_2019 <- calc.foraging.time.unwtd(BKS_2019, interval = 5)
+
+BKS_2019 <- calc.foraging.time.wtd(BKS_2019, interval = 5)
+
+BKS_2020 <- calc.foraging.time.unwtd(BKS_2020, interval = 5)
+
+BKS_2020 <- calc.foraging.time.wtd(BKS_2020, interval = 5)
 ```
 
 ```{r}
@@ -192,20 +298,10 @@ BRL_2018 %>% pull(elk_forage_wtd) %>% sum()
 ```
 
 ```{r}
-BRL_2018 <- BRL_2018 %>% 
-   dplyr::mutate(Date = lubridate::date(DateTime), .after = Year)
-
-print(BRL_2018)
+BRL_2019 %>% pull(Date) %>% unique()
 ```
 
-```{r}
-BRL_2019 <- BRL_2019 %>% 
-   dplyr::mutate(Date = lubridate::date(DateTime), .after = Year)
-
-print(BRL_2019)
-```
-
-```{r}
+```{r function summarize unweighted daily totals}
 summarize.unwtd.daily.totals <- function(cameradf){
 
   cameradf_horses <- NULL
@@ -226,11 +322,21 @@ summarize.unwtd.daily.totals <- function(cameradf){
     dplyr::summarise(daily_total_unwtd = sum(elk_forage_unwtd))
   cameradf_elk <- cameradf_elk %>% mutate(Species = "Elk")  
   
-  cameradf <- dplyr::bind_rows(cameradf_horses, cameradf_cows, cameradf_elk)
+  cameradf_bind <- dplyr::bind_rows(cameradf_horses, cameradf_cows, cameradf_elk)
   
-  return(cameradf)
+  cameradf_bind$Site <- NULL
+  
+  cameradf_bind$Site <- cameradf$Site[1]
+  
+  cameradf_bind$Year <- NULL
+  
+  cameradf_bind$Year <- cameradf$Year[1]
+  
+  return(cameradf_bind)
 }
+```
 
+```{r function summarize weighted daily totals}
 summarize.wtd.daily.totals <- function(cameradf){
 
   cameradf_horses <- NULL
@@ -251,79 +357,135 @@ summarize.wtd.daily.totals <- function(cameradf){
     dplyr::summarise(daily_total_wtd = sum(elk_forage_wtd))
   cameradf_elk <- cameradf_elk %>% mutate(Species = "Elk")  
   
-  cameradf <- dplyr::bind_rows(cameradf_horses, cameradf_cows, cameradf_elk)
+  cameradf_bind <- dplyr::bind_rows(cameradf_horses, cameradf_cows, cameradf_elk)
   
-  return(cameradf)
+  cameradf_bind$Site <- NULL
+  
+  cameradf_bind$Site <- cameradf$Site[1]
+  
+  cameradf_bind$Year <- NULL
+  
+  cameradf_bind$Year <- cameradf$Year[1]
+  
+  return(cameradf_bind)
 }
 ```
 
 ```{r}
-BRL_2019_unwtd_summary <- summarize.unwtd.daily.totals(BRL_2019)
+summarize.unwtd.daily.totals(BRL_2019)
+```
 
+```{r}
+summarize.wtd.daily.totals(BRL_2019)
+```
+
+
+```{r}
+list_of_dataframes <- list(A51_2019, 
+                           A51_2020, 
+                           BKD_2019, 
+                           BKN_2019, 
+                           BKN_2020, 
+                           BKS_2017, 
+                           BKS_2018, 
+                           BKS_2019, 
+                           BKS_2020, 
+                           BRL_2017, 
+                           BRL_2018, 
+                           BRL_2019, 
+                           BRL_2020)
+
+list_of_dataframes
+```
+
+```{r}
+list_of_summarized_dataframes_unwtd <- list_of_dataframes %>% purrr::map(summarize.unwtd.daily.totals)
+
+list_of_summarized_dataframes_unwtd
+```
+
+```{r}
+list_of_summarized_dataframes_wtd <- list_of_dataframes %>% purrr::map(summarize.wtd.daily.totals)
+
+list_of_summarized_dataframes_wtd
+```
+
+```{r}
+# purrr::flatten(list_of_summarized_dataframes_unwtd)
+```
+```{r}
+A51_2019_unwtd_summary <- list_of_summarized_dataframes_unwtd[[1]]
+A51_2020_unwtd_summary <- list_of_summarized_dataframes_unwtd[[2]]
+BKD_2019_unwtd_summary <- list_of_summarized_dataframes_unwtd[[3]]
+BKN_2019_unwtd_summary <- list_of_summarized_dataframes_unwtd[[4]]
+BKN_2020_unwtd_summary <- list_of_summarized_dataframes_unwtd[[5]]
+BKS_2017_unwtd_summary <- list_of_summarized_dataframes_unwtd[[6]]
+BKS_2018_unwtd_summary <- list_of_summarized_dataframes_unwtd[[7]]
+BKS_2019_unwtd_summary <- list_of_summarized_dataframes_unwtd[[8]]
+BKS_2020_unwtd_summary <- list_of_summarized_dataframes_unwtd[[9]]
+BRL_2017_unwtd_summary <- list_of_summarized_dataframes_unwtd[[10]]
+BRL_2018_unwtd_summary <- list_of_summarized_dataframes_unwtd[[11]]
+BRL_2019_unwtd_summary <- list_of_summarized_dataframes_unwtd[[12]]
+BRL_2020_unwtd_summary <- list_of_summarized_dataframes_unwtd[[13]]
+```
+
+```{r}
+A51_2019_unwtd_summary
+A51_2020_unwtd_summary
+BKD_2019_unwtd_summary
+BKN_2019_unwtd_summary
+BKN_2020_unwtd_summary
+BKS_2017_unwtd_summary
+BKS_2018_unwtd_summary
+BKS_2019_unwtd_summary
+BKS_2020_unwtd_summary
+BRL_2017_unwtd_summary
+BRL_2018_unwtd_summary
 BRL_2019_unwtd_summary
+BRL_2020_unwtd_summary
+```
 
-BRL_2019_wtd_summary <- summarize.wtd.daily.totals(BRL_2019)
+```{r}
+A51_2019_wtd_summary <- list_of_summarized_dataframes_wtd[[1]]
+A51_2020_wtd_summary <- list_of_summarized_dataframes_wtd[[2]]
+BKD_2019_wtd_summary <- list_of_summarized_dataframes_wtd[[3]]
+BKN_2019_wtd_summary <- list_of_summarized_dataframes_wtd[[4]]
+BKN_2020_wtd_summary <- list_of_summarized_dataframes_wtd[[5]]
+BKS_2017_wtd_summary <- list_of_summarized_dataframes_wtd[[6]]
+BKS_2018_wtd_summary <- list_of_summarized_dataframes_wtd[[7]]
+BKS_2019_wtd_summary <- list_of_summarized_dataframes_wtd[[8]]
+BKS_2020_wtd_summary <- list_of_summarized_dataframes_wtd[[9]]
+BRL_2017_wtd_summary <- list_of_summarized_dataframes_wtd[[10]]
+BRL_2018_wtd_summary <- list_of_summarized_dataframes_wtd[[11]]
+BRL_2019_wtd_summary <- list_of_summarized_dataframes_wtd[[12]]
+BRL_2020_wtd_summary <- list_of_summarized_dataframes_wtd[[13]]
+```
 
+```{r}
+A51_2019_wtd_summary
+A51_2020_wtd_summary
+BKD_2019_wtd_summary
+BKN_2019_wtd_summary
+BKN_2020_wtd_summary
+BKS_2017_wtd_summary
+BKS_2018_wtd_summary
+BKS_2019_wtd_summary
+BKS_2020_wtd_summary
+BRL_2017_wtd_summary
+BRL_2018_wtd_summary
 BRL_2019_wtd_summary
+BRL_2020_wtd_summary
 ```
-
-```{r}
-BRL_2018_horse_forage_unwtd_summary <- BRL_2018 %>% 
-  dplyr::group_by(Date) %>% 
-  dplyr::summarise(daily_total_unwtd = sum(horse_forage_unwtd))
-
-# BRL_2018_horse_forage_wtd_summary <- BRL_2018 %>% dplyr::group_by(Date) %>% dplyr::summarise(daily_total_wtd = sum(horse_forage_wtd))
-
-BRL_2018_horse_forage_unwtd_summary <- BRL_2018_horse_forage_unwtd_summary %>% 
-  dplyr::mutate(Species = "Horse")
-
-print(BRL_2018_horse_forage_unwtd_summary)
-```
-
-```{r}
-BRL_2018_cow_forage_unwtd_summary <- BRL_2018 %>% dplyr::group_by(Date) %>% dplyr::summarise(daily_total_unwtd = sum(cow_forage_unwtd))
-
-BRL_2018_cow_forage_unwtd_summary <- BRL_2018_cow_forage_unwtd_summary %>% 
-  mutate(Species = "Cow")
-
-BRL_2018_cow_forage_unwtd_summary
-```
-```{r}
-BRL_2018_elk_forage_unwtd_summary <- BRL_2018 %>% dplyr::group_by(Date) %>% dplyr::summarise(daily_total_unwtd = sum(elk_forage_unwtd))
-
-BRL_2018_elk_forage_unwtd_summary <- BRL_2018_elk_forage_unwtd_summary %>% 
-  mutate(Species = "Elk")
-
-BRL_2018_elk_forage_unwtd_summary
-```
-
-```{r}
-# BRL_2018_unwtd_summary <- dplyr::inner_join(BRL_2018_horse_forage_unwtd_summary,
-#                                             BRL_2018_cow_forage_unwtd_summary,
-#                                             by = "Date") %>% inner_join(BRL_2018_elk_forage_unwtd_summary, by = "Date")
-# 
-# BRL_2018_unwtd_summary
-```
-
-
-```{r}
-BRL_2018_unwtd_summary <- dplyr::bind_rows(BRL_2018_horse_forage_unwtd_summary,
-                                                  BRL_2018_cow_forage_unwtd_summary,
-                                                  BRL_2018_elk_forage_unwtd_summary)
-
-print(BRL_2018_unwtd_summary)
-```
-
 
 ```{r}
 p <- ggplot(BRL_2018_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = Species)) +
-  geom_col() +
+  geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b", 
-               date_breaks = "1 month", 
-               limits = c(date("2018-01-01"), date("2018-12-31"))) +
-  scale_y_continuous(limits = c(0, 700), breaks = seq(0, 700, by = 100)) +
-  labs(title = "Bear Time-Lapse", subtitle = "2018") +
-  ylab("Unweighted Forage Minutes") +
+               date_breaks = "1 month",
+               limits = c(date("2018-04-01"), date("2018-10-31"))) +
+  scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
+  labs(title = "Bear Timelapse", subtitle = "2018") +
+  ylab("Forage Minutes (Unweighted)") +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
@@ -333,27 +495,167 @@ p
 ```
 
 ```{r}
-# ggsave("Bear-Timelapse-2018-Unweighted-Forage-Minutes-Combined-Species.jpg",
-#      path = paste0(currentwd,"/figures", "/forage-minutes"))
+# ggsave("Bear-Timelapse-2018-Unweighted-Forage-Minutes-Apr-01-Oct-31.jpg",
+#        path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
+
+
 ```{r}
-p <- ggplot(BRL_2019_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = Species)) +
+p <- ggplot(BRL_2018_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
-  scale_x_date(date_labels = "%b",
-               date_minor_breaks = "1 day",
-               date_breaks = "1 month",
-               limits = c(date("2019-06-01"), date("2019-08-31"))) +
-  labs(title = "Bear Time-Lapse", subtitle = "2019") +
-  ylab("Unweighted Forage Minutes") +
+  scale_x_date(date_labels = "%b", 
+               date_breaks = "1 month", 
+               limits = c(date("2018-04-01"), date("2018-10-31"))) +
+  scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
+  labs(title = "Bear Timelapse", subtitle = "2018") +
+  ylab("Forage Minutes (Weighted by Animal Unit Equivalencies)") +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)))
 
 p
 ```
 
 ```{r}
-ggsave("Bear-Timelapse-2019-Unweighted-Forage-Minutes-June-01-August-31.jpg",
+# ggsave("Bear-Timelapse-2018-Weighted-Forage-Minutes-Apr-01-Oct-31.jpg",
+#        path = paste0(currentwd,"/figures", "/forage-minutes"))
+```
+
+```{r}
+p <- ggplot(BRL_2019_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = Species)) +
+  geom_col(position = "dodge") +
+  scale_x_date(date_labels = "%b",
+               date_breaks = "1 month",
+               limits = c(date("2019-04-01"), date("2019-10-31"))) +
+  scale_y_continuous(limits = c(-100, 10000), breaks = seq(0, 10000, by = 1000)) +
+  labs(title = "Bear Timelapse", subtitle = "2019") +
+  ylab("Forage Minutes (Unweighted)") +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+  annotate(geom = "text", 
+           x = date(("2019-06-05")), 
+           y = 4500,
+           label = "Monitoring Start Date",
+           angle = 90,
+           size = 3) +
+  annotate(geom = "segment",
+           linetype = 2,
+           x = date(("2019-06-05")), 
+           xend = date(("2019-06-05")), 
+           y = 0, 
+           yend = 3000,
+           color = "black")
+p
+```
+
+```{r}
+# ggsave("Bear-Timelapse-2019-Unweighted-Forage-Minutes-Apr-01-Oct-31.jpg",
+#      path = paste0(currentwd,"/figures", "/forage-minutes"))
+```
+
+```{r}
+p <- ggplot(BRL_2019_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Species)) +
+  geom_col(position = "dodge") +
+  scale_x_date(date_labels = "%b",
+               date_breaks = "1 month",
+               limits = c(date("2019-04-01"), date("2019-10-31"))) +
+  scale_y_continuous(limits = c(-100, 10000), breaks = seq(0, 10000, by = 1000)) +
+  labs(title = "Bear Timelapse", subtitle = "2019") +
+  ylab("Forage Minutes (Weighted by Animal Unit Equivalencies)") +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+  annotate(geom = "text", 
+           x = date(("2019-06-05")), 
+           y = 4500,
+           label = "Monitoring Start Date",
+           angle = 90,
+           size = 3) +
+  annotate(geom = "segment",
+           linetype = 2,
+           x = date(("2019-06-05")), 
+           xend = date(("2019-06-05")), 
+           y = 0, 
+           yend = 3000,
+           color = "black")
+p
+```
+
+```{r}
+# ggsave("Bear-Timelapse-2019-Weighted-Forage-Minutes-Apr-01-Oct-31.jpg",
+#      path = paste0(currentwd,"/figures", "/forage-minutes"))
+```
+
+```{r}
+p <- ggplot(BRL_2020_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = Species)) +
+  geom_col(position = "dodge") +
+  scale_x_date(date_labels = "%b",
+               date_breaks = "1 month",
+               limits = c(date("2020-04-01"), date("2020-10-31"))) +
+  scale_y_continuous(limits = c(0, 1000), breaks = seq(0, 1000, by = 100)) +
+  labs(title = "Bear Timelapse", subtitle = "2020") +
+  ylab("Forage Minutes (Unweighted)") +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+  annotate(geom = "text", 
+           x = date(("2020-07-12")), 
+           y = 750,
+           label = "Monitoring Start Date",
+           angle = 90,
+           size = 3) +
+  annotate(geom = "segment",
+           linetype = 2,
+           x = date(("2020-07-12")), 
+           xend = date(("2020-07-12")), 
+           y = 0, 
+           yend = 500,
+           color = "black")
+p
+```
+
+```{r}
+# ggsave("Bear-Timelapse-2020-Unweighted-Forage-Minutes-Apr-01-Oct-31.jpg",
+#      path = paste0(currentwd,"/figures", "/forage-minutes"))
+```
+
+```{r}
+p <- ggplot(BRL_2020_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Species)) +
+  geom_col(position = "dodge") +
+  scale_x_date(date_labels = "%b",
+               date_breaks = "1 month",
+               limits = c(date("2020-04-01"), date("2020-10-31"))) +
+  scale_y_continuous(limits = c(0, 1000), breaks = seq(0, 1000, by = 100)) +
+  labs(title = "Bear Timelapse", subtitle = "2020") +
+  ylab("Forage Minutes (Weighted by Animal Unit Equivalencies)") +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+  annotate(geom = "text", 
+           x = date(("2020-07-12")), 
+           y = 750,
+           label = "Monitoring Start Date",
+           angle = 90,
+           size = 3) +
+  annotate(geom = "segment",
+           linetype = 2,
+           x = date(("2020-07-12")), 
+           xend = date(("2020-07-12")), 
+           y = 0, 
+           yend = 500,
+           color = "black")
+p
+```
+
+```{r}
+ggsave("Bear-Timelapse-2020-Weighted-Forage-Minutes-Apr-01-Oct-31.jpg",
      path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
+
+
