@@ -476,39 +476,43 @@ BRL_2018_wtd_summary
 BRL_2019_wtd_summary
 BRL_2020_wtd_summary
 ```
+```{r}
+
+```
 
 ```{r}
 p <- ggplot(BRL_2017_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b", 
                date_breaks = "1 month",
-               limits = c(date("2017-04-01"), date("2017-10-31"))) +
+               limits = c(date("2017-06-01"), date("2017-09-30"))) +
   scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
   labs(title = "Bear Timelapse", subtitle = "2017") +
   ylab("Forage Minutes (Unweighted)") +
+  facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
-  annotate(geom = "text", 
-           x = date(("2017-07-13")), 
-           y = 85,
+    annotate(geom = "text", 
+           x = date(("2017-07-10")), 
+           y = (250/2),
            label = "Monitoring Start Date",
            angle = 90,
-           size = 3) +
+           size = 2) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2017-07-13")), 
            xend = date(("2017-07-13")), 
            y = 0, 
-           yend = 50,
+           yend = 250,
            color = "black")
 
 p
 ```
 
 ```{r}
-ggsave("Bear-Timelapse-2017-Unweighted-Forage-Minutes-Apr-01-Oct-31.jpg",
+ggsave("Bear-Timelapse-2017-Unweighted-Forage-Minutes-June-01-Sept-30.jpg",
        path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
 
@@ -517,33 +521,34 @@ p <- ggplot(BRL_2017_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b", 
                date_breaks = "1 month",
-               limits = c(date("2017-04-01"), date("2017-10-31"))) +
+               limits = c(date("2017-06-01"), date("2017-09-30"))) +
   scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
   labs(title = "Bear Timelapse", subtitle = "2017") +
   ylab("Forage Minutes (Weighted by Animal Unit Equivalencies)") +
+  facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
   annotate(geom = "text", 
-           x = date(("2017-07-13")), 
-           y = 85,
+           x = date(("2017-07-10")), 
+           y = (250/2),
            label = "Monitoring Start Date",
            angle = 90,
-           size = 3) +
+           size = 2) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2017-07-13")), 
            xend = date(("2017-07-13")), 
            y = 0, 
-           yend = 50,
+           yend = 250,
            color = "black")
 
 p
 ```
 
 ```{r}
-ggsave("Bear-Timelapse-2017-Weighted-Forage-Minutes-Apr-01-Oct-31.jpg",
+ggsave("Bear-Timelapse-2017-Weighted-Forage-Minutes-June-01-Sept-30.jpg",
        path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
 
@@ -552,10 +557,11 @@ p <- ggplot(BRL_2018_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b", 
                date_breaks = "1 month",
-               limits = c(date("2018-04-01"), date("2018-10-31"))) +
+               limits = c(date("2018-06-01"), date("2018-09-30"))) +
   scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
   labs(title = "Bear Timelapse", subtitle = "2018") +
   ylab("Forage Minutes (Unweighted)") +
+  facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
@@ -565,8 +571,8 @@ p
 ```
 
 ```{r}
-# ggsave("Bear-Timelapse-2018-Unweighted-Forage-Minutes-Apr-01-Oct-31.jpg",
-#        path = paste0(currentwd,"/figures", "/forage-minutes"))
+ggsave("Bear-Timelapse-2018-Unweighted-Forage-Minutes-June-01-Sept-30.jpg",
+       path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
 
 
@@ -575,10 +581,11 @@ p <- ggplot(BRL_2018_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b", 
                date_breaks = "1 month", 
-               limits = c(date("2018-04-01"), date("2018-10-31"))) +
+               limits = c(date("2018-06-01"), date("2018-09-30"))) +
   scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
   labs(title = "Bear Timelapse", subtitle = "2018") +
   ylab("Forage Minutes (Weighted by Animal Unit Equivalencies)") +
+  facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
@@ -588,8 +595,8 @@ p
 ```
 
 ```{r}
-# ggsave("Bear-Timelapse-2018-Weighted-Forage-Minutes-Apr-01-Oct-31.jpg",
-#        path = paste0(currentwd,"/figures", "/forage-minutes"))
+ggsave("Bear-Timelapse-2018-Weighted-Forage-Minutes-June-01-Sept-30.jpg",
+       path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
 
 ```{r}
@@ -597,33 +604,34 @@ p <- ggplot(BRL_2019_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
-               limits = c(date("2019-04-01"), date("2019-10-31"))) +
-  scale_y_continuous(limits = c(-100, 10000), breaks = seq(0, 10000, by = 1000)) +
+               limits = c(date("2019-06-01"), date("2019-09-30"))) +
+  scale_y_continuous(limits = c(-100, 10000), breaks = seq(0, 10000, by = 2500)) +
   labs(title = "Bear Timelapse", subtitle = "2019") +
   ylab("Forage Minutes (Unweighted)") +
+  facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
   annotate(geom = "text", 
-           x = date(("2019-06-05")), 
-           y = 4500,
+           x = date(("2019-06-02")), 
+           y = (10000/2),
            label = "Monitoring Start Date",
            angle = 90,
-           size = 3) +
+           size = 2) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2019-06-05")), 
            xend = date(("2019-06-05")), 
            y = 0, 
-           yend = 3000,
+           yend = 10000,
            color = "black")
 p
 ```
 
 ```{r}
-# ggsave("Bear-Timelapse-2019-Unweighted-Forage-Minutes-Apr-01-Oct-31.jpg",
-#      path = paste0(currentwd,"/figures", "/forage-minutes"))
+ggsave("Bear-Timelapse-2019-Unweighted-Forage-Minutes-June-01-Sept-30.jpg",
+     path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
 
 ```{r}
@@ -631,33 +639,34 @@ p <- ggplot(BRL_2019_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
-               limits = c(date("2019-04-01"), date("2019-10-31"))) +
-  scale_y_continuous(limits = c(-100, 10000), breaks = seq(0, 10000, by = 1000)) +
+               limits = c(date("2019-06-01"), date("2019-09-30"))) +
+  scale_y_continuous(limits = c(-100, 10000), breaks = seq(0, 10000, by = 2500)) +
   labs(title = "Bear Timelapse", subtitle = "2019") +
   ylab("Forage Minutes (Weighted by Animal Unit Equivalencies)") +
+  facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
   annotate(geom = "text", 
-           x = date(("2019-06-05")), 
-           y = 4500,
+           x = date(("2019-06-02")), 
+           y = (10000/2),
            label = "Monitoring Start Date",
            angle = 90,
-           size = 3) +
+           size = 2) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2019-06-05")), 
            xend = date(("2019-06-05")), 
            y = 0, 
-           yend = 3000,
+           yend = 10000,
            color = "black")
 p
 ```
 
 ```{r}
-# ggsave("Bear-Timelapse-2019-Weighted-Forage-Minutes-Apr-01-Oct-31.jpg",
-#      path = paste0(currentwd,"/figures", "/forage-minutes"))
+ggsave("Bear-Timelapse-2019-Weighted-Forage-Minutes-June-01-Sept-30.jpg",
+     path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
 
 ```{r}
@@ -665,32 +674,33 @@ p <- ggplot(BRL_2020_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
-               limits = c(date("2020-04-01"), date("2020-10-31"))) +
-  scale_y_continuous(limits = c(0, 1000), breaks = seq(0, 1000, by = 100)) +
+               limits = c(date("2020-06-01"), date("2020-09-30"))) +
+  scale_y_continuous(limits = c(0, 1000), breaks = seq(0, 1000, by = 250)) +
   labs(title = "Bear Timelapse", subtitle = "2020") +
   ylab("Forage Minutes (Unweighted)") +
+  facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
   annotate(geom = "text", 
-           x = date(("2020-07-11")), 
-           y = 750,
+           x = date(("2020-07-08")), 
+           y = 500,
            label = "Monitoring Start Date",
            angle = 90,
-           size = 3) +
+           size = 2) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2020-07-11")), 
            xend = date(("2020-07-11")), 
            y = 0, 
-           yend = 500,
+           yend = 1000,
            color = "black")
 p
 ```
 
 ```{r}
-ggsave("Bear-Timelapse-2020-Unweighted-Forage-Minutes-Apr-01-Oct-31.jpg",
+ggsave("Bear-Timelapse-2020-Unweighted-Forage-Minutes-June-01-Sept-30.jpg",
      path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
 
@@ -699,32 +709,33 @@ p <- ggplot(BRL_2020_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
-               limits = c(date("2020-04-01"), date("2020-10-31"))) +
-  scale_y_continuous(limits = c(0, 1000), breaks = seq(0, 1000, by = 100)) +
+               limits = c(date("2020-06-01"), date("2020-09-30"))) +
+  scale_y_continuous(limits = c(0, 1000), breaks = seq(0, 1000, by = 250)) +
   labs(title = "Bear Timelapse", subtitle = "2020") +
   ylab("Forage Minutes (Weighted by Animal Unit Equivalencies)") +
+  facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
   annotate(geom = "text", 
-           x = date(("2020-07-11")), 
-           y = 750,
+           x = date(("2020-07-08")), 
+           y = 500,
            label = "Monitoring Start Date",
            angle = 90,
-           size = 3) +
+           size = 2) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2020-07-11")), 
            xend = date(("2020-07-11")), 
            y = 0, 
-           yend = 500,
+           yend = 1000,
            color = "black")
 p
 ```
 
 ```{r}
-ggsave("Bear-Timelapse-2020-Weighted-Forage-Minutes-Apr-01-Oct-31.jpg",
+ggsave("Bear-Timelapse-2020-Weighted-Forage-Minutes-June-01-Sept-30.jpg",
      path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
 
@@ -733,31 +744,32 @@ p <- ggplot(A51_2019_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
-               limits = c(date("2019-04-01"), date("2019-10-31"))) +
-  scale_y_continuous(limits = c(0, 2000), breaks = seq(0, 2000, by = 250)) +
+               limits = c(date("2019-06-01"), date("2019-09-30"))) +
+  scale_y_continuous(limits = c(0, 2000), breaks = seq(0, 2000, by = 500)) +
   labs(title = "Fifty One Timelapse", subtitle = "2019") +
   ylab("Forage Minutes (Unweighted)") +
+  facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
   annotate(geom = "text",
-           x = date(("2019-06-11")),
+           x = date(("2019-06-08")),
            y = 1000,
            label = "Monitoring Start Date",
            angle = 90,
-           size = 3) +
+           size = 2) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2019-06-11")),
            xend = date(("2019-06-11")),
            y = 0,
-           yend = 500,
+           yend = 2000,
            color = "black")
 p
 ```
 ```{r}
-ggsave("FiftyOne-Timelapse-2019-Unweighted-Forage-Minutes-Apr-01-Oct-31.jpg",
+ggsave("FiftyOne-Timelapse-2019-Unweighted-Forage-Minutes-June-01-Sept-30.jpg",
      path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
 
@@ -766,31 +778,32 @@ p <- ggplot(A51_2019_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
-               limits = c(date("2019-04-01"), date("2019-10-31"))) +
-  scale_y_continuous(limits = c(0, 2000), breaks = seq(0, 2000, by = 250)) +
+               limits = c(date("2019-06-01"), date("2019-09-30"))) +
+  scale_y_continuous(limits = c(0, 2000), breaks = seq(0, 2000, by = 500)) +
   labs(title = "Fifty One Timelapse", subtitle = "2019") +
   ylab("Forage Minutes (Weighted by Animal Unit Equivalencies)") +
+  facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
   annotate(geom = "text",
-           x = date(("2019-06-11")),
+           x = date(("2019-06-08")),
            y = 1000,
            label = "Monitoring Start Date",
            angle = 90,
-           size = 3) +
+           size = 2) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2019-06-11")),
            xend = date(("2019-06-11")),
            y = 0,
-           yend = 500,
+           yend = 2000,
            color = "black")
 p
 ```
 ```{r}
-ggsave("FiftyOne-Timelapse-2019-Weighted-Forage-Minutes-Apr-01-Oct-31.jpg",
+ggsave("FiftyOne-Timelapse-2019-Weighted-Forage-Minutes-June-01-Sept-30.jpg",
      path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
 
@@ -799,32 +812,33 @@ p <- ggplot(A51_2020_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
-               limits = c(date("2020-04-01"), date("2020-10-31"))) +
-  scale_y_continuous(limits = c(0, 2000), breaks = seq(0, 2000, by = 250)) +
+               limits = c(date("2020-06-01"), date("2020-09-30"))) +
+  scale_y_continuous(limits = c(0, 2000), breaks = seq(0, 2000, by = 500)) +
   labs(title = "Fifty One Timelapse", subtitle = "2020") +
   ylab("Forage Minutes (Unweighted)") +
+  facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
   annotate(geom = "text",
-           x = date(("2020-07-12")),
+           x = date(("2020-07-09")),
            y = 1000,
            label = "Monitoring Start Date",
            angle = 90,
-           size = 3) +
+           size = 2) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2020-07-12")),
            xend = date(("2020-07-12")),
            y = 0,
-           yend = 500,
+           yend = 2000,
            color = "black")
 p
 ```
 
 ```{r}
-ggsave("FiftyOne-Timelapse-2020-Unweighted-Forage-Minutes-Apr-01-Oct-31.jpg",
+ggsave("FiftyOne-Timelapse-2020-Unweighted-Forage-Minutes-June-01-Sept-30.jpg",
      path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
 
@@ -833,32 +847,33 @@ p <- ggplot(A51_2020_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
-               limits = c(date("2020-04-01"), date("2020-10-31"))) +
-  scale_y_continuous(limits = c(0, 2000), breaks = seq(0, 2000, by = 250)) +
+               limits = c(date("2020-06-01"), date("2020-09-30"))) +
+  scale_y_continuous(limits = c(0, 2000), breaks = seq(0, 2000, by = 500)) +
   labs(title = "Fifty One Timelapse", subtitle = "2020") +
   ylab("Forage Minutes (Weighted by Animal Unit Equivalencies)") +
+  facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
   annotate(geom = "text",
-           x = date(("2020-07-12")),
+           x = date(("2020-07-09")),
            y = 1000,
            label = "Monitoring Start Date",
            angle = 90,
-           size = 3) +
+           size = 2) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2020-07-12")),
            xend = date(("2020-07-12")),
            y = 0,
-           yend = 500,
+           yend = 2000,
            color = "black")
 p
 ```
 
 ```{r}
-ggsave("FiftyOne-Timelapse-2020-Weighted-Forage-Minutes-Apr-01-Oct-31.jpg",
+ggsave("FiftyOne-Timelapse-2020-Weighted-Forage-Minutes-June-01-Sept-30.jpg",
      path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
 
@@ -867,32 +882,33 @@ p <- ggplot(BKD_2019_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
-               limits = c(date("2019-04-01"), date("2019-10-31"))) +
-  scale_y_continuous(limits = c(0, 2000), breaks = seq(0, 2000, by = 250)) +
+               limits = c(date("2019-06-01"), date("2019-09-30"))) +
+  scale_y_continuous(limits = c(0, 2000), breaks = seq(0, 2000, by = 500)) +
   labs(title = "Black Canyon Dam Timelapse", subtitle = "2019") +
   ylab("Forage Minutes (Unweighted)") +
+  facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
   annotate(geom = "text",
-           x = date(("2019-06-11")),
+           x = date(("2019-06-09")),
            y = 1000,
            label = "Monitoring Start Date",
            angle = 90,
-           size = 3) +
+           size = 2) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2019-06-11")),
            xend = date(("2019-06-11")),
            y = 0,
-           yend = 500,
+           yend = 2000,
            color = "black")
 p
 ```
 
 ```{r}
-ggsave("Black-Canyon-Dam-Timelapse-2019-Unweighted-Forage-Minutes-Apr-01-Oct-31.jpg",
+ggsave("Black-Canyon-Dam-Timelapse-2019-Unweighted-Forage-Minutes-June-01-Sept-30.jpg",
      path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
 
@@ -901,32 +917,33 @@ p <- ggplot(BKD_2019_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
-               limits = c(date("2019-04-01"), date("2019-10-31"))) +
-  scale_y_continuous(limits = c(0, 2000), breaks = seq(0, 2000, by = 250)) +
+               limits = c(date("2019-06-01"), date("2019-09-30"))) +
+  scale_y_continuous(limits = c(0, 2000), breaks = seq(0, 2000, by = 500)) +
   labs(title = "Black Canyon Dam Timelapse", subtitle = "2019") +
   ylab("Forage Minutes (Weighted by Animal Unit Equivalencies)") +
+  facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
   annotate(geom = "text",
-           x = date(("2019-06-11")),
+           x = date(("2019-06-09")),
            y = 1000,
            label = "Monitoring Start Date",
            angle = 90,
-           size = 3) +
+           size = 2) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2019-06-11")),
            xend = date(("2019-06-11")),
            y = 0,
-           yend = 500,
+           yend = 2000,
            color = "black")
 p
 ```
 
 ```{r}
-ggsave("Black-Canyon-Dam-Timelapse-2019-Weighted-Forage-Minutes-Apr-01-Oct-31.jpg",
+ggsave("Black-Canyon-Dam-Timelapse-2019-Weighted-Forage-Minutes-June-01-Sept-30.jpg",
      path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
 
@@ -935,33 +952,34 @@ p <- ggplot(BKS_2017_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b", 
                date_breaks = "1 month",
-               limits = c(date("2017-04-01"), date("2017-10-31"))) +
+               limits = c(date("2017-06-01"), date("2017-09-30"))) +
   scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
   labs(title = "Black Canyon South Timelapse", subtitle = "2017") +
   ylab("Forage Minutes (Unweighted)") +
+  facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
   annotate(geom = "text", 
-           x = date(("2017-06-12")), 
-           y = 100,
+           x = date(("2017-06-09")), 
+           y = (250/2),
            label = "Monitoring Start Date",
            angle = 90,
-           size = 3) +
+           size = 2) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2017-06-12")), 
            xend = date(("2017-06-12")), 
            y = 0, 
-           yend = 50,
+           yend = 250,
            color = "black")
 
 p
 ```
 
 ```{r}
-ggsave("Black-Canyon-South-Timelapse-2017-Unweighted-Forage-Minutes-Apr-01-Oct-31.jpg",
+ggsave("Black-Canyon-South-Timelapse-2017-Unweighted-Forage-Minutes-June-01-Sept-30.jpg",
        path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
 
@@ -970,33 +988,34 @@ p <- ggplot(BKS_2017_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b", 
                date_breaks = "1 month",
-               limits = c(date("2017-04-01"), date("2017-10-31"))) +
+               limits = c(date("2017-06-01"), date("2017-09-30"))) +
   scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
   labs(title = "Black Canyon South Timelapse", subtitle = "2017") +
   ylab("Forage Minutes (Weighted by Animal Unit Equivalencies)") +
+  facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
   annotate(geom = "text", 
-           x = date(("2017-06-12")), 
-           y = 100,
+           x = date(("2017-06-09")), 
+           y = (250/2),
            label = "Monitoring Start Date",
            angle = 90,
-           size = 3) +
+           size = 2) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2017-06-12")), 
            xend = date(("2017-06-12")), 
            y = 0, 
-           yend = 50,
+           yend = 250,
            color = "black")
 
 p
 ```
 
 ```{r}
-ggsave("Black-Canyon-South-Timelapse-2017-Weighted-Forage-Minutes-Apr-01-Oct-31.jpg",
+ggsave("Black-Canyon-South-Timelapse-2017-Weighted-Forage-Minutes-June-01-Sept-30.jpg",
        path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
 
@@ -1005,10 +1024,11 @@ p <- ggplot(BKS_2018_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b", 
                date_breaks = "1 month",
-               limits = c(date("2018-04-01"), date("2018-10-31"))) +
+               limits = c(date("2018-06-01"), date("2018-09-30"))) +
   scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
   labs(title = "Black Canyon South Timelapse", subtitle = "2018") +
   ylab("Forage Minutes (Unweighted)") +
+  facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
@@ -1018,8 +1038,8 @@ p
 ```
 
 ```{r}
-# ggsave("Black-Canyon-South-Timelapse-2018-Unweighted-Forage-Minutes-Apr-01-Oct-31.jpg",
-#        path = paste0(currentwd,"/figures", "/forage-minutes"))
+ggsave("Black-Canyon-South-Timelapse-2018-Unweighted-Forage-Minutes-June-01-Sept-30.jpg",
+       path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
 
 ```{r}
@@ -1027,10 +1047,11 @@ p <- ggplot(BKS_2018_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b", 
                date_breaks = "1 month", 
-               limits = c(date("2018-04-01"), date("2018-10-31"))) +
+               limits = c(date("2018-06-01"), date("2018-09-30"))) +
   scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
   labs(title = "Black Canyon South Timelapse", subtitle = "2018") +
   ylab("Forage Minutes (Weighted by Animal Unit Equivalencies)") +
+  facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
@@ -1040,8 +1061,8 @@ p
 ```
 
 ```{r}
-# ggsave("Black-Canyon-South-Timelapse-2018-Weighted-Forage-Minutes-Apr-01-Oct-31.jpg",
-#        path = paste0(currentwd,"/figures", "/forage-minutes"))
+ggsave("Black-Canyon-South-Timelapse-2018-Weighted-Forage-Minutes-June-01-Sept-30.jpg",
+       path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
 
 ```{r}
@@ -1049,32 +1070,33 @@ p <- ggplot(BKS_2019_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
-               limits = c(date("2019-04-01"), date("2019-10-31"))) +
-  scale_y_continuous(limits = c(0, 3000), breaks = seq(0, 3000, by = 500)) +
+               limits = c(date("2019-06-01"), date("2019-09-30"))) +
+  scale_y_continuous(limits = c(0, 2500), breaks = seq(0, 2500, by = 500)) +
   labs(title = "Black Canyon South Timelapse", subtitle = "2019") +
   ylab("Forage Minutes (Unweighted)") +
+  facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
   annotate(geom = "text", 
-           x = date(("2019-06-05")), 
-           y = 1500,
+           x = date(("2019-06-02")), 
+           y = (2500/2),
            label = "Monitoring Start Date",
            angle = 90,
-           size = 3) +
+           size = 2) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2019-06-05")), 
            xend = date(("2019-06-05")), 
            y = 0, 
-           yend = 1000,
+           yend = 2500,
            color = "black")
 p
 ```
 
 ```{r}
-ggsave("Black-Canyon-South-Timelapse-2019-Unweighted-Forage-Minutes-Apr-01-Oct-31.jpg",
+ggsave("Black-Canyon-South-Timelapse-2019-Unweighted-Forage-Minutes-June-01-Sept-30.jpg",
      path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
 
@@ -1083,32 +1105,33 @@ p <- ggplot(BKS_2019_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
-               limits = c(date("2019-04-01"), date("2019-10-31"))) +
-  scale_y_continuous(limits = c(0, 3000), breaks = seq(0, 3000, by = 500)) +
+               limits = c(date("2019-06-01"), date("2019-09-30"))) +
+  scale_y_continuous(limits = c(0, 2500), breaks = seq(0, 2500, by = 500)) +
   labs(title = "Black Canyon South Timelapse", subtitle = "2019") +
   ylab("Forage Minutes (Unweighted)") +
+  facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
   annotate(geom = "text", 
-           x = date(("2019-06-05")), 
-           y = 1500,
+           x = date(("2019-06-02")), 
+           y = (2500/2),
            label = "Monitoring Start Date",
            angle = 90,
-           size = 3) +
+           size = 2) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2019-06-05")), 
            xend = date(("2019-06-05")), 
            y = 0, 
-           yend = 1000,
+           yend = 2500,
            color = "black")
 p
 ```
 
 ```{r}
-ggsave("Black-Canyon-South-Timelapse-2019-Weighted-Forage-Minutes-Apr-01-Oct-31.jpg",
+ggsave("Black-Canyon-South-Timelapse-2019-Weighted-Forage-Minutes-June-01-Sept-30.jpg",
      path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
 
@@ -1117,32 +1140,33 @@ p <- ggplot(BKS_2020_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
-               limits = c(date("2020-04-01"), date("2020-10-31"))) +
-  scale_y_continuous(limits = c(0, 1000), breaks = seq(0, 1000, by = 100)) +
+               limits = c(date("2020-06-01"), date("2020-09-30"))) +
+  scale_y_continuous(limits = c(0, 1000), breaks = seq(0, 1000, by = 250)) +
   labs(title = "Black Canyon South Timelapse", subtitle = "2020") +
   ylab("Forage Minutes (Unweighted)") +
+  facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
   annotate(geom = "text", 
-           x = date(("2020-07-10")), 
-           y = 750,
+           x = date(("2020-07-07")), 
+           y = 500,
            label = "Monitoring Start Date",
            angle = 90,
-           size = 3) +
+           size = 2) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2020-07-10")), 
            xend = date(("2020-07-10")), 
            y = 0, 
-           yend = 500,
+           yend = 1000,
            color = "black")
 p
 ```
 
 ```{r}
-ggsave("Black-Canyon-South-Timelapse-2020-Unweighted-Forage-Minutes-Apr-01-Oct-31.jpg",
+ggsave("Black-Canyon-South-Timelapse-2020-Unweighted-Forage-Minutes-June-01-Sept-30.jpg",
      path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
 
@@ -1151,32 +1175,33 @@ p <- ggplot(BKS_2020_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
-               limits = c(date("2020-04-01"), date("2020-10-31"))) +
-  scale_y_continuous(limits = c(0, 1000), breaks = seq(0, 1000, by = 100)) +
+               limits = c(date("2020-06-01"), date("2020-09-30"))) +
+  scale_y_continuous(limits = c(0, 1000), breaks = seq(0, 1000, by = 250)) +
   labs(title = "Black Canyon South Timelapse", subtitle = "2020") +
   ylab("Forage Minutes (Weighted by Animal Unit Equivalencies)") +
+  facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
   annotate(geom = "text", 
-           x = date(("2020-07-10")), 
-           y = 750,
+           x = date(("2020-07-07")), 
+           y = 500,
            label = "Monitoring Start Date",
            angle = 90,
-           size = 3) +
+           size = 2) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2020-07-10")), 
            xend = date(("2020-07-10")), 
            y = 0, 
-           yend = 500,
+           yend = 1000,
            color = "black")
 p
 ```
 
 ```{r}
-ggsave("Black-Canyon-South-Timelapse-2020-Weighted-Forage-Minutes-Apr-01-Oct-31.jpg",
+ggsave("Black-Canyon-South-Timelapse-2020-Weighted-Forage-Minutes-June-01-Sept-30.jpg",
      path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
 
@@ -1185,32 +1210,33 @@ p <- ggplot(BKN_2019_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
-               limits = c(date("2019-04-01"), date("2019-10-31"))) +
-  scale_y_continuous(limits = c(0, 3000), breaks = seq(0, 3000, by = 500)) +
+               limits = c(date("2019-06-01"), date("2019-09-30"))) +
+  scale_y_continuous(limits = c(0, 2500), breaks = seq(0, 2500, by = 500)) +
   labs(title = "Black Canyon North Timelapse", subtitle = "2019") +
   ylab("Forage Minutes (Unweighted)") +
+  facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
   annotate(geom = "text", 
-           x = date(("2019-06-05")), 
-           y = 1500,
+           x = date(("2019-06-02")), 
+           y = (2500/2),
            label = "Monitoring Start Date",
            angle = 90,
-           size = 3) +
+           size = 2) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2019-06-05")), 
            xend = date(("2019-06-05")), 
            y = 0, 
-           yend = 1000,
+           yend = 2500,
            color = "black")
 p
 ```
 
 ```{r}
-ggsave("Black-Canyon-North-Timelapse-2019-Unweighted-Forage-Minutes-Apr-01-Oct-31.jpg",
+ggsave("Black-Canyon-North-Timelapse-2019-Unweighted-Forage-Minutes-June-01-Sept-30.jpg",
      path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
 
@@ -1219,32 +1245,33 @@ p <- ggplot(BKN_2019_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
-               limits = c(date("2019-04-01"), date("2019-10-31"))) +
-  scale_y_continuous(limits = c(0, 3000), breaks = seq(0, 3000, by = 500)) +
+               limits = c(date("2019-06-01"), date("2019-09-30"))) +
+  scale_y_continuous(limits = c(0, 2500), breaks = seq(0, 2500, by = 500)) +
   labs(title = "Black Canyon North Timelapse", subtitle = "2019") +
   ylab("Forage Minutes (Unweighted)") +
+  facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
   annotate(geom = "text", 
-           x = date(("2019-06-05")), 
-           y = 1500,
+           x = date(("2019-06-02")), 
+           y = (2500/2),
            label = "Monitoring Start Date",
            angle = 90,
-           size = 3) +
+           size = 2) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2019-06-05")), 
            xend = date(("2019-06-05")), 
            y = 0, 
-           yend = 1000,
+           yend = 2500,
            color = "black")
 p
 ```
 
 ```{r}
-ggsave("Black-Canyon-North-Timelapse-2019-Weighted-Forage-Minutes-Apr-01-Oct-31.jpg",
+ggsave("Black-Canyon-North-Timelapse-2019-Weighted-Forage-Minutes-June-01-Sept-30.jpg",
      path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
 
@@ -1253,32 +1280,33 @@ p <- ggplot(BKN_2020_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
-               limits = c(date("2020-04-01"), date("2020-10-31"))) +
-  scale_y_continuous(limits = c(0, 1000), breaks = seq(0, 1000, by = 100)) +
+               limits = c(date("2020-06-01"), date("2020-09-30"))) +
+  scale_y_continuous(limits = c(0, 1000), breaks = seq(0, 1000, by = 250)) +
   labs(title = "Black Canyon North Timelapse", subtitle = "2020") +
   ylab("Forage Minutes (Unweighted)") +
+  facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
   annotate(geom = "text", 
-           x = date(("2020-07-10")), 
-           y = 750,
+           x = date(("2020-07-07")), 
+           y = 500,
            label = "Monitoring Start Date",
            angle = 90,
-           size = 3) +
+           size = 2) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2020-07-10")), 
            xend = date(("2020-07-10")), 
            y = 0, 
-           yend = 500,
+           yend = 1000,
            color = "black")
 p
 ```
 
 ```{r}
-ggsave("Black-Canyon-North-Timelapse-2020-Unweighted-Forage-Minutes-Apr-01-Oct-31.jpg",
+ggsave("Black-Canyon-North-Timelapse-2020-Unweighted-Forage-Minutes-June-01-Sept-30.jpg",
      path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
 
@@ -1287,31 +1315,32 @@ p <- ggplot(BKN_2020_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
-               limits = c(date("2020-04-01"), date("2020-10-31"))) +
-  scale_y_continuous(limits = c(0, 1000), breaks = seq(0, 1000, by = 100)) +
+               limits = c(date("2020-06-01"), date("2020-09-30"))) +
+  scale_y_continuous(limits = c(0, 1000), breaks = seq(0, 1000, by = 250)) +
   labs(title = "Black Canyon North Timelapse", subtitle = "2020") +
   ylab("Forage Minutes (Weighted by Animal Unit Equivalencies)") +
+  facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
   annotate(geom = "text", 
-           x = date(("2020-07-10")), 
-           y = 750,
+           x = date(("2020-07-07")), 
+           y = 500,
            label = "Monitoring Start Date",
            angle = 90,
-           size = 3) +
+           size = 2) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2020-07-10")), 
            xend = date(("2020-07-10")), 
            y = 0, 
-           yend = 500,
+           yend = 1000,
            color = "black")
 p
 ```
 
 ```{r}
-ggsave("Black-Canyon-North-Timelapse-2020-Weighted-Forage-Minutes-Apr-01-Oct-31.jpg",
+ggsave("Black-Canyon-North-Timelapse-2020-Weighted-Forage-Minutes-June-01-Sept-30.jpg",
      path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
