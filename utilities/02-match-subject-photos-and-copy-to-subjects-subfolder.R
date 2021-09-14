@@ -9,7 +9,7 @@
 ## What this script requires:
 ## csv file from "01-extract-image-paths.R" containing all photos in a collection (this csv file needs to be located in the "metadata" sub-folder within the collection)
 ## subject text files (these text files need to be located in the "metadata" sub-folder within the collection)
-
+tic("run entire script")
 # clear the R environment
 rm(list=ls(all=TRUE))
 
@@ -228,3 +228,4 @@ file.copy(from, to, overwrite = FALSE)
 
 # play a sound to indicate the transfer is complete
 beep("coin")
+toc()
