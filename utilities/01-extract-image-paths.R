@@ -20,6 +20,7 @@
 ##
 ## If these options are not desired, the entire script can be run in R without alteration. the code is annoated to provide 
 ## an explanation of the process, should this need to be update
+tic("run entire script")
 
 # clear the R environment
 rm(list=ls(all=TRUE))
@@ -154,3 +155,5 @@ exif_data %>% readr::write_csv(file = file.path(currentfolder, "metadata", exif_
 
 # play a sound to indicate the transfer is complete
 beep("coin")
+
+toc()

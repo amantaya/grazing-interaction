@@ -12,7 +12,7 @@
 ## this csv file should be located in the "metadata" sub-folder within the collection folder
 ## this csv file is named by the photo collection folder and "~matched_subject_photos.csv" 
 ## e.g., BRT_11052019_12072019_matched_subject_photos.csv
-
+tic("run entire script")
 # clear the R environment
 rm(list=ls(all=TRUE))
 
@@ -92,3 +92,4 @@ for (i in chunk_number) {
 }
 
 beep("coin")
+toc()
