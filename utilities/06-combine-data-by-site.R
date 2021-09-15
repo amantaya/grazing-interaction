@@ -12,7 +12,7 @@ source(paste0(currentwd, "/functions.R"))
 
 # set working directory to location of excel files
 # file.path() is system agnostic (i.e. works on Mac/PC/Linux)
-filepaths <- file.path(currentwd, "xlsm", "csv", "recombined")
+filepaths <- file.path(currentwd, "data", "xlsm", "csv", "recombined")
 
 csv_file_list <- list.files(filepaths, pattern = ".csv")
 
@@ -110,3 +110,5 @@ write_excel_csv(BRL_2020, paste(currentwd, "data", filename_2020, sep = "/"))
 
 filename_2019 <- paste("BRT", "2019.csv", sep = "_")
 write_excel_csv(BRT_2019, paste(currentwd, "data", filename_2019, sep = "/"))
+
+beep("coin")
