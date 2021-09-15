@@ -24,11 +24,11 @@ source(paste0(currentwd, "/packages.R"))
 source(paste0(currentwd, "/functions.R"))
 
 # scan the current working directory for excel macro files
-xlsm_files <- dir(path = paste0(currentwd, "/xlsm"), pattern = "xlsm")
+xlsm_files <- dir(path = file.path(currentwd, "data", "xlsm"), pattern = "xlsm")
 
 # read in the xlsm files and convert them to xlsx files
 # this only keeps the first sheet. It strips out the macro and other sheets
-xlsm_workbook <- loadWorkbook(paste0(currentwd, "/xlsm/", xlsm_files[1]))
+xlsm_workbook <- loadWorkbook(file.path(currentwd, "data", "xlsm", xlsm_files[1]))
 
 # read the workbook
 xlsm_data <- readWorkbook(xlsm_workbook, sheet = 1)
@@ -44,8 +44,8 @@ xlsm_data$DateTime <- openxlsx::convertToDateTime(xlsm_data$DateTime)
 xlsm_file_names <- str_replace_all(xlsm_files, "xlsm", "xlsx")
 
 # create a sub-directory to store the xlsx files
-if (dir.exists(paste0(currentwd, "/xlsm", "/xlsx")) == FALSE) {
-  dir.create(paste0(currentwd, "/xlsm", "/xlsx"))
+if (dir.exists(file.path(currentwd, "data", "xlsm", "xlsx")) == FALSE) {
+  dir.create(file.path(currentwd, "data", "xlsm", "xlsx"))
 } else {
   
 }
@@ -55,7 +55,7 @@ if (dir.exists(paste0(currentwd, "/xlsm", "/xlsx")) == FALSE) {
 # do this for all xlsm files in the current working directory
 for (i in 1:length(xlsm_files)) {
   # load the xlsm file
-  xlsm_workbook <- loadWorkbook(paste0(currentwd, "/xlsm/", xlsm_files[i]))
+  xlsm_workbook <- loadWorkbook(file.path(currentwd, "data", "xlsm", xlsm_files[i]))
   # read the data from the first sheet
   xlsm_data <- readWorkbook(xlsm_workbook, sheet = 1)
   # create a new column by adding the time and date columns together
@@ -63,19 +63,19 @@ for (i in 1:length(xlsm_files)) {
   # convert the date time to a POSIXct class
   xlsm_data$DateTime <- openxlsx::convertToDateTime(xlsm_data$DateTime)
   # write out the xlsm data as an xlsx
-  write.xlsx(xlsm_data, paste0(currentwd, "/xlsm", "/xlsx/", xlsm_file_names[i]), row.names = FALSE)
+  write.xlsx(xlsm_data, file.path(currentwd, "data", "xlsm", "xlsx", xlsm_file_names[i]), row.names = FALSE)
 }
 
 # scan the current working directory for xlsx files
-xlsx_files <- dir(path = paste0(currentwd, "/xlsm", "/xlsx"), pattern = "xlsx")
+xlsx_files <- dir(path = file.path(currentwd, "data", "xlsm", "xlsx"), pattern = "xlsx")
 
 # replace the xlsx file extension with csv
 # use this vector as our file names for the csv files
 csv_file_names <- str_replace_all(xlsx_files, "xlsx", "csv")
 
 # create a sub-directory to store the csv files
-if (dir.exists(paste0(currentwd, "/xlsm", "/csv")) == FALSE) {
-  dir.create(paste0(currentwd, "/xlsm", "/csv"))
+if (dir.exists(file.path(currentwd, "data", "xlsm", "csv")) == FALSE) {
+  dir.create(file.path(currentwd, "data", "xlsm", "csv"))
 } else {
   
 }
@@ -83,8 +83,8 @@ if (dir.exists(paste0(currentwd, "/xlsm", "/csv")) == FALSE) {
 # convert the xlsx files into csv files
 # write out data into the "csv" sub-directory
 for (i in 1:length(xlsx_files)) {
-  rio::convert(paste0(currentwd, "/xlsm", "/xlsx/", xlsx_files[i]), 
-               paste0(currentwd, "/xlsm", "/csv/", csv_file_names[i]))
+  rio::convert(file.path(currentwd, "data", "xlsm", "xlsx", xlsx_files[i]), 
+               file.path(currentwd, "data", "xlsm", "csv", csv_file_names[i]))
 }
 
 # # try splitting the strings
@@ -99,13 +99,13 @@ for (i in 1:length(xlsx_files)) {
 
 # try a different approach
 # list all the csv files in directory
-csv_file_list <- list.files(path = paste0(currentwd, "/xlsm", "/csv"), full.names = FALSE)
+csv_file_list <- list.files(path = file.path(currentwd, "data", "xlsm", "csv"), full.names = FALSE, recursive = FALSE)
 
 csv_files_df <- data.frame(csv_file_list)
 
-names(csv_files_df)[names(csv_files_df) == "csv_file_list"] <- "path"
+names(csv_files_df)[names(csv_files_df) == "csv_file_list"] <- "relpath"
 
-csv_files_df_separated <- separate(csv_files_df, path, 
+csv_files_df_separated <- separate(csv_files_df, relpath, 
                                                     into = c("sitecode",
                                                              "deploydate",
                                                              "collectdate",
@@ -135,24 +135,24 @@ str(unique(A51$deploydate))
 
 deployments <- unique(A51$deploydate)
 
-# create a new directory to hold the recombined chunks
-if (dir.exists(paste0(currentwd, "/xlsm", "/csv", "/recombined")) == FALSE) {
-  dir.create(paste0(currentwd, "/xlsm", "/csv", "/recombined"))
-} else {
-  
-}
+# # create a new directory to hold the recombined chunks
+# if (dir.exists(file.path(currentwd, "data", "xlsm", "csv", "recombined")) == FALSE) {
+#   dir.create(file.path(currentwd, "data", "xlsm", "csv", "recombined"))
+# } else {
+#   
+# }
 
 # print the name of the sites in the console to put into the 
-sites <- unique(csv_files_df_separated$sitecode)
+site_list <- as.list(A51, BKD, BKN, BKS, BRL, BRT)
 
 # this function recombines chunks together in the correct order
 # for each site, it writes out a csv file for each deployment date
 # TODO ideally this would for loop through a site list instead of repeating the function
-recombine.chunks(A51)
-recombine.chunks(BKD)
-recombine.chunks(BKN)
-recombine.chunks(BKS)
-recombine.chunks(BRL)
-recombine.chunks(BRT)
+recombine.chunks(A51, path = file.path(currentwd, "data", "xlsm", "csv"))
+recombine.chunks(BKD, path = file.path(currentwd, "data", "xlsm", "csv"))
+recombine.chunks(BKN, path = file.path(currentwd, "data", "xlsm", "csv"))
+recombine.chunks(BKS, path = file.path(currentwd, "data", "xlsm", "csv"))
+recombine.chunks(BRL, path = file.path(currentwd, "data", "xlsm", "csv"))
+recombine.chunks(BRT, path = file.path(currentwd, "data", "xlsm", "csv"))
 
 beep("complete")
