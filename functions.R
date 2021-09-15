@@ -578,7 +578,7 @@ save.first.three.parts.of.strings <- function(file_names_string_split){
 # **Output:**
 # Writes out a csv file that has all of the chunks recombined together, in order.
 
-recombine.chunks<- function(site){
+recombine.chunks<- function(site, path){
   
   deployments <- unique(site$deploydate)
   
@@ -586,7 +586,7 @@ recombine.chunks<- function(site){
     
     site_filtered <- filter(site, deploydate == deployments[i])
     
-    site_filtered_data <- paste0(currentwd, "/xlsm", "/csv/", site_filtered$path) %>% lapply(readr::read_csv) %>% bind_rows()
+    site_filtered_data <- file.path(path, site_filtered$relpath) %>% lapply(readr::read_csv) %>% bind_rows()
     
     # create a file name string
     filename <- paste(unique(site_filtered$sitecode), 
@@ -596,8 +596,15 @@ recombine.chunks<- function(site){
                       "all_chunks.csv", 
                       sep = "_")
     
+    # create a new directory to hold the recombined chunks
+    if (dir.exists(file.path(path, "recombined")) == FALSE) {
+      dir.create(file.path(path,"recombined"))
+    } else {
+      
+    }
+    
     # write out the data
-    write_excel_csv(site_filtered_data, paste0(currentwd, "/xlsm", "/csv/", "recombined/", filename))
+    write_excel_csv(site_filtered_data, file.path(path, "recombined", filename))
   }
 }
 
