@@ -280,21 +280,21 @@ BKS_2020 <- calc.foraging.time.wtd(BKS_2020, interval = 5)
 ```
 
 ```{r}
-BRL_2018 %>% pull(horse_forage_unwtd) %>% sum()
+BRL_2017 %>% pull(horse_forage_unwtd) %>% sum()
 
-BRL_2018 %>% pull(horse_forage_wtd) %>% sum()
+BRL_2017 %>% pull(horse_forage_wtd) %>% sum()
 ```
 
 ```{r}
-BRL_2018 %>% pull(cow_forage_unwtd) %>% sum()
+BRL_2017 %>% pull(cow_forage_unwtd) %>% sum()
 
-BRL_2018 %>% pull(cow_forage_wtd) %>% sum()
+BRL_2017 %>% pull(cow_forage_wtd) %>% sum()
 ```
 
 ```{r}
-BRL_2018 %>% pull(elk_forage_unwtd) %>% sum()
+BRL_2017 %>% pull(elk_forage_unwtd) %>% sum()
 
-BRL_2018 %>% pull(elk_forage_wtd) %>% sum()
+BRL_2017 %>% pull(elk_forage_wtd) %>% sum()
 ```
 
 ```{r}
@@ -1344,3 +1344,109 @@ p
 ggsave("Black-Canyon-North-Timelapse-2020-Weighted-Forage-Minutes-June-01-Sept-30.jpg",
      path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
+
+```{r}
+BRL_2017_unwtd_summary %>% 
+  dplyr::group_by(Species) %>% 
+  dplyr::summarise(season_total = sum(daily_total_unwtd))
+```
+
+```{r}
+BRL_2017_unwtd_total <- BRL_2017_unwtd_summary %>% 
+  dplyr::group_by(Species) %>% 
+  dplyr::summarise(season_total = sum(daily_total_unwtd)) %>% 
+  dplyr::mutate(proportion = season_total/sum(season_total)) %>% 
+  dplyr::mutate(Site = "Bear")
+
+BRL_2017_unwtd_total
+```
+```{r}
+BKS_2017_unwtd_total <- BKS_2017_unwtd_summary %>% 
+  dplyr::group_by(Species) %>% 
+  dplyr::summarise(season_total = sum(daily_total_unwtd)) %>% 
+  dplyr::mutate(proportion = season_total/sum(season_total)) %>% 
+  dplyr::mutate(Site = "Black Canyon South")
+
+BKS_2017_unwtd_total
+```
+
+```{r}
+unwtd_2017 <- bind_rows(BRL_2017_unwtd_total, BKS_2017_unwtd_total)
+unwtd_2017
+```
+
+```{r}
+BRL_2017_unwtd_total$Species <- BRL_2017_unwtd_total %>% 
+  pull(Species) %>% 
+  forcats::as_factor()
+
+levels(BRL_2017_unwtd_total$Species)
+```
+
+```{r}
+BRL_2017_unwtd_total$Species <- forcats::fct_reorder(BRL_2017_unwtd_total$Species, BRL_2017_unwtd_total$season_total) 
+
+# BRL_2017_unwtd_total$Species <- BRL_2017_unwtd_total$Species %>% forcats::fct_rev()
+
+levels(BRL_2017_unwtd_total$Species)
+```
+
+```{r}
+BKS_2017_unwtd_total$Species <- BKS_2017_unwtd_total %>% 
+  pull(Species) %>% 
+  forcats::as_factor()
+
+levels(BKS_2017_unwtd_total$Species)
+```
+
+```{r}
+BKS_2017_unwtd_total$Species <- forcats::fct_reorder(BKS_2017_unwtd_total$Species, BKS_2017_unwtd_total$season_total) 
+
+# BKS_2017_unwtd_total$Species <- BKS_2017_unwtd_total$Species %>% forcats::fct_rev()
+
+levels(BKS_2017_unwtd_total$Species)
+```
+
+```{r}
+BRL_2017 %>% pull(horse_forage_unwtd) %>% sum()
+
+BRL_2017 %>% pull(horse_forage_wtd) %>% sum()
+```
+
+```{r}
+BRL_2017 %>% pull(cow_forage_unwtd) %>% sum()
+
+BRL_2017 %>% pull(cow_forage_wtd) %>% sum()
+```
+
+```{r}
+BRL_2017 %>% pull(elk_forage_unwtd) %>% sum()
+
+BRL_2017 %>% pull(elk_forage_wtd) %>% sum()
+```
+
+
+
+```{r}
+p <- ggplot(BKS_2017_unwtd_total, aes(x = Site, y = season_total, fill = Species)) + 
+  geom_col(position = "stack") + 
+  geom_text(aes(label = scales::percent(proportion)))
+
+q <- ggplot(BRL_2017_unwtd_total, aes(x = Site, y = season_total, fill = Species)) + 
+  geom_col(position = "stack") + 
+  annotate(geom = "text", 
+           x = 1, 
+           y = 1500,
+           label = scales::percent(BRL_2017_unwtd_total$proportion[1])) +
+  annotate(geom = "text", 
+           x = 1, 
+           y = 4200,
+           label = scales::percent(BRL_2017_unwtd_total$proportion[2])) +
+  annotate(geom = "text", 
+           x = 1, 
+           y = 3500,
+           label = scales::percent(BRL_2017_unwtd_total$proportion[3]))
+           
+gridExtra::grid.arrange(p, q, ncol = 2)
+```
+
