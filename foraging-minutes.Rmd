@@ -1437,25 +1437,57 @@ scales::show_col(hue_pal()(3))
 ```
 
 ```{r}
+BRL_2017_unwtd_cow_percent <- pull.species.percentage(BRL_2017_unwtd_total, species = "Cow")
+BRL_2017_unwtd_elk_percent <- pull.species.percentage(BRL_2017_unwtd_total, species = "Elk")
+BRL_2017_unwtd_horse_percent <- pull.species.percentage(BRL_2017_unwtd_total, species = "Horse")
+```
+
+```{r}
+BKS_2017_unwtd_cow_percent <- pull.species.percentage(BKS_2017_unwtd_total, species = "Cow")
+BKS_2017_unwtd_elk_percent <- pull.species.percentage(BKS_2017_unwtd_total, species = "Elk")
+BKS_2017_unwtd_horse_percent <- pull.species.percentage(BKS_2017_unwtd_total, species = "Horse")
+```
+
+```{r 2017 Unwtd Total Foraging Minutes}
 p <- ggplot(unwtd_2017, aes(x = Site, y = season_total, fill = Species)) + 
   geom_col(position = "stack") +
   labs(title = "Total Forage Minutes by Site (Unweighted)",
        subtitle = "2017",
        x = "Site",
        y = "Forage Minutes (Unweighted)") +
-  geom_text(aes(group = Species,
-                label = scales::percent(proportion, 1)),
-            position = position_stack(vjust = 0.5)) +
   scale_fill_manual(values = c(Cow = "#F8766D",
                                 Elk = "#00BA38",
                                 Horse = "#619CFF")) +
+  annotate(geom = "text", 
+           x = 1, 
+           y = 1500, 
+           label = percent(BRL_2017_unwtd_cow_percent)) +
+  annotate(geom = "text", 
+           x = 1, 
+           y = 3700, 
+           label = percent(BRL_2017_unwtd_horse_percent)) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = 7500, 
+           label = percent(BKS_2017_unwtd_cow_percent)) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = 17500, 
+           label = percent(BKS_2017_unwtd_horse_percent)) +
+    annotate(geom = "label", 
+           x = 2, 
+           y = 21000, 
+           label = percent(BKS_2017_unwtd_elk_percent),
+           fill = "#00BA38") +
+
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) 
 
 p
 ```
+
 ```{r}
 ggsave("2017-Total-Forage-Minutes-by-Site-Unweighted.jpg",
      path = paste0(currentwd,"/figures", "/forage-minutes"))
@@ -1516,21 +1548,56 @@ wtd_2017
 ```
 
 ```{r}
+levels(wtd_2017$Species)
+```
+
+```{r}
+BRL_2017_wtd_cow_percent <- pull.species.percentage(BRL_2017_wtd_total, species = "Cow")
+BRL_2017_wtd_elk_percent <- pull.species.percentage(BRL_2017_wtd_total, species = "Elk")
+BRL_2017_wtd_horse_percent <- pull.species.percentage(BRL_2017_wtd_total, species = "Horse")
+```
+
+```{r}
+BKS_2017_wtd_cow_percent <- pull.species.percentage(BKS_2017_wtd_total, species = "Cow")
+BKS_2017_wtd_elk_percent <- pull.species.percentage(BKS_2017_wtd_total, species = "Elk")
+BKS_2017_wtd_horse_percent <- pull.species.percentage(BKS_2017_wtd_total, species = "Horse")
+```
+
+```{r 2017 Wtd Total Foraging Minutes}
 p <- ggplot(wtd_2017, aes(x = Site, y = season_total, fill = Species)) + 
   geom_col(position = "stack") +
   labs(title = "Total Forage Minutes by Site (Weighted by AUE)",
        subtitle = "2017",
        x = "Site",
        y = "Forage Minutes (Weighted by Animal Unit Equivalencies)") +
-  geom_text(aes(group = Species,
-                label = scales::percent(proportion, 1)),
-            position = position_stack(vjust = 0.5)) +
   scale_fill_manual(values = c(Cow = "#F8766D",
                                 Elk = "#00BA38",
                                 Horse = "#619CFF")) +
+  annotate(geom = "text", 
+           x = 1, 
+           y = 1500, 
+           label = percent(BRL_2017_wtd_cow_percent)) +
+  annotate(geom = "text", 
+           x = 1, 
+           y = 3700, 
+           label = percent(BRL_2017_wtd_horse_percent)) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = 7500, 
+           label = percent(BKS_2017_wtd_cow_percent)) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = 17500, 
+           label = percent(BKS_2017_wtd_horse_percent)) +
+    annotate(geom = "label", 
+           x = 2, 
+           y = 21000, 
+           label = percent(BKS_2017_wtd_elk_percent),
+           fill = "#00BA38") +
+
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) 
 
 p
