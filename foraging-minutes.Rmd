@@ -1653,9 +1653,9 @@ unwtd_2019
 A51_2019_unwtd_total
 ```
 ```{r}
-A51_cow_percent <- A51_2019_unwtd_total %>% dplyr::filter(Species == "Cow") %>% dplyr::pull(proportion)
-A51_elk_percent <- A51_2019_unwtd_total %>% dplyr::filter(Species == "Elk") %>% dplyr::pull(proportion)
-A51_horse_percent <- A51_2019_unwtd_total %>% dplyr::filter(Species == "Horse") %>% dplyr::pull(proportion)
+A51_2019_unwtd_cow_percent <- A51_2019_unwtd_total %>% dplyr::filter(Species == "Cow") %>% dplyr::pull(proportion)
+A51_2019_unwtd_elk_percent <- A51_2019_unwtd_total %>% dplyr::filter(Species == "Elk") %>% dplyr::pull(proportion)
+A51_2019_unwtd_horse_percent <- A51_2019_unwtd_total %>% dplyr::filter(Species == "Horse") %>% dplyr::pull(proportion)
 ```
 
 ```{r}
@@ -1690,51 +1690,6 @@ BKS_2019_unwtd_horse_percent <- pull.species.percentage(BKS_2019_unwtd_total, sp
 ```
 
 ```{r}
-p <- ggplot(unwtd_2019, aes(x = Site, 
-                            y = season_total, 
-                            fill = Species)) + 
-  geom_col(position = "stack") +
-  labs(title = "Total Forage Minutes by Site (Unweighted)",
-       subtitle = "2019",
-       x = "Site",
-       y = "Forage Minutes (Unweighted)") +
-  scale_y_continuous(limits = c(-5000, 125000), 
-                     breaks = seq(0, 125000, by = 25000)) +
-  # geom_text(aes(group = Species,
-  #                label = scales::percent(proportion, accuracy = 1)),
-  #            position = position_stack(vjust = 0.5)) +
-  scale_fill_manual(values = c(Cow = "#F8766D",
-                                Elk = "#00BA38",
-                                Horse = "#619CFF")) +
-  annotate(geom = "text", x = 1, y = 8000, label = percent(BRL_2019_unwtd_horse_percent), fill = "#619CFF") +
-  annotate(geom = "text", x = 1, y = 65000, label = percent(BRL_2019_unwtd_cow_percent), fill = "#F8766D") +
-
-  annotate(geom = "text", x = 2, y = -3000, label = percent(BKD_2019_unwtd_horse_percent), fill = "#619CFF") +
-  annotate(geom = "text", x = 2, y = 8000, label = percent(BKD_2019_unwtd_cow_percent), fill = "#F8766D") +
-  annotate(geom = "text", x = 2, y = 21000, label = percent(BKD_2019_unwtd_elk_percent), fill = "#00BA38") +
-  
-  annotate(geom = "text", x = 3, y = 6000, label = percent(BKN_2019_unwtd_cow_percent), fill = "#F8766D") +
-  
-  annotate(geom = "text", x = 4, y = -3000, label = percent(BKS_2019_unwtd_horse_percent), fill = "#619CFF") +
-  annotate(geom = "text", x = 4, y = 25000, label = percent(BKS_2019_unwtd_cow_percent), fill = "#F8766D") +
-  annotate(geom = "text", x = 4, y = 50000, label = percent(BKS_2019_unwtd_elk_percent), fill = "#00BA38") +
-  
-  annotate(geom = "text", x = 5, y = 6000, label = percent(A51_horse_percent), fill = "#619CFF") +
-  annotate(geom = "text", x = 5, y = 19000, label = percent(A51_cow_percent), fill = "#F8766D") +
-  
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0), size = 7),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)))
-
-
-p
-```
-```{r}
-ggsave("2019-Total-Forage-Minutes-by-Site-Unweighted-No-Labels.jpg",
-     path = paste0(currentwd,"/figures", "/forage-minutes"))
-```
-```{r}
 BKD_2019_elk_annotation <- BKD_2019_unwtd_total %>% pull(season_total) %>% sum() + 3000
 
 BKD_2019_elk_annotation
@@ -1745,7 +1700,7 @@ BKS_2019_elk_annotation <- BKS_2019_unwtd_total %>% pull(season_total) %>% sum()
 BKS_2019_elk_annotation
 ```
 
-```{r}
+```{r 2019 Unwtd Foraging Minutes}
 p <- ggplot(unwtd_2019, aes(x = Site, 
                             y = season_total, 
                             fill = Species)) + 
@@ -1803,12 +1758,12 @@ p <- ggplot(unwtd_2019, aes(x = Site,
   annotate(geom = "text", 
            x = 5, 
            y = 6000, 
-           label = percent(A51_horse_percent), 
+           label = percent(A51_2019_unwtd_horse_percent), 
            fill = "#619CFF") +
   annotate(geom = "text", 
            x = 5, 
            y = 19000, 
-           label = percent(A51_cow_percent), 
+           label = percent(A51_2019_unwtd_cow_percent), 
            fill = "#F8766D") +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
@@ -1819,7 +1774,7 @@ p
 ```
 
 ```{r}
-ggsave("2019-Total-Forage-Minutes-by-Site-Unweighted-Labels.jpg",
+ggsave("2019-Total-Forage-Minutes-by-Site-Unweighted.jpg",
      path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
 
@@ -1865,28 +1820,121 @@ wtd_2019
 ```
 
 ```{r}
-wtd_2019$Species <- forcats::fct_relevel(wtd_2019$Species, c("Elk", "Horse", "Cow"))
-
-levels(wtd_2019$Species)
+A51_2019_wtd_cow_percent <- pull.species.percentage(A51_2019_wtd_total, species = "Cow")
+A51_2019_wtd_elk_percent <- pull.species.percentage(A51_2019_wtd_total, species = "Elk")
+A51_2019_wtd_horse_percent <- pull.species.percentage(A51_2019_wtd_total, species = "Horse")
 ```
 
 ```{r}
-p <- ggplot(wtd_2019, aes(x = Site, y = season_total, fill = Species)) + 
+BRL_2019_wtd_cow_percent <- pull.species.percentage(BRL_2019_wtd_total, species = "Cow")
+BRL_2019_wtd_elk_percent <- pull.species.percentage(BRL_2019_wtd_total, species = "Elk")
+BRL_2019_wtd_horse_percent <- pull.species.percentage(BRL_2019_wtd_total, species = "Horse")
+```
+
+```{r}
+BKD_2019_wtd_cow_percent <- pull.species.percentage(BKD_2019_wtd_total, species = "Cow")
+BKD_2019_wtd_elk_percent <- pull.species.percentage(BKD_2019_wtd_total, species = "Elk")
+BKD_2019_wtd_horse_percent <- pull.species.percentage(BKD_2019_wtd_total, species = "Horse")
+```
+
+```{r}
+BKN_2019_wtd_cow_percent <- pull.species.percentage(BKN_2019_wtd_total, species = "Cow")
+BKN_2019_wtd_elk_percent <- pull.species.percentage(BKN_2019_wtd_total, species = "Elk")
+BKN_2019_wtd_horse_percent <- pull.species.percentage(BKN_2019_wtd_total, species = "Horse")
+```
+
+```{r}
+BKS_2019_wtd_cow_percent <- pull.species.percentage(BKS_2019_wtd_total, species = "Cow")
+BKS_2019_wtd_elk_percent <- pull.species.percentage(BKS_2019_wtd_total, species = "Elk")
+BKS_2019_wtd_horse_percent <- pull.species.percentage(BKS_2019_wtd_total, species = "Horse")
+```
+
+```{r}
+BKD_2019_wtd_elk_annotation <- BKD_2019_wtd_total %>% pull(season_total) %>% sum() + 3000
+
+BKD_2019_wtd_elk_annotation
+```
+
+```{r}
+BKS_2019_wtd_elk_annotation <- BKS_2019_wtd_total %>% pull(season_total) %>% sum() + 3000
+
+BKS_2019_wtd_elk_annotation
+```
+```{r}
+wtd_2019$Species <- forcats::fct_relevel(wtd_2019$Species, c("Elk", "Cow", "Horse"))
+
+levels(wtd_2019$Species)
+```
+```{r}
+wtd_2019
+```
+
+
+```{r 2019 wtd Foraging Minutes}
+p <- ggplot(wtd_2019, aes(x = Site, 
+                            y = season_total, 
+                            fill = Species)) + 
   geom_col(position = "stack") +
   labs(title = "Total Forage Minutes by Site (Weighted by AUE)",
        subtitle = "2019",
        x = "Site",
        y = "Forage Minutes (Weighted by Animal Unit Equivalencies)") +
-  geom_text(aes(group = Species,
-                label = scales::percent(proportion, 1)),
-            position = position_stack(vjust = 0.5)) +
+  scale_y_continuous(limits = c(-3000, 125000), 
+                     breaks = seq(0, 125000, by = 25000)) +
   scale_fill_manual(values = c(Cow = "#F8766D",
                                 Elk = "#00BA38",
                                 Horse = "#619CFF")) +
+  annotate(geom = "text", 
+           x = 1, 
+           y = 8000, 
+           label = percent(BRL_2019_wtd_horse_percent)) +
+  annotate(geom = "text", 
+           x = 1, 
+           y = 65000, 
+           label = percent(BRL_2019_wtd_cow_percent)) +
+  annotate(geom = "label", 
+           x = 2, 
+           y = -3000, 
+           label = percent(BKD_2019_wtd_horse_percent), 
+           fill = "#619CFF") +
+  annotate(geom = "text", 
+           x = 2, 
+           y = 8000, 
+           label = percent(BKD_2019_wtd_cow_percent)) +
+  annotate(geom = "text", 
+           x = 3, 
+           y = 6000, 
+           label = percent(BKN_2019_wtd_cow_percent)) +
+  annotate(geom = "label", 
+           x = 4, 
+           y = -3000, 
+           label = percent(BKS_2019_wtd_horse_percent), 
+           fill = "#619CFF") +
+  annotate(geom = "text", 
+           x = 4, 
+           y = 25000, 
+           label = percent(BKS_2019_wtd_cow_percent)) +
+  annotate(geom = "label", 
+           x = 4, 
+           y = BKS_2019_wtd_elk_annotation, 
+           label = percent(BKS_2019_wtd_elk_percent), 
+           fill = "#00BA38") +
+  annotate(geom = "text", 
+           x = 5, 
+           y = 6000, 
+           label = percent(A51_2019_wtd_horse_percent)) +
+  annotate(geom = "text", 
+           x = 5, 
+           y = 19000, 
+           label = percent(A51_2019_wtd_cow_percent)) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0), size = 7),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) 
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0), size = 7),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)))
 
 p
+```
+```{r}
+ggsave("2019-Total-Forage-Minutes-by-Site-Weighted-by-AUE.jpg",
+     path = paste0(currentwd,"/figures", "/forage-minutes"))
 ```
