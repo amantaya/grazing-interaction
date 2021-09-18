@@ -1609,6 +1609,158 @@ ggsave("2017-Total-Forage-Minutes-by-Site-Weighted-by-AUE.jpg",
 ```
 
 ```{r}
+BRL_2018_unwtd_total <- calc.foraging.totals.unwtd(BRL_2018_unwtd_summary)
+
+print(BRL_2018_unwtd_total)
+```
+
+```{r}
+BRL_2018_unwtd_total <- reorder.factors.by.season.total(BRL_2018_unwtd_total)
+print(BRL_2018_unwtd_total)
+```
+```{r}
+levels(BRL_2018_unwtd_total$Species)
+```
+```{r}
+unwtd_2018 <- BRL_2018_unwtd_total
+```
+
+
+```{r}
+BRL_2018_wtd_total <- reorder.factors.by.season.total(BRL_2018_wtd_total)
+print(BRL_2018_wtd_total)
+```
+
+```{r}
+levels(BRL_2018_wtd_total$Species)
+```
+
+```{r}
+BRL_2018_wtd_total <- calc.foraging.totals.wtd(BRL_2018_wtd_summary)
+
+print(BRL_2018_wtd_total)
+```
+
+```{r}
+wtd_2018 <- BRL_2018_wtd_total
+```
+
+
+```{r}
+BRL_2018_unwtd_cow_percent <- pull.species.percentage(BRL_2018_unwtd_total, species = "Cow")
+BRL_2018_unwtd_elk_percent <- pull.species.percentage(BRL_2018_unwtd_total, species = "Elk")
+BRL_2018_unwtd_horse_percent <- pull.species.percentage(BRL_2018_unwtd_total, species = "Horse")
+```
+
+```{r}
+BRL_2018_wtd_cow_percent <- pull.species.percentage(BRL_2018_wtd_total, species = "Cow")
+BRL_2018_wtd_elk_percent <- pull.species.percentage(BRL_2018_wtd_total, species = "Elk")
+BRL_2018_wtd_horse_percent <- pull.species.percentage(BRL_2018_wtd_total, species = "Horse")
+```
+
+```{r}
+unwtd_2018$Species <- unwtd_2018$Species %>% fct_relevel(c("Elk", "Horse", "Cow"))
+
+levels(unwtd_2018$Species)
+```
+
+```{r 2018 Unwtd Total Foraging Minutes}
+p <- ggplot(unwtd_2018, aes(x = Site, y = season_total, fill = Species)) + 
+  geom_col(position = "stack") +
+  labs(title = "Total Forage Minutes by Site (Unweighted)",
+       subtitle = "2018",
+       x = "Site",
+       y = "Forage Minutes (Unweighted)") +
+  scale_y_continuous(limits = c(0, 20000), breaks = seq(0, 20000, by = 5000))+
+  scale_fill_manual(values = c(Cow = "#F8766D",
+                                Elk = "#00BA38",
+                                Horse = "#619CFF")) +
+  annotate(geom = "text", 
+           x = 1, 
+           y = 2000, 
+           label = percent(BRL_2018_unwtd_elk_percent)) +
+  annotate(geom = "text", 
+           x = 1, 
+           y = 600, 
+           label = percent(BRL_2018_unwtd_horse_percent)) +
+  # annotate(geom = "text", 
+  #          x = 2, 
+  #          y = 7500, 
+  #          label = percent(BKS_2018_unwtd_cow_percent)) +
+  # annotate(geom = "text", 
+  #          x = 2, 
+  #          y = 17500, 
+  #          label = percent(BKS_2018_unwtd_horse_percent)) +
+  #   annotate(geom = "label", 
+  #          x = 2, 
+  #          y = 21000, 
+  #          label = percent(BKS_2018_unwtd_elk_percent),
+  #          fill = "#00BA38") +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) 
+
+p
+```
+
+```{r}
+ggsave("2018-Total-Forage-Minutes-Unweighted.jpg",
+     path = paste0(currentwd,"/figures", "/forage-minutes"))
+```
+
+```{r}
+wtd_2018$Species <- wtd_2018$Species %>% fct_relevel(c("Elk", "Horse", "Cow"))
+
+levels(wtd_2018$Species)
+```
+
+```{r 2018 Wtd Total Foraging Minutes}
+p <- ggplot(wtd_2018, aes(x = Site, y = season_total, fill = Species)) + 
+  geom_col(position = "stack") +
+  labs(title = "Total Forage Minutes by Site (Weighted by AUE)",
+       subtitle = "2018",
+       x = "Site",
+       y = "Forage Minutes (Weighted by Animal Use Equivalencies)") +
+  scale_y_continuous(limits = c(0, 20000), breaks = seq(0, 20000, by = 5000))+
+  scale_fill_manual(values = c(Cow = "#F8766D",
+                                Elk = "#00BA38",
+                                Horse = "#619CFF")) +
+  annotate(geom = "text", 
+           x = 1, 
+           y = 1900, 
+           label = percent(BRL_2018_wtd_elk_percent)) +
+  annotate(geom = "text", 
+           x = 1, 
+           y = 700, 
+           label = percent(BRL_2018_wtd_horse_percent)) +
+  # annotate(geom = "text", 
+  #          x = 2, 
+  #          y = 7500, 
+  #          label = percent(BKS_2018_unwtd_cow_percent)) +
+  # annotate(geom = "text", 
+  #          x = 2, 
+  #          y = 17500, 
+  #          label = percent(BKS_2018_unwtd_horse_percent)) +
+  #   annotate(geom = "label", 
+  #          x = 2, 
+  #          y = 21000, 
+  #          label = percent(BKS_2018_unwtd_elk_percent),
+  #          fill = "#00BA38") +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) 
+
+p
+```
+
+```{r}
+ggsave("2018-Total-Forage-Minutes-by-Site-Weighted-by-AUE.jpg",
+     path = paste0(currentwd,"/figures", "/forage-minutes"))
+```
+
+```{r}
 calc.foraging.totals.unwtd <- function(site_summary){
   site_total <- site_summary %>% 
     dplyr::group_by(Species) %>% 
