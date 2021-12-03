@@ -29,27 +29,76 @@ source("functions.R")
 Read in the vegetation data from the White Mountains study sites. The data from 2017 and 2018 was re-arranged so that all of the data from the exclosure frames were grouped together in order. This was done to tidy up the data and make it easier to analyze.
 ```{r}
 ## read in csv data
-wm_prod_2017 <- readr::read_csv('data/vegetation/white-mountains/2017-white-mountains-production-reordered.csv',
+heber_prod_group1 <- readr::read_csv('data/vegetation/heber/production/csv/2021-heber-production-group1.csv',
                                 col_names = TRUE, 
                                 na = c(""," ","NA"))
 
-wm_prod_2018 <- readr::read_csv('data/vegetation/white-mountains/2018-white-mountains-production-reordered.csv',
+heber_prod_group2 <- readr::read_csv('data/vegetation/heber/production/csv/2021-heber-production-group2.csv',
                                 col_names = TRUE,
                                 na = c(""," ","NA"))
 
-wm_prod_2019 <- readr::read_csv('data/vegetation/white-mountains/2019-white-mountains-production.csv',
+heber_prod_group3  <- readr::read_csv('data/vegetation/heber/production/csv/2021-heber-production-group3.csv',
                                 col_names = TRUE,
                                 na = c(""," ","NA"))
 
 ```
 The output shows our column names, and how they're stored inside R. This is important because the variable type can affect our analysis if we're not careful. For example, the "Plot" column is recognized as a character in 2017 and 2018, but as a double in 2019.
 
-To fix this. force conversion of the 2019 "Plot" column to a character type. We could also force it into a factor, but for our purposes it doesn't really matter. The "Plot" column is really more for organization than for anything else.
 ```{r}
-wm_prod_2019$Plot <- as.character(wm_prod_2019$Plot)
-
-wm_prod_2019
+print(heber_prod_group1)
+print(heber_prod_group2)
+print(heber_prod_group3)
 ```
+
+```{r}
+heber_prod_group1$Date <- lubridate::ymd(heber_prod_group1$Date)
+heber_prod_group2$Date <- lubridate::mdy(heber_prod_group2$Date)
+heber_prod_group3$Date <- lubridate::mdy(heber_prod_group3$Date)
+```
+
+```{r}
+heber_prod_2021 <- dplyr::bind_rows(heber_prod_group1, 
+                                    heber_prod_group2, 
+                                    heber_prod_group3)
+
+print(heber_prod_2021)
+```
+
+
+```{r}
+slash_s_data <- heber_prod_2021 %>% filter(Type == "CY")
+
+print(slash_s_data)
+```
+
+
+```{r}
+slash_s_data <- slash_s_data %>% dplyr::rename(Rank = Plot)
+
+print(slash_s_data)
+```
+
+```{r}
+slash_s_data$`Site Code` <- gsub("KA8", "KA-8", slash_s_data$`Site Code`)
+
+print(slash_s_data)
+```
+
+
+```{r}
+slash_s_data <- slash_s_data %>% 
+  dplyr::group_by(`Site Code`) %>% 
+  dplyr::arrange(Rank, .by_group = TRUE)
+
+print(slash_s_data)
+```
+
+
+```{r}
+write.csv(slash_s_data, "data/vegetation/2021-11-18-slash-s-comparative-yield-bag-weights.csv")
+```
+
+
 
 Let's take a closer look at the data.
 ```{r}
