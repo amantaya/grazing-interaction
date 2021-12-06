@@ -9,7 +9,7 @@
 ## What this script requires:
 ## csv file from "01-extract-image-paths.R" containing all photos in a collection (this csv file needs to be located in the "metadata" sub-folder within the collection)
 ## subject text files (these text files need to be located in the "metadata" sub-folder within the collection)
-tic("run entire script")
+
 # clear the R environment
 rm(list=ls(all=TRUE))
 
@@ -18,6 +18,8 @@ source(paste0(getwd(), "/environment.R"))
 
 # load in the required libraries
 source(paste0(currentwd, "/packages.R"))
+
+tic("run entire script")
 
 # read in the csv file that contains the metadata for all photos in the collection folder (e.g., BRL_06052019_07022019)
 all_photos_in_collection <- read.csv(paste0(currentfolder, paste0("/metadata/", collection_folder, ".csv")))

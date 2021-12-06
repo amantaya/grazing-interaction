@@ -20,7 +20,6 @@
 ##
 ## If these options are not desired, the entire script can be run in R without alteration. the code is annoated to provide 
 ## an explanation of the process, should this need to be update
-tic("run entire script")
 
 # clear the R environment
 rm(list=ls(all=TRUE))
@@ -30,6 +29,8 @@ source(paste0(getwd(), "/environment.R"))
 
 # load in the required libraries
 source(paste0(currentwd, "/packages.R"))
+
+tic("run entire script")
 
 # exiftoolr::install_exiftool()
 
