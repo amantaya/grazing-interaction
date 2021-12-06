@@ -132,14 +132,19 @@ all_subjects_keep_last_two_splits
 # using the current working directory, keep the first half of the working directory string
 # append the working directory to string to the back half of the string containing the path to the sub-folder and filepath
 all_subjects_vector_append_working_directory <- file.path(root_folder, main_folder, location_folder, site_folder, collection_folder, all_subjects_keep_last_two_splits)
-all_subjects_vector_append_working_directory
+
+# convert character vector into a dataframe to get it into a format that works with write_csv
+all_subjects_cleaned_df <- as.data.frame(all_subjects_vector_append_working_directory)
+
+# rename the column to something more meaningful
+all_subjects_cleaned_df <- all_subjects_cleaned_df %>% dplyr::rename(path = all_subjects_vector_append_working_directory)
 
 # create a file name for the single subjects text file
-textfilename <- paste(collection_folder, "all_subjects.txt", sep = "_")
+textfilename <- paste(collection_folder, "all_subjects.csv", sep = "_")
 
 # write out a single text file containing the concatenated subject text files
 # encode this text file as UTF-8 depending on your locale
-readr::write_lines(all_subjects_vector_append_working_directory, file = paste0(currentfolder, "/metadata/", textfilename))
+readr::write_csv(all_subjects_dataframe, file = paste0(currentfolder, "/metadata/", textfilename))
 
 # rename the first column in the tibble to something more descriptive
 # names(all_subjects_vector_string_replaced)[names(all_subjects_vector_string_replaced) == "value"] <- "path"
