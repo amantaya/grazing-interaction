@@ -144,7 +144,7 @@ textfilename <- paste(collection_folder, "all_subjects.csv", sep = "_")
 
 # write out a single text file containing the concatenated subject text files
 # encode this text file as UTF-8 depending on your locale
-readr::write_csv(all_subjects_dataframe, file = paste0(currentfolder, "/metadata/", textfilename))
+readr::write_csv(all_subjects_cleaned_df, file = paste0(currentfolder, "/metadata/", textfilename))
 
 # rename the first column in the tibble to something more descriptive
 # names(all_subjects_vector_string_replaced)[names(all_subjects_vector_string_replaced) == "value"] <- "path"

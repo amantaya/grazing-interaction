@@ -40,7 +40,7 @@ imagefiles<-list.files(path=currentfolder,full.names=T,pattern=c(".JPG|.jpg"),in
 # extract metadata associated with each image
 # benchmark the time taken to read exif data
 tic("read exif data")
-exif_data <- exiftoolr::exif_read(path = imagefiles)
+exif_data <- exiftoolr::exif_read(imagefiles)
 toc()
 
 # convert the character column to a POSIXct DateTime class
