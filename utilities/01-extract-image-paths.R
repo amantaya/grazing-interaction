@@ -59,35 +59,21 @@ imagefilesinfo$ImageSize <- exif_data %>% dplyr::pull(FileSize) %>% as.numeric()
 imagefilesinfo$mtime <- exif_data %>% dplyr::pull(DateTimeOriginal)
 
 # add the file paths (full names) to the new data frame
+
+## make a list of all the JPEGs in the file, if images are stored in some other format, update the code below
+imagefiles<-list.files(path=currentfolder,full.names=T,pattern=c(".JPG|.jpg"),include.dirs = T,recursive=T)
+
+## create a data.frame from the list of all image files and extract metadata associated with each image	
+imagefilesinfo<-as.data.frame(do.call("rbind",lapply(imagefiles,file.info)))
+imagefilesinfo<-imagefilesinfo[,c("size","mtime")]
 imagefilesinfo$ImagePath<-imagefiles
-
-# split the file name string, saving the last two splits to create a relative path
 imagefilesinfo$ImageRelative<-do.call("rbind",lapply(strsplit(imagefiles,split=paste(currentfolder,"/",sep="")),rev))[,1]
-
-# split the file name string, saving only the file name
 imagefilesinfo$ImageFilename<-do.call("rbind",lapply(strsplit(imagefiles,split="/"),rev))[,1]
-
-# split the "mtime" string, saving only the image time
 imagefilesinfo$ImageTime<-gsub("[[:space:]]", "",substr(as.character(imagefilesinfo$mtime),regexpr(":",imagefilesinfo$mtime)-2,regexpr(":",imagefilesinfo$mtime)+5))
-
-# split the "mtime" string, saving only the image date
 imagefilesinfo$ImageDate<-gsub("[[:space:]]", "",substr(as.character(imagefilesinfo$mtime),1,10))
-
-# create an index of the rows in the data frame
 imagefilesinfo$RecordNumber<-seq(1:length(imagefilesinfo$ImagePath))
-
-# move the "RecordNumber" column to the first position
-imagefilesinfo <- imagefilesinfo %>% dplyr::relocate(RecordNumber, .before = 1)
-
-# move the "ImageFilename" column to right after the "RecordNumber" column
-imagefilesinfo <- imagefilesinfo %>% dplyr::relocate(ImageFilename, .after = RecordNumber)
-
-# drop the "mtime" (modified time- which we changed to exif DateTimeOriginal)
-# also drop the "imagefiles" column
-imagefilesinfo <- imagefilesinfo %>% dplyr::select(-c(mtime, imagefiles))
-
-# move the "ImageSize" column to right after the "ImageRelative" column
-imagefilesinfo <- imagefilesinfo %>% dplyr::relocate(ImageSize, .after = ImageRelative)
+imagefilesinfo$ImageSize<-as.numeric(imagefilesinfo$size)
+imagefilesinfo<-imagefilesinfo[,c(8,5,3,4,9,6,7)]
 
 #remove images of size 0 - some cameras have image write-errors that cannot be processed
 imagefilesinfo<-imagefilesinfo[imagefilesinfo$ImageSize!=0,]
@@ -141,7 +127,6 @@ if (Alert==T){
 ## Excel form.  The .csv file will show up in the same directory as this script once this script is run.
 excelfilename<-paste(rev(strsplit(currentfolder,split="/")[[1]])[1],".csv",sep="")
 
-exif_filename <- paste0(paste(rev(strsplit(currentfolder,split="/")[[1]])[1], "exif", "metadata", sep = "_"),  ".csv")
 
 # create a "metadata" directory if one doesn't already exist in the collection folder
 if (dir.exists(paste0(currentfolder, "/metadata")) == FALSE) {
@@ -151,8 +136,6 @@ if (dir.exists(paste0(currentfolder, "/metadata")) == FALSE) {
 }
 
 write.csv(imagefilesinfo, file = paste0(currentfolder, "/metadata/", excelfilename), row.names=F)
-
-exif_data %>% readr::write_csv(file = file.path(currentfolder, "metadata", exif_filename))
 
 # play a sound to indicate the transfer is complete
 beep("coin")
