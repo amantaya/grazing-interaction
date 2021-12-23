@@ -72,7 +72,7 @@ all_subjects_vector
 
 # TODO closing the file connection still results in warnings() printed in the console
 # close the open file connections
-close(con)
+closeAllConnections()
 
 # the character strings are stored in the R environment as \\ (double-backslashes) which are reserved characters
 # replace these reserved characters with a single forward-slash, which is how R reads in file paths 
