@@ -9,7 +9,7 @@
 ## What this script requires:
 ## csv file from "01-extract-image-paths.R" containing all photos in a collection (this csv file needs to be located in the "metadata" sub-folder within the collection)
 ## subject text files (these text files need to be located in the "metadata" sub-folder within the collection)
-tic("run entire script")
+
 # clear the R environment
 rm(list=ls(all=TRUE))
 
@@ -18,6 +18,8 @@ source(paste0(getwd(), "/environment.R"))
 
 # load in the required libraries
 source(paste0(currentwd, "/packages.R"))
+
+tic("run entire script")
 
 # read in the csv file that contains the metadata for all photos in the collection folder (e.g., BRL_06052019_07022019)
 all_photos_in_collection <- read.csv(paste0(currentfolder, paste0("/metadata/", collection_folder, ".csv")))
@@ -43,12 +45,26 @@ first_subjects_text_file <- readLines(con <- file(subject_txt_files[1], encoding
 # print the list of files (stored in a character vector inside R) in the console to check which text files were read into the R environment
 first_subjects_text_file
 
+length(first_subjects_text_file)
+
+first_subjects_text_file[3:length(first_subjects_text_file)]
+
 # create an empty vector to hold all of the photos with subjects
 all_subjects_vector <- NULL
 
 # use this for loop to read in all of subject text files and append (add) them to the vector
 for (i in 1:length(subject_txt_files)){
-  all_subjects_vector <- append(all_subjects_vector, readLines(con <- file(subject_txt_files[i], encoding = "UCS-2LE")))
+  subjects_from_text_file <- readLines(con <- file(subject_txt_files[i], encoding = "UCS-2LE"))
+  
+  if (length(subjects_from_text_file) != 0) {
+    
+    number_of_lines_in_text_file <- length(subjects_from_text_file)
+    
+    all_subjects_vector <- append(all_subjects_vector, subjects_from_text_file[3:number_of_lines_in_text_file])
+    
+  } else{
+      
+    }
   }
 
 # print the character vector in the console to check the structure of the character strings
@@ -88,10 +104,10 @@ second_to_last_object <- num_data_objects - 1
 
 # keep_last_object <- all_subjects_string_split[[1]][last_object[1]]
 # keep_last_object
-
+# 
 # keep_second_to_last_object <- all_subjects_string_split[[1]][second_to_last_object[1]]
 # keep_second_to_last_object
-
+# 
 # first_all_subjects_rebound <- str_c(keep_second_to_last_object, keep_last_object, sep = "/", collapse = "")
 # first_all_subjects_rebound
 
@@ -129,15 +145,21 @@ all_subjects_keep_last_two_splits
 
 # using the current working directory, keep the first half of the working directory string
 # append the working directory to string to the back half of the string containing the path to the sub-folder and filepath
-all_subjects_vector_append_working_directory <- file.path(root_folder, main_folder, location_folder, site_folder, collection_folder, all_subjects_keep_last_two_splits)
+all_subjects_vector_append_working_directory <- file.path(root_folder, main_folder, site_folder, collection_folder, all_subjects_keep_last_two_splits)
 all_subjects_vector_append_working_directory
 
 # create a file name for the single subjects text file
-textfilename <- paste(collection_folder, "all_subjects.txt", sep = "_")
+textfilename <- paste(collection_folder, "all_subjects.csv", sep = "_")
+
+all_subjects_df <- data.frame(all_subjects_vector_append_working_directory)
+
+names(all_subjects_df) <- "path"
+
+print(all_subjects_df)
 
 # write out a single text file containing the concatenated subject text files
 # encode this text file as UTF-8 depending on your locale
-readr::write_lines(all_subjects_vector_append_working_directory, file = paste0(currentfolder, "/metadata/", textfilename))
+readr::write_csv(all_subjects_df, file = paste0(currentfolder, "/metadata/", textfilename))
 
 # rename the first column in the tibble to something more descriptive
 # names(all_subjects_vector_string_replaced)[names(all_subjects_vector_string_replaced) == "value"] <- "path"
@@ -208,7 +230,7 @@ write.csv(all_photos_in_collection_add_subjects_column, file = paste0(currentfol
 
 # define explicitly where the files are coming from, and where we want to copy them to
 # this function uses vectors defined in a previous step to create file paths for our external hard drives
-from <- file.path(root_folder, main_folder, location_folder, site_folder, collection_folder, sub_folder, subject_photos)
+from <- file.path(root_folder, main_folder, site_folder, collection_folder, sub_folder, subject_photos)
 
 to <- paste0(currentfolder, "/subjects")
 
