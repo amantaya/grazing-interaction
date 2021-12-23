@@ -71,15 +71,15 @@ chunks <- split(subject_photos_in_collection, pattern)
 # these directories will be temporary and can be deleted after scoring each group of photos
 # this for loop creates a new directory for each chunk
 for (i in chunk_number) {
-  dir.create(file.path(root_folder, main_folder, location_folder, site_folder, collection_folder, chunk_names[i]))
+  dir.create(file.path(root_folder, main_folder, site_folder, collection_folder, chunk_names[i]))
 }
 
 # copy the subject photos for each chunk into their corresponding folder
 for (i in chunk_number) {
   
-  from <- file.path(root_folder, main_folder, location_folder, site_folder, collection_folder, chunks[[i]]$ImageRelative)
+  from <- file.path(root_folder, main_folder, site_folder, collection_folder, chunks[[i]]$ImageRelative)
   
-  to <- file.path(root_folder, main_folder, location_folder, site_folder, collection_folder, chunk_names[i])
+  to <- file.path(root_folder, main_folder, site_folder, collection_folder, chunk_names[i])
   
   file.copy(from, to, overwrite = FALSE)
 }
