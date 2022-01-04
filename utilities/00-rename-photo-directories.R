@@ -5,9 +5,19 @@ rm(list=ls(all=TRUE))
 source(paste0(getwd(), "/environment.R"))
 
 # load in the required libraries
-source(paste0(currentwd, "/packages.R"))
+source(paste0(getwd(), "/packages.R"))
+
+paste(currentwd, "utilities", "rename.ps1", sep = "/")
+
+system2("powershell", args = c("-file", paste(currentwd, "utilities", "rename.ps1", sep = "/")))
 
 tic("run entire script")
+
+rename_images_folder <- paste(currentfolder, "00-rename", "cameratraps2", sep = "/")
+
+print(rename_images_folder)
+
+currentfolder <- rename_images_folder
 
 # scan the directory containing the photo collections 
 # store the file paths into a list
@@ -210,6 +220,8 @@ for (i in 1:length(site_list)) {
   to <- file_destinations
   
   file.copy(from = from, to = to, copy.date = TRUE)
+  
+  beepr::beep("coin")
 }
 
 toc()
@@ -217,6 +229,6 @@ toc()
 # ------------------------------------------------------------------------------
 
 # play a sound to indicate that the transfer is complete
-beepr::beep("coin")
+beepr::beep("mario")
 
 toc()
