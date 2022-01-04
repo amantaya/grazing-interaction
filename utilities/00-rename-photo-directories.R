@@ -153,12 +153,18 @@ for (i in 1:length(site_list)) {
   # print in the console to check its contents
   print(folder_name)
   
+  nextfolder <- str_replace(currentfolder, "00-rename", "01-extract")
+  
+  print(nextfolder)
+  
   # create new site folder directory using the folder new name
-  new_collection_folder <- paste(currentfolder, folder_name, sep = "/")
+  new_collection_folder <- paste(nextfolder, folder_name, sep = "/")
+  
+  print(new_collection_folder)
   
   dir.create(path=new_collection_folder)
   
-  # duplicate the first site data frame to avoid 'overwriting' the orginal paths
+  # duplicate the first site data frame to avoid 'overwriting' the original paths
   first_site_updated_paths <- first_site
   
   # string replace the site name with the folder name to create a new file path
@@ -187,7 +193,7 @@ for (i in 1:length(site_list)) {
   print(subfolder_directories)
   
   for (x in 1:length(subfolder_directories)) {
-    path_to_subdir <- paste(currentfolder, first_site_updated_paths$sitefolder[x], subfolder_directories[x], sep = "/")
+    path_to_subdir <- paste(nextfolder, first_site_updated_paths$sitefolder[x], subfolder_directories[x], sep = "/")
     dir.create(path_to_subdir)
   }
   
@@ -196,10 +202,7 @@ for (i in 1:length(site_list)) {
   print(file_sources)
   
   # save the file paths to the new directory
-  file_destinations <- paste(currentfolder, first_site_updated_paths$path, sep = "/")
-  print(file_destinations)
-  
-  # check the file destinations
+  file_destinations <- paste(nextfolder, first_site_updated_paths$path, sep = "/")
   print(file_destinations)
   
   from <- file_sources
