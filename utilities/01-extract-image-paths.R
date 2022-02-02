@@ -22,49 +22,72 @@
 ## an explanation of the process, should this need to be update
 
 # clear the R environment
-# rm(list=ls(all=TRUE))
+rm(list=ls(all=TRUE))
 
 # set the working directory and environment variables
-# source(paste0(getwd(), "/environment.R"))
-
-data <- "~/cameratraps/wildcat/exclosure/WCX_05212019_07102019"
+source(paste0(getwd(), "/environment.R"))
 
 # load in the required libraries
 source(paste0(getwd(), "/packages.R"))
 
+# start the benchmark 
+# this will time how long it takes to extract the metadata from all of the photos
+# and compute file hashes for each photo in the collection (if enabled- it can take a very long time to run)
 tic("run entire script")
 
-# extract_images_folder <- paste(currentfolder, "01-extract", "cameratraps", sep = "/")
-
-# extract_images_folder <- paste(currentfolder)
-
-# print(extract_images_folder)
-
-# collection_folders <- list.dirs(extract_images_folder, recursive = FALSE, full.names = TRUE)
-
-collection_folders <- data
-
-print(collection_folders)
-
-for (i in 1:length(collection_folders)) {
+# if you want to loop through multiple folders include all of the collection folders
+# OR you can specify a single collection folder
+if (is_single_folder == TRUE) {
+  all_folders_to_extract <- path_to_collection_folder
+} else {
+  # scan the directory for all of the collections
+  all_folders_to_extract <- list.dirs(path_to_collection_folder, recursive = FALSE, full.names = TRUE)
   
-  currentfolder <- collection_folders[i]
+  # exlcude "subjects" sub-directories from each collection folder
+  # this is to prevent duplicate entries in the CSV files 
+  # from re-extracting a collection folder (for whatever reason)
+  all_folders_to_extract_exclude_subjects_folders <- all_folders_to_extract[!grepl("subjects", all_folders_to_extract)]
+  
+  # also exlcude the "metadata" folders from extracting
+  all_folders_to_extract_exclude_metadata_folders <- all_folders_to_extract_exclude_subjects_folders[!grepl("metadata", all_folders_to_extract_exclude_subjects_folders)]
+  
+  # reassign the values into the original object
+  all_folders_to_extract <- all_folders_to_extract_exclude_metadata_folders
+}
+
+# check that all "subjects" and "metadata" folders will be excluded from extracting their file metadata
+print(all_folders_to_extract)
+
+for (i in 1:length(all_folders_to_extract)) {
+  
+  currentfolder <- all_folders_to_extract[i]
   
   ## make a list of all the JPEGs in the file, if images are stored in some other format, update the code below
-  imagefiles<-list.files(path=currentfolder,full.names=T,pattern=c(".JPG|.jpg"),include.dirs = T,recursive=T)
+  imagefiles <- list.files(path = currentfolder, full.names = TRUE, pattern = c(".JPG|.jpg"), include.dirs = TRUE, recursive = TRUE)
   
   ## create a data.frame from the list of all image files and extract metadata associated with each image	
-  imagefilesinfo<-as.data.frame(do.call("rbind",lapply(imagefiles,file.info)))
-  imagefilesinfo<-imagefilesinfo[,c("size","mtime")]
-  imagefilesinfo$ImagePath<-imagefiles
-  imagefilesinfo$ImageRelative<-do.call("rbind",lapply(strsplit(imagefiles,split=paste(currentfolder,"/",sep="")),rev))[,1]
-  imagefilesinfo$ImageFilename<-do.call("rbind",lapply(strsplit(imagefiles,split="/"),rev))[,1]
-  imagefilesinfo$ImageTime<-gsub("[[:space:]]", "",substr(as.character(imagefilesinfo$mtime),regexpr(":",imagefilesinfo$mtime)-2,regexpr(":",imagefilesinfo$mtime)+5))
-  imagefilesinfo$ImageDate<-gsub("[[:space:]]", "",substr(as.character(imagefilesinfo$mtime),1,10))
-  imagefilesinfo$RecordNumber<-seq(1:length(imagefilesinfo$ImagePath))
-  imagefilesinfo$ImageSize<-as.numeric(imagefilesinfo$size)
-  imagefilesinfo<-imagefilesinfo[,c(8,5,3,4,9,6,7)]
+  imagefilesinfo <- as.data.frame(do.call("rbind", lapply(imagefiles, file.info)))
+  
+  imagefilesinfo <- imagefilesinfo[,c("size","mtime")]
+  
+  imagefilesinfo$ImagePath <- imagefiles
+  
+  imagefilesinfo$ImageRelative <- do.call("rbind",lapply(strsplit(imagefiles,split=paste(currentfolder,"/",sep="")),rev))[,1]
+  
+  imagefilesinfo$ImageFilename <- do.call("rbind",lapply(strsplit(imagefiles,split="/"),rev))[,1]
+  
+  imagefilesinfo$ImageTime <- gsub("[[:space:]]", "",substr(as.character(imagefilesinfo$mtime),regexpr(":",imagefilesinfo$mtime)-2,regexpr(":",imagefilesinfo$mtime)+5))
+  
+  imagefilesinfo$ImageDate <- gsub("[[:space:]]", "",substr(as.character(imagefilesinfo$mtime),1,10))
+ 
+  imagefilesinfo$RecordNumber <- seq(1:length(imagefilesinfo$ImagePath))
+  
+  imagefilesinfo$ImageSize <- as.numeric(imagefilesinfo$size)
+  
+  imagefilesinfo <- imagefilesinfo[,c(8,5,3,4,9,6,7)]
+  
   imagefilesinfo['md5'] <- NA
+  
   imagefilesinfo['sha256'] <- NA
   
   #remove images of size 0 - some cameras have image write-errors that cannot be processed
@@ -127,23 +150,23 @@ for (i in 1:length(collection_folders)) {
     
   }
   
-  for (i in 1:nrow(imagefilesinfo)) {
-    con <- file(imagefilesinfo$ImagePath[i])
-    md5hash <- openssl::md5(con)
-    # print(md5hash)
-
-    con <- file(imagefilesinfo$ImagePath[i])
-    sha256hash <- openssl::sha256(con)
-    # print(sha256hash)
-
-    imagefilesinfo$md5[i] <- as.character(md5hash)
-    imagefilesinfo$sha256[i] <- as.character(sha256hash)
-  }
+  # for (i in 1:nrow(imagefilesinfo)) {
+  #   con <- file(imagefilesinfo$ImagePath[i])
+  #   md5hash <- openssl::md5(con)
+  #   # print(md5hash)
+  # 
+  #   con <- file(imagefilesinfo$ImagePath[i])
+  #   sha256hash <- openssl::sha256(con)
+  #   # print(sha256hash)
+  # 
+  #   imagefilesinfo$md5[i] <- as.character(md5hash)
+  #   imagefilesinfo$sha256[i] <- as.character(sha256hash)
+  # }
   
   write.csv(imagefilesinfo, file = paste0(currentfolder, "/metadata/", excelfilename), row.names=F)
   
   # play a sound to indicate the transfer is complete
-  beep("coin")
+  # beep("coin")
 }
 
 # hashfilename <- paste(rev(strsplit(currentfolder, split="/")[[1]])[1], "_MD5.csv", sep="")
@@ -152,5 +175,5 @@ for (i in 1:length(collection_folders)) {
 
 # openssl::md5(file(myfile))
 # openssl::sha256(file(myfile))
-beep("mario")
+# beep("mario")
 toc()
