@@ -1,0 +1,24 @@
+---
+title: "add-CTMS-metadata"
+author: "Andrew Antaya"
+date: "9/2/2021"
+output: html_document
+---
+
+```{r}
+getwd()
+```
+
+```{r}
+# loading the library and other important packages
+library("XML")
+library("methods")
+```
+
+```{r}
+# the contents of sample.xml are parsed
+data <- xmlParse(file = "sample.xml")
+
+print(data)
+```
+
