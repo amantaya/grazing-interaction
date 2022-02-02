@@ -145,11 +145,14 @@ all_subjects_keep_last_two_splits
 
 # using the current working directory, keep the first half of the working directory string
 # append the working directory to string to the back half of the string containing the path to the sub-folder and filepath
-all_subjects_vector_append_working_directory <- file.path(root_folder, main_folder, site_folder, collection_folder, all_subjects_keep_last_two_splits)
-all_subjects_vector_append_working_directory
+all_subjects_vector_append_working_directory <- paste("~", main_folder, site_folder, collection_folder, all_subjects_keep_last_two_splits, sep = "/")
+
+print(all_subjects_vector_append_working_directory)
 
 # create a file name for the single subjects text file
 textfilename <- paste(collection_folder, "all_subjects.csv", sep = "_")
+
+print(textfilename)
 
 all_subjects_df <- data.frame(all_subjects_vector_append_working_directory)
 
