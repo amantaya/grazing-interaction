@@ -22,12 +22,12 @@ source(paste0(currentwd, "/packages.R"))
 tic("run entire script")
 
 # read in the csv file that contains the metadata for all photos in the collection folder (e.g., BRL_06052019_07022019)
-all_photos_in_collection <- read.csv(paste0(currentfolder, paste0("/metadata/", collection_folder, ".csv")))
+all_photos_in_collection <- read.csv(paste0(path_to_collection_folder, paste0("/metadata/", collection_folder, ".csv")))
 
 # read in the text files from the metadata sub-folder
 # be careful not to put any other files with the file extension ".txt" inside of the metadata sub-folder because this function will read them in to R
 # TODO prevent reading in the "~all_subjects.txt" file in case this script is re-run on the same collection folder
-subject_txt_files <- list.files(paste0(currentfolder, "/metadata"), pattern = ".txt", full.names = TRUE)
+subject_txt_files <- list.files(paste0(path_to_collection_folder, "/metadata"), pattern = ".txt", full.names = TRUE)
 
 # print the list of files (stored in a character vector inside R) in the console to check which text files were read into the R environment
 subject_txt_files
@@ -145,7 +145,7 @@ all_subjects_keep_last_two_splits
 
 # using the current working directory, keep the first half of the working directory string
 # append the working directory to string to the back half of the string containing the path to the sub-folder and filepath
-all_subjects_vector_append_working_directory <- paste("~", main_folder, site_folder, collection_folder, all_subjects_keep_last_two_splits, sep = "/")
+all_subjects_vector_append_working_directory <- paste(root_folder, main_folder, site_folder, collection_folder, all_subjects_keep_last_two_splits, sep = "/")
 
 print(all_subjects_vector_append_working_directory)
 
@@ -162,7 +162,7 @@ print(all_subjects_df)
 
 # write out a single text file containing the concatenated subject text files
 # encode this text file as UTF-8 depending on your locale
-readr::write_csv(all_subjects_df, file = paste0(currentfolder, "/metadata/", textfilename))
+readr::write_csv(all_subjects_df, file = paste0(path_to_collection_folder, "/metadata/", textfilename))
 
 # rename the first column in the tibble to something more descriptive
 # names(all_subjects_vector_string_replaced)[names(all_subjects_vector_string_replaced) == "value"] <- "path"
@@ -225,7 +225,7 @@ excelfilename <- paste0(paste(collection_folder, "matched_subject_photos", sep =
 
 # write the new csv to the working directory
 # we can use this new file at a later point (for machine learning) to identify empty photos from photos with something in them 
-write.csv(all_photos_in_collection_add_subjects_column, file = paste0(currentfolder, "/metadata/", excelfilename), row.names=F)
+write.csv(all_photos_in_collection_add_subjects_column, file = paste0(path_to_collection_folder, "/metadata/", excelfilename), row.names=F)
 
 # now that we have identified which files contain subjects by reading in the text files created by IrFanView
 # we want to copy them to a "subjects" sub-folder in the file directory
@@ -233,20 +233,20 @@ write.csv(all_photos_in_collection_add_subjects_column, file = paste0(currentfol
 
 # define explicitly where the files are coming from, and where we want to copy them to
 # this function uses vectors defined in a previous step to create file paths for our external hard drives
-from <- file.path(root_folder, main_folder, site_folder, collection_folder, sub_folder, subject_photos)
+from <- file.path(root_folder, main_folder, location_folder, site_folder, collection_folder, sub_folder, subject_photos)
 
-to <- paste0(currentfolder, "/subjects")
+to <- paste0(path_to_collection_folder, "/subjects")
 
 # make a subjects folder if one doesn't already exist
 # create a "metadata" directory if one doesn't already exist in the collection folder
-if (dir.exists(paste0(currentfolder, "/subjects")) == FALSE) {
-  dir.create(paste0(currentfolder, "/subjects"))
+if (dir.exists(paste0(path_to_collection_folder, "/subjects")) == FALSE) {
+  dir.create(paste0(path_to_collection_folder, "/subjects"))
 } else {
   
 }
 
 # copy the photos containing subjects into the folders locations defined in the previous step
-file.copy(from, to, overwrite = FALSE)
+file.copy(from=from, to=to, overwrite = FALSE)
 
 # TODO Add a some logic to check if files were not copied due to incorrect paths
 # one way to do this would be to compare the number of observations on the all subjects data frame to the number of copied files
