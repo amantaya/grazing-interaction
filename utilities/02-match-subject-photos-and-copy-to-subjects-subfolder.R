@@ -220,12 +220,16 @@ all_photos_in_collection_add_subjects_column<- add_column(all_photos_in_collecti
 # print this data frame in the console to view the new column
 all_photos_in_collection_add_subjects_column
 
+# filter out the images with a file size of 0
+# i.e. file may be corrupted
+all_photos_in_collection_drop_files_with_0size <- dplyr::filter(all_photos_in_collection_add_subjects_column, ImageSize != 0)
+
 # create a flexible excel file name that uses the first row of the collection folder
 excelfilename <- paste0(paste(collection_folder, "matched_subject_photos", sep = "_"), ".csv")
 
 # write the new csv to the working directory
 # we can use this new file at a later point (for machine learning) to identify empty photos from photos with something in them 
-write.csv(all_photos_in_collection_add_subjects_column, file = paste0(path_to_collection_folder, "/metadata/", excelfilename), row.names=F)
+write.csv(all_photos_in_collection_drop_files_with_0size, file = paste0(path_to_collection_folder, "/metadata/", excelfilename), row.names=F)
 
 # now that we have identified which files contain subjects by reading in the text files created by IrFanView
 # we want to copy them to a "subjects" sub-folder in the file directory
@@ -252,5 +256,5 @@ file.copy(from=from, to=to, overwrite = FALSE)
 # one way to do this would be to compare the number of observations on the all subjects data frame to the number of copied files
 
 # play a sound to indicate the transfer is complete
-beep("coin")
+# beep("coin")
 toc()
