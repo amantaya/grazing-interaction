@@ -23,7 +23,7 @@ source(paste0(getwd(), "/environment.R"))
 source(paste0(currentwd, "/packages.R"))
 
 # read in the csv file that contains the metadata for all photos in the collection folder (e.g., BRL_06052019_07022019)
-all_photos_in_collection <- read.csv(paste0(currentfolder, paste0("/metadata/", collection_folder, "_matched_subject_photos", ".csv")))
+all_photos_in_collection <- read.csv(paste0(path_to_collection_folder, paste0("/metadata/", collection_folder, "_matched_subject_photos", ".csv")))
 
 # select only the subject photos from within the collection
 subject_photos_in_collection <- dplyr::filter(all_photos_in_collection, SubjectPhoto == TRUE)
@@ -71,15 +71,15 @@ chunks <- split(subject_photos_in_collection, pattern)
 # these directories will be temporary and can be deleted after scoring each group of photos
 # this for loop creates a new directory for each chunk
 for (i in chunk_number) {
-  dir.create(file.path(root_folder, main_folder, site_folder, collection_folder, chunk_names[i]))
+  dir.create(file.path(path_to_collection_folder, chunk_names[i]))
 }
 
 # copy the subject photos for each chunk into their corresponding folder
 for (i in chunk_number) {
   
-  from <- file.path(root_folder, main_folder, site_folder, collection_folder, chunks[[i]]$ImageRelative)
+  from <- file.path(chunks[[i]]$ImagePath)
   
-  to <- file.path(root_folder, main_folder, site_folder, collection_folder, chunk_names[i])
+  to <- file.path(path_to_collection_folder, chunk_names[i])
   
   file.copy(from, to, overwrite = FALSE)
 }
@@ -88,8 +88,8 @@ for (i in chunk_number) {
 # name each csv file the collection folder and the name of the chunk (e.g., BGT_07302019_09182019_subjects_chunk1.csv)
 for (i in chunk_number) {
   excelfilename <- paste0(paste(collection_folder, subjects_folder, chunk_names[i], sep = "_"), ".csv")
-  write.csv(chunks[[i]], paste0(currentfolder, "/metadata/", excelfilename), row.names=FALSE)
+  write.csv(chunks[[i]], paste0(path_to_collection_folder, "/metadata/", excelfilename), row.names=FALSE)
 }
 
-beep("coin")
+# beep("coin")
 toc()
