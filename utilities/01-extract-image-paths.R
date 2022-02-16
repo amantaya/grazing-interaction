@@ -58,16 +58,25 @@ if (is_single_folder == TRUE) {
 # check that all "subjects" and "metadata" folders will be excluded from extracting their file metadata
 print(all_folders_to_extract)
 
+# list the subfolders in the folders we want to extract
+# this will be the "full" list that we will then cut down to only the folders we want to extract
 list_of_folders_in_folders_to_extract <- list.dirs(all_folders_to_extract)
 
+# create a wildcard pattern that will be use to select only the folders created by the cameratrap
+# 100EK113, 101EK113, etc
 subfolder_wildcard <- "*EK113"
 
+# include only the folders matching on the wildcard pattern
 include_only_ek113_subfolders <- grep(subfolder_wildcard, list_of_folders_in_folders_to_extract, value = TRUE)
 
+# overwrite the variable so we don't have to refactor the code below
 all_folders_to_extract <- include_only_ek113_subfolders
 
-imagefiles <- NA
+# create a new object to hold the image paths
+imagefiles <- NULL
 
+# list ONLY jpg files from ONLY the *EK113 subfolders and append to a list
+# TODO this may not work with multiple collections folders, ideally each collection folder should be done one at a time
 for (i in 1:length(all_folders_to_extract)) {
   
   currentfolder <- all_folders_to_extract[i]
@@ -76,7 +85,7 @@ for (i in 1:length(all_folders_to_extract)) {
   imagefiles <- append(imagefiles, list.files(path = currentfolder, pattern = c(".JPG|.jpg"), full.names = TRUE))
   
   }
-  
+
   ## create a data.frame from the list of all image files and extract metadata associated with each image	
   imagefilesinfo <- as.data.frame(do.call("rbind", lapply(imagefiles, file.info)))
   
@@ -84,9 +93,9 @@ for (i in 1:length(all_folders_to_extract)) {
   
   imagefilesinfo$ImagePath <- imagefiles
   
-  imagefilesinfo$ImageRelative <- do.call("rbind",lapply(strsplit(imagefiles,split=paste(currentfolder,"/",sep="")),rev))[,1]
+  imagefilesinfo$ImageRelative <- do.call("rbind", lapply(strsplit(imagefiles, split = paste(collection_folder, "/", sep="")), rev))[,1]
   
-  imagefilesinfo$ImageFilename <- do.call("rbind",lapply(strsplit(imagefiles,split="/"),rev))[,1]
+  imagefilesinfo$ImageFilename <- do.call("rbind", lapply(strsplit(imagefiles, split="/"), rev))[,1]
   
   imagefilesinfo$ImageTime <- gsub("[[:space:]]", "",substr(as.character(imagefilesinfo$mtime),regexpr(":",imagefilesinfo$mtime)-2,regexpr(":",imagefilesinfo$mtime)+5))
   
@@ -103,7 +112,7 @@ for (i in 1:length(all_folders_to_extract)) {
   imagefilesinfo['sha256'] <- NA
   
   #remove images of size 0 - some cameras have image write-errors that cannot be processed
-  imagefilesinfo<-imagefilesinfo[imagefilesinfo$ImageSize!=0,]
+  # imagefilesinfo<-imagefilesinfo[imagefilesinfo$ImageSize!=0,]
   
   # ## OPTIONAL - DEFINE A SUBSET OF IMAGES TO PROCESS BASED ON A REGULAR TIME SCHEDULE
   # #Make list of images to include by listing all years wanted (must be four-digit years: 2015,2016,...)
@@ -177,11 +186,10 @@ for (i in 1:length(all_folders_to_extract)) {
   #   imagefilesinfo$sha256[i] <- as.character(sha256hash)
   # }
   
-#  write.csv(imagefilesinfo, file = paste0(currentfolder, "/metadata/", excelfilename), row.names=F)
+write.csv(imagefilesinfo, file = paste0(path_to_collection_folder, "/metadata/", excelfilename), row.names = FALSE)
   
   # play a sound to indicate the transfer is complete
   # beep("coin")
-}
 
 # hashfilename <- paste(rev(strsplit(currentfolder, split="/")[[1]])[1], "_MD5.csv", sep="")
 
