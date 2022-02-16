@@ -58,12 +58,24 @@ if (is_single_folder == TRUE) {
 # check that all "subjects" and "metadata" folders will be excluded from extracting their file metadata
 print(all_folders_to_extract)
 
+list_of_folders_in_folders_to_extract <- list.dirs(all_folders_to_extract)
+
+subfolder_wildcard <- "*EK113"
+
+include_only_ek113_subfolders <- grep(subfolder_wildcard, list_of_folders_in_folders_to_extract, value = TRUE)
+
+all_folders_to_extract <- include_only_ek113_subfolders
+
+imagefiles <- NA
+
 for (i in 1:length(all_folders_to_extract)) {
   
   currentfolder <- all_folders_to_extract[i]
   
   ## make a list of all the JPEGs in the file, if images are stored in some other format, update the code below
-  imagefiles <- list.files(path = currentfolder, full.names = TRUE, pattern = c(".JPG|.jpg"), include.dirs = TRUE, recursive = TRUE)
+  imagefiles <- append(imagefiles, list.files(path = currentfolder, pattern = c(".JPG|.jpg"), full.names = TRUE))
+  
+  }
   
   ## create a data.frame from the list of all image files and extract metadata associated with each image	
   imagefilesinfo <- as.data.frame(do.call("rbind", lapply(imagefiles, file.info)))
@@ -138,14 +150,16 @@ for (i in 1:length(all_folders_to_extract)) {
     imagefilesinfo$ImageAlert<- FALSE
   }
   
+  
+  
   ## write a .csv file named after the working directory containing the image data.  All the data from this .csv file should be copied into the 
   ## Excel form.  The .csv file will show up in the same directory as this script once this script is run.
-  excelfilename<-paste(rev(strsplit(currentfolder,split="/")[[1]])[1],".csv",sep="")
+  excelfilename <- paste0(collection_folder, ".csv")
   
   
   # create a "metadata" directory if one doesn't already exist in the collection folder
-  if (dir.exists(paste0(currentfolder, "/metadata")) == FALSE) {
-    dir.create(paste0(currentfolder, "/metadata"))
+  if (dir.exists(paste0(path_to_collection_folder, "/metadata")) == FALSE) {
+    dir.create(paste0(path_to_collection_folder, "/metadata"))
   } else {
     
   }
@@ -163,7 +177,7 @@ for (i in 1:length(all_folders_to_extract)) {
   #   imagefilesinfo$sha256[i] <- as.character(sha256hash)
   # }
   
-  write.csv(imagefilesinfo, file = paste0(currentfolder, "/metadata/", excelfilename), row.names=F)
+#  write.csv(imagefilesinfo, file = paste0(currentfolder, "/metadata/", excelfilename), row.names=F)
   
   # play a sound to indicate the transfer is complete
   # beep("coin")
