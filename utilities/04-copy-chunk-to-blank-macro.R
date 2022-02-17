@@ -11,6 +11,8 @@ source(paste0(getwd(), "/environment.R"))
 # load in the required libraries
 source(paste0(currentwd, "/packages.R"))
 
+tic("run entire script")
+
 # list all of the chunk subfolders in the collection
 subfolders_in_collection_folder_relative_path <- list.dirs(path_to_collection_folder, full.names = FALSE)
 
@@ -151,3 +153,5 @@ to <- temp_folder_for_uploading_chunk
 
 # copy the chunks onto my local drive for upload
 file.copy(from = from, to = to, recursive = TRUE)
+
+toc()
