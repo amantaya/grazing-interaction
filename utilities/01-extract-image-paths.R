@@ -173,19 +173,19 @@ for (i in 1:length(all_folders_to_extract)) {
     
   }
   
-  # for (i in 1:nrow(imagefilesinfo)) {
-  #   con <- file(imagefilesinfo$ImagePath[i])
-  #   md5hash <- openssl::md5(con)
-  #   # print(md5hash)
-  # 
-  #   con <- file(imagefilesinfo$ImagePath[i])
-  #   sha256hash <- openssl::sha256(con)
-  #   # print(sha256hash)
-  # 
-  #   imagefilesinfo$md5[i] <- as.character(md5hash)
-  #   imagefilesinfo$sha256[i] <- as.character(sha256hash)
-  # }
-  
+  for (i in 1:nrow(imagefilesinfo)) {
+    con <- file(imagefilesinfo$ImagePath[i])
+    md5hash <- openssl::md5(con)
+    print(md5hash)
+
+    con <- file(imagefilesinfo$ImagePath[i])
+    sha256hash <- openssl::sha256(con)
+    print(sha256hash)
+
+    imagefilesinfo$md5[i] <- as.character(md5hash)
+    imagefilesinfo$sha256[i] <- as.character(sha256hash)
+  }
+
 write.csv(imagefilesinfo, file = paste0(path_to_collection_folder, "/metadata/", excelfilename), row.names = FALSE)
   
   # play a sound to indicate the transfer is complete
