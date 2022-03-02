@@ -7,13 +7,7 @@ source(paste0(getwd(), "/environment.R"))
 # load in the required libraries
 source(paste0(getwd(), "/packages.R"))
 
-paste(currentwd, "utilities", "rename.ps1", sep = "/")
-
 tic("run entire script")
-
-tic("rename files")
-system2("powershell", args = c("-file", paste(currentwd, "utilities", "rename.ps1", sep = "/")))
-toc()
 
 rename_images_folder <- paste(currentfolder, "00-rename", "cameratraps", sep = "/")
 
