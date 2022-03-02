@@ -199,3 +199,9 @@ write.csv(imagefilesinfo, file = paste0(path_to_collection_folder, "/metadata/",
 # openssl::sha256(file(myfile))
 # beep("mario")
 toc()
+
+msg_body <- paste("01-extract-image-paths.R", "completed at", Sys.time(), sep = " ")
+
+RPushbullet::pbPost(type = "note", title = "Script Completed", body = msg_body)
+
+
