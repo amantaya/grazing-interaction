@@ -12,7 +12,10 @@
 ## this csv file should be located in the "metadata" sub-folder within the collection folder
 ## this csv file is named by the photo collection folder and "~matched_subject_photos.csv" 
 ## e.g., BRT_11052019_12072019_matched_subject_photos.csv
+
+# start a benchmark to time how long it takes to run this script
 tic("run entire script")
+
 # clear the R environment
 rm(list=ls(all=TRUE))
 
@@ -77,7 +80,7 @@ for (i in chunk_number) {
 # copy the subject photos for each chunk into their corresponding folder
 for (i in chunk_number) {
   
-  from <- file.path(chunks[[i]]$ImagePath)
+  from <- file.path(paste0(path_to_collection_folder, "/", chunks[[i]]$ImageRelative))
   
   to <- file.path(path_to_collection_folder, chunk_names[i])
   
@@ -93,3 +96,12 @@ for (i in chunk_number) {
 
 # beep("coin")
 toc()
+
+system_time <- Sys.time()
+
+# convert into the correct timezone for your locale (mine is Arizona so we follow Mountain Standard)
+attr(system_time,"tzone") <- "MST"
+
+msg_body <- paste("03-chunk-subject-photos-and-copy-to-subfolder.R", "ran on folder", collection_folder, "completed at", system_time, sep = " ")
+
+RPushbullet::pbPost(type = "note", title = "Script Completed", body = msg_body)

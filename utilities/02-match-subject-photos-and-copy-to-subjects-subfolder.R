@@ -54,7 +54,7 @@ all_subjects_vector <- NULL
 
 # use this for loop to read in all of subject text files and append (add) them to the vector
 for (i in 1:length(subject_txt_files)){
-  subjects_from_text_file <- readLines(con <- file(subject_txt_files[i], encoding = "UCS-2LE"))
+  subjects_from_text_file <- readLines(con <- file(subject_txt_files[i], encoding = "UTF-16LE"))
   
   if (length(subjects_from_text_file) != 0) {
     
@@ -258,3 +258,15 @@ file.copy(from=from, to=to, overwrite = FALSE)
 # play a sound to indicate the transfer is complete
 # beep("coin")
 toc()
+
+# get the current system time to notify when the script is completed
+# note that this defaults to UTC (aka Greenwich Mean Time)
+system_time <- Sys.time()
+
+# convert into the correct timezone for your locale (mine is Arizona so we follow Mountain Standard)
+attr(system_time,"tzone") <- "MST"
+
+msg_body <- paste("02-match-subject-photos-and-copy-to-subjects-subfolder.R", "ran on folder", collection_folder, "completed at", system_time, sep = " ")
+
+RPushbullet::pbPost(type = "note", title = "Script Completed", body = msg_body)
+

@@ -155,3 +155,12 @@ to <- temp_folder_for_uploading_chunk
 file.copy(from = from, to = to, recursive = TRUE)
 
 toc()
+
+system_time <- Sys.time()
+
+# convert into the correct timezone for your locale (mine is Arizona so we follow Mountain Standard)
+attr(system_time,"tzone") <- "MST"
+
+msg_body <- paste("04-copy-chunk-to-blank-macro.R", "ran on folder", collection_folder, "completed at", system_time, sep = " ")
+
+RPushbullet::pbPost(type = "note", title = "Script Completed", body = msg_body)
