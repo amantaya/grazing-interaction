@@ -13,12 +13,10 @@ rename_images_folder <- file.path(currentwd, "data", "00-rename", "cameratraps2"
 
 print(rename_images_folder)
 
-currentfolder <- rename_images_folder
-
 # scan the directory containing the photo collections 
 # store the file paths into a list
 tic("scan files")
-imagefiles <- list.files(path=currentfolder, full.names=T, pattern=c(".JPG|.jpg"), include.dirs = T, recursive=T)
+imagefiles <- list.files(path=rename_images_folder, full.names=T, pattern=c(".JPG|.jpg"), include.dirs = T, recursive=T)
 toc()
 
 # convert the character vector into data frame or tibble for pretty printing
@@ -30,7 +28,7 @@ print(imagefiles_df)
 # scan the directory containing the photo collections
 # store the directory names (folders) into a list
 tic("scan directory")
-imagefolders <- list.dirs(path=currentfolder, recursive=TRUE, full.names = TRUE)
+imagefolders <- list.dirs(path=rename_images_folder, recursive=TRUE, full.names = TRUE)
 toc()
 
 # convert the character vector into data frame or tibble for pretty printing
@@ -44,17 +42,10 @@ imagefiles_string_split <- str_split(imagefiles, pattern = "/")
 
 print(imagefiles_string_split)
 
-# replace the "DCIM" folder created by the camera trap
-# with the site folder (e.g., BUO01) for each element in this list
-# tic("for loop replace DCIM folder")
-# for (i in (1:length(imagefiles_string_split))) {
-#   imagefiles_string_split[[i]][9] <- imagefiles_string_split[[i]][8]
-# }
-# toc()
-
 # lengths() detects the number of objects in each element within a list
 num_data_objects <- lengths(imagefiles_string_split)
-num_data_objects
+
+print(num_data_objects)
 
 # create an index for the last string split
 last_object <- num_data_objects
@@ -71,6 +62,7 @@ keep_last_object <- NULL
 keep_second_to_last_object <- NULL
 keep_third_to_last_object <- NULL
 
+# use a for loop to keep the last three values from each element in a list
 for (i in 1:length(imagefiles_string_split)) {
   keep_last_object[i] <- imagefiles_string_split[[i]][last_object[i]]
   
@@ -119,14 +111,18 @@ print(imagefiles_tibble_separated_into_columns)
 # get a list of all of the sites
 site_list <- unique(imagefiles_tibble_separated_into_columns$sitefolder)
 
+# str(imagefiles_tibble_separated_into_columns$sitefolder)
+
+# grep("DCIM", imagefiles_tibble_separated_into_columns$sitefolder)
+
 # print in the console to check its contents
 print(site_list)
 
 # check its structure
 str(site_list)
 
+# use a for loop to copy each site one by one
 tic("copy files")
-
 for (i in 1:length(site_list)) {
   # filter the out all other data, and keep just the data from the first site
   first_site <- imagefiles_tibble_separated_into_columns %>% dplyr::filter(sitefolder == site_list[i])
@@ -183,19 +179,13 @@ for (i in 1:length(site_list)) {
   # print in the console to check its contents
   print(first_site_new_paths)
   
+  # create a new directory using the folder naming convention of "Site" "First Date" "Last Date"
   dir.create(file.path(currentwd, "data", "01-extract", "cameratraps2", first_site_updated_paths$sitefolder[1]))
   
   subfolders <- unique(first_site$subfolder)
   
   # print in the console to check how many subfolders are in each site
   print(subfolders)
-  
-  # for (x in 1:length(subfolder_directories)) {
-  #   path_to_subdir <- paste(nextfolder, first_site_updated_paths$sitefolder[x], subfolder_directories[x], sep = "/")
-  #   dir.create(path_to_subdir)
-  # }
-  
-  subfolders
   
   # copy the original sub-directories from "00-rename" to the "01-extract"
   source <- file.path(currentwd, "data", "00-rename", "cameratraps2", first_site$sitefolder[1], subfolders)
@@ -204,6 +194,7 @@ for (i in 1:length(site_list)) {
   
   file.copy(from = source, to = dest, copy.date = TRUE, recursive = TRUE)
 }
+toc()
 
 system_time <- Sys.time()
 
