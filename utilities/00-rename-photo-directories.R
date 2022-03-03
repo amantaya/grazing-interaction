@@ -204,3 +204,12 @@ for (i in 1:length(site_list)) {
   
   file.copy(from = source, to = dest, copy.date = TRUE, recursive = TRUE)
 }
+
+system_time <- Sys.time()
+
+# convert into the correct timezone for your locale (mine is Arizona so we follow Mountain Standard)
+attr(system_time,"tzone") <- "MST"
+
+msg_body <- paste("00-rename-photo-directories.R", "completed at", system_time, sep = " ")
+
+RPushbullet::pbPost(type = "note", title = "Script Completed", body = msg_body)
