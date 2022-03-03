@@ -9,7 +9,7 @@ source(paste0(getwd(), "/packages.R"))
 
 tic("run entire script")
 
-rename_images_folder <- paste(currentfolder, "00-rename", "cameratraps", sep = "/")
+rename_images_folder <- file.path(currentwd, "data", "00-rename", "cameratraps2")
 
 print(rename_images_folder)
 
@@ -44,6 +44,14 @@ imagefiles_string_split <- str_split(imagefiles, pattern = "/")
 
 print(imagefiles_string_split)
 
+# replace the "DCIM" folder created by the camera trap
+# with the site folder (e.g., BUO01) for each element in this list
+# tic("for loop replace DCIM folder")
+# for (i in (1:length(imagefiles_string_split))) {
+#   imagefiles_string_split[[i]][9] <- imagefiles_string_split[[i]][8]
+# }
+# toc()
+
 # lengths() detects the number of objects in each element within a list
 num_data_objects <- lengths(imagefiles_string_split)
 num_data_objects
@@ -64,18 +72,21 @@ keep_second_to_last_object <- NULL
 keep_third_to_last_object <- NULL
 
 for (i in 1:length(imagefiles_string_split)) {
-  
   keep_last_object[i] <- imagefiles_string_split[[i]][last_object[i]]
   
-  keep_second_to_last_object[i] <- imagefiles_string_split[[i]][second_to_last_object[i]]
+  keep_second_to_last_object[i] <-
+    imagefiles_string_split[[i]][second_to_last_object[i]]
   
-  keep_third_to_last_object[i] <- imagefiles_string_split[[i]][third_to_last_object[i]]
+  keep_third_to_last_object[i] <-
+    imagefiles_string_split[[i]][third_to_last_object[i]]
   
-  imagefiles_string_splits[i] <- str_c(keep_third_to_last_object[i],
-                                                keep_second_to_last_object[i],
-                                                keep_last_object[i],
-                                                sep = "/",
-                                                collapse = "")
+  imagefiles_string_splits[i] <- str_c(
+    keep_third_to_last_object[i],
+    keep_second_to_last_object[i],
+    keep_last_object[i],
+    sep = "/",
+    collapse = ""
+  )
 }
 # print the vector to check its contents
 imagefiles_string_splits
@@ -159,25 +170,11 @@ for (i in 1:length(site_list)) {
   # print in the console to check its contents
   print(folder_name)
   
-  nextfolder <- str_replace(currentfolder, "00-rename", "01-extract")
-  
-  print(nextfolder)
-  
-  # create new site folder directory using the folder new name
-  new_collection_folder <- paste(nextfolder, folder_name, sep = "/")
-  
-  print(new_collection_folder)
-  
-  dir.create(path=new_collection_folder)
-  
   # duplicate the first site data frame to avoid 'overwriting' the original paths
   first_site_updated_paths <- first_site
   
   # string replace the site name with the folder name to create a new file path
   first_site_updated_paths$sitefolder <- str_replace(first_site$sitefolder, site_folder, folder_name)
-  
-  # print in the console to check its contents
-  print(first_site_updated_paths)
   
   # construct new file paths using the new folder name
   # this will give R a series of locations to copy the files to
@@ -186,45 +183,24 @@ for (i in 1:length(site_list)) {
   # print in the console to check its contents
   print(first_site_new_paths)
   
-  # replace the paths column in the data frame with the new paths we created
-  first_site_updated_paths$path <- first_site_new_paths
+  dir.create(file.path(currentwd, "data", "01-extract", "cameratraps2", first_site_updated_paths$sitefolder[1]))
   
-  # print 
-  print(first_site_updated_paths)
-  
-  # get all of the subfolders from the site
-  subfolder_directories <- unique(first_site$subfolder)
+  subfolders <- unique(first_site$subfolder)
   
   # print in the console to check how many subfolders are in each site
-  print(subfolder_directories)
+  print(subfolders)
   
-  for (x in 1:length(subfolder_directories)) {
-    path_to_subdir <- paste(nextfolder, first_site_updated_paths$sitefolder[x], subfolder_directories[x], sep = "/")
-    dir.create(path_to_subdir)
-  }
+  # for (x in 1:length(subfolder_directories)) {
+  #   path_to_subdir <- paste(nextfolder, first_site_updated_paths$sitefolder[x], subfolder_directories[x], sep = "/")
+  #   dir.create(path_to_subdir)
+  # }
   
-  # file sources
-  file_sources <- paste(currentfolder, first_site$path, sep = "/")
-  print(file_sources)
+  subfolders
   
-  # save the file paths to the new directory
-  file_destinations <- paste(nextfolder, first_site_updated_paths$path, sep = "/")
-  print(file_destinations)
+  # copy the original sub-directories from "00-rename" to the "01-extract"
+  source <- file.path(currentwd, "data", "00-rename", "cameratraps2", first_site$sitefolder[1], subfolders)
   
-  from <- file_sources
+  dest <- file.path(currentwd, "data", "01-extract", "cameratraps2", first_site_updated_paths$sitefolder[1])
   
-  to <- file_destinations
-  
-  file.copy(from = from, to = to, copy.date = TRUE)
-  
-  beepr::beep("coin")
+  file.copy(from = source, to = dest, copy.date = TRUE, recursive = TRUE)
 }
-
-toc()
-
-# ------------------------------------------------------------------------------
-
-# play a sound to indicate that the transfer is complete
-beepr::beep("mario")
-
-toc()
