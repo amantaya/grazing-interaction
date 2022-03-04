@@ -18,12 +18,9 @@ packrat/src/
 
 # ignore data folders and files
 data
-excelmacro
 results
 figures
-misc
 learning
 xlsm
-quality-check
 *.csv
 .git.bfg-report
