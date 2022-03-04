@@ -8,6 +8,15 @@ output: html_notebook
 rm(list=ls(all=TRUE))
 ```
 
+Let's check the working directory to see if it's correct. This chunk sources a script that I use to setup my R environment across scripts. It helps me stay consistent between scripts.
+```{r setup environment}
+source(paste0(getwd(), "/environment.R"))
+
+print(currentwd)
+```
+
+Check that this path is correct for your computer.
+
 ```{r echo=FALSE}
 source("packages.R")
 ```
