@@ -1,17 +1,17 @@
 # local r docker container running on port 80
 # this command disables authentication so only use it on a private network
 
-docker run -d -e DISABLE_AUTH=true --rm -p 127.0.0.1:80:8787 -v C:/Users/andre/Dropbox/Rproj/grazing-interaction:/home/rstudio/grazing-interaction -v I:/cameratraps:/home/rstudio/cameratraps amantaya/verse_grazing_pushbullet:4.0.5
+docker run -d -e DISABLE_AUTH=true --rm -p 127.0.0.1:80:8787 -v C:/Users/andre/Dropbox/Rproj/grazing-interaction:/home/rstudio/grazing-interaction -v I:/cameratraps:/home/rstudio/cameratraps amantaya/verse_grazing_ggsci:4.0.5
 
 # local r docker container running on port 8787
 # this command disables authentication so only use it on a private network
 
-docker run -d -e DISABLE_AUTH=true --rm -p 127.0.0.1:8787:8787 -v C:/Users/andre/Dropbox/Rproj/grazing-interaction:/home/rstudio/grazing-interaction -v I:/cameratraps:/home/rstudio/cameratraps amantaya/verse_grazing_pushbullet:4.0.5
+docker run -d -e DISABLE_AUTH=true --rm -p 127.0.0.1:8787:8787 -v C:/Users/andre/Dropbox/Rproj/grazing-interaction:/home/rstudio/grazing-interaction -v I:/cameratraps:/home/rstudio/cameratraps amantaya/verse_grazing_ggsci:4.0.5
 
 # local r docker container running on port 3000
 # this command disables authentication so only use it on a private network
 
-docker run -d -e DISABLE_AUTH=true --rm -p 127.0.0.1:3000:8787 -v C:/Users/andre/Dropbox/Rproj/grazing-interaction:/home/rstudio/grazing-interaction -v I:/cameratraps:/home/rstudio/cameratraps amantaya/verse_grazing_pushbullet:4.0.5
+docker run -d -e DISABLE_AUTH=true --rm -p 127.0.0.1:3000:8787 -v C:/Users/andre/Dropbox/Rproj/grazing-interaction:/home/rstudio/grazing-interaction -v I:/cameratraps:/home/rstudio/cameratraps amantaya/verse_grazing_ggsci:4.0.5
 
 # local r docker container running on port 8787
 # this uses an terrible password so be sure to change it
