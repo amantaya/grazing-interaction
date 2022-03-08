@@ -19,6 +19,8 @@ source(paste0(getwd(), "/environment.R"))
 # load in the required libraries
 source(paste0(currentwd, "/packages.R"))
 
+sessionInfo()
+
 tic("run entire script")
 
 # read in the csv file that contains the metadata for all photos in the collection folder (e.g., BRL_06052019_07022019)
@@ -36,11 +38,11 @@ subject_txt_files
 # define the text file encoding explicitly because R has trouble recognizing this type of file encoding
 # print the character string to the console to check if R read in the strings correctly
 # if R misreads the text files, you will see embedded nulls, strange characters, or blank strings printed in the console
-readLines(con <- file(subject_txt_files[1], encoding = "UCS-2LE"))
+readLines(con <- file(subject_txt_files[1], encoding = "UTF-16LE"))
 
 # store the photos with subjects from the first text file in the metadata subfolder into a character vector
 # this will allow us to test converting from UCS-2LE to UTF-8
-first_subjects_text_file <- readLines(con <- file(subject_txt_files[1], encoding = "UCS-2LE"))
+first_subjects_text_file <- readLines(con <- file(subject_txt_files[1], encoding = "UTF-16LE"))
 
 # print the list of files (stored in a character vector inside R) in the console to check which text files were read into the R environment
 first_subjects_text_file
@@ -54,7 +56,7 @@ all_subjects_vector <- NULL
 
 # use this for loop to read in all of subject text files and append (add) them to the vector
 for (i in 1:length(subject_txt_files)){
-  subjects_from_text_file <- readLines(con <- file(subject_txt_files[i], encoding = "UTF-16LE"))
+  subjects_from_text_file <- readLines(con <- file(subject_txt_files[i], encoding = "UTF-16LE"), warn = TRUE)
   
   if (length(subjects_from_text_file) != 0) {
     
@@ -70,14 +72,48 @@ for (i in 1:length(subject_txt_files)){
 # print the character vector in the console to check the structure of the character strings
 all_subjects_vector
 
+# create a tibble to identify any missing data
+# add an index to make identifying trouble data easier
+all_subjects_tibble <- tibble::tibble('index' = 1:length(all_subjects_vector), 'path' = all_subjects_vector)
+
+# Create an error message to identify which rows contain NA values
+for (i in 1:nrow(all_subjects_tibble)) {
+  if (is.na(all_subjects_tibble$path[i]) ==TRUE) {
+    warning(paste("This subject text file has an NA.", "Index", "=", as.character(all_subjects_tibble$index[i], sep = " ")))
+  } else {
+    paste("There are no NAs in the subject text files.")
+  }
+}
+
+# drop any lines that contain NAs (usually caused by encoding problems)
+all_subjects_tibble_drop_na <- all_subjects_tibble %>% tidyr::drop_na()
+
+# add a descriptive push notification to alert me when NAs are dropped
+# if any lines were dropped alert the user
+if (nrow(all_subjects_tibble_drop_na) != nrow(all_subjects_tibble)){
+  msg_body <- paste0("In collection folder:",
+                     " ",
+                     collection_folder,
+                     "\n",
+                     "there are",
+                     " ",
+                     nrow(all_subjects_tibble)-nrow(all_subjects_tibble_drop_na),
+                     " ",
+                     "NAs in the subject text files")
+  
+  RPushbullet::pbPost(type = "note", title = "Warning", body = msg_body)
+}
+
 # TODO closing the file connection still results in warnings() printed in the console
 # close the open file connections
 closeAllConnections()
 
+all_subjects_vector_drop_na <- as.character(all_subjects_tibble_drop_na$path)
+
 # the character strings are stored in the R environment as \\ (double-backslashes) which are reserved characters
 # replace these reserved characters with a single forward-slash, which is how R reads in file paths 
 # (Windows 10 uses a single back-slash for file paths)
-all_subjects_vector_string_replaced <- str_replace_all(all_subjects_vector, "\\\\", "/")
+all_subjects_vector_string_replaced <- str_replace_all(all_subjects_vector_drop_na, "\\\\", "/")
 
 # print the character vector to check the structure of the character strings
 all_subjects_vector_string_replaced
@@ -118,8 +154,12 @@ keep_second_to_last_object <- NULL
 for (i in 1:length(all_subjects_string_split)) {
   
   keep_last_object[i] <- all_subjects_string_split[[i]][last_object[i]]
+  
+  print(keep_last_object[i])
 
   keep_second_to_last_object[i] <- all_subjects_string_split[[i]][second_to_last_object[i]]
+  
+  print(keep_second_to_last_object[i])
 
   all_subjects_keep_last_two_splits[i] <- str_c(keep_second_to_last_object[i],
                                                 keep_last_object[i],
