@@ -28,3 +28,5 @@ library("tictoc")
 library("openssl")
 library("RPushbullet")
 library("ggfittext")
+library("ggsci")
+
