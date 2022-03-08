@@ -195,27 +195,27 @@ Let's calculate grazing minutes using the Bear Timelapse 2018 data. From our met
 
 ```{r}
 calc.grazing.time.unwtd <- function(cameradf, interval) {
-  cameradf <- cameradf %>% dplyr::mutate(horse_graze_unwtd = horse * interval)
+  cameradf <- cameradf %>% dplyr::mutate(horse_grazing_unwtd = horse * interval)
   
-  cameradf <- cameradf %>% dplyr::mutate(cow_graze_unwtd = cow * interval)
+  cameradf <- cameradf %>% dplyr::mutate(cow_grazing_unwtd = cow * interval)
   
-  cameradf <- cameradf %>% dplyr::mutate(elk_graze_unwtd = elk * interval)
+  cameradf <- cameradf %>% dplyr::mutate(elk_grazing_unwtd = elk * interval)
   
   return(cameradf)
 }
 
 calc.grazing.time.wtd <- function(cameradf, interval) {
-  cameradf <- cameradf %>% dplyr::mutate(horse_graze_wtd = horse * interval * 1.1)
+  cameradf <- cameradf %>% dplyr::mutate(horse_grazing_wtd = horse * interval * 1.1)
   
-  cameradf <- cameradf %>% dplyr::mutate(cow_graze_wtd = cow * interval * 1)
+  cameradf <- cameradf %>% dplyr::mutate(cow_grazing_wtd = cow * interval * 1)
   
-  cameradf <- cameradf %>% dplyr::mutate(elk_graze_wtd = elk * interval * 0.7)
+  cameradf <- cameradf %>% dplyr::mutate(elk_grazing_wtd = elk * interval * 0.7)
   
   return(cameradf)
 }
 ```
 
-```{r calc graze bear timelapse}
+```{r calc grazing bear timelapse}
 BRL_2017 <- calc.grazing.time.unwtd(BRL_2017, interval = 1)
 
 BRL_2017 <- calc.grazing.time.wtd(BRL_2017, interval = 1)
@@ -233,7 +233,7 @@ BRL_2020 <- calc.grazing.time.unwtd(BRL_2020, interval = 5)
 BRL_2020 <- calc.grazing.time.wtd(BRL_2020, interval = 5)
 ```
 
-```{r calc graze fifty one}
+```{r calc grazing fifty one}
 A51_2019 <- calc.grazing.time.unwtd(A51_2019, interval = 5)
 
 A51_2019 <- calc.grazing.time.wtd(A51_2019, interval = 5)
@@ -243,13 +243,13 @@ A51_2020 <- calc.grazing.time.unwtd(A51_2020, interval = 5)
 A51_2020 <- calc.grazing.time.wtd(A51_2020, interval = 5)
 ```
 
-```{r calc graze black canyon dam}
+```{r calc grazing black canyon dam}
 BKD_2019 <- calc.grazing.time.unwtd(BKD_2019, interval = 5)
 
 BKD_2019 <- calc.grazing.time.wtd(BKD_2019, interval = 5)
 ```
 
-```{r calc graze black canyon north}
+```{r calc grazing black canyon north}
 BKN_2019 <- calc.grazing.time.unwtd(BKN_2019, interval = 5)
 
 BKN_2019 <- calc.grazing.time.wtd(BKN_2019, interval = 5)
@@ -259,7 +259,7 @@ BKN_2020 <- calc.grazing.time.unwtd(BKN_2020, interval = 5)
 BKN_2020 <- calc.grazing.time.wtd(BKN_2020, interval = 5)
 ```
 
-```{r calc graze black canyon south}
+```{r calc grazing black canyon south}
 BKS_2017 <- calc.grazing.time.unwtd(BKS_2017, interval = 1)
 
 BKS_2017 <- calc.grazing.time.wtd(BKS_2017, interval = 1)
@@ -278,21 +278,21 @@ BKS_2020 <- calc.grazing.time.wtd(BKS_2020, interval = 5)
 ```
 
 ```{r}
-BRL_2017 %>% pull(horse_graze_unwtd) %>% sum()
+BRL_2017 %>% pull(horse_grazing_unwtd) %>% sum()
 
-BRL_2017 %>% pull(horse_graze_wtd) %>% sum()
+BRL_2017 %>% pull(horse_grazing_wtd) %>% sum()
 ```
 
 ```{r}
-BRL_2017 %>% pull(cow_graze_unwtd) %>% sum()
+BRL_2017 %>% pull(cow_grazing_unwtd) %>% sum()
 
-BRL_2017 %>% pull(cow_graze_wtd) %>% sum()
+BRL_2017 %>% pull(cow_grazing_wtd) %>% sum()
 ```
 
 ```{r}
-BRL_2017 %>% pull(elk_graze_unwtd) %>% sum()
+BRL_2017 %>% pull(elk_grazing_unwtd) %>% sum()
 
-BRL_2017 %>% pull(elk_graze_wtd) %>% sum()
+BRL_2017 %>% pull(elk_grazing_wtd) %>% sum()
 ```
 
 ```{r}
@@ -305,19 +305,19 @@ summarize.unwtd.daily.totals <- function(cameradf){
   cameradf_horses <- NULL
   cameradf_horses <- cameradf %>% 
     dplyr::group_by(Date) %>% 
-    dplyr::summarise(daily_total_unwtd = sum(horse_graze_unwtd))
+    dplyr::summarise(daily_total_unwtd = sum(horse_grazing_unwtd))
   cameradf_horses <- cameradf_horses %>% mutate(Species = "Horse")
   
   cameradf_cows <- NULL
   cameradf_cows <- cameradf %>% 
     dplyr::group_by(Date) %>% 
-    dplyr::summarise(daily_total_unwtd = sum(cow_graze_unwtd))
+    dplyr::summarise(daily_total_unwtd = sum(cow_grazing_unwtd))
   cameradf_cows <- cameradf_cows %>% mutate(Species = "Cow")  
   
   cameradf_elk <- NULL
   cameradf_elk <- cameradf %>% 
     dplyr::group_by(Date) %>% 
-    dplyr::summarise(daily_total_unwtd = sum(elk_graze_unwtd))
+    dplyr::summarise(daily_total_unwtd = sum(elk_grazing_unwtd))
   cameradf_elk <- cameradf_elk %>% mutate(Species = "Elk")  
   
   cameradf_bind <- dplyr::bind_rows(cameradf_horses, cameradf_cows, cameradf_elk)
@@ -340,19 +340,19 @@ summarize.wtd.daily.totals <- function(cameradf){
   cameradf_horses <- NULL
   cameradf_horses <- cameradf %>% 
     dplyr::group_by(Date) %>% 
-    dplyr::summarise(daily_total_wtd = sum(horse_graze_wtd))
+    dplyr::summarise(daily_total_wtd = sum(horse_grazing_wtd))
   cameradf_horses <- cameradf_horses %>% mutate(Species = "Horse")
   
   cameradf_cows <- NULL
   cameradf_cows <- cameradf %>% 
     dplyr::group_by(Date) %>% 
-    dplyr::summarise(daily_total_wtd = sum(cow_graze_wtd))
+    dplyr::summarise(daily_total_wtd = sum(cow_grazing_wtd))
   cameradf_cows <- cameradf_cows %>% mutate(Species = "Cow")  
   
   cameradf_elk <- NULL
   cameradf_elk <- cameradf %>% 
     dplyr::group_by(Date) %>% 
-    dplyr::summarise(daily_total_wtd = sum(elk_graze_wtd))
+    dplyr::summarise(daily_total_wtd = sum(elk_grazing_wtd))
   cameradf_elk <- cameradf_elk %>% mutate(Species = "Elk")  
   
   cameradf_bind <- dplyr::bind_rows(cameradf_horses, cameradf_cows, cameradf_elk)
@@ -487,7 +487,7 @@ p <- ggplot(BRL_2017_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
                limits = c(date("2017-06-01"), date("2017-09-30"))) +
   scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
   labs(title = "Bear Timelapse", subtitle = "2017") +
-  ylab("graze Minutes (Unweighted)") +
+  ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
@@ -511,8 +511,8 @@ p
 ```
 
 ```{r}
-ggsave("Bear-Timelapse-2017-Unweighted-graze-Minutes-June-01-Sept-30.jpg",
-       path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("Bear-Timelapse-2017-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
+       path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -523,7 +523,7 @@ p <- ggplot(BRL_2017_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
                limits = c(date("2017-06-01"), date("2017-09-30"))) +
   scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
   labs(title = "Bear Timelapse", subtitle = "2017") +
-  ylab("graze Minutes (Weighted by Animal Unit Equivalents)") +
+  ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
@@ -547,8 +547,8 @@ p
 ```
 
 ```{r}
-ggsave("Bear-Timelapse-2017-Weighted-graze-Minutes-June-01-Sept-30.jpg",
-       path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("Bear-Timelapse-2017-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
+       path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -559,7 +559,7 @@ p <- ggplot(BRL_2018_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
                limits = c(date("2018-06-01"), date("2018-09-30"))) +
   scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
   labs(title = "Bear Timelapse", subtitle = "2018") +
-  ylab("graze Minutes (Unweighted)") +
+  ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
@@ -570,8 +570,8 @@ p
 ```
 
 ```{r}
-ggsave("Bear-Timelapse-2018-Unweighted-graze-Minutes-June-01-Sept-30.jpg",
-       path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("Bear-Timelapse-2018-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
+       path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -582,7 +582,7 @@ p <- ggplot(BRL_2018_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
                limits = c(date("2018-06-01"), date("2018-09-30"))) +
   scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
   labs(title = "Bear Timelapse", subtitle = "2018") +
-  ylab("graze Minutes (Weighted by Animal Unit Equivalents)") +
+  ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
@@ -593,8 +593,8 @@ p
 ```
 
 ```{r}
-ggsave("Bear-Timelapse-2018-Weighted-graze-Minutes-June-01-Sept-30.jpg",
-       path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("Bear-Timelapse-2018-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
+       path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -605,7 +605,7 @@ p <- ggplot(BRL_2019_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
                limits = c(date("2019-06-01"), date("2019-09-30"))) +
   scale_y_continuous(limits = c(-100, 10000), breaks = seq(0, 10000, by = 2500)) +
   labs(title = "Bear Timelapse", subtitle = "2019") +
-  ylab("graze Minutes (Unweighted)") +
+  ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
@@ -628,8 +628,8 @@ p
 ```
 
 ```{r}
-ggsave("Bear-Timelapse-2019-Unweighted-graze-Minutes-June-01-Sept-30.jpg",
-     path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("Bear-Timelapse-2019-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
+     path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -640,7 +640,7 @@ p <- ggplot(BRL_2019_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
                limits = c(date("2019-06-01"), date("2019-09-30"))) +
   scale_y_continuous(limits = c(-100, 10000), breaks = seq(0, 10000, by = 2500)) +
   labs(title = "Bear Timelapse", subtitle = "2019") +
-  ylab("graze Minutes (Weighted by Animal Unit Equivalents)") +
+  ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
@@ -663,8 +663,8 @@ p
 ```
 
 ```{r}
-ggsave("Bear-Timelapse-2019-Weighted-graze-Minutes-June-01-Sept-30.jpg",
-     path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("Bear-Timelapse-2019-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
+     path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -675,7 +675,7 @@ p <- ggplot(BRL_2020_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
                limits = c(date("2020-06-01"), date("2020-09-30"))) +
   scale_y_continuous(limits = c(0, 1000), breaks = seq(0, 1000, by = 250)) +
   labs(title = "Bear Timelapse", subtitle = "2020") +
-  ylab("graze Minutes (Unweighted)") +
+  ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
@@ -698,8 +698,8 @@ p
 ```
 
 ```{r}
-ggsave("Bear-Timelapse-2020-Unweighted-graze-Minutes-June-01-Sept-30.jpg",
-     path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("Bear-Timelapse-2020-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
+     path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -710,7 +710,7 @@ p <- ggplot(BRL_2020_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
                limits = c(date("2020-06-01"), date("2020-09-30"))) +
   scale_y_continuous(limits = c(0, 1000), breaks = seq(0, 1000, by = 250)) +
   labs(title = "Bear Timelapse", subtitle = "2020") +
-  ylab("graze Minutes (Weighted by Animal Unit Equivalents)") +
+  ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
@@ -733,8 +733,8 @@ p
 ```
 
 ```{r}
-ggsave("Bear-Timelapse-2020-Weighted-graze-Minutes-June-01-Sept-30.jpg",
-     path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("Bear-Timelapse-2020-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
+     path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -745,7 +745,7 @@ p <- ggplot(A51_2019_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
                limits = c(date("2019-06-01"), date("2019-09-30"))) +
   scale_y_continuous(limits = c(0, 2000), breaks = seq(0, 2000, by = 500)) +
   labs(title = "Fifty One Timelapse", subtitle = "2019") +
-  ylab("graze Minutes (Unweighted)") +
+  ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
@@ -768,8 +768,8 @@ p
 ```
 
 ```{r}
-ggsave("FiftyOne-Timelapse-2019-Unweighted-graze-Minutes-June-01-Sept-30.jpg",
-     path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("FiftyOne-Timelapse-2019-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
+     path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -780,7 +780,7 @@ p <- ggplot(A51_2019_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
                limits = c(date("2019-06-01"), date("2019-09-30"))) +
   scale_y_continuous(limits = c(0, 2000), breaks = seq(0, 2000, by = 500)) +
   labs(title = "Fifty One Timelapse", subtitle = "2019") +
-  ylab("graze Minutes (Weighted by Animal Unit Equivalents)") +
+  ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
@@ -803,8 +803,8 @@ p
 ```
 
 ```{r}
-ggsave("FiftyOne-Timelapse-2019-Weighted-graze-Minutes-June-01-Sept-30.jpg",
-     path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("FiftyOne-Timelapse-2019-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
+     path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -815,7 +815,7 @@ p <- ggplot(A51_2020_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
                limits = c(date("2020-06-01"), date("2020-09-30"))) +
   scale_y_continuous(limits = c(0, 2000), breaks = seq(0, 2000, by = 500)) +
   labs(title = "Fifty One Timelapse", subtitle = "2020") +
-  ylab("graze Minutes (Unweighted)") +
+  ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
@@ -838,8 +838,8 @@ p
 ```
 
 ```{r}
-ggsave("FiftyOne-Timelapse-2020-Unweighted-graze-Minutes-June-01-Sept-30.jpg",
-     path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("FiftyOne-Timelapse-2020-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
+     path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -850,7 +850,7 @@ p <- ggplot(A51_2020_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
                limits = c(date("2020-06-01"), date("2020-09-30"))) +
   scale_y_continuous(limits = c(0, 2000), breaks = seq(0, 2000, by = 500)) +
   labs(title = "Fifty One Timelapse", subtitle = "2020") +
-  ylab("graze Minutes (Weighted by Animal Unit Equivalents)") +
+  ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
@@ -873,8 +873,8 @@ p
 ```
 
 ```{r}
-ggsave("FiftyOne-Timelapse-2020-Weighted-graze-Minutes-June-01-Sept-30.jpg",
-     path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("FiftyOne-Timelapse-2020-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
+     path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -885,7 +885,7 @@ p <- ggplot(BKD_2019_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
                limits = c(date("2019-06-01"), date("2019-09-30"))) +
   scale_y_continuous(limits = c(0, 2000), breaks = seq(0, 2000, by = 500)) +
   labs(title = "Black Canyon Dam Timelapse", subtitle = "2019") +
-  ylab("graze Minutes (Unweighted)") +
+  ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
@@ -908,8 +908,8 @@ p
 ```
 
 ```{r}
-ggsave("Black-Canyon-Dam-Timelapse-2019-Unweighted-graze-Minutes-June-01-Sept-30.jpg",
-     path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("Black-Canyon-Dam-Timelapse-2019-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
+     path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -920,7 +920,7 @@ p <- ggplot(BKD_2019_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
                limits = c(date("2019-06-01"), date("2019-09-30"))) +
   scale_y_continuous(limits = c(0, 2000), breaks = seq(0, 2000, by = 500)) +
   labs(title = "Black Canyon Dam Timelapse", subtitle = "2019") +
-  ylab("graze Minutes (Weighted by Animal Unit Equivalents)") +
+  ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
@@ -943,8 +943,8 @@ p
 ```
 
 ```{r}
-ggsave("Black-Canyon-Dam-Timelapse-2019-Weighted-graze-Minutes-June-01-Sept-30.jpg",
-     path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("Black-Canyon-Dam-Timelapse-2019-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
+     path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -955,7 +955,7 @@ p <- ggplot(BKS_2017_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
                limits = c(date("2017-06-01"), date("2017-09-30"))) +
   scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
   labs(title = "Black Canyon South Timelapse", subtitle = "2017") +
-  ylab("graze Minutes (Unweighted)") +
+  ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
@@ -979,8 +979,8 @@ p
 ```
 
 ```{r}
-ggsave("Black-Canyon-South-Timelapse-2017-Unweighted-graze-Minutes-June-01-Sept-30.jpg",
-       path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("Black-Canyon-South-Timelapse-2017-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
+       path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -991,7 +991,7 @@ p <- ggplot(BKS_2017_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
                limits = c(date("2017-06-01"), date("2017-09-30"))) +
   scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
   labs(title = "Black Canyon South Timelapse", subtitle = "2017") +
-  ylab("graze Minutes (Weighted by Animal Unit Equivalents)") +
+  ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
@@ -1015,8 +1015,8 @@ p
 ```
 
 ```{r}
-ggsave("Black-Canyon-South-Timelapse-2017-Weighted-graze-Minutes-June-01-Sept-30.jpg",
-       path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("Black-Canyon-South-Timelapse-2017-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
+       path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -1027,7 +1027,7 @@ ggsave("Black-Canyon-South-Timelapse-2017-Weighted-graze-Minutes-June-01-Sept-30
 #                limits = c(date("2018-06-01"), date("2018-09-30"))) +
 #   scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
 #   labs(title = "Black Canyon South Timelapse", subtitle = "2018") +
-#   ylab("graze Minutes (Unweighted)") +
+#   ylab("Grazing Minutes (Unweighted)") +
 #   facet_grid(Species ~ .) +
 #   theme(plot.title = element_text(hjust = 0.5),
 #         plot.subtitle = element_text(hjust = 0.5),
@@ -1038,8 +1038,8 @@ ggsave("Black-Canyon-South-Timelapse-2017-Weighted-graze-Minutes-June-01-Sept-30
 ```
 
 ```{r}
-# ggsave("Black-Canyon-South-Timelapse-2018-Unweighted-graze-Minutes-June-01-Sept-30.jpg",
-#        path = paste0(currentwd,"/figures", "/graze-minutes"))
+# ggsave("Black-Canyon-South-Timelapse-2018-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
+#        path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -1050,7 +1050,7 @@ ggsave("Black-Canyon-South-Timelapse-2017-Weighted-graze-Minutes-June-01-Sept-30
 #                limits = c(date("2018-06-01"), date("2018-09-30"))) +
 #   scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
 #   labs(title = "Black Canyon South Timelapse", subtitle = "2018") +
-#   ylab("graze Minutes (Weighted by Animal Unit Equivalents)") +
+#   ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
 #   facet_grid(Species ~ .) +
 #   theme(plot.title = element_text(hjust = 0.5),
 #         plot.subtitle = element_text(hjust = 0.5),
@@ -1061,8 +1061,8 @@ ggsave("Black-Canyon-South-Timelapse-2017-Weighted-graze-Minutes-June-01-Sept-30
 ```
 
 ```{r}
-# ggsave("Black-Canyon-South-Timelapse-2018-Weighted-graze-Minutes-June-01-Sept-30.jpg",
-#        path = paste0(currentwd,"/figures", "/graze-minutes"))
+# ggsave("Black-Canyon-South-Timelapse-2018-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
+#        path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -1073,7 +1073,7 @@ p <- ggplot(BKS_2019_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
                limits = c(date("2019-06-01"), date("2019-09-30"))) +
   scale_y_continuous(limits = c(0, 2500), breaks = seq(0, 2500, by = 500)) +
   labs(title = "Black Canyon South Timelapse", subtitle = "2019") +
-  ylab("graze Minutes (Unweighted)") +
+  ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
@@ -1096,8 +1096,8 @@ p
 ```
 
 ```{r}
-ggsave("Black-Canyon-South-Timelapse-2019-Unweighted-graze-Minutes-June-01-Sept-30.jpg",
-     path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("Black-Canyon-South-Timelapse-2019-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
+     path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -1108,7 +1108,7 @@ p <- ggplot(BKS_2019_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
                limits = c(date("2019-06-01"), date("2019-09-30"))) +
   scale_y_continuous(limits = c(0, 2500), breaks = seq(0, 2500, by = 500)) +
   labs(title = "Black Canyon South Timelapse", subtitle = "2019") +
-  ylab("graze Minutes (Weighted by Animal Unit Equivalents)") +
+  ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
@@ -1131,8 +1131,8 @@ p
 ```
 
 ```{r}
-ggsave("Black-Canyon-South-Timelapse-2019-Weighted-graze-Minutes-June-01-Sept-30.jpg",
-     path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("Black-Canyon-South-Timelapse-2019-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
+     path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -1143,7 +1143,7 @@ p <- ggplot(BKS_2020_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
                limits = c(date("2020-06-01"), date("2020-09-30"))) +
   scale_y_continuous(limits = c(0, 1000), breaks = seq(0, 1000, by = 250)) +
   labs(title = "Black Canyon South Timelapse", subtitle = "2020") +
-  ylab("graze Minutes (Unweighted)") +
+  ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
@@ -1166,8 +1166,8 @@ p
 ```
 
 ```{r}
-ggsave("Black-Canyon-South-Timelapse-2020-Unweighted-graze-Minutes-June-01-Sept-30.jpg",
-     path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("Black-Canyon-South-Timelapse-2020-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
+     path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -1178,7 +1178,7 @@ p <- ggplot(BKS_2020_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
                limits = c(date("2020-06-01"), date("2020-09-30"))) +
   scale_y_continuous(limits = c(0, 1000), breaks = seq(0, 1000, by = 250)) +
   labs(title = "Black Canyon South Timelapse", subtitle = "2020") +
-  ylab("graze Minutes (Weighted by Animal Unit Equivalents)") +
+  ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
@@ -1201,8 +1201,8 @@ p
 ```
 
 ```{r}
-ggsave("Black-Canyon-South-Timelapse-2020-Weighted-graze-Minutes-June-01-Sept-30.jpg",
-     path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("Black-Canyon-South-Timelapse-2020-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
+     path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -1213,7 +1213,7 @@ p <- ggplot(BKN_2019_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
                limits = c(date("2019-06-01"), date("2019-09-30"))) +
   scale_y_continuous(limits = c(0, 2500), breaks = seq(0, 2500, by = 500)) +
   labs(title = "Black Canyon North Timelapse", subtitle = "2019") +
-  ylab("graze Minutes (Unweighted)") +
+  ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
@@ -1236,8 +1236,8 @@ p
 ```
 
 ```{r}
-ggsave("Black-Canyon-North-Timelapse-2019-Unweighted-graze-Minutes-June-01-Sept-30.jpg",
-     path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("Black-Canyon-North-Timelapse-2019-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
+     path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -1248,7 +1248,7 @@ p <- ggplot(BKN_2019_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
                limits = c(date("2019-06-01"), date("2019-09-30"))) +
   scale_y_continuous(limits = c(0, 2500), breaks = seq(0, 2500, by = 500)) +
   labs(title = "Black Canyon North Timelapse", subtitle = "2019") +
-  ylab("graze Minutes (Weighted by Animal Unit Equivalents)") +
+  ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
@@ -1271,8 +1271,8 @@ p
 ```
 
 ```{r}
-ggsave("Black-Canyon-North-Timelapse-2019-Weighted-graze-Minutes-June-01-Sept-30.jpg",
-     path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("Black-Canyon-North-Timelapse-2019-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
+     path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -1283,7 +1283,7 @@ p <- ggplot(BKN_2020_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
                limits = c(date("2020-06-01"), date("2020-09-30"))) +
   scale_y_continuous(limits = c(0, 1000), breaks = seq(0, 1000, by = 250)) +
   labs(title = "Black Canyon North Timelapse", subtitle = "2020") +
-  ylab("graze Minutes (Unweighted)") +
+  ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
@@ -1306,8 +1306,8 @@ p
 ```
 
 ```{r}
-ggsave("Black-Canyon-North-Timelapse-2020-Unweighted-graze-Minutes-June-01-Sept-30.jpg",
-     path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("Black-Canyon-North-Timelapse-2020-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
+     path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -1318,7 +1318,7 @@ p <- ggplot(BKN_2020_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
                limits = c(date("2020-06-01"), date("2020-09-30"))) +
   scale_y_continuous(limits = c(0, 1000), breaks = seq(0, 1000, by = 250)) +
   labs(title = "Black Canyon North Timelapse", subtitle = "2020") +
-  ylab("graze Minutes (Weighted by Animal Unit Equivalents)") +
+  ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
@@ -1341,8 +1341,8 @@ p
 ```
 
 ```{r}
-ggsave("Black-Canyon-North-Timelapse-2020-Weighted-graze-Minutes-June-01-Sept-30.jpg",
-     path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("Black-Canyon-North-Timelapse-2020-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
+     path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -1379,21 +1379,21 @@ reorder.factors.by.season.total <- function(sitetotal){
 ```
 
 ```{r}
-BRL_2017 %>% pull(horse_graze_unwtd) %>% sum()
+BRL_2017 %>% pull(horse_grazing_unwtd) %>% sum()
 
-BRL_2017 %>% pull(horse_graze_wtd) %>% sum()
+BRL_2017 %>% pull(horse_grazing_wtd) %>% sum()
 ```
 
 ```{r}
-BRL_2017 %>% pull(cow_graze_unwtd) %>% sum()
+BRL_2017 %>% pull(cow_grazing_unwtd) %>% sum()
 
-BRL_2017 %>% pull(cow_graze_wtd) %>% sum()
+BRL_2017 %>% pull(cow_grazing_wtd) %>% sum()
 ```
 
 ```{r}
-BRL_2017 %>% pull(elk_graze_unwtd) %>% sum()
+BRL_2017 %>% pull(elk_grazing_unwtd) %>% sum()
 
-BRL_2017 %>% pull(elk_graze_wtd) %>% sum()
+BRL_2017 %>% pull(elk_grazing_wtd) %>% sum()
 ```
 
 ```{r}
@@ -1500,10 +1500,10 @@ BKS_2017_unwtd_horse_percent <- pull.species.percentage(BKS_2017_unwtd_total, sp
 ```{r 2017 Unwtd Total grazing Minutes}
 p <- ggplot(unwtd_2017, aes(x = Site, y = season_total, fill = Species)) + 
   geom_col(position = "stack") +
-  labs(title = "Total graze Minutes by Site (Unweighted)",
+  labs(title = "Total Grazing Minutes by Site (Unweighted)",
        subtitle = "2017",
        x = "Site",
-       y = "graze Minutes (Unweighted)") +
+       y = "Grazing Minutes (Unweighted)") +
   scale_fill_manual(values = c(Cow = "#F8766D",
                                 Elk = "#00BA38",
                                 Horse = "#619CFF")) +
@@ -1543,8 +1543,8 @@ p
 ```
 
 ```{r}
-ggsave("2017-Total-graze-Minutes-by-Site-Unweighted.jpg",
-     path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("2017-Total-Grazing-Minutes-by-Site-Unweighted.jpg",
+     path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -1636,10 +1636,10 @@ BKS_2017_wtd_horse_percent <- pull.species.percentage(BKS_2017_wtd_total, specie
 ```{r 2017 Wtd Total grazing Minutes}
 p <- ggplot(wtd_2017, aes(x = Site, y = season_total, fill = Species)) + 
   geom_col(position = "stack") +
-  labs(title = "Total graze Minutes by Site (Weighted by AUE)",
+  labs(title = "Total Grazing Minutes by Site (Weighted by AUE)",
        subtitle = "2017",
        x = "Site",
-       y = "graze Minutes (Weighted by Animal Unit Equivalents)") +
+       y = "Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   scale_fill_manual(values = c(Cow = "#F8766D",
                                 Elk = "#00BA38",
                                 Horse = "#619CFF")) +
@@ -1680,8 +1680,8 @@ p
 ```
 
 ```{r}
-ggsave("2017-Total-graze-Minutes-by-Site-Weighted-by-AUE.jpg",
-     path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("2017-Total-Grazing-Minutes-by-Site-Weighted-by-AUE.jpg",
+     path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -1728,10 +1728,10 @@ p <- ggplot(unwtd_2018,
                 fill = Species, 
                 label = scales::percent(proportion, 1))) + 
   geom_col(position = "stack") +
-  labs(title = "Total graze Minutes by Site (Unweighted)",
+  labs(title = "Total Grazing Minutes by Site (Unweighted)",
        subtitle = "2018",
        x = "Site",
-       y = "graze Minutes (Unweighted)") +
+       y = "Grazing Minutes (Unweighted)") +
   scale_y_continuous(limits = c(0, 10000), breaks = seq(0, 10000, by = 2500))+
   scale_fill_manual(values = c(Cow = "#F8766D",
                                 Elk = "#00BA38",
@@ -1751,8 +1751,8 @@ p
 ```
 
 ```{r}
-ggsave("2018-Total-graze-Minutes-Unweighted.jpg",
-     path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("2018-Total-Grazing-Minutes-Unweighted.jpg",
+     path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -1784,10 +1784,10 @@ p <- ggplot(wtd_2018,
                 fill = Species,
                 label = scales::percent(proportion, 1))) + 
   geom_col(position = "stack") +
-  labs(title = "Total graze Minutes by Site (Weighted by AUE)",
+  labs(title = "Total Grazing Minutes by Site (Weighted by AUE)",
        subtitle = "2018",
        x = "Site",
-       y = "graze Minutes (Weighted by Animal Unit Equivalents)") +
+       y = "Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   scale_y_continuous(limits = c(0, 10000), breaks = seq(0, 10000, by = 2500))+
   scale_fill_manual(values = c(Cow = "#F8766D",
                                 Elk = "#00BA38",
@@ -1807,8 +1807,8 @@ p
 ```
 
 ```{r}
-ggsave("2018-Total-graze-Minutes-by-Site-Weighted-by-AUE.jpg",
-     path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("2018-Total-Grazing-Minutes-by-Site-Weighted-by-AUE.jpg",
+     path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -1933,10 +1933,10 @@ p <- ggplot(unwtd_2019, aes(x = Site,
                             y = season_total, 
                             fill = Species)) + 
   geom_col(position = "stack") +
-  labs(title = "Total graze Minutes by Site (Unweighted)",
+  labs(title = "Total Grazing Minutes by Site (Unweighted)",
        subtitle = "2019",
        x = "Site",
-       y = "graze Minutes (Unweighted)") +
+       y = "Grazing Minutes (Unweighted)") +
   scale_y_continuous(limits = c(-3000, 125000), 
                      breaks = seq(0, 125000, by = 25000)) +
   scale_fill_manual(values = c(Cow = "#F8766D",
@@ -2022,8 +2022,8 @@ p
 ```
 
 ```{r}
-ggsave("2019-Total-graze-Minutes-by-Site-Unweighted.jpg",
-     path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("2019-Total-Grazing-Minutes-by-Site-Unweighted.jpg",
+     path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -2124,10 +2124,10 @@ p <- ggplot(wtd_2019, aes(x = Site,
                             y = season_total, 
                             fill = Species)) + 
   geom_col(position = "stack") +
-  labs(title = "Total graze Minutes by Site (Weighted by AUE)",
+  labs(title = "Total Grazing Minutes by Site (Weighted by AUE)",
        subtitle = "2019",
        x = "Site",
-       y = "graze Minutes (Weighted by Animal Unit Equivalents)") +
+       y = "Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   scale_y_continuous(limits = c(-3000, 125000), 
                      breaks = seq(0, 125000, by = 25000)) +
   scale_fill_manual(values = c(Cow = "#F8766D",
@@ -2210,8 +2210,8 @@ p
 ```
 
 ```{r}
-ggsave("2019-Total-graze-Minutes-by-Site-Weighted-by-AUE.jpg",
-     path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("2019-Total-Grazing-Minutes-by-Site-Weighted-by-AUE.jpg",
+     path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -2317,10 +2317,10 @@ p <- ggplot(unwtd_2020, aes(x = Site,
                             y = season_total, 
                             fill = Species)) + 
   geom_col(position = "stack") +
-  labs(title = "Total graze Minutes by Site (Unweighted)",
+  labs(title = "Total Grazing Minutes by Site (Unweighted)",
        subtitle = "2020",
        x = "Site",
-       y = "graze Minutes (Unweighted)") +
+       y = "Grazing Minutes (Unweighted)") +
   scale_y_continuous(limits = c(-500, 30000), 
                      breaks = seq(0, 30000, by = 5000)) +
   scale_fill_manual(values = c(Cow = "#F8766D",
@@ -2391,8 +2391,8 @@ p
 ```
 
 ```{r}
-ggsave("2020-Total-graze-Minutes-by-Site-Unweighted.jpg",
-     path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("2020-Total-Grazing-Minutes-by-Site-Unweighted.jpg",
+     path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -2494,10 +2494,10 @@ p <- ggplot(wtd_2020, aes(x = Site,
                             y = season_total, 
                             fill = Species)) + 
   geom_col(position = "stack") +
-  labs(title = "Total graze Minutes by Site (Weighted by AUE)",
+  labs(title = "Total Grazing Minutes by Site (Weighted by AUE)",
        subtitle = "2020",
        x = "Site",
-       y = "graze Minutes (Weighted by Animal Unit Equivalents)") +
+       y = "Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   scale_y_continuous(limits = c(-500, 30000), 
                      breaks = seq(0, 30000, by = 5000)) +
   scale_fill_manual(values = c(Cow = "#F8766D",
@@ -2568,6 +2568,6 @@ p
 ```
 
 ```{r}
-ggsave("2020-Total-graze-Minutes-by-Site-Weighted-By-AUE.jpg",
-     path = paste0(currentwd,"/figures", "/graze-minutes"))
+ggsave("2020-Total-Grazing-Minutes-by-Site-Weighted-By-AUE.jpg",
+     path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
