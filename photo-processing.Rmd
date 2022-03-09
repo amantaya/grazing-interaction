@@ -40,7 +40,7 @@ Let's read in the RAW photo data from 2017 and 2018, which human observers class
 
 For the first step in cleaning up the camera data, we are going to treat all fields with "" (blanks), " " (spaces- typically accidental input which is invisible in Excel), or "NA" (characters), as NA's inside R. This will help us deal with missing information in our dataset.
 
-```{r load 2017 data}
+```{r load BGW17 data}
 # read in the 2017 data, treating all blanks, spaces, and "NA"s as NA's
 BGW17 <- readr::read_csv(
   'data/photo/BGW_2017.csv',
@@ -449,11 +449,7 @@ all_photo_data <- bind_rows(data_2017_clean_dates,
                             data_2019_rename_col, 
                             data_2020_rename_col)
 
-view(all_photo_data)
-```
-
-```{r}
-all_photo_data %>% dplyr::filter(Site == "Bear Timelapse" & Year == "2019") %>% view()
+print(all_photo_data)
 ```
 
 ```{r}
