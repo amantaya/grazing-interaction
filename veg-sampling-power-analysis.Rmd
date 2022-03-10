@@ -1,0 +1,700 @@
+---
+title: "Veg-Sampling-Power-Analysis"
+author: "Andrew Antaya"
+date: "3/9/2022"
+output: 
+  html_notebook: 
+    toc: yes
+---
+### Purpose
+
+To better understand our vegetation sampling techniques and determine appropriate sample sizes for future sampling, we need to conduct a post-hoc power analysis.
+
+First, let's remove all objects from the environment to start fresh each time.
+
+```{r clear env}
+rm(list=ls(all=TRUE))
+```
+
+Setup the R environment using a separate script. This helps me stay consistent with environmental variables that I use across multiple R scripts.
+
+```{r setup env}
+# the source() function executes all lines of code in the "mentioned" script (i.e. the pathway)
+source(paste0(getwd(), "/environment.R"))
+print(currentwd)
+```
+
+Check that the working directory is correct for your computer.
+
+Then, let's get our R environment ready by loading some useful packages.
+
+```{r load packages, include=FALSE}
+# "inlcude=FALSE" in the chunk evaluates the code, but doesn't write the output to the knitr document
+# loading packages involves alot of output in the console that we don't need in the knitr document
+source(paste0(currentwd, "/packages.R"))
+```
+
+This separate R script contains all of the functions that I commonly use across multiple scripts. This chunk of code reads in those functions into the global R environment.
+
+```{r load functions}
+source(paste0(currentwd, "/functions.R"))
+```
+
+### Landscape Appearance
+
+Starting with the Landscape Appearance technique, LA for short, we want to know if the number of samples we are collecting is an appropriate number to compare among sites within the same year. Generally, it is not appropriate to use LA for trend monitoring. 
+
+Start by listing all of the csv files in the landscape appearance directory.
+```{r list LA files}
+landscape_appearance_files <- list.files(file.path(currentwd, "data/vegetation/heber/landscape-appearance/csv"))
+
+# convert char vector into a tibble for pretty printing
+landscape_appearance_files <- tibble::tibble(path = landscape_appearance_files)
+
+print(landscape_appearance_files)
+```
+
+First, let's load in the landscape appearance data to look at it's measures of central tendency (mean and standard deviation).
+
+Do the same for the other 2018 site. Presumably, these landscape appearance samples were taken along a single transect. Our field notes fail to mention if there were multiple transects, and the data itself doesn't give us any clues. This data is a table of values, with the "count" of each landscape appearance mid-points in the "class_score" column.
+
+```{r load data, include=FALSE}
+BKS_2018_landscape_appearance <-
+  readr::read_csv(
+    file.path(
+      currentwd,
+      "data/vegetation/heber/landscape-appearance/csv",
+      "2018-BKS-landscape-appearance.csv"
+    ),
+    col_names = TRUE,
+    na = c("", " ", "NA")
+  )
+
+BRL_2018_landscape_appearance <-
+  readr::read_csv(
+    file.path(
+      currentwd,
+      "data/vegetation/heber/landscape-appearance/csv",
+      "2018-BKS-landscape-appearance.csv"
+    ),
+    col_names = TRUE,
+    na = c("", " ", "NA")
+  )
+
+A51_2019_landscape_appearance <-
+  readr::read_csv(
+    file.path(
+      currentwd,
+      "data/vegetation/heber/landscape-appearance/csv",
+      "2019-A51-landscape-appearance.csv"
+    ),
+    col_names = TRUE,
+    na = c("", " ", "NA")
+  )
+
+BKN_2019_landscape_appearance <-
+  readr::read_csv(
+    file.path(
+      currentwd,
+      "data/vegetation/heber/landscape-appearance/csv",
+      "2019-BKN-landscape-appearance.csv"
+    ),
+    col_names = TRUE,
+    na = c("", " ", "NA")
+  )
+
+BRL_2019_landscape_appearance <-
+  readr::read_csv(
+    file.path(
+      currentwd,
+      "data/vegetation/heber/landscape-appearance/csv",
+      "2019-BRL-landscape-appearance.csv"
+    ),
+    col_names = TRUE,
+    na = c("", " ", "NA")
+  )
+
+A51_2020_landscape_appearance <-
+  readr::read_csv(
+    file.path(
+      currentwd,
+      "data/vegetation/heber/landscape-appearance/csv",
+      "2020-A51-landscape-appearance.csv"
+    ),
+    col_names = TRUE,
+    na = c("", " ", "NA")
+  )
+
+BKN_2020_landscape_appearance <-
+  readr::read_csv(
+    file.path(
+      currentwd,
+      "data/vegetation/heber/landscape-appearance/csv",
+      "2020-BKN-landscape-appearance.csv"
+    ),
+    col_names = TRUE,
+    na = c("", " ", "NA")
+  )
+
+BKS_2020_landscape_appearance <-
+  readr::read_csv(
+    file.path(
+      currentwd,
+      "data/vegetation/heber/landscape-appearance/csv",
+      "2020-BKS-landscape-appearance.csv"
+    ),
+    col_names = TRUE,
+    na = c("", " ", "NA")
+  )
+
+BRL_2020_landscape_appearance <-
+  readr::read_csv(
+    file.path(
+      currentwd,
+      "data/vegetation/heber/landscape-appearance/csv",
+      "2020-BRL-landscape-appearance.csv"
+    ),
+    col_names = TRUE,
+    na = c("", " ", "NA")
+  )
+```
+
+View the 2019 landscape appearance data. There are fewer samples and it is in a different format than the 2018 data. Additionally, all samples were taken from a single transect, Transect 1. The "%.Estimate" column corresponds to the landscape appearance %.Estimate. 
+
+The 2019 and 2020 landscape appearance data have the same number of samples, but in 2019 all 25 samples were taken from a single transect, and in 2020 10 samples were taken from 2 transects. You can see this by the column "Transect" which corresponds to a transect ID. 5 samples were taken from transect 1 and 5 samples were taken from transect 2.
+
+```{r view data}
+print(BRL_2018_landscape_appearance)
+print(BKS_2018_landscape_appearance)
+
+print(A51_2019_landscape_appearance)
+print(BKN_2019_landscape_appearance)
+print(BRL_2019_landscape_appearance)
+
+print(A51_2020_landscape_appearance)
+print(BKN_2020_landscape_appearance)
+print(BKS_2020_landscape_appearance)
+print(BRL_2020_landscape_appearance)
+```
+
+### Landscape Appearance Power Analysis
+
+To keep track of the data, we need to add a "Site" and "Year" column to each data frame.
+
+```{r add site and year columns}
+BRL_2018_landscape_appearance <- BRL_2018_landscape_appearance %>% mutate(Site = "BRL", Year = "2018")
+BKS_2018_landscape_appearance <- BKS_2018_landscape_appearance %>% mutate(Site = "BKS", Year = "2018")
+
+A51_2019_landscape_appearance <- A51_2019_landscape_appearance %>% mutate(Site = "A51", Year = "2019")
+BKN_2019_landscape_appearance <- BKN_2019_landscape_appearance %>% mutate(Site = "BKN", Year = "2019")
+BRL_2019_landscape_appearance <- BRL_2019_landscape_appearance %>% mutate(Site = "BRL", Year = "2019")
+
+A51_2020_landscape_appearance <- A51_2020_landscape_appearance %>% mutate(Site = "A51", Year = "2020")
+BKN_2020_landscape_appearance <- BKN_2020_landscape_appearance %>% mutate(Site = "BKN", Year = "2020")
+BKS_2020_landscape_appearance <- BKS_2020_landscape_appearance %>% mutate(Site = "BKS", Year = "2020")
+BRL_2020_landscape_appearance <- BRL_2020_landscape_appearance %>% mutate(Site = "BRL", Year = "2020")
+
+print(BRL_2018_landscape_appearance)
+print(BKS_2018_landscape_appearance)
+print(A51_2019_landscape_appearance)
+print(BKN_2019_landscape_appearance)
+print(BRL_2019_landscape_appearance)
+print(A51_2020_landscape_appearance)
+print(BKN_2020_landscape_appearance)
+print(BKS_2020_landscape_appearance)
+print(BRL_2020_landscape_appearance)
+```
+
+To make the wrangling a bit easier and to reduce writing repetitive code, we can row bind each year together. For now we'll keep each year separate because our reporting takes place each year. Alternatively, we could rbind all data together and then use dplyr to filter out site and year. Many ways to get to the same goal.
+
+```{r}
+heber_2018_landscape_appearance <- dplyr::bind_rows(BRL_2018_landscape_appearance, 
+                                                    BKS_2018_landscape_appearance)
+
+heber_2019_landscape_appearance <- dplyr::bind_rows(A51_2019_landscape_appearance, 
+                                                    BKN_2019_landscape_appearance, 
+                                                    BRL_2019_landscape_appearance)
+
+heber_2020_landscape_appearance <- dplyr::bind_rows(A51_2020_landscape_appearance, 
+                                                    BKN_2020_landscape_appearance,
+                                                    BKS_2020_landscape_appearance,
+                                                    BRL_2020_landscape_appearance)
+
+print(heber_2018_landscape_appearance)
+print(heber_2019_landscape_appearance)
+print(heber_2020_landscape_appearance)
+```
+
+However, the "Site" and "Year" columns were added to far right of each data frame, we want to move those columns to the left side of each data frame to make viewing easier. The 2018 data is in a table format and has different columns, so we need to change the columns referenced by the function.
+
+```{r}
+heber_2019_landscape_appearance
+```
+
+
+```{r}
+heber_2018_landscape_appearance <- heber_2018_landscape_appearance %>% 
+  dplyr::relocate(c("Site", "Year"), .before = 1)
+
+heber_2019_landscape_appearance <- heber_2019_landscape_appearance %>% 
+  dplyr::relocate(c("Site", "Year"), .before = 1)
+
+heber_2020_landscape_appearance <- heber_2020_landscape_appearance %>% 
+  dplyr::relocate(c("Site", "Year"), .before = 1)
+
+print(heber_2018_landscape_appearance)
+print(heber_2019_landscape_appearance)
+print(heber_2020_landscape_appearance)
+```
+
+### Test for Differences in Percent Utilization
+
+If we wanted to test for differences in percent utilization between sites based on the landscape appearance method, we should first define our null and alternative hypotheses. 
+
+H_0 = there is no difference in average utilization between sites for 2019.
+H_a = average utilization is different between sites for 2019.
+
+In the data the column "%.Estimate" corresponds to the percent utilization estimated from the landscape appearance method. 
+
+```{r}
+heber_2019_landscape_appearance
+```
+
+```{r}
+heber_2019_landscape_appearance$Site <- heber_2019_landscape_appearance %>% pull(Site) %>% forcats::as_factor()
+
+print(heber_2019_landscape_appearance)
+```
+
+For our test of effect size, we will take the first 50 rows of the 2019 data frame, and compare the percent utilization of site Fifty One and Black Canyon North.
+
+```{r}
+A51_BKN_2019 <- heber_2019_landscape_appearance %>% dplyr::filter(Site == "A51" | Site == "BKN")
+
+print(A51_BKN_2019)
+```
+
+Also compare Fifty One and Bear. 
+```{r}
+A51_BRL_2019 <- heber_2019_landscape_appearance %>% dplyr::filter(Site == "A51" | Site == "BRL")
+
+print(A51_BRL_2019)
+```
+
+We could also test for effect size (Cohen's d) between Fifty One and Black Canyon North. This is not generally recommended but is being replicated here so we can better understand future sample sizes.
+
+Check the factor levels in the sliced data frame.
+
+```{r}
+levels(A51_BKN_2019$Site)
+levels(A51_BRL_2019$Site)
+```
+
+Drop the "BRL" level because it is no longer in the sliced data frame.If this worked, we should now see only 2 levels in the sliced data frame.
+
+```{r}
+A51_BKN_2019$Site <- A51_BKN_2019 %>% pull(Site) %>% forcats::fct_drop()
+levels(A51_BKN_2019$Site)
+```
+
+Drop the unused "BKN" level because it is no longer in the sliced data frame. If this worked, we should now see only 2 levels in the sliced data frame.
+```{r}
+A51_BRL_2019$Site <- A51_BRL_2019 %>% pull(Site) %>% forcats::fct_drop()
+levels(A51_BRL_2019$Site)
+```
+
+Now we can test the effect size between these two sites. 
+
+```{r}
+A51_BKN_2019_effect_size <- cohen.d(`%.Estimate` ~ Site, data = A51_BKN_2019)
+
+A51_BKN_2019_effect_size
+```
+
+We got a Cohen's d value of 1.875196 (large). Using this effect size, we can conduct a power analysis to estimate the number of samples needed to find a statistical difference.
+
+n = number of groups
+d = Cohen's d effect size
+sig.level = alpha statistical significance
+power = 1 - Type II error probability
+
+```{r}
+A51_BKN_2019_power <- pwr.t.test(n=NULL, d=1.88, sig.level=.05, power = 0.8)
+
+A51_BKN_2019_power
+```
+
+```{r}
+A51_BKN_2019_nsamples <- A51_BKN_2019_power$n
+
+A51_BKN_2019_nsamples
+```
+
+So we would need approximately 6 samples at each site to test the hypothesis that percent utilization is different between Black Canyon North and Fifty One.
+
+Now to compare Fifty One and Bear 2019. 
+```{r}
+A51_BRL_2019_effect_size <- cohen.d(`%.Estimate` ~ Site, data = A51_BRL_2019)
+
+A51_BRL_2019_effect_size
+```
+
+Our effect size is also large, 1.485.
+
+```{r}
+A51_BRL_2019_power <- pwr.t.test(n=NULL, d=1.485, sig.level=.05, power = 0.8)
+
+A51_BRL_2019_power
+```
+
+```{r}
+A51_BRL_2019_nsamples <- A51_BRL_2019_power$n
+
+A51_BRL_2019_nsamples
+```
+
+So we would need approximately 9 samples at each site (rounding up) to test if the percent utilization was different between Fifty One and Bear.
+
+```{r}
+BKN_BRL_2019 <- heber_2019_landscape_appearance %>% dplyr::filter(Site == "BKN" | Site == "BRL")
+
+print(BKN_BRL_2019)
+```
+
+```{r}
+levels(BKN_BRL_2019$Site)
+```
+
+```{r}
+BKN_BRL_2019$Site <- BKN_BRL_2019 %>% pull(Site) %>% forcats::fct_drop()
+```
+
+```{r}
+levels(BKN_BRL_2019$Site)
+```
+
+```{r}
+BKN_BRL_2019_effect_size <- cohen.d(`%.Estimate` ~ Site, data = BKN_BRL_2019)
+
+BKN_BRL_2019_effect_size
+```
+
+```{r}
+BKN_BRL_2019_power <- pwr.t.test(n=NULL, d=5.143, sig.level=.05, power = 0.8)
+
+BKN_BRL_2019_power
+```
+
+```{r}
+BKN_BRL_2019_nsamples <- BKN_BRL_2019_power$n
+
+BKN_BRL_2019_nsamples
+```
+
+The difference is so large between Black Canyon North and Bear, we would only need about 2 samples to tell a difference between percent utilization at each site.
+
+```{r view 2020 landscape appearance}
+heber_2020_landscape_appearance
+```
+
+Convert the "Site" column into a factor.
+```{r}
+heber_2020_landscape_appearance$Site <- heber_2020_landscape_appearance %>% pull(Site) %>% forcats::as_factor()
+```
+
+Look at the factor levels encoded into the data.
+```{r}
+heber_2020_landscape_appearance %>% pull(Site) %>% levels()
+```
+
+For the first effect size comparison, we will use Fifty One and Black Canyon North 2020. Filter out all other site data except for these two sites.
+```{r}
+A51_BKN_2020 <- heber_2020_landscape_appearance %>% dplyr::filter(Site == "A51" | Site == "BKN")
+
+A51_BKN_2020
+```
+
+```{r}
+A51_BKN_2020$Site <- A51_BKN_2020 %>% pull(Site) %>% forcats::fct_drop()
+
+levels(A51_BKN_2020$Site)
+```
+
+Now calculate an effect size for Fifty One and Black Canyon North 2020.
+```{r}
+A51_BKN_2020_effect_size <- cohen.d(`%.Estimate` ~ Site, data = A51_BKN_2020)
+
+A51_BKN_2020_effect_size
+```
+
+We got an effect size of 0.369 (small). We can use this number to estimate the number of samples it would take to test hypothesis that the percent utilization between Fifty One and Black Canyon North are different.
+
+```{r}
+A51_BKN_2020_power <- pwr.t.test(n=NULL, d=0.369, sig.level=.05, power = 0.8)
+
+A51_BKN_2020_power
+```
+
+```{r}
+A51_BKN_2020_nsamples <- A51_BKN_2020_power$n
+
+A51_BKN_2020_nsamples
+```
+So we would need approximately 117 samples to tell a difference for percent utilization at Fifty One and Black Canyon North in 2020.
+
+Now for Fifty One and Black Canyon SOuth.
+```{r}
+A51_BKS_2020 <- heber_2020_landscape_appearance %>% dplyr::filter(Site == "A51" | Site == "BKS")
+
+A51_BKS_2020
+```
+
+There are 4 factor levels in this data frame, but we want only 2.
+```{r}
+levels(A51_BKS_2020$Site)
+```
+
+Drop the unused levels.
+```{r}
+A51_BKS_2020$Site <- A51_BKS_2020$Site %>% forcats::fct_drop()
+```
+
+Check that those levels were dropped successfully. If this worked, there should be only 2 levels now.
+```{r}
+levels(A51_BKS_2020$Site)
+```
+
+Now calculate an effect size for Fifty One and Black Canyon South 2020.
+```{r A51 BKS effect size}
+A51_BKS_2020_effect_size <- cohen.d(`%.Estimate` ~ Site, data = A51_BKS_2020)
+
+A51_BKS_2020_effect_size
+```
+
+We got another small effect size 0.217 for Fifty One and Black Canyon South in 2020. 
+
+```{r A51 BKS 2020 power}
+A51_BKS_2020_power <- pwr.t.test(n=NULL, d=0.217, sig.level=.05, power = 0.8)
+
+A51_BKS_2020_power
+```
+
+```{r n samples A51 BKS 2019}
+A51_BKS_2020_nsamples <- A51_BKS_2020_power$n
+
+A51_BKS_2020_nsamples
+```
+
+We would need approximately 335 samples to tell a difference between percent utilization between Fifty One and Black Canyon South in 2020.
+
+```{r}
+A51_BRL_2020 <- heber_2020_landscape_appearance %>% dplyr::filter(Site == "A51" | Site == "BRL")
+
+A51_BRL_2020
+```
+
+```{r}
+levels(A51_BRL_2020$Site)
+```
+
+Drop unused levels.
+```{r}
+A51_BRL_2020$Site <- A51_BRL_2020$Site %>% forcats::fct_drop()
+```
+
+```{r}
+levels(A51_BRL_2020$Site)
+```
+
+Now calculate an effect size for Fifty One and Black Canyon South 2020.
+```{r}
+A51_BRL_2020_effect_size <- cohen.d(`%.Estimate` ~ Site, data = A51_BRL_2020)
+
+A51_BRL_2020_effect_size
+```
+
+```{r}
+A51_BRL_2020_power <- pwr.t.test(n=NULL, d=A51_BRL_2020_effect_size$estimate, sig.level=.05, power = 0.8)
+
+A51_BRL_2020_power
+```
+
+We would need 224 samples to tell a difference between Fifty One and Bear in 2020.
+
+```{r}
+BKN_BRL_2020 <- heber_2020_landscape_appearance %>% dplyr::filter(Site == "BKN" | Site == "BRL")
+
+BKN_BRL_2020
+```
+
+```{r}
+levels(BKN_BRL_2020$Site)
+```
+
+Drop unused levels.
+```{r}
+BKN_BRL_2020$Site <- BKN_BRL_2020$Site %>% forcats::fct_drop()
+```
+
+```{r}
+levels(BKN_BRL_2020$Site)
+```
+
+Now calculate an effect size for Fifty One and Black Canyon South 2020.
+```{r}
+BKN_BRL_2020_effect_size <- cohen.d(`%.Estimate` ~ Site, data = BKN_BRL_2020)
+
+BKN_BRL_2020_effect_size
+```
+
+```{r}
+BKN_BRL_2020_power <- pwr.t.test(n=NULL, d=BKN_BRL_2020_effect_size$estimate, sig.level=.05, power = 0.8)
+
+BKN_BRL_2020_power
+```
+
+```{r}
+BKN_BRL_2020_nsamples <- BKN_BRL_2020_power$n
+
+BKN_BRL_2020_nsamples
+```
+
+Nearly 486 samples needed to tell the difference between means for Black Canyon North and Bear.
+
+```{r}
+BKN_BKS_2020 <- heber_2020_landscape_appearance %>% dplyr::filter(Site == "BKN" | Site == "BKS")
+```
+
+```{r}
+BKN_BKS_2020
+```
+
+```{r}
+levels(BKN_BKS_2020$Site)
+```
+
+```{r}
+BKN_BKS_2020$Site <- BKN_BKS_2020$Site %>% forcats::fct_drop()
+```
+
+```{r}
+levels(BKN_BKS_2020$Site)
+```
+
+Now calculate an effect size for Fifty One and Black Canyon South 2020.
+```{r}
+BKN_BKS_2020_effect_size <- cohen.d(`%.Estimate` ~ Site, data = BKN_BKS_2020)
+
+BKN_BKS_2020_effect_size
+```
+
+```{r}
+BKN_BKS_2020_power <- pwr.t.test(n=NULL, d=BKN_BKS_2020_effect_size$estimate, sig.level=.05, power = 0.8)
+
+BKN_BKS_2020_power
+```
+
+```{r}
+BKN_BKS_2020_nsamples <- BKN_BKS_2020_power$n
+
+BKN_BKS_2020_nsamples
+```
+
+About 56 samples needed for Black Canyon North and Black Canyon South.
+
+```{r}
+BRL_BKS_2020 <- heber_2020_landscape_appearance %>% dplyr::filter(Site == "BRL" | Site == "BKS")
+
+BRL_BKS_2020
+```
+
+```{r}
+levels(BRL_BKS_2020$Site)
+```
+
+```{r}
+BRL_BKS_2020$Site <- BRL_BKS_2020$Site %>% forcats::fct_drop()
+```
+
+```{r}
+levels(BRL_BKS_2020$Site)
+```
+
+Now calculate an effect size for Fifty One and Black Canyon South 2020.
+```{r}
+BRL_BKS_2020_effect_size <- cohen.d(`%.Estimate` ~ Site, data = BRL_BKS_2020)
+
+BRL_BKS_2020_effect_size
+```
+
+```{r}
+BRL_BKS_2020_power <- pwr.t.test(n=NULL, d=BRL_BKS_2020_effect_size$estimate, sig.level=.05, power = 0.8)
+
+BRL_BKS_2020_power
+```
+
+```{r}
+BRL_BKS_2020_nsamples <- BRL_BKS_2020_power$n
+
+BRL_BKS_2020_nsamples
+```
+About 67 samples needed for comparisons between Bear and Black Canyon South.
+
+### Summarize Sample Sizes
+
+Get all of the sample size objects we created that are currently in the R environment for 2019.
+```{r}
+n_samples_2019 <- ls() %>% grep(pattern = "2019_nsamples", value = TRUE)
+
+n_samples_2019
+```
+
+Get the values stored in these objects and combine them into a single object.
+```{r}
+n_samples_values_2019 <- NULL
+
+for (i in 1:length(n_samples_2019)) {
+  n_samples_values_2019 <- append(n_samples_values_2019, get(n_samples_2019[i]))
+}
+
+n_samples_values_2019
+```
+
+Get all of the sample size objects we created that are currently in the R environment for 2020.
+```{r}
+n_samples_2020 <- ls() %>% grep(pattern = "2020_nsamples", value = TRUE)
+
+n_samples_2020
+```
+
+Get the values stored in these objects and combine them into a single object.
+```{r}
+n_samples_values_2020 <- NULL
+
+for (i in 1:length(n_samples_2020)) {
+  n_samples_values_2020 <- append(n_samples_values_2020, get(n_samples_2020[i]))
+}
+
+n_samples_values_2020
+```
+
+Calculate the mean sample size needed for power in 2019.
+```{r}
+mean(n_samples_values_2019)
+```
+
+And calculate the maximum sample size needed for power in 2019.
+```{r}
+max(n_samples_values_2019)
+```
+
+Calculate the mean sample size needed for power in 2020.
+```{r}
+mean(n_samples_values_2020)
+```
+
+And calculate the maximum sample size needed for power in 2019.
+```{r}
+max(n_samples_values_2020)
+```
+
