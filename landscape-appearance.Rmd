@@ -194,27 +194,38 @@ BKS_2020_landscape_data
 BRL_2020_landscape_data
 ```
 
+The 2018 data is in a different format than 2019 or 2020 data. 
+```{r}
+
+```
+
 
 ```{r}
-A51_2019_landscape_data <- 
+BKS_2018_landscape_data <-
+  BKS_2018_landscape_data %>% mutate(Site = "BKS", Year = "2018")
+
+BRL_2018_landscape_data <-
+  BKS_2018_landscape_data %>% mutate(Site = "BRL", Year = "2018")
+
+A51_2019_landscape_data <-
   A51_2019_landscape_data %>% mutate(Site = "A51", Year = "2019")
 
-BKN_2019_landscape_data <- 
+BKN_2019_landscape_data <-
   BKN_2019_landscape_data %>% mutate(Site = "BKN", Year = "2019")
 
-BRL_2019_landscape_data <- 
+BRL_2019_landscape_data <-
   BRL_2019_landscape_data %>% mutate(Site = "BRL", Year = "2019")
 
-A51_2020_landscape_data <- 
+A51_2020_landscape_data <-
   A51_2020_landscape_data %>% mutate(Site = "A51", Year = "2020")
 
-BKN_2020_landscape_data <- 
+BKN_2020_landscape_data <-
   BKN_2020_landscape_data %>% mutate(Site = "BKN", Year = "2020")
 
-BKS_2020_landscape_data <- 
+BKS_2020_landscape_data <-
   BKS_2020_landscape_data %>% mutate(Site = "BKS", Year = "2020")
 
-BRL_2020_landscape_data <- 
+BRL_2020_landscape_data <-
   BRL_2020_landscape_data %>% mutate(Site = "BRL", Year = "2020")
 
 heber_2019_landscape_appearance <- dplyr::bind_rows(A51_2019_landscape_data, 
@@ -272,7 +283,6 @@ heber_2019_landscape_appearance <-
 
 heber_2019_landscape_appearance
 ```
-
 
 ```{r}
 levels(heber_2019_landscape_appearance %>% pull(Factor))
@@ -421,8 +431,8 @@ heber_2020_stats
 ```
 
 ```{r}
-heber_2020_landscape_appearance <-
-  heber_2020_landscape_appearance %>% dplyr::rename("Class Mid-Point" = "%.Estimate")
+# heber_2020_landscape_appearance <-
+#   heber_2020_landscape_appearance %>% dplyr::rename("Class Mid-Point" = "%.Estimate")
 
 heber_2020_landscape_appearance <-
   heber_2020_landscape_appearance %>% dplyr::relocate(c("Site", "Year"), .before = "Transect")
@@ -492,6 +502,7 @@ A51_2019_class_midpoints
 BKN_2019_class_midpoints
 BRL_2019_class_midpoints
 ```
+
 ```{r}
 A51_2019_sum <- sum(A51_2019_class_midpoints$product)
 
@@ -562,9 +573,9 @@ ggplot(white_mountains_2019_stats, aes(fill = Site, x = Site, y = mean)) +
   geom_col(width = 0.75) +
   guides(fill = "none") +
   labs(title = "White Mountains Landscape Appearance 2019") +
-  ylab(expression(atop("Average % Utilization ± SE", paste("(lower is better)")))) +
+  ylab(expression(atop("Average % Utilization ± 95% CI", paste("(lower is better)")))) +
   scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, by = 10)) +
-  geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.5), width = 0.25) +
+  geom_errorbar(aes(ymin = (mean-ci), ymax = (mean+ci)), position = position_dodge(0.5), width = 0.25) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
@@ -573,25 +584,25 @@ ggplot(white_mountains_2019_stats, aes(fill = Site, x = Site, y = mean)) +
   # round the mean value using significant figures
   annotate(geom = "text", 
            x = 1, 
-           y = (white_mountains_2019_stats$mean[1] + 10), 
+           y = (white_mountains_2019_stats$mean[1] + white_mountains_2019_stats$ci[1] + 7), 
            label = paste0(signif(white_mountains_2019_stats$mean[1], 2), "%")) +
   annotate(geom = "text", 
            x = 2, 
-           y = (white_mountains_2019_stats$mean[2] + 10), 
+           y = (white_mountains_2019_stats$mean[2] + white_mountains_2019_stats$ci[2] + 7), 
            label = paste0(signif(white_mountains_2019_stats$mean[2], 2), "%"))
 
-#ggsave("2019-White-Mountains-Landscape-Appearance.jpg", 
+# ggsave("2019-White-Mountains-Landscape-Appearance-95CI.jpg",
 #    path = paste0(getwd(),"/figures", "/landscape-appearance"))
 ```
 
-```{r}
+```{r plot heber landscape appearance 2019}
 ggplot(heber_2019_stats, aes(fill = Site, x = Site, y = mean)) +
   geom_col(width = 0.75) +
   guides(fill = "none") +
   labs(title = "Heber Landscape Appearance 2019") +
-  ylab(expression(atop("Average % Utilization ± SE", paste("(lower is better)")))) +
+  ylab(expression(atop("Average % Utilization ± 95% CI", paste("(lower is better)")))) +
   scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, by = 10)) +
-  geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.5), width = 0.25) +
+  geom_errorbar(aes(ymin = (mean-ci), ymax = (mean+ci)), position = position_dodge(0.5), width = 0.25) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
@@ -600,29 +611,29 @@ ggplot(heber_2019_stats, aes(fill = Site, x = Site, y = mean)) +
   # round the mean value using significant figures
   annotate(geom = "text", 
            x = 1, 
-           y = (heber_2019_stats$mean[1] + 10), 
+           y = (heber_2019_stats$mean[1] + heber_2019_stats$ci[1] + 7), 
            label = paste0(signif(heber_2019_stats$mean[1], 2), "%")) +
   annotate(geom = "text", 
            x = 2, 
-           y = (heber_2019_stats$mean[2] + 10), 
+           y = (heber_2019_stats$mean[2] + heber_2019_stats$ci[2] + 7), 
            label = paste0(signif(heber_2019_stats$mean[2], 2), "%")) +
   annotate(geom = "text", 
            x = 3, 
-           y = (heber_2019_stats$mean[3] + 10), 
+           y = (heber_2019_stats$mean[3] + heber_2019_stats$ci[3] + 7), 
            label = paste0(signif(heber_2019_stats$mean[3], 2), "%"))
 
-#ggsave("2019-Heber-Landscape-Appearance.jpg", 
-#    path = paste0(getwd(),"/figures", "/landscape-appearance"))
+# ggsave("2019-Heber-Landscape-Appearance-95CI.jpg", 
+#     path = paste0(getwd(),"/figures", "/landscape-appearance"))
 ```
 
-```{r}
+```{r plot heber landscape appearance 2020}
 ggplot(heber_2020_stats, aes(fill = Site, x = Site, y = mean)) +
   geom_col(width = 0.75) +
   guides(fill = "none") +
   labs(title = "Heber Landscape Appearance 2020") +
-  ylab(expression(atop("Average % Utilization ± SE", paste("(lower is better)")))) +
+  ylab(expression(atop("Average % Utilization ± 95% CI", paste("(lower is better)")))) +
   scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, by = 10)) +
-  geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.5), width = 0.25) +
+  geom_errorbar(aes(ymin = (mean-ci), ymax = (mean+ci)), position = position_dodge(0.5), width = 0.25) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
@@ -631,20 +642,20 @@ ggplot(heber_2020_stats, aes(fill = Site, x = Site, y = mean)) +
   # round the mean value using significant figures
   annotate(geom = "text", 
            x = 1, 
-           y = (heber_2020_stats$mean[1] + 15), 
+           y = (heber_2020_stats$mean[1] + heber_2020_stats$ci[1] + 7), 
            label = paste0(signif(heber_2020_stats$mean[1], 2), "%")) +
   annotate(geom = "text", 
            x = 2, 
-           y = (heber_2020_stats$mean[2] + 15), 
+           y = (heber_2020_stats$mean[2] + heber_2020_stats$ci[2] + 7), 
            label = paste0(signif(heber_2020_stats$mean[2], 2), "%")) +
   annotate(geom = "text", 
            x = 3, 
-           y = (heber_2020_stats$mean[3] + 15), 
+           y = (heber_2020_stats$mean[3] + heber_2020_stats$ci[3] + 7), 
            label = paste0(signif(heber_2020_stats$mean[3], 2), "%")) +
     annotate(geom = "text", 
            x = 4, 
-           y = (heber_2020_stats$mean[4] + 15), 
+           y = (heber_2020_stats$mean[4] + heber_2020_stats$ci[4] + 7), 
            label = paste0(signif(heber_2020_stats$mean[4], 2), "%"))
-#ggsave("2020-Heber-Landscape-Appearance.jpg", 
-#    path = paste0(getwd(),"/figures", "/landscape-appearance"))
+# ggsave("2020-Heber-Landscape-Appearance-95CI.jpg", 
+#     path = paste0(getwd(),"/figures", "/landscape-appearance"))
 ```
