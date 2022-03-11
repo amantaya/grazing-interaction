@@ -29,4 +29,5 @@ library("openssl")
 library("RPushbullet")
 library("ggfittext")
 library("ggsci")
-
+library("effsize")
+library("pwr")
