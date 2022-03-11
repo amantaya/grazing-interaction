@@ -24,6 +24,11 @@ package_list <- c("ggplot2",
                   "XML",
                   "methods",
                   "tictoc",
-                  "openssl")
+                  "openssl",
+                  "RPushbullet",
+                  "ggfittext",
+                  "ggsci",
+                  "effsize",
+                  "pwr")
 
 install.packages(package_list)
