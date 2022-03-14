@@ -132,9 +132,6 @@ grouped_site_list <- dplyr::group_split(grouped_site_dataframes)
 # this prints the first site in the list
 grouped_site_list[[1]]
 
-# this prints the second site in the list
-grouped_site_list[[2]]
-
 # set the names of the elements in the list by using the site codes
 # this will help us access components by using their names (instead of index)
 # e.g., grouped_site_list$BKS instead of grouped_site_list$1
