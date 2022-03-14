@@ -155,4 +155,13 @@ recombine.chunks(BKS, path = file.path(currentwd, "data", "xlsm", "csv"))
 recombine.chunks(BRL, path = file.path(currentwd, "data", "xlsm", "csv"))
 recombine.chunks(BRT, path = file.path(currentwd, "data", "xlsm", "csv"))
 
-beep("complete")
+# get the current system time to notify when the script is completed
+# note that this defaults to UTC (aka Greenwich Mean Time)
+system_time <- Sys.time()
+
+# convert into the correct timezone for your locale (mine is Arizona so we follow Mountain Standard)
+attr(system_time,"tzone") <- "MST"
+
+msg_body <- paste("06-recombine-chunks.R", "run on folder", collection_folder, "completed at", system_time, sep = " ")
+
+RPushbullet::pbPost(type = "note", title = "Script Completed", body = msg_body)
