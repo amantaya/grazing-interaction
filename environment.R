@@ -5,8 +5,8 @@
 # therefore you likely will need to change the path to working directory
 
 # Copy and paste the path to working directory into the comment below
-# K:\cameratraps\wildcat\exclosure\WCX_05212019_07102019\metadata
-full_path_to_collection_folder <- "K:/cameratraps/wildcat/exclosure/WCX_05212019_07102019"
+# ~/cameratraps/cameratraps/blackcanyon/timelapsesouth/BKS_03062018_04102018
+full_path_to_collection_folder <- "~/cameratraps/blackcanyon/timelapsesouth/BKS_03062018_04102018"
 
 # Change this to TRUE if R is currently running in a Docker container
 # Change this to FALSE if R is not currently running in a Docker container
@@ -48,4 +48,7 @@ subjects_folder <- "subjects"
 # the "~" tilde character is used for mounted volumes on Docker containers
 path_to_collection_folder <- file.path(root_folder, main_folder, location_folder, site_folder, collection_folder)
 
+library(pacman)
+
 currentwd <- getwd()
+
