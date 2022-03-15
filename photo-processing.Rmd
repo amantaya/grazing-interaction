@@ -40,7 +40,7 @@ Let's read in the RAW photo data from 2017 and 2018, which human observers class
 
 For the first step in cleaning up the camera data, we are going to treat all fields with "" (blanks), " " (spaces- typically accidental input which is invisible in Excel), or "NA" (characters), as NA's inside R. This will help us deal with missing information in our dataset.
 
-```{r load 2017 data}
+```{r load BGW 2017}
 # read in the 2017 data, treating all blanks, spaces, and "NA"s as NA's
 BGW17 <- readr::read_csv(
   'data/photo/BGW_2017.csv',
@@ -141,13 +141,12 @@ BRL18 <- readr::read_csv(
   na = c("", " ", "NA")
 )
 
-# BKS18 is incomplete but once it is done it will be read in
-# BKS18 <- readr::read_csv(
-#   'data/photo/BKS_2018.csv',
-#   col_names = TRUE,
-#   col_types = cols(TraitB1 = col_character()),
-#   na = c("", " ", "NA")
-# )
+BKS18 <- readr::read_csv(
+  'data/photo/2018_BKS.csv',
+  col_names = TRUE,
+  col_types = cols(TraitB1 = col_character()),
+  na = c("", " ", "NA")
+)
 ```
 
 ```{r print 2018 data}
@@ -158,6 +157,7 @@ print(WCX18)
 print(WCS18)
 print(WCT18)
 print(BRL18)
+print(BKS18)
 ```
 
 Do the same for the 2019 data.
@@ -274,10 +274,17 @@ WCX18 <- WCX18 %>% dplyr::mutate(Site = "Wildcat Exclosure", Year = 2018)
 WCS18 <- WCS18 %>% dplyr::mutate(Site = "Wildcat South", Year = 2018)
 WCT18 <- WCT18 %>% dplyr::mutate(Site = "Wildcat Trail", Year = 2018)
 BRL18 <- BRL18 %>% dplyr::mutate(Site = "Bear Timelapse", Year = 2018)
+BKS18 <- BKS18 %>% dplyr::mutate(Site = "Black Canyon South", Year = 2018)
 ```
 
 ```{r rbind 2018 data}
 data_2018 <- dplyr::bind_rows(BGX18, BGW18, BGT18, WCX18, WCS18, WCT18, BRL18)
+
+data_2018$ImageDate <- lubridate::mdy(data_2018$ImageDate)
+
+data_2018 <- dplyr::bind_rows(data_2018, BKS18)
+
+data_2018 <- dplyr::arrange(data_2018, Site)
 
 data_2018 <- data_2018 %>% relocate(Site, .before = RecordNumber)
 
