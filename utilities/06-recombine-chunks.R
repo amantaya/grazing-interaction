@@ -62,6 +62,14 @@ for (i in 1:length(xlsm_files)) {
   xlsm_data <- mutate(xlsm_data, DateTime = ImageDate + ImageTime, .after = ImageDate)
   # convert the date time to a POSIXct class
   xlsm_data$DateTime <- openxlsx::convertToDateTime(xlsm_data$DateTime)
+  # convert the "LastSavedOn" column into a POSIXct class
+  xlsm_data$LastSavedOn <- openxlsx::convertToDateTime(xlsm_data$LastSavedOn)
+  # convert the "ImageDate" column into S3 Date Class
+  xlsm_data$ImageDate <- openxlsx::convertToDate(xlsm_data$ImageDate)
+  # then convert the date back into a ISO string
+  xlsm_data$ImageDate <- strftime(xlsm_data$ImageDate, format = "%F")
+  # convert the "ImageTime" column into S3 Time Class
+  xlsm_data$ImageTime <- hms::as_hms(xlsm_data$DateTime)
   # write out the xlsm data as an xlsx
   write.xlsx(xlsm_data, file.path(currentwd, "data", "xlsm", "xlsx", xlsm_file_names[i]), row.names = FALSE)
 }
@@ -156,6 +164,6 @@ system_time <- Sys.time()
 # convert into the correct timezone for your locale (mine is Arizona so we follow Mountain Standard)
 attr(system_time,"tzone") <- "MST"
 
-msg_body <- paste("06-recombine-chunks.R", collection_folder, system_time, sep = " ")
+msg_body <- paste("06-recombine-chunks.R", "run on folder", collection_folder, "completed at", system_time, sep = " ")
 
 RPushbullet::pbPost(type = "note", title = "Script Completed", body = msg_body)
