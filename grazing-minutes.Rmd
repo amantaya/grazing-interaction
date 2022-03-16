@@ -50,16 +50,16 @@ print(all_data)
 
 ------------------------------------------------------------------------
 
-We're going to use a function I created called "speciestotal" (see the functions.R script) which is specific to the way we classified our data. The issue is that the 'Count1Species' column in our data frames doesn't correspond to a specific species, rather it corresponds to whatever species is the primary species detected (\>50% of individuals if a multiple species are detected in an image).
+We're going to use a function I created called "speciestotal" (see the functions.R script) which is specific to the way we classified our data. The issue is that the 'Count1Species' column in our data frames doesn't correspond to a specific species, rather it corresponds to whatever species is the primary species detected (>50% of individuals if a multiple species are detected in an image).
 
-The "speciestotal" function will count up the number of individuals for each species detected in a camera trap photo and then create a new column in the corresponding dataframe to store this species count. The new column is labled by the species and contains a count of the number of individuals detected in each image.
+The "speciestotal" function will count up the number of individuals for each species detected in a camera trap photo and then create a new column in the corresponding dataframe to store this species count. The new column is labeled by the species and contains a count of the number of individuals detected in each image.
 
 A second function "allspecies" uses the "speciestotal" function for all of the species possible (24 total), and creates a new column for each species.
 
 ```{r species counts}
 all_data_all_species <- allspecies(all_data)
 
-view(all_data_all_species)
+print(all_data_all_species)
 ```
 
 ------------------------------------------------------------------------
@@ -272,25 +272,25 @@ BKS_2020 <- calc.grazing.time.wtd(BKS_2020, interval = 5)
 ```
 
 ```{r}
-BRL_2017 %>% pull(horse_grazing_unwtd) %>% sum()
+BKS_2018 %>% pull(horse_grazing_unwtd) %>% sum()
 
-BRL_2017 %>% pull(horse_grazing_wtd) %>% sum()
+BKS_2018 %>% pull(horse_grazing_wtd) %>% sum()
 ```
 
 ```{r}
-BRL_2017 %>% pull(cow_grazing_unwtd) %>% sum()
+BKS_2018 %>% pull(cow_grazing_unwtd) %>% sum()
 
-BRL_2017 %>% pull(cow_grazing_wtd) %>% sum()
+BKS_2018 %>% pull(cow_grazing_wtd) %>% sum()
 ```
 
 ```{r}
-BRL_2017 %>% pull(elk_grazing_unwtd) %>% sum()
+BKS_2018 %>% pull(elk_grazing_unwtd) %>% sum()
 
-BRL_2017 %>% pull(elk_grazing_wtd) %>% sum()
+BKS_2018 %>% pull(elk_grazing_wtd) %>% sum()
 ```
 
 ```{r}
-BRL_2019 %>% pull(Date) %>% unique()
+BKS_2018 %>% pull(DateTime) %>% lubridate::date() %>% unique()
 ```
 
 ```{r function summarize unweighted daily totals}
@@ -364,11 +364,11 @@ summarize.wtd.daily.totals <- function(cameradf){
 ```
 
 ```{r}
-summarize.unwtd.daily.totals(BRL_2019)
+summarize.unwtd.daily.totals(BKS_2018)
 ```
 
 ```{r}
-summarize.wtd.daily.totals(BRL_2019)
+summarize.wtd.daily.totals(BKS_2018)
 ```
 
 ```{r}
@@ -469,11 +469,7 @@ BRL_2019_wtd_summary
 BRL_2020_wtd_summary
 ```
 
-```{r}
-
-```
-
-```{r}
+```{r Bear 2017 Unweighted Figure}
 p <- ggplot(BRL_2017_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b", 
@@ -509,7 +505,7 @@ ggsave("Bear-Timelapse-2017-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
        path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
-```{r}
+```{r Bear 2017 Weighted Figure}
 p <- ggplot(BRL_2017_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b", 
@@ -545,7 +541,7 @@ ggsave("Bear-Timelapse-2017-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
        path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
-```{r}
+```{r Bear 2018 Unweighted Figure}
 p <- ggplot(BRL_2018_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b", 
@@ -568,7 +564,7 @@ ggsave("Bear-Timelapse-2018-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
        path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
-```{r}
+```{r Bear 2018 Weighted Figure}
 p <- ggplot(BRL_2018_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b", 
@@ -591,7 +587,7 @@ ggsave("Bear-Timelapse-2018-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
        path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
-```{r}
+```{r Bear 2019 Unweighted Figure}
 p <- ggplot(BRL_2019_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
@@ -626,7 +622,7 @@ ggsave("Bear-Timelapse-2019-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
      path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
-```{r}
+```{r Bear 2019 Weighted Figure}
 p <- ggplot(BRL_2019_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
@@ -661,7 +657,7 @@ ggsave("Bear-Timelapse-2019-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
      path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
-```{r}
+```{r Bear 2020 Unweighted Figure}
 p <- ggplot(BRL_2020_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
@@ -696,7 +692,7 @@ ggsave("Bear-Timelapse-2020-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
      path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
-```{r}
+```{r Bear 2020 Weighted Figure}
 p <- ggplot(BRL_2020_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
@@ -1013,50 +1009,50 @@ ggsave("Black-Canyon-South-Timelapse-2017-Weighted-Grazing-Minutes-June-01-Sept-
        path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
-```{r}
-# p <- ggplot(BKS_2018_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = Species)) +
-#   geom_col(position = "dodge") +
-#   scale_x_date(date_labels = "%b", 
-#                date_breaks = "1 month",
-#                limits = c(date("2018-06-01"), date("2018-09-30"))) +
-#   scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
-#   labs(title = "Black Canyon South Timelapse", subtitle = "2018") +
-#   ylab("Grazing Minutes (Unweighted)") +
-#   facet_grid(Species ~ .) +
-#   theme(plot.title = element_text(hjust = 0.5),
-#         plot.subtitle = element_text(hjust = 0.5),
-#         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
-#         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)))
-# 
-# p
+```{r Black Canyon South 2018 Unweighted Daily Site Use Figure}
+p <- ggplot(BKS_2018_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = Species)) +
+  geom_col(position = "dodge") +
+  scale_x_date(date_labels = "%b",
+               date_breaks = "1 month",
+               limits = c(date("2018-06-01"), date("2018-09-30"))) +
+  scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
+  labs(title = "Black Canyon South Timelapse", subtitle = "2018") +
+  ylab("Grazing Minutes (Unweighted)") +
+  facet_grid(Species ~ .) +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)))
+
+p
 ```
 
 ```{r}
-# ggsave("Black-Canyon-South-Timelapse-2018-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
-#        path = paste0(currentwd,"/figures", "/grazing-minutes"))
+ggsave("Black-Canyon-South-Timelapse-2018-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
+       path = paste0(currentwd,"/figures", "/grazing-minutes"))
+```
+
+```{r Black Canyon South 2018 Weighted Daily Site Use Figure}
+p <- ggplot(BKS_2018_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Species)) +
+  geom_col(position = "dodge") +
+  scale_x_date(date_labels = "%b",
+               date_breaks = "1 month",
+               limits = c(date("2018-06-01"), date("2018-09-30"))) +
+  scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
+  labs(title = "Black Canyon South Timelapse", subtitle = "2018") +
+  ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
+  facet_grid(Species ~ .) +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)))
+
+p
 ```
 
 ```{r}
-# p <- ggplot(BKS_2018_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Species)) +
-#   geom_col(position = "dodge") +
-#   scale_x_date(date_labels = "%b", 
-#                date_breaks = "1 month", 
-#                limits = c(date("2018-06-01"), date("2018-09-30"))) +
-#   scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
-#   labs(title = "Black Canyon South Timelapse", subtitle = "2018") +
-#   ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
-#   facet_grid(Species ~ .) +
-#   theme(plot.title = element_text(hjust = 0.5),
-#         plot.subtitle = element_text(hjust = 0.5),
-#         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
-#         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)))
-# 
-# p
-```
-
-```{r}
-# ggsave("Black-Canyon-South-Timelapse-2018-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
-#        path = paste0(currentwd,"/figures", "/grazing-minutes"))
+ggsave("Black-Canyon-South-Timelapse-2018-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
+       path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
 ```{r}
@@ -1373,21 +1369,21 @@ reorder.factors.by.season.total <- function(sitetotal){
 ```
 
 ```{r}
-BRL_2017 %>% pull(horse_grazing_unwtd) %>% sum()
+BKS_2018 %>% pull(horse_grazing_unwtd) %>% sum()
 
-BRL_2017 %>% pull(horse_grazing_wtd) %>% sum()
+BKS_2018 %>% pull(horse_grazing_wtd) %>% sum()
 ```
 
 ```{r}
-BRL_2017 %>% pull(cow_grazing_unwtd) %>% sum()
+BKS_2018 %>% pull(cow_grazing_unwtd) %>% sum()
 
-BRL_2017 %>% pull(cow_grazing_wtd) %>% sum()
+BKS_2018 %>% pull(cow_grazing_wtd) %>% sum()
 ```
 
 ```{r}
-BRL_2017 %>% pull(elk_grazing_unwtd) %>% sum()
+BKS_2018 %>% pull(elk_grazing_unwtd) %>% sum()
 
-BRL_2017 %>% pull(elk_grazing_wtd) %>% sum()
+BKS_2018 %>% pull(elk_grazing_wtd) %>% sum()
 ```
 
 ```{r}
@@ -1491,7 +1487,7 @@ BKS_2017_unwtd_elk_percent <- pull.species.percentage(BKS_2017_unwtd_total, spec
 BKS_2017_unwtd_horse_percent <- pull.species.percentage(BKS_2017_unwtd_total, species = "Horse")
 ```
 
-```{r 2017 Unwtd Total grazing Minutes}
+```{r 2017 Unwtd Total Grazing Minutes}
 p <- ggplot(unwtd_2017, aes(x = Site, y = season_total, fill = Species)) + 
   geom_col(position = "stack") +
   labs(title = "Total Grazing Minutes by Site (Unweighted)",
@@ -1681,26 +1677,34 @@ ggsave("2017-Total-Grazing-Minutes-by-Site-Weighted-by-AUE.jpg",
 ```{r}
 BRL_2018_unwtd_total <- calc.grazing.totals.unwtd(BRL_2018_unwtd_summary)
 
+BKS_2018_unwtd_total <- calc.grazing.totals.unwtd(BKS_2018_unwtd_summary)
+
 print(BRL_2018_unwtd_total)
+print(BKS_2018_unwtd_total)
 ```
 
 ```{r}
 BRL_2018_unwtd_total <- reorder.factors.by.season.total(BRL_2018_unwtd_total)
+
+BKS_2018_unwtd_total <- reorder.factors.by.season.total(BKS_2018_unwtd_total)
+
 print(BRL_2018_unwtd_total)
+print(BKS_2018_unwtd_total)
 ```
 
 ```{r}
 levels(BRL_2018_unwtd_total$Species)
+levels(BKS_2018_unwtd_total$Species)
 ```
 
-```{r}
-unwtd_2018 <- BRL_2018_unwtd_total
+```{r rbind 2018 totals}
+unwtd_2018 <- dplyr::bind_rows(BRL_2018_unwtd_total, BKS_2018_unwtd_total)
 
 unwtd_2018
 ```
 
 ```{r}
-levels(BRL_2018_unwtd_total$Species)
+levels(unwtd_2018$Species)
 ```
 
 ```{r}
@@ -1710,9 +1714,9 @@ levels(unwtd_2018$Species)
 ```
 
 ```{r}
-BRL_2018_unwtd_cow_percent <- pull.species.percentage(BRL_2018_unwtd_total, species = "Cow")
-BRL_2018_unwtd_elk_percent <- pull.species.percentage(BRL_2018_unwtd_total, species = "Elk")
-BRL_2018_unwtd_horse_percent <- pull.species.percentage(BRL_2018_unwtd_total, species = "Horse")
+unwtd_2018_cow_percent <- pull.species.percentage(unwtd_2018, species = "Cow")
+unwtd_2018_elk_percent <- pull.species.percentage(unwtd_2018, species = "Elk")
+unwtd_2018_horse_percent <- pull.species.percentage(unwtd_2018, species = "Horse")
 ```
 
 ```{r 2018 Unwtd Total grazing Minutes}
@@ -1752,17 +1756,22 @@ ggsave("2018-Total-Grazing-Minutes-Unweighted.jpg",
 ```{r}
 BRL_2018_wtd_total <- calc.grazing.totals.wtd(BRL_2018_wtd_summary)
 
+BKS_2018_wtd_total <- calc.grazing.totals.wtd(BKS_2018_wtd_summary)
+
 print(BRL_2018_wtd_total)
+print(BKS_2018_wtd_total)
 ```
 
 ```{r}
-wtd_2018 <- BRL_2018_wtd_total
+wtd_2018 <- dplyr::bind_rows(BRL_2018_wtd_total, BKS_2018_wtd_total)
+
+print(wtd_2018)
 ```
 
 ```{r}
-BRL_2018_wtd_cow_percent <- pull.species.percentage(BRL_2018_wtd_total, species = "Cow")
-BRL_2018_wtd_elk_percent <- pull.species.percentage(BRL_2018_wtd_total, species = "Elk")
-BRL_2018_wtd_horse_percent <- pull.species.percentage(BRL_2018_wtd_total, species = "Horse")
+wtd_2018_cow_percent <- pull.species.percentage(wtd_2018, species = "Cow")
+wtd_2018_elk_percent <- pull.species.percentage(wtd_2018, species = "Elk")
+wtd_2018_horse_percent <- pull.species.percentage(wtd_2018, species = "Horse")
 ```
 
 ```{r}
