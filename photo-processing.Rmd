@@ -4,7 +4,9 @@ author: "Andrew Antaya"
 output: html_notebook
 ---
 
-------------------------------------------------------------------------
+## Photo Processing
+
+### Setup R Environment
 
 First, let's remove all objects from the environment to start fresh each time.
 
@@ -34,13 +36,13 @@ This separate R script contains all of the functions that I commonly use across 
 source(paste0(currentwd, "/functions.R"))
 ```
 
-------------------------------------------------------------------------
+### Load and View Data
 
 Let's read in the RAW photo data from 2017 and 2018, which human observers classified in a custom Excel macro (.xlsm written in VBA). The macro generates data for each image when a human observer selects different options based on what they see in each photo. We saved each of the .xlsm files (each file corresponding to a site and year) as .csv files for ease of use in R and to convert the .xlsm to a non-proprietary format.
 
 For the first step in cleaning up the camera data, we are going to treat all fields with "" (blanks), " " (spaces- typically accidental input which is invisible in Excel), or "NA" (characters), as NA's inside R. This will help us deal with missing information in our dataset.
 
-```{r load BGW 2017}
+```{r load BGW 2017 example}
 # read in the 2017 data, treating all blanks, spaces, and "NA"s as NA's
 BGW17 <- readr::read_csv(
   'data/photo/BGW_2017.csv',
@@ -149,7 +151,7 @@ BKS18 <- readr::read_csv(
 )
 ```
 
-```{r print 2018 data}
+```{r view 2018 data}
 print(BGX18)
 print(BGW18)
 print(BGT18)
@@ -201,7 +203,7 @@ BRT19 <- readr::read_csv(
 )
 ```
 
-```{r print 2019 data}
+```{r view 2019 data}
 print(AFO19)
 print(BKD19)
 print(BKN19)
@@ -238,22 +240,43 @@ BRL20 <- readr::read_csv(
 )
 ```
 
-```{r print 2020 data}
+```{r view 2020 data}
 print(AFO20)
 print(BKN20)
 print(BKS20)
 print(BRL20)
 ```
 
-------------------------------------------------------------------------
+### Clean Data by Adding Useful Columns and Removing Unuseful Columns
 
 We read in CSV files containing the camera data. Each data frame corresponds to a site and year (e.g., BGW18 is Boggy West Timelapse, data from year 2018). In all of the data frames, each row corresponds to a single image and each column corresponds to a single 'variable'. Some of these 'variables' are actually metadata, such as the file name of the image and the file path.
 
-```{r add site and year 2017}
+```{r add site and year columns}
 BGW17 <- BGW17 %>% dplyr::mutate(Site = "Boggy", Year = 2017)
 WCS17 <- WCS17 %>% dplyr::mutate(Site = "Wildcat", Year = 2017)
 BRL17 <- BRL17 %>% dplyr::mutate(Site = "Bear", Year = 2017)
 BKS17 <- BKS17 %>% dplyr::mutate(Site = "Black Canyon South", Year = 2017)
+
+BGX18 <- BGX18 %>% dplyr::mutate(Site = "Boggy Exclosure", Year = 2018)
+BGW18 <- BGW18 %>% dplyr::mutate(Site = "Boggy West", Year = 2018)
+BGT18 <- BGT18 %>% dplyr::mutate(Site = "Boggy Trail", Year = 2018)
+WCX18 <- WCX18 %>% dplyr::mutate(Site = "Wildcat Exclosure", Year = 2018)
+WCS18 <- WCS18 %>% dplyr::mutate(Site = "Wildcat South", Year = 2018)
+WCT18 <- WCT18 %>% dplyr::mutate(Site = "Wildcat Trail", Year = 2018)
+BRL18 <- BRL18 %>% dplyr::mutate(Site = "Bear Timelapse", Year = 2018)
+BKS18 <- BKS18 %>% dplyr::mutate(Site = "Black Canyon South", Year = 2018)
+
+AFO19 <- AFO19 %>% dplyr::mutate(Site = "Fifty One", Year = 2019)
+BKD19 <- BKD19 %>% dplyr::mutate(Site = "Black Canyon Dam", Year = 2019)
+BKN19 <- BKN19 %>% dplyr::mutate(Site = "Black Canyon North", Year = 2019)
+BKS19 <- BKS19 %>% dplyr::mutate(Site = "Black Canyon South", Year = 2019)
+BRL19 <- BRL19 %>% dplyr::mutate(Site = "Bear Timelapse", Year = 2019)
+BRT19 <- BRT19 %>% dplyr::mutate(Site = "Bear Trail", Year = 2019)
+
+AFO20 <- AFO20 %>% dplyr::mutate(Site = "Fifty One", Year = 2020)
+BKN20 <- BKN20 %>% dplyr::mutate(Site = "Black Canyon North", Year = 2020)
+BKS20 <- BKS20 %>% dplyr::mutate(Site = "Black Canyon South", Year = 2020)
+BRL20 <- BRL20 %>% dplyr::mutate(Site = "Bear Timelapse", Year = 2020)
 ```
 
 ```{r rbind 2017 data}
@@ -266,40 +289,27 @@ data_2017 <- data_2017 %>% relocate(Year, .after = Site)
 print(data_2017)
 ```
 
-```{r add site and year 2018}
-BGX18 <- BGX18 %>% dplyr::mutate(Site = "Boggy Exclosure", Year = 2018)
-BGW18 <- BGW18 %>% dplyr::mutate(Site = "Boggy West", Year = 2018)
-BGT18 <- BGT18 %>% dplyr::mutate(Site = "Boggy Trail", Year = 2018)
-WCX18 <- WCX18 %>% dplyr::mutate(Site = "Wildcat Exclosure", Year = 2018)
-WCS18 <- WCS18 %>% dplyr::mutate(Site = "Wildcat South", Year = 2018)
-WCT18 <- WCT18 %>% dplyr::mutate(Site = "Wildcat Trail", Year = 2018)
-BRL18 <- BRL18 %>% dplyr::mutate(Site = "Bear Timelapse", Year = 2018)
-BKS18 <- BKS18 %>% dplyr::mutate(Site = "Black Canyon South", Year = 2018)
-```
-
 ```{r rbind 2018 data}
+# bind all 2018 data together to make handling easier
 data_2018 <- dplyr::bind_rows(BGX18, BGW18, BGT18, WCX18, WCS18, WCT18, BRL18)
 
-data_2018$ImageDate <- lubridate::mdy(data_2018$ImageDate)
+# convert the "ImageDate" column into a S3 date class
+# before conversion the column is a character data type
+# data_2018$ImageDate <- lubridate::mdy(data_2018$ImageDate)
 
-data_2018 <- dplyr::bind_rows(data_2018, BKS18)
+# add the 2018 Black Canyon South data
+# data_2018 <- dplyr::bind_rows(data_2018, BKS18)
 
+# arrange the data frame by site in alphabetical order
 data_2018 <- dplyr::arrange(data_2018, Site)
 
+# move the "Site" column more to the left side of the data frame
 data_2018 <- data_2018 %>% relocate(Site, .before = RecordNumber)
 
+# also move the site column to the left side of the data frame
 data_2018 <- data_2018 %>% relocate(Year, .after = Site)
 
 print(data_2018)
-```
-
-```{r add site and year 2019}
-AFO19 <- AFO19 %>% dplyr::mutate(Site = "Fifty One", Year = 2019)
-BKD19 <- BKD19 %>% dplyr::mutate(Site = "Black Canyon Dam", Year = 2019)
-BKN19 <- BKN19 %>% dplyr::mutate(Site = "Black Canyon North", Year = 2019)
-BKS19 <- BKS19 %>% dplyr::mutate(Site = "Black Canyon South", Year = 2019)
-BRL19 <- BRL19 %>% dplyr::mutate(Site = "Bear Timelapse", Year = 2019)
-BRT19 <- BRT19 %>% dplyr::mutate(Site = "Bear Trail", Year = 2019)
 ```
 
 ```{r rbind 2019 data}
@@ -312,13 +322,6 @@ data_2019 <- data_2019 %>% relocate(Year, .after = Site)
 data_2019$LastSavedOn <- data_2019 %>% pull(LastSavedOn) %>% openxlsx::convertToDateTime()
 
 print(data_2019)
-```
-
-```{r add site and year 2020}
-AFO20 <- AFO20 %>% dplyr::mutate(Site = "Fifty One", Year = 2020)
-BKN20 <- BKN20 %>% dplyr::mutate(Site = "Black Canyon North", Year = 2020)
-BKS20 <- BKS20 %>% dplyr::mutate(Site = "Black Canyon South", Year = 2020)
-BRL20 <- BRL20 %>% dplyr::mutate(Site = "Bear Timelapse", Year = 2020)
 ```
 
 ```{r rbind 2020 data}
@@ -373,7 +376,7 @@ n_dropped_photos_2019 <- n_2019 - n_after_2019
 n_dropped_photos_2019
 ```
 
-```{r}
+```{r drop no detections 2020}
 n_2020 <- data_2020 %>% pull(Count1Species) %>% length()
 
 data_2020_drop_na <- data_2020 %>% tidyr::drop_na(Count1Species)
@@ -386,32 +389,60 @@ n_dropped_photos_2020
 ```
 
 The data has date and time in separate columns. The lubridate package provides a convenient way to manage time in R. However, first we need to combine the "ImageDate" and "ImageTime" columns.
-```{r}
+
+```{r view example of ImageDate col}
 data_2017_drop_na
 ```
 
-------------------------------------------------------------------------
-Our "clean.dates" function combines the "ImageDate" and "ImageTime" columns.
+### Convert the "ImageDate" and "ImageTime" Columns
 
-```{r clean.dates 2017}
-# TODO consider changing the clean.dates function to specify a column 
+Our "clean_dates" function combines the "ImageDate" and "ImageTime" columns into a single column "DateTime". But these columns are character types, and we want them to be a special data type called a datetime. The "lubridate" and "hms" packages provide helpful ways to handle datetime objects.
+
+```{r clean_dates 2017}
+
 # instead of supplying a data frame and always selecting the ImageDate column
-data_2017_clean_dates <- clean.dates(data_2017_drop_na)
+data_2017_clean_dates <- clean_dates(data_2017_drop_na)
 
-data_2017_clean_dates$LastSavedOn <- data_2017_clean_dates %>% pull(LastSavedOn) %>% lubridate::mdy_hm()
+data_2017_clean_dates$LastSavedOn <- data_2017_clean_dates %>% 
+  pull(LastSavedOn) %>% 
+  lubridate::mdy_hm()
 
 print(data_2017_clean_dates)
 ```
 
-```{r clean.dates 2018}
-data_2018_clean_dates <- clean.dates(data_2018_drop_na)
+```{r clean_dates 2018}
+data_2018_clean_dates <- clean_dates(data_2018_drop_na)
 
-data_2018_clean_dates$LastSavedOn <- data_2018_clean_dates %>% pull(LastSavedOn) %>% lubridate::mdy_hm()
+data_2018_clean_dates$LastSavedOn <- data_2018_clean_dates %>% 
+  pull(LastSavedOn) %>% 
+  lubridate::mdy_hm()
 
 print(data_2018_clean_dates)
 ```
 
-```{r clean.dates 2019}
+```{r add BKS 2018 data}
+# drop the date and time columns because BKS 2018 already has a "DateTime" column
+BKS18 <- BKS18 %>% 
+  dplyr::select(-c(ImageDate, ImageTime))
+
+# convert the "DateTime" column from a character to datetime 
+BKS18$DateTime <- BKS18 %>% 
+  dplyr::pull(DateTime) %>% 
+  lubridate::ymd_hms()
+
+# convert the "LastSavedOn" column from a character to datetime
+BKS18$LastSavedOn <- BKS18 %>% 
+  dplyr::pull(LastSavedOn) %>% 
+  lubridate::ymd_hms()
+
+# bind data together after all datetime columns are in the same formate
+data_2018_clean_dates <- dplyr::bind_rows(data_2018_clean_dates, BKS18)
+
+print(data_2018_clean_dates)
+```
+
+
+```{r clean_dates 2019}
 data_2019_drop_na$DateTime <- data_2019_drop_na %>% pull(DateTime) %>% lubridate::ymd_hms()
 
 data_2019_clean_dates <- data_2019_drop_na %>% select(-c("ImageTime", "ImageDate"))
@@ -419,7 +450,7 @@ data_2019_clean_dates <- data_2019_drop_na %>% select(-c("ImageTime", "ImageDate
 print(data_2019_clean_dates)
 ```
 
-```{r clean.dates 2020}
+```{r clean_dates 2020}
 data_2020_drop_na$DateTime <- data_2020_drop_na %>% pull(DateTime) %>% lubridate::ymd_hms()
 
 data_2020_clean_dates <- data_2020_drop_na %>% select(-c("ImageTime", "ImageDate"))
@@ -427,42 +458,49 @@ data_2020_clean_dates <- data_2020_drop_na %>% select(-c("ImageTime", "ImageDate
 print(data_2020_clean_dates)
 ```
 
-Rename the "TraitB2" and "Trait4" columns from the 2018, 2019, and 2020 data to match the name of the columns in the 2017 data "multi" and "water".
-```{r rename TraitB2 and Trait4 cols}
+The 2017 has two columns that have different names than any of the 2018-2020 data. Those columns are "multi" and "water". 
+```{r view 2017 multi and water cols}
 print(data_2017_clean_dates)
-
-data_2018_rename_col <- data_2018_clean_dates %>% rename(multi = TraitB2)
-
-data_2018_rename_col <- data_2018_rename_col %>% rename(water = Trait4)
-
-print(data_2018_rename_col)
-
-data_2019_rename_col <- data_2019_clean_dates %>% rename(multi = TraitB2)
-
-data_2019_rename_col <- data_2019_rename_col %>% rename(water = Trait4)
-
-print(data_2019_rename_col)
-
-data_2020_rename_col <- data_2020_clean_dates %>% rename(multi = TraitB2)
-
-data_2020_rename_col <- data_2020_rename_col %>% rename(water = Trait4)
-
-print(data_2020_rename_col)
 ```
 
+Rename the "TraitB2" and "Trait4" columns from the 2018, 2019, and 2020 data to match the name of the columns in the 2017 data "multi" and "water".
+
+```{r rename TraitB2 and Trait4 cols}
+data_2018_rename_col <- data_2018_clean_dates %>% rename(multi = TraitB2)
+data_2018_rename_col <- data_2018_rename_col %>% rename(water = Trait4)
+
+data_2019_rename_col <- data_2019_clean_dates %>% rename(multi = TraitB2)
+data_2019_rename_col <- data_2019_rename_col %>% rename(water = Trait4)
+
+data_2020_rename_col <- data_2020_clean_dates %>% rename(multi = TraitB2)
+data_2020_rename_col <- data_2020_rename_col %>% rename(water = Trait4)
+
+print(data_2018_rename_col)
+print(data_2019_rename_col)
+print(data_2020_rename_col)
+```
+Bind data from all sites and all years into a single data frame.
+
 ```{r rbind all sites all years}
-all_photo_data <- bind_rows(data_2017_clean_dates, 
+all_photo_data <- dplyr::bind_rows(data_2017_clean_dates, 
                             data_2018_rename_col, 
                             data_2019_rename_col, 
                             data_2020_rename_col)
 
-view(all_photo_data)
+print(all_photo_data)
 ```
 
 ```{r}
-all_photo_data %>% dplyr::filter(Site == "Bear Timelapse" & Year == "2019") %>% view()
+all_photo_data <- all_photo_data %>% dplyr::arrange(Site)
+
+print(all_photo_data)
 ```
 
-```{r}
-readr::write_csv(all_photo_data, file.path(currentwd, "data", "photo", "all_photo_data.csv"))
+
+### Write Data to CSV File
+
+Write out the data frame as a csv file formatted for Excel. We will use this file as an intermediate data file for the next step in our analysis. Having an intermediate data file is helpful because we can perform wrangling steps all at once, and then can use dplyr functions to filter and sort data by site and year. 
+
+```{r write to csv}
+readr::write_excel_csv(all_photo_data, file.path(currentwd, "data", "photo", "all_photo_data.csv"))
 ```
