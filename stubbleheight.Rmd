@@ -10,6 +10,11 @@ output: html_notebook
 rm(list=ls(all=TRUE))
 ```
 
+```{r}
+source("environment.R")
+```
+
+
 ```{r echo=FALSE}
 source("packages.R")
 ```
@@ -87,12 +92,12 @@ WCS19stubble
 Read in the Heber data, from 2018 to 2020.
 ```{r load Heber data}
 BKS18stubble <- readr::read_csv(
-  'data/vegetation/heber/2018-BKS-stubble-height.csv',
+  'data/vegetation/heber/stubble-height/csv/2018-BKS-stubble-height.csv',
   col_names = TRUE,
   na = c("", " ", "NA"))
 
 BRL18stubble <- readr::read_csv(
-  'data/vegetation/heber/2018-BRL-stubble-height.csv',
+  'data/vegetation/heber/stubble-height/csv/2018-BRL-stubble-height.csv',
   col_names = TRUE,
   na = c("", " ", "NA"))
 
@@ -304,7 +309,7 @@ stubble_data <- bind_rows(BGW17stubble,
 stubble_data <- stubble_data %>% 
   arrange(Year)
 
-View(stubble_data)
+print(stubble_data)
 ```
 
 We have 1 missing height value in the data that we need to remove. Not sure
@@ -726,10 +731,10 @@ BRL20stubblestats_top3$Species <- BRL20stubblestats_top3 %>%
 ggplot(BGW17stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
   geom_col(width = 0.75) +
   scale_fill_discrete(name = "Species", labels = c("Poa pratensis", "Carex sp.", "Poa fendleriana")) +
-  labs(title = "Boggy Creek Stubble Height 2017") +
-  ylab(expression(paste("Stubble Height", " ", "(Inch)", " ± SE"))) +
+  labs(title = "Boggy Creek Stubble Height 2017", caption = "n = number of samples") +
+  ylab(expression(atop("Average Stubble Height (Inches) ± 95% CI", paste("(higher is better)")))) +
   scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
-  geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.5), width = 0.25) +
+  geom_errorbar(aes(ymin = (mean-ci), ymax = (mean+ci)), position = position_dodge(0.5), width = 0.25) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
@@ -737,34 +742,38 @@ ggplot(BGW17stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
 
   # add stubble height values above the  error bars
   # round the mean stubble height value using significant figures
-  annotate(geom = "text", x = 1, y = 3.5, label = signif(BGW17stubblestats_top3$mean[1], 2)) +
-  annotate(geom = "text", x = 2, y = 4.75, label = signif(BGW17stubblestats_top3$mean[2], 2)) +
-  annotate(geom = "text", x = 3, y = 4, label = signif(BGW17stubblestats_top3$mean[3], 2)) +
+  annotate(geom = "text", 
+           x = 1, 
+           y = (BGW17stubblestats_top3$mean[1] + BGW17stubblestats_top3$ci[1] + 1), 
+           label = signif(BGW17stubblestats_top3$mean[1], 2)) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = (BGW17stubblestats_top3$mean[2] + BGW17stubblestats_top3$ci[2] + 1), 
+           label = signif(BGW17stubblestats_top3$mean[2], 2)) +
+  annotate(geom = "text", 
+           x = 3, 
+           y = (BGW17stubblestats_top3$mean[3] + BGW17stubblestats_top3$ci[3] + 1), 
+           label = signif(BGW17stubblestats_top3$mean[3], 2)) +
+  # annotate(geom = "text", x = 2, y = 4.75, label = signif(BGW17stubblestats_top3$mean[2], 2)) +
+  # annotate(geom = "text", x = 3, y = 4, label = signif(BGW17stubblestats_top3$mean[3], 2)) +
 
 # add the number of samples inside the bars
   annotate(geom = "text", x = 1, y = (BGW17stubblestats_top3$mean[1]/2), 
-           label = paste0("n=", BGW17stubblestats_top3$n[1]), 
+           label = paste0("n = ", BGW17stubblestats_top3$n[1]), 
            size = 3, 
            alpha = 0.75) +
   annotate(geom = "text", 
            x = 2, 
            y = (BGW17stubblestats_top3$mean[2]/2), 
-           label = paste0("n=", BGW17stubblestats_top3$n[2]), 
+           label = paste0("n = ", BGW17stubblestats_top3$n[2]), 
            size = 3, 
            alpha = 0.75) +
   annotate(geom = "text", 
            x = 3, 
            y = (BGW17stubblestats_top3$mean[3]/2), 
-           label = paste0("n=", BGW17stubblestats_top3$n[3]), 
+           label = paste0("n = ", BGW17stubblestats_top3$n[3]), 
            size = 3, 
-           alpha = 0.75) +
-  annotate(geom = "text",
-           x = 4,
-           y = 0,
-           label = "*n=number of samples",
-           size = 3) +
-  coord_cartesian(clip = "off")
-
+           alpha = 0.75)
 #ggsave("Boggy-2017-Stubble-Height-n-samples.jpg", 
 #    path = paste0(getwd(),"/figures", "/stubbleheight"))
 ```
@@ -773,8 +782,8 @@ ggplot(BGW17stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
 ggplot(WCS17stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
   geom_col(width = 0.75) +
   scale_fill_discrete(name = "Species", labels = c("Poa pratensis", "Carex sp.", "Poa fendleriana")) +
-  labs(title = "Wildcat Creek Stubble Height 2017") +
-  ylab(expression(paste("Stubble Height", " ", "(Inch)", " ± SE"))) +
+  labs(title = "Wildcat Creek Stubble Height 2017", caption = "n = number of samples") +
+  ylab(expression(atop("Average Stubble Height (Inches) ± 95% CI", paste("(higher is better)")))) +
   scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
   geom_errorbar(aes(ymin = (mean-se), ymax = (mean+se)), position = position_dodge(0.5), width = 0.25) +
   theme(plot.title = element_text(hjust = 0.5),
@@ -784,9 +793,18 @@ ggplot(WCS17stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
 
 # add stubble height values above the  error bars
 # round the mean stubble height value using significant figures
-  annotate(geom = "text", x = 1, y = 2, label = signif(WCS17stubblestats$mean[1], 2)) +
-  annotate(geom = "text", x = 2, y = 4.5, label = signif(WCS17stubblestats$mean[2], 2)) +
-  annotate(geom = "text", x = 3, y = 2, label = signif(WCS17stubblestats$mean[3], 2)) +
+  annotate(geom = "text", 
+           x = 1, 
+           y = (WCS17stubblestats_top3$mean[1] + WCS17stubblestats_top3$ci[1] + 1), 
+           label = signif(WCS17stubblestats_top3$mean[1], 2)) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = (WCS17stubblestats_top3$mean[2] + WCS17stubblestats_top3$ci[2] + 1), 
+           label = signif(WCS17stubblestats_top3$mean[2], 2)) +
+  annotate(geom = "text", 
+           x = 3, 
+           y = (WCS17stubblestats_top3$mean[3] + WCS17stubblestats_top3$ci[3] + 1), 
+           label = signif(WCS17stubblestats_top3$mean[3], 2)) +
 
 # add the number of samples inside the bars
   annotate(geom = "text", x = 1, y = (WCS17stubblestats$mean[1]/2), 
