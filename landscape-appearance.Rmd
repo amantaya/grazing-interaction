@@ -430,6 +430,14 @@ heber_2018_stats <- dplyr::bind_rows(BRL_2018_stats, BKS_2018_stats)
 heber_2018_stats
 ```
 
+```{r add confidence intervals bounds 2018}
+heber_2018_stats <- heber_2018_stats  %>% dplyr::mutate(lower_95 = mean - ci)
+
+heber_2018_stats <- heber_2018_stats %>% dplyr::mutate(upper_95 = mean + ci)
+
+print(heber_2018_stats)
+```
+
 
 ### Plot 2018 Landscape Appearance
 
@@ -623,6 +631,23 @@ heber_2019_stats$Site <- heber_2019_stats %>% pull(Site) %>% forcats::fct_inorde
 
 heber_2019_stats
 ```
+
+```{r add confidence intervals bounds 2019}
+heber_2019_stats <- heber_2019_stats  %>% dplyr::mutate(lower_95 = mean - ci)
+
+heber_2019_stats <- heber_2019_stats %>% dplyr::mutate(upper_95 = mean + ci)
+
+print(heber_2019_stats)
+```
+
+```{r add confidence intervals bounds 2020}
+heber_2020_stats <- heber_2020_stats  %>% dplyr::mutate(lower_95 = mean - ci)
+
+heber_2020_stats <- heber_2020_stats %>% dplyr::mutate(upper_95 = mean + ci)
+
+print(heber_2020_stats)
+```
+
 
 ```{r}
 heber_2020_stats <- bind_rows(BRL_2020_stats, BKN_2020_stats, BKS_2020_stats, A51_2020_stats)
