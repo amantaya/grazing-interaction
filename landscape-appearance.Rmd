@@ -446,7 +446,7 @@ ggplot(heber_2018_stats, aes(fill = Site, x = Site, y = mean)) +
   geom_col(width = 0.75) +
   guides(fill = "none") +
   labs(title = "Heber Landscape Appearance 2018", caption = "n = number of samples") +
-  ylab(expression(atop("Average % Utilization ± 95% CI", paste("(lower is better)")))) +
+  ylab("Average % Utilization ± 95% CI") +
   scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, by = 10)) +
   geom_errorbar(aes(ymin = (mean-ci), ymax = (mean+ci)), position = position_dodge(0.5), width = 0.25) +
   theme(plot.title = element_text(hjust = 0.5),
@@ -640,19 +640,18 @@ heber_2019_stats <- heber_2019_stats %>% dplyr::mutate(upper_95 = mean + ci)
 print(heber_2019_stats)
 ```
 
+```{r}
+heber_2020_stats <- bind_rows(BRL_2020_stats, BKN_2020_stats, BKS_2020_stats, A51_2020_stats)
+
+heber_2020_stats
+```
+
 ```{r add confidence intervals bounds 2020}
 heber_2020_stats <- heber_2020_stats  %>% dplyr::mutate(lower_95 = mean - ci)
 
 heber_2020_stats <- heber_2020_stats %>% dplyr::mutate(upper_95 = mean + ci)
 
 print(heber_2020_stats)
-```
-
-
-```{r}
-heber_2020_stats <- bind_rows(BRL_2020_stats, BKN_2020_stats, BKS_2020_stats, A51_2020_stats)
-
-heber_2020_stats
 ```
 
 ```{r}
@@ -815,12 +814,12 @@ BRL_2020_class_midpoints
 
 ### White Mountains 2019
 
-```{r 2019 White Mountains Landscape Appearance Figure, eval=FALSE}
+```{r 2019 White Mountains Landscape Appearance Figure, }
 ggplot(white_mountains_2019_stats, aes(fill = Site, x = Site, y = mean)) +
   geom_col(width = 0.75) +
   guides(fill = "none") +
   labs(title = "White Mountains Landscape Appearance 2019", caption = "n = number of samples") +
-  ylab(expression(atop("Average % Utilization ± 95% CI", paste("(lower is better)")))) +
+  ylab("Average % Utilization ± 95% CI") +
   scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, by = 10)) +
   geom_errorbar(aes(ymin = (mean-ci), ymax = (mean+ci)), position = position_dodge(0.5), width = 0.25) +
   theme(plot.title = element_text(hjust = 0.5),
@@ -854,12 +853,12 @@ ggsave("2019-White-Mountains-Landscape-Appearance-95CI.jpg",
 ```
 ### Heber 2019
 
-```{r 2019 Heber Landscape Appearance Figure, eval=FALSE}
+```{r 2019 Heber Landscape Appearance Figure, }
 ggplot(heber_2019_stats, aes(fill = Site, x = Site, y = mean)) +
   geom_col(width = 0.75) +
   guides(fill = "none") +
   labs(title = "Heber Landscape Appearance 2019", caption = "n = number of samples") +
-  ylab(expression(atop("Average % Utilization ± 95% CI", paste("(lower is better)")))) +
+  ylab("Average % Utilization ± 95% CI") +
   scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, by = 10)) +
   geom_errorbar(aes(ymin = (mean-ci), ymax = (mean+ci)), position = position_dodge(0.5), width = 0.25) +
   theme(plot.title = element_text(hjust = 0.5),
@@ -918,12 +917,12 @@ heber_2019_stats$mean[2] + heber_2019_stats$ci[2]
 
 ### Heber 2020
 
-```{r 2020 Heber Landscape Appearance Figure, eval=FALSE}
+```{r 2020 Heber Landscape Appearance Figure}
 ggplot(heber_2020_stats, aes(fill = Site, x = Site, y = mean)) +
   geom_col(width = 0.75) +
   guides(fill = "none") +
   labs(title = "Heber Landscape Appearance 2020", caption = "n = number of samples") +
-  ylab(expression(atop("Average % Utilization ± 95% CI", paste("(lower is better)")))) +
+  ylab("Average % Utilization ± 95% CI") +
   scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, by = 10)) +
   geom_errorbar(aes(ymin = (mean-ci), ymax = (mean+ci)), position = position_dodge(0.5), width = 0.25) +
   theme(plot.title = element_text(hjust = 0.5),
