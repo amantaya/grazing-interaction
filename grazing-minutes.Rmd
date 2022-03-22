@@ -1623,6 +1623,7 @@ BKS_2017_wtd_elk_percent <- pull.species.percentage(BKS_2017_wtd_total, species 
 BKS_2017_wtd_horse_percent <- pull.species.percentage(BKS_2017_wtd_total, species = "Horse")
 ```
 
+
 ```{r 2017 Wtd Total grazing Minutes}
 p <- ggplot(wtd_2017, aes(x = Site, y = season_total, fill = Species)) + 
   geom_col(position = "stack") +
@@ -1704,6 +1705,12 @@ unwtd_2018
 ```
 
 ```{r}
+unwtd_2018 %>% dplyr::filter(Site == "Black Canyon South") %>% pull(season_total) %>% sum()
+unwtd_2018 %>% dplyr::filter(Site == "Bear Timelapse") %>% pull(season_total) %>% sum()
+```
+
+
+```{r}
 levels(unwtd_2018$Species)
 ```
 
@@ -1778,6 +1785,15 @@ wtd_2018_horse_percent <- pull.species.percentage(wtd_2018, species = "Horse")
 wtd_2018$Species <- wtd_2018$Species %>% fct_relevel(c("Elk", "Horse", "Cow"))
 
 levels(wtd_2018$Species)
+```
+
+```{r}
+wtd_2018 %>% dplyr::filter(Site == "Black Canyon South") %>% pull(season_total) %>% sum()
+wtd_2018 %>% dplyr::filter(Site == "Bear Timelapse") %>% pull(season_total) %>% sum()
+```
+
+```{r}
+1518/1762
 ```
 
 ```{r 2018 Wtd Total grazing Minutes}
@@ -2574,3 +2590,12 @@ p
 ggsave("2020-Total-Grazing-Minutes-by-Site-Weighted-By-AUE.jpg",
      path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
+
+```{r}
+unwtd_2019 %>% filter(Site == "Black Canyon North") %>% pull(season_total) %>% sum()
+```
+
+```{r}
+unwtd_2020 %>% filter(Site == "Black Canyon North") %>% pull(season_total) %>% sum()
+```
+
