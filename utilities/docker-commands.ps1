@@ -29,3 +29,7 @@ docker run -d -e DISABLE_AUTH=true --rm -p 127.0.0.1:80:8787 -v C:/Users/andre/D
 
 # then run docker commit command
 # docker commit -m "install project packages" 647dfb54e668 amantaya/verse_grazing_pushbullet:4.0.5
+
+# docker containers can be saved locally for backups using the command below
+# note that this saves the image into your current working directory
+# docker save --output verse_grazing_pacman.tar amantaya/verse_grazing_pacman
