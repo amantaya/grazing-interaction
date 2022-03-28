@@ -16,6 +16,9 @@ packrat/src/
 # ignore markdown files from knitr
 *.md
 
+# ignore docker container backups
+containers
+
 # ignore data folders and files
 data
 results
