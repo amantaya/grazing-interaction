@@ -774,8 +774,8 @@ ggplot(BGW17stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
            label = paste0("n = ", BGW17stubblestats_top3$n[3]), 
            size = 3, 
            alpha = 0.75)
-ggsave("Boggy-2017-Stubble-Height-n-samples-95CI.jpg",
-   path = paste0(getwd(),"/figures", "/stubbleheight", "/white-mountains"))
+# ggsave("Boggy-2017-Stubble-Height-n-samples-95CI.jpg",
+#    path = paste0(getwd(),"/figures", "/stubbleheight", "/white-mountains"))
 ```
 
 ```{r}
@@ -1015,16 +1015,18 @@ BKS18stubblestats_top3
 
 
 ```{r Black Canyon South 2018 Stubble Height Figure}
-ggplot(BKS18stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
+BKS18plot <- ggplot(BKS18stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
   geom_col(width = 0.25) +
-  labs(title = "Black Canyon South Stubble Height 2018", caption = "n = number of samples") +
-  ylab("Average Stubble Height (Inches) ± 95% CI") +
+  labs(title = expression(atop("Black Canyon South", paste("Stubble Height"))), 
+       subtitle = "2018") +
+  ylab("") +
   scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
   geom_errorbar(aes(ymin = (mean-ci), ymax = (mean+ci)), position = position_dodge(0.5), width = 0.1) +
-  theme(plot.title = element_text(hjust = 0.5),
+  theme(plot.title = element_text(hjust = 0.5, size = 11),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)),
+        legend.position = "none") +
   
   # add stubble height values above the  error bars
   # round the mean stubble height value using significant figures
@@ -1039,9 +1041,10 @@ ggplot(BKS18stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
            size = 3, 
            alpha = 0.75)
   
-ggsave("Black-Canyon-South-2018-Stubble-Height-n-samples-95CI.jpg",
-      path = paste0(getwd(),"/figures", "/stubbleheight", "/heber"))
+# ggsave("Black-Canyon-South-2018-Stubble-Height-n-samples-95CI.jpg",
+#       path = paste0(getwd(),"/figures", "/stubbleheight", "/heber"))
 
+BKS18plot
 ```
 
 ```{r}
@@ -1049,16 +1052,17 @@ BRL18stubblestats_top3
 ```
 
 ```{r Bear 2018 Stubble Height Figure}
-ggplot(BRL18stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
+BRL18plot <- ggplot(BRL18stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
   geom_col(width = 0.25) +
-  labs(title = "Bear Stubble Height 2018", caption = "n = number of samples") +
+  labs(title = expression(atop("Bear", paste("Stubble Height"))), subtitle = "2018") +
   ylab("Average Stubble Height (Inches) ± 95% CI") +
   scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
   geom_errorbar(aes(ymin = (mean-ci), ymax = (mean+ci)), position = position_dodge(0.5), width = 0.1) +
-  theme(plot.title = element_text(hjust = 0.5),
+  theme(plot.title = element_text(hjust = 0.5, size = 11),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)),
+        legend.position = "none") +
   
   # add stubble height values above the  error bars
   # round the mean stubble height value using significant figures
@@ -1073,9 +1077,20 @@ ggplot(BRL18stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
            size = 3, 
            alpha = 0.75)
   
-ggsave("Bear-2018-Stubble-Height-n-samples-95CI.jpg",
-      path = paste0(getwd(),"/figures", "/stubbleheight", "/heber"))
+# ggsave("Bear-2018-Stubble-Height-n-samples-95CI.jpg",
+#       path = paste0(getwd(),"/figures", "/stubbleheight", "/heber"))
 ```
+
+```{r Combine 2018 Heber Stubble Height Figures}
+ggpubr::ggarrange(BRL18plot, BKS18plot,
+                  widths = c(1, 1),
+                  ncol = 2,
+                  align = "h")
+
+ggsave("Heber-Stubble-Height-2018-n-samples-95CI.jpg",
+       path = paste0(getwd(),"/figures", "/stubbleheight", "/heber"))
+```
+
 
 ```{r}
 A5119stubblestats_top3
@@ -1442,7 +1457,7 @@ ggplot(BKS20stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
            size = 3, 
            alpha = 0.75)
 
-ggsave("Black-Canyon-South-2020-Stubble-Height-n-samples-95CI.jpg",
+ggsave("Black-Canyon-South-2020-Stubble-Height-n-samples-95CI-test.jpg",
        path = paste0(getwd(),"/figures", "/stubbleheight", "/heber"))
 ```
 
