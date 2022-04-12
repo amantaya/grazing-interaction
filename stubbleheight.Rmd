@@ -7,13 +7,12 @@ output: html_notebook
 
 ```{r}
 # clear the environment
-rm(list=ls(all=TRUE))
+rm(list = ls(all = TRUE))
 ```
 
 ```{r}
 source("environment.R")
 ```
-
 
 ```{r echo=FALSE}
 source("packages.R")
@@ -23,64 +22,87 @@ source("packages.R")
 source("functions.R")
 ```
 
+```{r}
+sessionInfo()
+```
+
+
 The data exported from VGS is an xlsx file with two sheets. The first sheet is "metadata" and does not contain any data. The second sheet is "Stubble Height" and contains our stubble height data. For our purposes, we only want to keep the sheet with the data.
 ```{r Read in Excel data and convert to csv, eval=FALSE, include=FALSE}
-# this code chunk only needs to be turned on once when converting data
-# then it can be turned off after the files are converted
+# this code chunk only needs to be turned on once
+# when converting data then it can be turned off
+# after the files are converted
 
-# list all of the xlsx data files in the directory
-xlsx_file_list <- list.files("data/vegetation/heber/stubble-height/xlsx", pattern = "xlsx")
+# list all of the xlsx data files in the
+# directory
+xlsx_file_list <- list.files(
+  "data/vegetation/heber/stubble-height/xlsx", pattern = "xlsx"
+)
 
-# create a vector of file names that we will use to rename our xlsx files into csv files
-# do this by replacing the file extension but otherwise keep the file name the same
+# create a vector of file names that we will use
+# to rename our xlsx files into csv files do this
+# by replacing the file extension but otherwise
+# keep the file name the same
 file_names <- str_replace_all(xlsx_file_list, "xlsx", "csv")
 
-# create a vector of file paths to tell R where to find the source xlsx data
-file_source <- paste0(getwd(), "/data/vegetation/heber/stubble-height/xlsx/", xlsx_file_list)
+# create a vector of file paths to tell R where
+# to find the source xlsx data
+file_source <- paste0(
+  getwd(), "/data/vegetation/heber/stubble-height/xlsx/",
+  xlsx_file_list
+)
 
-# create a vector of file paths to tell R where to put the files after conversion
-file_destination <- paste0(getwd(), "/data/vegetation/heber/stubble-height/csv/", file_names)
+# create a vector of file paths to tell R where
+# to put the files after conversion
+file_destination <- paste0(
+  getwd(), "/data/vegetation/heber/stubble-height/csv/",
+  file_names
+)
 
-# for loop through the file list to convert all xlsx files in the directory
-# to csv files
+# for loop through the file list to convert all
+# xlsx files in the directory to csv files
 for (i in 1:length(file_source)) {
   # read the data from the Stubble Height sheet
   xlsx_data <- openxlsx::read.xlsx(file_source[i], sheet = "Stubble Height")
   # write out the xlsm data as an xlsx
-  readr::write_csv(xlsx_data, paste0(file_destination[i]), na = "NA")}
+  readr::write_csv(
+    xlsx_data, paste0(file_destination[i]),
+    na = "NA"
+  )
+}
 ```
 
 Read in the White Mountain data, from 2017 to 2019.
 ```{r load White Mountain data}
 BGW17stubble <- readr::read_csv(
-  'data/vegetation/white-mountains/2017-boggy-stubble-height.csv',
-  col_names = TRUE, 
-  na = c(""," ","NA"))
+  "data/vegetation/white-mountains/2017-boggy-stubble-height.csv",
+  col_names = TRUE, na = c("", " ", "NA")
+)
 
 WCS17stubble <- readr::read_csv(
-  'data/vegetation/white-mountains/2017-wildcat-stubble-height.csv',
-  col_names = TRUE,
-  na = c(""," ","NA"))
+  "data/vegetation/white-mountains/2017-wildcat-stubble-height.csv",
+  col_names = TRUE, na = c("", " ", "NA")
+)
 
 BGW18stubble <- readr::read_csv(
-  'data/vegetation/white-mountains/2018-boggy-stubble-height.csv', 
-  col_names = TRUE, 
-  na = c(""," ","NA"))
+  "data/vegetation/white-mountains/2018-boggy-stubble-height.csv",
+  col_names = TRUE, na = c("", " ", "NA")
+)
 
 WCS18stubble <- readr::read_csv(
-  'data/vegetation/white-mountains/2018-wildcat-stubble-height.csv',
-  col_names = TRUE,
-  na = c(""," ","NA"))
+  "data/vegetation/white-mountains/2018-wildcat-stubble-height.csv",
+  col_names = TRUE, na = c("", " ", "NA")
+)
 
 BGW19stubble <- readr::read_csv(
-  'data/vegetation/white-mountains/2019-boggy-grazed-stubble-height.csv',
-  col_names = TRUE,
-  na = c("", " ", "NA"))
+  "data/vegetation/white-mountains/2019-boggy-grazed-stubble-height.csv",
+  col_names = TRUE, na = c("", " ", "NA")
+)
 
 WCS19stubble <- readr::read_csv(
-  'data/vegetation/white-mountains/2019-wildcat-grazed-stubble-height.csv',
-  col_names = TRUE,
-  na = c("", " ", "NA"))
+  "data/vegetation/white-mountains/2019-wildcat-grazed-stubble-height.csv",
+  col_names = TRUE, na = c("", " ", "NA")
+)
 
 BGW17stubble
 WCS17stubble
@@ -92,48 +114,48 @@ WCS19stubble
 Read in the Heber data, from 2018 to 2020.
 ```{r load Heber data}
 BKS18stubble <- readr::read_csv(
-  'data/vegetation/heber/stubble-height/csv/2018-BKS-stubble-height.csv',
-  col_names = TRUE,
-  na = c("", " ", "NA"))
+  "data/vegetation/heber/stubble-height/csv/2018-BKS-stubble-height.csv",
+  col_names = TRUE, na = c("", " ", "NA")
+)
 
 BRL18stubble <- readr::read_csv(
-  'data/vegetation/heber/stubble-height/csv/2018-BRL-stubble-height.csv',
-  col_names = TRUE,
-  na = c("", " ", "NA"))
+  "data/vegetation/heber/stubble-height/csv/2018-BRL-stubble-height.csv",
+  col_names = TRUE, na = c("", " ", "NA")
+)
 
 A5119stubble <- readr::read_csv(
-  'data/vegetation/heber/stubble-height/csv/2019-A51-stubble-height.csv',
-  col_names = TRUE,
-  na = c("", " ", "NA"))
+  "data/vegetation/heber/stubble-height/csv/2019-A51-stubble-height.csv",
+  col_names = TRUE, na = c("", " ", "NA")
+)
 
 BKN19stubble <- readr::read_csv(
-  'data/vegetation/heber/stubble-height/csv/2019-BKN-stubble-height.csv',
-  col_names = TRUE,
-  na = c("", " ", "NA"))
+  "data/vegetation/heber/stubble-height/csv/2019-BKN-stubble-height.csv",
+  col_names = TRUE, na = c("", " ", "NA")
+)
 
 BRL19stubble <- readr::read_csv(
-  'data/vegetation/heber/stubble-height/csv/2019-BRL-stubble-height.csv',
-  col_names = TRUE,
-  na = c("", " ", "NA"))
+  "data/vegetation/heber/stubble-height/csv/2019-BRL-stubble-height.csv",
+  col_names = TRUE, na = c("", " ", "NA")
+)
 A5120stubble <- readr::read_csv(
-  'data/vegetation/heber/stubble-height/csv/2020-A51-stubble-height.csv',
-  col_names = TRUE,
-  na = c("", " ", "NA"))
+  "data/vegetation/heber/stubble-height/csv/2020-A51-stubble-height.csv",
+  col_names = TRUE, na = c("", " ", "NA")
+)
 
 BKN20stubble <- readr::read_csv(
-  'data/vegetation/heber/stubble-height/csv/2020-BKN-stubble-height.csv',
-  col_names = TRUE,
-  na = c("", " ", "NA"))
+  "data/vegetation/heber/stubble-height/csv/2020-BKN-stubble-height.csv",
+  col_names = TRUE, na = c("", " ", "NA")
+)
 
 BKS20stubble <- readr::read_csv(
-  'data/vegetation/heber/stubble-height/csv/2020-BKS-stubble-height.csv',
-  col_names = TRUE,
-  na = c("", " ", "NA"))
+  "data/vegetation/heber/stubble-height/csv/2020-BKS-stubble-height.csv",
+  col_names = TRUE, na = c("", " ", "NA")
+)
 
 BRL20stubble <- readr::read_csv(
-  'data/vegetation/heber/stubble-height/csv/2020-BRL-stubble-height.csv',
-  col_names = TRUE,
-  na = c("", " ", "NA"))
+  "data/vegetation/heber/stubble-height/csv/2020-BRL-stubble-height.csv",
+  col_names = TRUE, na = c("", " ", "NA")
+)
 
 BKS18stubble
 BRL18stubble
@@ -348,44 +370,51 @@ stubble_data$Species <- stubble_data %>%
 stubble_data
 ```
 
+```{r replace POPR values with POA}
+stubble_data <- stubble_data %>% 
+  dplyr::mutate(Species = replace(Species, Species == "POPR" | Species == "POFE", "POA"))
+
+stubble_data
+```
+
 Plot a histogram of Kentucky bluegrass to visualize the distribution of stubble heights. 
 ```{r Boggy 2017 Histogram}
 stubble_data %>% 
         dplyr::filter(Site == "Boggy" & Year == "2017") %>% 
-        dplyr::filter(Species == "POPR") %>% 
+        dplyr::filter(Species == "POA") %>% 
         pull("Height-in") %>% 
         hist(breaks = seq(0, 10, by = 1), 
              axes = FALSE,
-             main = "Frequency Count of Poa pratensis (Kentucky Bluegrass)",
+             main = "Frequency Count of Poa spp.",
              xlab = "Stubble Height (in)",
              xlim = c(0, 10),
              ylim = c(0, 100))
 axis(1, at = seq(0, 10, by = 1), 
      labels = seq(0, 10, by = 1), 
-     cex.axis= 0.75, las = 2)
+     cex.axis = 0.75, las = 2)
 axis(2, at = seq(0, 100, by = 10), 
      labels = seq(0, 100, by = 10), 
-     cex.axis= 0.75, las = 2)
+     cex.axis = 0.75, las = 2)
 mtext("Boggy 2017", 3, adj = 0.5, line = -1)
 ```
 
 ```{r Wildcat 2017 Histogram}
 stubble_data %>% 
         dplyr::filter(Site == "Wildcat" & Year == "2017") %>% 
-        dplyr::filter(Species == "POPR") %>% 
+        dplyr::filter(Species == "POA") %>% 
         pull("Height-in") %>% 
         hist(breaks = seq(0, 10, by = 1), 
              axes = FALSE,
-             main = "Frequency Count of Poa pratensis (Kentucky Bluegrass)",
+             main = "Frequency Count of Poa spp.",
              xlab = "Stubble Height (in)",
              xlim = c(0, 10),
              ylim = c(0, 100))
 axis(1, at = seq(0, 10, by = 1), 
      labels = seq(0, 10, by = 1), 
-     cex.axis= 0.75, las = 2)
+     cex.axis = 0.75, las = 2)
 axis(2, at = seq(0, 100, by = 10), 
      labels = seq(0, 100, by = 10), 
-     cex.axis= 0.75, las = 2)
+     cex.axis = 0.75, las = 2)
 mtext("Wildcat 2017", 3, adj = 0.5, line = -1)
 ```
 
@@ -396,16 +425,16 @@ stubble_data %>%
         pull("Height-in") %>% 
         hist(breaks = seq(0, 10, by = 1), 
              axes = FALSE,
-             main = "Frequency Count of Poa pratensis (Kentucky Bluegrass)",
+             main = "Frequency Count of Poa spp.",
              xlab = "Stubble Height (in)",
              xlim = c(0, 10),
              ylim = c(0, 100))
 axis(1, at = seq(0, 10, by = 1), 
      labels = seq(0, 10, by = 1), 
-     cex.axis= 0.75, las = 2)
+     cex.axis = 0.75, las = 2)
 axis(2, at = seq(0, 100, by = 10), 
      labels = seq(0, 100, by = 10), 
-     cex.axis= 0.75, las = 2)
+     cex.axis = 0.75, las = 2)
 mtext("Boggy 2019", 3, adj = 0.5, line = -1)
 ```
 
@@ -455,9 +484,8 @@ WCS19stubblestats
 ```
 
 Get the summary stats for the Heber stubble height data.
-```{r Heber stubble stats}
 # TODO this would be good candidate for a custom function
-
+```{r Heber stubble stats}
 BKS18stubblestats <- stubble_data %>% 
   dplyr::filter(Site == "BKS" & Year == 2018) %>% 
         group_by(Species) %>% 
@@ -566,7 +594,7 @@ BRL20stubblestats
 ```
 
 Take the top 3 species for each site. 
-```{r}
+```{r eval=FALSE, include=FALSE}
 BGW17stubblestats_top3 <- BGW17stubblestats %>% dplyr::slice(1:3)
 
 BGW18stubblestats_top3 <- BGW18stubblestats %>% dplyr::slice(1:3)
@@ -1009,6 +1037,7 @@ ggplot(WCS19stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
 ggsave("Wildcat-2019-Stubble-Height-n-samples-95CI.jpg",
       path = paste0(getwd(),"/figures", "/stubbleheight", "/white-mountains"))
 ```
+
 ```{r}
 BKS18stubblestats_top3
 ```
@@ -1020,11 +1049,11 @@ BKS18plot <- ggplot(BKS18stubblestats_top3, aes(fill = Species, y = mean, x = Sp
   labs(title = expression(atop("Black Canyon South", paste("Stubble Height"))), 
        subtitle = "2018") +
   ylab("") +
-  scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
+  scale_y_continuous(limits = c(0, 15), breaks = seq(0, 15, by = 1)) +
   geom_errorbar(aes(ymin = (mean-ci), ymax = (mean+ci)), position = position_dodge(0.5), width = 0.1) +
   theme(plot.title = element_text(hjust = 0.5, size = 11),
         plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 5, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)),
         legend.position = "none") +
   
@@ -1056,11 +1085,11 @@ BRL18plot <- ggplot(BRL18stubblestats_top3, aes(fill = Species, y = mean, x = Sp
   geom_col(width = 0.25) +
   labs(title = expression(atop("Bear", paste("Stubble Height"))), subtitle = "2018") +
   ylab("Average Stubble Height (Inches) ± 95% CI") +
-  scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
+  scale_y_continuous(limits = c(0, 15), breaks = seq(0, 15, by = 1)) +
   geom_errorbar(aes(ymin = (mean-ci), ymax = (mean+ci)), position = position_dodge(0.5), width = 0.1) +
   theme(plot.title = element_text(hjust = 0.5, size = 11),
         plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 5, l = 0)),
         axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)),
         legend.position = "none") +
   
@@ -1081,7 +1110,7 @@ BRL18plot <- ggplot(BRL18stubblestats_top3, aes(fill = Species, y = mean, x = Sp
 #       path = paste0(getwd(),"/figures", "/stubbleheight", "/heber"))
 ```
 
-```{r Combine 2018 Heber Stubble Height Figures}
+```{r Combine Heber 2018 Stubble Height Figures}
 ggpubr::ggarrange(BRL18plot, BKS18plot,
                   widths = c(1, 1),
                   ncol = 2,
@@ -1093,22 +1122,212 @@ ggsave("Heber-Stubble-Height-2018-n-samples-95CI.jpg",
 
 
 ```{r}
-A5119stubblestats_top3
+heber_stubble_data <- stubble_data %>% dplyr::filter(Site != "Boggy")
+heber_stubble_data <- heber_stubble_data %>% dplyr::filter(Site != "Wildcat")
+```
+
+
+
+```{r Get Summary Stats Heber 2019}
+
+heber_2019_stubble_stats <- heber_stubble_data_merge_poa %>% 
+  dplyr::filter(Year == 2019) %>% 
+  group_by(Species) %>% 
+  rstatix::get_summary_stats("Height-in", type = "common")
+
+print(heber_2019_stubble_stats)
+```
+
+```{r}
+heber_2019_stubble_stats <- heber_2019_stubble_stats %>% dplyr::arrange(desc(n))
+
+print(heber_2019_stubble_stats)
+```
+
+```{r}
+heber_2019_stubble_stats$Species %>% levels()
+```
+
+```{r}
+heber_2019_stubble_stats$Species <- heber_2019_stubble_stats %>% 
+  pull(Species) %>% 
+  forcats::fct_drop()
+```
+
+```{r}
+heber_2019_stubble_stats$Species %>% levels()
+```
+
+```{r}
+heber_2019_stubble_stats$Species <- heber_2019_stubble_stats %>% 
+  pull(Species) %>% 
+  forcats::fct_inorder()
+```
+
+```{r get_legend function}
+get_legend <- function(myggplot){
+  tmp <- ggplot_gtable(ggplot_build(myggplot))
+  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+  legend <- tmp$grobs[[leg]]
+  return(legend)
+}
+```
+
+```{r}
+levels(heber_2019_stubble_stats$Species)
+```
+
+```{r}
+heber_2019_species <- as.character(levels(heber_2019_stubble_stats$Species))
+
+heber_2019_species
+```
+
+
+```{r Heber 2019 Stubble Height All Sites Combined}
+heber2019plot <- ggplot(
+  heber_2019_stubble_stats, aes(fill = Species, y = mean, x = Species)
+) +
+  geom_col(width = 0.25) +
+  labs(
+    title = expression(
+      atop("Heber All Sites Combined", paste("Stubble Height"))
+    ),
+    subtitle = "2019"
+  ) +
+  ylab("") +
+  scale_y_continuous(
+    limits = c(0, 15),
+    breaks = seq(0, 15, by = 1)
+  ) +
+  geom_errorbar(
+    aes(ymin = (mean - ci), ymax = (mean + ci)),
+    position = position_dodge(0.5),
+    width = 0.1
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 11),
+    plot.subtitle = element_text(hjust = 0.5),
+    axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 5, l = 0)),
+    axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))
+  )
+
+heber2019plot
+```
+
+```{r}
+heber2019build <- ggplot_build(heber2019plot)
+
+heber_color_scheme <- unique(heber2019build$data[[1]]["fill"])
+
+heber_color_scheme
+```
+
+```{r}
+heber_2019_color_scheme <- heber_color_scheme %>% 
+  mutate(species = heber_2019_species)
+
+heber_2019_color_scheme
+```
+
+```{r Heber 2019 Stubble Height All Sites Scale Fill Manual}
+heber_2019_stubble_stats %>% 
+ggplot(
+  aes(y = mean, x = Species, fill = Species)
+) +
+  geom_col(width = 0.25) +
+  scale_discrete_manual(aesthetics = "fill", 
+                        breaks = heber_2019_color_scheme$species,
+                        values = heber_2019_color_scheme$fill) +
+  labs(
+    title = expression(
+      atop("Heber All Sites Combined", paste("Stubble Height"))
+    ),
+    subtitle = "2019"
+  ) +
+  ylab("") +
+  scale_y_continuous(
+    limits = c(0, 15),
+    breaks = seq(0, 15, by = 1)
+  ) +
+
+  geom_errorbar(
+    aes(ymin = (mean - ci), ymax = (mean + ci)),
+    position = position_dodge(0.5),
+    width = 0.1
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 11),
+    plot.subtitle = element_text(hjust = 0.5),
+    axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 5, l = 0)),
+    axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))
+  )
+
+ggsave("Heber-Stubble-Height-2019-all-sites-combined.jpg",
+       path = paste0(getwd(),"/figures", "/stubbleheight", "/heber"))
+```
+
+```{r}
+heber_2019_color_scheme$fill
+```
+
+
+```{r}
+heber2019_legend <- get_legend(heber2019plot)
+```
+
+```{r}
+heber_stubble_data_merge_poa
+```
+
+```{r}
+levels(heber_stubble_data_merge_poa$Species)
+```
+
+```{r}
+heber_stubble_data_merge_poa$Species <- 
+heber_stubble_data_merge_poa %>% 
+  pull(Species) %>%
+  fct_drop()
+```
+
+```{r}
+levels(heber_stubble_data_merge_poa$Species)
+```
+
+```{r}
+A5119stubble <- heber_stubble_data_merge_poa %>% 
+  dplyr::filter(Site == "A51" & Year == 2019)
+print(A5119stubble)
+```
+
+```{r}
+levels(A5119stubble$Species)
+```
+
+```{r}
+A5119_stubble_stats <- A5119stubble %>%
+  group_by(Species) %>% 
+  rstatix::get_summary_stats("Height-in", type = "common")
+print(A5119_stubble_stats)
 ```
 
 
 ```{r A51 2019 Stubble Height Figure}
-ggplot(A5119stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
+A5119plot <- ggplot(A5119_stubble_stats, aes(fill = Species, y = mean, x = Species)) +
   geom_col(width = 0.75) +
-  scale_fill_discrete(name = "Species", labels = c("Poa pratensis", "Elymus elymoides", "Aristida sp.")) +
-  labs(title = "Fifty One Stubble Height 2019", caption = "n = number of samples") +
-  ylab("Average Stubble Height (Inches) ± 95% CI") +
-  scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
+  scale_discrete_manual(aesthetics = "fill", 
+                        breaks = heber_2019_color_scheme$species,
+                        values = heber_2019_color_scheme$fill) +
+  labs(title = expression(atop("Fifty One", paste("Stubble Height"))), subtitle = "2019") +
+  ylab("") +
+  scale_y_continuous(limits = c(0, 15), breaks = seq(0, 15, by = 1)) +
   geom_errorbar(aes(ymin = (mean-ci), ymax = (mean+ci)), position = position_dodge(0.5), width = 0.25) +
-  theme(plot.title = element_text(hjust = 0.5),
+  theme(plot.title = element_text(hjust = 0.5, size = 11),
         plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 5, l = 0)),
+        axis.ticks = element_blank(),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 0))) +
 
   # add stubble height values above the error bars
   # round the mean stubble height value using significant figures
@@ -1143,7 +1362,15 @@ ggplot(A5119stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
            y = (A5119stubblestats_top3$mean[3]/3), 
            label = paste0("n = ", A5119stubblestats_top3$n[3]), 
            size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text",
+           x = 2,
+           y = 10,
+           size = 3,
+           label = "n = number of samples",
            alpha = 0.75)
+
+A5119plot
 
 ggsave("Fifty-One-2019-Stubble-Height-n-samples-95CI.jpg",
       path = paste0(getwd(),"/figures", "/stubbleheight", "/heber"))
@@ -1169,17 +1396,21 @@ BKN19stubblestats_top3
 ```
 
 ```{r BKN 2019 Stubble Height Figure}
-ggplot(BKN19stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
+BKN19plot <- ggplot(BKN19stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
   geom_col(width = 0.75) +
   scale_fill_discrete(name = "Species", labels = c("Bouteloua gracilis", "Pascopyrum smithii", "Hesperostipa comata")) +
-  labs(title = "Black Canyon North Stubble Height 2019", caption = "n = number of samples") +
-  ylab("Average Stubble Height (Inches) ± 95% CI") +
+  labs(title = expression(atop("Black Canyon North", 
+                               paste("Stubble Height"))), 
+       subtitle = "2019") +
+  ylab("") +
   scale_y_continuous(limits = c(0, 15), breaks = seq(0, 15, by = 1)) +
   geom_errorbar(aes(ymin = (mean-ci), ymax = (mean+ci)), position = position_dodge(0.5), width = 0.25) +
-  theme(plot.title = element_text(hjust = 0.5),
+  theme(plot.title = element_text(hjust = 0.5, size = 11),
         plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 5, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)),
+        axis.ticks = element_blank(),
+        legend.position = "none") +
 
   # add stubble height values above the error bars
   # round the mean stubble height value using significant figures
@@ -1213,9 +1444,11 @@ ggplot(BKN19stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
   annotate(geom = "text", 
            x = 3, 
            y = (BKN19stubblestats_top3$mean[3]/2), 
-           label = paste0("n = ", BKN19stubblestats_top3$n[3]), 
+           label = paste0("*n = ", BKN19stubblestats_top3$n[3]), 
            size = 3, 
            alpha = 0.75)
+
+BKN19plot
 
 ggsave("Black-Canyon-North-2019-Stubble-Height-n-samples-95CI.jpg",
       path = paste0(getwd(),"/figures", "/stubbleheight", "/heber"))
@@ -1241,17 +1474,19 @@ BRL19stubblestats_top3
 ```
 
 ```{r BRL 2019 Stubble Height Figure}
-ggplot(BRL19stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
+BRL19plot <- ggplot(BRL19stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
   geom_col(width = 0.75) +
   scale_fill_discrete(name = "Species", labels = c("Bouteloua gracilis", "Elymus elymoides", "Pascopyrum smithii")) +
-  labs(title = "Bear Stubble Height 2019", caption = "n = number of samples") +
+  labs(title = expression(atop("Bear", paste("Stubble Height"))), subtitle = "2019") +
   ylab("Average Stubble Height (Inches) ± 95% CI") +
-  scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
+  scale_y_continuous(limits = c(0, 15), breaks = seq(0, 15, by = 1)) +
   geom_errorbar(aes(ymin = (mean-ci), ymax = (mean+ci)), position = position_dodge(0.5), width = 0.25) +
-  theme(plot.title = element_text(hjust = 0.5),
+  theme(plot.title = element_text(hjust = 0.5, size = 11),
         plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 5, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)),
+        axis.ticks = element_blank(),
+        legend.position = "none") +
 
   # add stubble height values above the error bars
   # round the mean stubble height value using significant figures
@@ -1278,20 +1513,37 @@ ggplot(BRL19stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
            alpha = 0.75) +
   annotate(geom = "text", 
            x = 2, 
-           y = (BRL19stubblestats_top3$mean[2]/2), 
+           y = 0, 
            label = paste0("n = ", BRL19stubblestats_top3$n[2]), 
            size = 3, 
            alpha = 0.75) +
   annotate(geom = "text", 
            x = 3, 
            y = (BRL19stubblestats_top3$mean[3]/2), 
-           label = paste0("n = ", BRL19stubblestats_top3$n[3]), 
+           label = paste0("*n = ", BRL19stubblestats_top3$n[3]), 
            size = 3, 
            alpha = 0.75)
+
+BRL19plot
 
 ggsave("Bear-2019-Stubble-Height-n-samples-95CI.jpg",
       path = paste0(getwd(),"/figures", "/stubbleheight", "/heber"))
 ```
+
+
+```{r Combine Heber 2019 Stubble Height Figures}
+ggpubr::ggarrange(BRL19plot, BKN19plot, A5119plot,
+                  widths = c(1, 1, 1),
+                  ncol = 3,
+                  align = "h")
+
+# ggsave("Heber-Stubble-Height-2019-n-samples-95CI.jpg",
+#        height = 6.5,
+#        width = 9,
+#        units = "in",
+#        path = paste0(getwd(),"/figures", "/stubbleheight", "/heber"))
+```
+
 
 ```{r}
 A5120stubblestats_top3
