@@ -2,32 +2,39 @@
 title: "Stubble Height"
 author: "Andrew Antaya"
 date: "June 20, 2019"
-output: html_notebook
+output: 
+  html_document:
+    theme: readable
+    toc: yes
 ---
 
-```{r}
+# Setup
+
+```{r clear environment}
 # clear the environment
 rm(list = ls(all = TRUE))
 ```
 
-```{r}
+```{r setup environment}
 source("environment.R")
 ```
 
-```{r echo=FALSE}
+```{r load packages, echo=FALSE}
 source("packages.R")
 ```
 
-```{r}
+```{r load functions}
 source("functions.R")
 ```
 
-```{r}
+```{r view session info}
 sessionInfo()
 ```
 
+# Load Data
 
 The data exported from VGS is an xlsx file with two sheets. The first sheet is "metadata" and does not contain any data. The second sheet is "Stubble Height" and contains our stubble height data. For our purposes, we only want to keep the sheet with the data.
+
 ```{r Read in Excel data and convert to csv, eval=FALSE, include=FALSE}
 # this code chunk only needs to be turned on once
 # when converting data then it can be turned off
@@ -73,6 +80,7 @@ for (i in 1:length(file_source)) {
 ```
 
 Read in the White Mountain data, from 2017 to 2019.
+
 ```{r load White Mountain data}
 BGW17stubble <- readr::read_csv(
   "data/vegetation/white-mountains/2017-boggy-stubble-height.csv",
@@ -112,6 +120,7 @@ WCS19stubble
 ```
 
 Read in the Heber data, from 2018 to 2020.
+
 ```{r load Heber data}
 BKS18stubble <- readr::read_csv(
   "data/vegetation/heber/stubble-height/csv/2018-BKS-stubble-height.csv",
@@ -168,8 +177,13 @@ BKS20stubble
 BRL20stubble
 ```
 
+# Clean Up Data
+
 The 2018 Heber stubble height data was collected differently and only has three columns. We need to convert the "grazed" and "ungrazed" columns into a single column to make it the same as the 2019 and 2020 data.
-```{r mutate 2018 Heber data}
+
+## Add Helpful Columns
+
+```{r Add Site and Year Columns 2018 Heber Data}
 # add two columns with the Site and Year to help us keep track of the data
 BKS18stubble <- BKS18stubble %>% 
   dplyr::mutate(Site = "BKS", Year = 2018)
@@ -210,7 +224,8 @@ heber_stubble_2018
 The 2019 and 2020 Heber data was collected with VGS and is very similar to
 but not exactly the same as the White Mountains data for the same years.
 Two column names are slightly different in the Heber data that we need to fix.
-```{r}
+
+```{r Add Site and Years Columns 2019 Heber Data}
 # add two columns with the Site and Year to help us keep track of the data
 A5119stubble <- A5119stubble %>% 
   dplyr::mutate(Site = "A51", Year = 2019)
@@ -268,7 +283,7 @@ with the 2017 and 2018 White Mountains data.
 
 First, add a "Site" column and a "Year" column to the 2019 White Mountains data.
 This will make it easier to keep track of the data as we clean it up.
-```{r mutate 2019 White Mountains data}
+```{r Add Site and Years Columns 2019 White Mountains Data}
 BGW19stubble <- BGW19stubble %>% dplyr::mutate(Site = "Boggy", Year = 2019)
 
 WCS19stubble <- WCS19stubble %>% dplyr::mutate(Site = "Wildcat", Year = 2019)
@@ -287,7 +302,7 @@ wm_stubble_2019
 Next, we'll combine the 2019 White Mountains data with Heber data. We'll rename 
 the columns and drop other columns to make it consistent with the 2017 and 2018
 White Mountains data.
-```{r rename columns}
+```{r Rename Columns for Consistency Across Years}
 # bind data together for easier manipulation
 mutated_stubble_data <- bind_rows(wm_stubble_2019, heber_stubble_data)
 
@@ -319,7 +334,7 @@ mutated_stubble_data
 ```
 
 Combine data frames together so all the stubble height data is in the same place.
-```{r bind data together}
+```{r Bind All Data Together}
 stubble_data <- bind_rows(BGW17stubble, 
                           WCS17stubble, 
                           BGW18stubble, 
@@ -336,7 +351,7 @@ print(stubble_data)
 
 We have 1 missing height value in the data that we need to remove. Not sure
 how this happened, but we need to remove it nonetheless.
-```{r remove missing data}
+```{r Remove Missing Data}
 ## clean up the data by removing any missing values
 stubble_data <- stubble_data %>% 
   tidyr::drop_na("Height-in")
@@ -344,11 +359,14 @@ stubble_data <- stubble_data %>%
 print(stubble_data)
 ```
 
+## Code Plant Species as Factors
+
 We need to convert the "Species" column which is currently a character type into
 a factor type. R treats factors differently than characters, with the main
 difference being that factors have levels. Levels can be ranked in order
 (e.g., low to high, smallest to largest).
-```{r code species as factors}
+
+```{r Code Species as Factors}
 # convert the "Species" column from character to factor
 stubble_data$Species <- stubble_data %>% 
   pull(Species) %>% 
@@ -370,14 +388,51 @@ stubble_data$Species <- stubble_data %>%
 stubble_data
 ```
 
-```{r replace POPR values with POA}
+Additionally, we want to collapse both Poa species (Poa pratensis and Poa fendleriana) into their genus (Poa). It can very difficulkt to differentiate these species while in the field, and lower confidence in our observations tends to make it more conservative (and safer) to collapse these species into a genus for analysis purposes. Functionally, both species are very similar.
+
+```{r Replace POPR Values with POA}
 stubble_data <- stubble_data %>% 
   dplyr::mutate(Species = replace(Species, Species == "POPR" | Species == "POFE", "POA"))
 
 stubble_data
 ```
 
-Plot a histogram of Kentucky bluegrass to visualize the distribution of stubble heights. 
+View the species as factors indicates that there are a couple factors that we should re-code. The "Missing" factor will be re-coded as "Combined Species" as during that site visit we did not differentiate by species and combined all stubble height observations.
+
+```{r View Factor Levels After Combining Poa}
+stubble_data$Species %>% levels()
+```
+
+
+```{r Replace "Missing" Species with "Combined Species"}
+stubble_data$Species <- 
+  stubble_data$Species %>% str_replace(pattern = "Missing", 
+                                     replacement = "Combined Species")
+print(stubble_data)
+```
+
+We also will replace the annual forb species code "AAFF" with a more descriptive "Annual Forb" charater string. 
+
+```{r Replace "AAFF" Species with "Annual Forb"}
+stubble_data$Species <- 
+  stubble_data$Species %>% str_replace(pattern = "AAFF", 
+                                     replacement = "Annual Forb")
+print(stubble_data)
+```
+
+However, because we string replace some of the plant species, the "Species" column was converted into a character data type and the factors were dropped. We can then re-convert the "Species" column into factors and print the factor levels in the chunk.
+
+```{r Recode Species as Factors}
+stubble_data$Species <- stubble_data$Species %>% forcats::as_factor()
+
+stubble_data$Species %>% levels()
+```
+
+# Data Visualization
+## Histograms of Poa
+
+Plot a histogram bluegrass to visualize the distribution of stubble heights.
+
 ```{r Boggy 2017 Histogram}
 stubble_data %>% 
         dplyr::filter(Site == "Boggy" & Year == "2017") %>% 
@@ -438,331 +493,121 @@ axis(2, at = seq(0, 100, by = 10),
 mtext("Boggy 2019", 3, adj = 0.5, line = -1)
 ```
 
-Get the summary statistics for the White Mountains stubble height data.
-```{r White Mountains stubble stats}
+## White Mountains Stubble Height Figures
+
+### Extract Data and Calculate Statistics
+
+Filter out the Heber data and keep only the White Mountains data.
+
+```{r Filter Out Heber Data}
+white_mountains_stubble <- stubble_data %>% 
+  dplyr::filter(Site == "Boggy" | Site == "Wildcat")
+
+print(white_mountains_stubble)
+```
+
+We will build a project-specific species list because many of the species are in common between sites, but fewer species are in common between projects, because the projects are in very different areas.
+
+Drop the unused factor levels from the White Mountains data, and then re-order the factor levels by the frequency in which they occur.
+
+```{r Drop Unused Levels White Mountains}
+white_mountains_stubble$Species <- 
+  white_mountains_stubble %>% 
+  pull(Species) %>% 
+  forcats::fct_drop() %>%
+  forcats::fct_infreq()
+
+white_mountains_stubble$Species %>% levels()
+```
+
+```{r Calc Summary Stats for White Mountains}
+white_mountains_stubble_stats <- 
+  white_mountains_stubble %>%
+  dplyr::group_by(Species) %>%
+  rstatix::get_summary_stats("Height-in", type = "common") %>% 
+  dplyr::filter(n >= 3)
+print(white_mountains_stubble_stats)
+```
+
+```{r White Mountains All Species Figure}
+white_mountains_all_species_figure <- white_mountains_stubble_stats %>% 
+  ggplot(
+    aes(fill = Species, y = mean, x = Species)
+) +
+  geom_col(width = 0.25) +
+  labs(
+    title = expression(
+      atop("White Mountains All Sites Combined", paste("Stubble Height"))
+    ),
+    subtitle = "All Years"
+  ) +
+  ylab("") +
+  scale_y_continuous(
+    limits = c(0, 15),
+    breaks = seq(0, 15, by = 1)
+  ) +
+  scale_fill_brewer(palette = "Dark2") +
+  geom_errorbar(
+    aes(ymin = (mean - ci), ymax = (mean + ci)),
+    position = position_dodge(0.5),
+    width = 0.1
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 11),
+    plot.subtitle = element_text(hjust = 0.5),
+    axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 5, l = 0)),
+    axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))
+  )
+white_mountains_all_species_figure
+```
+
+```{r Extract Factors as Characters White Mountains}
+white_mountains_species <- 
+white_mountains_stubble_stats$Species %>% 
+  forcats::fct_drop() %>% 
+  levels() %>% 
+  as.character()
+white_mountains_species
+```
+
+```{r Create Color Scheme White Mountains}
+white_mountains_build <- ggplot_build(white_mountains_all_species_figure)
+
+white_mountains_color_scheme <- unique(white_mountains_build$data[[1]]["fill"])
+
+white_mountains_color_scheme <- white_mountains_color_scheme %>% 
+  dplyr::mutate(Species = white_mountains_species)
+
+print(white_mountains_color_scheme)
+```
+
+
+### 2017
+
+```{r Boggy 2017 Stubble Stats}
 BGW17stubblestats <- stubble_data %>% 
   dplyr::filter(Site == "Boggy" & Year == 2017) %>% 
-        group_by(Species) %>% 
-        rstatix::get_summary_stats("Height-in", type = "common")
-
-BGW18stubblestats <- stubble_data %>% 
-  dplyr::filter(Site == "Boggy" & Year == 2018) %>% 
-        group_by(Species) %>% 
-        rstatix::get_summary_stats("Height-in", type = "common")
-
-WCS17stubblestats <- stubble_data %>% 
-  dplyr::filter(Site == "Wildcat" & Year == 2017) %>% 
-        group_by(Species) %>% 
-        rstatix::get_summary_stats("Height-in", type = "common")
-
-WCS18stubblestats <- stubble_data %>% 
-  dplyr::filter(Site == "Wildcat" & Year == 2018) %>% 
-        group_by(Species) %>% 
-        rstatix::get_summary_stats("Height-in", type = "common")
-
-BGW19stubblestats <- stubble_data %>% 
-  dplyr::filter(Site == "Boggy" & Year == 2019) %>% 
-        group_by(Species) %>% 
-        rstatix::get_summary_stats("Height-in", type = "common")
-
-WCS19stubblestats <- stubble_data %>% 
-  dplyr::filter(Site == "Wildcat" & Year == 2019) %>% 
-        group_by(Species) %>% 
-        rstatix::get_summary_stats("Height-in", type = "common")
-
-WCS19stubblestats <- stubble_data %>% 
-  dplyr::filter(Site == "Wildcat" & Year == 2019) %>% 
-        group_by(Species) %>% 
-        rstatix::get_summary_stats("Height-in", type = "common")
+  dplyr::group_by(Species) %>% 
+  rstatix::get_summary_stats("Height-in", type = "common") %>% 
+  dplyr::filter(n >= 3)
 
 BGW17stubblestats
-BGW18stubblestats
-WCS17stubblestats
-WCS18stubblestats
-BGW19stubblestats
-WCS19stubblestats
 ```
-
-Get the summary stats for the Heber stubble height data.
-# TODO this would be good candidate for a custom function
-```{r Heber stubble stats}
-BKS18stubblestats <- stubble_data %>% 
-  dplyr::filter(Site == "BKS" & Year == 2018) %>% 
-        group_by(Species) %>% 
-        rstatix::get_summary_stats("Height-in", type = "common")
-
-BRL18stubblestats <- stubble_data %>% 
-  dplyr::filter(Site == "BRL" & Year == 2018) %>% 
-        group_by(Species) %>% 
-        rstatix::get_summary_stats("Height-in", type = "common")
-
-A5119stubblestats <- stubble_data %>% 
-  dplyr::filter(Site == "A51" & Year == 2019) %>% 
-        group_by(Species) %>% 
-        rstatix::get_summary_stats("Height-in", type = "common")
-
-BKN19stubblestats <- stubble_data %>% 
-  dplyr::filter(Site == "BKN" & Year == 2019) %>% 
-        group_by(Species) %>% 
-        rstatix::get_summary_stats("Height-in", type = "common")
-
-BRL19stubblestats <- stubble_data %>% 
-  dplyr::filter(Site == "BRL" & Year == 2019) %>% 
-        group_by(Species) %>% 
-        rstatix::get_summary_stats("Height-in", type = "common")
-
-A5120stubblestats <- stubble_data %>% 
-  dplyr::filter(Site == "A51" & Year == 2020) %>% 
-        group_by(Species) %>% 
-        rstatix::get_summary_stats("Height-in", type = "common")
-
-BKN20stubblestats <- stubble_data %>% 
-  dplyr::filter(Site == "BKN" & Year == 2020) %>% 
-        group_by(Species) %>% 
-        rstatix::get_summary_stats("Height-in", type = "common")
-
-BKS20stubblestats <- stubble_data %>% 
-  dplyr::filter(Site == "BKS" & Year == 2020) %>% 
-        group_by(Species) %>% 
-        rstatix::get_summary_stats("Height-in", type = "common")
-
-BRL20stubblestats <- stubble_data %>% 
-  dplyr::filter(Site == "BRL" & Year == 2020) %>% 
-        group_by(Species) %>% 
-        rstatix::get_summary_stats("Height-in", type = "common")
-
-BKS18stubblestats
-BRL18stubblestats
-A5119stubblestats
-BKN19stubblestats
-BRL19stubblestats
-A5120stubblestats
-BKN20stubblestats
-BKS20stubblestats
-BRL20stubblestats
-```
-
-Rearrange the order of the species count, descending from the species 
-with the highest number of observations (n) to the species with 
-the lowest number of observations.
-```{r}
-BGW17stubblestats <- BGW17stubblestats %>% dplyr::arrange(desc(n))
-
-WCS17stubblestats <- WCS17stubblestats %>% dplyr::arrange(desc(n))
-
-BGW18stubblestats <- BGW18stubblestats %>% dplyr::arrange(desc(n))
-
-WCS18stubblestats <- WCS18stubblestats %>% dplyr::arrange(desc(n))
-
-BGW19stubblestats <- BGW19stubblestats %>% dplyr::arrange(desc(n))
-
-WCS19stubblestats <- WCS19stubblestats %>% dplyr::arrange(desc(n))
-
-BKS18stubblestats <- BKS18stubblestats %>% dplyr::arrange(desc(n))
-
-BRL18stubblestats <- BRL18stubblestats %>% dplyr::arrange(desc(n))
-
-A5119stubblestats <- A5119stubblestats %>% dplyr::arrange(desc(n))
-
-BKN19stubblestats <- BKN19stubblestats %>% dplyr::arrange(desc(n))
-
-BRL19stubblestats <- BRL19stubblestats %>% dplyr::arrange(desc(n))
-
-A5120stubblestats <- A5120stubblestats %>% dplyr::arrange(desc(n))
-
-BKN20stubblestats <- BKN20stubblestats %>% dplyr::arrange(desc(n))
-
-BKS20stubblestats <- BKS20stubblestats %>% dplyr::arrange(desc(n))
-
-BRL20stubblestats <- BRL20stubblestats %>% dplyr::arrange(desc(n))
-
-BGW17stubblestats
-WCS17stubblestats
-BGW18stubblestats
-WCS18stubblestats
-BGW19stubblestats
-WCS19stubblestats
-BKS18stubblestats
-BRL18stubblestats
-A5119stubblestats
-BKN19stubblestats
-BRL19stubblestats
-A5120stubblestats
-BKN20stubblestats
-BKS20stubblestats
-BRL20stubblestats
-```
-
-Take the top 3 species for each site. 
-```{r eval=FALSE, include=FALSE}
-BGW17stubblestats_top3 <- BGW17stubblestats %>% dplyr::slice(1:3)
-
-BGW18stubblestats_top3 <- BGW18stubblestats %>% dplyr::slice(1:3)
-
-BGW19stubblestats_top3 <- BGW19stubblestats %>% dplyr::slice(1:3)
-
-WCS17stubblestats_top3 <- WCS17stubblestats %>% dplyr::slice(1:3)
-
-WCS18stubblestats_top3 <- WCS18stubblestats %>% dplyr::slice(1:3)
-
-WCS19stubblestats_top3 <- WCS19stubblestats %>% dplyr::slice(1:3)
-
-BKS18stubblestats_top3 <- BKS18stubblestats %>% dplyr::slice(1:3)
-
-BRL18stubblestats_top3 <- BRL18stubblestats %>% dplyr::slice(1:3)
-
-A5119stubblestats_top3 <- A5119stubblestats %>% dplyr::slice(1:3)
-
-BKN19stubblestats_top3 <- BKN19stubblestats %>% dplyr::slice(1:3)
-
-BRL19stubblestats_top3 <- BRL19stubblestats %>% dplyr::slice(1:3)
-
-A5120stubblestats_top3 <- A5120stubblestats %>% dplyr::slice(1:3)
-
-BKN20stubblestats_top3 <- BKN20stubblestats %>% dplyr::slice(1:3)
-
-BKS20stubblestats_top3 <- BKS20stubblestats %>% dplyr::slice(1:3)
-
-BRL20stubblestats_top3 <- BRL20stubblestats %>% dplyr::slice(1:3)
-
-BGW17stubblestats_top3
-BGW18stubblestats_top3
-BGW19stubblestats_top3
-WCS17stubblestats_top3
-WCS18stubblestats_top3
-WCS19stubblestats_top3
-BKS18stubblestats_top3
-BRL18stubblestats_top3
-A5119stubblestats_top3
-BKN19stubblestats_top3
-BRL19stubblestats_top3
-A5120stubblestats_top3
-BKN20stubblestats_top3
-BKS20stubblestats_top3
-BRL20stubblestats_top3
-```
-
-```{r drop unused levels and reorder levels White Mountains}
-BGW17stubblestats_top3$Species <- BGW17stubblestats_top3 %>% 
-  pull(Species) %>% 
-  forcats::fct_drop()
-
-BGW17stubblestats_top3$Species <- BGW17stubblestats_top3 %>% 
-  pull(Species) %>% 
-  forcats::fct_inorder()
-
-BGW18stubblestats_top3$Species <- BGW18stubblestats_top3 %>% 
-  pull(Species) %>% 
-  forcats::fct_drop()
-
-BGW18stubblestats_top3$Species <- BGW18stubblestats_top3 %>% 
-  pull(Species) %>% 
-  forcats::fct_inorder()
-
-BGW19stubblestats_top3$Species <- BGW19stubblestats_top3 %>% 
-  pull(Species) %>% 
-  forcats::fct_drop()
-
-BGW19stubblestats_top3$Species <- BGW19stubblestats_top3 %>% 
-  pull(Species) %>% 
-  forcats::fct_inorder()
-
-WCS17stubblestats_top3$Species <- WCS17stubblestats_top3 %>% 
-  pull(Species) %>% 
-  forcats::fct_drop()
-
-WCS18stubblestats_top3$Species <- WCS18stubblestats_top3 %>% 
-  pull(Species) %>% 
-  forcats::fct_drop()
-
-WCS19stubblestats_top3$Species <- WCS19stubblestats_top3 %>% 
-  pull(Species) %>% 
-  forcats::fct_drop()
-```
-
-```{r drop unused levels and reorder levels Heber}
-BKS18stubblestats_top3$Species <- BKS18stubblestats_top3 %>% 
-  pull(Species) %>% 
-  forcats::fct_drop()
-
-BKS18stubblestats_top3$Species <- BKS18stubblestats_top3 %>% 
-  pull(Species) %>% 
-  forcats::fct_inorder()
-
-BRL18stubblestats_top3$Species <- BRL18stubblestats_top3 %>% 
-  pull(Species) %>% 
-  forcats::fct_drop()
-
-BRL18stubblestats_top3$Species <- BRL18stubblestats_top3 %>% 
-  pull(Species) %>% 
-  forcats::fct_inorder()
-
-A5119stubblestats_top3$Species <- A5119stubblestats_top3 %>% 
-  pull(Species) %>% 
-  forcats::fct_drop()
-
-A5119stubblestats_top3$Species <- A5119stubblestats_top3 %>% 
-  pull(Species) %>% 
-  forcats::fct_inorder()
-
-BKN19stubblestats_top3$Species <- BKN19stubblestats_top3 %>% 
-  pull(Species) %>% 
-  forcats::fct_drop()
-
-BKN19stubblestats_top3$Species <- BKN19stubblestats_top3 %>% 
-  pull(Species) %>% 
-  forcats::fct_inorder()
-
-BRL19stubblestats_top3$Species <- BRL19stubblestats_top3 %>% 
-  pull(Species) %>% 
-  forcats::fct_drop()
-
-BRL19stubblestats_top3$Species <- BRL19stubblestats_top3 %>% 
-  pull(Species) %>% 
-  forcats::fct_inorder()
-
-A5120stubblestats_top3$Species <- A5120stubblestats_top3 %>% 
-  pull(Species) %>% 
-  forcats::fct_drop()
-
-A5120stubblestats_top3$Species <- A5120stubblestats_top3 %>% 
-  pull(Species) %>% 
-  forcats::fct_inorder()
-
-BKN20stubblestats_top3$Species <- BKN20stubblestats_top3 %>% 
-  pull(Species) %>% 
-  forcats::fct_drop()
-
-BKN20stubblestats_top3$Species <- BKN20stubblestats_top3 %>% 
-  pull(Species) %>% 
-  forcats::fct_inorder()
-
-BKS20stubblestats_top3$Species <- BKS20stubblestats_top3 %>% 
-  pull(Species) %>% 
-  forcats::fct_drop()
-
-BKS20stubblestats_top3$Species <- BKS20stubblestats_top3 %>% 
-  pull(Species) %>% 
-  forcats::fct_inorder()
-
-BRL20stubblestats_top3$Species <- BRL20stubblestats_top3 %>% 
-  pull(Species) %>% 
-  forcats::fct_drop()
-
-BRL20stubblestats_top3$Species <- BRL20stubblestats_top3 %>% 
-  pull(Species) %>% 
-  forcats::fct_inorder()
-```
-
 
 ```{r Boggy 2017 Stubble Height Figure}
-ggplot(BGW17stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
+BGW17figure <- 
+BGW17stubblestats %>% 
+ggplot(aes(fill = Species, y = mean, x = Species)) +
   geom_col(width = 0.75) +
-  scale_fill_discrete(name = "Species", labels = c("Poa pratensis", "Carex sp.", "Poa fendleriana")) +
-  labs(title = "Boggy Creek Stubble Height 2017", caption = "n = number of samples") +
+  labs(title = "Boggy Creek Stubble Height 2017") +
   ylab("Average Stubble Height (Inches) ± 95% CI") +
   scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
-  geom_errorbar(aes(ymin = (mean-ci), ymax = (mean+ci)), position = position_dodge(0.5), width = 0.25) +
+  scale_fill_manual(values = white_mountains_color_scheme$fill, 
+                    breaks = white_mountains_color_scheme$Species) +
+  geom_errorbar(aes(ymin = (mean - ci), 
+                    ymax = (mean + ci)), 
+                position = position_dodge(0.5), 
+                width = 0.25) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
@@ -772,53 +617,140 @@ ggplot(BGW17stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
   # round the mean stubble height value using significant figures
   annotate(geom = "text", 
            x = 1, 
-           y = (BGW17stubblestats_top3$mean[1] + BGW17stubblestats_top3$ci[1] + 1), 
-           label = signif(BGW17stubblestats_top3$mean[1], 2)) +
+           y = (BGW17stubblestats$mean[1] + BGW17stubblestats$ci[1] + 1), 
+           label = signif(BGW17stubblestats$mean[1], 2)) +
   annotate(geom = "text", 
            x = 2, 
-           y = (BGW17stubblestats_top3$mean[2] + BGW17stubblestats_top3$ci[2] + 1), 
-           label = signif(BGW17stubblestats_top3$mean[2], 2)) +
+           y = (BGW17stubblestats$mean[2] + BGW17stubblestats$ci[2] + 1), 
+           label = signif(BGW17stubblestats$mean[2], 2)) +
   annotate(geom = "text", 
            x = 3, 
-           y = (BGW17stubblestats_top3$mean[3] + BGW17stubblestats_top3$ci[3] + 1), 
-           label = signif(BGW17stubblestats_top3$mean[3], 2)) +
-  # annotate(geom = "text", x = 2, y = 4.75, label = signif(BGW17stubblestats_top3$mean[2], 2)) +
-  # annotate(geom = "text", x = 3, y = 4, label = signif(BGW17stubblestats_top3$mean[3], 2)) +
+           y = (BGW17stubblestats$mean[3] + BGW17stubblestats$ci[3] + 1), 
+           label = signif(BGW17stubblestats$mean[3], 2)) +
+  annotate(geom = "text", 
+           x = 4, 
+           y = (BGW17stubblestats$mean[4] + BGW17stubblestats$ci[4] + 1), 
+           label = signif(BGW17stubblestats$mean[4], 2)) +
+  # annotate(geom = "text", x = 2, y = 4.75, label = signif(BGW17stubblestats$mean[2], 2)) +
+  # annotate(geom = "text", x = 3, y = 4, label = signif(BGW17stubblestats$mean[3], 2)) +
 
 # add the number of samples inside the bars
-  annotate(geom = "text", x = 1, y = (BGW17stubblestats_top3$mean[1]/2), 
-           label = paste0("n = ", BGW17stubblestats_top3$n[1]), 
+  annotate(geom = "text", x = 1, y = (BGW17stubblestats$mean[1]/2), 
+           label = paste0("n = ", BGW17stubblestats$n[1]), 
            size = 3, 
            alpha = 0.75) +
   annotate(geom = "text", 
            x = 2, 
-           y = (BGW17stubblestats_top3$mean[2]/2), 
-           label = paste0("n = ", BGW17stubblestats_top3$n[2]), 
+           y = (BGW17stubblestats$mean[2]/2), 
+           label = paste0("n = ", BGW17stubblestats$n[2]), 
            size = 3, 
            alpha = 0.75) +
   annotate(geom = "text", 
            x = 3, 
-           y = (BGW17stubblestats_top3$mean[3]/2), 
-           label = paste0("n = ", BGW17stubblestats_top3$n[3]), 
+           y = (BGW17stubblestats$mean[3]/2), 
+           label = paste0("n = ", BGW17stubblestats$n[3]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text", 
+           x = 4, 
+           y = (BGW17stubblestats$mean[4]/2), 
+           label = paste0("n = ", BGW17stubblestats$n[4]), 
            size = 3, 
            alpha = 0.75)
-# ggsave("Boggy-2017-Stubble-Height-n-samples-95CI.jpg",
-#    path = paste0(getwd(),"/figures", "/stubbleheight", "/white-mountains"))
+ggsave("Boggy-2017-Stubble-Height-n-samples-95CI.jpg",
+   path = paste0(getwd(),"/figures", "/stubbleheight", "/white-mountains"))
+
+BGW17figure
 ```
 
-```{r}
-WCS17stubblestats_top3
-```
-
-
-```{r Wildcat 2017 Stubble Height Figure}
-ggplot(WCS17stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
+```{r Boggy 2017 Stubble Height Figure No Legend}
+BGW17figure <- 
+BGW17stubblestats %>% 
+ggplot(aes(fill = Species, y = mean, x = Species)) +
   geom_col(width = 0.75) +
-  scale_fill_discrete(name = "Species", labels = c("Poa pratensis", "Carex sp.", "Poa fendleriana")) +
-  labs(title = "Wildcat Creek Stubble Height 2017", caption = "n = number of samples") +
+  labs(title = "Boggy Creek 2017", subtitle = "Stubble Height") +
   ylab("Average Stubble Height (Inches) ± 95% CI") +
   scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
-  geom_errorbar(aes(ymin = (mean-ci), ymax = (mean+ci)), position = position_dodge(0.5), width = 0.25) +
+  scale_fill_manual(values = white_mountains_color_scheme$fill, 
+                    breaks = white_mountains_color_scheme$Species) +
+  geom_errorbar(aes(ymin = (mean - ci), 
+                    ymax = (mean + ci)), 
+                position = position_dodge(0.5), 
+                width = 0.25) +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)),
+        axis.ticks = element_blank(),
+        legend.position = "none") +
+  # add stubble height values above the  error bars
+  # round the mean stubble height value using significant figures
+  annotate(geom = "text", 
+           x = 1, 
+           y = (BGW17stubblestats$mean[1] + BGW17stubblestats$ci[1] + 1), 
+           label = signif(BGW17stubblestats$mean[1], 2)) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = (BGW17stubblestats$mean[2] + BGW17stubblestats$ci[2] + 1), 
+           label = signif(BGW17stubblestats$mean[2], 2)) +
+  annotate(geom = "text", 
+           x = 3, 
+           y = (BGW17stubblestats$mean[3] + BGW17stubblestats$ci[3] + 1), 
+           label = signif(BGW17stubblestats$mean[3], 2)) +
+  annotate(geom = "text", 
+           x = 4, 
+           y = (BGW17stubblestats$mean[4] + BGW17stubblestats$ci[4] + 1), 
+           label = signif(BGW17stubblestats$mean[4], 2)) +
+  # annotate(geom = "text", x = 2, y = 4.75, label = signif(BGW17stubblestats$mean[2], 2)) +
+  # annotate(geom = "text", x = 3, y = 4, label = signif(BGW17stubblestats$mean[3], 2)) +
+
+# add the number of samples inside the bars
+  annotate(geom = "text", x = 1, y = (BGW17stubblestats$mean[1]/2), 
+           label = paste0("n = ", BGW17stubblestats$n[1]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = (BGW17stubblestats$mean[2]/2), 
+           label = paste0("n = ", BGW17stubblestats$n[2]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text", 
+           x = 3, 
+           y = (BGW17stubblestats$mean[3]/2), 
+           label = paste0("n = ", BGW17stubblestats$n[3]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text", 
+           x = 4, 
+           y = (BGW17stubblestats$mean[4]/2), 
+           label = paste0("n = ", BGW17stubblestats$n[4]), 
+           size = 3, 
+           alpha = 0.75)
+BGW17figure
+```
+
+```{r Wildcat 2017 Stubble Stats}
+WCS17stubblestats <- stubble_data %>% 
+  dplyr::filter(Site == "Wildcat" & Year == 2017) %>% 
+  dplyr::group_by(Species) %>% 
+  rstatix::get_summary_stats("Height-in", type = "common") %>% 
+  dplyr::filter(n >= 3)
+
+WCS17stubblestats
+```
+
+```{r Wildcat 2017 Stubble Height Figure}
+WCS17figure <- 
+WCS17stubblestats %>% 
+ggplot(aes(fill = Species, y = mean, x = Species)) +
+  geom_col(width = 0.75) +
+  labs(title = "Wildcat Creek Stubble Height 2017") +
+  ylab("Average Stubble Height (Inches) ± 95% CI") +
+  scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
+  scale_fill_manual(values = white_mountains_color_scheme$fill, 
+                    breaks = white_mountains_color_scheme$Species) +
+  geom_errorbar(aes(ymin = (mean - ci), ymax = (mean + ci)), position = position_dodge(0.5), width = 0.25) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
@@ -828,16 +760,59 @@ ggplot(WCS17stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
 # round the mean stubble height value using significant figures
   annotate(geom = "text", 
            x = 1, 
-           y = (WCS17stubblestats_top3$mean[1] + WCS17stubblestats_top3$ci[1] + 1), 
-           label = signif(WCS17stubblestats_top3$mean[1], 2)) +
+           y = (WCS17stubblestats$mean[1] + WCS17stubblestats$ci[1] + 1), 
+           label = signif(WCS17stubblestats$mean[1], 2)) +
   annotate(geom = "text", 
            x = 2, 
-           y = (WCS17stubblestats_top3$mean[2] + WCS17stubblestats_top3$ci[2] + 1), 
-           label = signif(WCS17stubblestats_top3$mean[2], 2)) +
+           y = (WCS17stubblestats$mean[2] + WCS17stubblestats$ci[2] + 1), 
+           label = signif(WCS17stubblestats$mean[2], 2)) +
+
+# add the number of samples inside the bars
   annotate(geom = "text", 
-           x = 3, 
-           y = (WCS17stubblestats_top3$mean[3] + WCS17stubblestats_top3$ci[3] + 1), 
-           label = signif(WCS17stubblestats_top3$mean[3], 2)) +
+           x = 1, 
+           y = (WCS17stubblestats$mean[1]/2), 
+           label = paste0("n = ", WCS17stubblestats$n[1]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = (WCS17stubblestats$mean[2]/3), 
+           label = paste0("n = ", WCS17stubblestats$n[2]), 
+           size = 3, 
+           alpha = 0.75)
+ggsave("Wildcat-2017-Stubble-Height-n-samples-95CI.jpg",
+       path = paste0(getwd(),"/figures", "/stubbleheight", "/white-mountains"))
+
+WCS17figure
+```
+
+```{r Wildcat 2017 Stubble Height Figure Drop Y Axis Label}
+WCS17figure <- 
+WCS17stubblestats %>% 
+ggplot(aes(fill = Species, y = mean, x = Species)) +
+  geom_col(width = 0.75) +
+  labs(title = "Wildcat Creek 2017", subtitle = "Stubble Height") +
+  ylab("") +
+  scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
+  scale_fill_manual(values = white_mountains_color_scheme$fill, 
+                    breaks = white_mountains_color_scheme$Species) +
+  geom_errorbar(aes(ymin = (mean - ci), ymax = (mean + ci)), position = position_dodge(0.5), width = 0.25) +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.ticks = element_blank(),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 5)),
+        legend.position = "none") +
+# add stubble height values above the  error bars
+# round the mean stubble height value using significant figures
+  annotate(geom = "text", 
+           x = 1, 
+           y = (WCS17stubblestats$mean[1] + WCS17stubblestats$ci[1] + 1), 
+           label = signif(WCS17stubblestats$mean[1], 2)) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = (WCS17stubblestats$mean[2] + WCS17stubblestats$ci[2] + 1), 
+           label = signif(WCS17stubblestats$mean[2], 2)) +
 
 # add the number of samples inside the bars
   annotate(geom = "text", 
@@ -852,199 +827,390 @@ ggplot(WCS17stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
            label = paste0("n = ", WCS17stubblestats$n[2]), 
            size = 3, 
            alpha = 0.75) +
-  annotate(geom = "text", 
-           x = 3, 
-           y = (WCS17stubblestats$mean[3]/2), 
-           label = paste0("n = ", WCS17stubblestats$n[3]), 
-           size = 3, 
-           alpha = 0.75)
-  
-ggsave("Wildcat-2017-Stubble-Height-n-samples-95CI.jpg",
-path = paste0(getwd(),"/figures", "/stubbleheight", "/white-mountains"))
+  annotate(geom = "text",
+           x = 1.5,
+           y = 7,
+           size = 3,
+           aplha = 0.75,
+           label = "n = number of samples")
+
+WCS17figure
 ```
 
-```{r}
-BGW18stubblestats_top3
+```{r Combine 2017 White Mountains Figures}
+ggpubr::ggarrange(BGW17figure, WCS17figure,
+                  widths = c(1, 1),
+                  ncol = 2,
+                  align = "h")
+
+ggsave("White-Mountains-Stubble-Height-2017-combined.jpg",
+       height = 6.5,
+       width = 9,
+       units = "in",
+       path = paste0(getwd(),"/figures", "/stubbleheight", "/white-mountains"))
 ```
 
+### 2018
+
+```{r Boggy 2018 Stubble Stats}
+BGW18stubblestats <- stubble_data %>%
+  dplyr::filter(Site == "Boggy" & Year == 2018) %>% 
+  dplyr::group_by(Species) %>% 
+  rstatix::get_summary_stats("Height-in", type = "common") %>% 
+  dplyr::filter(n >= 3)
+BGW18stubblestats
+```
 
 ```{r Boggy 2018 Stubble Height Figure}
-ggplot(BGW18stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
+BGW18figure <- 
+  BGW18stubblestats %>% 
+ggplot(aes(fill = Species, y = mean, x = Species)) +
   geom_col(width = 0.25) +
-  labs(title = "Boggy Creek Stubble Height 2018", caption = "n = number of samples") +
+  labs(title = "Boggy Creek 2018", subtitle = "Stubble Height") +
   ylab("Average Stubble Height (Inches) ± 95% CI") +
+  scale_fill_manual(values = white_mountains_color_scheme$fill, 
+                    breaks = white_mountains_color_scheme$Species) +
   scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
-  geom_errorbar(aes(ymin = (mean-ci), ymax = (mean+ci)), position = position_dodge(0.5), width = 0.1) +
+  geom_errorbar(aes(ymin = (mean - ci), ymax = (mean + ci)), position = position_dodge(0.5), width = 0.1) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
-
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)),
+        axis.ticks = element_blank(),
+        legend.position = "none") +
 # add stubble height values above the  error bars
 # round the mean stubble height value using significant figures
   annotate(geom = "text", 
            x = 1, 
-           y = (BGW18stubblestats_top3$mean[1] + BGW18stubblestats_top3$ci[1] + 1), 
-           label = signif(BGW18stubblestats_top3$mean[1], 2)) +
-  
+           y = (BGW18stubblestats$mean[1] + BGW18stubblestats$ci[1] + 1), 
+           label = signif(BGW18stubblestats$mean[1], 2)) +
 # add the number of samples inside the bars
-  annotate(geom = "text", x = 1, y = (BGW18stubblestats_top3$mean[1]/2), 
-           label = paste0("n = ", BGW18stubblestats_top3$n[1]), 
+  annotate(geom = "text", x = 1, y = (BGW18stubblestats$mean[1]/2), 
+           label = paste0("n = ", BGW18stubblestats$n[1]), 
            size = 3, 
            alpha = 0.75)
-  
+BGW18figure
 ggsave("Boggy-2018-Stubble-Height-n-samples.jpg",
    path = paste0(getwd(),"/figures", "/stubbleheight", "/white-mountains"))
 ```
 
-```{r}
-WCS18stubblestats_top3
+```{r Wildcat 2018 Stubble Stats}
+WCS18stubblestats <- stubble_data %>%
+  dplyr::filter(Site == "Wildcat" & Year == 2018) %>% 
+  dplyr::group_by(Species) %>% 
+  rstatix::get_summary_stats("Height-in", type = "common") %>% 
+  dplyr::filter(n >= 3)
+WCS18stubblestats
 ```
 
 
 ```{r Wildcat 2018 Stubble Height Figure}
-ggplot(WCS18stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
+WCS18figure <- 
+ggplot(WCS18stubblestats, aes(fill = Species, y = mean, x = Species)) +
   geom_col(width = 0.25) +
-  labs(title = "Wildcat Creek Stubble Height 2018", caption = "n = number of samples") +
+  labs(title = "Wildcat Creek 2018", subtitle = "Stubble Height") +
   ylab("Average Stubble Height (Inches) ± 95% CI") +
   scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
-  geom_errorbar(aes(ymin = (mean-ci), ymax = (mean+ci)), position = position_dodge(0.5), width = 0.1) +
+  scale_fill_manual(values = white_mountains_color_scheme$fill, 
+                    breaks = white_mountains_color_scheme$Species) +
+  geom_errorbar(aes(ymin = (mean - ci), 
+                    ymax = (mean + ci)), 
+                position = position_dodge(0.5), width = 0.1) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
-  
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)),
+        axis.ticks = element_blank(),
+        legend.position = "none") +
   # add stubble height values above the  error bars
   # round the mean stubble height value using significant figures
   annotate(geom = "text", 
            x = 1, 
-           y = (WCS18stubblestats_top3$mean[1] + WCS18stubblestats_top3$ci[1] + 1), 
-           label = signif(WCS18stubblestats_top3$mean[1], 2)) +
+           y = (WCS18stubblestats$mean[1] + WCS18stubblestats$ci[1] + 1), 
+           label = signif(WCS18stubblestats$mean[1], 2)) +
   # add the number of samples inside the bars
   annotate(geom = "text", 
            x = 1, 
-           y = (WCS18stubblestats_top3$mean[1]/2), 
-           label = paste0("n = ", WCS18stubblestats_top3$n[1]), 
+           y = (WCS18stubblestats$mean[1]/2), 
+           label = paste0("n = ", WCS18stubblestats$n[1]), 
            size = 3, 
            alpha = 0.75) 
-  
+WCS18figure
 ggsave("Wildcat-2018-Stubble-Height-n-samples.jpg",
       path = paste0(getwd(),"/figures", "/stubbleheight", "/white-mountains"))
 ```
 
-```{r}
-BGW19stubblestats_top3
-```
-
-```{r Boggy 2019 Stubble Height Figure}
-ggplot(BGW19stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
-  geom_col(width = 0.75) +
-  scale_fill_discrete(name = "Species", labels = c("Poa sp.", "Carex sp.", "Bromus inermis")) +
-  labs(title = "Boggy Creek Stubble Height 2019", caption = "n = number of samples") +
-  ylab("Average Stubble Height (Inches) ± 95% CI") +
-  scale_y_continuous(limits = c(0, 11), breaks = seq(0, 11, by = 1)) +
-  geom_errorbar(aes(ymin = (mean-ci), ymax = (mean+ci)), position = position_dodge(0.5), width = 0.25) +
+```{r Wildcat 2018 Stubble Height Figure Drop Y Axis Label}
+WCS18figure <- 
+ggplot(WCS18stubblestats, aes(fill = Species, y = mean, x = Species)) +
+  geom_col(width = 0.25) +
+  labs(title = "Wildcat Creek 2018", subtitle = "Stubble Height") +
+  ylab("") +
+  scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
+  scale_fill_manual(values = white_mountains_color_scheme$fill, 
+                    breaks = white_mountains_color_scheme$Species) +
+  geom_errorbar(aes(ymin = (mean - ci), 
+                    ymax = (mean + ci)), 
+                position = position_dodge(0.5), width = 0.1) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
-
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)),
+        axis.ticks = element_blank(),
+        legend.position = "none") +
   # add stubble height values above the  error bars
   # round the mean stubble height value using significant figures
   annotate(geom = "text", 
            x = 1, 
-           y = (BGW19stubblestats_top3$mean[1] + BGW19stubblestats_top3$ci[1] + 1), 
-           label = signif(BGW19stubblestats_top3$mean[1], 2)) +
+           y = (WCS18stubblestats$mean[1] + WCS18stubblestats$ci[1] + 1), 
+           label = signif(WCS18stubblestats$mean[1], 2)) +
+  # add the number of samples inside the bars
+  annotate(geom = "text", 
+           x = 1, 
+           y = (WCS18stubblestats$mean[1]/2), 
+           label = paste0("n = ", WCS18stubblestats$n[1]), 
+           size = 3, 
+           alpha = 0.75) 
+WCS18figure
+```
+
+```{r Combine 2018 White Mountains Figures}
+ggpubr::ggarrange(BGW18figure, WCS18figure,
+                  widths = c(1, 1),
+                  ncol = 2,
+                  align = "h")
+
+ggsave("White-Mountains-Stubble-Height-2018-combined.jpg",
+       height = 6.5,
+       width = 9,
+       units = "in",
+       path = paste0(getwd(),"/figures", "/stubbleheight", "/white-mountains"))
+```
+
+### 2019 
+
+```{r Boggy 2019 Stubble Stats}
+BGW19stubblestats <- stubble_data %>%
+  dplyr::filter(Site == "Boggy" & Year == 2019) %>% 
+  dplyr::group_by(Species) %>% 
+  rstatix::get_summary_stats("Height-in", type = "common") %>% 
+  dplyr::filter(n >= 3)
+BGW19stubblestats
+```
+
+```{r Boggy 2019 Stubble Height Figure}
+BGW19figure <- 
+ggplot(BGW19stubblestats, aes(fill = Species, y = mean, x = Species)) +
+  geom_col(width = 0.75) +
+  labs(title = "Boggy Creek 2019", subtitle = "Stubble Height") +
+  ylab("Average Stubble Height (Inches) ± 95% CI") +
+  scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
+  scale_fill_manual(values = white_mountains_color_scheme$fill, 
+                    breaks = white_mountains_color_scheme$Species) +
+  geom_errorbar(aes(ymin = (mean - ci), 
+                    ymax = (mean + ci)), 
+                position = position_dodge(0.5), 
+                width = 0.25) +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)),
+        axis.ticks = element_blank(),
+        legend.position = "none") +
+  # add stubble height values above the  error bars
+  # round the mean stubble height value using significant figures
+  annotate(geom = "text", 
+           x = 1, 
+           y = (BGW19stubblestats$mean[1] + BGW19stubblestats$ci[1] + 1), 
+           label = signif(BGW19stubblestats$mean[1], 2)) +
   annotate(geom = "text", 
            x = 2, 
-           y = (BGW19stubblestats_top3$mean[2] + BGW19stubblestats_top3$ci[2] + 1), 
-           label = signif(BGW19stubblestats_top3$mean[2], 2)) +
+           y = (BGW19stubblestats$mean[2] + BGW19stubblestats$ci[2] + 0.5), 
+           label = signif(BGW19stubblestats$mean[2], 2)) +
   annotate(geom = "text", 
            x = 3, 
-           y = (BGW19stubblestats_top3$mean[3] + BGW19stubblestats_top3$ci[3] + 1), 
-           label = signif(BGW19stubblestats_top3$mean[3], 2)) +
+           y = (BGW19stubblestats$mean[3] + BGW19stubblestats$ci[3] + 1), 
+           label = signif(BGW19stubblestats$mean[3], 2)) +
 
   # add the number of samples inside the bars
-  annotate(geom = "text", x = 1, y = (BGW19stubblestats_top3$mean[1]/2), 
-           label = paste0("n = ", BGW19stubblestats_top3$n[1]), 
+  annotate(geom = "text", x = 1, y = (BGW19stubblestats$mean[1]/2), 
+           label = paste0("n = ", BGW19stubblestats$n[1]), 
            size = 3, 
            alpha = 0.75) +
   annotate(geom = "text", 
            x = 2, 
-           y = (BGW19stubblestats_top3$mean[2]/2), 
-           label = paste0("n = ", BGW19stubblestats_top3$n[2]), 
+           y = (BGW19stubblestats$mean[2]/2), 
+           label = paste0("n = ", BGW19stubblestats$n[2]), 
            size = 3, 
            alpha = 0.75) +
   annotate(geom = "text", 
            x = 3, 
-           y = (BGW19stubblestats_top3$mean[3]/3), 
-           label = paste0("n = ", BGW19stubblestats_top3$n[3]), 
+           y = (BGW19stubblestats$mean[3]/3), 
+           label = paste0("n = ", BGW19stubblestats$n[3]), 
            size = 3, 
            alpha = 0.75)
-
+BGW19figure
 ggsave("Boggy-2019-Stubble-Height-n-samples-95CI.jpg",
       path = paste0(getwd(),"/figures", "/stubbleheight", "/white-mountains"))
 ```
 
-```{r}
-WCS19stubblestats_top3
+```{r Wildcat 2019 Stubble Stats}
+WCS19stubblestats <- stubble_data %>%
+  dplyr::filter(Site == "Wildcat" & Year == 2019) %>% 
+  dplyr::group_by(Species) %>% 
+  rstatix::get_summary_stats("Height-in", type = "common") %>% 
+  dplyr::filter(n >= 3)
+WCS19stubblestats
 ```
 
 ```{r Wildcat 2019 Stubble Height Figure}
-ggplot(WCS19stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
+WCS19figure <- 
+ggplot(WCS19stubblestats, aes(fill = Species, y = mean, x = Species)) +
   geom_col(width = 0.75) +
-  scale_fill_discrete(name = "Species", labels = c("Poa sp.", "Carex sp.", "Pascopyrum smithii")) +
-  labs(title = "Wildcat Creek Stubble Height 2019", caption = "n = number of samples") +
+  labs(title = "Wildcat Creek 2019", subtitle = "Stubble Height") +
   ylab("Average Stubble Height (Inches) ± 95% CI") +
   scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
-  geom_errorbar(aes(ymin = (mean-ci), ymax = (mean+ci)), position = position_dodge(0.5), width = 0.25) +
+    scale_fill_manual(values = white_mountains_color_scheme$fill, 
+                    breaks = white_mountains_color_scheme$Species) +
+  geom_errorbar(aes(ymin = (mean - ci), 
+                    ymax = (mean + ci)), 
+                position = position_dodge(0.5), 
+                width = 0.25) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
-
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)),
+        axis.ticks = element_blank(),
+        legend.position = "none") +
   # add stubble height values above the error bars
   # round the mean stubble height value using significant figures
   annotate(geom = "text", 
            x = 1, 
-           y = (WCS19stubblestats_top3$mean[1] + WCS19stubblestats_top3$ci[1] + 1), 
-           label = signif(WCS19stubblestats_top3$mean[1], 2)) +
+           y = (WCS19stubblestats$mean[1] + WCS19stubblestats$ci[1] + 1), 
+           label = signif(WCS19stubblestats$mean[1], 2)) +
   annotate(geom = "text", 
            x = 2, 
-           y = (WCS19stubblestats_top3$mean[2] + WCS19stubblestats_top3$ci[2] + 1), 
-           label = signif(WCS19stubblestats_top3$mean[2], 2)) +
-
+           y = (WCS19stubblestats$mean[2] + WCS19stubblestats$ci[2] + 1), 
+           label = signif(WCS19stubblestats$mean[2], 2)) +
   # add the number of samples inside the bars
   annotate(geom = "text", 
            x = 1, 
-           y = (WCS19stubblestats_top3$mean[1]/2), 
-           label = paste0("n = ", WCS19stubblestats_top3$n[1]), 
+           y = (WCS19stubblestats$mean[1]/2), 
+           label = paste0("n = ", WCS19stubblestats$n[1]), 
            size = 3, 
            alpha = 0.75) +
   annotate(geom = "text", 
            x = 2, 
-           y = (WCS19stubblestats_top3$mean[2]/2), 
-           label = paste0("n = ", WCS19stubblestats_top3$n[2]), 
+           y = (WCS19stubblestats$mean[2]/2), 
+           label = paste0("n = ", WCS19stubblestats$n[2]), 
            size = 3, 
            alpha = 0.75) +
   annotate(geom = "text", 
-           x = 3, 
-           y = (WCS19stubblestats_top3$mean[3]/2), 
-           label = paste0("n = ", WCS19stubblestats_top3$n[3]), 
+           x = 1.5, 
+           y = 7, 
+           label = paste0("n = number of samples"), 
            size = 3, 
            alpha = 0.75)
-
+WCS19figure
 ggsave("Wildcat-2019-Stubble-Height-n-samples-95CI.jpg",
       path = paste0(getwd(),"/figures", "/stubbleheight", "/white-mountains"))
 ```
 
+```{r Wildcat 2019 Stubble Height Figure Drop Y Axis Label}
+WCS19figure <- 
+ggplot(WCS19stubblestats, aes(fill = Species, y = mean, x = Species)) +
+  geom_col(width = 0.75) +
+  labs(title = "Wildcat Creek 2019", subtitle = "Stubble Height") +
+  ylab("") +
+  scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
+  scale_fill_manual(values = white_mountains_color_scheme$fill, 
+                    breaks = white_mountains_color_scheme$Species) +
+  geom_errorbar(aes(ymin = (mean - ci), 
+                    ymax = (mean + ci)), 
+                position = position_dodge(0.5), 
+                width = 0.25) +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)),
+        axis.ticks = element_blank(),
+        legend.position = "none") +
+  # add stubble height values above the error bars
+  # round the mean stubble height value using significant figures
+  annotate(geom = "text", 
+           x = 1, 
+           y = (WCS19stubblestats$mean[1] + WCS19stubblestats$ci[1] + 1), 
+           label = signif(WCS19stubblestats$mean[1], 2)) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = (WCS19stubblestats$mean[2] + WCS19stubblestats$ci[2] + 1), 
+           label = signif(WCS19stubblestats$mean[2], 2)) +
+  # add the number of samples inside the bars
+  annotate(geom = "text", 
+           x = 1, 
+           y = (WCS19stubblestats$mean[1]/2), 
+           label = paste0("n = ", WCS19stubblestats$n[1]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = (WCS19stubblestats$mean[2]/2), 
+           label = paste0("n = ", WCS19stubblestats$n[2]), 
+           size = 3, 
+           alpha = 0.75) +
+  annotate(geom = "text", 
+           x = 1.5, 
+           y = 7, 
+           label = paste0("n = number of samples"), 
+           size = 3, 
+           alpha = 0.75)
+WCS19figure
+```
+
+```{r Combine 2019 White Mountains Figures}
+ggpubr::ggarrange(BGW19figure, WCS19figure,
+                  widths = c(1, 1),
+                  ncol = 2,
+                  align = "h")
+
+ggsave("White-Mountains-Stubble-Height-2019-combined.jpg",
+       height = 6.5,
+       width = 9,
+       units = "in",
+       path = paste0(getwd(),"/figures", "/stubbleheight", "/white-mountains"))
+```
+
+## Heber Stubble Height Figures
+
+### Extract Data and Calculate Statistics
+
+Filter out the Heber data and keep only the White Mountains data.
+
+```{r Filter Out White Mountain Data}
+heber_stubble <- stubble_data %>% 
+  dplyr::filter(Site != "Boggy" & Site != "Wildcat")
+print(heber_stubble)
+```
+
+Drop the unused factor levels from the Heber data, and then re-order the factor levels by the frequency in which they occur.
+
+```{r Drop Unused Levels Heber}
+heber_stubble$Species <- 
+  heber_stubble %>% 
+  pull(Species) %>% 
+  forcats::fct_drop() %>%
+  forcats::fct_infreq()
+heber_stubble$Species %>% levels()
+```
+
 ```{r}
-BKS18stubblestats_top3
+
 ```
 
 
+
 ```{r Black Canyon South 2018 Stubble Height Figure}
-BKS18plot <- ggplot(BKS18stubblestats_top3, aes(fill = Species, y = mean, x = Species)) +
+BKS18plot <- ggplot(BKS18stubblestats, aes(fill = Species, y = mean, x = Species)) +
   geom_col(width = 0.25) +
   labs(title = expression(atop("Black Canyon South", paste("Stubble Height"))), 
        subtitle = "2018") +
@@ -1061,12 +1227,12 @@ BKS18plot <- ggplot(BKS18stubblestats_top3, aes(fill = Species, y = mean, x = Sp
   # round the mean stubble height value using significant figures
   annotate(geom = "text", 
            x = 1, 
-           y = (BKS18stubblestats_top3$mean[1] + BKS18stubblestats_top3$ci[1] + 1), 
-           label = signif(BKS18stubblestats_top3$mean[1], 2)) +
+           y = (BKS18stubblestats$mean[1] + BKS18stubblestats$ci[1] + 1), 
+           label = signif(BKS18stubblestats$mean[1], 2)) +
 
   # add the number of samples inside the bars
-  annotate(geom = "text", x = 1, y = (BKS18stubblestats_top3$mean[1]/2), 
-           label = paste0("n = ", BKS18stubblestats_top3$n[1]), 
+  annotate(geom = "text", x = 1, y = (BKS18stubblestats$mean[1]/2), 
+           label = paste0("n = ", BKS18stubblestats$n[1]), 
            size = 3, 
            alpha = 0.75)
   
@@ -1122,11 +1288,8 @@ ggsave("Heber-Stubble-Height-2018-n-samples-95CI.jpg",
 
 
 ```{r}
-heber_stubble_data <- stubble_data %>% dplyr::filter(Site != "Boggy")
-heber_stubble_data <- heber_stubble_data %>% dplyr::filter(Site != "Wildcat")
+heber_stubble_data <- stubble_data %>% dplyr::filter(Site != "Boggy" | Site != "Wildcat")
 ```
-
-
 
 ```{r Get Summary Stats Heber 2019}
 
