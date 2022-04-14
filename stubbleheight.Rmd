@@ -1263,10 +1263,11 @@ heber_stubble_stats$Species %>% levels()
 
 ```{r Drop Unused Levels Heber Stubble Stats}
 heber_stubble_stats$Species <- 
-  heber_stubble_stats %>% 
+  heber_stubble_stats %>%
+  dplyr::arrange(desc(n)) %>% 
   pull(Species) %>% 
   forcats::fct_drop() %>% 
-  forcats::fct_infreq()
+  forcats::fct_inorder()
 heber_stubble_stats$Species %>% levels()
 ```
 
@@ -1318,13 +1319,19 @@ heber_color_scheme <- unique(heber_build$data[[1]]["fill"])
 heber_color_scheme <- heber_color_scheme %>% 
   dplyr::mutate(Species = heber_species)
 
+# readr::write_csv(heber_color_scheme,
+#                  file.path(currentwd,
+#                            "figures",
+#                            "stubbleheight",
+#                            "heber-color-scheme.csv"))
+
 print(heber_color_scheme)
 ```
 
 ### 2018
 
 ```{r Black Canyon South 2018 Stubble Stats}
-BKS18stubblestats <- stubble_data %>%
+BKS18stubblestats <- heber_stubble %>%
   dplyr::filter(Site == "BKS" & Year == 2018) %>% 
   dplyr::group_by(Species) %>% 
   rstatix::get_summary_stats("Height-in", type = "common") %>% 
@@ -1375,7 +1382,7 @@ BKS18plot
 ```
 
 ```{r Bear 2018 Stubble Stats}
-BRL18stubblestats <- stubble_data %>%
+BRL18stubblestats <- heber_stubble %>%
   dplyr::filter(Site == "BRL" & Year == 2018) %>% 
   dplyr::group_by(Species) %>% 
   rstatix::get_summary_stats("Height-in", type = "common") %>% 
@@ -1558,23 +1565,16 @@ heber_stubble %>%
   levels()
 ```
 
+
+
 ```{r Fifty One 2019 Stubble Stats}
 FTO19stubblestats <- 
   heber_stubble %>%
   dplyr::filter(Site == "A51" & Year == 2019) %>% 
   dplyr::group_by(Species) %>% 
   rstatix::get_summary_stats("Height-in", type = "common") %>% 
-  dplyr::filter(n >= 3) %>% 
-  dplyr::arrange(desc(n))
+  dplyr::filter(n >= 3)
 FTO19stubblestats
-```
-
-```{r Reorder Factor Levels Fifty One 2019}
-FTO19stubblestats$Species <- 
-  FTO19stubblestats$Species %>%
-  forcats::fct_drop() %>%
-  forcats::fct_inorder()
-FTO19stubblestats$Species %>% levels()
 ```
 
 ```{r Fifty One 2019 Stubble Height Figure}
@@ -1707,17 +1707,8 @@ BKN19stubblestats <-
   dplyr::filter(Site == "BKN" & Year == 2019) %>% 
   dplyr::group_by(Species) %>% 
   rstatix::get_summary_stats("Height-in", type = "common") %>% 
-  dplyr::filter(n >= 3) %>% 
-  dplyr::arrange(desc(n))
+  dplyr::filter(n >= 3)
 BKN19stubblestats
-```
-
-```{r Reorder Factor Levels Black Canyon North 2019}
-BKN19stubblestats$Species <- 
-  BKN19stubblestats$Species %>%
-  forcats::fct_drop() %>%
-  forcats::fct_inorder()
-BKN19stubblestats$Species %>% levels()
 ```
 
 Because the HECO has really strange confidence interval (it goes from 27 to -5), we'll just omit it in the figure by setting it to NA.
@@ -2035,17 +2026,8 @@ FTO20stubblestats <-
   dplyr::filter(Site == "A51" & Year == 2020) %>% 
   dplyr::group_by(Species) %>% 
   rstatix::get_summary_stats("Height-in", type = "common") %>% 
-  dplyr::filter(n >= 3) %>% 
-  dplyr::arrange(desc(n))
+  dplyr::filter(n >= 3)
 FTO20stubblestats
-```
-
-```{r Reorder Factor Levels Fifty One 2020}
-FTO20stubblestats$Species <- 
-  FTO20stubblestats$Species %>%
-  forcats::fct_drop() %>%
-  forcats::fct_inorder()
-FTO20stubblestats$Species %>% levels()
 ```
 
 ```{r Fifty One 2020 Stubble Height Figure}
@@ -2220,17 +2202,8 @@ BKN20stubblestats <-
   dplyr::filter(Site == "BKN" & Year == 2020) %>% 
   dplyr::group_by(Species) %>% 
   rstatix::get_summary_stats("Height-in", type = "common") %>% 
-  dplyr::filter(n >= 3) %>% 
-  dplyr::arrange(desc(n))
+  dplyr::filter(n >= 3)
 BKN20stubblestats
-```
-
-```{r Reorder Factor Levels Black Canyon North 2020}
-BKN20stubblestats$Species <- 
-  BKN20stubblestats$Species %>%
-  forcats::fct_drop() %>%
-  forcats::fct_inorder()
-BKN20stubblestats$Species %>% levels()
 ```
 
 ```{r Black Canyon North 2020 Stubble Height Figure}
@@ -2364,17 +2337,8 @@ BKS20stubblestats <- heber_stubble %>%
   dplyr::filter(Site == "BKS" & Year == 2020) %>% 
   dplyr::group_by(Species) %>% 
   rstatix::get_summary_stats("Height-in", type = "common") %>% 
-  dplyr::filter(n >= 3) %>% 
-  dplyr::arrange(desc(n))
+  dplyr::filter(n >= 3)
 BKS20stubblestats
-```
-
-```{r Reorder Factor Levels Black Canyon South 2020}
-BKS20stubblestats$Species <- 
-  BKS20stubblestats$Species %>%
-  forcats::fct_drop() %>%
-  forcats::fct_inorder()
-BKS20stubblestats$Species %>% levels()
 ```
 
 ```{r Black Canyon South 2020 Stubble Height Figure}
