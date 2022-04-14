@@ -697,4 +697,3 @@ And calculate the maximum sample size needed for power in 2019.
 ```{r}
 max(n_samples_values_2020)
 ```
-
