@@ -32,7 +32,7 @@ sessionInfo()
 ```
 
 ```{r}
-options(tz)
+Sys.setenv(TZ = "US/Arizona")
 ```
 
 
@@ -364,26 +364,6 @@ stubble_data <- stubble_data %>%
 print(stubble_data)
 ```
 
-```{r}
-filename <- paste(
-  format(
-    Sys.time(tz), 
-    "%Y-%m-%d-%H-%M-%S"), 
-  "stubble-height-all-sites-all-years.csv",
-  sep = "-")
-print(filename)
-```
-
-
-```{r}
-readr::write_csv(stubble_data, 
-                 file.path(currentwd, 
-                           "data", 
-                           "vegetation", 
-                           "stubble-height-all-sites-all-years.csv"))
-```
-
-
 ## Code Plant Species as Factors
 
 We need to convert the "Species" column which is currently a character type into
@@ -468,6 +448,25 @@ However, because we string replace some of the plant species, the "Species" colu
 stubble_data$Species <- stubble_data$Species %>% forcats::as_factor()
 
 stubble_data$Species %>% levels()
+```
+
+```{r Create CSV Filename From System Time}
+filename <- paste(
+  format(
+    Sys.time(), 
+    "%Y-%m-%d-%H-%M-%S"), 
+  "stubble-height-all-sites-all-years.csv",
+  sep = "-")
+print(filename)
+```
+
+
+```{r Write Out Cleaned CSV File}
+readr::write_csv(stubble_data, 
+                 file.path(currentwd,
+                           "data", 
+                           "vegetation",
+                           filename))
 ```
 
 # Data Visualization
