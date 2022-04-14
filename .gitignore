@@ -28,3 +28,6 @@ xlsm
 excelmacro
 *.csv
 .git.bfg-report
+
+# ignore error messages used for debugging
+error-messages
