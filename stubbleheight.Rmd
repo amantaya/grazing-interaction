@@ -2,9 +2,13 @@
 title: "Stubble Height"
 author: "Andrew Antaya"
 date: "June 20, 2019"
-output: 
-  html_document:
+output:
+  html_document: 
     theme: readable
+    toc: yes
+    toc_depth: 5
+    number_sections: yes
+  word_document:
     toc: yes
 ---
 
@@ -542,7 +546,8 @@ Filter out the Heber data and keep only the White Mountains data.
 
 ```{r Filter Out Heber Data}
 white_mountains_stubble <- stubble_data %>% 
-  dplyr::filter(Site == "Boggy" | Site == "Wildcat")
+  dplyr::filter(Site == "Boggy" | Site == "Wildcat") %>% 
+  dplyr::filter(Species != "Combined Species")
 
 print(white_mountains_stubble)
 ```
@@ -623,6 +628,12 @@ white_mountains_color_scheme <- unique(white_mountains_build$data[[1]]["fill"])
 
 white_mountains_color_scheme <- white_mountains_color_scheme %>% 
   dplyr::mutate(Species = white_mountains_species)
+
+readr::write_csv(white_mountains_color_scheme,
+                 file.path(currentwd,
+                           "figures",
+                           "stubbleheight",
+                           "white-mountains-color-scheme.csv"))
 
 print(white_mountains_color_scheme)
 ```
@@ -913,8 +924,7 @@ ggplot(aes(fill = Species, y = mean, x = Species)) +
   geom_col(width = 0.25) +
   labs(title = "Boggy Creek 2018", subtitle = "Stubble Height") +
   ylab("Average Stubble Height (Inches) ± 95% CI") +
-  scale_fill_manual(values = white_mountains_color_scheme$fill, 
-                    breaks = white_mountains_color_scheme$Species) +
+  scale_fill_manual(values = "#7F7F7F") +
   scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
   geom_errorbar(aes(ymin = (mean - ci), ymax = (mean + ci)), position = position_dodge(0.5), width = 0.1) +
   theme(plot.title = element_text(hjust = 0.5),
@@ -956,8 +966,7 @@ ggplot(WCS18stubblestats, aes(fill = Species, y = mean, x = Species)) +
   labs(title = "Wildcat Creek 2018", subtitle = "Stubble Height") +
   ylab("Average Stubble Height (Inches) ± 95% CI") +
   scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
-  scale_fill_manual(values = white_mountains_color_scheme$fill, 
-                    breaks = white_mountains_color_scheme$Species) +
+  scale_fill_manual(values = "#7F7F7F") +
   geom_errorbar(aes(ymin = (mean - ci), 
                     ymax = (mean + ci)), 
                 position = position_dodge(0.5), width = 0.1) +
@@ -992,8 +1001,7 @@ ggplot(WCS18stubblestats, aes(fill = Species, y = mean, x = Species)) +
   labs(title = "Wildcat Creek 2018", subtitle = "Stubble Height") +
   ylab("") +
   scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
-  scale_fill_manual(values = white_mountains_color_scheme$fill, 
-                    breaks = white_mountains_color_scheme$Species) +
+  scale_fill_manual(values = "#7F7F7F") +
   geom_errorbar(aes(ymin = (mean - ci), 
                     ymax = (mean + ci)), 
                 position = position_dodge(0.5), width = 0.1) +
@@ -1233,7 +1241,8 @@ Filter out the Heber data and keep only the White Mountains data.
 
 ```{r Filter Out White Mountain Data}
 heber_stubble <- stubble_data %>% 
-  dplyr::filter(Site != "Boggy" & Site != "Wildcat")
+  dplyr::filter(Site != "Boggy" & Site != "Wildcat") %>% 
+  dplyr::filter(Species != "Combined Species") %>% 
 print(heber_stubble)
 ```
 
@@ -1331,7 +1340,7 @@ print(heber_color_scheme)
 ### 2018
 
 ```{r Black Canyon South 2018 Stubble Stats}
-BKS18stubblestats <- heber_stubble %>%
+BKS18stubblestats <- stubble_data %>%
   dplyr::filter(Site == "BKS" & Year == 2018) %>% 
   dplyr::group_by(Species) %>% 
   rstatix::get_summary_stats("Height-in", type = "common") %>% 
@@ -1350,8 +1359,7 @@ BKS18plot <-
                                paste("Stubble Height"))), 
        subtitle = "2018") +
   ylab("Average Stubble Height (Inches) ± 95% CI") +
-  scale_fill_manual(values = heber_color_scheme$fill, 
-                    breaks = heber_color_scheme$Species) +
+  scale_fill_manual(values = "#7F7F7F") +
   scale_y_continuous(limits = c(0, 15), breaks = seq(0, 15, by = 1)) +
   geom_errorbar(aes(ymin = (mean - ci), 
                     ymax = (mean + ci)), 
@@ -1382,7 +1390,7 @@ BKS18plot
 ```
 
 ```{r Bear 2018 Stubble Stats}
-BRL18stubblestats <- heber_stubble %>%
+BRL18stubblestats <- stubble_data %>%
   dplyr::filter(Site == "BRL" & Year == 2018) %>% 
   dplyr::group_by(Species) %>% 
   rstatix::get_summary_stats("Height-in", type = "common") %>% 
@@ -1401,8 +1409,7 @@ BRL18plot <-
                                paste("Stubble Height"))), 
        subtitle = "2018") +
   ylab("Average Stubble Height (Inches) ± 95% CI") +
-  scale_fill_manual(values = heber_color_scheme$fill, 
-                    breaks = heber_color_scheme$Species) +
+  scale_fill_manual(values = "#7F7F7F") +
   scale_y_continuous(limits = c(0, 15), breaks = seq(0, 15, by = 1)) +
   geom_errorbar(aes(ymin = (mean - ci), 
                     ymax = (mean + ci)), 
@@ -1443,8 +1450,7 @@ BRL18plot <-
                                paste("Stubble Height"))), 
        subtitle = "2018") +
   ylab("") +
-  scale_fill_manual(values = heber_color_scheme$fill, 
-                    breaks = heber_color_scheme$Species) +
+  scale_fill_manual(values = "#7F7F7F") +
   scale_y_continuous(limits = c(0, 15), breaks = seq(0, 15, by = 1)) +
   geom_errorbar(aes(ymin = (mean - ci), 
                     ymax = (mean + ci)), 
