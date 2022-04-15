@@ -1490,7 +1490,7 @@ heber2018_figure <- ggpubr::ggarrange(BKS18plot, BRL18plot,
                   ncol = 2,
                   align = "h")
 ggsave("Heber-Stubble-Height-2018-n-samples-95CI.jpg",
-       height = 6.5,
+       height = 6,
        width = 9,
        units = "in",
        path = paste0(getwd(),"/figures", "/stubbleheight", "/heber"))
@@ -1853,7 +1853,7 @@ heber2019_figure <- ggpubr::ggarrange(BRL19plot,
                                       ncol = 3,
                                       align = "h")
 ggsave("Heber-Stubble-Height-2019-n-samples-95CI.jpg",
-       height = 6.5,
+       height = 6,
        width = 9,
        units = "in",
        path = paste0(getwd(),"/figures", "/stubbleheight", "/heber"))
@@ -2540,7 +2540,7 @@ heber2020_figure <- ggpubr::ggarrange(BRL20plot,
                                       ncol = 4,
                                       align = "h")
 ggsave("Heber-Stubble-Height-2020-n-samples-95CI.jpg",
-       height = 6.5,
+       height = 6,
        width = 9,
        units = "in",
        path = paste0(getwd(),"/figures", "/stubbleheight", "/heber"))
