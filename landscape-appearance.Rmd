@@ -1,395 +1,66 @@
 ---
 title: "Landscape Appearance"
 author: "Andrew Antaya"
-date: "3/9/2022"
-output: html_notebook
+date: "June 20, 2019"
+output:
+  html_document: 
+    theme: readable
+    toc: yes
+    toc_depth: 5
+    fig_caption: yes
+  word_document:
+    toc: yes
 ---
+
+# Setup
 
 First, let's remove all objects from the environment to start fresh each time.
 
-```{r clear env}
-# clear the enviroment
-rm(list=ls(all=TRUE))
+```{r clear environment}
+# rm(list = ls(all = TRUE))
 ```
 
-Setup the R environment using a separate script. This helps me stay consistent with environmental variables that I use across multiple R scripts.
-
-```{r setup env}
-# the source() function executes all lines of code in the "mentioned" script (i.e. the pathway)
-source(paste0(getwd(), "/environment.R"))
-print(currentwd)
+```{r setup environment}
+source("environment.R")
 ```
 
-Check that the working directory is correct for your computer.
+# Load Data
 
-Then, let's get our R environment ready by loading some useful packages.
-
-```{r load packages, include=FALSE}
-# "inlcude=FALSE" in the chunk evaluates the code, but doesn't write the output to the knitr document
-# loading packages involves alot of output in the console that we don't need in the knitr document
-source(paste0(currentwd, "/packages.R"))
-```
-
-This separate R script contains all of the functions that I commonly use across multiple scripts. This chunk of code reads in those functions into the global R environment.
-
-```{r load functions}
-source(paste0(currentwd, "/functions.R"))
-```
-
-```{r}
-BGW_2019_landscape_appearance <- readr::read_csv(
-  'data/vegetation/white-mountains/2019-boggy-grazed-landscape-appearance.csv',
-  col_names = TRUE, 
-  na = c(""," ","NA"))
-
-WCS_2019_landscape_appearance <- readr::read_csv(
-  'data/vegetation/white-mountains/2019-wildcat-grazed-landscape-appearance.csv',
-  col_names = TRUE, 
-  na = c(""," ","NA"))
-
-BGW_2019_landscape_appearance
-WCS_2019_landscape_appearance
-```
-
-```{r}
-BGW_2019_landscape_appearance <- 
-  BGW_2019_landscape_appearance %>% 
-  mutate(Site = "Boggy", Year = "2019")
-
-WCS_2019_landscape_appearance <- 
-  WCS_2019_landscape_appearance %>% 
-  mutate(Site = "Wildcat", Year = "2019")
-
-BGW_2019_landscape_appearance <- 
-  BGW_2019_landscape_appearance %>% 
-  dplyr::select(-c( "Species/Category Name", "Species/Category Code", "Qualifier"))
-
-WCS_2019_landscape_appearance <- 
-  WCS_2019_landscape_appearance %>% 
-  dplyr::select(-c( "Species/Category Name", "Species/Category Code", "Qualifier"))
-
-BGW_2019_landscape_appearance
-WCS_2019_landscape_appearance
-```
-
-```{r Read in Excel data and convert to csv, eval=FALSE, include=FALSE}
-# this code chunk only needs to be turned on once when converting data
-# then it can be turned off after the files are converted
-
-# list all of the xlsx data files in the directory
-xlsx_file_list <- list.files("data/vegetation/heber/landscape-appearance/xlsx", pattern = "xlsx")
-
-# create a vector of file names that we will use to rename our xlsx files into csv files
-# do this by replacing the file extension but otherwise keep the file name the same
-file_names <- str_replace_all(xlsx_file_list, "xlsx", "csv")
-
-# create a vector of file paths to tell R where to find the source xlsx data
-file_source <- paste0(getwd(), "/data/vegetation/heber/landscape-appearance/xlsx/", xlsx_file_list)
-
-# create a vector of file paths to tell R where to put the files after conversion
-file_destination <- paste0(getwd(), "/data/vegetation/heber/landscape-appearance/csv/", file_names)
-
-# for loop through the file list to convert all xlsx files in the directory
-# to csv files
-for (i in 1:length(file_source)) {
-  # read the data from the Stubble Height sheet
-  xlsx_data <- openxlsx::read.xlsx(file_source[i], sheet = "Ocular Estimates")
-  # write out the xlsm data as an xlsx
-  readr::write_csv(xlsx_data, paste0(file_destination[i]), na = "NA")}
-```
-
-```{r}
-heber_file_list <- list.files("data/vegetation/heber/landscape-appearance/csv", pattern = "csv")
-
-heber_file_list
-```
-
-```{r load data}
-BKS_2018_landscape_data <-
-  readr::read_csv(
-    paste0(
-      getwd(),
-      "/data/vegetation/heber/landscape-appearance/csv/",
-      "2018-BKS-landscape-appearance.csv"),
-      col_names = TRUE,
-      na = c("", " ", "NA")
-    )
-
-BRL_2018_landscape_data <-
-  readr::read_csv(
-    paste0(
-      getwd(),
-      "/data/vegetation/heber/landscape-appearance/csv/",
-      "2018-BRL-landscape-appearance.csv"),
-      col_names = TRUE,
-      na = c("", " ", "NA")
-    )
-
-A51_2019_landscape_data <- readr::read_csv(
-  paste0(
-    getwd(),
-    "/data/vegetation/heber/landscape-appearance/csv/",
-    "2019-A51-landscape-appearance.csv"),
-    col_names = TRUE,
-    na = c("", " ", "NA")
-  )
-
-BKN_2019_landscape_data <- readr::read_csv(
-  paste0(
-    getwd(),
-    "/data/vegetation/heber/landscape-appearance/csv/",
-    "2019-BKN-landscape-appearance.csv"
-  )
+```{r Load Landscape Appearance Database}
+landscape_appearance_database <- readr::read_csv(
+    file.path(
+        getwd(), "data", "vegetation",
+        "heber", "landscape-appearance",
+        "landscape-appearance-database.csv"
+    ),
+    col_names = TRUE, na = c("", " ", "NA")
 )
-BRL_2019_landscape_data <- readr::read_csv(
-  paste0(
-    getwd(),
-    "/data/vegetation/heber/landscape-appearance/csv/",
-    "2019-BRL-landscape-appearance.csv"
-  )
-)
-A51_2020_landscape_data <- readr::read_csv(
-  paste0(
-    getwd(),
-    "/data/vegetation/heber/landscape-appearance/csv/",
-    "2020-A51-landscape-appearance.csv"
-  )
-)
+print(landscape_appearance_database)
+```
+## 2018
 
-BKN_2020_landscape_data <- readr::read_csv(
-  paste0(
-    getwd(),
-    "/data/vegetation/heber/landscape-appearance/csv/",
-    "2020-BKN-landscape-appearance.csv"
-  )
-)
+The 2018 data had some special considerations that we had to clean up before we could bring it in for analysis. We re-created the data from a summarized table to make it consistent with data from the following years.
 
-BKS_2020_landscape_data <- readr::read_csv(
-  paste0(
-    getwd(),
-    "/data/vegetation/heber/landscape-appearance/csv/",
-    "2020-BKS-landscape-appearance.csv"
-  )
-)
+We then can read in this cleaned up data in the form of tibbles from another R Markdown document.
 
-BRL_2020_landscape_data <- readr::read_csv(
-  paste0(
-    getwd(),
-    "/data/vegetation/heber/landscape-appearance/csv/",
-    "2020-BRL-landscape-appearance.csv"
-  )
-)
-
+```{r }
+source_rmd("2018-heber-landscape-appearance.Rmd")
 ```
 
-```{r view data}
-BKS_2018_landscape_data
-BRL_2018_landscape_data
-A51_2019_landscape_data
-BKN_2019_landscape_data
-BRL_2019_landscape_data
-A51_2020_landscape_data
-BKN_2020_landscape_data
-BKS_2020_landscape_data
-BRL_2020_landscape_data
-```
+Then we can calculate summary stats for each tibble.
 
 ```{r}
-BKS_2018_landscape_data <-
-  BKS_2018_landscape_data %>% mutate(Site = "BKS", Year = "2018")
-
-BRL_2018_landscape_data <-
-  BRL_2018_landscape_data %>% mutate(Site = "BRL", Year = "2018")
-
-A51_2019_landscape_data <-
-  A51_2019_landscape_data %>% mutate(Site = "A51", Year = "2019")
-
-BKN_2019_landscape_data <-
-  BKN_2019_landscape_data %>% mutate(Site = "BKN", Year = "2019")
-
-BRL_2019_landscape_data <-
-  BRL_2019_landscape_data %>% mutate(Site = "BRL", Year = "2019")
-
-A51_2020_landscape_data <-
-  A51_2020_landscape_data %>% mutate(Site = "A51", Year = "2020")
-
-BKN_2020_landscape_data <-
-  BKN_2020_landscape_data %>% mutate(Site = "BKN", Year = "2020")
-
-BKS_2020_landscape_data <-
-  BKS_2020_landscape_data %>% mutate(Site = "BKS", Year = "2020")
-
-BRL_2020_landscape_data <-
-  BRL_2020_landscape_data %>% mutate(Site = "BRL", Year = "2020")
-```
-
-```{r bind rows all years}
-heber_2018_landscape_appearance <- dplyr::bind_rows(BKS_2018_landscape_data,
-                                                    BRL_2018_landscape_data)
-
-heber_2019_landscape_appearance <- dplyr::bind_rows(A51_2019_landscape_data, 
-                                                    BKN_2019_landscape_data,
-                                                    BRL_2019_landscape_data)
-
-heber_2020_landscape_appearance <- dplyr::bind_rows(A51_2020_landscape_data,
-                                                    BKN_2020_landscape_data,
-                                                    BKS_2020_landscape_data,
-                                                    BRL_2020_landscape_data)
-```
-
-```{r view rbind data}
-print(heber_2018_landscape_appearance)
-print(heber_2019_landscape_appearance)
-print(heber_2020_landscape_appearance)
-```
-
-The "Site" and "Year" columns are on the far-right of each data frame, and we want to move them to the left side for easier viewing. Additionally, the 2018 data is in a different format than 2019 or 2020 data, so we need to reference difference columns when relocating the "Site" and "Year" columns.
-
-```{r}
-heber_2018_landscape_appearance <-
-  heber_2018_landscape_appearance %>% dplyr::rename("Class Mid-Point" = "class_score")
-
-heber_2018_landscape_appearance <-
-  heber_2018_landscape_appearance %>% dplyr::relocate(c("Site", "Year"), .before = "Class Mid-Point")
-
-heber_2019_landscape_appearance <-
-  heber_2019_landscape_appearance %>% dplyr::rename("Class Mid-Point" = "%.Estimate")
-
-heber_2019_landscape_appearance <-
-  heber_2019_landscape_appearance %>% dplyr::relocate(c("Site", "Year"), .before = "Transect")
-
-heber_2020_landscape_appearance <-
-  heber_2020_landscape_appearance %>% dplyr::rename("Class Mid-Point" = "%.Estimate")
-
-heber_2020_landscape_appearance <-
-  heber_2020_landscape_appearance %>% dplyr::relocate(c("Site", "Year"), .before = "Transect")
-
-print(heber_2018_landscape_appearance)
-print(heber_2019_landscape_appearance)
-print(heber_2020_landscape_appearance)
-```
-
-## Calculate 2018 Landscape Appearance
-
-It's probably best if we don't row bind two tables of counts together, so instead we will use dplyr to filter out the Bear 2018 data and keep the Black Canyon 2018 data.
-
-```{r}
-BKS_2018_landscape_appearance <- heber_2018_landscape_appearance %>% dplyr::filter(Site == "BKS")
-
-print(BKS_2018_landscape_appearance)
-```
-
-Now we'll do the inverse, keep the Bear 2018 data and filter out the Black Canyon South 2018 data.
-
-```{r}
-BRL_2018_landscape_appearance <- heber_2018_landscape_appearance %>% dplyr::filter(Site == "BRL")
-
-print(BRL_2018_landscape_appearance)
-```
-
-```{r}
-BKS_2018_la_expand <- rep(BKS_2018_landscape_appearance$`Class Mid-Point`[1], times = BKS_2018_landscape_appearance$count[1])
-
-BKS_2018_la_expand <- append(BKS_2018_la_expand, rep(BKS_2018_landscape_appearance$`Class Mid-Point`[2], times = BKS_2018_landscape_appearance$count[2]))
-
-BKS_2018_la_expand <- append(BKS_2018_la_expand, rep(BKS_2018_landscape_appearance$`Class Mid-Point`[3], times = BKS_2018_landscape_appearance$count[3]))
-
-BKS_2018_la_expand <- append(BKS_2018_la_expand, rep(BKS_2018_landscape_appearance$`Class Mid-Point`[4], times = BKS_2018_landscape_appearance$count[4]))
-
-BKS_2018_la_expand <- append(BKS_2018_la_expand, rep(BKS_2018_landscape_appearance$`Class Mid-Point`[5], times = BKS_2018_landscape_appearance$count[5]))
-
-BKS_2018_la_expand <- append(BKS_2018_la_expand, rep(BKS_2018_landscape_appearance$`Class Mid-Point`[6], times = BKS_2018_landscape_appearance$count[6]))
-
-BKS_2018_la_expand <- append(BKS_2018_la_expand, rep(BKS_2018_landscape_appearance$`Class Mid-Point`[7], times = BKS_2018_landscape_appearance$count[7]))
-
-BKS_2018_la_expand
-
-```
-
-```{r}
-length(BKS_2018_la_expand)
-```
-
-```{r}
-BRL_2018_la_expand <- rep(BRL_2018_landscape_appearance$`Class Mid-Point`[1], times = BRL_2018_landscape_appearance$count[1])
-
-BRL_2018_la_expand <- append(BRL_2018_la_expand, rep(BRL_2018_landscape_appearance$`Class Mid-Point`[2], times = BRL_2018_landscape_appearance$count[2]))
-
-BRL_2018_la_expand <- append(BRL_2018_la_expand, rep(BRL_2018_landscape_appearance$`Class Mid-Point`[3], times = BRL_2018_landscape_appearance$count[3]))
-
-BRL_2018_la_expand <- append(BRL_2018_la_expand, rep(BRL_2018_landscape_appearance$`Class Mid-Point`[4], times = BRL_2018_landscape_appearance$count[4]))
-
-BRL_2018_la_expand <- append(BRL_2018_la_expand, rep(BRL_2018_landscape_appearance$`Class Mid-Point`[5], times = BRL_2018_landscape_appearance$count[5]))
-
-BRL_2018_la_expand <- append(BRL_2018_la_expand, rep(BRL_2018_landscape_appearance$`Class Mid-Point`[6], times = BRL_2018_landscape_appearance$count[6]))
-
-BRL_2018_la_expand <- append(BRL_2018_la_expand, rep(BRL_2018_landscape_appearance$`Class Mid-Point`[7], times = BRL_2018_landscape_appearance$count[7]))
-
-BRL_2018_la_expand
-```
-
-```{r}
-length(BRL_2018_la_expand)
-```
-
-Re-create a data frame using the table of counts from the Bear 2018 data. This was done to make it easier to calculate summary statistics.
-
-```{r}
-BRL_2018_la_tibble <- tibble::tibble(Site = "BRL", 
-                                     Year = "2018", 
-                                     Sample = seq(1:length(BRL_2018_la_expand)), 
-                                     `Class Mid-Point` = BRL_2018_la_expand)
-
-BRL_2018_la_tibble
-```
-
-Re-create a data frame using the table of counts from the Black Canyon 2018 data. This was done to make it easier to calculate summary statistics.
-
-```{r}
-BKS_2018_la_tibble <- tibble::tibble(Site = "BKS", 
-                                     Year = "2018", 
-                                     Sample = seq(1:length(BKS_2018_la_expand)), 
-                                     `Class Mid-Point` = BKS_2018_la_expand)
-
-BKS_2018_la_tibble
-```
-
-```{r}
-BKS_2018_stats <- BKS_2018_la_tibble %>% rstatix::get_summary_stats('Class Mid-Point', type = "common")
+BKS_2018_stats <- BKS_2018_la_tibble %>% 
+  rstatix::get_summary_stats('Class Mid-Point', type = "common")
 
 BKS_2018_stats
 ```
 
 ```{r}
-BRL_2018_stats <- BRL_2018_la_tibble %>% rstatix::get_summary_stats('Class Mid-Point', type = "common")
+BRL_2018_stats <- BRL_2018_la_tibble %>% 
+  rstatix::get_summary_stats('Class Mid-Point', type = "common")
 
 BRL_2018_stats
-```
-
-Because we have a table of counts, we need to create a new column called "product" which is the product of multiplying the "Class Mid-Point" column by the "count" column.
-
-```{r calc product BKS 2018}
-BKS_2018_landscape_appearance <- BKS_2018_landscape_appearance %>% dplyr::mutate(product = `Class Mid-Point` * count)
-
-BKS_2018_landscape_appearance
-```
-
-Do the same for the Bear 2018 site.
-
-```{r calc product BRL 2018}
-BRL_2018_landscape_appearance <- BRL_2018_landscape_appearance %>% dplyr::mutate(product = `Class Mid-Point` * count)
-
-BRL_2018_landscape_appearance
-```
-
-Calculate the number of landscape appearance samples taken at each site for 2018.
-
-```{r}
-BKS_2018_la_nsamples <- sum(BKS_2018_landscape_appearance$count)
-BRL_2018_la_nsamples <- sum(BRL_2018_landscape_appearance$count)
-
-print(BKS_2018_la_nsamples)
-print(BRL_2018_la_nsamples)
 ```
 
 In 2018, we took 52 samples at the Black Canyon South site, and 62 samples at the Bear site. It's hard to say why we took 10 more samples at the Bear site, my guess is that we lost track of how many samples we had taken a did an extra 10.
@@ -398,28 +69,16 @@ To get average percent utilization, we sum the "product" column and divide it by
 
 Average percent utilization for Black Canyon South 2018.
 
-```{r}
-BKS_2018_la_avg <- sum(BKS_2018_landscape_appearance$product) / BKS_2018_la_nsamples
-
-BKS_2018_la_avg
-```
-
-Average percent utilization for Bear 2018.
-
-```{r}
-BRL_2018_la_avg <- sum(BRL_2018_landscape_appearance$product) / BRL_2018_la_nsamples
-
-BRL_2018_la_avg
-```
-
 ```{r add site and year to BRL 2018 stats}
-BRL_2018_stats <- BRL_2018_stats %>% add_column(Site = "Bear", Year = "2018", .before = "variable")
+BRL_2018_stats <- BRL_2018_stats %>% 
+  add_column(Site = "Bear", Year = "2018", .before = "variable")
 
 BRL_2018_stats
 ```
 
 ```{r add site and year to BKS 2018 stats}
-BKS_2018_stats <- BKS_2018_stats %>% add_column(Site = "Black Canyon South", Year = "2018", .before = "variable")
+BKS_2018_stats <- BKS_2018_stats %>% 
+  add_column(Site = "Black Canyon South", Year = "2018", .before = "variable")
 
 BKS_2018_stats
 ```
@@ -431,13 +90,11 @@ heber_2018_stats
 ```
 
 ```{r add confidence intervals bounds 2018}
-heber_2018_stats <- heber_2018_stats  %>% dplyr::mutate(lower_95 = mean - ci)
-
-heber_2018_stats <- heber_2018_stats %>% dplyr::mutate(upper_95 = mean + ci)
-
+heber_2018_stats <- heber_2018_stats  %>% 
+  dplyr::mutate(lower_95 = mean - ci) %>% 
+  dplyr::mutate(upper_95 = mean + ci)
 print(heber_2018_stats)
 ```
-
 
 ### Plot 2018 Landscape Appearance
 
@@ -475,346 +132,30 @@ ggplot(heber_2018_stats, aes(fill = Site, x = Site, y = mean)) +
            label = paste("n", "=", heber_2018_stats$n[2], sep = " "),
            size = 3)
 
-ggsave("2018-Heber-Landscape-Appearance-95CI.jpg",
-   path = paste0(getwd(),"/figures", "/landscape-appearance"))
+# ggsave("2018-Heber-Landscape-Appearance-95CI.jpg",
+#    path = paste0(getwd(),"/figures", "/landscape-appearance"))
+```
+## 2019
+
+### White Mountains
+
+```{r White Mountains 2019 Landscape Appearance Stats}
+white_mountains_2019_stats <- landscape_appearance_database %>%
+  dplyr::filter(Year == 2019) %>%
+  dplyr::filter(Site == "Wildcat" | Site == "Boggy") %>% 
+  dplyr::group_by(Site) %>% 
+  rstatix::get_summary_stats('Class Mid-Point', type = "common") %>% 
+print(white_mountains_2019_stats)
 ```
 
-## Calculate 2019 Landscape Appearance
-
-In 2019, we took 25 landscape appearance samples at each site, along a single transect at each site.
-
-```{r}
-heber_2019_landscape_appearance
+```{r Add Confidence Intervals White Mountains 2019}
+white_mountains_2019_stats <- white_mountains_2019_stats  %>% 
+  dplyr::mutate(lower_95 = mean - ci) %>% 
+  dplyr::mutate(upper_95 = mean + ci)
+print(white_mountains_2019_stats)
 ```
 
-One of the class mid-points was incorrectly recorded for the 2019 data. We recorded the 88% class mid-point incorrectly as "90%". We can do a simple string replace to change all of the 90% values to 88%.
-
-```{r}
-heber_2019_landscape_appearance$'Class Mid-Point' <- 
-  heber_2019_landscape_appearance %>% pull(`Class Mid-Point`) %>% str_replace_all("90", "88")
-
-heber_2019_landscape_appearance$'Class Mid-Point' <- heber_2019_landscape_appearance %>% 
-  pull(`Class Mid-Point`) %>% 
-  as.numeric()
-
-heber_2019_landscape_appearance
-```
-
-```{r}
-heber_2019_landscape_appearance <-
-  heber_2019_landscape_appearance %>%
-  mutate(Factor = forcats::as_factor(heber_2019_landscape_appearance$`Class Mid-Point`))
-
-heber_2019_landscape_appearance
-```
-
-```{r}
-levels(heber_2019_landscape_appearance %>% pull(Factor))
-```
-
-```{r}
-heber_2019_landscape_appearance$Factor <- heber_2019_landscape_appearance %>% 
-  pull("Factor") %>% 
-  fct_expand("97.5")
-
-levels(heber_2019_landscape_appearance %>% pull("Factor"))
-```
-
-```{r}
-# heber_2019_landscape_appearance$Factor <- heber_2019_landscape_appearance %>% 
-#   pull("Factor") %>% 
-#   fct_relabel(~ gsub("90", "88", .x))
-# 
-# levels(heber_2019_landscape_appearance %>% pull("Factor"))
-```
-
-```{r}
-BGW_2019_stats <- BGW_2019_landscape_appearance %>% 
-  rstatix::get_summary_stats('Class Mid-Point', type = "common")
-
-WCS_2019_stats <- WCS_2019_landscape_appearance %>%
-  rstatix::get_summary_stats('Class Mid-Point', type = "common")
-
-BGW_2019_stats <- BGW_2019_stats %>% add_column(Site = "Boggy Creek", .before = "variable")
-
-WCS_2019_stats <- WCS_2019_stats %>% add_column(Site = "Wildcat Creek", .before = "variable")
-
-BGW_2019_stats
-
-WCS_2019_stats
-```
-
-```{r}
-white_mountains_2019_stats <- dplyr::bind_rows(BGW_2019_stats, WCS_2019_stats)
-
-white_mountains_2019_stats
-```
-
-```{r}
-A51_2019_stats <- heber_2019_landscape_appearance %>% 
-  dplyr::filter(Site == "A51")  %>% 
-  rstatix::get_summary_stats('Class Mid-Point', type = "common")
-
-BKN_2019_stats <- heber_2019_landscape_appearance %>% 
-  dplyr::filter(Site == "BKN")  %>% 
-  rstatix::get_summary_stats('Class Mid-Point', type = "common")
-
-BRL_2019_stats <- heber_2019_landscape_appearance %>% 
-  dplyr::filter(Site == "BRL")  %>% 
-  rstatix::get_summary_stats('Class Mid-Point', type = "common")
-
-A51_2019_stats
-BKN_2019_stats
-BRL_2019_stats
-```
-
-```{r}
-A51_2020_stats <- heber_2020_landscape_appearance %>% 
-  dplyr::filter(Site == "A51")  %>% 
-  rstatix::get_summary_stats('Class Mid-Point', type = "common")
-
-BKN_2020_stats <- heber_2020_landscape_appearance %>% 
-  dplyr::filter(Site == "BKN")  %>% 
-  rstatix::get_summary_stats('Class Mid-Point', type = "common")
-
-BRL_2020_stats <- heber_2020_landscape_appearance %>% 
-  dplyr::filter(Site == "BRL")  %>% 
-  rstatix::get_summary_stats('Class Mid-Point', type = "common")
-
-BKS_2020_stats <- heber_2020_landscape_appearance %>% 
-  dplyr::filter(Site == "BKS")  %>% 
-  rstatix::get_summary_stats('Class Mid-Point', type = "common")
-                             
-A51_2020_stats
-BKN_2020_stats
-BRL_2020_stats
-BKS_2020_stats
-```
-
-```{r}
-A51_2019_stats <- A51_2019_stats %>% add_column(Site = "Fifty One", .before = "variable")
-
-BKN_2019_stats <- BKN_2019_stats %>% add_column(Site = "Black Canyon North", .before = "variable")
-
-BRL_2019_stats <- BRL_2019_stats %>% add_column(Site = "Bear", .before = "variable")
-
-A51_2019_stats
-BKN_2019_stats
-BRL_2019_stats
-```
-
-```{r}
-A51_2020_stats <- A51_2020_stats %>% add_column(Site = "Fifty One", .before = "variable")
-
-BKN_2020_stats <- BKN_2020_stats %>% add_column(Site = "Black Canyon North", .before = "variable")
-
-BRL_2020_stats <- BRL_2020_stats %>% add_column(Site = "Bear", .before = "variable")
-
-BKS_2020_stats <- BKS_2020_stats %>% add_column(Site = "Black Canyon South", .before = "variable")
-
-A51_2020_stats
-BKN_2020_stats
-BRL_2020_stats
-BKS_2020_stats
-```
-
-```{r}
-heber_2019_stats <- bind_rows(BRL_2019_stats, BKN_2019_stats, A51_2019_stats)
-
-heber_2019_stats
-```
-
-```{r}
-heber_2019_stats$Site <- heber_2019_stats %>% pull(Site) %>% forcats::as_factor()
-
-heber_2019_stats$Site <- heber_2019_stats %>% pull(Site) %>% forcats::fct_inorder()
-
-heber_2019_stats
-```
-
-```{r add confidence intervals bounds 2019}
-heber_2019_stats <- heber_2019_stats  %>% dplyr::mutate(lower_95 = mean - ci)
-
-heber_2019_stats <- heber_2019_stats %>% dplyr::mutate(upper_95 = mean + ci)
-
-print(heber_2019_stats)
-```
-
-```{r}
-heber_2020_stats <- bind_rows(BRL_2020_stats, BKN_2020_stats, BKS_2020_stats, A51_2020_stats)
-
-heber_2020_stats
-```
-
-```{r add confidence intervals bounds 2020}
-heber_2020_stats <- heber_2020_stats  %>% dplyr::mutate(lower_95 = mean - ci)
-
-heber_2020_stats <- heber_2020_stats %>% dplyr::mutate(upper_95 = mean + ci)
-
-print(heber_2020_stats)
-```
-
-```{r}
-heber_2020_stats$Site <- heber_2020_stats %>% pull(Site) %>% forcats::as_factor()
-
-heber_2020_stats$Site <- heber_2020_stats %>% pull(Site) %>% forcats::fct_inorder()
-
-heber_2020_stats
-```
-
-```{r}
-# A51_2019 <- heber_2019_landscape_appearance %>%
-#   dplyr::filter(Site == "A51") %>% 
-#   pull('Class Mid-Point') %>% 
-#   table() %>% 
-#   as.data.frame()
-# 
-# A51_2019
-```
-
-```{r}
-# heber_2020_landscape_appearance <-
-#   heber_2020_landscape_appearance %>% dplyr::rename("Class Mid-Point" = "%.Estimate")
-
-heber_2020_landscape_appearance <-
-  heber_2020_landscape_appearance %>% dplyr::relocate(c("Site", "Year"), .before = "Transect")
-
-heber_2020_landscape_appearance$`Class Mid-Point` <-
-  heber_2020_landscape_appearance %>%
-  pull('Class Mid-Point') %>%
-  forcats::as_factor()
-
-heber_2020_landscape_appearance
-```
-
-```{r}
-levels(heber_2020_landscape_appearance %>% pull("Class Mid-Point"))
-```
-
-```{r}
-A51_2019_class_midpoints <- 
-  heber_2019_landscape_appearance %>% 
-  dplyr::filter(Site == "A51") %>% 
-  pull(`Factor`) %>%
-  forcats::fct_count()
-
-BKN_2019_class_midpoints <-
-  heber_2019_landscape_appearance %>%
-  dplyr::filter(Site == "BKN") %>%
-  pull(`Factor`) %>%
-  forcats::fct_count()
-
-BRL_2019_class_midpoints <-
-  heber_2019_landscape_appearance %>%
-  dplyr::filter(Site == "BRL") %>%
-  pull(`Factor`) %>%
-  forcats::fct_count()
-
-A51_2019_class_midpoints
-BKN_2019_class_midpoints
-BRL_2019_class_midpoints
-```
-
-```{r}
-A51_2019_class_midpoints <- A51_2019_class_midpoints %>% mutate(midpoint = as.character(f))
-
-A51_2019_class_midpoints$midpoint <- as.numeric(A51_2019_class_midpoints$midpoint)
-
-BKN_2019_class_midpoints <- BKN_2019_class_midpoints %>% mutate(midpoint = as.character(f))
-
-BKN_2019_class_midpoints$midpoint <- as.numeric(BKN_2019_class_midpoints$midpoint)
-
-BRL_2019_class_midpoints <- BRL_2019_class_midpoints %>% mutate(midpoint = as.character(f))
-
-BRL_2019_class_midpoints$midpoint <- as.numeric(BRL_2019_class_midpoints$midpoint)
-
-A51_2019_class_midpoints
-BKN_2019_class_midpoints
-BRL_2019_class_midpoints
-```
-
-```{r}
-A51_2019_class_midpoints <- A51_2019_class_midpoints %>% mutate(product = midpoint * n)
-
-BKN_2019_class_midpoints <- BKN_2019_class_midpoints %>% mutate(product = midpoint * n)
-
-BRL_2019_class_midpoints <- BRL_2019_class_midpoints %>% mutate(product = midpoint * n)
-
-A51_2019_class_midpoints
-BKN_2019_class_midpoints
-BRL_2019_class_midpoints
-```
-
-```{r}
-A51_2019_sum <- sum(A51_2019_class_midpoints$product)
-
-BKN_2019_sum <- sum(BKN_2019_class_midpoints$product)
-
-BRL_2019_sum <- sum(BRL_2019_class_midpoints$product)
-
-A51_2019_sum
-BKN_2019_sum
-BRL_2019_sum
-```
-
-```{r}
-A51_2019_num_observations <- A51_2019_class_midpoints %>% pull('n') %>% sum()
-
-BKN_2019_num_observations<- BKN_2019_class_midpoints %>% pull('n') %>% sum()
-
-BRL_2019_num_observations <- BRL_2019_class_midpoints %>% pull('n') %>% sum()
-
-A51_2019_num_observations
-
-BKN_2019_num_observations
-
-BRL_2019_num_observations
-```
-
-```{r}
-A51_2019_sum / A51_2019_num_observations
-
-BKN_2019_sum / BKN_2019_num_observations
-
-BRL_2019_sum / BRL_2019_num_observations
-```
-
-```{r}
-A51_2020_class_midpoints <- 
-  heber_2020_landscape_appearance %>% 
-  dplyr::filter(Site == "A51" & Year == 2020) %>% 
-  pull(`Class Mid-Point`) %>% 
-  forcats::fct_count()
-
-BKN_2020_class_midpoints <- 
-  heber_2020_landscape_appearance %>% 
-  dplyr::filter(Site == "BKN" & Year == 2020) %>% 
-  pull(`Class Mid-Point`) %>% 
-  forcats::fct_count()
-
-BKS_2020_class_midpoints <- 
-  heber_2020_landscape_appearance %>% 
-  dplyr::filter(Site == "BKS" & Year == 2020) %>% 
-  pull(`Class Mid-Point`) %>% 
-  forcats::fct_count()
-
-BRL_2020_class_midpoints <- 
-  heber_2020_landscape_appearance %>% 
-  dplyr::filter(Site == "BRL" & Year == 2020) %>% 
-  pull(`Class Mid-Point`) %>% 
-  forcats::fct_count()
-
-A51_2020_class_midpoints
-BKN_2020_class_midpoints
-BKS_2020_class_midpoints
-BRL_2020_class_midpoints
-```
-
-## Plot 2019 Landscape Appearance
-
-### White Mountains 2019
-
-```{r 2019 White Mountains Landscape Appearance Figure, }
+```{r Plot White Mountains 2019 Landscape Appearance}
 ggplot(white_mountains_2019_stats, aes(fill = Site, x = Site, y = mean)) +
   geom_col(width = 0.75) +
   guides(fill = "none") +
@@ -847,13 +188,41 @@ ggplot(white_mountains_2019_stats, aes(fill = Site, x = Site, y = mean)) +
            y = (white_mountains_2019_stats$mean[2] / 2),
            label = paste("n", "=", white_mountains_2019_stats$n[2], sep = " "),
            size = 3)
-
-ggsave("2019-White-Mountains-Landscape-Appearance-95CI.jpg",
-  path = paste0(getwd(),"/figures", "/landscape-appearance"))
+# ggsave("2019-White-Mountains-Landscape-Appearance-95CI.jpg",
+#   path = paste0(getwd(),"/figures", "/landscape-appearance"))
 ```
-### Heber 2019
 
-```{r 2019 Heber Landscape Appearance Figure, }
+### Heber
+
+```{r Heber 2019 Landscape Appearance Stats}
+heber_2019_stats <- landscape_appearance_database %>% 
+  dplyr::filter(Year == 2019) %>%
+  dplyr::filter(Project == "Heber") %>% 
+  dplyr::group_by(Site) %>% 
+  rstatix::get_summary_stats('Class Mid-Point', type = "common")
+print(heber_2019_stats)
+```
+
+```{r Add Confidence Intervals Heber 2019}
+heber_2019_stats <- heber_2019_stats  %>% 
+  dplyr::mutate(lower_95 = mean - ci) %>% 
+  dplyr::mutate(upper_95 = mean + ci)
+print(heber_2019_stats)
+```
+
+We need to convert the Site from a character to a factor so that it will plot in the correct order using ggplot2.
+
+```{r Convert "Site" from Character to Factor Heber 2019}
+heber_2019_stats$Site <- heber_2019_stats %>% 
+  pull(Site) %>% 
+  forcats::as_factor() %>% 
+  forcats::fct_inorder()
+print(heber_2019_stats)
+```
+
+We are ready to generate a plot for Heber 2019.
+
+```{r Plot Heber 2019 Landscape Appearance}
 ggplot(heber_2019_stats, aes(fill = Site, x = Site, y = mean)) +
   geom_col(width = 0.75) +
   guides(fill = "none") +
@@ -900,24 +269,35 @@ ggsave("2019-Heber-Landscape-Appearance-95CI.jpg",
    path = paste0(getwd(),"/figures", "/landscape-appearance"))
 ```
 
-```{r}
-heber_2020_stats$mean[2] - heber_2020_stats$ci[2] 
+## 2020
 
-heber_2020_stats$mean[2] + heber_2020_stats$ci[2] 
+### Heber
+
+```{r Heber 2020 Landscape Appearance Stats}
+heber_2020_stats <- landscape_appearance_database %>%
+  dplyr::filter(Year == 2020) %>% 
+  dplyr::filter(Site != "Wildcat" | Site != "Boggy") %>%
+  dplyr::group_by(Site) %>% 
+  rstatix::get_summary_stats('Class Mid-Point', type = "common")
+print(heber_2020_stats)
 ```
 
-```{r}
-heber_2019_stats$mean[2] - heber_2019_stats$ci[2] 
-
-heber_2019_stats$mean[2] + heber_2019_stats$ci[2] 
+```{r Add Confidence Intervals Heber 2020}
+heber_2020_stats <- heber_2020_stats  %>% 
+  dplyr::mutate(lower_95 = mean - ci) %>% 
+  dplyr::mutate(upper_95 = mean + ci)
+print(heber_2020_stats)
 ```
 
+```{r Convert "Site" from Character to Factor Heber 2020}
+heber_2020_stats$Site <- heber_2020_stats %>% 
+  pull(Site) %>% 
+  forcats::as_factor() %>% 
+  forcats::fct_inorder()
+print(heber_2020_stats)
+```
 
-## Plot 2020 Landscape Appearance
-
-### Heber 2020
-
-```{r 2020 Heber Landscape Appearance Figure}
+```{r Plot Heber 2020 Landscape Appearance Figure}
 ggplot(heber_2020_stats, aes(fill = Site, x = Site, y = mean)) +
   geom_col(width = 0.75) +
   guides(fill = "none") +
@@ -968,6 +348,252 @@ ggplot(heber_2020_stats, aes(fill = Site, x = Site, y = mean)) +
            y = (heber_2020_stats$mean[4] / 2),
            label = paste("n", "=", heber_2020_stats$n[4], sep = " "),
            size = 3)
-ggsave("2020-Heber-Landscape-Appearance-95CI.jpg", 
+# ggsave("2020-Heber-Landscape-Appearance-95CI.jpg", 
+#    path = paste0(getwd(),"/figures", "/landscape-appearance"))
+```
+
+## 2021
+
+We need to create a variable called "Territory" that displays if a site is "On" territory, i.e., within the Heber Wild Horse Territory. We'll create a new column called "Territory" and use an `if_else()` statement to determine if a given site falls within a territory. 
+
+Note that this function will also label all of the White Mountains sites as "Off" territory, and while technically correct, they are off the territory, it might make more sense to label the White Mountains data as "NA". 
+
+```{r Add "Territory" Variable Using Site List}
+landscape_appearance_database <- landscape_appearance_database %>%
+  mutate(Territory = if_else(
+            Site == "BKN" | Site == "BRL" | Site == "BKS" | Site ==
+                "GETPBG" | Site == "SHPT" | Site == "FLO1" | Site ==
+                "KPPJT", "On", "Off"
+        ),
+        .after = Project
+        )
+print(landscape_appearance_database)
+```
+
+To fix the problem we created in the previous step, we will set the value for the "Territory" column to NA if the project is "White Mountains". If the project is "Heber" then we won't change the value for the "Territory".
+```{r Set White Mountains "Territory" values to NA}
+landscape_appearance_database %>% 
+  dplyr::mutate(Territory = if_else(Project == "White Mountains", # logical condition
+                                    NA_character_, # true
+                                    Territory, # false
+                                    ) # nothing for missing values
+                )
+```
+
+
+To calculate landscape appearance for Heber 2021, we first need to select just the data from 2021 and from the Heber project. Then we group by site, date, and territory. The "Territory" column will be used to control the plotting order in a future step, and if we don't group by it, it will be dropped by rstatix.
+
+```{r Heber 2021 Landscape Appearance Stats}
+heber_2021_stats <- landscape_appearance_database %>% 
+  dplyr::filter(Year == 2021) %>%
+  dplyr::filter(Project == "Heber") %>%
+  dplyr::group_by(Site, Date, Territory) %>% 
+  rstatix::get_summary_stats('Class Mid-Point', 
+                             type = "common",
+                             show = c("n", "mean", "sd", "ci"))
+print(heber_2021_stats)
+```
+
+Technically, this stats data frame already contains a column called "ci" which contains the confidence interval. However, it can be hard to interpret this number because you have subtract it from the mean to get the lower bounds, and add it to the mean to get the upper bounds. To make interpretation easier, we'll perform those operations and create new columns to hold that information.
+
+```{r Add Confidence Intervals Heber 2021}
+heber_2021_stats <- heber_2021_stats  %>% 
+  dplyr::mutate(lower_95 = mean - ci) %>% 
+  dplyr::mutate(upper_95 = mean + ci)
+print(heber_2021_stats)
+```
+
+We need to set the "Territory" variable as a factor, primarily because we want to control the order of plotting in ggplot2. If they are in this order, all of the sites that are on territory will be plotted first, and then all of the sites that are off territory will be plotted last.  
+
+First we need to arrange the data frame based on the "Territory" variable. Then we can set "Territory" as a factor.
+
+```{r Arrange by Territory and Set as Factor}
+heber_2021_stats <- heber_2021_stats %>% 
+  arrange(desc(Territory))
+
+heber_2021_stats$Territory <- heber_2021_stats %>% 
+  pull(Territory) %>% 
+  as_factor()
+print(heber_2021_stats)
+```
+
+We need to set the "Site" variable as a factor because ggplot2 treats factors differently than characters. We can plot each factor together if they share the same factor level.
+
+```{r Convert "Site" from Character to Factor Heber 2020}
+heber_2021_stats$Site <- heber_2021_stats %>% 
+  pull(Site) %>% 
+  forcats::as_factor() %>% 
+  forcats::fct_inorder()
+print(heber_2021_stats)
+```
+
+We need to create a new variable called "Monsoon" that we can use to group the two landscape appearance measurements, one which was done in late June, and the other which was done in late November. We can create a cut-off to label each measurement, all measurements before July 1, 2021 are "Pre" monsoon measurements, and any measurements after July 1, 2021 and "Post" monsoon measurements.
+
+We expect utilization to be higher in June because vegetation has not responded to the summer rainfall (as it likely hasn't happened yet), and  animals have been grazing the vegetation since the last growth. 
+
+```{r Add "Monsoon" Column}
+heber_2021_stats <- heber_2021_stats %>% 
+  dplyr::mutate(Monsoon = if_else(heber_2021_stats$Date < ymd("2021-07-01"), 
+                                  "Pre", 
+                                  "Post"),
+                .after = Date)
+print(heber_2021_stats)
+```
+
+We need to convert the "Monsoon" column from a character type into a factor type. The package ggplot2 treats factors differently than characters, and factors can be used to plot with as groups, or sub-groups.
+
+```{r Set "Monsoon" as Factor}
+heber_2021_stats$Monsoon <- heber_2021_stats %>% 
+  pull(Monsoon) %>% 
+  forcats::as_factor()
+print(heber_2021_stats)
+```
+
+#### Heber 2021 Landscape Appearance
+
+```{r Plot Heber 2021 Landscape Appearance Figure}
+heber_2021_stats %>%
+  ggplot(aes(fill = Monsoon, x = Site, y = mean)) +
+  geom_col(position = "dodge") +
+  guides(fill = "legend") +
+  labs(title = expression(atop("Heber Wild Horse Territory", 
+                               paste("Landscape Appearance")
+                               )
+                          ),
+       subtitle = "2021"
+       ) +
+  ylab("Average % Utilization ± 95% CI") +
+  scale_y_continuous(limits = c(0, 100),
+                     breaks = seq(0, 100, by = 10)) +
+  geom_errorbar(aes(ymin = (mean - ci), 
+                    ymax = (mean + ci)), 
+                position = position_dodge(0.9),
+                width = 0.25) +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+  annotate(geom = "text",
+           x = 0.75,
+           y = (heber_2021_stats$mean[1] + heber_2021_stats$ci[1] + 7),
+           label = paste0(signif(heber_2021_stats$mean[1], 2), "%"),
+           size = 3,
+           angle = 90) +
+  annotate(geom = "text",
+           x = 1.2,
+           y = (heber_2021_stats$mean[2] + heber_2021_stats$ci[2] + 7),
+           label = paste0(signif(heber_2021_stats$mean[2], 2), "%"),
+           size = 3,
+           angle = 90) +
+  annotate(geom = "text",
+           x = 1.75,
+           y = (heber_2021_stats$mean[3] + heber_2021_stats$ci[3] + 7),
+           label = paste0(signif(heber_2021_stats$mean[3], 2), "%"),
+           size = 3,
+           angle = 90) +
+  annotate(geom = "text",
+           x = 2.2,
+           y = (heber_2021_stats$mean[4] + heber_2021_stats$ci[4] + 7),
+           label = paste0(signif(heber_2021_stats$mean[4], 2), "%"),
+           size = 3,
+           angle = 90) +
+  annotate(geom = "text",
+           x = 2.75,
+           y = (heber_2021_stats$mean[5] + heber_2021_stats$ci[5] + 7),
+           label = paste0(signif(heber_2021_stats$mean[5], 2), "%"),
+           size = 3,
+           angle = 90) +
+  annotate(geom = "text",
+           x = 3.2,
+           y = (heber_2021_stats$mean[6] + heber_2021_stats$ci[6] + 7),
+           label = paste0(signif(heber_2021_stats$mean[6], 2), "%"),
+           size = 3,
+           angle = 90) +
+  annotate(geom = "text",
+           x = 3.75,
+           y = (heber_2021_stats$mean[7] + heber_2021_stats$ci[7] + 7),
+           label = paste0(signif(heber_2021_stats$mean[7], 2), "%"),
+           size = 3,
+           angle = 90) +
+  annotate(geom = "text",
+           x = 4.2,
+           y = (heber_2021_stats$mean[8] + heber_2021_stats$ci[8] + 7),
+           label = paste0(signif(heber_2021_stats$mean[8], 2), "%"),
+           size = 3,
+           angle = 90) +
+  annotate(geom = "text",
+           x = 4.75,
+           y = (heber_2021_stats$mean[9] + heber_2021_stats$ci[9] + 7),
+           label = paste0(signif(heber_2021_stats$mean[9], 2), "%"),
+           size = 3,
+           angle = 90) +
+  annotate(geom = "text",
+           x = 5.2,
+           y = (heber_2021_stats$mean[10] + heber_2021_stats$ci[10] + 7),
+           label = paste0(signif(heber_2021_stats$mean[10], 2), "%"),
+           size = 3,
+           angle = 90) +
+  annotate(geom = "text",
+           x = 5.75,
+           y = (heber_2021_stats$mean[11] + heber_2021_stats$ci[11] + 7),
+           label = paste0(signif(heber_2021_stats$mean[11], 2), "%"),
+           size = 3,
+           angle = 90) +
+  annotate(geom = "text",
+           x = 6.2,
+           y = (heber_2021_stats$mean[12] + heber_2021_stats$ci[12] + 7),
+           label = paste0(signif(heber_2021_stats$mean[12], 2), "%"),
+           size = 3,
+           angle = 90) +
+  annotate(geom = "text",
+           x = 6.75,
+           y = (heber_2021_stats$mean[13] + heber_2021_stats$ci[13] + 7),
+           label = paste0(signif(heber_2021_stats$mean[13], 2), "%"),
+           size = 3,
+           angle = 90) +
+  annotate(geom = "text",
+           x = 7.2,
+           y = (heber_2021_stats$mean[14] + heber_2021_stats$ci[14] + 7),
+           label = paste0(signif(heber_2021_stats$mean[14], 2), "%"),
+           size = 3,
+           angle = 90) +
+  annotate(geom = "text",
+           x = 7.75,
+           y = (heber_2021_stats$mean[15] + heber_2021_stats$ci[15] + 7),
+           label = paste0(signif(heber_2021_stats$mean[15], 2), "%"),
+           size = 3,
+           angle = 90) +
+  annotate(geom = "text",
+           x = 8.2,
+           y = (heber_2021_stats$mean[16] + heber_2021_stats$ci[16] + 7),
+           label = paste0(signif(heber_2021_stats$mean[16], 2), "%"),
+           size = 3,
+           angle = 90) +
+  annotate(geom = "text",
+           x = 8.75,
+           y = (heber_2021_stats$mean[17] + heber_2021_stats$ci[17] + 7),
+           label = paste0(signif(heber_2021_stats$mean[17], 2), "%"),
+           size = 3,
+           angle = 90) +
+  annotate(geom = "text",
+           x = 9.2,
+           y = (heber_2021_stats$mean[18] + heber_2021_stats$ci[18] + 7),
+           label = paste0(signif(heber_2021_stats$mean[18], 2), "%"),
+           size = 3,
+           angle = 90) +
+  annotate(geom = "text",
+           x = 9.75,
+           y = (heber_2021_stats$mean[19] + heber_2021_stats$ci[19] + 7),
+           label = paste0(signif(heber_2021_stats$mean[19], 2), "%"),
+           size = 3,
+           angle = 90) +
+  annotate(geom = "text",
+           x = 10.2,
+           y = (heber_2021_stats$mean[20] + heber_2021_stats$ci[20] + 7),
+           label = paste0(signif(heber_2021_stats$mean[20], 2), "%"),
+           size = 3,
+           angle = 90)
+ggsave("2021-Heber-Landscape-Appearance-95CI.jpg",
    path = paste0(getwd(),"/figures", "/landscape-appearance"))
 ```
+
