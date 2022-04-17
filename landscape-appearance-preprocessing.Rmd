@@ -1,0 +1,315 @@
+---
+title: "preprocessing-landscape-appearance"
+author: "Andrew Antaya"
+date: "4/16/2022"
+output: html_document
+---
+
+# Setup
+
+First, let's remove all objects from the environment to start fresh each time.
+
+```{r clear environment}
+rm(list = ls(all = TRUE))
+```
+
+```{r setup environment}
+source("environment.R")
+```
+
+# Load Data
+
+```{r Read in Excel Data and Convert to Csv, eval=FALSE, include=FALSE}
+# this code chunk only needs to be turned on once when converting data
+# then it can be turned off after the files are converted
+
+# list all of the xlsx data files in the directory
+xlsx_file_list <- list.files("data/vegetation/heber/landscape-appearance/xlsx", pattern = "xlsx")
+
+# create a vector of file names that we will use to rename our xlsx files into csv files
+# do this by replacing the file extension but otherwise keep the file name the same
+file_names <- str_replace_all(xlsx_file_list, "xlsx", "csv")
+
+# create a vector of file paths to tell R where to find the source xlsx data
+file_source <- paste0(getwd(), "/data/vegetation/heber/landscape-appearance/xlsx/", xlsx_file_list)
+
+# create a vector of file paths to tell R where to put the files after conversion
+file_destination <- paste0(getwd(), "/data/vegetation/heber/landscape-appearance/csv/", file_names)
+
+# for loop through the file list to convert all xlsx files in the directory
+# to csv files
+for (i in 1:length(file_source)) {
+  # read the data from the Stubble Height sheet
+  xlsx_data <- openxlsx::read.xlsx(file_source[i], sheet = "Ocular Estimates")
+  # write out the xlsm data as an xlsx
+  readr::write_csv(xlsx_data, paste0(file_destination[i]), na = "NA")}
+```
+
+## Load White Mountains Landscape Appearance Data
+
+```{r Load White Mountains Data}
+BGW_2019_landscape_appearance <- readr::read_csv(
+  'data/vegetation/white-mountains/2019-boggy-grazed-landscape-appearance.csv',
+  col_names = TRUE, 
+  na = c(""," ","NA"))
+print(BGW_2019_landscape_appearance)
+
+WCS_2019_landscape_appearance <- readr::read_csv(
+  'data/vegetation/white-mountains/2019-wildcat-grazed-landscape-appearance.csv',
+  col_names = TRUE, 
+  na = c(""," ","NA"))
+print(WCS_2019_landscape_appearance)
+```
+
+```{r Add Site and Year Columns White Mountains Data}
+BGW_2019_landscape_appearance <- 
+  BGW_2019_landscape_appearance %>% 
+  mutate(Site = "Boggy", Year = "2019")
+
+WCS_2019_landscape_appearance <- 
+  WCS_2019_landscape_appearance %>% 
+  mutate(Site = "Wildcat", Year = "2019")
+```
+
+```{r Remove Unnecessary Columns from White Mountains Data}
+BGW_2019_landscape_appearance <- 
+  BGW_2019_landscape_appearance %>% 
+  dplyr::select(-c("Species/Category Name", "Species/Category Code", "Qualifier"))
+print(BGW_2019_landscape_appearance)
+
+WCS_2019_landscape_appearance <- 
+  WCS_2019_landscape_appearance %>% 
+  dplyr::select(-c("Species/Category Name", "Species/Category Code", "Qualifier"))
+print(WCS_2019_landscape_appearance)
+```
+
+The "Sample" column from the White Mountains data isn't the same as the "Sample" column from the Heber data. It looks like "Sample" from the White Mountains data corresponds to sample number along a 100 pace stubble height transect. It looks like a landscape appearance sample was taken every 5 paces. This conflicts with what the "Sample" column represents in the Heber data. We will change the "Sample" data from the White Mountains data to be consistent with "Sample" from the Heber project.
+
+```{r Fix "Sample" Column Boggy 2019}
+BGW_2019_landscape_appearance <- 
+BGW_2019_landscape_appearance %>% 
+  dplyr::mutate(Sample = 1:nrow(BGW_2019_landscape_appearance))
+print(BGW_2019_landscape_appearance)
+```
+
+```{r Fix "Sample" Column Wildcat 2019}
+WCS_2019_landscape_appearance <- 
+WCS_2019_landscape_appearance %>% 
+  dplyr::mutate(Sample = 1:nrow(WCS_2019_landscape_appearance))
+print(WCS_2019_landscape_appearance)
+```
+
+## Load Heber Data
+
+View the landscape appearance data in the form of csv files. This is just used to see what files we need to load into R. 
+
+```{r List of Heber Landscape Data Files}
+heber_file_list <- list.files(
+  file.path("data",
+            "vegetation",
+            "heber",
+            "landscape-appearance",
+            "csv"), 
+  pattern = "csv")
+
+heber_file_list
+```
+
+```{r Load Data from CSV Files}
+A51_2019_landscape_appearance <- readr::read_csv(
+    file.path(
+        getwd(), "data", "vegetation",
+        "heber", "landscape-appearance",
+        "csv", "2019-A51-landscape-appearance-cleaned.csv"
+    ),
+    col_names = TRUE, na = c("", " ", "NA")
+)
+print(A51_2019_landscape_appearance)
+
+BKN_2019_landscape_appearance <- readr::read_csv(
+    file.path(
+        getwd(), "data", "vegetation",
+        "heber", "landscape-appearance",
+        "csv", "2019-BKN-landscape-appearance-cleaned.csv"
+    ),
+    col_names = TRUE, na = c("", " ", "NA")
+)
+print(BKN_2019_landscape_appearance)
+
+BRL_2019_landscape_appearance <- readr::read_csv(
+    file.path(
+        getwd(), "data", "vegetation",
+        "heber", "landscape-appearance",
+        "csv", "2019-BRL-landscape-appearance-cleaned.csv"
+    ),
+    col_names = TRUE, na = c("", " ", "NA")
+)
+print(BRL_2019_landscape_appearance)
+
+A51_2020_landscape_appearance <- readr::read_csv(
+    file.path(
+        getwd(), "data", "vegetation",
+        "heber", "landscape-appearance",
+        "csv", "2020-A51-landscape-appearance.csv"
+    ),
+    col_names = TRUE, na = c("", " ", "NA")
+)
+print(A51_2020_landscape_appearance)
+
+BKN_2020_landscape_appearance <- readr::read_csv(
+    file.path(
+        getwd(), "data", "vegetation",
+        "heber", "landscape-appearance",
+        "csv", "2020-BKN-landscape-appearance.csv"
+    ),
+    col_names = TRUE, na = c("", " ", "NA")
+)
+print(BKN_2020_landscape_appearance)
+
+BKS_2020_landscape_appearance <- readr::read_csv(
+    file.path(
+        getwd(), "data", "vegetation",
+        "heber", "landscape-appearance",
+        "csv", "2020-BKS-landscape-appearance.csv"
+    ),
+    col_names = TRUE, na = c("", " ", "NA")
+)
+print(BKN_2020_landscape_appearance)
+
+BRL_2020_landscape_appearance <- readr::read_csv(
+    file.path(
+        getwd(), "data", "vegetation",
+        "heber", "landscape-appearance",
+        "csv", "2020-BRL-landscape-appearance.csv"
+    ),
+    col_names = TRUE, na = c("", " ", "NA")
+)
+print(BRL_2020_landscape_appearance)
+
+heber_2021_landscape_appearance <- readr::read_csv(
+    file.path(
+        getwd(), "data", "vegetation",
+        "heber", "landscape-appearance",
+        "csv", "2021-heber-landscape-appearance.csv"
+    ),
+    col_types = cols(
+      Date = col_date(),
+      Site = col_character(),
+      Transect = col_double(),
+      Sample = col_double(),
+      'Class Mid-Point' = col_double(),
+      Year = col_character()
+      ),
+    col_names = TRUE, 
+    na = c("", " ", "NA")
+)
+print(heber_2021_landscape_appearance)
+```
+
+```{r Add Site and Year Columns to Heber Data}
+A51_2019_landscape_appearance <-
+  A51_2019_landscape_appearance %>% mutate(Site = "A51", Year = "2019")
+print(A51_2019_landscape_appearance)
+
+BKN_2019_landscape_appearance <-
+  BKN_2019_landscape_appearance %>% mutate(Site = "BKN", Year = "2019")
+print(BKN_2019_landscape_appearance)
+
+BRL_2019_landscape_appearance <-
+  BRL_2019_landscape_appearance %>% mutate(Site = "BRL", Year = "2019")
+print(BRL_2019_landscape_appearance)
+
+A51_2020_landscape_appearance <-
+  A51_2020_landscape_appearance %>% mutate(Site = "A51", Year = "2020")
+print(A51_2020_landscape_appearance)
+
+BKN_2020_landscape_appearance <-
+  BKN_2020_landscape_appearance %>% mutate(Site = "BKN", Year = "2020")
+print(BKN_2020_landscape_appearance)
+
+BKS_2020_landscape_appearance <-
+  BKS_2020_landscape_appearance %>% mutate(Site = "BKS", Year = "2020")
+print(BKS_2020_landscape_appearance)
+
+BRL_2020_landscape_appearance <-
+  BRL_2020_landscape_appearance %>% mutate(Site = "BRL", Year = "2020")
+print(BRL_2020_landscape_appearance)
+```
+
+```{r Bind Rows By Year Heber appearance}
+
+heber_2019_landscape_appearance <- dplyr::bind_rows(A51_2019_landscape_appearance, 
+                                                    BKN_2019_landscape_appearance,
+                                                    BRL_2019_landscape_appearance)
+
+
+heber_2020_landscape_appearance <- dplyr::bind_rows(A51_2020_landscape_appearance,
+                                                    BKN_2020_landscape_appearance,
+                                                    BKS_2020_landscape_appearance,
+                                                    BRL_2020_landscape_appearance)
+
+print(heber_2019_landscape_appearance)
+print(heber_2020_landscape_appearance)
+```
+
+The "Site" and "Year" columns are on the far-right of each data frame, and we want to move them to the left side for easier viewing. Additionally, the 2018 data is in a different format than 2019 or 2020 data, so we need to reference difference columns when relocating the "Site" and "Year" columns.
+
+```{r}
+heber_2019_landscape_appearance <-
+  heber_2019_landscape_appearance %>% 
+  dplyr::relocate(c("Site", "Year"), .before = "Transect")
+
+heber_2020_landscape_appearance <-
+  heber_2020_landscape_appearance %>% 
+  dplyr::rename("Class Mid-Point" = "%.Estimate")
+
+heber_2020_landscape_appearance <-
+  heber_2020_landscape_appearance %>% 
+  dplyr::relocate(c("Site", "Year"), .before = "Transect")
+
+print(heber_2019_landscape_appearance)
+print(heber_2020_landscape_appearance)
+```
+
+# Combine Data
+
+```{r}
+landscape_appearance <- dplyr::bind_rows(
+  BGW_2019_landscape_appearance,
+  WCS_2019_landscape_appearance,
+  heber_2019_landscape_appearance,
+  heber_2020_landscape_appearance,
+  heber_2021_landscape_appearance)
+print(landscape_appearance)
+```
+
+We will add an new column called "Project" that we can use to easily filter data. If we want to work with just the Heber data, we could use `dplyr::filter(Project == "Heber")`. 
+
+```{r Add "Project" Column}
+landscape_appearance <- landscape_appearance %>% 
+  mutate(Project = if_else(Site != "Boggy" & Site != "Wildcat", 
+                           "Heber", 
+                           "White Mountains"))
+print(landscape_appearance)
+```
+
+We will rearrange the order of the columns to be in a more desirable order. The "Site" column will be first, followed by "Date", "Year", and then "Project".
+
+```{r Rearrange Columns for Pretty Printing}
+landscape_appearance <- landscape_appearance %>% 
+  dplyr::relocate(Site, Date, Year, Project, .before = 1)
+print(landscape_appearance)
+```
+
+Write out this data now that it's been cleaned up and is consistent with data from previous years.
+
+```{r}
+readr::write_csv(landscape_appearance,
+  file.path(
+    getwd(), "data", "vegetation",
+    "heber", "landscape-appearance",
+    "landscape-appearance-database.csv"
+  )
+)
+```
+
