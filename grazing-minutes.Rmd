@@ -1,8 +1,18 @@
 ---
-title: "Calculate Grazing Minutes"
+title: "Grazing Minutes"
 author: "Andrew Antaya"
-output: html_notebook
+date: "June 20, 2019"
+output:
+  html_document: 
+    theme: readable
+    toc: yes
+    toc_depth: 5
+    fig_caption: yes
+  word_document:
+    toc: yes
 ---
+
+# Setup
 
 First, let's remove all objects from the environment to start fresh each time.
 
