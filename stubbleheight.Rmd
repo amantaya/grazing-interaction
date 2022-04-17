@@ -7,7 +7,7 @@ output:
     theme: readable
     toc: yes
     toc_depth: 5
-    number_sections: yes
+    fig_caption: yes
   word_document:
     toc: yes
 ---
@@ -31,14 +31,13 @@ source("packages.R")
 source("functions.R")
 ```
 
-```{r view session info}
-sessionInfo()
-```
-
-```{r}
+```{r set time zone to Arizona}
 Sys.setenv(TZ = "US/Arizona")
 ```
 
+```{r view session info}
+sessionInfo()
+```
 
 # Load Data
 
@@ -368,50 +367,15 @@ stubble_data <- stubble_data %>%
 print(stubble_data)
 ```
 
-## Code Plant Species as Factors
-
-We need to convert the "Species" column which is currently a character type into
-a factor type. R treats factors differently than characters, with the main
-difference being that factors have levels. Levels can be ranked in order
-(e.g., low to high, smallest to largest).
-
-```{r Code Species as Factors}
-# convert the "Species" column from character to factor
-stubble_data$Species <- stubble_data %>% 
-  pull(Species) %>% 
-  forcats::as_factor()
-
-# set the factor level for data that has missing species data
-# i.e. code missing species data (NA's) as "Missing"
-stubble_data$Species <- stubble_data %>% 
-  pull(Species) %>% 
-  fct_explicit_na(na_level = "Missing")
-
-# reorder the levels by the frequency in which they appear in the data
-# i.e. species that have the most observations are coded as the highest level
-stubble_data$Species <- stubble_data %>% 
-  pull(Species) %>% 
-  fct_infreq()
-
-# print the data frame to view the changes
-stubble_data
-```
-
-```{r View Factors Levles After Coding as Factors}
-stubble_data %>% pull(Species) %>% levels()
-```
+## Combine Plants Species
 
 Blue grama was coded as "BOGR2" and as "BOGRS" in this data set, and we want to have a single species code to represent blue grama. Therefore, anywhere "BOGRS" occurs in the data, we want to replace it with "BOGR2".
 
-```{r}
+```{r Replace "BOGRS" with "BOGR2"}
 stubble_data <- stubble_data %>% 
   dplyr::mutate(Species = replace(Species, Species == "BOGRS", "BOGR2"))
 
 stubble_data
-```
-
-```{r View Factors Levels After Replacing "BOGRS" as "BOGR2"}
-stubble_data %>% pull(Species) %>% levels()
 ```
 
 Additionally, we want to collapse both Poa species (Poa pratensis and Poa fendleriana) into their genus (Poa). It can very difficulkt to differentiate these species while in the field, and lower confidence in our observations tends to make it more conservative (and safer) to collapse these species into a genus for analysis purposes. Functionally, both species are very similar.
@@ -423,21 +387,15 @@ stubble_data <- stubble_data %>%
 stubble_data
 ```
 
-View the species as factors indicates that there are a couple factors that we should re-code. The "Missing" factor will be re-coded as "Combined Species" as during that site visit we did not differentiate by species and combined all stubble height observations.
-
-```{r View Factor Levels After Combining Poa}
-stubble_data$Species %>% levels()
-```
-
+In 2018, we did not differentiate by stubble height by species. In the original data, we labeled this special circumstance as "Missing", but in reality this data actually represents all species combined together. We will then replace all the values labeled as "Missing" with "Combined Species".
 
 ```{r Replace "Missing" Species with "Combined Species"}
 stubble_data$Species <- 
-  stubble_data$Species %>% str_replace(pattern = "Missing", 
-                                     replacement = "Combined Species")
+  stubble_data$Species %>% tidyr::replace_na("Combined Species")
 print(stubble_data)
 ```
 
-We also will replace the annual forb species code "AAFF" with a more descriptive "Annual Forb" charater string. 
+We also will replace the annual forb species code "AAFF" with a more descriptive "Annual Forb" character string. 
 
 ```{r Replace "AAFF" Species with "Annual Forb"}
 stubble_data$Species <- 
@@ -446,13 +404,29 @@ stubble_data$Species <-
 print(stubble_data)
 ```
 
-However, because we string replace some of the plant species, the "Species" column was converted into a character data type and the factors were dropped. We can then re-convert the "Species" column into factors and print the factor levels in the chunk.
+## Code Plant Species as Factors
 
-```{r Recode Species as Factors}
-stubble_data$Species <- stubble_data$Species %>% forcats::as_factor()
+We need to convert the "Species" column which is currently a character type into a factor type. R treats factors differently than characters, with the main
+difference being that factors have levels. Levels can be ranked in order
+(e.g., low to high, smallest to largest).
 
-stubble_data$Species %>% levels()
+```{r Code Species as Factors}
+# convert the "Species" column from character to factor
+# reorder the levels by the frequency in which they appear in the data
+# i.e. species that have the most observations are coded as the highest level
+stubble_data$Species <- stubble_data %>% 
+  pull(Species) %>% 
+  forcats::as_factor() %>% 
+  fct_infreq()
+
+# print the data frame to view the changes
+stubble_data
 ```
+
+```{r View Factors Levels After Coding as Factors}
+stubble_data %>% pull(Species) %>% levels()
+```
+
 
 ```{r Create CSV Filename From System Time}
 filename <- paste(
@@ -554,18 +528,6 @@ print(white_mountains_stubble)
 
 We will build a project-specific species list because many of the species are in common between sites, but fewer species are in common between projects, because the projects are in very different areas.
 
-Drop the unused factor levels from the White Mountains data, and then re-order the factor levels by the frequency in which they occur.
-
-```{r Drop Unused Levels White Mountains}
-white_mountains_stubble$Species <- 
-  white_mountains_stubble %>% 
-  pull(Species) %>% 
-  forcats::fct_drop() %>%
-  forcats::fct_infreq()
-
-white_mountains_stubble$Species %>% levels()
-```
-
 ```{r Calc Summary Stats for White Mountains}
 white_mountains_stubble_stats <- 
   white_mountains_stubble %>%
@@ -576,9 +538,10 @@ print(white_mountains_stubble_stats)
 ```
 
 ```{r Check Factor Levels White Mountains Stubble Stats}
-white_mountains_stubble_stats$Species %>% levels()
+white_mountains_stubble_stats$Species %>% 
+  fct_drop() %>% 
+  levels()
 ```
-
 
 ```{r White Mountains All Species Figure}
 white_mountains_all_species_figure <- white_mountains_stubble_stats %>% 
@@ -644,7 +607,9 @@ print(white_mountains_color_scheme)
 BGW17stubblestats <- stubble_data %>% 
   dplyr::filter(Site == "Boggy" & Year == 2017) %>% 
   dplyr::group_by(Species) %>% 
-  rstatix::get_summary_stats("Height-in", type = "common") %>% 
+  rstatix::get_summary_stats("Height-in", 
+                             type = "common",
+                             show = c("n", "mean", "sd", "ci")) %>% 
   dplyr::filter(n >= 3)
 
 BGW17stubblestats
@@ -790,7 +755,9 @@ BGW17figure
 WCS17stubblestats <- stubble_data %>% 
   dplyr::filter(Site == "Wildcat" & Year == 2017) %>% 
   dplyr::group_by(Species) %>% 
-  rstatix::get_summary_stats("Height-in", type = "common") %>% 
+  rstatix::get_summary_stats("Height-in", 
+                             type = "common",
+                             show = c("n", "mean", "sd", "ci")) %>% 
   dplyr::filter(n >= 3)
 
 WCS17stubblestats
@@ -900,7 +867,7 @@ ggpubr::ggarrange(BGW17figure, WCS17figure,
                   align = "h")
 
 ggsave("White-Mountains-Stubble-Height-2017-combined.jpg",
-       height = 6.5,
+       height = 6,
        width = 9,
        units = "in",
        path = paste0(getwd(),"/figures", "/stubbleheight", "/white-mountains"))
@@ -912,7 +879,9 @@ ggsave("White-Mountains-Stubble-Height-2017-combined.jpg",
 BGW18stubblestats <- stubble_data %>%
   dplyr::filter(Site == "Boggy" & Year == 2018) %>% 
   dplyr::group_by(Species) %>% 
-  rstatix::get_summary_stats("Height-in", type = "common") %>% 
+  rstatix::get_summary_stats("Height-in", 
+                             type = "common",
+                             show = c("n", "mean", "sd", "ci")) %>% 
   dplyr::filter(n >= 3)
 BGW18stubblestats
 ```
@@ -953,7 +922,9 @@ ggsave("Boggy-2018-Stubble-Height-n-samples.jpg",
 WCS18stubblestats <- stubble_data %>%
   dplyr::filter(Site == "Wildcat" & Year == 2018) %>% 
   dplyr::group_by(Species) %>% 
-  rstatix::get_summary_stats("Height-in", type = "common") %>% 
+  rstatix::get_summary_stats("Height-in", 
+                             type = "common",
+                             show = c("n", "mean", "sd", "ci")) %>% 
   dplyr::filter(n >= 3)
 WCS18stubblestats
 ```
@@ -1034,7 +1005,7 @@ ggpubr::ggarrange(BGW18figure, WCS18figure,
                   align = "h")
 
 ggsave("White-Mountains-Stubble-Height-2018-combined.jpg",
-       height = 6.5,
+       height = 6,
        width = 9,
        units = "in",
        path = paste0(getwd(),"/figures", "/stubbleheight", "/white-mountains"))
@@ -1046,7 +1017,9 @@ ggsave("White-Mountains-Stubble-Height-2018-combined.jpg",
 BGW19stubblestats <- stubble_data %>%
   dplyr::filter(Site == "Boggy" & Year == 2019) %>% 
   dplyr::group_by(Species) %>% 
-  rstatix::get_summary_stats("Height-in", type = "common") %>% 
+  rstatix::get_summary_stats("Height-in", 
+                             type = "common",
+                             show = c("n", "mean", "sd", "ci")) %>% 
   dplyr::filter(n >= 3)
 BGW19stubblestats
 ```
@@ -1102,16 +1075,18 @@ ggplot(BGW19stubblestats, aes(fill = Species, y = mean, x = Species)) +
            label = paste0("n = ", BGW19stubblestats$n[3]), 
            size = 3, 
            alpha = 0.75)
-BGW19figure
 ggsave("Boggy-2019-Stubble-Height-n-samples-95CI.jpg",
       path = paste0(getwd(),"/figures", "/stubbleheight", "/white-mountains"))
+BGW19figure
 ```
 
 ```{r Wildcat 2019 Stubble Stats}
 WCS19stubblestats <- stubble_data %>%
   dplyr::filter(Site == "Wildcat" & Year == 2019) %>% 
   dplyr::group_by(Species) %>% 
-  rstatix::get_summary_stats("Height-in", type = "common") %>% 
+  rstatix::get_summary_stats("Height-in", 
+                             type = "common",
+                             show = c("n", "mean", "sd", "ci")) %>% 
   dplyr::filter(n >= 3)
 WCS19stubblestats
 ```
@@ -1164,9 +1139,9 @@ ggplot(WCS19stubblestats, aes(fill = Species, y = mean, x = Species)) +
            label = paste0("n = number of samples"), 
            size = 3, 
            alpha = 0.75)
-WCS19figure
 ggsave("Wildcat-2019-Stubble-Height-n-samples-95CI.jpg",
       path = paste0(getwd(),"/figures", "/stubbleheight", "/white-mountains"))
+WCS19figure
 ```
 
 ```{r Wildcat 2019 Stubble Height Figure Drop Y Axis Label}
@@ -1227,7 +1202,7 @@ ggpubr::ggarrange(BGW19figure, WCS19figure,
                   align = "h")
 
 ggsave("White-Mountains-Stubble-Height-2019-combined.jpg",
-       height = 6.5,
+       height = 6,
        width = 9,
        units = "in",
        path = paste0(getwd(),"/figures", "/stubbleheight", "/white-mountains"))
@@ -1242,19 +1217,8 @@ Filter out the Heber data and keep only the White Mountains data.
 ```{r Filter Out White Mountain Data}
 heber_stubble <- stubble_data %>% 
   dplyr::filter(Site != "Boggy" & Site != "Wildcat") %>% 
-  dplyr::filter(Species != "Combined Species") %>% 
+  dplyr::filter(Species != "Combined Species")
 print(heber_stubble)
-```
-
-Drop the unused factor levels from the Heber data, and then re-order the factor levels by the frequency in which they occur.
-
-```{r Drop Unused Levels Heber}
-heber_stubble$Species <- 
-  heber_stubble %>% 
-  pull(Species) %>% 
-  forcats::fct_drop() %>%
-  forcats::fct_infreq()
-heber_stubble$Species %>% levels()
 ```
 
 ```{r Calc Summary Stats Heber}
@@ -1262,18 +1226,16 @@ heber_stubble_stats <-
   heber_stubble %>%
   dplyr::group_by(Species) %>%
   rstatix::get_summary_stats("Height-in", type = "common") %>% 
-  dplyr::filter(n >= 3)
+  dplyr::filter(n >= 3) %>% 
+  dplyr::arrange(desc(n))
 print(heber_stubble_stats)
 ```
 
-```{r Check Factor Levels Heber Stubble Stats}
-heber_stubble_stats$Species %>% levels()
-```
+Drop the unused factor levels from the Heber data, and then re-order the factor levels by the frequency in which they occur.
 
 ```{r Drop Unused Levels Heber Stubble Stats}
 heber_stubble_stats$Species <- 
-  heber_stubble_stats %>%
-  dplyr::arrange(desc(n)) %>% 
+  heber_stubble_stats %>% 
   pull(Species) %>% 
   forcats::fct_drop() %>% 
   forcats::fct_inorder()
@@ -1339,14 +1301,26 @@ print(heber_color_scheme)
 
 ### 2018
 
+#### Black Canyon South
+
 ```{r Black Canyon South 2018 Stubble Stats}
 BKS18stubblestats <- stubble_data %>%
   dplyr::filter(Site == "BKS" & Year == 2018) %>% 
   dplyr::group_by(Species) %>% 
-  rstatix::get_summary_stats("Height-in", type = "common") %>% 
+  rstatix::get_summary_stats("Height-in", 
+                             type = "common",
+                             show = c("n", "mean", "sd", "ci")) %>% 
   dplyr::filter(n >= 3)
 BKS18stubblestats
 ```
+
+```{r Add Upper and Lower Confidence Interval Black Canyon SOuth 2018}
+BKS18stubblestats %>% 
+  dplyr::mutate(L95 = mean - ci) %>% 
+  dplyr::mutate(U95 = mean + ci) -> BKS18stubblestats
+print(BKS18stubblestats)
+```
+
 
 ```{r Black Canyon South 2018 Stubble Height Figure}
 BKS18plot <-
@@ -1389,13 +1363,24 @@ ggsave("Black-Canyon-South-2018-Stubble-Height-n-samples-95CI.jpg",
 BKS18plot
 ```
 
+#### Bear
+
 ```{r Bear 2018 Stubble Stats}
 BRL18stubblestats <- stubble_data %>%
   dplyr::filter(Site == "BRL" & Year == 2018) %>% 
   dplyr::group_by(Species) %>% 
-  rstatix::get_summary_stats("Height-in", type = "common") %>% 
+  rstatix::get_summary_stats("Height-in", 
+                             type = "common", 
+                             show = c("n", "mean", "sd", "ci")) %>% 
   dplyr::filter(n >= 3)
 BRL18stubblestats
+```
+
+```{r Add Upper and Lower Confidence Interval Bear 2018}
+BRL18stubblestats %>% 
+  dplyr::mutate(L95 = mean - ci) %>% 
+  dplyr::mutate(U95 = mean + ci) -> BRL18stubblestats
+print(BRL18stubblestats)
 ```
 
 ```{r Bear 2018 Stubble Height Figure}
@@ -1505,9 +1490,18 @@ heber2018_figure
 BRL19stubblestats <- heber_stubble %>%
   dplyr::filter(Site == "BRL" & Year == 2019) %>% 
   dplyr::group_by(Species) %>% 
-  rstatix::get_summary_stats("Height-in", type = "common") %>% 
+  rstatix::get_summary_stats("Height-in", 
+                             type = "common",
+                             show = c("n", "mean", "sd", "ci")) %>% 
   dplyr::filter(n >= 3)
 BRL19stubblestats
+```
+
+```{r Add Upper and Lower Confidence Interval Bear 2019}
+BRL19stubblestats %>% 
+  dplyr::mutate(L95 = mean - ci) %>% 
+  dplyr::mutate(U95 = mean + ci) -> BRL19stubblestats
+print(BRL19stubblestats)
 ```
 
 ```{r Bear 2019 Stubble Height Figure}
@@ -1578,9 +1572,18 @@ FTO19stubblestats <-
   heber_stubble %>%
   dplyr::filter(Site == "A51" & Year == 2019) %>% 
   dplyr::group_by(Species) %>% 
-  rstatix::get_summary_stats("Height-in", type = "common") %>% 
+  rstatix::get_summary_stats("Height-in", 
+                             type = "common",
+                             show = c("n", "mean", "sd", "ci")) %>% 
   dplyr::filter(n >= 3)
 FTO19stubblestats
+```
+
+```{r Add Upper and Lower Confidence Interval Fifty One 2019}
+FTO19stubblestats %>% 
+  dplyr::mutate(L95 = mean - ci) %>% 
+  dplyr::mutate(U95 = mean + ci) -> FTO19stubblestats
+print(FTO19stubblestats)
 ```
 
 ```{r Fifty One 2019 Stubble Height Figure}
@@ -1712,7 +1715,9 @@ BKN19stubblestats <-
   heber_stubble %>%
   dplyr::filter(Site == "BKN" & Year == 2019) %>% 
   dplyr::group_by(Species) %>% 
-  rstatix::get_summary_stats("Height-in", type = "common") %>% 
+  rstatix::get_summary_stats("Height-in", 
+                             type = "common",
+                             show = c("n", "mean", "sd", "ci")) %>% 
   dplyr::filter(n >= 3)
 BKN19stubblestats
 ```
@@ -1721,6 +1726,13 @@ Because the HECO has really strange confidence interval (it goes from 27 to -5),
 
 ```{r Drop HECO Confidence Interval}
 BKN19stubblestats$ci[3] <- NA
+```
+
+```{r Add Upper and Lower Confidence Interval Black Canyon North 2019}
+BKN19stubblestats %>% 
+  dplyr::mutate(L95 = mean - ci) %>% 
+  dplyr::mutate(U95 = mean + ci) -> BKN19stubblestats
+print(BKN19stubblestats)
 ```
 
 ```{r Black Canyon North 2019 Stubble Height Figure}
@@ -1868,9 +1880,18 @@ heber2019_figure
 BRL20stubblestats <- heber_stubble %>%
   dplyr::filter(Site == "BRL" & Year == 2020) %>% 
   dplyr::group_by(Species) %>% 
-  rstatix::get_summary_stats("Height-in", type = "common") %>% 
+  rstatix::get_summary_stats("Height-in", 
+                             type = "common",
+                             show = c("n", "mean", "sd", "ci")) %>% 
   dplyr::filter(n >= 3)
 BRL20stubblestats
+```
+
+```{r Add Upper and Lower Confidence Interval Bear 2020}
+BRL20stubblestats %>% 
+  dplyr::mutate(L95 = mean - ci) %>% 
+  dplyr::mutate(U95 = mean + ci) -> BRL20stubblestats
+print(BRL20stubblestats)
 ```
 
 ```{r Bear 2020 Stubble Height Figure}
@@ -2031,9 +2052,18 @@ FTO20stubblestats <-
   heber_stubble %>%
   dplyr::filter(Site == "A51" & Year == 2020) %>% 
   dplyr::group_by(Species) %>% 
-  rstatix::get_summary_stats("Height-in", type = "common") %>% 
+  rstatix::get_summary_stats("Height-in", 
+                             type = "common",
+                             show = c("n", "mean", "sd", "ci")) %>% 
   dplyr::filter(n >= 3)
 FTO20stubblestats
+```
+
+```{r Add Upper and Lower Confidence Interval Fifty One 2020}
+FTO20stubblestats %>% 
+  dplyr::mutate(L95 = mean - ci) %>% 
+  dplyr::mutate(U95 = mean + ci) -> FTO20stubblestats
+print(FTO20stubblestats)
 ```
 
 ```{r Fifty One 2020 Stubble Height Figure}
@@ -2207,9 +2237,18 @@ BKN20stubblestats <-
   heber_stubble %>%
   dplyr::filter(Site == "BKN" & Year == 2020) %>% 
   dplyr::group_by(Species) %>% 
-  rstatix::get_summary_stats("Height-in", type = "common") %>% 
+  rstatix::get_summary_stats("Height-in", 
+                             type = "common",
+                             show = c("n", "mean", "sd", "ci")) %>% 
   dplyr::filter(n >= 3)
 BKN20stubblestats
+```
+
+```{r Add Upper and Lower Confidence Interval Black Canyon North 2020}
+BKN20stubblestats %>% 
+  dplyr::mutate(L95 = mean - ci) %>% 
+  dplyr::mutate(U95 = mean + ci) -> BKN20stubblestats
+print(BKN20stubblestats)
 ```
 
 ```{r Black Canyon North 2020 Stubble Height Figure}
@@ -2342,9 +2381,18 @@ BKN20plot
 BKS20stubblestats <- heber_stubble %>%
   dplyr::filter(Site == "BKS" & Year == 2020) %>% 
   dplyr::group_by(Species) %>% 
-  rstatix::get_summary_stats("Height-in", type = "common") %>% 
+  rstatix::get_summary_stats("Height-in", 
+                             type = "common",
+                             show = c("n", "mean", "sd", "ci")) %>% 
   dplyr::filter(n >= 3)
 BKS20stubblestats
+```
+
+```{r Add Upper and Lower Confidence Interval Black Canyon South 2020}
+BKS20stubblestats %>% 
+  dplyr::mutate(L95 = mean - ci) %>% 
+  dplyr::mutate(U95 = mean + ci) -> BKS20stubblestats
+print(BKS20stubblestats)
 ```
 
 ```{r Black Canyon South 2020 Stubble Height Figure}
