@@ -48,9 +48,18 @@ subjects_folder <- "subjects"
 # the "~" tilde character is used for mounted volumes on Docker containers
 path_to_collection_folder <- file.path(root_folder, main_folder, location_folder, site_folder, collection_folder)
 
-# install.packages("pacman")
-
-library("pacman")
-
 currentwd <- getwd()
 
+# Environment Options
+# set the environment time zone to local time
+Sys.setenv(TZ = "US/Arizona")
+
+# install.packages("pacman")
+# attach the pacman library to manage loading or install the packages
+library("pacman")
+
+# then attach or install the required packages
+source("packages.R")
+
+# load our custom functions
+source("functions.R")
