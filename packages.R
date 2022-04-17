@@ -35,4 +35,8 @@ p_load("hms")
 p_load("styler")
 p_load("lintr")
 # remotes::install_version("formatR", version = 1.12, repos = "https://cran.r-project.org/")
+# remotes::install_github("mattcowgill/ggannotate")
+p_load("ggannotate")
 p_load("formatR")
+p_load("RColorBrewer")
+
