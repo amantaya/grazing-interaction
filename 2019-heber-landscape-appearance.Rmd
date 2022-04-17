@@ -1,0 +1,110 @@
+---
+title: "2019-heber-landscape-appearance"
+author: "Andrew Antaya"
+date: "4/16/2022"
+output: html_document
+---
+# Load Data
+
+In 2019, we took 25 landscape appearance samples at each site, along a single transect at each site.
+
+```{r Load CSV Data}
+A51_2019_landscape_appearance <- readr::read_csv(
+    file.path(
+        getwd(), "data", "vegetation",
+        "heber", "landscape-appearance",
+        "csv", "2019-A51-landscape-appearance.csv"
+    ),
+    col_names = TRUE, na = c("", " ", "NA")
+)
+print(A51_2019_landscape_appearance)
+
+BKN_2019_landscape_appearance <- readr::read_csv(
+    file.path(
+        getwd(), "data", "vegetation",
+        "heber", "landscape-appearance",
+        "csv", "2019-BKN-landscape-appearance.csv"
+    ),
+    col_names = TRUE, na = c("", " ", "NA")
+)
+print(BKN_2019_landscape_appearance)
+
+BRL_2019_landscape_appearance <- readr::read_csv(
+    file.path(
+        getwd(), "data", "vegetation",
+        "heber", "landscape-appearance",
+        "csv", "2019-BRL-landscape-appearance.csv"
+    ),
+    col_names = TRUE, na = c("", " ", "NA")
+)
+print(BRL_2019_landscape_appearance)
+```
+
+# Clean Data
+
+```{r Rename "%.Estimate" to "Class Mid-Point"}
+A51_2019_landscape_appearance <- 
+  A51_2019_landscape_appearance %>% 
+  dplyr::rename("Class Mid-Point" = "%.Estimate")
+print(A51_2019_landscape_appearance)
+
+BKN_2019_landscape_appearance <- 
+  BKN_2019_landscape_appearance %>% 
+  dplyr::rename("Class Mid-Point" = "%.Estimate")
+print(BKN_2019_landscape_appearance)
+
+BRL_2019_landscape_appearance <- 
+  BRL_2019_landscape_appearance %>% 
+  dplyr::rename("Class Mid-Point" = "%.Estimate")
+print(BRL_2019_landscape_appearance)
+```
+
+One of the class mid-points was incorrectly recorded for the 2019 data. We recorded the 88% class mid-point incorrectly as "90%". We can do a simple string replace to change all of the 90% values to 88%.
+
+```{r Replace Class Mid-Point}
+A51_2019_landscape_appearance$'Class Mid-Point' <- 
+  A51_2019_landscape_appearance %>% 
+  pull(`Class Mid-Point`) %>% 
+  str_replace_all("90", "88")
+print(A51_2019_landscape_appearance)
+
+BKN_2019_landscape_appearance$'Class Mid-Point' <- 
+  BKN_2019_landscape_appearance %>% 
+  pull(`Class Mid-Point`) %>% 
+  str_replace_all("90", "88")
+print(BKN_2019_landscape_appearance)
+
+BRL_2019_landscape_appearance$'Class Mid-Point' <- 
+  BRL_2019_landscape_appearance %>% 
+  pull(`Class Mid-Point`) %>% 
+  str_replace_all("90", "88")
+print(BRL_2019_landscape_appearance)
+```
+# Write Data
+
+```{r Write Data to CSV}
+readr::write_csv(A51_2019_landscape_appearance,
+    file.path(
+        getwd(), "data", "vegetation",
+        "heber", "landscape-appearance",
+        "csv", "2019-A51-landscape-appearance-cleaned.csv"
+        )
+    )
+
+readr::write_csv(BKN_2019_landscape_appearance,
+    file.path(
+        getwd(), "data", "vegetation",
+        "heber", "landscape-appearance",
+        "csv", "2019-BKN-landscape-appearance-cleaned.csv"
+        )
+    )
+
+readr::write_csv(BRL_2019_landscape_appearance,
+    file.path(
+        getwd(), "data", "vegetation",
+        "heber", "landscape-appearance",
+        "csv", "2019-BRL-landscape-appearance-cleaned.csv"
+        )
+    )
+```
+

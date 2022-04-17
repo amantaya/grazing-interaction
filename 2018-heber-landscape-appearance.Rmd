@@ -1,0 +1,185 @@
+---
+title: "2018-heber-landscape-appearance"
+author: "Andrew Antaya"
+date: "4/16/2022"
+output: html_document
+---
+
+# Setup
+
+First, let's remove all objects from the environment to start fresh each time.
+
+```{r Setup Environment}
+source("environment.R")
+```
+
+# Load Data
+
+```{r Load Data from CSV Files}
+BKS_2018_landscape_appearance <- readr::read_csv(
+    file.path(
+        getwd(), "data", "vegetation",
+        "heber", "landscape-appearance",
+        "csv", "2018-BKS-landscape-appearance.csv"
+    ),
+    col_names = TRUE, na = c("", " ", "NA")
+)
+#print(BKS_2018_landscape_appearance)
+
+BRL_2018_landscape_appearance <- readr::read_csv(
+    file.path(
+        getwd(), "data", "vegetation",
+        "heber", "landscape-appearance",
+        "csv", "2018-BRL-landscape-appearance.csv"
+    ),
+    col_names = TRUE, na = c("", " ", "NA")
+)
+#print(BRL_2018_landscape_appearance)
+```
+
+```{r}
+BKS_2018_landscape_appearance <- 
+BKS_2018_landscape_appearance %>% 
+  dplyr::rename('Class Mid-Point' = class_score)
+#print(BKS_2018_landscape_appearance)
+```
+
+```{r}
+BRL_2018_landscape_appearance <- 
+BRL_2018_landscape_appearance %>% 
+  dplyr::rename('Class Mid-Point' = class_score)
+#print(BRL_2018_landscape_appearance)
+```
+
+```{r}
+BKS_2018_la_expand <- rep(
+    BKS_2018_landscape_appearance$`Class Mid-Point`[1],
+    times = BKS_2018_landscape_appearance$count[1]
+)
+
+BKS_2018_la_expand <- append(
+    BKS_2018_la_expand, rep(
+        BKS_2018_landscape_appearance$`Class Mid-Point`[2],
+        times = BKS_2018_landscape_appearance$count[2]
+    )
+)
+
+BKS_2018_la_expand <- append(
+    BKS_2018_la_expand, rep(
+        BKS_2018_landscape_appearance$`Class Mid-Point`[3],
+        times = BKS_2018_landscape_appearance$count[3]
+    )
+)
+
+BKS_2018_la_expand <- append(
+    BKS_2018_la_expand, rep(
+        BKS_2018_landscape_appearance$`Class Mid-Point`[4],
+        times = BKS_2018_landscape_appearance$count[4]
+    )
+)
+
+BKS_2018_la_expand <- append(
+    BKS_2018_la_expand, rep(
+        BKS_2018_landscape_appearance$`Class Mid-Point`[5],
+        times = BKS_2018_landscape_appearance$count[5]
+    )
+)
+
+BKS_2018_la_expand <- append(
+    BKS_2018_la_expand, rep(
+        BKS_2018_landscape_appearance$`Class Mid-Point`[6],
+        times = BKS_2018_landscape_appearance$count[6]
+    )
+)
+
+BKS_2018_la_expand <- append(
+    BKS_2018_la_expand, rep(
+        BKS_2018_landscape_appearance$`Class Mid-Point`[7],
+        times = BKS_2018_landscape_appearance$count[7]
+    )
+)
+
+#print(BKS_2018_la_expand)
+```
+
+```{r}
+length(BKS_2018_la_expand)
+```
+
+```{r}
+BRL_2018_la_expand <- rep(
+    BRL_2018_landscape_appearance$`Class Mid-Point`[1],
+    times = BRL_2018_landscape_appearance$count[1]
+)
+
+BRL_2018_la_expand <- append(
+    BRL_2018_la_expand, rep(
+        BRL_2018_landscape_appearance$`Class Mid-Point`[2],
+        times = BRL_2018_landscape_appearance$count[2]
+    )
+)
+
+BRL_2018_la_expand <- append(
+    BRL_2018_la_expand, rep(
+        BRL_2018_landscape_appearance$`Class Mid-Point`[3],
+        times = BRL_2018_landscape_appearance$count[3]
+    )
+)
+
+BRL_2018_la_expand <- append(
+    BRL_2018_la_expand, rep(
+        BRL_2018_landscape_appearance$`Class Mid-Point`[4],
+        times = BRL_2018_landscape_appearance$count[4]
+    )
+)
+
+BRL_2018_la_expand <- append(
+    BRL_2018_la_expand, rep(
+        BRL_2018_landscape_appearance$`Class Mid-Point`[5],
+        times = BRL_2018_landscape_appearance$count[5]
+    )
+)
+
+BRL_2018_la_expand <- append(
+    BRL_2018_la_expand, rep(
+        BRL_2018_landscape_appearance$`Class Mid-Point`[6],
+        times = BRL_2018_landscape_appearance$count[6]
+    )
+)
+
+BRL_2018_la_expand <- append(
+    BRL_2018_la_expand, rep(
+        BRL_2018_landscape_appearance$`Class Mid-Point`[7],
+        times = BRL_2018_landscape_appearance$count[7]
+    )
+)
+
+#print(BRL_2018_la_expand)
+```
+
+```{r}
+length(BRL_2018_la_expand)
+```
+
+Re-create a data frame using the table of counts from the Bear 2018 data. This was done to make it easier to calculate summary statistics.
+
+```{r}
+BRL_2018_la_tibble <- tibble::tibble(Site = "BRL", 
+                                     Year = "2018", 
+                                     Sample = seq(1:length(BRL_2018_la_expand)), 
+                                     `Class Mid-Point` = BRL_2018_la_expand)
+
+print(BRL_2018_la_tibble)
+```
+
+Re-create a data frame using the table of counts from the Black Canyon 2018 data. This was done to make it easier to calculate summary statistics.
+
+```{r}
+BKS_2018_la_tibble <- tibble::tibble(Site = "BKS", 
+                                     Year = "2018", 
+                                     Sample = seq(1:length(BKS_2018_la_expand)), 
+                                     `Class Mid-Point` = BKS_2018_la_expand)
+
+print(BKS_2018_la_tibble)
+```
+

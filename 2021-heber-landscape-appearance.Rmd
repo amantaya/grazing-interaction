@@ -1,0 +1,95 @@
+---
+title: "2021-heber-landscape-appearance-preprocessing"
+author: "Andrew Antaya"
+date: "4/16/2022"
+output:
+  html_document: 
+    theme: readable
+    toc: yes
+    toc_depth: 5
+    fig_caption: yes
+  word_document:
+    toc: yes
+---
+
+# Setup
+
+First, let's remove all objects from the environment to start fresh each time.
+
+```{r clear environment}
+# clear the environment
+# rm(list = ls(all = TRUE))
+```
+
+```{r setup environment}
+source("environment.R")
+```
+
+# Load Data
+
+```{r Load 2021 Heber Landscape Appearance Data}
+heber_2021_landscape_appearance <- readr::read_csv(
+    file.path(
+        getwd(), "data", "vegetation",
+        "heber", "landscape-appearance",
+        "2021-heber-landscape-appearance-vgs.csv"
+    ),
+    col_names = TRUE, na = c("", " ", "NA")
+)
+
+print(heber_2021_landscape_appearance)
+```
+
+# Clean Data
+
+## Remove Unnecessary Columns
+
+```{r}
+heber_2021_landscape_appearance <- heber_2021_landscape_appearance %>% 
+  dplyr::select(-c("X1", "ProtocolType", "FormName", "Element"))
+print(heber_2021_landscape_appearance)
+```
+
+## Rename Columns 
+
+Some of the column names have changed between versions of VGS. We will rename these columns so that they are consistent between years. 
+
+```{r}
+heber_2021_landscape_appearance <- heber_2021_landscape_appearance %>% 
+  dplyr::rename(Site = SiteID) %>% 
+  dplyr::rename(Sample = SampleNumber) %>% 
+  dplyr::rename("Class Mid-Point" = nValue)
+print(heber_2021_landscape_appearance)
+```
+
+The "Date" column was read in as a character vector. We want to convert the character vector into a datetime class. 
+
+```{r}
+heber_2021_landscape_appearance$Date <- 
+heber_2021_landscape_appearance %>% 
+  pull(Date) %>% 
+  lubridate::mdy()
+print(heber_2021_landscape_appearance)
+```
+
+Create a new column "Year" to make this data conistent with data from other years.
+
+```{r}
+heber_2021_landscape_appearance <- 
+  heber_2021_landscape_appearance %>% 
+  dplyr::mutate(Year = year(heber_2021_landscape_appearance$Date))
+print(heber_2021_landscape_appearance)
+```
+
+Write out this data now that it's been cleaned up and is consistent with data from previous years.
+
+```{r}
+readr::write_csv(heber_2021_landscape_appearance,
+  file.path(
+    getwd(), "data", "vegetation",
+    "heber", "landscape-appearance",
+    "csv", "2021-heber-landscape-appearance.csv"
+  )
+)
+```
+
