@@ -47,3 +47,6 @@ error-messages
 
 # ignore GIS folder
 gis
+
+# ignore archive folder
+archived
