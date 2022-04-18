@@ -34,12 +34,12 @@ Then, let's get our R environment ready by loading some useful packages.
 ```{r load packages, include=FALSE}
 # "inlcude=FALSE" in the chunk evaluates the code, but doesn't write the output to the knitr document
 # loading packages involves alot of output in the console that we don't need in the knitr document
-source(paste0(currentwd, "/packages.R"))
+# source(paste0(currentwd, "/packages.R"))
 ```
 
 This separate R script contains all of the functions that I commonly use across multiple scripts. This chunk of code reads in those functions into the global R environment.
 ```{r load functions}
-source(paste0(currentwd, "/functions.R"))
+# source(paste0(currentwd, "/functions.R"))
 ```
 
 ------------------------------------------------------------------------
@@ -506,13 +506,12 @@ p <- ggplot(BRL_2017_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
            y = 0, 
            yend = 250,
            color = "black")
-
-p
-```
-
-```{r}
 ggsave("Bear-Timelapse-2017-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
+       height = 6,
+       width = 9,
+       units = "in",
        path = paste0(currentwd,"/figures", "/grazing-minutes"))
+p
 ```
 
 ```{r Bear 2017 Weighted Figure}
@@ -548,6 +547,9 @@ p
 
 ```{r}
 ggsave("Bear-Timelapse-2017-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
+       height = 6,
+       width = 9,
+       units = "in",
        path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
@@ -571,6 +573,9 @@ p
 
 ```{r}
 ggsave("Bear-Timelapse-2018-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
+      height = 6,
+       width = 9,
+       units = "in",
        path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
@@ -594,6 +599,9 @@ p
 
 ```{r}
 ggsave("Bear-Timelapse-2018-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
+       height = 6,
+       width = 9,
+       units = "in",
        path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
@@ -629,6 +637,9 @@ p
 
 ```{r}
 ggsave("Bear-Timelapse-2019-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
+      height = 6,
+       width = 9,
+       units = "in",
      path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
@@ -664,6 +675,9 @@ p
 
 ```{r}
 ggsave("Bear-Timelapse-2019-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
+      height = 6,
+       width = 9,
+       units = "in",
      path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
@@ -699,6 +713,9 @@ p
 
 ```{r}
 ggsave("Bear-Timelapse-2020-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
+      height = 6,
+       width = 9,
+       units = "in",
      path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
@@ -734,6 +751,9 @@ p
 
 ```{r}
 ggsave("Bear-Timelapse-2020-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
+      height = 6,
+       width = 9,
+       units = "in",
      path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
@@ -769,6 +789,9 @@ p
 
 ```{r}
 ggsave("FiftyOne-Timelapse-2019-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
+      height = 6,
+       width = 9,
+       units = "in",
      path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
@@ -804,6 +827,9 @@ p
 
 ```{r}
 ggsave("FiftyOne-Timelapse-2019-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
+        height = 6,
+       width = 9,
+       units = "in",
      path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
@@ -839,6 +865,9 @@ p
 
 ```{r}
 ggsave("FiftyOne-Timelapse-2020-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
+      height = 6,
+       width = 9,
+       units = "in",
      path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
@@ -874,6 +903,9 @@ p
 
 ```{r}
 ggsave("FiftyOne-Timelapse-2020-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
+      height = 6,
+       width = 9,
+       units = "in",
      path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
@@ -909,6 +941,9 @@ p
 
 ```{r}
 ggsave("Black-Canyon-Dam-Timelapse-2019-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
+      height = 6,
+       width = 9,
+       units = "in",
      path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
@@ -944,6 +979,9 @@ p
 
 ```{r}
 ggsave("Black-Canyon-Dam-Timelapse-2019-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
+      height = 6,
+       width = 9,
+       units = "in",
      path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
@@ -980,6 +1018,9 @@ p
 
 ```{r}
 ggsave("Black-Canyon-South-Timelapse-2017-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
+      height = 6,
+       width = 9,
+       units = "in",
        path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
@@ -1016,6 +1057,9 @@ p
 
 ```{r}
 ggsave("Black-Canyon-South-Timelapse-2017-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
+      height = 6,
+       width = 9,
+       units = "in",
        path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
@@ -1039,6 +1083,9 @@ p
 
 ```{r}
 ggsave("Black-Canyon-South-Timelapse-2018-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
+      height = 6,
+       width = 9,
+       units = "in",
        path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
@@ -1062,6 +1109,9 @@ p
 
 ```{r}
 ggsave("Black-Canyon-South-Timelapse-2018-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
+      height = 6,
+       width = 9,
+       units = "in",
        path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
@@ -1097,6 +1147,9 @@ p
 
 ```{r}
 ggsave("Black-Canyon-South-Timelapse-2019-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
+      height = 6,
+       width = 9,
+       units = "in",
      path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
@@ -1132,6 +1185,9 @@ p
 
 ```{r}
 ggsave("Black-Canyon-South-Timelapse-2019-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
+      height = 6,
+       width = 9,
+       units = "in",
      path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
@@ -1167,6 +1223,9 @@ p
 
 ```{r}
 ggsave("Black-Canyon-South-Timelapse-2020-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
+      height = 6,
+       width = 9,
+       units = "in",
      path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
@@ -1202,6 +1261,9 @@ p
 
 ```{r}
 ggsave("Black-Canyon-South-Timelapse-2020-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
+      height = 6,
+       width = 9,
+       units = "in",
      path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
@@ -1237,6 +1299,9 @@ p
 
 ```{r}
 ggsave("Black-Canyon-North-Timelapse-2019-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
+      height = 6,
+       width = 9,
+       units = "in",
      path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
@@ -1272,6 +1337,9 @@ p
 
 ```{r}
 ggsave("Black-Canyon-North-Timelapse-2019-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
+      height = 6,
+       width = 9,
+       units = "in",
      path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
@@ -1307,6 +1375,9 @@ p
 
 ```{r}
 ggsave("Black-Canyon-North-Timelapse-2020-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
+      height = 6,
+       width = 9,
+       units = "in",
      path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
@@ -1342,6 +1413,9 @@ p
 
 ```{r}
 ggsave("Black-Canyon-North-Timelapse-2020-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
+      height = 6,
+       width = 9,
+       units = "in",
      path = paste0(currentwd,"/figures", "/grazing-minutes"))
 ```
 
