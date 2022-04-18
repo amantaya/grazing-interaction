@@ -61,5 +61,10 @@ library("pacman")
 # then attach or install the required packages
 source("packages.R")
 
+# remotes::install_github("r-quantities/units")
+# remotes::install_version("formatR", version = 1.12, repos = "https://cran.r-project.org/")
+# remotes::install_github("mattcowgill/ggannotate")
+# p_load("ggannotate")
+
 # load our custom functions
 source("functions.R")
