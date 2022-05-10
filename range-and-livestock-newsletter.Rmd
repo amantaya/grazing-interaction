@@ -1,0 +1,17 @@
+---
+title: "range-and-livestock-newsletter"
+output: word_document
+author: "Andrew Antaya"
+date: 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+Points to Hit On
+1. What is this study about
+2. Why the project is happening
+3. Why does it matter to producers
+
