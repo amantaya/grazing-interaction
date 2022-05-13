@@ -1,0 +1,15 @@
+* {{citekey}}
+* {{abstract}}
+* {{authorString}}
+* {{containerTitle}}
+* {{DOI}}
+* {{eprint}}
+* {{eprinttype}}
+* {{eventPlace}}
+* {{page}}
+* {{publisher}}
+* {{publisherPlace}}
+* {{title}}
+* {{URL}}
+* {{year}}
+* {{zoteroSelectURI}}
