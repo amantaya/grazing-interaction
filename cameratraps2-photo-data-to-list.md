@@ -1,9 +1,12 @@
 # Cameratraps2 TODO List
+The cameratraps2 are the 25 motion cameras deployed on and off the HWHT.
+
 ## BUO01
 
 ### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
 ### Folders That Need Metadata 
+BUO01_20150101_20210804
 
 ### Folders That Need Sorting
 BUO01_20150101_20210804
@@ -25,6 +28,7 @@ BUO01_20210723_20210804
 ### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
 ### Folders That Need Metadata 
+BUO07_20210804_20220107
 
 ### Folders That Need Sorting
 BUO07_20210625_20210723
@@ -46,6 +50,7 @@ BUO07_20210804_20220107
 ### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
 ### Folders That Need Metadata 
+BUO23_20210723_20220107
 
 ### Folders That Need Sorting
 BUO23_20210525_20210624
@@ -66,6 +71,7 @@ BUO23_20210624_20210723
 ### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
 ### Folders That Need Metadata 
+BUO29_20210722_20220106
 
 ### Folders That Need Sorting
 BUO29_20210624_20210722
@@ -105,6 +111,7 @@ BUT12_20210622_20210723
 ### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
 ### Folders That Need Metadata 
+BUT19_20210723_20220106
 
 ### Folders That Need Sorting
 BUT19_20210527_20210623
@@ -125,6 +132,7 @@ BUT19_20210623_20210723
 ### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
 ### Folders That Need Metadata 
+GEO02_20210805_20210907
 
 ### Folders That Need Sorting
 GEO02_20210625_20210703
@@ -145,6 +153,7 @@ GEO02_20210723_20210805
 ### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
 ### Folders That Need Metadata 
+GEO30_20210723_20211016
 
 ### Folders That Need Sorting
 GEO30_20210526_20210622
@@ -164,6 +173,7 @@ GEO30_20210526_20210622
 ### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
 ### Folders That Need Metadata 
+GEO32_20210805_20220108
 
 ### Folders That Need Sorting
 GEO32_20210526_20210609
@@ -185,6 +195,7 @@ GEO32_20210723_20210805
 ### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
 ### Folders That Need Metadata 
+GET01_20210722_20220108
 
 ### Folders That Need Sorting
 GET01_20210624_20210722
@@ -204,6 +215,7 @@ GET01_20210624_20210722
 ### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
 ### Folders That Need Metadata 
+GET06_20210722_20220106
 
 ### Folders That Need Sorting
 GET06_20210525_20210622
@@ -224,6 +236,7 @@ GET06_20210622_20210722
 ### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
 ### Folders That Need Metadata 
+GET13_20210723_20220107
 
 ### Folders That Need Sorting
 GET13_20210527_20210613
@@ -244,6 +257,7 @@ GET13_20210623_20210723
 ### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
 ### Folders That Need Metadata 
+GET21_20210724_20220107
 
 ### Folders That Need Sorting
 GET21_20210525_20210623
@@ -264,6 +278,7 @@ GET21_20210623_20210723
 ### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
 ### Folders That Need Metadata 
+GET22_20210724_20220107
 
 ### Folders That Need Sorting
 GET22_20210525_20210622
@@ -284,6 +299,7 @@ GET22_20210622_20210622
 ### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
 ### Folders That Need Metadata 
+KPT14_20210722_20220106
 
 ### Folders That Need Sorting
 KPT14_20210527_20210622
@@ -365,6 +381,7 @@ SHT11_20210623_20210723
 ### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
 ### Folders That Need Metadata 
+SHT15_20210723_20211212
 
 ### Folders That Need Sorting
 SHT15_20210527_20210611
@@ -388,9 +405,9 @@ SHT15_20210623_20210723
 SHT18_20210525_20210528
 SHT18_20210622_20210722
 SHT18_20210722_20210805
+SHT18_20210805_20220107
 
 ### Folders That Need Sorting
-
 
 ### Folders That Need Subject Photos Copied
 
@@ -412,6 +429,7 @@ SHT30_20210622_20210722
 
 ### Folders That Need Sorting
 SHT30_20210722_20210805
+SHT30_20210805_20211107
 
 ### Folders That Need Subject Photos Copied
 
@@ -432,6 +450,7 @@ STO08_20210526_20210616
 STO08_20210624_20210722
 
 ### Folders That Need Sorting
+STO08_20210722_20220106
 
 ### Folders That Need Subject Photos Copied
 
@@ -449,6 +468,7 @@ STO08_20210624_20210722
 
 ### Folders That Need Metadata 
 STO09_20210624_20210722
+STO09_20210722_20220107
 
 ### Folders That Need Sorting
 
@@ -468,6 +488,7 @@ STO09_20210624_20210722
 
 ### Folders That Need Metadata 
 STO39_20210624_20210722
+STO38_20210723_20220106
 
 ### Folders That Need Sorting
 
@@ -488,6 +509,7 @@ STO39_20210624_20210722
 ### Folders That Need Metadata 
 STT29_20210527_20210623
 STT29_20210623_20210722
+STT29_20210722_20220107
 
 ### Folders That Need Sorting
 
