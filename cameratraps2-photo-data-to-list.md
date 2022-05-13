@@ -1,0 +1,502 @@
+# Cameratraps2 TODO List
+## BUO01
+
+### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
+
+### Folders That Need Metadata 
+
+### Folders That Need Sorting
+BUO01_20150101_20210804
+BUO01_20210625_20210723
+BUO01_20210723_20210804
+
+### Folders That Need Subject Photos Copied
+
+### Folders That Need to be Chunked
+
+### Chunks That Are Missing or Need to Be Completed
+
+### Completed Folders
+
+***
+
+## BUO07
+
+### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
+
+### Folders That Need Metadata 
+
+### Folders That Need Sorting
+BUO07_20210625_20210723
+BUO07_20210723_20210804
+BUO07_20210804_20220107
+
+### Folders That Need Subject Photos Copied
+
+### Folders That Need to be Chunked
+
+### Chunks That Are Missing or Need to Be Completed
+
+### Completed Folders
+
+***
+
+## BUO23
+
+### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
+
+### Folders That Need Metadata 
+
+### Folders That Need Sorting
+BUO23_20210525_20210624
+BUO23_20210624_20210723
+
+### Folders That Need Subject Photos Copied
+
+### Folders That Need to be Chunked
+
+### Chunks That Are Missing or Need to Be Completed
+
+### Completed Folders
+
+***
+
+## BUO29
+
+### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
+
+### Folders That Need Metadata 
+
+### Folders That Need Sorting
+BUO29_20210624_20210722
+
+### Folders That Need Subject Photos Copied
+
+### Folders That Need to be Chunked
+
+### Chunks That Are Missing or Need to Be Completed
+
+### Completed Folders
+
+***
+
+## BUT12
+
+### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
+
+### Folders That Need Metadata 
+
+### Folders That Need Sorting
+BUT12_20210527_20210622
+BUT12_20210622_20210723
+
+### Folders That Need Subject Photos Copied
+
+### Folders That Need to be Chunked
+
+### Chunks That Are Missing or Need to Be Completed
+
+### Completed Folders
+
+***
+
+## BUT19
+
+### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
+
+### Folders That Need Metadata 
+
+### Folders That Need Sorting
+BUT19_20210527_20210623
+BUT19_20210623_20210723
+
+### Folders That Need Subject Photos Copied
+
+### Folders That Need to be Chunked
+
+### Chunks That Are Missing or Need to Be Completed
+
+### Completed Folders
+
+***
+
+## GEO02
+
+### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
+
+### Folders That Need Metadata 
+
+### Folders That Need Sorting
+GEO02_20210625_20210703
+GEO02_20210723_20210805
+
+### Folders That Need Subject Photos Copied
+
+### Folders That Need to be Chunked
+
+### Chunks That Are Missing or Need to Be Completed
+
+### Completed Folders
+
+***
+
+## GEO30
+
+### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
+
+### Folders That Need Metadata 
+
+### Folders That Need Sorting
+GEO30_20210526_20210622
+
+### Folders That Need Subject Photos Copied
+
+### Folders That Need to be Chunked
+
+### Chunks That Are Missing or Need to Be Completed
+
+### Completed Folders
+
+***
+
+## GEO32
+
+### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
+
+### Folders That Need Metadata 
+
+### Folders That Need Sorting
+GEO32_20210526_20210609
+GEO32_20210622_20210723
+GEO32_20210723_20210805
+
+### Folders That Need Subject Photos Copied
+
+### Folders That Need to be Chunked
+
+### Chunks That Are Missing or Need to Be Completed
+
+### Completed Folders
+
+***
+
+## GET01
+
+### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
+
+### Folders That Need Metadata 
+
+### Folders That Need Sorting
+GET01_20210624_20210722
+
+### Folders That Need Subject Photos Copied
+
+### Folders That Need to be Chunked
+
+### Chunks That Are Missing or Need to Be Completed
+
+### Completed Folders
+
+***
+
+## GET06
+
+### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
+
+### Folders That Need Metadata 
+
+### Folders That Need Sorting
+GET06_20210525_20210622
+GET06_20210622_20210722
+
+### Folders That Need Subject Photos Copied
+
+### Folders That Need to be Chunked
+
+### Chunks That Are Missing or Need to Be Completed
+
+### Completed Folders
+
+***
+
+## GET13
+
+### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
+
+### Folders That Need Metadata 
+
+### Folders That Need Sorting
+GET13_20210527_20210613
+GET13_20210623_20210723
+
+### Folders That Need Subject Photos Copied
+
+### Folders That Need to be Chunked
+
+### Chunks That Are Missing or Need to Be Completed
+
+### Completed Folders
+
+***
+
+## GET21
+
+### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
+
+### Folders That Need Metadata 
+
+### Folders That Need Sorting
+GET21_20210525_20210623
+GET21_20210623_20210723
+
+### Folders That Need Subject Photos Copied
+
+### Folders That Need to be Chunked
+
+### Chunks That Are Missing or Need to Be Completed
+
+### Completed Folders
+
+***
+
+## GET22
+
+### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
+
+### Folders That Need Metadata 
+
+### Folders That Need Sorting
+GET22_20210525_20210622
+GET22_20210622_20210622
+
+### Folders That Need Subject Photos Copied
+
+### Folders That Need to be Chunked
+
+### Chunks That Are Missing or Need to Be Completed
+
+### Completed Folders
+
+***
+
+## KPT14
+
+### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
+
+### Folders That Need Metadata 
+
+### Folders That Need Sorting
+KPT14_20210527_20210622
+KPT14_20210622_20210722
+
+### Folders That Need Subject Photos Copied
+
+### Folders That Need to be Chunked
+
+### Chunks That Are Missing or Need to Be Completed
+
+### Completed Folders
+
+***
+
+## KPT16
+
+### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
+
+### Folders That Need Metadata 
+
+### Folders That Need Sorting
+KPT16_20210527_20210622
+KPT16_20210622_20210722
+
+### Folders That Need Subject Photos Copied
+
+### Folders That Need to be Chunked
+
+### Chunks That Are Missing or Need to Be Completed
+
+### Completed Folders
+
+***
+
+
+## KPT27
+
+### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
+
+### Folders That Need Metadata 
+KPT27_20210622_20210722
+KPT27_20210525_20210622
+
+### Folders That Need Sorting
+
+### Folders That Need Subject Photos Copied
+
+### Folders That Need to be Chunked
+
+### Chunks That Are Missing or Need to Be Completed
+
+### Completed Folders
+
+***
+
+## SHT11
+
+### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
+
+### Folders That Need Metadata 
+
+### Folders That Need Sorting
+SHT11_20210527_20210623
+SHT11_20210623_20210723
+
+### Folders That Need Subject Photos Copied
+
+### Folders That Need to be Chunked
+
+### Chunks That Are Missing or Need to Be Completed
+
+### Completed Folders
+
+***
+
+## SHT15
+
+### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
+
+### Folders That Need Metadata 
+
+### Folders That Need Sorting
+SHT15_20210527_20210611
+SHT15_20210623_20210723
+
+### Folders That Need Subject Photos Copied
+
+### Folders That Need to be Chunked
+
+### Chunks That Are Missing or Need to Be Completed
+
+### Completed Folders
+
+***
+
+## SHT18
+
+### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
+
+### Folders That Need Metadata 
+SHT18_20210525_20210528
+SHT18_20210622_20210722
+SHT18_20210722_20210805
+
+### Folders That Need Sorting
+
+
+### Folders That Need Subject Photos Copied
+
+### Folders That Need to be Chunked
+
+### Chunks That Are Missing or Need to Be Completed
+
+### Completed Folders
+
+***
+
+## SHT30
+
+### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
+SHT30_20210525_20210622
+SHT30_20210622_20210722
+
+### Folders That Need Metadata 
+
+### Folders That Need Sorting
+SHT30_20210722_20210805
+
+### Folders That Need Subject Photos Copied
+
+### Folders That Need to be Chunked
+
+### Chunks That Are Missing or Need to Be Completed
+
+### Completed Folders
+
+***
+
+## STO08
+
+### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
+
+### Folders That Need Metadata 
+STO08_20210526_20210616
+STO08_20210624_20210722
+
+### Folders That Need Sorting
+
+### Folders That Need Subject Photos Copied
+
+### Folders That Need to be Chunked
+
+### Chunks That Are Missing or Need to Be Completed
+
+### Completed Folders
+
+***
+
+## STO09
+
+### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
+
+### Folders That Need Metadata 
+STO09_20210624_20210722
+
+### Folders That Need Sorting
+
+### Folders That Need Subject Photos Copied
+
+### Folders That Need to be Chunked
+
+### Chunks That Are Missing or Need to Be Completed
+
+### Completed Folders
+
+***
+
+## STO39
+
+### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
+
+### Folders That Need Metadata 
+STO39_20210624_20210722
+
+### Folders That Need Sorting
+
+### Folders That Need Subject Photos Copied
+
+### Folders That Need to be Chunked
+
+### Chunks That Are Missing or Need to Be Completed
+
+### Completed Folders
+
+***
+
+## STT29
+
+### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
+
+### Folders That Need Metadata 
+STT29_20210527_20210623
+STT29_20210623_20210722
+
+### Folders That Need Sorting
+
+### Folders That Need Subject Photos Copied
+
+### Folders That Need to be Chunked
+
+### Chunks That Are Missing or Need to Be Completed
+
+### Completed Folders
+
+***
