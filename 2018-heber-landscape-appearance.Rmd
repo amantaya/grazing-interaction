@@ -18,9 +18,8 @@ source("environment.R")
 ```{r Load Data from CSV Files}
 BKS_2018_landscape_appearance <- readr::read_csv(
     file.path(
-        getwd(), "data", "vegetation",
-        "heber", "landscape-appearance",
-        "csv", "2018-BKS-landscape-appearance.csv"
+        getwd(), "data", "landscape-appearance",
+        "heber","csv", "2018-BKS-landscape-appearance.csv"
     ),
     col_names = TRUE, na = c("", " ", "NA")
 )
@@ -28,9 +27,8 @@ BKS_2018_landscape_appearance <- readr::read_csv(
 
 BRL_2018_landscape_appearance <- readr::read_csv(
     file.path(
-        getwd(), "data", "vegetation",
-        "heber", "landscape-appearance",
-        "csv", "2018-BRL-landscape-appearance.csv"
+        getwd(), "data", "landscape-appearance",
+        "heber","csv", "2018-BRL-landscape-appearance.csv"
     ),
     col_names = TRUE, na = c("", " ", "NA")
 )
