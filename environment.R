@@ -6,7 +6,7 @@
 
 # Copy and paste the path to working directory into the comment below
 # ~/cameratraps/cameratraps/blackcanyon/timelapsesouth/BKS_03062018_04102018
-full_path_to_collection_folder <- "~/cameratraps/blackcanyon/timelapsesouth/BKS_03062018_04102018"
+full_path_to_collection_folder <- "~/cameratraps/wildcat/exclosure"
 
 # Change this to TRUE if R is currently running in a Docker container
 # Change this to FALSE if R is not currently running in a Docker container
@@ -54,17 +54,3 @@ currentwd <- getwd()
 # set the environment time zone to local time
 Sys.setenv(TZ = "US/Arizona")
 
-# install.packages("pacman")
-# attach the pacman library to manage loading or install the packages
-library("pacman")
-
-# then attach or install the required packages
-source("packages.R")
-
-# remotes::install_github("r-quantities/units")
-# remotes::install_version("formatR", version = 1.12, repos = "https://cran.r-project.org/")
-# remotes::install_github("mattcowgill/ggannotate")
-# p_load("ggannotate")
-
-# load our custom functions
-source("functions.R")

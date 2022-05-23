@@ -1,3 +1,9 @@
+# install.packages("pacman")
+# attach the pacman library to manage loading or install the packages
+require("pacman")
+
+library("pacman")
+
 # Commonly Used Packages
 p_load("ggplot2")
 p_load("ggthemes")
@@ -36,4 +42,9 @@ p_load("styler")
 p_load("lintr")
 p_load("formatR")
 p_load("RColorBrewer")
+p_load("dlookr")
 
+# remotes::install_github("r-quantities/units")
+# remotes::install_version("formatR", version = 1.12, repos = "https://cran.r-project.org/")
+# remotes::install_github("mattcowgill/ggannotate")
+# p_load("ggannotate")
