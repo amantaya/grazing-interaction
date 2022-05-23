@@ -10,26 +10,23 @@ Clear the R environment to start from a clean slate.
 rm(list=ls(all=TRUE))
 ```
 
-```{r}
-source("packages.R")
+Read in the required packages from another R script in the current working directory.
+```{r setup environment}
+source("environment.R")
 ```
 
 ```{r}
-source("functions.R")
-```
-
-```{r include=FALSE}
 source_rmd("production.Rmd")
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 print(production)
 print(residual)
 ```
 
 Calculate the summary statistics for each site and year. This method is slightly different from the previous method, instead of grouping by year, each site-year (e.g., Boggy 2017) has summary statistics generated and stored into a object. Then those objects are bound together into a data frame.
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 residual_stats <- NULL
 
 BGW17 <- residual %>% 
@@ -60,10 +57,11 @@ residual_stats <- residual_stats %>%
 print(residual_stats)
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 print(production_stats)
 ```
-```{r}
+
+```{r eval=FALSE, include=FALSE}
 residual_stats$min <- as.numeric(residual_stats$min) 
 residual_stats$max <- as.numeric(residual_stats$max)
 residual_stats$median <- as.numeric(residual_stats$median)
@@ -72,40 +70,114 @@ residual_stats$mean <- as.numeric(residual_stats$mean)
 print(residual_stats)
 ```
 
+## Heber
+
+### 2021
+
 ```{r}
-percent_utilization <- (production_stats$mean - residual_stats$mean) / production_stats$mean
-
-utilization <- percent_utilization * 100
-
-utilization <- round(utilization)
-
-print(utilization)
+print(heber_production_stats_2021)
 ```
+
 ```{r}
-veg_data <- dplyr::bind_rows(production_stats, residual_stats)
-
-veg_data <- veg_data %>% tibble::add_column(Type = c(rep("Production", 6), rep("Availability", 6)), .after = "site")
-
-print(veg_data)
+heber_production_stats_2021 <- heber_production_stats_2021 %>% 
+  dplyr::mutate(variable = "Production")
+print(heber_production_stats_2021)
 ```
+
 ```{r}
-veg_data$Type <- veg_data$Type %>% fct_inorder()
-
-print(veg_data)
+print(heber_residuals_stats_2021)
 ```
+
+```{r}
+heber_residuals_stats_2021 <- heber_residuals_stats_2021 %>% 
+  dplyr::mutate(variable = "Availability")
+print(heber_residuals_stats_2021)
+```
+
+```{r}
+heber_paired_plot_2021 <- bind_rows(heber_production_stats_2021, heber_residuals_stats_2021)
+print(heber_paired_plot_2021)
+```
+
+```{r}
+calc_utilization <- function(production, residual){
+  utilization <- as.numeric(((production$mean - residual$mean) / production$mean) * 100)
+  utilization <- dplyr::if_else(utilization < 0, 0, utilization, NA_real_)
+  utilization <- tibble(perc_util = round(utilization, digits = 1),
+                        site = production$Site)
+}
+```
+
+
+```{r}
+heber_utilization_2021 <- calc_utilization(heber_production_stats_2021,
+                                           heber_residuals_stats_2021)
+print(heber_utilization_2021)
+```
+
+```{r}
+heber_paired_plot_2021$variable <- heber_paired_plot_2021 %>% 
+  pull(variable) %>% 
+  forcats::as_factor()
+print(heber_paired_plot_2021)
+```
+
+
+```{r}
+heber_paired_plot_2021$mean <- heber_paired_plot_2021$mean %>% as.numeric()
+heber_paired_plot_2021$sd <- heber_paired_plot_2021$sd %>% as.numeric()
+heber_paired_plot_2021$ci <- heber_paired_plot_2021$ci %>% as.numeric()
+```
+
 
 ```{r}
 excel_colors <- c(rep("#4472C4", 3), rep("#ED7D31", 3))
 ```
 
+
 ```{r}
-production_stats$mean - production_stats$se
-production_stats$mean + production_stats$se
+ggplot(heber_paired_plot_2021, aes(fill = variable, y = mean, x = Site)) +
+  geom_col(width = 0.7, position = position_dodge(0.7)) +
+  labs(title = expression(atop("Heber Wild Horse Territory", 
+                               paste("Paired Plot"))), 
+       subtitle = "2021") +
+  ylab(expression(paste("Pounds ", "Acre"^"-1", " ± 95% CI"))) + 
+  xlab("Percent Utilization") +
+  scale_y_continuous(limits = c(-200,3200), 
+                     breaks = seq(0, 3000, by = 500)) +
+  geom_errorbar(aes(ymin = (mean - ci), ymax = (mean + ci)), 
+                position = position_dodge(0.7), width = 0.25) +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 5, r = 0, b = 10, l = 0)),
+        axis.ticks.x.bottom = element_blank()) +
+  annotate(geom = "text", 
+           x = 1, 
+           y = heber_paired_plot_2021$mean[1] + heber_paired_plot_2021$ci[1] + 300, 
+           label = paste0(heber_utilization_2021$perc_util[1], "%")) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = heber_paired_plot_2021$mean[2] + heber_paired_plot_2021$ci[2] + 300,  
+           label = paste0(heber_utilization_2021$perc_util[2], "%")) +
+  annotate(geom = "text", 
+           x = 3, 
+           y = heber_paired_plot_2021$mean[3] + heber_paired_plot_2021$ci[3] + 300, 
+           label = paste0(heber_utilization_2021$perc_util[3], "%")) +
+  annotate(geom = "text", 
+           x = 4, 
+           y = heber_paired_plot_2021$mean[4] + heber_paired_plot_2021$ci[4] + 300, 
+           label = paste0(heber_utilization_2021$perc_util[4], "%")) +
+  annotate(geom = "text", 
+           x = 5, 
+           y = heber_paired_plot_2021$mean[5] + heber_paired_plot_2021$ci[5] + 300,  
+           label = paste0(heber_utilization_2021$perc_util[5], "%"))
+ggsave(filename = "2021-heber-utilization.jpg",
+       path = file.path("figures", "utilization", "heber"),
+       width = 9,
+       height = 6,
+       units = "in")
 ```
-```{r}
-residual_stats$mean - residual_stats$se
-residual_stats$mean + residual_stats$se
-```
+
 
 ```{r}
 ggplot(veg_data, aes(fill = Type, y = mean, x = site)) +
