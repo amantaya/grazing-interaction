@@ -1,0 +1,144 @@
+{
+  "main": {
+    "id": "e15343d9dfe49e4e",
+    "type": "split",
+    "children": [
+      {
+        "id": "8e023dd33aff49de",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "cameratraps2-photo-data-to-list.md",
+            "mode": "source",
+            "source": true
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "59de614bea7f88a0",
+    "type": "split",
+    "children": [
+      {
+        "id": "7f500bfa138796d3",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "7893b5670e1c1c09",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "abca5aa21bede65c",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "729404fc666cdf7f",
+            "type": "leaf",
+            "state": {
+              "type": "starred",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "0d993284571b1591",
+    "type": "split",
+    "children": [
+      {
+        "id": "be71caba90d8ca81",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "76cb589ffb887aa8",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "cameratraps2-photo-data-to-list.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "44cafcb91e67c98e",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "444de35a0235cd84",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "cameratraps2-photo-data-to-list.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "5936e13a82e9dcfc",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "cameratraps2-photo-data-to-list.md"
+              }
+            }
+          }
+        ],
+        "currentTab": 3
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "active": "8e023dd33aff49de",
+  "lastOpenFiles": [
+    "cameratraps2-photo-data-to-list.md",
+    "heber-photo-data-to-do-list.md",
+    "2021-heber-production.knit.md",
+    "boggy-wildcat-photo-data-to-do-list.md",
+    "templates/Photo To-Do Template.md",
+    "data/boggy-wildcat-photo-data-to-do-list.md",
+    "data/heber-photo-data-to-do-list.md",
+    "data/templates/photo to-do template.md",
+    "data/README.md",
+    "templates/Note Template.md"
+  ]
+}
