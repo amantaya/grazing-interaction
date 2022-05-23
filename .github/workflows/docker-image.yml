@@ -1,0 +1,33 @@
+name: DockerHub
+
+on:
+  push:
+    branches: main 
+  pull_request: 
+    branches: main
+   
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: checkout
+        uses: actions/checkout@v2
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Build and Push v4.0.5
+        id: docker_build_four_zero_five
+        uses: docker/build-push-action@v2
+        with:
+          context: 4.0.5
+          file: Dockerfile
+          push: true
+          tags: amantaya/rstudio-verse:4.0.5
+      -
+        name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
