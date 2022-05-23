@@ -13,9 +13,6 @@ packrat/src/
 # ignore generated html files
 *.html
 
-# ignore markdown files from knitr
-*.md
-
 # ignore any csv files
 # these may contain data that we don't want version controlled
 *.csv
