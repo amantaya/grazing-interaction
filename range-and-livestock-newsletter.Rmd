@@ -1,8 +1,8 @@
 ---
-title: "range-and-livestock-newsletter"
+title: "May Range and Livestock Newsletter"
 output: word_document
 author: "Andrew Antaya"
-date: 
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 ---
 
 ```{r setup, include=FALSE}
@@ -10,8 +10,10 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-Points to Hit On
-1. What is this study about
-2. Why the project is happening
-3. Why does it matter to producers
+# Examing Forage Use by Horses, Cattle, and Elk on the Heber Wild Horse Territory
 
+The University of Arizona has been monitoring rangeland use by cattle, free-roaming horses, and elk on the Heber Wild Horse Territory since 2017. The combination of all three grazing species presents unique management challenges for rangeland managers. Managing for acceptable levels of forage utilization can be difficult when horses and elk are present in addition to cattle, as the number of horses and elk are unpredictable and their presence can vary across the season. This poses a challenge for rangeland managers when planning stocking rates, as rangeland managers have to build in some margin of error to account for the effect of horses and elk on forage utilization when trying to hit acceptable levels of forage utilization. 
+
+The University of Arizona has been studying how each species contributes to forage utilization, and how site use by each grazing species can vary across years. Results indicate that site use by each species is highly variable between sites, and between years. Where free-roaming horses are present in addition to cattle, they tend to have an additive effect on forage utilization.  Elk tend to have a compensatory effect, and tend to use sites only when cattle are not present.
+
+If free-roaming horses are present at a site, we recommend for rangeland managers to anticipate the effect free-roaming horses may have on forage utilization, and consider their effect on forage utilization when planning stocking rates for cattle. Conversely, elk seem to contribute little to forage utilization when cattle are present and are likely to only be a major contributor to forage utilization if cattle are not present during the grazing season.
