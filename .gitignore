@@ -47,3 +47,8 @@ gis
 
 # ignore archive folder
 archived
+
+# ignore log files created by Knitr/Pandoc
+*.log
+*.knit.md
+*.tex
