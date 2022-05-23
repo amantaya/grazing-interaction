@@ -10,6 +10,9 @@ output:
     fig_caption: yes
   word_document:
     toc: yes
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 # Setup
@@ -41,7 +44,10 @@ sessionInfo()
 
 # Load Data
 
-The data exported from VGS is an xlsx file with two sheets. The first sheet is "metadata" and does not contain any data. The second sheet is "Stubble Height" and contains our stubble height data. For our purposes, we only want to keep the sheet with the data.
+The data exported from VGS is an xlsx file with two sheets. The first
+sheet is "metadata" and does not contain any data. The second sheet is
+"Stubble Height" and contains our stubble height data. For our purposes,
+we only want to keep the sheet with the data.
 
 ```{r Read in Excel data and convert to csv, eval=FALSE, include=FALSE}
 # this code chunk only needs to be turned on once
@@ -187,7 +193,10 @@ BRL20stubble
 
 # Clean Up Data
 
-The 2018 Heber stubble height data was collected differently and only has three columns. We need to convert the "grazed" and "ungrazed" columns into a single column to make it the same as the 2019 and 2020 data.
+The 2018 Heber stubble height data was collected differently and only
+has three columns. We need to convert the "grazed" and "ungrazed"
+columns into a single column to make it the same as the 2019 and 2020
+data.
 
 ## Add Helpful Columns
 
@@ -229,9 +238,10 @@ heber_stubble_2018 <- heber_stubble_2018 %>%
 heber_stubble_2018
 ```
 
-The 2019 and 2020 Heber data was collected with VGS and is very similar to
-but not exactly the same as the White Mountains data for the same years.
-Two column names are slightly different in the Heber data that we need to fix.
+The 2019 and 2020 Heber data was collected with VGS and is very similar
+to but not exactly the same as the White Mountains data for the same
+years. Two column names are slightly different in the Heber data that we
+need to fix.
 
 ```{r Add Site and Years Columns 2019 Heber Data}
 # add two columns with the Site and Year to help us keep track of the data
@@ -285,12 +295,14 @@ heber_stubble_data <- heber_stubble_data %>%
 heber_stubble_data
 ```
 
-The Heber data is now in the same format as the 2019 White Mountains data.
-However, we need to rename columns in these data frames to make them consistent
-with the 2017 and 2018 White Mountains data.
+The Heber data is now in the same format as the 2019 White Mountains
+data. However, we need to rename columns in these data frames to make
+them consistent with the 2017 and 2018 White Mountains data.
 
-First, add a "Site" column and a "Year" column to the 2019 White Mountains data.
-This will make it easier to keep track of the data as we clean it up.
+First, add a "Site" column and a "Year" column to the 2019 White
+Mountains data. This will make it easier to keep track of the data as we
+clean it up.
+
 ```{r Add Site and Years Columns 2019 White Mountains Data}
 BGW19stubble <- BGW19stubble %>% dplyr::mutate(Site = "Boggy", Year = 2019)
 
@@ -307,9 +319,10 @@ wm_stubble_2019 <- dplyr::bind_rows(BGW19stubble, WCS19stubble)
 wm_stubble_2019
 ```
 
-Next, we'll combine the 2019 White Mountains data with Heber data. We'll rename 
-the columns and drop other columns to make it consistent with the 2017 and 2018
-White Mountains data.
+Next, we'll combine the 2019 White Mountains data with Heber data. We'll
+rename the columns and drop other columns to make it consistent with the
+2017 and 2018 White Mountains data.
+
 ```{r Rename Columns for Consistency Across Years}
 # bind data together for easier manipulation
 mutated_stubble_data <- bind_rows(wm_stubble_2019, heber_stubble_data)
@@ -341,7 +354,9 @@ mutated_stubble_data <- mutated_stubble_data %>%
 mutated_stubble_data
 ```
 
-Combine data frames together so all the stubble height data is in the same place.
+Combine data frames together so all the stubble height data is in the
+same place.
+
 ```{r Bind All Data Together}
 stubble_data <- bind_rows(BGW17stubble, 
                           WCS17stubble, 
@@ -357,8 +372,9 @@ stubble_data <- stubble_data %>%
 print(stubble_data)
 ```
 
-We have 1 missing height value in the data that we need to remove. Not sure
-how this happened, but we need to remove it nonetheless.
+We have 1 missing height value in the data that we need to remove. Not
+sure how this happened, but we need to remove it nonetheless.
+
 ```{r Remove Missing Data}
 ## clean up the data by removing any missing values
 stubble_data <- stubble_data %>% 
@@ -369,7 +385,9 @@ print(stubble_data)
 
 ## Combine Plants Species
 
-Blue grama was coded as "BOGR2" and as "BOGRS" in this data set, and we want to have a single species code to represent blue grama. Therefore, anywhere "BOGRS" occurs in the data, we want to replace it with "BOGR2".
+Blue grama was coded as "BOGR2" and as "BOGRS" in this data set, and we
+want to have a single species code to represent blue grama. Therefore,
+anywhere "BOGRS" occurs in the data, we want to replace it with "BOGR2".
 
 ```{r Replace "BOGRS" with "BOGR2"}
 stubble_data <- stubble_data %>% 
@@ -378,7 +396,12 @@ stubble_data <- stubble_data %>%
 stubble_data
 ```
 
-Additionally, we want to collapse both Poa species (Poa pratensis and Poa fendleriana) into their genus (Poa). It can very difficulkt to differentiate these species while in the field, and lower confidence in our observations tends to make it more conservative (and safer) to collapse these species into a genus for analysis purposes. Functionally, both species are very similar.
+Additionally, we want to collapse both Poa species (Poa pratensis and
+Poa fendleriana) into their genus (Poa). It can very difficulkt to
+differentiate these species while in the field, and lower confidence in
+our observations tends to make it more conservative (and safer) to
+collapse these species into a genus for analysis purposes. Functionally,
+both species are very similar.
 
 ```{r Replace POPR Values with POA}
 stubble_data <- stubble_data %>% 
@@ -387,7 +410,11 @@ stubble_data <- stubble_data %>%
 stubble_data
 ```
 
-In 2018, we did not differentiate by stubble height by species. In the original data, we labeled this special circumstance as "Missing", but in reality this data actually represents all species combined together. We will then replace all the values labeled as "Missing" with "Combined Species".
+In 2018, we did not differentiate by stubble height by species. In the
+original data, we labeled this special circumstance as "Missing", but in
+reality this data actually represents all species combined together. We
+will then replace all the values labeled as "Missing" with "Combined
+Species".
 
 ```{r Replace "Missing" Species with "Combined Species"}
 stubble_data$Species <- 
@@ -395,7 +422,8 @@ stubble_data$Species <-
 print(stubble_data)
 ```
 
-We also will replace the annual forb species code "AAFF" with a more descriptive "Annual Forb" character string. 
+We also will replace the annual forb species code "AAFF" with a more
+descriptive "Annual Forb" character string.
 
 ```{r Replace "AAFF" Species with "Annual Forb"}
 stubble_data$Species <- 
@@ -406,9 +434,10 @@ print(stubble_data)
 
 ## Code Plant Species as Factors
 
-We need to convert the "Species" column which is currently a character type into a factor type. R treats factors differently than characters, with the main
-difference being that factors have levels. Levels can be ranked in order
-(e.g., low to high, smallest to largest).
+We need to convert the "Species" column which is currently a character
+type into a factor type. R treats factors differently than characters,
+with the main difference being that factors have levels. Levels can be
+ranked in order (e.g., low to high, smallest to largest).
 
 ```{r Code Species as Factors}
 # convert the "Species" column from character to factor
@@ -427,7 +456,6 @@ stubble_data
 stubble_data %>% pull(Species) %>% levels()
 ```
 
-
 ```{r Create CSV Filename From System Time}
 filename <- paste(
   format(
@@ -438,7 +466,6 @@ filename <- paste(
 print(filename)
 ```
 
-
 ```{r Write Out Cleaned CSV File}
 readr::write_csv(stubble_data, 
                  file.path(currentwd,
@@ -448,9 +475,11 @@ readr::write_csv(stubble_data,
 ```
 
 # Data Visualization
+
 ## Histograms of Poa
 
-Plot a histogram bluegrass to visualize the distribution of stubble heights.
+Plot a histogram bluegrass to visualize the distribution of stubble
+heights.
 
 ```{r Boggy 2017 Histogram}
 stubble_data %>% 
@@ -526,7 +555,9 @@ white_mountains_stubble <- stubble_data %>%
 print(white_mountains_stubble)
 ```
 
-We will build a project-specific species list because many of the species are in common between sites, but fewer species are in common between projects, because the projects are in very different areas.
+We will build a project-specific species list because many of the
+species are in common between sites, but fewer species are in common
+between projects, because the projects are in very different areas.
 
 ```{r Calc Summary Stats for White Mountains}
 white_mountains_stubble_stats <- 
@@ -929,7 +960,6 @@ WCS18stubblestats <- stubble_data %>%
 WCS18stubblestats
 ```
 
-
 ```{r Wildcat 2018 Stubble Height Figure}
 WCS18figure <- 
 ggplot(WCS18stubblestats, aes(fill = Species, y = mean, x = Species)) +
@@ -1011,7 +1041,7 @@ ggsave("White-Mountains-Stubble-Height-2018-combined.jpg",
        path = paste0(getwd(),"/figures", "/stubbleheight", "/white-mountains"))
 ```
 
-### 2019 
+### 2019
 
 ```{r Boggy 2019 Stubble Stats}
 BGW19stubblestats <- stubble_data %>%
@@ -1231,7 +1261,8 @@ heber_stubble_stats <-
 print(heber_stubble_stats)
 ```
 
-Drop the unused factor levels from the Heber data, and then re-order the factor levels by the frequency in which they occur.
+Drop the unused factor levels from the Heber data, and then re-order the
+factor levels by the frequency in which they occur.
 
 ```{r Drop Unused Levels Heber Stubble Stats}
 heber_stubble_stats$Species <- 
@@ -1320,7 +1351,6 @@ BKS18stubblestats %>%
   dplyr::mutate(U95 = mean + ci) -> BKS18stubblestats
 print(BKS18stubblestats)
 ```
-
 
 ```{r Black Canyon South 2018 Stubble Height Figure}
 BKS18plot <-
@@ -1565,8 +1595,6 @@ heber_stubble %>%
   levels()
 ```
 
-
-
 ```{r Fifty One 2019 Stubble Stats}
 FTO19stubblestats <- 
   heber_stubble %>%
@@ -1722,7 +1750,8 @@ BKN19stubblestats <-
 BKN19stubblestats
 ```
 
-Because the HECO has really strange confidence interval (it goes from 27 to -5), we'll just omit it in the figure by setting it to NA.
+Because the HECO has really strange confidence interval (it goes from 27
+to -5), we'll just omit it in the figure by setting it to NA.
 
 ```{r Drop HECO Confidence Interval}
 BKN19stubblestats$ci[3] <- NA
@@ -2594,4 +2623,3 @@ ggsave("Heber-Stubble-Height-2020-n-samples-95CI.jpg",
        path = paste0(getwd(),"/figures", "/stubbleheight", "/heber"))
 heber2020_figure
 ```
-
