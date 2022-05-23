@@ -17,7 +17,7 @@ output:
 First, let's remove all objects from the environment to start fresh each time.
 
 ```{r clear environment}
-# rm(list = ls(all = TRUE))
+rm(list = ls(all = TRUE))
 ```
 
 ```{r setup environment}
@@ -29,8 +29,7 @@ source("environment.R")
 ```{r Load Landscape Appearance Database}
 landscape_appearance_database <- readr::read_csv(
     file.path(
-        getwd(), "data", "vegetation",
-        "heber", "landscape-appearance",
+        getwd(), "data", "landscape-appearance", "heber",
         "landscape-appearance-database.csv"
     ),
     col_names = TRUE, na = c("", " ", "NA")
@@ -449,11 +448,32 @@ heber_2021_stats$Monsoon <- heber_2021_stats %>%
 print(heber_2021_stats)
 ```
 
-#### Heber 2021 Landscape Appearance
+```{r}
+heber_2021_stats <- heber_2021_stats %>% 
+  mutate(Month = as.character(month(Date, label = TRUE, abbr = FALSE)), .after = Monsoon)
+print(heber_2021_stats)
+```
+
+```{r}
+heber_2021_stats$Month <- 
+heber_2021_stats %>% 
+  pull(Month) %>% 
+  forcats::as_factor()
+```
+
+
+```{r}
+c("#4472C4", "#ED7D31", "#FFC000")
+```
+
+```{r}
+show_col(c("#4472C4", "#ED7D31", "#FFC000"))
+```
+
 
 ```{r Plot Heber 2021 Landscape Appearance Figure}
 heber_2021_stats %>%
-  ggplot(aes(fill = Monsoon, x = Site, y = mean)) +
+  ggplot(aes(fill = Month, x = Site, y = mean)) +
   geom_col(position = "dodge") +
   guides(fill = "legend") +
   labs(title = expression(atop("Heber Wild Horse Territory", 
@@ -465,6 +485,8 @@ heber_2021_stats %>%
   ylab("Average % Utilization ± 95% CI") +
   scale_y_continuous(limits = c(0, 100),
                      breaks = seq(0, 100, by = 10)) +
+  scale_fill_manual(breaks = c("June", "November"),
+                    values = c("#4472C4", "#FFC000")) + 
   geom_errorbar(aes(ymin = (mean - ci), 
                     ymax = (mean + ci)), 
                 position = position_dodge(0.9),
@@ -594,6 +616,9 @@ heber_2021_stats %>%
            size = 3,
            angle = 90)
 ggsave("2021-Heber-Landscape-Appearance-95CI.jpg",
-   path = paste0(getwd(),"/figures", "/landscape-appearance"))
+   path = paste0(getwd(),"/figures", "/landscape-appearance"),
+   width = 9,
+   height = 6,
+   units = "in")
 ```
 
