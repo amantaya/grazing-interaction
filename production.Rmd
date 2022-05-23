@@ -1,69 +1,89 @@
 ---
-title: "R Notebook"
+title: "Production"
 output:
-  html_notebook: default
-  pdf_document: default
+  html_document: 
+    theme: readable
+    toc: yes
+    toc_depth: 5
+    fig_caption: yes
+  word_document:
+    toc: yes
 ---
-White Mountain Sites  
-Boggy and Wildcat Creek  
-Production and Utilization calculations  
-2021-08-20  
-Written by Andrew Antaya
+
+```{r knitr setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
 Clear the R environment to start from a clean slate.
-```{r}
-# clear the environment
-rm(list=ls(all=TRUE))
+```{r clear environment}
+rm(list = ls(all = TRUE))
 ```
 
 Read in the required packages from another R script in the current working directory.
-```{r}
-source("packages.R")
+```{r setup environment}
+source("environment.R")
 ```
 
-Read in the required functions from another R script in the current working directory.
-```{r}
-source("functions.R")
-```
+# Load Clean Data
+
+## White Mountains
 
 Read in the vegetation data from the White Mountains study sites. The data from 2017 and 2018 was re-arranged so that all of the data from the exclosure frames were grouped together in order. This was done to tidy up the data and make it easier to analyze.
-```{r}
+
+```{r eval=FALSE, include=FALSE}
 ## read in csv data
-wm_prod_2017 <- readr::read_csv('data/vegetation/white-mountains/2017-white-mountains-production-reordered.csv',
+wm_prod_2017 <- readr::read_csv('data/production/white-mountains/2017-white-mountains-production-reordered.csv',
                                 col_names = TRUE, 
                                 na = c(""," ","NA"))
 
-wm_prod_2018 <- readr::read_csv('data/vegetation/white-mountains/2018-white-mountains-production-reordered.csv',
+wm_prod_2018 <- readr::read_csv('data/production/white-mountains/2018-white-mountains-production-reordered.csv',
                                 col_names = TRUE,
                                 na = c(""," ","NA"))
 
-wm_prod_2019 <- readr::read_csv('data/vegetation/white-mountains/2019-white-mountains-production.csv',
+wm_prod_2019 <- readr::read_csv('data/production/white-mountains/2019-white-mountains-production.csv',
                                 col_names = TRUE,
                                 na = c(""," ","NA"))
 
 ```
 The output shows our column names, and how they're stored inside R. This is important because the variable type can affect our analysis if we're not careful. For example, the "Plot" column is recognized as a character in 2017 and 2018, but as a double in 2019.
 
+## Heber
+
+```{r Load Heber Production Data}
+heber_production_2021 <- readr::read_csv(file.path("data",
+                          "production",
+                          "heber",
+                          "csv",
+                          "2021-heber-production-cleaned.csv"),
+                col_names = TRUE,
+                na = c(""," ","NA"))
+print(heber_production_2021)
+```
+
+# Data Clean Up
+## White Mountains
 To fix this. force conversion of the 2019 "Plot" column to a character type. We could also force it into a factor, but for our purposes it doesn't really matter. The "Plot" column is really more for organization than for anything else.
-```{r}
+
+```{r eval=FALSE, include=FALSE}
 wm_prod_2019$Plot <- as.character(wm_prod_2019$Plot)
 
 wm_prod_2019
 ```
 
 Let's take a closer look at the data.
-```{r}
+```{r eval=FALSE, include=FALSE}
 print(wm_prod_2017)
 
 print(wm_prod_2018)
 
 print(wm_prod_2019)
 ```
-Each data frame has 13 columns (variables). The data from 2017 and 2019 have 20 rows (observations).
-However, the data from 2018 has 22 rows. We sampled 6 riparian frames from Boggy and Wildcat in 2018 instead of the usual 5 frames.
+
+Each data frame has 13 columns (variables). The data from 2017 and 2019 have 20 rows (observations). However, the data from 2018 has 22 rows. We sampled 6 riparian frames from Boggy and Wildcat in 2018 instead of the usual 5 frames.
 
 It's a good practice to recalculate columns that were calculated in Excel. It's easy to make a mistake in Excel. Since Excel calculated the "TotalDryWt" column, let's re-calculate the total dry weight by adding the bag weights columns together, and overwriting the values in the "TotalDryWt" column.
-```{r}
+
+```{r eval=FALSE, include=FALSE}
 wm_prod_2017 <- wm_prod_2017 %>% 
   dplyr::mutate(TotalDryWt = select(., Bag1DryWt:Bag8DryWt) %>% rowSums(na.rm = TRUE))
 
@@ -77,11 +97,30 @@ print(wm_prod_2017)
 print(wm_prod_2018)
 print(wm_prod_2019)
 ```
+
+## Heber
+
+The code expects a column called "TotalDryWt" that we need to add to the Heber data. This column usually is for row sums for each bag from a sub-plot, but in this case there aren't any sub-plots so we will set the "Bag1NetWt" column to equal the new "TotalDryWt" column.
+
+```{r Add "TotalDryWt" to Heber Data}
+heber_production_2021 <- heber_production_2021 %>% 
+  dplyr::mutate(TotalDryWt = Bag1NetWt)
+print(heber_production_2021)
+```
+
+```{r}
+heber_paired_plot_2021 <- heber_production_2021
+```
+
+
+# Set and Convert Units to m^2^
+
 There are erroneous data points in our 2019 data, however, that we need to adjust. 
 For 2019 in Wildcat, instead of clipping the entire 1m X 1m grazing exclosure, we clipped three 40cm x 40 cm quadrats randomly placed inside of the exclosure. We decided to clip a smaller area to save time. This differs from how we clipped the Boggy Creek site for the same year. For Boggy, we clipped the entire 1m x 1m exclosure.
 
 To correct this error, the first step is to calculate the area of (1) 40cm x 40 cm quadrat.
-```{r}
+
+```{r Set Quadrat Size}
 # length of quadrat dimension X (in centimeters)
 dim_x <- units::set_units(40, cm)
 
@@ -93,8 +132,16 @@ sample_area_cm <- dim_x*dim_y
 
 print(sample_area_cm)
 ```
-Next, find the total area of (3) 40cm x 40cm quadrats in centimeters[^2].
+
 ```{r}
+sample_area_m <- units::set_units(sample_area_cm, m^2)
+print(sample_area_m)
+```
+
+
+Next, find the total area of (3) 40cm x 40cm quadrats in centimeters[^2].
+
+```{r Find Total Area from N Quadrats}
 # number of sampling frames/quadrats
 n_frames <- 3
 
@@ -103,20 +150,28 @@ total_area_cm <- sample_area_cm*n_frames
 
 print(total_area_cm)
 ```
+
 Convert from centimeters[^2] to meters[^2]. This is total area sampled by three 40cm x 40cm quadrats.
-```{r}
+
+```{r Convert Area from cm to m}
 total_area_m2 <-  set_units(total_area_cm, m^2)
 
 print(total_area_m2)
 ```
-Take the reciprocal of the total area sampled by 3 quadrats. We want to know how much we need to multiply by get the total area sampled by three 40cm x 40cm quadrats to equal 1 m[^2].
-```{r}
+
+Take the reciprocal of the total area sampled by 3 quadrats. We want to know how much we need to multiply by get the total area sampled by three 40cm x 40cm quadrats to equal 1 m^2^.
+
+```{r Three Frame Conversion Value}
 three_frame_conversion <- as.numeric(1/total_area_m2)
 
 print(three_frame_conversion)
 ```
+
+## White Mountains
+
 Adjust the total dry weight of the exclosure frames for the Wildcat site. The adjusted weight is stored in a new column.
-```{r}
+
+```{r eval=FALSE, include=FALSE}
 # could use the mutate function instead of creating empty columns
 wm_prod_2017$AdjustedWt <- NA
 wm_prod_2018$AdjustedWt <- NA
@@ -137,7 +192,215 @@ print(wm_prod_2018)
 print(wm_prod_2019)
 ```
 
+## Heber
+
+### Method 1
+
+```{r}
+heber_production_2021_summarized_by_subsample <- 
+heber_production_2021 %>% 
+  dplyr::filter(PlotType == "Exclosure") %>% 
+  dplyr::group_by(Site, Plot) %>% 
+  dplyr::summarize(TotalDryWt = sum(units::set_units(TotalDryWt, g)))
+print(heber_production_2021_summarized_by_subsample)
+```
+
+```{r}
+heber_production_2021_summarized_by_subsample <- 
+heber_production_2021_summarized_by_subsample %>% 
+  dplyr::mutate(SampleArea = dplyr::if_else(Site == "Only Ponderosa", # condition
+                                            units::set_units(1, m^2), # if true
+                                            units::set_units(total_area_m2, m^2), # if false
+                                            NA_real_) # if missing
+  )
+print(heber_production_2021_summarized_by_subsample)
+```
+
+```{r}
+heber_production_2021_summarized_by_subsample <- 
+heber_production_2021_summarized_by_subsample %>% 
+  mutate(GramsPerMeter = TotalDryWt / SampleArea)
+print(heber_production_2021_summarized_by_subsample)
+```
+
+
+```{r}
+heber_production_2021_summarized_by_subsample <- 
+heber_production_2021_summarized_by_subsample %>% 
+  group_by(Site) %>% 
+  rstatix::get_summary_stats(GramsPerMeter, 
+                             type = "common", 
+                             show = c("n","mean","sd","ci"))
+print(heber_production_2021_summarized_by_subsample)
+```
+
+### Method 2
+
+```{r}
+heber_production_2021$TotalDryWt <- heber_production_2021 %>% 
+  pull(TotalDryWt) %>% 
+  units::set_units("g")
+print(heber_production_2021)
+```
+
+```{r}
+heber_production_2021 <- heber_production_2021 %>% 
+  dplyr::filter(PlotType == "Exclosure") %>% 
+  dplyr::mutate(SampleArea = if_else((PlotType == "Exclosure" & MethodType == "Sub Plots"),
+                                     sample_area_m, # true
+                                     1, # false
+                                     NA_real_) # missing
+                )
+print(heber_production_2021)
+```
+
+```{r}
+# heber_production_2021 <- heber_production_2021 %>% 
+#   dplyr::mutate(SampleArea = if_else((PlotType == "Residual"),
+#                                      sample_area_m, # true
+#                                      1, # false
+#                                      NA_real_) # missing
+#                 )
+# print(heber_production_2021)
+```
+
+
+```{r}
+heber_production_2021 <- 
+  heber_production_2021 %>% mutate(GramsPerMeter = TotalDryWt / SampleArea)
+print(heber_production_2021)
+```
+
+```{r}
+heber_production_2021 <- heber_production_2021 %>% 
+  mutate(LbsPerAcre = set_units(GramsPerMeter, lb/acre))
+print(heber_production_2021)
+```
+
+```{r}
+heber_production_2021_summary_table <- heber_production_2021 %>% 
+  dplyr::filter(PlotType == "Exclosure") %>% 
+  group_by(Site, Plot) %>% 
+  rstatix::get_summary_stats(GramsPerMeter, 
+                             type = "common", 
+                             show = c("n", "mean", "sd", "ci"))
+print(heber_production_2021_summary_table)
+```
+
+```{r}
+heber_production_2021_avg_production_table <- heber_production_2021_summary_table %>% 
+  group_by(Site) %>% 
+  rstatix::get_summary_stats(mean,
+                             type = "common", 
+                             show = c("n", "mean", "sd", "ci"))
+print(heber_production_2021_avg_production_table)
+```
+
+```{r}
+heber_production_2021_avg_production_table <- heber_production_2021_avg_production_table %>%
+  dplyr::mutate(sd = set_units(sd, g/m^2)) %>% 
+  dplyr::mutate(ci = set_units(ci, g/m^2))
+print(heber_production_2021_avg_production_table)
+```
+### Compare Methods
+
+Compare the results of the two methods together.
+
+```{r}
+heber_production_2021_summarized_by_subsample <- 
+heber_production_2021_summarized_by_subsample %>% 
+  dplyr::mutate(sd = set_units(sd, g/m^2)) %>% 
+  dplyr::mutate(ci = set_units(ci, g/m^2))
+print(heber_production_2021_summarized_by_subsample)
+```
+
+### Plot Production
+
+```{r}
+heber_production_2021_summarized_by_subsample <- 
+heber_production_2021_summarized_by_subsample %>% 
+  dplyr::mutate(mean = set_units(mean, lb/acre)) %>% 
+  dplyr::mutate(sd = set_units(sd, lb/acre)) %>% 
+  dplyr::mutate(ci = set_units(ci, lb/acre))
+print(heber_production_2021_summarized_by_subsample)
+```
+
+```{r}
+heber_production_stats_2021 <- heber_production_2021_summarized_by_subsample
+```
+
+```{r}
+heber_production_2021_summarized_by_subsample$mean <- 
+  heber_production_2021_summarized_by_subsample$mean %>% as.numeric()
+
+heber_production_2021_summarized_by_subsample$sd <- 
+  heber_production_2021_summarized_by_subsample$sd %>% as.numeric()
+
+heber_production_2021_summarized_by_subsample$ci <- 
+  heber_production_2021_summarized_by_subsample$ci %>% as.numeric()
+
+print(heber_production_2021_summarized_by_subsample)
+```
+
+```{r}
+heber_production_stats_as_numeric_2021 <- heber_production_2021_summarized_by_subsample
+```
+
+```{r}
+heber_production_stats_as_numeric_2021 %>% 
+ggplot(aes(x = Site, y = mean, fill = Site)) +
+  geom_col() +
+  geom_errorbar(aes(ymin = (mean - ci), 
+                    ymax = (mean + ci)), 
+                position = position_dodge(0.5), 
+                width = 0.25) +
+  labs(title = expression(atop("Heber Wild Horse Territory", 
+                               paste("Production (Pounds per Acre)"))), 
+       subtitle = "2021") +
+  ylab("Production (lbs/acre) ± 95% CI") +
+  scale_y_continuous(limits = c(-200, 3000), breaks = seq(0, 3000, by = 500)) +
+  theme(plot.title = element_text(hjust = 0.5, size = 11),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 5, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)),
+        axis.ticks = element_blank(),
+        legend.position = "none") +
+  annotate(geom = "text", 
+           x = 1, 
+           y = (heber_production_stats_as_numeric_2021$mean[1] + 
+                  heber_production_stats_as_numeric_2021$ci[1] + 200), 
+           label = signif(heber_production_stats_as_numeric_2021$mean[1], 2)) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = (heber_production_stats_as_numeric_2021$mean[2] + 
+                  heber_production_stats_as_numeric_2021$ci[2] + 200), 
+           label = signif(heber_production_stats_as_numeric_2021$mean[2], 2)) +
+  annotate(geom = "text", 
+           x = 3, 
+           y = (heber_production_stats_as_numeric_2021$mean[3] + 
+                  heber_production_stats_as_numeric_2021$ci[3] + 200), 
+           label = signif(heber_production_stats_as_numeric_2021$mean[3], 2)) +
+  annotate(geom = "text", 
+           x = 4, 
+           y = (heber_production_stats_as_numeric_2021$mean[4] + 
+                  heber_production_stats_as_numeric_2021$ci[4] + 200), 
+           label = signif(heber_production_stats_as_numeric_2021$mean[4], 2)) +
+  annotate(geom = "text", 
+           x = 5, 
+           y = (heber_production_stats_as_numeric_2021$mean[5] + 
+                  heber_production_stats_as_numeric_2021$ci[5] + 200), 
+           label = signif(heber_production_stats_as_numeric_2021$mean[5], 2))
+ggsave(filename = "2021-heber-production.jpg",
+       path = file.path("figures", "production", "heber"),
+       width = 9,
+       height = 6,
+       units = "in")
+```
+
+# Residuals
+
 We also need to adjust the weights of the residuals. We clipped (1) 40cm x 40cm quadrat for each residual plot. We will need to convert this area to m[^2].
+
 ```{r}
 # length of quadrat dimension X (in centimeters)
 dim_x <- units::set_units(40, cm)
@@ -160,6 +423,7 @@ total_area_m2 <-  set_units(total_area_cm, m^2)
 # print the total sampling area
 print(total_area_m2)
 ```
+
 ```{r}
 single_frame_conversion <- (1/total_area_m2)
 
@@ -167,13 +431,13 @@ single_frame_conversion <- as.numeric(single_frame_conversion)
 
 print(single_frame_conversion)
 ```
-```{r}
-print(wm_prod_2019)
-```
 
 
 Adjust the total dry weight of the residual frames for both sites. The adjusted weight is stored in a new column.
-```{r}
+
+## White Mountains 
+
+```{r eval=FALSE, include=FALSE}
 # if you run this line it will multiply it by the conversion multiple times
 # TODO another way to do this would be to combine cases, perform the operation, and then filter by year
 # this would reduce repetitive code
@@ -193,7 +457,7 @@ print(wm_prod_2018)
 print(wm_prod_2019)
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 combined_df <- bind_rows(wm_prod_2017, wm_prod_2018, wm_prod_2019)
 
 residual <- filter(combined_df, Type == "Residual")
@@ -206,7 +470,8 @@ print(residual)
 ```
 
 Convert to new units.
-```{r}
+
+```{r eval=FALSE, include=FALSE}
 production$AdjustedWt <- set_units(production$AdjustedWt, g/m^2)
 
 production$g_m <- NULL
@@ -223,12 +488,62 @@ production$lb_acre <- set_units(production$AdjustedWt, lb/acre)
 
 print(production)
 ```
+
+## Heber
+
+```{r}
+heber_paired_plot_2021
+```
+
+
+```{r}
+heber_residuals_2021 <- heber_paired_plot_2021 %>% 
+  dplyr::filter(PlotType == "Residual") %>% 
+  dplyr::mutate(TotalDryWt = units::set_units(TotalDryWt, g)) %>% 
+  dplyr::mutate(SampleArea = units::set_units(total_area_m2, m^2))
+print(heber_residuals_2021)
+```
+
+```{r}
+heber_residuals_2021 <- 
+heber_residuals_2021 %>% dplyr::mutate(GramsPerMeter = TotalDryWt / SampleArea)
+print(heber_residuals_2021)
+```
+
+```{r}
+heber_residuals_stats_2021 <- heber_residuals_2021 %>% 
+  dplyr::group_by(Site) %>% 
+  rstatix::get_summary_stats(GramsPerMeter,
+                             type = "common",
+                             show = c("n", "mean", "sd", "ci"))
+print(heber_residuals_stats_2021)
+```
+
+```{r}
+heber_residuals_stats_2021 <- heber_residuals_stats_2021 %>% 
+  dplyr::mutate(sd = set_units(sd, g/m^2)) %>% 
+  dplyr::mutate(ci = set_units(ci, g/m^2))
+print(heber_residuals_stats_2021)
+```
+
+```{r}
+heber_residuals_stats_2021 <- heber_residuals_stats_2021 %>% 
+  dplyr::mutate(mean = set_units(mean, lb/acre)) %>% 
+  dplyr::mutate(sd = set_units(sd, lb/acre)) %>% 
+  dplyr::mutate(ci = set_units(ci, lb/acre))
+print(heber_residuals_stats_2021)
+```
+
+# Write Data to CSV
+
 Write out the production data to a csv file. This will let others take a look at the data and check our work.
+
 ```{r eval=FALSE, include=FALSE}
 readr::write_csv(production, "data/vegetation/white-mountains/white-mountains-production-all-years-combined-corrected.csv")
 ```
 
 Do the same for the residual. Convert to new units.
+
 ```{r}
 residual$AdjustedWt <- set_units(residual$AdjustedWt, g/m^2)
 
@@ -246,7 +561,9 @@ residual$lb_acre <- set_units(residual$AdjustedWt, lb/acre)
 
 print(residual)
 ```
+
 Write out the residual data to a csv file. This will let others take a look at the data and check our work.
+
 ```{r eval=FALSE, include=FALSE}
 readr::write_csv(residual, "data/vegetation/white-mountains/white-mountains-residual-all-years-combined-corrected.csv")
 ```
