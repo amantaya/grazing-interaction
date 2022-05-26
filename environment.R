@@ -4,6 +4,22 @@
 # the files you need to access might be in a different location on your computer
 # therefore you likely will need to change the path to working directory
 
+# Set your GitHub repo URL
+repo_url <- "https://github.com/amantaya/grazing-interaction"
+
+usethis::use_git_config(user.name = "amantaya", user.email = "aantaya@email.arizona.edu")
+
+# check by running a git situation-report:
+#   - your user.name and user.email should appear in global Git config
+usethis::git_sitrep()
+
+gitcreds::gitcreds_set()
+
+# then enter in your username and password when prompted
+# if you have 2-FA enabled on your GitHub account, use a Personal Access Token
+# https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
+credentials::git_credential_ask(repo_url)
+
 # Copy and paste the path to working directory into the comment below
 # ~/cameratraps/cameratraps/blackcanyon/timelapsesouth/BKS_03062018_04102018
 full_path_to_collection_folder <- "~/cameratraps/wildcat/exclosure"
