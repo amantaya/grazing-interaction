@@ -1,10 +1,13 @@
-# install.packages("pacman")
+install.packages("pacman")
 # attach the pacman library to manage loading or install the packages
 require("pacman")
 
 library("pacman")
 
 # Commonly Used Packages
+p_load("usethis")
+p_load("gitcreds")
+p_load("credentials")
 p_load("ggplot2")
 p_load("ggthemes")
 p_load("dplyr")
