@@ -6,17 +6,22 @@
 
 # Set your GitHub repo URL
 repo_url <- "https://github.com/amantaya/grazing-interaction"
+github_username <- "amantaya"
+github_email <- "aantaya@email.arizona.edu"
 
-usethis::use_git_config(user.name = "amantaya", user.email = "aantaya@email.arizona.edu")
+# Set your git username and email address
+usethis::use_git_config(user.name = github_username, user.email = github_email)
 
-# check by running a git situation-report:
+# Set your GitHub password
+# If you have 2-FA enabled on your GitHub account, use a Personal Access Token
+# https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
+gitcreds::gitcreds_set()
+
+# Check by running a git situation-report:
 #   - your user.name and user.email should appear in global Git config
 usethis::git_sitrep()
 
-gitcreds::gitcreds_set()
-
 # then enter in your username and password when prompted
-# if you have 2-FA enabled on your GitHub account, use a Personal Access Token
 # https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
 credentials::git_credential_ask(repo_url)
 
