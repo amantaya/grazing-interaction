@@ -15,7 +15,9 @@ usethis::use_git_config(user.name = github_username, user.email = github_email)
 # Set your GitHub password
 # If you have 2-FA enabled on your GitHub account, use a Personal Access Token
 # https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
-gitcreds::gitcreds_set()
+credentials::git_credential_ask(repo_url)
+
+# gitcreds::gitcreds_set()
 
 # Check by running a git situation-report:
 #   - your user.name and user.email should appear in global Git config
@@ -23,7 +25,7 @@ usethis::git_sitrep()
 
 # then enter in your username and password when prompted
 # https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
-credentials::git_credential_ask(repo_url)
+
 
 # Copy and paste the path to working directory into the comment below
 # ~/cameratraps/cameratraps/blackcanyon/timelapsesouth/BKS_03062018_04102018
