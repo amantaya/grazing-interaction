@@ -17,15 +17,12 @@ usethis::use_git_config(user.name = github_username, user.email = github_email)
 # https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
 credentials::git_credential_ask(repo_url)
 
-# gitcreds::gitcreds_set()
+# Adds .DS_Store, .Rproj.user, .Rdata, .Rhistory, and .httr-oauth to your global (a.k.a. user-level) .gitignore 
+usethis::git_vaccinate()
 
 # Check by running a git situation-report:
 #   - your user.name and user.email should appear in global Git config
 usethis::git_sitrep()
-
-# then enter in your username and password when prompted
-# https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
-
 
 # Copy and paste the path to working directory into the comment below
 # ~/cameratraps/cameratraps/blackcanyon/timelapsesouth/BKS_03062018_04102018
