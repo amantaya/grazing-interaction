@@ -16,13 +16,16 @@ output:
 
 First, let's remove all objects from the environment to start fresh each time.
 
-```{r clear environment}
-# clear the environment
-# rm(list = ls(all = TRUE))
+```{r clear environment, eval=FALSE}
+rm(list = ls(all = TRUE))
 ```
 
 ```{r setup environment}
-source("environment.R")
+source(file.path("", "home", "rstudio", "grazing-interaction", "environment.R"))
+```
+
+```{r knitr setup, include=FALSE}
+knitr::opts_knit$set(root.dir = currentwd)
 ```
 
 # Load Data
