@@ -1,12 +1,11 @@
+# install the "pacman" package manager for installing and loading R packages
 install.packages("pacman")
-# attach the pacman library to manage loading or install the packages
+
+# attach the "pacman" package for installing and loading R packages
 require("pacman")
 
-library("pacman")
-
-# Commonly Used Packages
+# Install and load required packages
 p_load("usethis")
-p_load("gitcreds")
 p_load("credentials")
 p_load("ggplot2")
 p_load("ggthemes")
