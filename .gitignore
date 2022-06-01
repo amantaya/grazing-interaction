@@ -40,7 +40,7 @@ excelmacro
 .git.bfg-report
 
 # ignore error messages used for debugging
-error-messages
+debug
 
 # ignore GIS folder
 gis
