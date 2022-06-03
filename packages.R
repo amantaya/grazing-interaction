@@ -1,5 +1,5 @@
 # install the "pacman" package manager for installing and loading R packages
-install.packages("pacman")
+# install.packages("pacman")
 
 # attach the "pacman" package for installing and loading R packages
 require("pacman")
@@ -19,7 +19,7 @@ p_load("lubridate")
 p_load("magrittr")
 p_load("readr")
 p_load("stringr")
-p_load("units")
+# p_load("units") TODO need to install units dependencies in Docker container
 p_load("tidyverse")
 p_load("stringi")
 p_load("beepr")
