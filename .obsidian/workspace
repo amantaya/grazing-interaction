@@ -7,8 +7,13 @@
         "id": "8e023dd33aff49de",
         "type": "leaf",
         "state": {
-          "type": "empty",
-          "state": {}
+          "type": "markdown",
+          "state": {
+            "file": "docs/tutorials/Instructions for Launching and Configuring a Cyverse App.md",
+            "mode": "source",
+            "backlinks": false,
+            "source": true
+          }
         }
       }
     ],
@@ -73,6 +78,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "docs/tutorials/Instructions for Launching and Configuring a Cyverse App.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -100,6 +106,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "docs/tutorials/Instructions for Launching and Configuring a Cyverse App.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -110,7 +117,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "docs/tutorials/Instructions for Launching and Configuring a Cyverse App.md"
+              }
             }
           }
         ],
@@ -122,6 +131,7 @@
   },
   "active": "8e023dd33aff49de",
   "lastOpenFiles": [
+    "docs/tutorials/Instructions for Launching and Configuring a Cyverse App.md",
     "cameratraps2-photo-data-to-list.md",
     "heber-photo-data-to-do-list.md",
     "2021-heber-production.knit.md",
@@ -130,7 +140,6 @@
     "data/boggy-wildcat-photo-data-to-do-list.md",
     "data/heber-photo-data-to-do-list.md",
     "data/templates/photo to-do template.md",
-    "data/README.md",
-    "templates/Note Template.md"
+    "data/README.md"
   ]
 }

@@ -1,8 +1,8 @@
 [
   "obsidian-file-path-to-uri",
-  "obsidian-pandoc",
   "obsidian-git",
   "table-editor-obsidian",
   "obsidian-citation-plugin",
-  "dataview"
+  "dataview",
+  "obsidian-pandoc"
 ]

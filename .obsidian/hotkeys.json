@@ -8,15 +8,6 @@
       "key": "W"
     }
   ],
-  "obsidian-pandoc:pandoc-export-pdf": [
-    {
-      "modifiers": [
-        "Mod",
-        "Shift"
-      ],
-      "key": "P"
-    }
-  ],
   "insert-template": [
     {
       "modifiers": [
@@ -25,6 +16,15 @@
         "Shift"
       ],
       "key": "T"
+    }
+  ],
+  "editor:toggle-source": [
+    {
+      "modifiers": [
+        "Alt",
+        "Mod"
+      ],
+      "key": "E"
     }
   ]
 }

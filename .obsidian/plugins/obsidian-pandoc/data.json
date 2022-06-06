@@ -1,7 +1,7 @@
 {
   "showCLICommands": true,
   "addExtensionsToInternalLinks": "html",
-  "injectAppCSS": "light",
+  "injectAppCSS": "current",
   "injectThemeCSS": false,
   "customCSSFile": null,
   "displayYAMLFrontmatter": false,
@@ -11,5 +11,5 @@
   "pdflatex": null,
   "outputFolder": null,
   "extraArguments": "",
-  "exportFrom": "html"
+  "exportFrom": "md"
 }

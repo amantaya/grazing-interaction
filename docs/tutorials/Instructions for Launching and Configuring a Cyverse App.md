@@ -9,7 +9,7 @@ WHERE file.path = this.file.path
 ## Go to the Apps page
 1. Go to the Cyverse Discovery Environment https://de.cyverse.org
 
-2. Click this button -> ![[Pasted image 20220527074738.png]] to go to the Apps page.
+2. Click this button -> ![[AttachmPasted image 20220527074738.png]] to go to the Apps page.
 
 3. Click on "Rocker RStudio Verse Latest" from the "Featured Apps" dropdown menu.
 ![[Pasted image 20220526093411.png]]

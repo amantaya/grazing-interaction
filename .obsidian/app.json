@@ -1,6 +1,6 @@
 {
   "legacyEditor": false,
-  "livePreview": true,
+  "livePreview": false,
   "promptDelete": false,
   "newFileLocation": "current",
   "alwaysUpdateLinks": true,
@@ -14,5 +14,9 @@
     "downscalePercent": 100
   },
   "attachmentFolderPath": "Attachments",
-  "fileSortOrder": "byCreatedTime"
+  "fileSortOrder": "byCreatedTime",
+  "userIgnoreFilters": [
+    "*.pdf",
+    "*.docx"
+  ]
 }
