@@ -14,8 +14,6 @@ WHERE file.path = this.file.path
 3. Click on "Rocker RStudio Verse Latest" from the "Featured Apps" dropdown menu.
 ![[Pasted image 20220526093411.png]]
 
-***
-
 ## Configuring the App
 4. On the first page "Step 1: Analysis Info" of the Rocker RStudio Verse Latest app, click Next.
 ![[Pasted image 20220527075135.png]]
@@ -34,8 +32,6 @@ WHERE file.path = this.file.path
 8. On the last page "Step 4: Launch or Save" click "Launch Analysis". 
 ![[Pasted image 20220527080835.png]]
 
-***
-
 ## Launching the App
 9. The App may take a couple of minutes to launch. Click the "Go To Analysis" button at the top to launch the app in your browser.
 ![[Pasted image 20220527081402.png]]
@@ -46,8 +42,6 @@ It may take a few minutes to launch the app.
 
 10. The app launches an interactive R Studio session (In your browser using server hardware!).
 ![[Pasted image 20220527081511.png]]
-
-***
 
 ## Cloning Analysis Code
 11. Go to your GitHub repo that contains the analysis code. Mine is https://github.com/amantaya/grazing-interaction. You will need to replace the URL with the URL from your GitHub page.
@@ -79,8 +73,6 @@ git pull
 ```
 
 *Tip: It's good practice to check run `git pull` frequently (at minimum every time your start a Cyverse app) to keep your repo up-to-date with mine.
-
-***
 
 ## Setting up the R Environment
 ### Open the R Project File
@@ -119,8 +111,6 @@ git pull
 ![[Pasted image 20220527082852.png]]
 
 *Note: It may take up to 15 minutes to install all of the packages.*
-
-***
 
 ## Running Analysis Code
 26. Click on the "Scripts" folder from the File pane at the lower-right side of R Studio.
