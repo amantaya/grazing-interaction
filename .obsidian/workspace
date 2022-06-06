@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "docs/tutorials/Instructions for Launching and Configuring a Cyverse App.md",
+            "file": "docs/tutorials/Launching-and-Configuring-a-Cyverse-App.md",
             "mode": "source",
             "backlinks": false,
             "source": true
@@ -62,7 +62,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 429
   },
   "right": {
     "id": "0d993284571b1591",
@@ -78,7 +78,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "docs/tutorials/Instructions for Launching and Configuring a Cyverse App.md",
+                "file": "docs/tutorials/Launching-and-Configuring-a-Cyverse-App.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -106,7 +106,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "docs/tutorials/Instructions for Launching and Configuring a Cyverse App.md",
+                "file": "docs/tutorials/Launching-and-Configuring-a-Cyverse-App.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -118,7 +118,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "docs/tutorials/Instructions for Launching and Configuring a Cyverse App.md"
+                "file": "docs/tutorials/Launching-and-Configuring-a-Cyverse-App.md"
               }
             }
           }
@@ -131,15 +131,15 @@
   },
   "active": "8e023dd33aff49de",
   "lastOpenFiles": [
-    "docs/tutorials/Instructions for Launching and Configuring a Cyverse App.md",
+    "docs/tutorials/Launching-and-Configuring-a-Cyverse-App.md",
+    "Attachments/Pasted-image-20220527083115.png.md",
+    "docs/tutorials/Pasted.md",
+    "docs/tutorials/Attachments/Pasted-image-20220527074738.png",
     "cameratraps2-photo-data-to-list.md",
     "heber-photo-data-to-do-list.md",
     "2021-heber-production.knit.md",
     "boggy-wildcat-photo-data-to-do-list.md",
     "templates/Photo To-Do Template.md",
-    "data/boggy-wildcat-photo-data-to-do-list.md",
-    "data/heber-photo-data-to-do-list.md",
-    "data/templates/photo to-do template.md",
-    "data/README.md"
+    "data/boggy-wildcat-photo-data-to-do-list.md"
   ]
 }
