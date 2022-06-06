@@ -30,7 +30,7 @@ WHERE file.path = this.file.path
 ![Pasted-image-20220527080859.png](Attachments/Pasted-image-20220527080859.png)
 
 8. On the last page "Step 4: Launch or Save" click "Launch Analysis". 
-![Pasted-image-20220527080835.png](Attchments/Pasted-image-20220527080835.png)
+![Pasted-image-20220527080835.png](Attachments/Pasted-image-20220527080835.png)
 
 ## Launching the App
 9. The App may take a couple of minutes to launch. Click the "Go To Analysis" button at the top to launch the app in your browser.
