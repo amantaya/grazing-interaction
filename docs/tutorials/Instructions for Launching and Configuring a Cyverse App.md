@@ -1,4 +1,4 @@
-# Cyverse Instructions
+# Instructions for Launching and Configuring a Cyverse App
 Created: 2022-05-26 13:54
 
 ```dataview  
