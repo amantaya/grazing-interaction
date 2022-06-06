@@ -4,10 +4,11 @@ author: "Andrew Antaya"
 date: "June 20, 2019"
 output:
   html_document: 
-    theme: readable
+    theme: darkly
     toc: yes
     toc_depth: 5
     fig_caption: yes
+  pdf_document: default
   word_document:
     toc: yes
 ---
@@ -17,45 +18,62 @@ output:
 First, let's remove all objects from the environment to start fresh each time.
 
 ```{r clear environment}
-rm(list = ls(all = TRUE))
+# rm(list = ls(all = TRUE))
 ```
 
 ```{r setup environment}
-source("environment.R")
+source(file.path("", "home", "rstudio", "grazing-interaction", "environment.R"))
+```
+
+```{r load packages}
+source(file.path("", "home", "rstudio", "grazing-interaction", "packages.R"))
+```
+
+```{r load functions}
+source(file.path("", "home", "rstudio", "grazing-interaction", "functions.R"))
+```
+
+# Knitr Setup
+
+```{r knitr setup, include=FALSE}
+knitr::opts_knit$set(root.dir = currentwd)
 ```
 
 # Load Data
 
 ```{r Load Landscape Appearance Database}
-landscape_appearance_database <- readr::read_csv(
-    file.path(
-        getwd(), "data", "landscape-appearance", "heber",
-        "landscape-appearance-database.csv"
-    ),
-    col_names = TRUE, na = c("", " ", "NA")
+landscape_appearance_database <- readr::read_csv(file.path(
+  path_to_data_input_folder, 
+  "landscape-appearance",
+  "heber",
+  "landscape-appearance-database.csv"),
+  col_names = TRUE, na = c("", " ", "NA")
 )
 print(landscape_appearance_database)
 ```
+
 ## 2018
 
 The 2018 data had some special considerations that we had to clean up before we could bring it in for analysis. We re-created the data from a summarized table to make it consistent with data from the following years.
 
 We then can read in this cleaned up data in the form of tibbles from another R Markdown document.
 
+# TODO figure out why we can't read in the Rmd document-encoding error?
+
 ```{r }
-source_rmd("2018-heber-landscape-appearance.Rmd")
+# source_rmd(file.path(currentwd, "scripts", "analysis", "2021-heber-production.Rmd"))
 ```
 
 Then we can calculate summary stats for each tibble.
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 BKS_2018_stats <- BKS_2018_la_tibble %>% 
   rstatix::get_summary_stats('Class Mid-Point', type = "common")
 
 BKS_2018_stats
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 BRL_2018_stats <- BRL_2018_la_tibble %>% 
   rstatix::get_summary_stats('Class Mid-Point', type = "common")
 
@@ -68,27 +86,27 @@ To get average percent utilization, we sum the "product" column and divide it by
 
 Average percent utilization for Black Canyon South 2018.
 
-```{r add site and year to BRL 2018 stats}
+```{r add site and year to BRL 2018 stats, eval=FALSE, include=FALSE}
 BRL_2018_stats <- BRL_2018_stats %>% 
   add_column(Site = "Bear", Year = "2018", .before = "variable")
 
 BRL_2018_stats
 ```
 
-```{r add site and year to BKS 2018 stats}
+```{r add site and year to BKS 2018 stats, eval=FALSE, include=FALSE}
 BKS_2018_stats <- BKS_2018_stats %>% 
   add_column(Site = "Black Canyon South", Year = "2018", .before = "variable")
 
 BKS_2018_stats
 ```
 
-```{r row bind 2018 stats}
+```{r row bind 2018 stats, eval=FALSE, include=FALSE}
 heber_2018_stats <- dplyr::bind_rows(BRL_2018_stats, BKS_2018_stats)
 
 heber_2018_stats
 ```
 
-```{r add confidence intervals bounds 2018}
+```{r add confidence intervals bounds 2018, eval=FALSE, include=FALSE}
 heber_2018_stats <- heber_2018_stats  %>% 
   dplyr::mutate(lower_95 = mean - ci) %>% 
   dplyr::mutate(upper_95 = mean + ci)
@@ -97,7 +115,7 @@ print(heber_2018_stats)
 
 ### Plot 2018 Landscape Appearance
 
-```{r 2018 Heber Landscape Appearance Figure}
+```{r 2018 Heber Landscape Appearance Figure, eval=FALSE, include=FALSE}
 ggplot(heber_2018_stats, aes(fill = Site, x = Site, y = mean)) +
   geom_col(width = 0.75) +
   guides(fill = "none") +
@@ -134,6 +152,7 @@ ggplot(heber_2018_stats, aes(fill = Site, x = Site, y = mean)) +
 # ggsave("2018-Heber-Landscape-Appearance-95CI.jpg",
 #    path = paste0(getwd(),"/figures", "/landscape-appearance"))
 ```
+
 ## 2019
 
 ### White Mountains
@@ -143,7 +162,7 @@ white_mountains_2019_stats <- landscape_appearance_database %>%
   dplyr::filter(Year == 2019) %>%
   dplyr::filter(Site == "Wildcat" | Site == "Boggy") %>% 
   dplyr::group_by(Site) %>% 
-  rstatix::get_summary_stats('Class Mid-Point', type = "common") %>% 
+  rstatix::get_summary_stats('Class Mid-Point', type = "common")
 print(white_mountains_2019_stats)
 ```
 
@@ -187,8 +206,8 @@ ggplot(white_mountains_2019_stats, aes(fill = Site, x = Site, y = mean)) +
            y = (white_mountains_2019_stats$mean[2] / 2),
            label = paste("n", "=", white_mountains_2019_stats$n[2], sep = " "),
            size = 3)
-# ggsave("2019-White-Mountains-Landscape-Appearance-95CI.jpg",
-#   path = paste0(getwd(),"/figures", "/landscape-appearance"))
+ggsave("2019-White-Mountains-Landscape-Appearance-95CI.jpg",
+  path = file.path(path_to_user_folder, "grazing_data", "figures", "landscape-appearance"))
 ```
 
 ### Heber
@@ -264,8 +283,8 @@ ggplot(heber_2019_stats, aes(fill = Site, x = Site, y = mean)) +
            label = paste("n", "=", heber_2019_stats$n[3], sep = " "),
            size = 3)
 
-ggsave("2019-Heber-Landscape-Appearance-95CI.jpg", 
-   path = paste0(getwd(),"/figures", "/landscape-appearance"))
+# ggsave("2019-Heber-Landscape-Appearance-95CI.jpg", 
+#    path = paste0(getwd(),"/figures", "/landscape-appearance"))
 ```
 
 ## 2020
@@ -353,9 +372,11 @@ ggplot(heber_2020_stats, aes(fill = Site, x = Site, y = mean)) +
 
 ## 2021
 
-We need to create a variable called "Territory" that displays if a site is "On" territory, i.e., within the Heber Wild Horse Territory. We'll create a new column called "Territory" and use an `if_else()` statement to determine if a given site falls within a territory. 
+### Heber
 
-Note that this function will also label all of the White Mountains sites as "Off" territory, and while technically correct, they are off the territory, it might make more sense to label the White Mountains data as "NA". 
+We need to create a variable called "Territory" that displays if a site is "On" territory, i.e., within the Heber Wild Horse Territory. We'll create a new column called "Territory" and use an `if_else()` statement to determine if a given site falls within a territory.
+
+Note that this function will also label all of the White Mountains sites as "Off" territory, and while technically correct, they are off the territory, it might make more sense to label the White Mountains data as "NA".
 
 ```{r Add "Territory" Variable Using Site List}
 landscape_appearance_database <- landscape_appearance_database %>%
@@ -370,6 +391,7 @@ print(landscape_appearance_database)
 ```
 
 To fix the problem we created in the previous step, we will set the value for the "Territory" column to NA if the project is "White Mountains". If the project is "Heber" then we won't change the value for the "Territory".
+
 ```{r Set White Mountains "Territory" values to NA}
 landscape_appearance_database %>% 
   dplyr::mutate(Territory = if_else(Project == "White Mountains", # logical condition
@@ -378,7 +400,6 @@ landscape_appearance_database %>%
                                     ) # nothing for missing values
                 )
 ```
-
 
 To calculate landscape appearance for Heber 2021, we first need to select just the data from 2021 and from the Heber project. Then we group by site, date, and territory. The "Territory" column will be used to control the plotting order in a future step, and if we don't group by it, it will be dropped by rstatix.
 
@@ -402,7 +423,7 @@ heber_2021_stats <- heber_2021_stats  %>%
 print(heber_2021_stats)
 ```
 
-We need to set the "Territory" variable as a factor, primarily because we want to control the order of plotting in ggplot2. If they are in this order, all of the sites that are on territory will be plotted first, and then all of the sites that are off territory will be plotted last.  
+We need to set the "Territory" variable as a factor, primarily because we want to control the order of plotting in ggplot2. If they are in this order, all of the sites that are on territory will be plotted first, and then all of the sites that are off territory will be plotted last.
 
 First we need to arrange the data frame based on the "Territory" variable. Then we can set "Territory" as a factor.
 
@@ -418,7 +439,7 @@ print(heber_2021_stats)
 
 We need to set the "Site" variable as a factor because ggplot2 treats factors differently than characters. We can plot each factor together if they share the same factor level.
 
-```{r Convert "Site" from Character to Factor Heber 2020}
+```{r Convert "Site" from Character to Factor Heber 2021}
 heber_2021_stats$Site <- heber_2021_stats %>% 
   pull(Site) %>% 
   forcats::as_factor() %>% 
@@ -428,7 +449,7 @@ print(heber_2021_stats)
 
 We need to create a new variable called "Monsoon" that we can use to group the two landscape appearance measurements, one which was done in late June, and the other which was done in late November. We can create a cut-off to label each measurement, all measurements before July 1, 2021 are "Pre" monsoon measurements, and any measurements after July 1, 2021 and "Post" monsoon measurements.
 
-We expect utilization to be higher in June because vegetation has not responded to the summer rainfall (as it likely hasn't happened yet), and  animals have been grazing the vegetation since the last growth. 
+We expect utilization to be higher in June because vegetation has not responded to the summer rainfall (as it likely hasn't happened yet), and animals have been grazing the vegetation since the last growth.
 
 ```{r Add "Monsoon" Column}
 heber_2021_stats <- heber_2021_stats %>% 
@@ -461,7 +482,6 @@ heber_2021_stats %>%
   forcats::as_factor()
 ```
 
-
 ```{r}
 c("#4472C4", "#ED7D31", "#FFC000")
 ```
@@ -470,8 +490,7 @@ c("#4472C4", "#ED7D31", "#FFC000")
 show_col(c("#4472C4", "#ED7D31", "#FFC000"))
 ```
 
-
-```{r Plot Heber 2021 Landscape Appearance Figure}
+```{r Plot Heber 2021 Landscape Appearance Figure, echo=FALSE}
 heber_2021_stats %>%
   ggplot(aes(fill = Month, x = Site, y = mean)) +
   geom_col(position = "dodge") +
@@ -615,10 +634,9 @@ heber_2021_stats %>%
            label = paste0(signif(heber_2021_stats$mean[20], 2), "%"),
            size = 3,
            angle = 90)
-ggsave("2021-Heber-Landscape-Appearance-95CI.jpg",
-   path = paste0(getwd(),"/figures", "/landscape-appearance"),
-   width = 9,
-   height = 6,
-   units = "in")
+# ggsave("2021-Heber-Landscape-Appearance-95CI.jpg",
+#    path = paste0(getwd(),"/figures", "/landscape-appearance"),
+#    width = 9,
+#    height = 6,
+#    units = "in")
 ```
-

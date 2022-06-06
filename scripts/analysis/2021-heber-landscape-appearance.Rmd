@@ -12,30 +12,34 @@ output:
     toc: yes
 ---
 
+# TODO move this script to the processing folder
+
 # Setup
+
+```{r knitr setup, include=FALSE}
+knitr::opts_knit$set(root.dir = currentwd)
+```
 
 First, let's remove all objects from the environment to start fresh each time.
 
 ```{r clear environment, eval=FALSE}
-rm(list = ls(all = TRUE))
+# rm(list = ls(all = TRUE))
 ```
 
 ```{r setup environment}
 source(file.path("", "home", "rstudio", "grazing-interaction", "environment.R"))
 ```
 
-```{r knitr setup, include=FALSE}
-knitr::opts_knit$set(root.dir = currentwd)
-```
+# TODO figure out why the X1 column doens't exist in the 2021-heber-landscape-appearance-vgs.csv file
 
 # Load Data
 
 ```{r Load 2021 Heber Landscape Appearance Data}
 heber_2021_landscape_appearance <- readr::read_csv(
-    file.path(
-        getwd(), "data", "vegetation",
-        "heber", "landscape-appearance",
-        "2021-heber-landscape-appearance-vgs.csv"
+    file.path(path_to_data_input_folder, 
+              "landscape-appearance",
+              "heber",
+              "2021-heber-landscape-appearance-vgs.csv"
     ),
     col_names = TRUE, na = c("", " ", "NA")
 )
@@ -49,13 +53,13 @@ print(heber_2021_landscape_appearance)
 
 ```{r}
 heber_2021_landscape_appearance <- heber_2021_landscape_appearance %>% 
-  dplyr::select(-c("X1", "ProtocolType", "FormName", "Element"))
+  dplyr::select(-c("ProtocolType", "FormName", "Element"))
 print(heber_2021_landscape_appearance)
 ```
 
-## Rename Columns 
+## Rename Columns
 
-Some of the column names have changed between versions of VGS. We will rename these columns so that they are consistent between years. 
+Some of the column names have changed between versions of VGS. We will rename these columns so that they are consistent between years.
 
 ```{r}
 heber_2021_landscape_appearance <- heber_2021_landscape_appearance %>% 
@@ -65,7 +69,7 @@ heber_2021_landscape_appearance <- heber_2021_landscape_appearance %>%
 print(heber_2021_landscape_appearance)
 ```
 
-The "Date" column was read in as a character vector. We want to convert the character vector into a datetime class. 
+The "Date" column was read in as a character vector. We want to convert the character vector into a datetime class.
 
 ```{r}
 heber_2021_landscape_appearance$Date <- 
@@ -88,11 +92,12 @@ Write out this data now that it's been cleaned up and is consistent with data fr
 
 ```{r}
 readr::write_csv(heber_2021_landscape_appearance,
-  file.path(
-    getwd(), "data", "vegetation",
-    "heber", "landscape-appearance",
-    "csv", "2021-heber-landscape-appearance.csv"
+    file.path(path_to_user_folder,
+              "grazing_data",
+              "data",
+              "landscape-appearance",
+              "heber",
+              "2021-heber-landscape-appearance-cleaned.csv"
   )
 )
 ```
-
