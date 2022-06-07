@@ -1,5 +1,5 @@
 # install the "pacman" package manager for installing and loading R packages
-install.packages("pacman")
+# install.packages("pacman")
 
 # attach the "pacman" package for installing and loading R packages
 require("pacman")
@@ -8,6 +8,7 @@ require("pacman")
 p_load("usethis")
 p_load("credentials")
 p_load("tidyverse")
+p_load("rmarkdown")
 p_load("ggthemes")
 p_load("jpeg")
 p_load("viridis")

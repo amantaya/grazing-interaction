@@ -1,0 +1,105 @@
+---
+title: "2021 Heber Daubenmire Preprocessing"
+author: "Andrew Antaya"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  word_document:
+    toc: yes
+  citation_package: biblatex
+  html_document: 
+    theme: readable
+    toc: yes
+    toc_depth: 5
+    fig_caption: yes
+  pdf_document: default
+subtitle: Data Wrangling
+bibliography: My Library.bib
+link-citations: yes
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+# Setup
+
+```{r knitr setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(root.dir = file.path("C:", "Users", "andre", "Dropbox", "Dev", "grazing-interaction"))
+knitr_opts <- knitr::opts_chunk$get()
+```
+
+```{r setup}
+source(file.path("C:", "Users", "andre", "Dropbox", "Dev", "grazing-interaction", "packages.R"))
+
+source(file.path("C:", "Users", "andre", "Dropbox", "Dev", "grazing-interaction", "environment.R"))
+
+source(file.path("C:", "Users", "andre", "Dropbox", "Dev", "grazing-interaction", "functions.R"))
+```
+
+# Load Data
+
+```{r load data}
+path <- file.path(currentwd, "data", "vgs", "2022-04-08-vgs-export.xlsx")
+
+sheets <- openxlsx::getSheetNames(file = path)
+
+vgs_data <- lapply(sheets, openxlsx::read.xlsx, 
+                   xlsxFile = path, 
+                   na.strings = c("NA", " ", ""))
+```
+
+```{r add sheet names}
+names(vgs_data) <- sheets
+
+vgs_data %>% names()
+```
+
+```{r extract cover data from vgs}
+cover_frequency_df <- vgs_data$`Cover frequency (by quadrat)`
+
+print(cover_frequency_df)
+```
+
+```{r dlookr overview}
+dlookr::overview(cover_frequency_df)
+```
+
+```{r dlookr diagnose}
+dlookr::diagnose(cover_frequency_df)
+```
+
+```{r temp}
+cover_frequency_df %>% names()
+```
+
+Select only the columns that we want. Most of the columns have missing values.
+
+```{r drop unused columns}
+cover_frequency_df <- cover_frequency_df %>% 
+  dplyr::select(c("ProtocolName",
+                  "EventType",
+                  "FormName",
+                  "Date",
+                  "SiteID",
+                  "SpeciesSymbol",
+                  "FieldSymbol",
+                  "SpeciesName",
+                  "Transect",
+                  "SampleNumber",
+                  "nValue")
+                )
+```
+
+The data exported from VGS contained data from the Slash S and from Heber. We want to keep only the data from the Heber project and drop data from the Slash S.
+
+```{r}
+cover_frequency_df <- cover_frequency_df %>% 
+  dplyr::filter(ProtocolName == "Heber Vegetation Monitoring")
+```
+
+```{r}
+cover_frequency_df %>% 
+  group_by(Date, SiteID, SpeciesSymbol) %>% 
+  rstatix::get_summary_stats(nValue, type = "common")
+```
+
+

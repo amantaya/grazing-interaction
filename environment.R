@@ -26,23 +26,28 @@ usethis::git_sitrep()
 
 # set the working directory to the default mount location in the Docker container
 # the empty quotes causes file.path() to add a backslash before the first folder
-setwd(file.path("", "home", "rstudio", "grazing-interaction"))
-
+# setwd(file.path("", "home", "rstudio", "grazing-interaction"))
+#
 # check the current working directory and store it in an object for future reference
 # this is where the code is temporarily stored
 # IT WILL BE ERASED WHEN THE CONTAINER STOPS
-currentwd <- file.path("", "home", "rstudio", "grazing-interaction")
+# currentwd <- file.path("", "home", "rstudio", "grazing-interaction")
+#
+# # Setup file paths to cameratraps data
+# path_to_cameratraps_folder <- file.path("", "home", "rstudio", "work", "data", "iplant", "home", cyverse_username, "cameratraps")
+#
+# path_to_cameratraps2_folder <- file.path("", "home", "rstudio", "work", "data", "iplant", "home", cyverse_username, "cameratraps2")
+#
+# # this is the path to Cyverse user folder
+# path_to_user_folder <- file.path("", "home", "rstudio", "work", "data", "iplant", "home", cyverse_username)
+#
+# # this is the path to input data that we copied to the Docker container
+# path_to_data_input_folder <- file.path("", "home", "rstudio", "work", "data", "input", "grazing_data", "data")
 
-# Setup file paths to cameratraps data
-path_to_cameratraps_folder <- file.path("", "home", "rstudio", "work", "data", "iplant", "home", cyverse_username, "cameratraps")
+# this is the path to the data folder on a local file system
+path_to_local_data <- file.path(".", "Dropbox", "Dev", "grazing-interaction", "data")
 
-path_to_cameratraps2_folder <- file.path("", "home", "rstudio", "work", "data", "iplant", "home", cyverse_username, "cameratraps2")
-
-# this is the path to Cyverse user folder
-path_to_user_folder <- file.path("", "home", "rstudio", "work", "data", "iplant", "home", cyverse_username)
-
-# this is the path to input data that we copied to the Docker container
-path_to_data_input_folder <- file.path("", "home", "rstudio", "work", "data", "input", "grazing_data", "data")
+currentwd <- "C:/Users/andre/Dropbox/Dev/grazing-interaction"
 
 # Setup Environmental Variables -------------------------------------------
 
