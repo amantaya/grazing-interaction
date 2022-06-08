@@ -1,4 +1,4 @@
-FROM harbor.cyverse.org/vice/rstudio/verse:4.0.5
+FROM rocker/verse:4.0.5
 # This Docker image is built on a Cyserve VICE image (Visual Interactive Compute Environment)
 
 # Build-time metadata as defined at http://label-schema.org
