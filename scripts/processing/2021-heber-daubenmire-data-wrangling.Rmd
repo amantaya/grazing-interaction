@@ -38,7 +38,7 @@ source(file.path(currentwd, "functions.R"))
 # Load Data
 
 ```{r load data}
-path <- file.path(currentwd, "data", "vgs", "2022-04-08-vgs-export.xlsx")
+path <- file.path(path_to_data_input_folder, "vgs", "2022-04-08-vgs-export.xlsx")
 
 sheets <- openxlsx::getSheetNames(file = path)
 
@@ -54,27 +54,27 @@ vgs_data %>% names()
 ```
 
 ```{r extract cover data from vgs}
-cover_frequency_df <- vgs_data$`Cover frequency (by quadrat)`
+canopy_cover_df <- vgs_data$`Cover frequency (by quadrat)`
 
-print(cover_frequency_df)
+print(canopy_cover_df)
 ```
 
 ```{r dlookr overview}
-dlookr::overview(cover_frequency_df)
+dlookr::overview(canopy_cover_df)
 ```
 
 ```{r dlookr diagnose}
-dlookr::diagnose(cover_frequency_df)
+dlookr::diagnose(canopy_cover_df)
 ```
 
 ```{r temp}
-cover_frequency_df %>% names()
+canopy_cover_df %>% names()
 ```
 
 Select only the columns that we want. Most of the columns have missing values.
 
 ```{r drop unused columns}
-cover_frequency_df <- cover_frequency_df %>% 
+canopy_cover_df <- canopy_cover_df %>% 
   dplyr::select(c("ProtocolName",
                   "EventType",
                   "FormName",
@@ -92,14 +92,10 @@ cover_frequency_df <- cover_frequency_df %>%
 The data exported from VGS contained data from the Slash S and from Heber. We want to keep only the data from the Heber project and drop data from the Slash S.
 
 ```{r}
-cover_frequency_df <- cover_frequency_df %>% 
+canopy_cover_df <- canopy_cover_df %>% 
   dplyr::filter(ProtocolName == "Heber Vegetation Monitoring")
 ```
 
 ```{r}
-cover_frequency_df %>% 
-  group_by(Date, SiteID, SpeciesSymbol) %>% 
-  rstatix::get_summary_stats(nValue, type = "common")
+readr::write_csv(canopy_cover_df, file.path(path_to_user_folder, "grazing_data", "data", "canopy-cover", "2021-heber-canopy-cover.csv"))
 ```
-
-
