@@ -63,5 +63,8 @@ sessioninfo <- utils::sessionInfo()
 # RPushBullet Setup -------------------------------------------------------
 
 # Enter an API key for the Push Bullet push notification service
-RPushbullet::pbSetup()
-
+# RPushbullet::pbSetup()
+if (RPushbullet::pbValidateConf(conf = "~/.rpushbullet.json") == FALSE) {
+  warning("Enter in your RPushBullet API Key (if you have one; else ignore")
+  RPushbullet::pbSetup()
+}
