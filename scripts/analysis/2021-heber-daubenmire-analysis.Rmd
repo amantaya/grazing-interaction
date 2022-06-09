@@ -219,8 +219,46 @@ stat.test
 ```
 
 ```{r}
-stat_test <- canopy_cover_df  %>% 
-  group_by(Month, SiteID, SpeciesSymbol)
+canopy_cover_df <- canopy_cover_df %>% group_by(SiteID, SpeciesSymbol, Month)
+
+print(canopy_cover_df)
+```
+
+Select 1 site, 1 species, and do a t-test.
+
+```{r}
+fifty_one_annual_forbs <- 
+canopy_cover_df %>% dplyr::ungroup() %>% dplyr::filter(SiteID == "A51" & SpeciesSymbol == "AAFF")
+
+print(fifty_one_annual_forbs)
+```
+
+```{r}
+fifty_one_annual_forbs %>% dplyr::filter(Month == "June")
+```
+
+```{r}
+fifty_one_annual_forbs %>% dplyr::filter(Month == "November")
+```
+
+```{r}
+fifty_one_annual_forbs %>% rstatix::t_test(nValue ~ Month, paired = TRUE)
+```
+
+```{r}
+fifty_one_annual_forbs %>% 
+  rstatix::pairwise_t_test(nValue ~ Month) %>% 
+  rstatix::add_significance()
+```
+
+```{r}
+rstatix::
+```
+
+
+```{r}
+stat_test <- canopy_cover_df %>% 
+  rstatix::t_test(nValue ~ Month, paired = TRUE)
 print(stat_test)
 ```
 
