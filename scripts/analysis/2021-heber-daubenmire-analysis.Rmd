@@ -1,0 +1,50 @@
+---
+title: "2021 Heber Daubenmire Analysis"
+author: "Andrew Antaya"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  word_document:
+    toc: yes
+  citation_package: biblatex
+  html_document: 
+    theme: readable
+    toc: yes
+    toc_depth: 5
+    fig_caption: yes
+  pdf_document: default
+subtitle: Data Wrangling
+bibliography: My Library.bib
+link-citations: yes
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+# Setup
+
+```{r setup}
+source(file.path(currentwd, "environment.R"))
+source(file.path(currentwd, "packages.R"))
+source(file.path(currentwd, "functions.R"))
+```
+
+```{r knitr setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = currentwd)
+```
+
+# Load Data
+
+```{r}
+canopy_cover_df <- readr::read_csv(file.path(path_to_data_input_folder, "canopy-cover", "2021-heber-canopy-cover.csv"))
+```
+
+```{r}
+print(canopy_cover_df)
+```
+
+
+```{r}
+canopy_cover_df %>% 
+  group_by(Date, SiteID, SpeciesSymbol) %>% 
+  rstatix::get_summary_stats(nValue, type = "common")
+```
