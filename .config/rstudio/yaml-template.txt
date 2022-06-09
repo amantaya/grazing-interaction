@@ -1,0 +1,34 @@
+---
+title: "2021 Heber Daubenmire Preprocessing"
+author: "Andrew Antaya"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  word_document:
+    toc: yes
+  citation_package: biblatex
+  html_document: 
+    theme: readable
+    toc: yes
+    toc_depth: 5
+    fig_caption: yes
+  pdf_document: default
+subtitle: Data Wrangling
+bibliography: My Library.bib
+link-citations: yes
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+# Setup
+
+```{r knitr setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = currentwd)
+```
+
+```{r setup}
+source("environment.R")
+source("packages.R")
+source("functions.R")
+```
+
