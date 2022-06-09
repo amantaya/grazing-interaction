@@ -6,7 +6,7 @@ output:
   word_document:
     toc: yes
   citation_package: biblatex
-  html_document: 
+  html_document:
     theme: readable
     toc: yes
     toc_depth: 5
@@ -15,20 +15,19 @@ output:
 subtitle: Data Wrangling
 bibliography: My Library.bib
 link-citations: yes
-editor_options: 
-  markdown: 
+editor_options:
+  markdown:
     wrap: 72
 ---
 # Setup
+
+```{r setup}
+source(file.path(currentwd, "environment.R"))
+source(file.path(currentwd, "packages.R"))
+source(file.path(currentwd, "functions.R"))
+```
 
 ```{r knitr setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_knit$set(root.dir = currentwd)
 ```
-
-```{r setup}
-source("environment.R")
-source("packages.R")
-source("functions.R")
-```
-
