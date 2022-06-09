@@ -93,6 +93,8 @@ canopy_cover_df %>% dplyr::mutate(Month = dplyr::if_else(Date < "2021-07-01",
 How many observations were from June, and how many observations were
 from November?
 
+# TODO convert the `Month` column into a factor
+
 ```{r}
 june_observations <- canopy_cover_df %>% dplyr::filter(Month == "June")
 
@@ -255,6 +257,7 @@ fifty_one_annual_forbs %>%
 rstatix::
 ```
 
+# TODO plot a boxplot or violin plot for the A51 annual forb example
 
 ```{r}
 stat_test <- canopy_cover_df %>% 
