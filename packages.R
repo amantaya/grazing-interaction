@@ -1,5 +1,5 @@
 # install the "pacman" package manager for installing and loading R packages
-install.packages("pacman")
+# install.packages("pacman")
 
 # attach the "pacman" package for installing and loading R packages
 require("pacman")
@@ -38,6 +38,8 @@ pacman::p_load("lintr")
 pacman::p_load("formatR")
 pacman::p_load("RColorBrewer")
 pacman::p_load("dlookr")
+pacman::p_load("forcats")
+pacman::p_load("glue")
 
 # remotes::install_github("r-quantities/units")
 # remotes::install_version("formatR", version = 1.12, repos = "https://cran.r-project.org/")

@@ -28,7 +28,7 @@
     "background_diagnostics_delay_ms": 1000,
     "syntax_color_console": true,
     "limit_visible_console": true,
-    "auto_expand_error_tracebacks": true,
+    "auto_expand_error_tracebacks": false,
     "editor_theme": "Tomorrow Night 80s",
     "show_doc_outline_rmd": true,
     "show_rmd_render_command": true,

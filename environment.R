@@ -45,7 +45,7 @@ path_to_user_folder <- file.path("", "home", "rstudio", "work", "data", "iplant"
 path_to_data_input_folder <- file.path("", "home", "rstudio", "work", "data", "input", "grazing_data", "data")
 
 # this is the path to the data folder on a local file system
-# path_to_local_data <- file.path(".", "Dropbox", "Dev", "grazing-interaction", "data")
+path_to_local_data <- file.path("~", "grazing-interaction", "data")
 
 # urrentwd <- "C:/Users/andre/Dropbox/Dev/grazing-interaction"
 

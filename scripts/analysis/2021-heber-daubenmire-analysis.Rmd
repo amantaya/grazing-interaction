@@ -22,11 +22,11 @@ editor_options:
 
 # Setup
 
-```{r}
+```{r currentwd path}
 currentwd <- "/home/rstudio/grazing-interaction"
 ```
 
-```{r setup}
+```{r env setup}
 source(file.path(currentwd, "environment.R"))
 source(file.path(currentwd, "packages.R"))
 source(file.path(currentwd, "functions.R"))
@@ -39,8 +39,13 @@ knitr::opts_knit$set(root.dir = currentwd)
 
 # Load Data
 
-```{r}
-canopy_cover_df <- readr::read_csv(file.path(path_to_data_input_folder, "canopy-cover", "2021-heber-canopy-cover.csv"))
+```{r read csv}
+canopy_cover_df <- readr::read_csv(
+  file.path(path_to_local_data, 
+            "canopy-cover", 
+            "heber", 
+            "2021-heber-canopy-cover.csv")
+  )
 ```
 
 ```{r}
@@ -49,7 +54,7 @@ print(canopy_cover_df)
 
 ## Convert the `Date` column to a Datetime class.
 
-```{r}
+```{r convert Date column to date class}
 canopy_cover_df <- canopy_cover_df %>% dplyr::mutate(Date = lubridate::mdy(Date))
 
 # check that the date parsed correctly and is a Datetime
@@ -58,7 +63,7 @@ str(canopy_cover_df$Date)
 
 ## Arrange Data from Oldest to Newest Observation Date
 
-```{r}
+```{r arrange by date from oldest to newest}
 canopy_cover_df <- canopy_cover_df %>% dplyr::arrange(Date)
 
 print(canopy_cover_df)
@@ -81,7 +86,7 @@ Any observations take before July 1st 2021 will be the placed in the
 "June" category, and any dates after July 1st 2021 will be placed in the
 "November" category.
 
-```{r}
+```{r add Month column}
 canopy_cover_df <- 
 canopy_cover_df %>% dplyr::mutate(Month = dplyr::if_else(Date < "2021-07-01", 
                                   "June", 
@@ -93,9 +98,29 @@ canopy_cover_df %>% dplyr::mutate(Month = dplyr::if_else(Date < "2021-07-01",
 How many observations were from June, and how many observations were
 from November?
 
-# TODO convert the `Month` column into a factor
 
-```{r}
+Convert the `Month` column into a categorical factor. Factors will be treated as groups by ggplot2 when it comes to plotting.
+
+```{r convert Month column to factor}
+canopy_cover_df$Month <- 
+canopy_cover_df %>% 
+  pull(Month) %>% 
+  forcats::as_factor() 
+```
+
+Check that the `Month` column is indeed a factor with 2 levels.
+
+```{r check Month column factor levels}
+str(canopy_cover_df$Month)
+```
+
+## Split the Data into Two Groups
+
+The percent canopy cover for every plant species is recorded inside of each Daubenmire frame when using the Daubenmire frame. 
+
+For comparing sample sizes, we will split the data into two groups: observations that occured in June 2021 and observations that occurred in November 2021.
+
+```{r split observations by Month}
 june_observations <- canopy_cover_df %>% dplyr::filter(Month == "June")
 
 november_observations <- canopy_cover_df %>% dplyr::filter(Month == "November")
@@ -103,12 +128,14 @@ november_observations <- canopy_cover_df %>% dplyr::filter(Month == "November")
 
 There were `r june_observations %>% nrow()` from June 2021 and
 `r november_observations %>% nrow()` from November 2021. It's
-interesting to see the distribution of observations, as there were more
-observations in November than in June. We will investigate this further.
+interesting to see the number of observations from each group, as there were more
+observations in November than in June. There are more observations in November because the plants respond to summer monsoon rainfall, grow and spread.
+
+When it comes to statistical testing, this is called an "unbalanced research design". This is not something we could anticipate before sampling, so we will investigate this further.
 
 ## Summary Stats for Canopy Cover
 
-```{r}
+```{r summary stats}
 summary_stats <- 
 canopy_cover_df %>% 
   group_by(Month, SiteID, SpeciesSymbol) %>% 
@@ -116,9 +143,6 @@ canopy_cover_df %>%
 print(summary_stats)
 ```
 
-```{r}
-summary_stats %>% dplyr::filter(SiteID == "A51" & SpeciesSymbol == "AAFF")
-```
 ### Potential Reasons for Differences in Species at the Same Site between Sampling Sessions
 
 Each site has different species present/detected, but species may change
@@ -127,21 +151,23 @@ annual grasses, which we group into their own categories, but it is also
 possible with perennial species for a number of potential reasons:
 
 1.  Species Not Detected (Missed) During First Sampling but Present at
-    Site
+    Site (Sampling Error)
     1.1  More likely for uncommon or rare species
     1.2  Mitigated by increasing the number of samples or multiple samples per sampling period
+    1.3  It's also possible that we started and ended each transect from different places
+    1.4  It's also possible that we paced each transect differently and missed some species
 2.  Species Newly Established at Site Between First and Second Sampling Sessions
     2.1  Annual grasses and annual forbs establish after rainfall
     2.2  Perennials can establish too
-    2.3  This problem would be called closure in hierachical models
+    2.3  This problem would be called "closure" in hierarchical models
 3.  Mis-identification of the Species
-4.  Random-ness from sampling
-    4.1  It's also possible that we started and ended each transect from different places
-    4.2  It's also possible that we paced each transect differently and missed some species
+    3.1 Mis-identification can happen at either sampling session
 
 Let's do a little exploratory data analysis to understand how the species detected at each site changes from June to November.
 
 Let's see how species change at the Fifty One site from June to November.
+
+# TODO I want to compare which species were at each site during June and November, which species were detected only in June, and which species were detected only in November
 
 ```{r}
 canopy_cover_df %>% 
@@ -186,6 +212,42 @@ fiftyone_species_detected_in_november_but_not_in_june <- fiftyone_november_count
 print(fiftyone_species_detected_in_november_but_not_in_june)
 ```
 
+```{r}
+canopy_cover_grouped_by_site_and_month <- 
+canopy_cover_df %>% 
+  dplyr::group_by(SiteID, Month) %>% 
+  dplyr::count(SpeciesSymbol)
+print(canopy_cover_grouped_by_site_and_month)
+```
+
+```{r}
+list_of_tibbles_by_site_and_month <- 
+  canopy_cover_grouped_by_site_and_month %>% 
+  dplyr::group_split()
+print(list_of_tibbles_by_site_and_month)
+```
+
+Compare which species occur in June.
+
+```{r current chunk}
+site <- list_of_tibbles_by_site_and_month[[1]] %>% 
+  pull(SiteID) %>% 
+  unique()
+
+month <- list_of_tibbles_by_site_and_month[[1]] %>% 
+  pull(Month) %>%
+  as.character() %>% 
+  unique()
+
+glue::glue(site, "_", month)
+```
+
+
+```{r}
+
+```
+
+
 #### Research Question
 
 If the species is present at BOTH the June sampling session AND the November sampling session, is there a change in % canopy cover for that species?
@@ -212,19 +274,7 @@ Need to pair the species from June with the same species from November.
 canopy_cover_df %>% dplyr::group_by(SiteID, SpeciesSymbol) %>% dplyr::filter(Month == "June") %>% dplyr::filter(Month == "November")
 ```
 
-```{r}
-stat_test <- canopy_cover_df  %>% 
-  dplyr::group_by(SiteID, SpeciesSymbol, Month)
-  t_test(nValue ~ Month, paired = TRUE) %>%
-  add_significance()
-stat.test
-```
 
-```{r}
-canopy_cover_df <- canopy_cover_df %>% group_by(SiteID, SpeciesSymbol, Month)
-
-print(canopy_cover_df)
-```
 
 Select 1 site, 1 species, and do a t-test.
 
@@ -236,25 +286,9 @@ print(fifty_one_annual_forbs)
 ```
 
 ```{r}
-fifty_one_annual_forbs %>% dplyr::filter(Month == "June")
-```
-
-```{r}
-fifty_one_annual_forbs %>% dplyr::filter(Month == "November")
-```
-
-```{r}
-fifty_one_annual_forbs %>% rstatix::t_test(nValue ~ Month, paired = TRUE)
-```
-
-```{r}
 fifty_one_annual_forbs %>% 
   rstatix::pairwise_t_test(nValue ~ Month) %>% 
   rstatix::add_significance()
-```
-
-```{r}
-rstatix::
 ```
 
 # TODO plot a boxplot or violin plot for the A51 annual forb example
