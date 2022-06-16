@@ -15,10 +15,10 @@
 ### Chunks That Are Missing or Need to Be Completed
 
 ### Completed Folders
-- [ ] BKD_06112019_07022019 #heber2019photos #task
-- [ ] BKD_07022019_08132019 #heber2019photos #task
-- [ ] BKD_08132019_10292019 #heber2019photos #task
-- [ ] BKD_11062019_12072019 #heber2019photos #task
+- [x] BKD_06112019_07022019 #heber2019photos #task ✅ 2022-06-16
+- [x] BKD_07022019_08132019 #heber2019photos #task ✅ 2022-06-16
+- [x] BKD_08132019_10292019 #heber2019photos #task ✅ 2022-06-16
+- [x] BKD_11062019_12072019 #heber2019photos #task ✅ 2022-06-16
 
 ***
 
@@ -39,10 +39,10 @@
 - [ ] BKN_10212020_12032020_subjects_chunk1 #heber2020photos #task
 
 ### Completed Folders
-- [ ] BKN_06112019_07022019 #heber2019photos #task
-- [ ] BKN_07102020_10212020 #heber2020photos #task
-- [ ] BKN_08132019_11052019 #heber2019photos #task
-- [ ] BKN_11052019_12072019 #heber2019photos #task
+- [x] BKN_06112019_07022019 #heber2019photos #task ✅ 2022-06-16
+- [x] BKN_07102020_10212020 #heber2020photos #task ✅ 2022-06-16
+- [x] BKN_08132019_11052019 #heber2019photos #task ✅ 2022-06-16
+- [x] BKN_11052019_12072019 #heber2019photos #task ✅ 2022-06-16
 
 ***
 
@@ -73,16 +73,16 @@
 - [ ] BKS_12012017_01082018_subjects_chunk2 #heber2018photos #task 
 
 ### Completed Folders
-- [ ] BKS_01112018_02132018 #heber2018photos #task 
-- [ ] BKS_02132018_02232018 #heber2018photos #task 
-- [ ] BKS_05102018_07202018 #heber2018photos #task 
-- [ ] BKS_06052019_07022019 #heber2019photos #task 
-- [ ] BKS_07022019_08132019 #heber2019photos #task 
-- [ ] BKS_07102020_10222020 #heber2020photos #task  
-- [ ] BKS_07202018_08242018 #heber2018photos #task 
-- [ ] BKS_08132019_09132019 #heber2019photos #task 
-- [ ] BKS_10222020_10252020 #heber2020photos #task 
-- [ ] BKS_11052019_12022019 #heber2019photos #task 
+- [x] BKS_01112018_02132018 #heber2018photos #task ✅ 2022-06-16
+- [x] BKS_02132018_02232018 #heber2018photos #task ✅ 2022-06-16
+- [x] BKS_05102018_07202018 #heber2018photos #task ✅ 2022-06-16
+- [x] BKS_06052019_07022019 #heber2019photos #task ✅ 2022-06-16
+- [x] BKS_07022019_08132019 #heber2019photos #task ✅ 2022-06-16
+- [x] BKS_07102020_10222020 #heber2020photos #task ✅ 2022-06-16
+- [x] BKS_07202018_08242018 #heber2018photos #task ✅ 2022-06-16
+- [x] BKS_08132019_09132019 #heber2019photos #task ✅ 2022-06-16
+- [x] BKS_10222020_10252020 #heber2020photos #task ✅ 2022-06-16
+- [x] BKS_11052019_12022019 #heber2019photos #task ✅ 2022-06-16
 
 ***
 
@@ -149,12 +149,12 @@
 ### Chunks That Are Missing or Need to Be Completed
 
 ### Completed Folders
-- [ ] BRL_06052019_07022019 #heber2019photos #task 
-- [ ] BRL_07022019_08132019 #heber2019photos #task 
-- [ ] BRL_07112020_08112020 #heber2020photos #task 
-- [ ] BRL_08132019_10042019 #heber2019photos #task 
-- [ ] BRL_10212020_12032020 #heber2020photos #task 
-- [ ] BRL_11052019_12072019 #heber2019photos #task 
+- [x] BRL_06052019_07022019 #heber2019photos #task ✅ 2022-06-16
+- [x] BRL_07022019_08132019 #heber2019photos #task ✅ 2022-06-16
+- [x] BRL_07112020_08112020 #heber2020photos #task ✅ 2022-06-16
+- [x] BRL_08132019_10042019 #heber2019photos #task ✅ 2022-06-16
+- [x] BRL_10212020_12032020 #heber2020photos #task ✅ 2022-06-16
+- [x] BRL_11052019_12072019 #heber2019photos #task ✅ 2022-06-16
 
 ***
 
@@ -177,8 +177,8 @@
 ### Chunks That Are Missing or Need to Be Completed
 
 ### Completed Folders
-- [ ] BRT_06052019_10032019 #heber2019photos #task 
-- [ ] BRT_11052019_12072019 #heber2019photos #task 
+- [x] BRT_06052019_10032019 #heber2019photos #task ✅ 2022-06-16
+- [x] BRT_11052019_12072019 #heber2019photos #task ✅ 2022-06-16
 
 ***
 
