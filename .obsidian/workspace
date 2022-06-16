@@ -41,7 +41,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "photo to do",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -62,7 +62,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 429
+    "width": 381.5
   },
   "right": {
     "id": "0d993284571b1591",
