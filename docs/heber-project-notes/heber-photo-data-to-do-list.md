@@ -1,4 +1,4 @@
-# Heber TODO List
+# heber-photo-data-to-do-list
 
 ## Black Canyon Dam
 

@@ -1,4 +1,4 @@
-# White Mountains TODO List
+# boggy-wildcat-photo-data-to-do-list
 ## Wildcat Exclosure
 
 ### Folders That Need Metadata and Sorting

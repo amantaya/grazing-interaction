@@ -1,4 +1,4 @@
-# Cameratraps2 TODO List
+# cameratraps2-photo-data-to-do-list
 The cameratraps2 are the 25 motion cameras deployed on and off the HWHT.
 
 ## BUO01
