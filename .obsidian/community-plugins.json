@@ -2,7 +2,11 @@
   "obsidian-file-path-to-uri",
   "obsidian-git",
   "table-editor-obsidian",
-  "obsidian-citation-plugin",
   "dataview",
-  "obsidian-pandoc"
+  "obsidian-pandoc",
+  "templater-obsidian",
+  "obsidian-citation-plugin",
+  "obsidian-filename-heading-sync",
+  "sliding-panes-obsidian",
+  "obsidian-tasks-plugin"
 ]

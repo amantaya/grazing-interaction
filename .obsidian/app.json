@@ -1,8 +1,8 @@
 {
   "legacyEditor": false,
-  "livePreview": false,
+  "livePreview": true,
   "promptDelete": false,
-  "newFileLocation": "root",
+  "newFileLocation": "folder",
   "alwaysUpdateLinks": true,
   "showFrontmatter": true,
   "showLineNumber": true,
@@ -17,6 +17,13 @@
   "fileSortOrder": "byCreatedTime",
   "userIgnoreFilters": [
     "*.pdf",
-    "*.docx"
-  ]
+    "*.docx",
+    "*.jpg",
+    "*.png"
+  ],
+  "useMarkdownLinks": true,
+  "newFileFolderPath": "Fleeting Notes",
+  "showUnsupportedFiles": true,
+  "autoPairBrackets": false,
+  "autoPairMarkdown": false
 }

@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "docs/tutorials/Launching-and-Configuring-a-Cyverse-App.md",
+            "file": "docs/heber-project-notes/Daubenmire.md",
             "mode": "source",
             "backlinks": false,
             "source": true
@@ -78,7 +78,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "docs/tutorials/Launching-and-Configuring-a-Cyverse-App.md",
+                "file": "docs/heber-project-notes/Daubenmire.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -106,7 +106,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "docs/tutorials/Launching-and-Configuring-a-Cyverse-App.md",
+                "file": "docs/heber-project-notes/Daubenmire.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -118,7 +118,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "docs/tutorials/Launching-and-Configuring-a-Cyverse-App.md"
+                "file": "docs/heber-project-notes/Daubenmire.md"
               }
             }
           }
@@ -131,6 +131,7 @@
   },
   "active": "8e023dd33aff49de",
   "lastOpenFiles": [
+    "docs/heber-project-notes/Daubenmire.md",
     "docs/tutorials/Launching-and-Configuring-a-Cyverse-App.md",
     "docs/tutorials/Launching-and-Configuring-a-Cyverse-App.pdf",
     "Attachments/Pasted-image-20220527083115.png.md",
@@ -139,7 +140,6 @@
     "cameratraps2-photo-data-to-list.md",
     "heber-photo-data-to-do-list.md",
     "2021-heber-production.knit.md",
-    "boggy-wildcat-photo-data-to-do-list.md",
-    "templates/Photo To-Do Template.md"
+    "boggy-wildcat-photo-data-to-do-list.md"
   ]
 }
