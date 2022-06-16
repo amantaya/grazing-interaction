@@ -28,6 +28,7 @@ description includes #heber2020photos
 ```tasks
 not done
 description includes #heber2021photos 
+description does not include #cameratraps2 
 ```
 ***
 ## Cameratraps2 Photo Tasks
