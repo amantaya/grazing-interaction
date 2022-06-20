@@ -38,6 +38,7 @@ kanban-plugin: basic
 - [ ] SHT30_20210525_20210622 #heber2021photos #task #cameratraps2
 - [ ] SHT30_20210622_20210722 #heber2021photos #task #cameratraps2
 
+
 ## Folders That Need Metadata
 
 - [ ] BRL_01112018_02132018 #heber2018photos #task #needsmetadata
@@ -51,21 +52,21 @@ kanban-plugin: basic
 - [ ] OPO_06252021_07232021 #heber2021photos #task
 - [ ] BUO01_20150101_20210804 #heber2021photos #task #cameratraps2
 - [ ] BUO07_20210804_20220107 #heber2021photos #task #cameratraps2
-- [ ] BUO23_20210723_20220107 #heber2021photos #task #cameratraps2 
-- [ ] BUO29_20210722_20220106 #heber2021photos #task #cameratraps2 
-- [ ] BUT19_20210723_20220106 #heber2021photos #task #cameratraps2 
-- [ ] GEO02_20210805_20210907 #heber2021photos #task #cameratraps2 
-- [ ] GEO30_20210723_20211016 #heber2021photos #task #cameratraps2 
-- [ ] GEO30_20210526_20210622 #heber2021photos #task #cameratraps2 
+- [ ] BUO23_20210723_20220107 #heber2021photos #task #cameratraps2
+- [ ] BUO29_20210722_20220106 #heber2021photos #task #cameratraps2
+- [ ] BUT19_20210723_20220106 #heber2021photos #task #cameratraps2
+- [ ] GEO02_20210805_20210907 #heber2021photos #task #cameratraps2
+- [ ] GEO30_20210723_20211016 #heber2021photos #task #cameratraps2
+- [ ] GEO30_20210526_20210622 #heber2021photos #task #cameratraps2
 - [ ] GEO32_20210805_20220108 #heber2021photos #task #cameratraps2
 - [ ] GET01_20210722_20220108 #heber2021photos #task #cameratraps2
-- [ ] GET06_20210722_20220106 #heber2021photos #task #cameratraps2 
+- [ ] GET06_20210722_20220106 #heber2021photos #task #cameratraps2
 - [ ] GET13_20210723_20220107 #heber2021photos #task #cameratraps2
 - [ ] GET21_20210724_20220107 #heber2021photos #task #cameratraps2
 - [ ] GET22_20210724_20220107 #heber2021photos #task #cameratraps2
 - [ ] KPT14_20210722_20220106 #heber2021photos #task #cameratraps2
 - [ ] KPT27_20210622_20210722 #heber2021photos #task #cameratraps2
-- [ ] KPT27_20210525_20210622 #heber2021photos #task #cameratraps2 
+- [ ] KPT27_20210525_20210622 #heber2021photos #task #cameratraps2
 - [ ] SHT15_20210723_20211212 #heber2021photos #task #cameratraps2
 - [ ] SHT18_20210525_20210528 #heber2021photos #task #cameratraps2
 - [ ] SHT18_20210622_20210722 #heber2021photos #task #cameratraps2
@@ -81,11 +82,13 @@ kanban-plugin: basic
 - [ ] STT29_20210623_20210722 #heber2021photos #task #cameratraps2
 - [ ] STT29_20210722_20220107 #heber2021photos #task #cameratraps2
 
+
 ## Folders to Copy to Hard Drive
 
 
 
 ## Folders to Upload to Box and Cyverse for SORTING
+
 - [ ] SHT30_20210525_20210622 #cameratraps2 #task #heber2021photos
 - [ ] SHT30_20210622_20210722 #cameratraps2 #task #heber2021photos
 - [ ] STT29_20210623_20210722 #cameratraps2 #task #heber2021photos
@@ -102,18 +105,18 @@ kanban-plugin: basic
 - [ ] BUO01_20150101_20210804 #heber2021photos #task #cameratraps2
 - [ ] BUO01_20210625_20210723 #heber2021photos #task #cameratraps2
 - [ ] BUO01_20210723_20210804 #heber2021photos #task #cameratraps2
-- [ ] BUO07_20210625_20210723 #heber2021photos #task #cameratraps2 
-- [ ] BUO07_20210723_20210804 #heber2021photos #task #cameratraps2 
-- [ ] BUO07_20210804_20220107 #heber2021photos #task #cameratraps2 
-- [ ] BUO23_20210525_20210624 #heber2021photos #task #cameratraps2 
-- [ ] BUO23_20210624_20210723 #heber2021photos #task #cameratraps2 
-- [ ] BUO29_20210624_20210722 #heber2021photos #task #cameratraps2 
-- [ ] BUT12_20210527_20210622 #heber2021photos #task #cameratraps2 
-- [ ] BUT12_20210622_20210723 #heber2021photos #task #cameratraps2 
-- [ ] BUT19_20210527_20210623 #heber2021photos #task #cameratraps2 
-- [ ] BUT19_20210623_20210723 #heber2021photos #task #cameratraps2 
-- [ ] GEO02_20210625_20210703 #heber2021photos #task #cameratraps2 
-- [ ] GEO02_20210723_20210805 #heber2021photos #task #cameratraps2 
+- [ ] BUO07_20210625_20210723 #heber2021photos #task #cameratraps2
+- [ ] BUO07_20210723_20210804 #heber2021photos #task #cameratraps2
+- [ ] BUO07_20210804_20220107 #heber2021photos #task #cameratraps2
+- [ ] BUO23_20210525_20210624 #heber2021photos #task #cameratraps2
+- [ ] BUO23_20210624_20210723 #heber2021photos #task #cameratraps2
+- [ ] BUO29_20210624_20210722 #heber2021photos #task #cameratraps2
+- [ ] BUT12_20210527_20210622 #heber2021photos #task #cameratraps2
+- [ ] BUT12_20210622_20210723 #heber2021photos #task #cameratraps2
+- [ ] BUT19_20210527_20210623 #heber2021photos #task #cameratraps2
+- [ ] BUT19_20210623_20210723 #heber2021photos #task #cameratraps2
+- [ ] GEO02_20210625_20210703 #heber2021photos #task #cameratraps2
+- [ ] GEO02_20210723_20210805 #heber2021photos #task #cameratraps2
 - [ ] GEO32_20210526_20210609 #heber2021photos #task #cameratraps2
 - [ ] GEO32_20210622_20210723 #heber2021photos #task #cameratraps2
 - [ ] GEO32_20210723_20210805 #heber2021photos #task #cameratraps2
@@ -127,7 +130,7 @@ kanban-plugin: basic
 - [ ] GET22_20210525_20210622 #heber2021photos #task #cameratraps2
 - [ ] GET22_20210622_20210622 #heber2021photos #task #cameratraps2
 - [ ] KPT14_20210527_20210622 #heber2021photos #task #cameratraps2
-- [ ] KPT14_20210622_20210722 #heber2021photos #task #cameratraps2 
+- [ ] KPT14_20210622_20210722 #heber2021photos #task #cameratraps2
 - [ ] KPT16_20210527_20210622 #heber2021photos #task #cameratraps2
 - [ ] KPT16_20210622_20210722 #heber2021photos #task #cameratraps2
 - [ ] SHT11_20210527_20210623 #heber2021photos #task #cameratraps2
@@ -207,7 +210,7 @@ kanban-plugin: basic
 - [ ] BKS_12012017_01082018_subjects_chunk2 #heber2018photos #task
 
 
-## Completed SCORING Assingments to Copy to Hard Drive
+## Completed SCORING Assignments to Copy to Hard Drive
 
 - [ ] BKS_12012017_01082018_subjects_chunk2
 
