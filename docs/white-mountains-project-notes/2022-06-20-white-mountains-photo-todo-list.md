@@ -1,4 +1,4 @@
-# boggy-wildcat-photo-data-to-do-list
+# 2022-06-20-white-mountains-photo-todo-list
 ## Wildcat Exclosure
 
 ### Folders That Need Metadata and Sorting

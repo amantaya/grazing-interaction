@@ -1,5 +1,8 @@
-# heber-photo-tasks-main-list
-[heber-photo-data-to-do-list](heber-photo-data-to-do-list.md)
+# Heber-Photo-Tasks
+// Requires the "Tasks" plugin for Obsidian to generate a tasks query.
+
+[Heber Project Kanban](Heber%20Project%20Kanban.md)
+
 ## 2017
 ```tasks
 description includes #heber2017photos 

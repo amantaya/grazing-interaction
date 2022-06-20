@@ -1,4 +1,7 @@
-# white-mountains-main-task-list
+# White-Mountains-Tasks
+// Requires the "Tasks" plugin for Obsidian to generate a tasks query.
+
+[White Mountains Project Kanban](White%20Mountains%20Project%20Kanban.md)
 
 ## 2017
 ```tasks
