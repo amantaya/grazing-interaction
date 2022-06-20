@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "type": "file",
+      "title": "Hotkeys",
+      "path": "Hotkeys.md"
+    },
+    {
+      "type": "file",
+      "title": "Websites to Check Out",
+      "path": "Things I Still Need to Learn/Websites to Check Out.md"
+    },
+    {
+      "type": "file",
+      "title": "heber-photo-tasks-main-list",
+      "path": "heber-project-notes/heber-photo-tasks-main-list.md"
+    }
+  ]
+}

@@ -4,12 +4,12 @@
     "type": "split",
     "children": [
       {
-        "id": "02103460b8959472",
+        "id": "b128ec1c3fa2a52a",
         "type": "leaf",
         "state": {
           "type": "markdown",
           "state": {
-            "file": "docs/heber-project-notes/heber-photo-data-to-do-list.md",
+            "file": "2022-06-20-11-09-19.md",
             "mode": "source",
             "backlinks": false,
             "source": false
@@ -17,15 +17,67 @@
         }
       },
       {
-        "id": "6892f6254ccc1d5e",
+        "id": "99aaf4bace2542dd",
         "type": "leaf",
         "state": {
           "type": "markdown",
           "state": {
-            "file": "docs/heber-project-notes/heber-photo-tasks-main-list.md",
+            "file": "heber-project-notes/2022-06-20-09-17-08-Daily-Tasks.md",
             "mode": "source",
             "backlinks": false,
-            "source": true
+            "source": false
+          }
+        }
+      },
+      {
+        "id": "d1fd81bc18040d89",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "Assignments that are on Basecamp that I need to Upload to Box.md",
+            "mode": "source",
+            "backlinks": false,
+            "source": false
+          }
+        }
+      },
+      {
+        "id": "9b5b9f9271362690",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "heber-project-notes/heber-photo-data-to-do-list.md",
+            "mode": "source",
+            "backlinks": false,
+            "source": false
+          }
+        }
+      },
+      {
+        "id": "2313482b25b8f5c2",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "2022-06-20-11-38-40.md",
+            "mode": "source",
+            "backlinks": false,
+            "source": false
+          }
+        }
+      },
+      {
+        "id": "398de0d748d5838b",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "heber-project-notes/Heber Project Kanban.md",
+            "mode": "source",
+            "backlinks": false,
+            "source": false
           }
         }
       }
@@ -54,7 +106,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:#wm2017photos",
+                "query": "tag:#task #sorting",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -91,7 +143,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "docs/heber-project-notes/heber-photo-tasks-main-list.md",
+                "file": "heber-project-notes/heber-photo-data-to-do-list.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -119,7 +171,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "docs/heber-project-notes/heber-photo-tasks-main-list.md",
+                "file": "heber-project-notes/heber-photo-data-to-do-list.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -131,7 +183,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "docs/heber-project-notes/heber-photo-tasks-main-list.md"
+                "file": "heber-project-notes/heber-photo-data-to-do-list.md"
               }
             }
           },
@@ -144,24 +196,24 @@
             }
           }
         ],
-        "currentTab": 4
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
     "width": 300,
     "collapsed": true
   },
-  "active": "6892f6254ccc1d5e",
+  "active": "9b5b9f9271362690",
   "lastOpenFiles": [
-    "docs/heber-project-notes/heber-photo-tasks-main-list.md",
-    "docs/heber-project-notes/heber-photo-data-to-do-list.md",
-    "Untitled.md",
-    "docs/heber-project-notes/Daubenmire.md",
-    "docs/white-mountains-project-notes/white-mountains-main-task-list.md",
-    "docs/white-mountains-project-notes/boggy-wildcat-photo-data-to-do-list.md",
-    "docs/heber-project-notes/cameratraps2-photo-data-to-do-list.md",
-    "docs/heber-project-notes/Heber 2019 Stubble Height Figures.md",
-    "docs/heber-project-notes/WCS_05152018_06092018 is missing some sub-folders.md",
-    "data/path-to-free-file-sync-cli.md"
+    "heber-project-notes/heber-photo-data-to-do-list.md",
+    "heber-project-notes/Heber Project Kanban.md",
+    "2022-06-20-11-38-40.md",
+    "Assignments that are on Basecamp that I need to Upload to Box.md",
+    "heber-project-notes/2022-06-20-09-17-08-Daily-Tasks.md",
+    "heber-project-notes/heber-photo-tasks-main-list.md",
+    "2022-06-20-11-09-19.md",
+    "heber-project-notes/2022-06-16-16-41-15 Basic Workflow for Processing Cameratrap Photos.md",
+    "Kanban Roadmap.md",
+    "Untitled 1.md"
   ]
 }

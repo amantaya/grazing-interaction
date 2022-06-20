@@ -18,7 +18,7 @@
 - [x] BKD_06112019_07022019 #heber2019photos #task ✅ 2022-06-16
 - [x] BKD_07022019_08132019 #heber2019photos #task ✅ 2022-06-16
 - [x] BKD_08132019_10292019 #heber2019photos #task ✅ 2022-06-16
-- [x] BKD_11062019_12072019 #heber2019photos #task ✅ 2022-06-16
+- [x] BKD_11062019_12072019 #heber2019photos #task ✅ 2022-06-16 #completed
 
 ***
 
@@ -49,7 +49,7 @@
 ## Black Canyon South
 
 ### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
-- [ ] BKS_06122017_06212017 #heber2017photos #task 
+- [ ] BKS_06122017_06212017 #heber2017photos #task
 - [ ] BKS_06242017_07132017 #heber2017photos #task 
 - [ ] BKS_07132017_07242017 #heber2017photos #task 
 - [ ] BKS_07212017_07292017 #heber2017photos #task 
@@ -122,13 +122,33 @@
 ### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
 ### Folders That Need Metadata
-- [ ] BRL_01112018_02132018 #heber2018photos #task 
-- [ ] BRL_09152017_10162017 #heber2017photos #task 
-- [ ] BRL_10182017_11192017 #heber2017photos #task 
-- [ ] BRL_10182017_11192017 #heber2017photos #task 
-- [ ] BRL_12022017_01102018 #heber2018photos #task 
+- [ ] BRL_01112018_02132018 #heber2018photos #task #needsmetadata
+- [ ] BRL_09152017_10162017 #heber2017photos #task #needsmetadata
+- [ ] BRL_10182017_11192017 #heber2017photos #task #needsmetadata
+- [ ] BRL_10182017_11192017 #heber2017photos #task #needsmetadata
+- [ ] BRL_12022017_01102018 #heber2018photos #task #needsmetadata
+
+### Folders That Need to Uploaded to Box
+- [ ] BRL_05282021_06222021 #heber2021photos #task #uploadtobox
+- [ ] BRL_06222021_07232021 #heber2021photos #task #uploadtobox
+- [ ] BRL_20210723_20210805 #heber2021photos #task #uploadtobox
+- [ ] BRL_20210805_20211001 #heber2021photos #task #uploadtobox
 
 ### Folders That Need Sorting
+- [ ] BRL_02132018_02282018 #heber2018photos #task #sorting
+- [ ] BRL_03062018_04112018 #heber2018photos #task #sorting
+- [ ] BRL_05102018_07202018 #heber2018photos #task #sorting
+- [ ] #task BRL_05282021_06222021 #heber2021photos #sorting ⏫
+- [ ] BRL_06222021_07232021 #heber2021photos #task #sorting
+- [ ] BRL_07132017_07212017 #heber2017photos #task #sorting
+- [ ] BRL_07202018_10192018 #heber2018photos #task #sorting
+- [ ] BRL_07212017_08132017 #heber2017photos #task #sorting
+- [ ] BRL_08132017_08142017 #heber2017photos #task #sorting
+- [ ] BRL_08292017_09152017  #heber2017photos #task #sorting
+- [ ] BRL_20210723_20210805 #heber2021photos #task #sorting
+- [ ] BRL_20210805_20211001 #heber2021photos #task #sorting
+
+### Folders That Need Subject Photos Copied
 - [ ] BRL_02132018_02282018 #heber2018photos #task 
 - [ ] BRL_03062018_04112018 #heber2018photos #task 
 - [ ] BRL_05102018_07202018 #heber2018photos #task 
@@ -141,11 +161,19 @@
 - [ ] BRL_08292017_09152017  #heber2017photos #task 
 - [ ] BRL_20210723_20210805 #heber2021photos #task
 - [ ] BRL_20210805_20211001 #heber2021photos #task
-
-### Folders That Need Subject Photos Copied
-
 ### Folders That Need to be Chunked
-
+- [ ] BRL_02132018_02282018 #heber2018photos #task 
+- [ ] BRL_03062018_04112018 #heber2018photos #task 
+- [ ] BRL_05102018_07202018 #heber2018photos #task 
+- [ ] BRL_05282021_06222021 #heber2021photos #task
+- [ ] BRL_06222021_07232021 #heber2021photos #task
+- [ ] BRL_07132017_07212017 #heber2017photos #task 
+- [ ] BRL_07202018_10192018 #heber2018photos #task 
+- [ ] BRL_07212017_08132017 #heber2017photos #task 
+- [ ] BRL_08132017_08142017 #heber2017photos #task 
+- [ ] BRL_08292017_09152017  #heber2017photos #task 
+- [ ] BRL_20210723_20210805 #heber2021photos #task
+- [ ] BRL_20210805_20211001 #heber2021photos #task
 ### Chunks That Are Missing or Need to Be Completed
 
 ### Completed Folders
@@ -189,11 +217,11 @@
 ### Folders That Need Metadata 
 
 ### Folders That Need Sorting
-- [ ] A51_05282021_06222021 #heber2021photos #task 
-- [ ] A51_06222021_06252021 #heber2021photos #task 
-- [ ] A51_06252021_07162021 #heber2021photos #task 
-- [ ] A51_20210724_20210804 #heber2021photos #task 
-- [ ] A51_20210804_20210817 #heber2021photos #task 
+- [ ] A51_05282021_06222021 #heber2021photos #task
+- [ ] A51_06222021_06252021 #heber2021photos #task
+- [ ] A51_06252021_07162021 #heber2021photos #task
+- [ ] A51_20210724_20210804 #heber2021photos #task
+- [ ] A51_20210804_20210817 #heber2021photos #task
 
 ### Folders That Need Subject Photos Copied
 
@@ -218,9 +246,9 @@
 ### Folders That Need Metadata 
 
 ### Folders That Need Sorting
-- [ ] FLO_05282021_06112021 #heber2021photos #task 
-- [ ] FLO_06232021_07232021 #heber2021photos #task 
-- [ ] FLO_20210723_20210806 #heber2021photos #task 
+- [ ] FLO_05282021_06112021 #heber2021photos #task
+- [ ] FLO_06232021_07232021 #heber2021photos #task
+- [ ] FLO_20210723_20210806 #heber2021photos #task
 - [ ] FLO_20210806_20210820 #heber2021photos #task
 
 ### Folders That Need Subject Photos Copied

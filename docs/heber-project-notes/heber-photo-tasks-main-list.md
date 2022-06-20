@@ -1,45 +1,49 @@
 # heber-photo-tasks-main-list
 [heber-photo-data-to-do-list](heber-photo-data-to-do-list.md)
-## Heber 2017 Photo Tasks
+## 2017
 ```tasks
-not done
 description includes #heber2017photos 
+group by heading
 ```
 ***
-## Heber 2018 Photo Tasks
+## 2018
 ```tasks
-not done
 description includes #heber2018photos 
+group by heading
 ```
 ***
-## Heber 2019 Photo Tasks
+## 2019
 ```tasks
-not done
 description includes #heber2019photos 
+group by heading
 ```
 ***
-## Heber 2020 Photo Tasks
+## 2020
 ```tasks
-not done
 description includes #heber2020photos 
+group by heading
 ```
 ***
-## Heber 2021 Photo Tasks
+## 2021
 ```tasks
-not done
 description includes #heber2021photos 
 description does not include #cameratraps2 
+group by heading
 ```
 ***
-## Cameratraps2 Photo Tasks
+## Cameratraps2
 [cameratraps2-photo-data-to-do-list](cameratraps2-photo-data-to-do-list.md)
 ```tasks
 not done
 description includes #cameratraps2
+group by heading
 ```
 ***
 ## All Heber Photo Tasks
 ```tasks
 not done
 short mode
+group by heading
 ```
+***
+

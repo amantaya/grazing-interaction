@@ -1,10 +1,6 @@
 # Daubenmire
 Created: 2022-06-13 16:34
 
-```dataview  
-TABLE WITHOUT ID file.mtime AS "Last Modified" FROM [[#]]  
-```
-
 1. Build a species list using `unique()`
 2. Classify each species into a functional group
 	1. perennial grasses
