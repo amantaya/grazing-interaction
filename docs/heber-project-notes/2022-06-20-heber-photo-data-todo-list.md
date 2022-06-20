@@ -122,11 +122,11 @@
 ### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
 ### Folders That Need Metadata
-- [ ] BRL_01112018_02132018 #heber2018photos #needsmetadata
-- [ ] BRL_09152017_10162017 #heber2017photos #needsmetadata
-- [ ] BRL_10182017_11192017 #heber2017photos #needsmetadata
-- [ ] BRL_10182017_11192017 #heber2017photos #needsmetadata
-- [ ] BRL_12022017_01102018 #heber2018photos #needsmetadata
+- [ ] BRL_01112018_02132018 #heber2018photos
+- [ ] BRL_09152017_10162017 #heber2017photos
+- [ ] BRL_10182017_11192017 #heber2017photos 
+- [ ] BRL_10182017_11192017 #heber2017photos
+- [ ] BRL_12022017_01102018 #heber2018photos
 
 ### Folders That Need to Uploaded to Box
 - [ ] BRL_05282021_06222021 #heber2021photos #uploadtobox
