@@ -11,6 +11,8 @@ kanban-plugin: basic
 
 ## Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
+- [ ] SHT30_20210525_20210622 #heber2021photos #task #cameratraps2
+- [ ] SHT30_20210622_20210722 #heber2021photos #task #cameratraps2
 - [ ] BKS_06122017_06212017 #heber2017photos #task
 - [ ] BKS_06242017_07132017 #heber2017photos #task
 - [ ] BKS_07132017_07242017 #heber2017photos #task
@@ -35,18 +37,16 @@ kanban-plugin: basic
 - [ ] BRT_06242017_07132017 #heber2017photos #task
 - [ ] BRT_07132017_07212017 #heber2017photos #task
 - [ ] BRT_07212017_08132017 #heber2017photos #task
-- [ ] SHT30_20210525_20210622 #heber2021photos #task #cameratraps2
-- [ ] SHT30_20210622_20210722 #heber2021photos #task #cameratraps2
 
 
 ## Folders That Need Metadata
 
-- [ ] BRL_01112018_02132018 #heber2018photos #task #needsmetadata
-- [ ] BRL_09152017_10162017 #heber2017photos #task #needsmetadata
-- [ ] BRL_10182017_11192017 #heber2017photos #task #needsmetadata
-- [ ] BRL_10182017_11192017 #heber2017photos #task #needsmetadata
+- [ ] BRL_01112018_02132018 #heber2018photos #task
+- [ ] BRL_09152017_10162017 #heber2017photos #task
+- [ ] BRL_10182017_11192017 #heber2017photos #task
+- [ ] BRL_10182017_11192017 #heber2017photos #task
 - [ ] BKT_10182017_12012017 #heber2017photos #task
-- [ ] BRL_12022017_01102018 #heber2018photos #task #needsmetadata
+- [ ] BRL_12022017_01102018 #heber2018photos #task
 - [ ] OPO_05282021_06212021 #heber2021photos #task
 - [ ] OPO_06212021_06252021 #heber2021photos #task
 - [ ] OPO_06252021_07232021 #heber2021photos #task
@@ -90,15 +90,15 @@ kanban-plugin: basic
 ## Folders to Upload to Box and Cyverse for SORTING
 
 - [ ] SHT30_20210525_20210622 #cameratraps2 #task #heber2021photos
+- [ ] BRL_06222021_07232021 #heber2021photos #task
 - [ ] SHT30_20210622_20210722 #cameratraps2 #task #heber2021photos
 - [ ] STT29_20210623_20210722 #cameratraps2 #task #heber2021photos
 - [ ] STT29_20210527_20210623 #cameratraps2 #task #heber2021photos
 - [ ] SHT15_20210623_20210723 #cameratraps2 #task #heber2021photos
 - [ ] SHT15_20210527_20210611 #cameratraps2 #task #heber2021photos
+- [ ] BRL_05282021_06222021 #heber2021photos #task
 - [ ] WCS_06242019_07022019 #wm2019photos #task #heber2021photos
 - [ ] WCS_07302019_09182019 #wm2019photos #task #heber2021photos
-- [ ] BRL_05282021_06222021 #heber2021photos #task
-- [ ] BRL_06222021_07232021 #heber2021photos #task
 - [ ] BRL_20210723_20210805 #heber2021photos #task
 - [ ] BRL_20210805_20211001 #heber2021photos #task
 - [ ] OPO_20210723_20210805 #heber2021photos #task
@@ -225,41 +225,44 @@ kanban-plugin: basic
 
 ## Completed Folders
 
-- [x] BKD_06112019_07022019 #heber2019photos #task ✅ 2022-06-16
-- [x] BKD_07022019_08132019 #heber2019photos #task ✅ 2022-06-16
-- [x] BKD_08132019_10292019 #heber2019photos #task ✅ 2022-06-16
-- [x] BKD_11062019_12072019 #heber2019photos #task ✅ 2022-06-16
-- [x] BKN_06112019_07022019 #heber2019photos #task ✅ 2022-06-16
-- [x] BKN_07102020_10212020 #heber2020photos #task ✅ 2022-06-16
-- [x] BKN_08132019_11052019 #heber2019photos #task ✅ 2022-06-16
-- [x] BKN_11052019_12072019 #heber2019photos #task ✅ 2022-06-16
-- [x] BKS_01112018_02132018 #heber2018photos #task ✅ 2022-06-16
-- [x] BKS_02132018_02232018 #heber2018photos #task ✅ 2022-06-16
-- [x] BKS_05102018_07202018 #heber2018photos #task ✅ 2022-06-16
-- [x] BKS_06052019_07022019 #heber2019photos #task ✅ 2022-06-16
-- [x] BKS_07022019_08132019 #heber2019photos #task ✅ 2022-06-16
-- [x] BKS_07102020_10222020 #heber2020photos #task ✅ 2022-06-16
-- [x] BKS_07202018_08242018 #heber2018photos #task ✅ 2022-06-16
-- [x] BKS_08132019_09132019 #heber2019photos #task ✅ 2022-06-16
-- [x] BKS_10222020_10252020 #heber2020photos #task ✅ 2022-06-16
-- [x] BKS_11052019_12022019 #heber2019photos #task ✅ 2022-06-16
-- [x] BRL_06052019_07022019 #heber2019photos #task ✅ 2022-06-16
-- [x] BRL_07022019_08132019 #heber2019photos #task ✅ 2022-06-16
-- [x] BRL_07112020_08112020 #heber2020photos #task ✅ 2022-06-16
-- [x] BRL_08132019_10042019 #heber2019photos #task ✅ 2022-06-16
-- [x] BRL_10212020_12032020 #heber2020photos #task ✅ 2022-06-16
-- [x] BRL_11052019_12072019 #heber2019photos #task ✅ 2022-06-16
-- [x] BRT_06052019_10032019 #heber2019photos #task ✅ 2022-06-16
-- [x] BRT_11052019_12072019 #heber2019photos #task ✅ 2022-06-16
-- [x] A51_06112019_07022019 #heber2019photos #task
-- [x] A51_07022019_08132019 #heber2019photos #task
-- [x] A51_07122020_10112020 #heber2020photos #task
-- [x] A51_08132019_08192019 #heber2019photos #task
-- [x] A51_10222020_12022020 #heber2020photos #task
-- [x] A51_11052019_12062019 #heber2019photos #task
 
 
+***
 
+## Archive
+
+- [x] 2022-06-20 15:20:44 BKD_06112019_07022019 #heber2019photos #task ✅ 2022-06-16
+- [x] 2022-06-20 15:20:44 BKD_07022019_08132019 #heber2019photos #task ✅ 2022-06-16
+- [x] 2022-06-20 15:20:44 BKD_08132019_10292019 #heber2019photos #task ✅ 2022-06-16
+- [x] 2022-06-20 15:20:44 BKD_11062019_12072019 #heber2019photos #task ✅ 2022-06-16
+- [x] 2022-06-20 15:20:44 BKN_06112019_07022019 #heber2019photos #task ✅ 2022-06-16
+- [x] 2022-06-20 15:20:44 BKN_07102020_10212020 #heber2020photos #task ✅ 2022-06-16
+- [x] 2022-06-20 15:20:44 BKN_08132019_11052019 #heber2019photos #task ✅ 2022-06-16
+- [x] 2022-06-20 15:20:44 BKN_11052019_12072019 #heber2019photos #task ✅ 2022-06-16
+- [x] 2022-06-20 15:20:44 BKS_01112018_02132018 #heber2018photos #task ✅ 2022-06-16
+- [x] 2022-06-20 15:20:44 BKS_02132018_02232018 #heber2018photos #task ✅ 2022-06-16
+- [x] 2022-06-20 15:20:44 BKS_05102018_07202018 #heber2018photos #task ✅ 2022-06-16
+- [x] 2022-06-20 15:20:44 BKS_06052019_07022019 #heber2019photos #task ✅ 2022-06-16
+- [x] 2022-06-20 15:20:44 BKS_07022019_08132019 #heber2019photos #task ✅ 2022-06-16
+- [x] 2022-06-20 15:20:44 BKS_07102020_10222020 #heber2020photos #task ✅ 2022-06-16
+- [x] 2022-06-20 15:20:44 BKS_07202018_08242018 #heber2018photos #task ✅ 2022-06-16
+- [x] 2022-06-20 15:20:44 BKS_08132019_09132019 #heber2019photos #task ✅ 2022-06-16
+- [x] 2022-06-20 15:20:44 BKS_10222020_10252020 #heber2020photos #task ✅ 2022-06-16
+- [x] 2022-06-20 15:20:44 BKS_11052019_12022019 #heber2019photos #task ✅ 2022-06-16
+- [x] 2022-06-20 15:20:44 BRL_06052019_07022019 #heber2019photos #task ✅ 2022-06-16
+- [x] 2022-06-20 15:20:44 BRL_07022019_08132019 #heber2019photos #task ✅ 2022-06-16
+- [x] 2022-06-20 15:20:44 BRL_07112020_08112020 #heber2020photos #task ✅ 2022-06-16
+- [x] 2022-06-20 15:20:44 BRL_08132019_10042019 #heber2019photos #task ✅ 2022-06-16
+- [x] 2022-06-20 15:20:44 BRL_10212020_12032020 #heber2020photos #task ✅ 2022-06-16
+- [x] 2022-06-20 15:20:44 BRL_11052019_12072019 #heber2019photos #task ✅ 2022-06-16
+- [x] 2022-06-20 15:20:44 BRT_06052019_10032019 #heber2019photos #task ✅ 2022-06-16
+- [x] 2022-06-20 15:20:44 BRT_11052019_12072019 #heber2019photos #task ✅ 2022-06-16
+- [x] 2022-06-20 15:20:44 A51_06112019_07022019 #heber2019photos #task
+- [x] 2022-06-20 15:20:44 A51_07022019_08132019 #heber2019photos #task
+- [x] 2022-06-20 15:20:44 A51_07122020_10112020 #heber2020photos #task
+- [x] 2022-06-20 15:20:44 A51_08132019_08192019 #heber2019photos #task
+- [x] 2022-06-20 15:20:44 A51_10222020_12022020 #heber2020photos #task
+- [x] 2022-06-20 15:20:44 A51_11052019_12062019 #heber2019photos #task
 
 %% kanban:settings
 ```
