@@ -15,10 +15,10 @@
 ### Chunks That Are Missing or Need to Be Completed
 
 ### Completed Folders
-- [x] BKD_06112019_07022019 #heber2019photos #task ✅ 2022-06-16
-- [x] BKD_07022019_08132019 #heber2019photos #task ✅ 2022-06-16
-- [x] BKD_08132019_10292019 #heber2019photos #task ✅ 2022-06-16
-- [x] BKD_11062019_12072019 #heber2019photos #task ✅ 2022-06-16 #completed
+- [x] BKD_06112019_07022019 #heber2019photos ✅ 2022-06-16
+- [x] BKD_07022019_08132019 #heber2019photos ✅ 2022-06-16
+- [x] BKD_08132019_10292019 #heber2019photos ✅ 2022-06-16
+- [x] BKD_11062019_12072019 #heber2019photos ✅ 2022-06-16
 
 ***
 
@@ -39,10 +39,10 @@
 - [ ] BKN_10212020_12032020_subjects_chunk1 #heber2020photos #task
 
 ### Completed Folders
-- [x] BKN_06112019_07022019 #heber2019photos #task ✅ 2022-06-16
-- [x] BKN_07102020_10212020 #heber2020photos #task ✅ 2022-06-16
-- [x] BKN_08132019_11052019 #heber2019photos #task ✅ 2022-06-16
-- [x] BKN_11052019_12072019 #heber2019photos #task ✅ 2022-06-16
+- [x] BKN_06112019_07022019 #heber2019photos ✅ 2022-06-16
+- [x] BKN_07102020_10212020 #heber2020photos ✅ 2022-06-16
+- [x] BKN_08132019_11052019 #heber2019photos ✅ 2022-06-16
+- [x] BKN_11052019_12072019 #heber2019photos ✅ 2022-06-16
 
 ***
 
@@ -50,13 +50,13 @@
 
 ### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
 - [ ] BKS_06122017_06212017 #heber2017photos #task
-- [ ] BKS_06242017_07132017 #heber2017photos #task 
-- [ ] BKS_07132017_07242017 #heber2017photos #task 
-- [ ] BKS_07212017_07292017 #heber2017photos #task 
-- [ ] BKS_08132017_08212017 #heber2017photos #task 
-- [ ] BKS_08292017_09152017 #heber2017photos #task 
-- [ ] BKS_09152017_09212017 #heber2017photos #task 
-- [ ] BKS_10082017_12012017 #heber2017photos #task 
+- [ ] BKS_06242017_07132017 #heber2017photos 
+- [ ] BKS_07132017_07242017 #heber2017photos 
+- [ ] BKS_07212017_07292017 #heber2017photos 
+- [ ] BKS_08132017_08212017 #heber2017photos 
+- [ ] BKS_08292017_09152017 #heber2017photos 
+- [ ] BKS_09152017_09212017 #heber2017photos 
+- [ ] BKS_10082017_12012017 #heber2017photos 
 
 ### Folders That Need Metadata 
 
@@ -68,40 +68,40 @@
 
 ### Chunks That Are Missing or Need to Be Completed
 - [ ] BKS_03062018_04102018_subjects_chunk1 #heber2018photos #task
-- [ ] BKS_03062018_04102018_subjects_chunk2 #heber2018photos #task 
+- [ ] BKS_03062018_04102018_subjects_chunk2 #heber2018photos 
 - [ ] BKS_12012017_01082018_subjects_chunk1 #heber2018photos #task
-- [ ] BKS_12012017_01082018_subjects_chunk2 #heber2018photos #task 
+- [ ] BKS_12012017_01082018_subjects_chunk2 #heber2018photos 
 
 ### Completed Folders
-- [x] BKS_01112018_02132018 #heber2018photos #task ✅ 2022-06-16
-- [x] BKS_02132018_02232018 #heber2018photos #task ✅ 2022-06-16
-- [x] BKS_05102018_07202018 #heber2018photos #task ✅ 2022-06-16
-- [x] BKS_06052019_07022019 #heber2019photos #task ✅ 2022-06-16
-- [x] BKS_07022019_08132019 #heber2019photos #task ✅ 2022-06-16
-- [x] BKS_07102020_10222020 #heber2020photos #task ✅ 2022-06-16
-- [x] BKS_07202018_08242018 #heber2018photos #task ✅ 2022-06-16
-- [x] BKS_08132019_09132019 #heber2019photos #task ✅ 2022-06-16
-- [x] BKS_10222020_10252020 #heber2020photos #task ✅ 2022-06-16
-- [x] BKS_11052019_12022019 #heber2019photos #task ✅ 2022-06-16
+- [x] BKS_01112018_02132018 #heber2018photos ✅ 2022-06-16
+- [x] BKS_02132018_02232018 #heber2018photos ✅ 2022-06-16
+- [x] BKS_05102018_07202018 #heber2018photos ✅ 2022-06-16
+- [x] BKS_06052019_07022019 #heber2019photos ✅ 2022-06-16
+- [x] BKS_07022019_08132019 #heber2019photos ✅ 2022-06-16
+- [x] BKS_07102020_10222020 #heber2020photos ✅ 2022-06-16
+- [x] BKS_07202018_08242018 #heber2018photos ✅ 2022-06-16
+- [x] BKS_08132019_09132019 #heber2019photos ✅ 2022-06-16
+- [x] BKS_10222020_10252020 #heber2020photos ✅ 2022-06-16
+- [x] BKS_11052019_12022019 #heber2019photos ✅ 2022-06-16
 
 ***
 
 ## Black Canyon Trail
 
 ### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
-- [ ] BKT_01112018_03062018 #heber2018photos #task 
-- [ ] BKT_03062018_05102018 #heber2018photos #task 
-- [ ] BKT_05102018_07202018 #heber2018photos #task 
-- [ ] BKT_07122017_07242017 #heber2017photos #task 
-- [ ] BKT_07202018_11272018 #heber2018photos #task 
-- [ ] BKT_07242017_08122017 #heber2017photos #task 
+- [ ] BKT_01112018_03062018 #heber2018photos 
+- [ ] BKT_03062018_05102018 #heber2018photos 
+- [ ] BKT_05102018_07202018 #heber2018photos 
+- [ ] BKT_07122017_07242017 #heber2017photos 
+- [ ] BKT_07202018_11272018 #heber2018photos 
+- [ ] BKT_07242017_08122017 #heber2017photos 
 - [ ] BKT_08122017_08202017_1hrtimelapse
 - [ ] BKT_08122017_08282017_1hrtimelapse
-- [ ] BKT_08202017_09122017 #heber2017photos #task 
-- [ ] BKT_08282017_09142017 #heber2017photos #task 
-- [ ] BKT_09152017_10182017 #heber2017photos #task 
-- [ ] BKT_10182017_12012017 #heber2017photos #task 
-- [ ] BKT_12012017_01112018 #heber2018photos #task 
+- [ ] BKT_08202017_09122017 #heber2017photos 
+- [ ] BKT_08282017_09142017 #heber2017photos 
+- [ ] BKT_09152017_10182017 #heber2017photos 
+- [ ] BKT_10182017_12012017 #heber2017photos 
+- [ ] BKT_12012017_01112018 #heber2018photos 
 
 ### Folders That Need Metadata 
 
@@ -122,67 +122,67 @@
 ### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
 ### Folders That Need Metadata
-- [ ] BRL_01112018_02132018 #heber2018photos #task #needsmetadata
-- [ ] BRL_09152017_10162017 #heber2017photos #task #needsmetadata
-- [ ] BRL_10182017_11192017 #heber2017photos #task #needsmetadata
-- [ ] BRL_10182017_11192017 #heber2017photos #task #needsmetadata
-- [ ] BRL_12022017_01102018 #heber2018photos #task #needsmetadata
+- [ ] BRL_01112018_02132018 #heber2018photos #needsmetadata
+- [ ] BRL_09152017_10162017 #heber2017photos #needsmetadata
+- [ ] BRL_10182017_11192017 #heber2017photos #needsmetadata
+- [ ] BRL_10182017_11192017 #heber2017photos #needsmetadata
+- [ ] BRL_12022017_01102018 #heber2018photos #needsmetadata
 
 ### Folders That Need to Uploaded to Box
-- [ ] BRL_05282021_06222021 #heber2021photos #task #uploadtobox
-- [ ] BRL_06222021_07232021 #heber2021photos #task #uploadtobox
-- [ ] BRL_20210723_20210805 #heber2021photos #task #uploadtobox
-- [ ] BRL_20210805_20211001 #heber2021photos #task #uploadtobox
+- [ ] BRL_05282021_06222021 #heber2021photos #uploadtobox
+- [ ] BRL_06222021_07232021 #heber2021photos #uploadtobox
+- [ ] BRL_20210723_20210805 #heber2021photos #uploadtobox
+- [ ] BRL_20210805_20211001 #heber2021photos #uploadtobox
 
 ### Folders That Need Sorting
-- [ ] BRL_02132018_02282018 #heber2018photos #task #sorting
-- [ ] BRL_03062018_04112018 #heber2018photos #task #sorting
-- [ ] BRL_05102018_07202018 #heber2018photos #task #sorting
-- [ ] #task BRL_05282021_06222021 #heber2021photos #sorting ⏫
-- [ ] BRL_06222021_07232021 #heber2021photos #task #sorting
-- [ ] BRL_07132017_07212017 #heber2017photos #task #sorting
-- [ ] BRL_07202018_10192018 #heber2018photos #task #sorting
-- [ ] BRL_07212017_08132017 #heber2017photos #task #sorting
-- [ ] BRL_08132017_08142017 #heber2017photos #task #sorting
-- [ ] BRL_08292017_09152017  #heber2017photos #task #sorting
-- [ ] BRL_20210723_20210805 #heber2021photos #task #sorting
-- [ ] BRL_20210805_20211001 #heber2021photos #task #sorting
+- [ ] BRL_02132018_02282018 #heber2018photos #task
+- [ ] BRL_03062018_04112018 #heber2018photos #task
+- [ ] BRL_05102018_07202018 #heber2018photos #task
+- [ ] BRL_05282021_06222021 #heber2021photos 
+- [ ] BRL_06222021_07232021 #heber2021photos #task
+- [ ] BRL_07132017_07212017 #heber2017photos #task
+- [ ] BRL_07202018_10192018 #heber2018photos 
+- [ ] BRL_07212017_08132017 #heber2017photos #task
+- [ ] BRL_08132017_08142017 #heber2017photos #task
+- [ ] BRL_08292017_09152017  #heber2017photos #task
+- [ ] BRL_20210723_20210805 #heber2021photos #task
+- [ ] BRL_20210805_20211001 #heber2021photos 
 
 ### Folders That Need Subject Photos Copied
-- [ ] BRL_02132018_02282018 #heber2018photos #task 
-- [ ] BRL_03062018_04112018 #heber2018photos #task 
-- [ ] BRL_05102018_07202018 #heber2018photos #task 
+- [ ] BRL_02132018_02282018 #heber2018photos 
+- [ ] BRL_03062018_04112018 #heber2018photos 
+- [ ] BRL_05102018_07202018 #heber2018photos 
 - [ ] BRL_05282021_06222021 #heber2021photos #task
 - [ ] BRL_06222021_07232021 #heber2021photos #task
-- [ ] BRL_07132017_07212017 #heber2017photos #task 
-- [ ] BRL_07202018_10192018 #heber2018photos #task 
-- [ ] BRL_07212017_08132017 #heber2017photos #task 
-- [ ] BRL_08132017_08142017 #heber2017photos #task 
-- [ ] BRL_08292017_09152017  #heber2017photos #task 
+- [ ] BRL_07132017_07212017 #heber2017photos 
+- [ ] BRL_07202018_10192018 #heber2018photos 
+- [ ] BRL_07212017_08132017 #heber2017photos 
+- [ ] BRL_08132017_08142017 #heber2017photos 
+- [ ] BRL_08292017_09152017  #heber2017photos 
 - [ ] BRL_20210723_20210805 #heber2021photos #task
 - [ ] BRL_20210805_20211001 #heber2021photos #task
 ### Folders That Need to be Chunked
-- [ ] BRL_02132018_02282018 #heber2018photos #task 
-- [ ] BRL_03062018_04112018 #heber2018photos #task 
-- [ ] BRL_05102018_07202018 #heber2018photos #task 
+- [ ] BRL_02132018_02282018 #heber2018photos 
+- [ ] BRL_03062018_04112018 #heber2018photos 
+- [ ] BRL_05102018_07202018 #heber2018photos 
 - [ ] BRL_05282021_06222021 #heber2021photos #task
 - [ ] BRL_06222021_07232021 #heber2021photos #task
-- [ ] BRL_07132017_07212017 #heber2017photos #task 
-- [ ] BRL_07202018_10192018 #heber2018photos #task 
-- [ ] BRL_07212017_08132017 #heber2017photos #task 
-- [ ] BRL_08132017_08142017 #heber2017photos #task 
-- [ ] BRL_08292017_09152017  #heber2017photos #task 
+- [ ] BRL_07132017_07212017 #heber2017photos 
+- [ ] BRL_07202018_10192018 #heber2018photos 
+- [ ] BRL_07212017_08132017 #heber2017photos 
+- [ ] BRL_08132017_08142017 #heber2017photos 
+- [ ] BRL_08292017_09152017  #heber2017photos 
 - [ ] BRL_20210723_20210805 #heber2021photos #task
 - [ ] BRL_20210805_20211001 #heber2021photos #task
 ### Chunks That Are Missing or Need to Be Completed
 
 ### Completed Folders
-- [x] BRL_06052019_07022019 #heber2019photos #task ✅ 2022-06-16
-- [x] BRL_07022019_08132019 #heber2019photos #task ✅ 2022-06-16
-- [x] BRL_07112020_08112020 #heber2020photos #task ✅ 2022-06-16
-- [x] BRL_08132019_10042019 #heber2019photos #task ✅ 2022-06-16
-- [x] BRL_10212020_12032020 #heber2020photos #task ✅ 2022-06-16
-- [x] BRL_11052019_12072019 #heber2019photos #task ✅ 2022-06-16
+- [x] BRL_06052019_07022019 #heber2019photos ✅ 2022-06-16
+- [x] BRL_07022019_08132019 #heber2019photos ✅ 2022-06-16
+- [x] BRL_07112020_08112020 #heber2020photos ✅ 2022-06-16
+- [x] BRL_08132019_10042019 #heber2019photos ✅ 2022-06-16
+- [x] BRL_10212020_12032020 #heber2020photos ✅ 2022-06-16
+- [x] BRL_11052019_12072019 #heber2019photos ✅ 2022-06-16
 
 ***
 
@@ -190,9 +190,9 @@
 
 ### Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
 - [ ] BRT_06122017_06242017 #heber2017photos #task
-- [ ] BRT_06242017_07132017 #heber2017photos #task 
-- [ ] BRT_07132017_07212017 #heber2017photos #task 
-- [ ] BRT_07212017_08132017 #heber2017photos #task 
+- [ ] BRT_06242017_07132017 #heber2017photos 
+- [ ] BRT_07132017_07212017 #heber2017photos 
+- [ ] BRT_07212017_08132017 #heber2017photos 
 
 ### Folders That Need Metadata 
 
@@ -205,8 +205,8 @@
 ### Chunks That Are Missing or Need to Be Completed
 
 ### Completed Folders
-- [x] BRT_06052019_10032019 #heber2019photos #task ✅ 2022-06-16
-- [x] BRT_11052019_12072019 #heber2019photos #task ✅ 2022-06-16
+- [x] BRT_06052019_10032019 #heber2019photos ✅ 2022-06-16
+- [x] BRT_11052019_12072019 #heber2019photos ✅ 2022-06-16
 
 ***
 
@@ -230,12 +230,12 @@
 ### Chunks That Are Missing or Need to Be Completed
 
 ### Completed Folders
-- [ ] A51_06112019_07022019 #heber2019photos #task 
-- [ ] A51_07022019_08132019 #heber2019photos #task 
-- [ ] A51_07122020_10112020 #heber2020photos #task 
-- [ ] A51_08132019_08192019 #heber2019photos #task 
-- [ ] A51_10222020_12022020 #heber2020photos #task 
-- [ ] A51_11052019_12062019 #heber2019photos #task 
+- [x] A51_06112019_07022019 #heber2019photos 
+- [x] A51_07022019_08132019 #heber2019photos 
+- [x] A51_07122020_10112020 #heber2020photos 
+- [x] A51_08132019_08192019 #heber2019photos 
+- [x] A51_10222020_12022020 #heber2020photos 
+- [x] A51_11052019_12062019 #heber2019photos 
 
 ***
 
