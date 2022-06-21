@@ -68,3 +68,8 @@ if (RPushbullet::pbValidateConf(conf = "~/.rpushbullet.json") == FALSE) {
   warning("Enter in your RPushBullet API Key (if you have one; else ignore")
   RPushbullet::pbSetup()
 }
+
+options(error = function() {
+  RPushbullet::pbPost("note", "Error", geterrmessage())
+  if(!interactive()) stop(geterrmessage())
+})
