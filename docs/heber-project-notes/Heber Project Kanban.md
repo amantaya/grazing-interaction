@@ -41,9 +41,6 @@ kanban-plugin: basic
 
 ## Folders That Need Metadata
 
-- [ ] #task OPO_05282021_06212021 #heber2021photos
-- [ ] #task OPO_06212021_06252021 #heber2021photos
-- [ ] #task OPO_06252021_07232021 #heber2021photos
 - [ ] #task BUO01_20150101_20210804 #cameratraps2/2021
 - [ ] #task BUO07_20210804_20220107 #cameratraps2/2021
 - [ ] #task BUO23_20210723_20220107 #cameratraps2/2021
@@ -165,7 +162,7 @@ kanban-plugin: basic
 - [ ] #task OPO_06252021_07232021 #heber2021photos
 
 
-## Folders to Extract Subject Photos
+## Folders to Copy Subject Photos to Sub-Folder
 
 - [ ] #task OPO_20210723_20210805 #heber2021photos
 - [ ] #task OPO_06212021_06252021 #heber2021photos
@@ -262,6 +259,9 @@ kanban-plugin: basic
 - [x] #task 2022-06-20 15:20:44 A51_08132019_08192019 #heber2019photos
 - [x] #task 2022-06-20 15:20:44 A51_10222020_12022020 #heber2020photos
 - [x] #task 2022-06-20 15:20:44 A51_11052019_12062019 #heber2019photos
+- [x] 2022-06-21 08:48:57 #task OPO_05282021_06212021 #heber2021photos
+- [x] 2022-06-21 08:49:00 #task OPO_06252021_07232021 #heber2021photos
+- [x] 2022-06-21 08:51:03 #task OPO_06212021_06252021 #heber2021photos
 
 %% kanban:settings
 ```
