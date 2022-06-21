@@ -59,13 +59,14 @@ options(digits = 2)
 
 sessioninfo <- utils::sessionInfo()
 
+# copy my rstudio preferences into the config folder
+system("cp ~/grazing-interaction/.rstudio/rstudio/rstudio-prefs.json ~/.config/rstudio/rstudio-prefs.json")
 
 # RPushBullet Setup -------------------------------------------------------
 
 # Enter an API key for the Push Bullet push notification service
 # RPushbullet::pbSetup()
 if (RPushbullet::pbValidateConf(conf = "~/.rpushbullet.json") == FALSE) {
-  warning("Enter in your RPushBullet API Key (if you have one; else ignore")
   RPushbullet::pbSetup()
 }
 
@@ -73,3 +74,4 @@ options(error = function() {
   RPushbullet::pbPost("note", "Error", geterrmessage())
   if(!interactive()) stop(geterrmessage())
 })
+
