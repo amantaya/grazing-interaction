@@ -2,7 +2,7 @@
 # install.packages("pacman")
 
 # attach the "pacman" package for installing and loading R packages
-require("pacman")
+library("pacman")
 
 # Install and load required packages
 pacman::p_load("usethis")
