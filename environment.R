@@ -22,6 +22,10 @@ usethis::git_vaccinate()
 # - your user.name and user.email should appear in global Git config
 usethis::git_sitrep()
 
+# tell Git that the project directory is yours and is safe
+# you may need to start a new R Studio session by clicking the "Power" button at the top-right
+system("git config --global --add safe.directory /home/rstudio/grazing-interaction")
+
 # Setup File Paths --------------------------------------------------------
 
 # set the working directory to the default mount location in the Docker container

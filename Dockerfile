@@ -48,3 +48,4 @@ RUN R -e "install.packages('formatR', dependencies=TRUE, repos='http://cran.rstu
 RUN R -e "install.packages('RColorBrewer', dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('dlookr', dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('rmarkdown', dependencies=TRUE, repos='http://cran.rstudio.com/')"
+RUN R -e "install.packages('bannerCommenter', dependencies=TRUE, repos='http://cran.rstudio.com/')"
