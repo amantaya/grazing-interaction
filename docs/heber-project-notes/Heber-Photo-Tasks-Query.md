@@ -29,6 +29,7 @@ group by heading
 ***
 ## 2021
 ```tasks
+not done
 description includes #heber2021photos 
 description does not include #cameratraps2 
 group by heading
