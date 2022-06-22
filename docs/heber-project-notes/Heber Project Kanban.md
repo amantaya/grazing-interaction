@@ -79,7 +79,10 @@ kanban-plugin: basic
 
 ## Folders to Copy to Hard Drive
 
-
+- [ ] #task HPL_05282021_06212021_subjects #heber2021photos 
+- [ ] #task OPO_06212021_06252021_subjects #heber2021photos 
+- [ ] #task OPO_20210723_20210805_subjects #heber2021photos 
+- [ ] #task BKS_12012017_01082018_subjects_chunk2.xlsm #heber2018photos 
 
 ## Folders to Upload to Box and Cyverse for SORTING
 
