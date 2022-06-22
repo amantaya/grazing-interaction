@@ -72,12 +72,9 @@ kanban-plugin: basic
 - [ ] #task STT29_20210527_20210623 #cameratraps2/2021
 - [ ] #task STT29_20210623_20210722 #cameratraps2/2021
 - [ ] #task STT29_20210722_20220107 #cameratraps2/2021
-- [ ] #task BRL_01112018_02132018 #heber2018photos
-- [ ] #task BRL_09152017_10162017 #heber2017photos
-- [ ] #task BRL_10182017_11192017 #heber2017photos
+- [ ] #task BRL_12022017_01102018 #heber2018photos
 - [ ] #task BRL_10182017_11192017 #heber2017photos
 - [ ] #task BKT_10182017_12012017 #heber2017photos
-- [ ] #task BRL_12022017_01102018 #heber2018photos
 
 
 ## Folders to Copy to Hard Drive
@@ -130,8 +127,11 @@ kanban-plugin: basic
 - [ ] #task SHT30_20210722_20210805 #cameratraps2/2021
 - [ ] #task SHT30_20210805_20211107 #cameratraps2/2021
 - [ ] #task STO08_20210722_20220106 #cameratraps2/2021
+- [ ] #task BRL_09152017_10162017 #heber2017photos
+- [ ] #task BRL_10182017_11192017 #heber2017photos
 - [ ] #task WCS_06242019_07022019 #wm2019photos
 - [ ] #task WCS_07302019_09182019 #wm2019photos
+- [ ] #task BRL_01112018_02132018 #heber2018photos
 
 
 ## Folders to Add as Assignments to Basecamp for SORTING
@@ -153,7 +153,6 @@ kanban-plugin: basic
 - [ ] #task FLO_06232021_07232021 #heber2021photos
 - [ ] #task FLO_20210723_20210806 #heber2021photos
 - [ ] #task FLO_20210806_20210820 #heber2021photos
-- [ ] #task HPL_05282021_06212021 #heber2021photos
 - [ ] #task HPL_06212021_07232021 #heber2021photos
 - [ ] #task HPL_20210723_20210805 #heber2021photos
 - [ ] #task HPL_20210805_20290907 #heber2021photos
@@ -169,6 +168,7 @@ kanban-plugin: basic
 - [ ] #task BRL_02132018_02282018 #heber2018photos
 - [ ] #task BRL_03062018_04112018 #heber2018photos
 - [ ] #task BRL_05102018_07202018 #heber2018photos
+- [ ] #task HPL_05282021_06212021 #heber2021photos
 - [ ] #task BRL_07132017_07212017 #heber2017photos
 - [ ] #task BRL_07202018_10192018 #heber2018photos
 - [ ] #task BRL_07212017_08132017 #heber2017photos
@@ -223,6 +223,11 @@ kanban-plugin: basic
 
 
 
+## Folders with Duplicate Photos
+
+- [ ] #task BRL_10182017_11192017 #heber2017photos
+
+
 ***
 
 ## Archive
@@ -265,6 +270,6 @@ kanban-plugin: basic
 
 %% kanban:settings
 ```
-{"kanban-plugin":"basic","show-checkboxes":true,"lane-width":300,"hide-tags-display":false,"hide-tags-in-title":true,"prepend-archive-date":true}
+{"kanban-plugin":"basic","show-checkboxes":true,"hide-tags-display":false,"hide-tags-in-title":true,"prepend-archive-date":true,"lane-width":300}
 ```
 %%
