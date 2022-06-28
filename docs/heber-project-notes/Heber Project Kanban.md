@@ -145,11 +145,9 @@ kanban-plugin: basic
 
 ## SORTING Assignments Awaiting Completion by Students
 
+- [ ] #task BRL_06222021_07232021 #heber2021photos
 - [ ] #task BRL_20210723_20210805 #heber2021photos
 - [ ] #task BRL_20210805_20211001 #heber2021photos
-- [ ] #task BRL_06222021_07232021 #heber2021photos
-- [ ] #task A51_06222021_06252021 #heber2021photos
-- [ ] #task A51_20210804_20210817 #heber2021photos
 - [ ] #task FLO_05282021_06112021 #heber2021photos
 - [ ] #task FLO_06232021_07232021 #heber2021photos
 - [ ] #task FLO_20210723_20210806 #heber2021photos
@@ -157,9 +155,9 @@ kanban-plugin: basic
 - [ ] #task HPL_06212021_07232021 #heber2021photos
 - [ ] #task HPL_20210723_20210805 #heber2021photos
 - [ ] #task HPL_20210805_20290907 #heber2021photos
-- [ ] #task OPO_20210805_20210816 #heber2021photos
 - [ ] #task OPO_05282021_06212021 #heber2021photos
 - [ ] #task OPO_06252021_07232021 #heber2021photos
+- [ ] #task OPO_20210805_20210816 #heber2021photos
 
 
 ## Folders to Copy Subject Photos to Sub-Folder on Hard Drive
@@ -168,10 +166,12 @@ kanban-plugin: basic
 - [ ] #task BRL_03062018_04112018 #heber2018photos
 - [ ] #task BRL_05102018_07202018 #heber2018photos
 - [ ] #task BRL_07132017_07212017 #heber2017photos
+- [ ] #task A51_20210804_20210817 #heber2021photos
 - [ ] #task A51_20210724_20210804 #heber2021photos
 - [ ] #task BRL_07202018_10192018 #heber2018photos
 - [ ] #task BRL_07212017_08132017 #heber2017photos
 - [ ] #task BRL_08132017_08142017 #heber2017photos
+- [ ] #task A51_06222021_06252021 #heber2021photos
 - [ ] #task BRL_08292017_09152017  #heber2017photos
 
 

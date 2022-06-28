@@ -41,6 +41,7 @@ group by heading
 not done
 description includes #cameratraps2
 group by heading
+short mode
 ```
 ***
 ## All Heber Photo Tasks
