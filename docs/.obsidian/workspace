@@ -4,12 +4,15 @@
     "type": "split",
     "children": [
       {
-        "id": "147829c3565a0939",
+        "id": "b26134900191abee",
         "type": "leaf",
         "state": {
-          "type": "kanban",
+          "type": "markdown",
           "state": {
-            "file": "heber-project-notes/Heber Project Kanban.md"
+            "file": "2022-06-28-15-57-12 Idea for Automatically Removoing Assignments from Box.md",
+            "mode": "source",
+            "backlinks": false,
+            "source": false
           }
         }
       }
@@ -38,7 +41,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "tag:#heberproject",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -55,7 +58,8 @@
               "state": {}
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -76,7 +80,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "heber-project-notes/Heber Project Kanban.md",
+                "file": "2022-06-28-15-57-12 Idea for Automatically Removoing Assignments from Box.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +108,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "heber-project-notes/Heber Project Kanban.md",
+                "file": "2022-06-28-15-57-12 Idea for Automatically Removoing Assignments from Box.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -116,7 +120,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "heber-project-notes/Heber Project Kanban.md"
+                "file": "2022-06-28-15-57-12 Idea for Automatically Removoing Assignments from Box.md"
               }
             }
           },
@@ -136,17 +140,17 @@
     "width": 300,
     "collapsed": true
   },
-  "active": "147829c3565a0939",
+  "active": "b26134900191abee",
   "lastOpenFiles": [
+    "2022-06-28-15-57-12 Idea for Automatically Removoing Assignments from Box.md",
     "heber-project-notes/Heber Project Kanban.md",
-    "2022-06-28-09-47-57 Lab Meeting Prep.md",
-    "white-mountains-project-notes/White Mountains Project Kanban.md",
-    "2022-06-28-11-02-51.md",
     "heber-project-notes/Heber-Photo-Tasks-Query.md",
     "2022-06-27-11-12-17 Daily Tasks.md",
     "heber-project-notes/2022-06-20-09-17-08-Daily-Tasks.md",
+    "white-mountains-project-notes/White Mountains Project Kanban.md",
+    "2022-06-28-09-47-57 Lab Meeting Prep.md",
+    "2022-06-28-11-02-51.md",
     "2022-06-20-11-09-19 Idea for Tracking Status of Each Camera Collection.md",
-    "2022-06-27-11-15-14.md",
-    "Templates/Zettlekasten Note Template.md"
+    "2022-06-27-11-15-14.md"
   ]
 }
