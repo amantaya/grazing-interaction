@@ -4,7 +4,7 @@
     "type": "split",
     "children": [
       {
-        "id": "660f47ad907371d5",
+        "id": "147829c3565a0939",
         "type": "leaf",
         "state": {
           "type": "kanban",
@@ -14,12 +14,12 @@
         }
       },
       {
-        "id": "94113f7231dd2208",
+        "id": "b74cd147e81ffb97",
         "type": "leaf",
         "state": {
           "type": "markdown",
           "state": {
-            "file": "2022-06-28-11-02-51.md",
+            "file": "2022-06-28-09-47-57 Lab Meeting Prep.md",
             "mode": "source",
             "backlinks": false,
             "source": false
@@ -89,7 +89,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "2022-06-28-11-02-51.md",
+                "file": "2022-06-28-09-47-57 Lab Meeting Prep.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -117,7 +117,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "2022-06-28-11-02-51.md",
+                "file": "2022-06-28-09-47-57 Lab Meeting Prep.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -129,7 +129,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "2022-06-28-11-02-51.md"
+                "file": "2022-06-28-09-47-57 Lab Meeting Prep.md"
               }
             }
           },
@@ -146,17 +146,18 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
-  "active": "94113f7231dd2208",
+  "active": "b74cd147e81ffb97",
   "lastOpenFiles": [
-    "2022-06-28-11-02-51.md",
     "2022-06-28-09-47-57 Lab Meeting Prep.md",
-    "heber-project-notes/Heber-Photo-Tasks-Query.md",
     "heber-project-notes/Heber Project Kanban.md",
+    "white-mountains-project-notes/White Mountains Project Kanban.md",
+    "2022-06-28-11-02-51.md",
+    "heber-project-notes/Heber-Photo-Tasks-Query.md",
     "2022-06-27-11-12-17 Daily Tasks.md",
     "heber-project-notes/2022-06-20-09-17-08-Daily-Tasks.md",
-    "white-mountains-project-notes/White Mountains Project Kanban.md",
     "2022-06-20-11-09-19 Idea for Tracking Status of Each Camera Collection.md",
     "2022-06-27-11-15-14.md",
     "Templates/Zettlekasten Note Template.md"
