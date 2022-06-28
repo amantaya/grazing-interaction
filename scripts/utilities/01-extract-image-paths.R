@@ -69,9 +69,10 @@ heber_project_kanban <- readr::read_lines(file.path("~",
                                                     file)
                                           )
 
+# TODO need to improve the slicing by index
 # slice the kanban board and get just the metadata tasks
 # this index will need to be changed if the line numbers change on the kanban board
-folders_that_need_metadata <- heber_project_kanban[44:80]
+folders_that_need_metadata <- heber_project_kanban[44:48]
 
 # use a regular expression to extract only the name of the folder we want to extract metadata from
 # disregarding any markdown formatting associated with the folder
@@ -98,20 +99,28 @@ cameratraps_folders_df <-
                                           pattern = "[[:upper:]][[:upper:]][[:upper:]]"),
              "collection_folder" = cameratraps_folders_to_extract)
 
-for (i in 1:length(cameratraps_folders_df)) {
-  if (cameratraps_folders_df$site[i] == "BRL") {
-    cameratraps_folders_df$relative_path[i] <- file.path("~", "cameratraps", "bear", "timelapse")
-  } else if (cameratraps_folders_df$site[i] == "BKT") {
-    cameratraps_folders_df$relative_path[i] <- file.path("~", "cameratraps", "blackcanyon", "trail")
-  }
-}
+# TODO add the logic for the remaining sites
+
+# for (i in 1:nrow(cameratraps_folders_df)) {
+#   if (cameratraps_folders_df$site[i] == "BRL") {
+#     cameratraps_folders_df$relative_path[i] <- file.path("~", "cameratraps", "bear", "timelapse")
+#   } else if (cameratraps_folders_df$site[i] == "BKT") {
+#     cameratraps_folders_df$relative_path[i] <- file.path("~", "cameratraps", "blackcanyon", "trail")
+#   } else if (cameratraps_folders_df$site[i] == "HPL") {
+#     cameratraps_folders_df$relative_path[i] <- file.path("~", "cameratraps", "holdingpasture", "timelapse")
+#   } else if (cameratraps_folders_df$site[i] == "OPO") {
+#     cameratraps_folders_df$relative_path[i] <- file.path("~", "cameratraps", "onlyponderosa", "timelapse")
+#   } else if (nrow(cameratraps_folders_df) == 0) {
+#     cameratraps_folders_df <- NULL
+#   }
+# }
 
 
-cameratraps_folders_df$full_path <- file.path(
-  cameratraps_folders_df$relative_path, cameratraps_folders_df$collection_folder)
-
-# create file paths for the "cameratraps" folders
-path_to_collection_folder <- cameratraps_folders_df$full_path
+# cameratraps_folders_df$full_path <- file.path(
+#   cameratraps_folders_df$relative_path, cameratraps_folders_df$collection_folder)
+#
+# # create file paths for the "cameratraps" folders
+# path_to_collection_folder <- cameratraps_folders_df$full_path
 
 
 cameratraps2_folders_df <-
@@ -278,11 +287,11 @@ for (i in 1:length(all_folders_to_extract)) {
   for (j in 1:nrow(imagefilesinfo)) {
     con <- file(imagefilesinfo$ImagePath[j])
     md5hash <- openssl::md5(con)
-    print(md5hash)
+    #print(md5hash)
 
     con <- file(imagefilesinfo$ImagePath[j])
     sha256hash <- openssl::sha256(con)
-    print(sha256hash)
+    #print(sha256hash)
 
     imagefilesinfo$md5[j] <- as.character(md5hash)
     imagefilesinfo$sha256[j] <- as.character(sha256hash)

@@ -7,6 +7,7 @@ kanban-plugin: basic
 ## Daily Tasks
 
 - [ ] #task [2022-06-20-09-17-08-Daily-Tasks](2022-06-20-09-17-08-Daily-Tasks.md)
+- [ ] #task [2022-06-27-11-12-17 Daily Tasks](2022-06-27-11-12-17%20Daily%20Tasks.md)
 
 
 ## Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
@@ -41,56 +42,54 @@ kanban-plugin: basic
 
 ## Folders That Need Metadata
 
-- [ ] #task BUO01_20150101_20210804 #cameratraps2/2021
-- [ ] #task BUO07_20210804_20220107 #cameratraps2/2021
-- [ ] #task BUO23_20210723_20220107 #cameratraps2/2021
-- [ ] #task BUO29_20210722_20220106 #cameratraps2/2021
-- [ ] #task BUT19_20210723_20220106 #cameratraps2/2021
-- [ ] #task GEO02_20210805_20210907 #cameratraps2/2021
-- [ ] #task GEO30_20210723_20211016 #cameratraps2/2021
-- [ ] #task GEO30_20210526_20210622 #cameratraps2/2021
-- [ ] #task GEO32_20210805_20220108 #cameratraps2/2021
-- [ ] #task GET01_20210722_20220108 #cameratraps2/2021
-- [ ] #task GET06_20210722_20220106 #cameratraps2/2021
-- [ ] #task GET13_20210723_20220107 #cameratraps2/2021
-- [ ] #task GET21_20210724_20220107 #cameratraps2/2021
-- [ ] #task GET22_20210724_20220107 #cameratraps2/2021
-- [ ] #task KPT14_20210722_20220106 #cameratraps2/2021
-- [ ] #task KPT27_20210622_20210722 #cameratraps2/2021
-- [ ] #task KPT27_20210525_20210622 #cameratraps2/2021
-- [ ] #task SHT15_20210723_20211212 #cameratraps2/2021
-- [ ] #task SHT18_20210525_20210528 #cameratraps2/2021
-- [ ] #task SHT18_20210622_20210722 #cameratraps2/2021
-- [ ] #task SHT18_20210722_20210805 #cameratraps2/2021
-- [ ] #task SHT18_20210805_20220107 #cameratraps2/2021
-- [ ] #task STO08_20210526_20210616 #cameratraps2/2021
-- [ ] #task STO08_20210624_20210722 #cameratraps2/2021
-- [ ] #task STO09_20210624_20210722 #cameratraps2/2021
-- [ ] #task STO09_20210722_20220107 #cameratraps2/2021
-- [ ] #task STO39_20210624_20210722 #cameratraps2/2021
-- [ ] #task STO38_20210723_20220106 #cameratraps2/2021
-- [ ] #task STT29_20210527_20210623 #cameratraps2/2021
-- [ ] #task STT29_20210623_20210722 #cameratraps2/2021
-- [ ] #task STT29_20210722_20220107 #cameratraps2/2021
-- [ ] #task BRL_12022017_01102018 #heber2018photos
-- [ ] #task BRL_10182017_11192017 #heber2017photos
-- [ ] #task BKT_10182017_12012017 #heber2017photos
 
 
 ## Folders to Copy to Hard Drive
 
-- [ ] #task HPL_05282021_06212021_subjects #heber2021photos 
-- [ ] #task OPO_06212021_06252021_subjects #heber2021photos 
-- [ ] #task OPO_20210723_20210805_subjects #heber2021photos 
-- [ ] #task BKS_12012017_01082018_subjects_chunk2.xlsm #heber2018photos 
+- [ ] #task HPL_05282021_06212021_subjects #heber2021photos
+- [ ] #task OPO_06212021_06252021_subjects #heber2021photos
+- [ ] #task OPO_20210723_20210805_subjects #heber2021photos
+- [ ] #task BKS_12012017_01082018_subjects_chunk2.xlsm #heber2018photos
+
 
 ## Folders to Upload to Box and Cyverse for SORTING
 
 - [ ] #task SHT30_20210525_20210622 #cameratraps2/2021
-- [ ] #task SHT30_20210622_20210722 #cameratraps2/2021
 - [ ] #task STT29_20210623_20210722 #cameratraps2/2021
+- [ ] #task STT29_20210722_20220107 #cameratraps2/2021
+- [ ] #task STO39_20210723_20220106 #cameratraps2/2021
 - [ ] #task STT29_20210527_20210623 #cameratraps2/2021
+- [ ] #task BUO01_20150101_20210804 #cameratraps2/2021
+- [ ] #task SHT30_20210622_20210722 #cameratraps2/2021
+- [ ] #task STO39_20210624_20210722 #cameratraps2/2021
+- [ ] #task STO09_20210722_20220107 #cameratraps2/2021
+- [ ] #task STO09_20210624_20210722 #cameratraps2/2021
+- [ ] #task STO08_20210624_20210722 #cameratraps2/2021
+- [ ] #task STO08_20210526_20210616 #cameratraps2/2021
+- [ ] #task SHT18_20210805_20220107 #cameratraps2/2021
+- [ ] #task SHT18_20210722_20210805 #cameratraps2/2021
+- [ ] #task SHT18_20210622_20210722 #cameratraps2/2021
+- [ ] #task SHT18_20210525_20210528 #cameratraps2/2021
+- [ ] #task SHT15_20210723_20211212 #cameratraps2/2021
+- [ ] #task KPT27_20210525_20210622 #cameratraps2/2021
+- [ ] #task GET22_20210724_20220107 #cameratraps2/2021
+- [ ] #task KPT14_20210722_20220106 #cameratraps2/2021
+- [ ] #task KPT27_20210622_20210722 #cameratraps2/2021
+- [ ] #task GET21_20210724_20220107 #cameratraps2/2021
+- [ ] #task GET06_20210722_20220106 #cameratraps2/2021
+- [ ] #task GET13_20210723_20220107 #cameratraps2/2021
+- [ ] #task GET01_20210722_20220108 #cameratraps2/2021
+- [ ] #task GEO30_20210723_20211016 #cameratraps2/2021
+- [ ] #task GEO32_20210805_20220108 #cameratraps2/2021
+- [ ] #task GEO30_20210526_20210622 #cameratraps2/2021
+- [ ] #task GEO02_20210805_20210907 #cameratraps2/2021
+- [ ] #task STT29_20210623_20210722 #cameratraps2/2021
+- [ ] #task BUT19_20210723_20220106 #cameratraps2/2021
+- [ ] #task BUO29_20210722_20220106 #cameratraps2/2021
+- [ ] #task STT29_20210527_20210623 #cameratraps2/2021
+- [ ] #task BUO23_20210723_20220107 #cameratraps2/2021
 - [ ] #task SHT15_20210623_20210723 #cameratraps2/2021
+- [ ] #task BUO07_20210804_20220107 #cameratraps2/2021
 - [ ] #task SHT15_20210527_20210611 #cameratraps2/2021
 - [ ] #task BUO01_20150101_20210804 #cameratraps2/2021
 - [ ] #task BUO01_20210625_20210723 #cameratraps2/2021
@@ -130,10 +129,13 @@ kanban-plugin: basic
 - [ ] #task SHT30_20210722_20210805 #cameratraps2/2021
 - [ ] #task SHT30_20210805_20211107 #cameratraps2/2021
 - [ ] #task STO08_20210722_20220106 #cameratraps2/2021
-- [ ] #task BRL_09152017_10162017 #heber2017photos
-- [ ] #task BRL_10182017_11192017 #heber2017photos
 - [ ] #task WCS_06242019_07022019 #wm2019photos
 - [ ] #task WCS_07302019_09182019 #wm2019photos
+- [ ] #task BKT_10182017_12012017 #heber2017photos
+- [ ] #task BRL_12022017_01102018 #heber2018photos
+- [ ] #task BRL_09152017_10162017 #heber2017photos
+- [ ] #task BRL_10182017_11192017 #heber2017photos
+- [ ] #task BRL_10182017_11192017 #heber2017photos
 - [ ] #task BRL_01112018_02132018 #heber2018photos
 
 
@@ -141,16 +143,12 @@ kanban-plugin: basic
 
 
 
-## Folders Awaiting Completion by Students
+## SORTING Assignments Awaiting Completion by Students
 
 - [ ] #task BRL_20210723_20210805 #heber2021photos
 - [ ] #task BRL_20210805_20211001 #heber2021photos
-- [ ] #task BRL_05282021_06222021 #heber2021photos
 - [ ] #task BRL_06222021_07232021 #heber2021photos
-- [ ] #task A51_05282021_06222021 #heber2021photos
 - [ ] #task A51_06222021_06252021 #heber2021photos
-- [ ] #task A51_06252021_07162021 #heber2021photos
-- [ ] #task A51_20210724_20210804 #heber2021photos
 - [ ] #task A51_20210804_20210817 #heber2021photos
 - [ ] #task FLO_05282021_06112021 #heber2021photos
 - [ ] #task FLO_06232021_07232021 #heber2021photos
@@ -164,15 +162,13 @@ kanban-plugin: basic
 - [ ] #task OPO_06252021_07232021 #heber2021photos
 
 
-## Folders to Copy Subject Photos to Sub-Folder
+## Folders to Copy Subject Photos to Sub-Folder on Hard Drive
 
-- [ ] #task OPO_20210723_20210805 #heber2021photos
-- [ ] #task OPO_06212021_06252021 #heber2021photos
 - [ ] #task BRL_02132018_02282018 #heber2018photos
 - [ ] #task BRL_03062018_04112018 #heber2018photos
 - [ ] #task BRL_05102018_07202018 #heber2018photos
-- [ ] #task HPL_05282021_06212021 #heber2021photos
 - [ ] #task BRL_07132017_07212017 #heber2017photos
+- [ ] #task A51_20210724_20210804 #heber2021photos
 - [ ] #task BRL_07202018_10192018 #heber2018photos
 - [ ] #task BRL_07212017_08132017 #heber2017photos
 - [ ] #task BRL_08132017_08142017 #heber2017photos
@@ -181,10 +177,16 @@ kanban-plugin: basic
 
 ## Folders to Chunk
 
+- [ ] #task HPL_05282021_06212021 #heber2021photos
+- [ ] #task A51_06252021_07162021 #heber2021photos
+- [ ] #task BRL_05282021_06222021 #heber2021photos
+- [ ] #task A51_05282021_06222021 #heber2021photos
 - [ ] #task BRL_05282021_06222021 #heber2021photos
 - [ ] #task BRL_06222021_07232021 #heber2021photos
 - [ ] #task BRL_20210723_20210805 #heber2021photos
 - [ ] #task BRL_20210805_20211001 #heber2021photos
+- [ ] #task OPO_20210723_20210805 #heber2021photos
+- [ ] #task OPO_06212021_06252021 #heber2021photos
 - [ ] #task BKN_07022019_08132019 #heber2019photos
 - [ ] #task BRL_02132018_02282018 #heber2018photos
 - [ ] #task BRL_03062018_04112018 #heber2018photos
@@ -197,6 +199,22 @@ kanban-plugin: basic
 
 
 ## Folders to Upload to Box for SCORING
+
+- [ ] BKS_01112018_02132018 #task #heber2018photos
+- [ ] BKS_02132018_02232018 #task #heber2018photos
+- [ ] BKS_05102018_07202018 #task #heber2018photos
+- [ ] BKS_07202018_08242018 #task #heber2018photos
+
+
+## Folders to Add to Basecamp as SCORING Assignments
+
+- [ ] BGT_07302019_09182019_subjects_chunk1 #task #wm2019photos
+- [ ] BGT_07302019_09182019_subjects_chunk2 #task #wm2019photos
+- [ ] BGT_07302019_09182019_subjects_chunk3 #task #wm2019photos
+- [ ] BGT_07302019_09182019_subjects_chunk4 #task #wm2019photos
+
+
+## SCORING Assignments Awaiting Completion by Students
 
 
 
@@ -211,11 +229,29 @@ kanban-plugin: basic
 
 ## Completed SCORING Assignments to Copy to Hard Drive
 
-- [ ] #task  BKS_12012017_01082018_subjects_chunk2
 
 
 ## Completed Scoring Assignments to Quality Check
 
+- [ ] #task  BKS_12012017_01082018_subjects_chunk2
+- [ ] A51_06112019_07022019_subjects_chunk1 #task #heber2019photos
+- [ ] A51_07022019_08132019_subjects_chunk1 #task #heber2019photos
+- [ ] A51_07022019_08132019_subjects_chunk2 #task #heber2019photos
+- [ ] A51_07122020_10112020_subjects_chunk3 #task #heber2020photos
+- [ ] A51_07122020_10112020_subjects_chunk4 #task #heber2020photos
+- [ ] A51_11052019_12062019_subjects_chunk1 #task #heber2019photos
+- [ ] A51_08132019_08192019_subjects_chunk1 #task #heber2020photos
+- [ ] A51_10222020_12022020_subjects_chunk1 #task #heber2020photos
+- [ ] BKD_07022019_08132019_subjects_chunk1 #task #heber2019photos
+- [ ] BKD_07022019_08132019_subjects_chunk2 #task #heber2019photos
+- [ ] BKD_07022019_08132019_subjects_chunk3 #task #heber2019photos
+
+
+## Completed Quality Checked
+
+- [ ] #task A51_07122020_10112020_subjects_chunk1 #heber2020photos
+- [ ] A51_07122020_10112020_subjects_chunk2 #task #heber2020photos
+- [ ] BKD_06112019_07022019_subjects_chunk1 #task #heber2019photos
 
 
 ## Chunks to Recombine

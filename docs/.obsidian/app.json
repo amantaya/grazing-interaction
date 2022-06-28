@@ -2,7 +2,7 @@
   "legacyEditor": false,
   "livePreview": true,
   "promptDelete": false,
-  "newFileLocation": "folder",
+  "newFileLocation": "current",
   "alwaysUpdateLinks": true,
   "showFrontmatter": true,
   "showLineNumber": true,
