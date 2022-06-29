@@ -171,6 +171,44 @@ heber_production_2021 <- heber_production_2021 %>%
 print(heber_production_2021)
 ```
 
+The sub-sample for site Fifty One, plot 4, sub-sample 4, is "NA" in the dataset. We will fill this missing value in with 4.
+
+```{r A51 Plot 4 sub-sample is NA}
+heber_production_2021[heber_production_2021$Site == "Area 51" & 
+                        is.na(heber_production_2021$SubSample) == TRUE &
+                        heber_production_2021$Type == "Exclosure", ] <- 
+heber_production_2021[heber_production_2021$Site == "Area 51" & 
+                        is.na(heber_production_2021$SubSample) == TRUE &
+                        heber_production_2021$Type == "Exclosure", ] %>% 
+  dplyr::mutate(SubSample = 4)
+print(heber_production_2021)
+```
+
+```{r add Index column}
+heber_production_2021 <- 
+heber_production_2021 %>% 
+  ungroup() %>% 
+  mutate(Index = (1:nrow(heber_production_2021)), .before = Site)
+print(heber_production_2021)
+```
+
+We can also see that there are (2) sub-samples that are 1. 
+
+```{r slice "SubSample" by index}
+heber_production_2021$SubSample[82:85]
+```
+
+Replace those values with the correct values.
+
+```{r replace duplicate "SubSample" values}
+heber_production_2021$SubSample[82:85] <- c(1, 2, 3, 4)
+```
+
+Check that it worked. 
+```{r print sliced "SubSample"}
+heber_production_2021$SubSample[82:85]
+```
+
 The production data has two types of clipping methodologies which could lead to confusion. At the "Only Ponderosa" site we clipped the entire 1m^2^ exclosure plot, which means that the bag weights related to Only Ponderosa represent a larger clipped area than bags clipped from other sites. 
 
 | Site            | How much was clipped?    | Number of Exclosure Plots |
@@ -249,6 +287,23 @@ heber_production_2021 <- heber_production_2021 %>%
   dplyr::rename(PlotType = Type)
 print(heber_production_2021)
 ```
+
+```{r}
+heber_production_2021$SubSample[7:9]
+```
+
+```{r}
+heber_production_2021$SubSample[7:9] <- c(1, 2, 3)
+```
+
+```{r}
+heber_production_2021$SubSample[7:9]
+```
+
+```{r}
+heber_production_2021 %>% select(c("Index", "SubSample", "Site", "Plot"))
+```
+
 
 ```{r write cleaned data to csv}
 write_csv(heber_production_2021,
