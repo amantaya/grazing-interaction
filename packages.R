@@ -16,7 +16,7 @@ pacman::p_load("scales")
 pacman::p_load("knitr")
 pacman::p_load("lubridate")
 pacman::p_load("magrittr")
-# p_load("units") TODO need to install units dependencies in Docker container
+pacman::p_load("units")
 pacman::p_load("stringi")
 pacman::p_load("rio")
 pacman::p_load("openxlsx")

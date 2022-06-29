@@ -47,11 +47,92 @@ heber_production_2021 <- readr::read_csv(
 print(heber_production_2021)
 ```
 
-## Heber
+## Data Clean Up
 
-### Method 1
+The code expects a column called "TotalDryWt" that we need to add to the Heber data. This column usually is for row sums for each bag from a sub-plot, but in this case there aren't any sub-plots so we will set the "Bag1NetWt" column to equal the new "TotalDryWt" column.
 
-```{r }
+```{r Add "TotalDryWt" to Heber Data}
+heber_production_2021 <- heber_production_2021 %>% 
+  dplyr::mutate(TotalDryWt = Bag1NetWt)
+print(heber_production_2021)
+```
+
+```{r temp}
+heber_paired_plot_2021 <- heber_production_2021
+```
+
+## Unit Conversion
+
+The production data has two types of clipping methodologies which could lead to confusion. At the "Only Ponderosa" site we clipped the entire 1m^2^ exclosure plot, which means that the bag weights related to the Only Ponderosa site represent a larger clipped area than bags clipped from other sites. 
+
+| Site            | How much was clipped?    | Number of Exclosure Plots |
+|-----------------|--------------------------|---------------------------|
+| Only Ponderosa  | Entire 1m^2^             | 5                         |
+| Holding Pasture | (3) 40cm x 40cm quadrats | 5                         |
+| Fire Lookout    | (3) 40cm x 40cm quadrats | 5                         |
+| Bear            | (3) 40cm x 40cm quadrats | 5                         |
+| Area Fifty One  | (3) 40cm x 40cm quadrats | 6                         |
+
+
+At all other sites, we clipped (3) 40cm x 40cm plots inside of each 1m^2^ exclosure plot, which means we can take an average sub-sample weight for each plot, and then either use the sub-sample average to generate average weight per 40cm quadrat (Method 2), or we can add together the three sub-sample weights and divide by their combined area to get a weight per m^2^ (Method 1).
+
+### Set and Convert Units to m^2^
+
+```{r Set Quadrat Size}
+# length of quadrat dimension X (in centimeters)
+dim_x <- units::set_units(40, cm)
+
+# length of quadrat dimension Y (in centimeters)
+dim_y <- units::set_units(40, cm)
+
+# calculate the area of the sampling frame in centimeters
+sample_area_cm <- dim_x*dim_y
+
+print(sample_area_cm)
+```
+
+Now we convert to grams per meter[^2] which is traditionally how paired-plot data is represented in rangelands research.
+
+```{r convert g/cm^2 to g/m^2}
+sample_area_m <- units::set_units(sample_area_cm, m^2)
+print(sample_area_m)
+```
+
+Next, find the total area of (3) 40cm x 40cm quadrats in centimeters[^2]. We sub-sampled each exclosure by clipping 3 plots (with the execption of the Only Ponderosa site where we clipped the entire exclosure).
+
+```{r Find Total Area from N Quadrats}
+# number of sampling frames/quadrats
+n_frames <- 3
+
+# calculate total area of three 40cm x 40cm quadrats
+total_area_cm <- sample_area_cm*n_frames
+
+print(total_area_cm)
+```
+
+Convert from centimeters[^2] to meters[^2]. This is total area sampled by three 40cm x 40cm quadrats.
+
+```{r Convert Area from cm to m}
+total_area_m2 <-  set_units(total_area_cm, m^2)
+
+print(total_area_m2)
+```
+
+Take the reciprocal of the total area sampled by 3 quadrats. We want to know how much we need to multiply by get the total area sampled by three 40cm x 40cm quadrats to equal 1 m^2^.
+
+```{r Three Frame Conversion Value}
+three_frame_conversion <- as.numeric(1/total_area_m2)
+
+print(three_frame_conversion)
+```
+
+## Summary Statistics
+
+### Method 1- Sub-Plots Combined
+
+#TODO add a description for this method
+
+```{r summarize exclosure plots by subsample}
 heber_production_2021_summarized_by_subsample <- 
 heber_production_2021 %>% 
   dplyr::filter(PlotType == "Exclosure") %>% 
@@ -60,7 +141,9 @@ heber_production_2021 %>%
 print(heber_production_2021_summarized_by_subsample)
 ```
 
-```{r}
+As we mentioned, we sampled the entire 1 m[^2] plot at the Only Ponderosa site. We will create a new column called `SampleArea` which represents the area sampled for each exclosure at each site. Here we set the units for the `SampleArea` column for the "Only Ponderosa" site, using 1 m[^2], because if we didn't, it would greatly overestimate the amount of production at the Only Ponderosa site. All other sites were set to 0.48 m[^2]. 
+
+```{r adjust area sampled for only ponderosa site}
 heber_production_2021_summarized_by_subsample <- 
 heber_production_2021_summarized_by_subsample %>% 
   dplyr::mutate(SampleArea = dplyr::if_else(Site == "Only Ponderosa", # condition
@@ -71,15 +154,17 @@ heber_production_2021_summarized_by_subsample %>%
 print(heber_production_2021_summarized_by_subsample)
 ```
 
-```{r}
+Now that we have a column representing `SampleArea` and we can calculate the grams per meter[^2] for each exclosure.
+
+```{r add "GramsPerMeter" column for summarized by sub-sample}
 heber_production_2021_summarized_by_subsample <- 
 heber_production_2021_summarized_by_subsample %>% 
   mutate(GramsPerMeter = TotalDryWt / SampleArea)
 print(heber_production_2021_summarized_by_subsample)
 ```
 
-
-```{r}
+Calculate summary statistics for exclosure plots summarizing by 
+```{r calc summary stats for summarized by subsample}
 heber_production_2021_summarized_by_subsample <- 
 heber_production_2021_summarized_by_subsample %>% 
   group_by(Site) %>% 
@@ -89,16 +174,22 @@ heber_production_2021_summarized_by_subsample %>%
 print(heber_production_2021_summarized_by_subsample)
 ```
 
-### Method 2
+### Method 2- Sub-Plots Separate
 
-```{r}
+Method 2 calculates are average for each exclosure plot by averaging the area sampled by 3 sub-plots. This will likely create more error because we are using an sub-plot average to then generate an estimate for each plot, where we average plots together to generate a production estimate for each site.
+
+I am performing this method as an experiment to understand how the error compounds.
+
+```{r set units for each sub-plot}
 heber_production_2021$TotalDryWt <- heber_production_2021 %>% 
   pull(TotalDryWt) %>% 
   units::set_units("g")
 print(heber_production_2021)
 ```
 
-```{r}
+The `MethodType` column represents whether we clipped the entire exclosure plot ("Entire Plot"), or if we clipped 3 sub-plots inside of each exclosure ("Sub Plots"). Create a new column `SampleArea` that represents the area sampled by _each sub-plot_. Since we mixed-methods and clipped the entire plot at Only Ponderosa, we will set that to equal 1 m[^2] and all the other sub-plots to equal (1) 40cm x 40cm quadrat.
+
+```{r create "SampleArea" column for each sub-plot}
 heber_production_2021 <- heber_production_2021 %>% 
   dplyr::filter(PlotType == "Exclosure") %>% 
   dplyr::mutate(SampleArea = if_else((PlotType == "Exclosure" & MethodType == "Sub Plots"),
@@ -109,30 +200,19 @@ heber_production_2021 <- heber_production_2021 %>%
 print(heber_production_2021)
 ```
 
-```{r}
-# heber_production_2021 <- heber_production_2021 %>% 
-#   dplyr::mutate(SampleArea = if_else((PlotType == "Residual"),
-#                                      sample_area_m, # true
-#                                      1, # false
-#                                      NA_real_) # missing
-#                 )
-# print(heber_production_2021)
-```
-
-
-```{r}
+```{r add "GramsPerMeter" column for each sub-plot}
 heber_production_2021 <- 
   heber_production_2021 %>% mutate(GramsPerMeter = TotalDryWt / SampleArea)
 print(heber_production_2021)
 ```
 
-```{r}
+```{r convert "GramsPerMeter" to "LbsPerAcre"}
 heber_production_2021 <- heber_production_2021 %>% 
   mutate(LbsPerAcre = set_units(GramsPerMeter, lb/acre))
 print(heber_production_2021)
 ```
 
-```{r}
+```{r calc summary stats for each plot using sub-plot averages}
 heber_production_2021_summary_table <- heber_production_2021 %>% 
   dplyr::filter(PlotType == "Exclosure") %>% 
   group_by(Site, Plot) %>% 
@@ -251,3 +331,15 @@ ggsave(filename = "2021-heber-production.jpg",
        height = 6,
        units = "in")
 ```
+
+```{r}
+# heber_production_2021 <- heber_production_2021 %>% 
+#   dplyr::mutate(SampleArea = if_else((PlotType == "Residual"),
+#                                      sample_area_m, # true
+#                                      1, # false
+#                                      NA_real_) # missing
+#                 )
+# print(heber_production_2021)
+```
+
+

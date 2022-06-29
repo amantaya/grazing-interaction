@@ -147,7 +147,6 @@ kanban-plugin: basic
 ## SORTING Assignments Awaiting Completion by Students
 
 - [ ] #task BRL_06222021_07232021 #heber2021photos
-- [ ] #task BRL_20210723_20210805 #heber2021photos
 - [ ] #task FLO_05282021_06112021 #heber2021photos
 - [ ] #task FLO_06232021_07232021 #heber2021photos
 - [ ] #task FLO_20210723_20210806 #heber2021photos
@@ -162,6 +161,7 @@ kanban-plugin: basic
 
 ## Folders to Copy Subject Photos to Sub-Folder on Hard Drive
 
+- [ ] #task BRL_20210723_20210805 #heber2021photos
 
 
 ## Folders to Chunk

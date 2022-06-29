@@ -85,19 +85,6 @@ print(wm_prod_2018)
 print(wm_prod_2019)
 ```
 
-## Heber
-
-The code expects a column called "TotalDryWt" that we need to add to the Heber data. This column usually is for row sums for each bag from a sub-plot, but in this case there aren't any sub-plots so we will set the "Bag1NetWt" column to equal the new "TotalDryWt" column.
-
-```{r Add "TotalDryWt" to Heber Data}
-heber_production_2021 <- heber_production_2021 %>% 
-  dplyr::mutate(TotalDryWt = Bag1NetWt)
-print(heber_production_2021)
-```
-
-```{r}
-heber_paired_plot_2021 <- heber_production_2021
-```
 
 
 # Set and Convert Units to m^2^
