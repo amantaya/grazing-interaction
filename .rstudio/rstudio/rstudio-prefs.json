@@ -36,5 +36,7 @@
     "doc_outline_show": "all",
     "visual_markdown_editing_wrap": "column",
     "posix_terminal_shell": "bash",
-    "show_hidden_files": true
+    "show_hidden_files": true,
+    "git_diff_ignore_whitespace": true,
+    "knit_working_dir": "current"
 }
