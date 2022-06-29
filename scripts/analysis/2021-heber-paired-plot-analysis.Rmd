@@ -1,0 +1,253 @@
+---
+title: "2021 Heber Paired-Plot Analysis"
+author: "Andrew Antaya"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  word_document:
+    toc: yes
+  citation_package: biblatex
+  html_document:
+    theme: readable
+    toc: yes
+    toc_depth: 5
+    fig_caption: yes
+  pdf_document: default
+subtitle:
+bibliography: My Library.bib
+link-citations: yes
+editor_options:
+  markdown:
+    wrap: 72
+---
+# Setup
+
+```{r setup}
+source("~/grazing-interaction/environment.R")
+source("~/grazing-interaction/packages.R")
+source("~/grazing-interaction/functions.R")
+```
+
+```{r knitr setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = currentwd)
+```
+
+## Load Data
+
+```{r Load Heber Production Data}
+heber_production_2021 <- readr::read_csv(
+  file.path(currentwd,
+            "data",
+            "production",
+            "heber",
+            "csv",
+            "2021-heber-production-cleaned.csv"),
+  col_names = TRUE,
+  na = c(""," ","NA"))
+print(heber_production_2021)
+```
+
+## Heber
+
+### Method 1
+
+```{r }
+heber_production_2021_summarized_by_subsample <- 
+heber_production_2021 %>% 
+  dplyr::filter(PlotType == "Exclosure") %>% 
+  dplyr::group_by(Site, Plot) %>% 
+  dplyr::summarize(TotalDryWt = sum(units::set_units(TotalDryWt, g)))
+print(heber_production_2021_summarized_by_subsample)
+```
+
+```{r}
+heber_production_2021_summarized_by_subsample <- 
+heber_production_2021_summarized_by_subsample %>% 
+  dplyr::mutate(SampleArea = dplyr::if_else(Site == "Only Ponderosa", # condition
+                                            units::set_units(1, m^2), # if true
+                                            units::set_units(total_area_m2, m^2), # if false
+                                            NA_real_) # if missing
+  )
+print(heber_production_2021_summarized_by_subsample)
+```
+
+```{r}
+heber_production_2021_summarized_by_subsample <- 
+heber_production_2021_summarized_by_subsample %>% 
+  mutate(GramsPerMeter = TotalDryWt / SampleArea)
+print(heber_production_2021_summarized_by_subsample)
+```
+
+
+```{r}
+heber_production_2021_summarized_by_subsample <- 
+heber_production_2021_summarized_by_subsample %>% 
+  group_by(Site) %>% 
+  rstatix::get_summary_stats(GramsPerMeter, 
+                             type = "common", 
+                             show = c("n","mean","sd","ci"))
+print(heber_production_2021_summarized_by_subsample)
+```
+
+### Method 2
+
+```{r}
+heber_production_2021$TotalDryWt <- heber_production_2021 %>% 
+  pull(TotalDryWt) %>% 
+  units::set_units("g")
+print(heber_production_2021)
+```
+
+```{r}
+heber_production_2021 <- heber_production_2021 %>% 
+  dplyr::filter(PlotType == "Exclosure") %>% 
+  dplyr::mutate(SampleArea = if_else((PlotType == "Exclosure" & MethodType == "Sub Plots"),
+                                     sample_area_m, # true
+                                     1, # false
+                                     NA_real_) # missing
+                )
+print(heber_production_2021)
+```
+
+```{r}
+# heber_production_2021 <- heber_production_2021 %>% 
+#   dplyr::mutate(SampleArea = if_else((PlotType == "Residual"),
+#                                      sample_area_m, # true
+#                                      1, # false
+#                                      NA_real_) # missing
+#                 )
+# print(heber_production_2021)
+```
+
+
+```{r}
+heber_production_2021 <- 
+  heber_production_2021 %>% mutate(GramsPerMeter = TotalDryWt / SampleArea)
+print(heber_production_2021)
+```
+
+```{r}
+heber_production_2021 <- heber_production_2021 %>% 
+  mutate(LbsPerAcre = set_units(GramsPerMeter, lb/acre))
+print(heber_production_2021)
+```
+
+```{r}
+heber_production_2021_summary_table <- heber_production_2021 %>% 
+  dplyr::filter(PlotType == "Exclosure") %>% 
+  group_by(Site, Plot) %>% 
+  rstatix::get_summary_stats(GramsPerMeter, 
+                             type = "common", 
+                             show = c("n", "mean", "sd", "ci"))
+print(heber_production_2021_summary_table)
+```
+
+```{r}
+heber_production_2021_avg_production_table <- heber_production_2021_summary_table %>% 
+  group_by(Site) %>% 
+  rstatix::get_summary_stats(mean,
+                             type = "common", 
+                             show = c("n", "mean", "sd", "ci"))
+print(heber_production_2021_avg_production_table)
+```
+
+```{r}
+heber_production_2021_avg_production_table <- heber_production_2021_avg_production_table %>%
+  dplyr::mutate(sd = set_units(sd, g/m^2)) %>% 
+  dplyr::mutate(ci = set_units(ci, g/m^2))
+print(heber_production_2021_avg_production_table)
+```
+### Compare Methods
+
+Compare the results of the two methods together.
+
+```{r}
+heber_production_2021_summarized_by_subsample <- 
+heber_production_2021_summarized_by_subsample %>% 
+  dplyr::mutate(sd = set_units(sd, g/m^2)) %>% 
+  dplyr::mutate(ci = set_units(ci, g/m^2))
+print(heber_production_2021_summarized_by_subsample)
+```
+
+### Plot Production
+
+```{r}
+heber_production_2021_summarized_by_subsample <- 
+heber_production_2021_summarized_by_subsample %>% 
+  dplyr::mutate(mean = set_units(mean, lb/acre)) %>% 
+  dplyr::mutate(sd = set_units(sd, lb/acre)) %>% 
+  dplyr::mutate(ci = set_units(ci, lb/acre))
+print(heber_production_2021_summarized_by_subsample)
+```
+
+```{r}
+heber_production_stats_2021 <- heber_production_2021_summarized_by_subsample
+```
+
+```{r}
+heber_production_2021_summarized_by_subsample$mean <- 
+  heber_production_2021_summarized_by_subsample$mean %>% as.numeric()
+
+heber_production_2021_summarized_by_subsample$sd <- 
+  heber_production_2021_summarized_by_subsample$sd %>% as.numeric()
+
+heber_production_2021_summarized_by_subsample$ci <- 
+  heber_production_2021_summarized_by_subsample$ci %>% as.numeric()
+
+print(heber_production_2021_summarized_by_subsample)
+```
+
+```{r}
+heber_production_stats_as_numeric_2021 <- heber_production_2021_summarized_by_subsample
+```
+
+```{r}
+heber_production_stats_as_numeric_2021 %>% 
+ggplot(aes(x = Site, y = mean, fill = Site)) +
+  geom_col() +
+  geom_errorbar(aes(ymin = (mean - ci), 
+                    ymax = (mean + ci)), 
+                position = position_dodge(0.5), 
+                width = 0.25) +
+  labs(title = expression(atop("Heber Wild Horse Territory", 
+                               paste("Production (Pounds per Acre)"))), 
+       subtitle = "2021") +
+  ylab("Production (lbs/acre) ± 95% CI") +
+  scale_y_continuous(limits = c(-200, 3000), breaks = seq(0, 3000, by = 500)) +
+  theme(plot.title = element_text(hjust = 0.5, size = 11),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 5, l = 0)),
+        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)),
+        axis.ticks = element_blank(),
+        legend.position = "none") +
+  annotate(geom = "text", 
+           x = 1, 
+           y = (heber_production_stats_as_numeric_2021$mean[1] + 
+                  heber_production_stats_as_numeric_2021$ci[1] + 200), 
+           label = signif(heber_production_stats_as_numeric_2021$mean[1], 2)) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = (heber_production_stats_as_numeric_2021$mean[2] + 
+                  heber_production_stats_as_numeric_2021$ci[2] + 200), 
+           label = signif(heber_production_stats_as_numeric_2021$mean[2], 2)) +
+  annotate(geom = "text", 
+           x = 3, 
+           y = (heber_production_stats_as_numeric_2021$mean[3] + 
+                  heber_production_stats_as_numeric_2021$ci[3] + 200), 
+           label = signif(heber_production_stats_as_numeric_2021$mean[3], 2)) +
+  annotate(geom = "text", 
+           x = 4, 
+           y = (heber_production_stats_as_numeric_2021$mean[4] + 
+                  heber_production_stats_as_numeric_2021$ci[4] + 200), 
+           label = signif(heber_production_stats_as_numeric_2021$mean[4], 2)) +
+  annotate(geom = "text", 
+           x = 5, 
+           y = (heber_production_stats_as_numeric_2021$mean[5] + 
+                  heber_production_stats_as_numeric_2021$ci[5] + 200), 
+           label = signif(heber_production_stats_as_numeric_2021$mean[5], 2))
+ggsave(filename = "2021-heber-production.jpg",
+       path = file.path("figures", "production", "heber"),
+       width = 9,
+       height = 6,
+       units = "in")
+```

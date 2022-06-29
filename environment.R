@@ -70,6 +70,8 @@ system("cp ~/grazing-interaction/.rstudio/rstudio/rstudio-prefs.json ~/.config/r
 
 # Enter an API key for the Push Bullet push notification service
 # RPushbullet::pbSetup()
+
+# warn if you are missing a rpushbullet config file
 if (RPushbullet::pbValidateConf(conf = "~/.rpushbullet.json") == FALSE) {
   RPushbullet::pbSetup()
 }
@@ -78,4 +80,3 @@ options(error = function() {
   RPushbullet::pbPost("note", "Error", geterrmessage())
   if(!interactive()) stop(geterrmessage())
 })
-

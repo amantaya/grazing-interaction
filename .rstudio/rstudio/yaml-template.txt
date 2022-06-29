@@ -1,5 +1,5 @@
 ---
-title: "2021 Heber Daubenmire Preprocessing"
+title:
 author: "Andrew Antaya"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
@@ -12,7 +12,7 @@ output:
     toc_depth: 5
     fig_caption: yes
   pdf_document: default
-subtitle: Data Wrangling
+subtitle:
 bibliography: My Library.bib
 link-citations: yes
 editor_options:

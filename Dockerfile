@@ -4,7 +4,8 @@ FROM rocker/verse:4.0.5
 LABEL org.opencontainers.image.authors="aantaya@arizona.edu"
 
 # install the dependencies for the "units" package
-RUN "sudo apt-get install libudunits2-dev"
+RUN apt-get update && apt-get install -y \
+      libudunits2-dev
 
 RUN R -e "install.packages('pacman', dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('usethis', dependencies=TRUE, repos='http://cran.rstudio.com/')"
