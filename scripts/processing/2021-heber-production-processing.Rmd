@@ -13,21 +13,18 @@ output:
     fig_caption: yes
 ---
 
-```{r knitr setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-Clear the R environment to start from a clean slate.
-```{r clear environment}
-rm(list = ls(all = TRUE))
-```
-
 Read in the required packages from another R script in the current working directory.
 ```{r setup environment}
-source("~/grazing-interaction/environment.R")
-source("~/grazing-interaction/packages.R")
-source("~/grazing-interaction/functions.R")
+# source("~/grazing-interaction/environment.R")
+# source("~/grazing-interaction/packages.R")
+# source("~/grazing-interaction/functions.R")
 ```
+
+```{r knitr setup, include=FALSE}
+# knitr::opts_chunk$set(echo = TRUE)
+# knitr::opts_knit$set(root.dir = currentwd)
+```
+
 
 # 2021 Heber Production
 ## Data Wrangling and Clean Up
@@ -135,7 +132,8 @@ print(slash_s_data)
 
 ```{r Write Slash S Data to CSV}
 readr::write_csv(slash_s_data,
-                 file.path("data",
+                 file.path(currentwd,
+                           "data",
                            "comparative-yield",
                            "slash-s",
                            "csv",
@@ -239,22 +237,23 @@ heber_production_2021 <- heber_production_2021 %>%
 print(heber_production_2021)
 ```
 
-```{r}
+```{r group by site and type}
 heber_production_2021 <- heber_production_2021 %>% 
   dplyr::group_by(Site, Type) %>% 
   dplyr::arrange(Site, Plot, SubSample, .by_group = TRUE)
 print(heber_production_2021)
 ```
 
-```{r}
+```{r rename Type to PlotType}
 heber_production_2021 <- heber_production_2021 %>% 
   dplyr::rename(PlotType = Type)
 print(heber_production_2021)
 ```
 
-```{r}
+```{r write cleaned data to csv}
 write_csv(heber_production_2021,
-          file.path("data",
+          file.path(currentwd,
+                    "data",
                     "production",
                     "heber",
                     "csv",
