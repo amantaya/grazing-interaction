@@ -42,18 +42,12 @@ kanban-plugin: basic
 
 ## Folders That Need Metadata
 
-
-
-## Folders to Copy to Hard Drive
-
-- [ ] #task HPL_05282021_06212021_subjects #heber2021photos
-- [ ] #task OPO_06212021_06252021_subjects #heber2021photos
-- [ ] #task OPO_20210723_20210805_subjects #heber2021photos
-- [ ] #task BKS_12012017_01082018_subjects_chunk2.xlsm #heber2018photos
+- [ ] BRL_02132018_02282018
 
 
 ## Folders to Upload to Box and Cyverse for SORTING
 
+- [ ] #task BRL_02132018_02282018 #heber2018photos
 - [ ] #task SHT30_20210525_20210622 #cameratraps2/2021
 - [ ] #task STT29_20210623_20210722 #cameratraps2/2021
 - [ ] #task STT29_20210722_20220107 #cameratraps2/2021
@@ -162,16 +156,12 @@ kanban-plugin: basic
 
 ## Folders to Copy Subject Photos to Sub-Folder on Hard Drive
 
-- [ ] #task BRL_02132018_02282018 #heber2018photos
 - [ ] #task BRL_03062018_04112018 #heber2018photos
 - [ ] #task BRL_05102018_07202018 #heber2018photos
 - [ ] #task BRL_07132017_07212017 #heber2017photos
-- [ ] #task A51_20210804_20210817 #heber2021photos
-- [ ] #task A51_20210724_20210804 #heber2021photos
 - [ ] #task BRL_07202018_10192018 #heber2018photos
 - [ ] #task BRL_07212017_08132017 #heber2017photos
 - [ ] #task BRL_08132017_08142017 #heber2017photos
-- [ ] #task A51_06222021_06252021 #heber2021photos
 - [ ] #task BRL_08292017_09152017  #heber2017photos
 
 
@@ -185,7 +175,10 @@ kanban-plugin: basic
 - [ ] #task BRL_06222021_07232021 #heber2021photos
 - [ ] #task BRL_20210723_20210805 #heber2021photos
 - [ ] #task BRL_20210805_20211001 #heber2021photos
+- [ ] #task A51_20210804_20210817 #heber2021photos
 - [ ] #task OPO_20210723_20210805 #heber2021photos
+- [ ] #task A51_20210724_20210804 #heber2021photos
+- [ ] #task A51_06222021_06252021 #heber2021photos
 - [ ] #task OPO_06212021_06252021 #heber2021photos
 - [ ] #task BKN_07022019_08132019 #heber2019photos
 - [ ] #task BRL_02132018_02282018 #heber2018photos
@@ -271,6 +264,10 @@ kanban-plugin: basic
 
 ## Archive
 
+- [x] 2022-06-29 10:07:03 #task HPL_05282021_06212021_subjects #heber2021photos
+- [x] 2022-06-29 10:07:03 #task OPO_06212021_06252021_subjects #heber2021photos
+- [x] 2022-06-29 10:07:03 #task OPO_20210723_20210805_subjects #heber2021photos
+- [x] 2022-06-29 10:07:03 #task BKS_12012017_01082018_subjects_chunk2.xlsm #heber2018photos
 - [x] #task 2022-06-20 15:20:44 BKD_06112019_07022019 #heber2019photos ✅ 2022-06-16
 - [x] #task 2022-06-20 15:20:44 BKD_07022019_08132019 #heber2019photos ✅ 2022-06-20
 - [x] #task 2022-06-20 15:20:44 BKD_08132019_10292019 #heber2019photos ✅ 2022-06-16
