@@ -24,7 +24,9 @@ rm(list = ls(all = TRUE))
 
 Read in the required packages from another R script in the current working directory.
 ```{r setup environment}
-source("environment.R")
+source("~/grazing-interaction/environment.R")
+source("~/grazing-interaction/packages.R")
+source("~/grazing-interaction/functions.R")
 ```
 
 # 2021 Heber Production

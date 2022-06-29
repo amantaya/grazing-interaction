@@ -12,8 +12,6 @@ kanban-plugin: basic
 
 ## Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
-- [ ] #task SHT30_20210525_20210622 #cameratraps2/2021
-- [ ] #task SHT30_20210622_20210722 #cameratraps2/2021
 - [ ] #task BKS_06122017_06212017 #heber2017photos
 - [ ] #task BKS_06242017_07132017 #heber2017photos
 - [ ] #task BKS_07132017_07242017 #heber2017photos
@@ -42,11 +40,20 @@ kanban-plugin: basic
 
 ## Folders That Need Metadata
 
-- [ ] BRL_02132018_02282018
+- [ ] #task SHT30_20210622_20210722 #cameratraps2/2021
+- [ ] #task SHT30_20210525_20210622 #cameratraps2/2021
+- [ ] BRL_02132018_02282018 #task #heber2018photos
+- [ ] #task BRL_03062018_04112018 #heber2018photos
+- [ ] #task BRL_05102018_07202018 #heber2018photos
+- [ ] #task BRL_07132017_07212017 #heber2017photos
+- [ ] #task BRL_08292017_09152017  #heber2017photos
+- [ ] #task BRL_08132017_08142017 #heber2017photos
+- [ ] #task BRL_07212017_08132017 #heber2017photos
 
 
 ## Folders to Upload to Box and Cyverse for SORTING
 
+- [ ] #task BRL_07202018_10192018 #heber2018photos
 - [ ] #task BRL_02132018_02282018 #heber2018photos
 - [ ] #task SHT30_20210525_20210622 #cameratraps2/2021
 - [ ] #task STT29_20210623_20210722 #cameratraps2/2021
@@ -141,7 +148,6 @@ kanban-plugin: basic
 
 - [ ] #task BRL_06222021_07232021 #heber2021photos
 - [ ] #task BRL_20210723_20210805 #heber2021photos
-- [ ] #task BRL_20210805_20211001 #heber2021photos
 - [ ] #task FLO_05282021_06112021 #heber2021photos
 - [ ] #task FLO_06232021_07232021 #heber2021photos
 - [ ] #task FLO_20210723_20210806 #heber2021photos
@@ -156,17 +162,11 @@ kanban-plugin: basic
 
 ## Folders to Copy Subject Photos to Sub-Folder on Hard Drive
 
-- [ ] #task BRL_03062018_04112018 #heber2018photos
-- [ ] #task BRL_05102018_07202018 #heber2018photos
-- [ ] #task BRL_07132017_07212017 #heber2017photos
-- [ ] #task BRL_07202018_10192018 #heber2018photos
-- [ ] #task BRL_07212017_08132017 #heber2017photos
-- [ ] #task BRL_08132017_08142017 #heber2017photos
-- [ ] #task BRL_08292017_09152017  #heber2017photos
 
 
 ## Folders to Chunk
 
+- [ ] #task BRL_20210805_20211001 #heber2021photos
 - [ ] #task HPL_05282021_06212021 #heber2021photos
 - [ ] #task A51_06252021_07162021 #heber2021photos
 - [ ] #task BRL_05282021_06222021 #heber2021photos
