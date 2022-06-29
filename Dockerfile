@@ -1,21 +1,10 @@
 FROM rocker/verse:4.0.5
 # This Docker image is built on a Cyserve VICE image (Visual Interactive Compute Environment)
 
-# Build-time metadata as defined at http://label-schema.org
-ARG BUILD_DATE
-ARG VCS_REF
-ARG VERSION
-LABEL org.label-schema.build-date=$BUILD_DATE \
-      org.label-schema.name="CyVerse RStudio verse" \
-      org.label-schema.description="Built from Rocker-Project RStudio Verse, additional depends for CyVerse K8s workbench" \
-      org.label-schema.url="https://cyverse.org" \
-      org.label-schema.vcs-ref=$VCS_REF \
-      org.label-schema.vcs-url="e.g. https://github.com/cyverse-vice/rstudio-verse" \
-      org.label-schema.vendor="CyVerse" \
-      org.label-schema.version=$VERSION \
-      org.label-schema.schema-version="1.0.0"
+LABEL org.opencontainers.image.authors="aantaya@arizona.edu"
 
-LABEL Maintainer="Andrew Antaya aantaya@arionza.edu"
+# install the dependencies for the "units" package
+RUN "sudo apt-get install libudunits2-dev"
 
 RUN R -e "install.packages('pacman', dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('usethis', dependencies=TRUE, repos='http://cran.rstudio.com/')"
@@ -50,3 +39,4 @@ RUN R -e "install.packages('dlookr', dependencies=TRUE, repos='http://cran.rstud
 RUN R -e "install.packages('rmarkdown', dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('dplyr', dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('tidyr', dependencies=TRUE, repos='http://cran.rstudio.com/')"
+RUN R -e "install.packages('units', dependencies=TRUE, repos='http://cran.rstudio.com/')"
