@@ -158,7 +158,7 @@ print(heber_production_2021_method1)
 
 Now that we have a column representing `SampleArea` and we can calculate the grams per meter[^2] for each exclosure.
 
-```{r add "GramsPerMeter" column for summarized by sub-sample}
+```{r add "GramsPerMeter" column for method 1}
 heber_production_2021_method1 <- 
 heber_production_2021_method1 %>% 
   mutate(GramsPerMeter = TotalDryWt / SampleArea)
@@ -167,31 +167,31 @@ print(heber_production_2021_method1)
 
 Calculate summary statistics for exclosure plots by site using the `rstatix` package.
 
-```{r calc summary stats for summarized by subsample}
-heber_production_2021_method1 <- 
+```{r calc summary stats for method 1}
+heber_production_2021_method1_site_summary <- 
 heber_production_2021_method1 %>% 
   group_by(Site) %>% 
   rstatix::get_summary_stats(GramsPerMeter, 
                              type = "common", 
                              show = c("n","mean","sd","ci"))
-print(heber_production_2021_method1)
+print(heber_production_2021_method1_site_summary)
 ```
 
 ```{r set units on descriptive statistics method 1}
-heber_production_2021_method1 <- 
-heber_production_2021_method1 %>% 
+heber_production_2021_method1_site_summary <- 
+heber_production_2021_method1_site_summary %>% 
   dplyr::mutate(sd = set_units(sd, g/m^2)) %>% 
   dplyr::mutate(ci = set_units(ci, g/m^2))
-print(heber_production_2021_method1)
+print(heber_production_2021_method1_site_summary)
 ```
 
 ```{r convert GramsPerMeter to LbsPerAcre method 1}
-heber_production_2021_method1 <- 
-heber_production_2021_method1 %>% 
+heber_production_2021_method1_site_summary <- 
+heber_production_2021_method1_site_summary %>% 
   dplyr::mutate(mean = set_units(mean, lb/acre)) %>% 
   dplyr::mutate(sd = set_units(sd, lb/acre)) %>% 
   dplyr::mutate(ci = set_units(ci, lb/acre))
-print(heber_production_2021_method1)
+print(heber_production_2021_method1_site_summary)
 ```
 
 ### Method 2- Sub-Plots Separate
@@ -236,14 +236,6 @@ heber_production_2021_method2 <-
 print(heber_production_2021_method2)
 ```
 
-And then convert grams per meter[^2] to pounds per acre so we can use units more commonly used in rangeland management when discussion production at the pasture scale.
-
-```{r convert "GramsPerMeter" to "LbsPerAcre" method 2}
-heber_production_2021_method2 <- heber_production_2021_method2 %>% 
-  mutate(LbsPerAcre = set_units(GramsPerMeter, lb/acre))
-print(heber_production_2021_method2)
-```
-
 Calculate the summary stats for Method 2 using the sub-plot averages to generate an average production estimate for each plot. Similar to Method 1, we are grouping by site and plot and then getting summary stats using the `rstatix` package.
 
 ```{r calc summary stats for each plot using sub-plot averages}
@@ -276,11 +268,46 @@ heber_production_2021_method2_site_summary <- heber_production_2021_method2_site
 print(heber_production_2021_method2_site_summary)
 ```
 
+And then convert grams per meter[^2] to pounds per acre so we can use units more commonly used in rangeland management when discussion production at the pasture scale.
+
+```{r convert "GramsPerMeter" to "LbsPerAcre" method 2}
+heber_production_2021_method2_site_summary <- 
+  heber_production_2021_method2_site_summary %>% 
+  dplyr::mutate(mean = set_units(mean, lb/acre)) %>% 
+  dplyr::mutate(sd = set_units(sd, lb/acre)) %>% 
+  dplyr::mutate(ci = set_units(ci, lb/acre))
+print(heber_production_2021_method2_site_summary)
+```
+
 ## Compare Methods
 
 Now that we've generated production estimates for each site using two different methods, we want to compare the results of the two methods together and see which method generates more reliable estimates (i.e. less error/more precision).
 
+Display the results from Method 1.
 
+```{r print results method 1}
+heber_production_2021_method1_site_summary %>% dplyr::select(-c("variable", "n"))
+```
+
+Display the results from Method 2.
+
+```{r print results method 2}
+heber_production_2021_method2_site_summary %>% dplyr::select(-c("variable", "n"))
+```
+
+We can also display the differences by subtracting the results from Method 1 from the results from Method 2.
+
+```{r}
+heber_production_2021_method1_site_summary$mean - heber_production_2021_method2_site_summary$mean
+```
+
+```{r}
+heber_production_2021_method1_site_summary$sd - heber_production_2021_method2_site_summary$sd
+```
+
+```{r}
+heber_production_2021_method1_site_summary$ci - heber_production_2021_method2_site_summary$ci
+```
 
 
 ### Plot Production

@@ -302,7 +302,48 @@ heber_production_2021$SubSample[7:9]
 ```
 
 ```{r}
-heber_production_2021 %>% select(c("Index", "SubSample", "Site", "Plot"))
+heber_production_2021 %>% ungroup() %>% select(c("Index", "Site", "Plot", "SubSample"))
+```
+
+```{r}
+heber_production_2021$SubSample
+```
+
+```{r}
+heber_production_2021 %>% group_by(Site, PlotType, Plot) %>% group_keys()
+```
+
+```{r}
+heber_production_2021 %>% 
+  group_by(Site, PlotType, Plot) %>% 
+  dplyr::count(Plot)
+```
+
+
+```{r}
+heber_production_2021 %>% 
+  group_by(Site, PlotType, Plot) %>% 
+  dplyr::add_count(Plot)
+```
+
+write an if else inside of for loop
+if its the same plot, add 1 to the SubSample number
+if its a different plot, start at 1
+
+```{r}
+
+```
+
+
+```{r}
+heber_production_2021 %>% 
+  group_by(Site, PlotType, Plot) %>% 
+  dplyr::add_count(Plot) %>% 
+  mutate(SubSample = dplyr::if_else(n == 1, # condition
+                                    1, # if true
+                                    (1:n), # if false
+                                    NA_character_) # if missing
+  )
 ```
 
 
