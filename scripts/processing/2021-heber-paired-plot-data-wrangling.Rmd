@@ -29,7 +29,7 @@ knitr::opts_knit$set(root.dir = currentwd)
 ## Data Wrangling and Clean Up
 
 ```{r Load Data}
-heber_production_group1 <- readr::read_csv(
+heber_paired_plot_group1 <- readr::read_csv(
   file.path("data",
             "production",
             "heber",
@@ -37,9 +37,9 @@ heber_production_group1 <- readr::read_csv(
             "2021-heber-production-group1.csv"),
   col_names = TRUE, 
   na = c(""," ","NA"))
-print(heber_production_group1)
+print(heber_paired_plot_group1)
 
-heber_production_group2 <- readr::read_csv(
+heber_paired_plot_group2 <- readr::read_csv(
   file.path("data",
             "production",
             "heber",
@@ -47,9 +47,9 @@ heber_production_group2 <- readr::read_csv(
             "2021-heber-production-group2.csv"),
   col_names = TRUE, 
   na = c(""," ","NA"))
-print(heber_production_group2)
+print(heber_paired_plot_group2)
 
-heber_production_group3 <- readr::read_csv(
+heber_paired_plot_group3 <- readr::read_csv(
   file.path("data",
             "production",
             "heber",
@@ -57,56 +57,56 @@ heber_production_group3 <- readr::read_csv(
             "2021-heber-production-group3.csv"),
   col_names = TRUE, 
   na = c(""," ","NA"))
-print(heber_production_group3)
+print(heber_paired_plot_group3)
 ```
 
 The "Date" column was correctly read in as a date-time for group 1, however it was incorrectly read in as a character for groups 2 and 3. We want to convert dates stored as characters, to dates stored as date-times.
 
 ```{r Set "Date" column as date-times}
-heber_production_group2$Date <- heber_production_group2$Date %>% 
+heber_paired_plot_group2$Date <- heber_paired_plot_group2$Date %>% 
   lubridate::mdy()
-print(heber_production_group2)
-heber_production_group3$Date <- heber_production_group3$Date %>% 
+print(heber_paired_plot_group2)
+heber_paired_plot_group3$Date <- heber_paired_plot_group3$Date %>% 
   lubridate::mdy()
-print(heber_production_group3)
+print(heber_paired_plot_group3)
 ```
 
 Combine all groups together so we can perform all of the cleanup steps once. This reduces to need to perform the same step multiple times.
 
 ```{r Combine Data from Each Group}
-heber_production_2021 <- dplyr::bind_rows(heber_production_group1,
-                                          heber_production_group2,
-                                          heber_production_group3)
-print(heber_production_2021)
+heber_paired_plot_2021 <- dplyr::bind_rows(heber_paired_plot_group1,
+                                          heber_paired_plot_group2,
+                                          heber_paired_plot_group3)
+print(heber_paired_plot_2021)
 ```
 
 The `dlookr::` package provides a convenient way to summarize the missing values in a data frame. Most of our columns don't have missing values, with the exception of the `Sub Sample` column and the `Notes` column.
 
 ```{r Diagnose Data Before Slash S Data Removed}
-dlookr::diagnose(heber_production_2021)
+dlookr::diagnose(heber_paired_plot_2021)
 ```
 
 We also want to check if all of the site names were read in without any additional characters. Sometimes a blank space, upper-case, or lower-case character can be mis-entered into the spreadsheet, but it can be hard to detect visually. Printing out the unique site names is one way to detect if there are mis-entered site names.
 
 ```{r Unique Site Names}
-heber_production_2021 %>% dplyr::pull(Site) %>% unique()
+heber_paired_plot_2021 %>% dplyr::pull(Site) %>% unique()
 ```
 
 Same thing for site codes. 
 
 ```{r Unique Site Codes}
-heber_production_2021 %>% dplyr::pull(`Site Code`) %>% unique()
+heber_paired_plot_2021 %>% dplyr::pull(`Site Code`) %>% unique()
 ```
 
 Spaces in column names can be problematic, or at the very least inconvenient. 
 
 ```{r Rename "Site Code" column to "SiteCode"}
-heber_production_2021 <- heber_production_2021 %>% 
+heber_paired_plot_2021 <- heber_paired_plot_2021 %>% 
   dplyr::rename(SiteCode = `Site Code`)
 ```
 
 ```{r Rename "Sub Sample" column to "SubSample}
-heber_production_2021 <- heber_production_2021 %>% 
+heber_paired_plot_2021 <- heber_paired_plot_2021 %>% 
   dplyr::rename(SubSample = `Sub Sample`)
 ```
 
@@ -115,7 +115,7 @@ The csv files contain data from the Slash-S allotment, which is actually compara
 We will pull the Slash-S data out and write it to a new csv file.
 
 ```{r Filter Slash-S Data}
-slash_s_data <- heber_production_2021 %>% 
+slash_s_data <- heber_paired_plot_2021 %>% 
   dplyr::filter(Site == "Slash-S")
 print(slash_s_data)
 ```
@@ -143,70 +143,70 @@ readr::write_csv(slash_s_data,
 Now that we've written the Slash S data to a CSV file, we can safely discard the Slash S data from the data frame.
 
 ```{r Filter Out Slash S data}
-heber_production_2021 <- heber_production_2021 %>% 
+heber_paired_plot_2021 <- heber_paired_plot_2021 %>% 
   dplyr::filter(Site != "Slash-S")
-print(heber_production_2021)
+print(heber_paired_plot_2021)
 ```
 
 Now that we've removed the Slash S data, the `Notes` column is entirely empty.
 
 ```{r Diagnose Data After Slash S Data Removed}
-dlookr::diagnose(heber_production_2021)
+dlookr::diagnose(heber_paired_plot_2021)
 ```
 
 Drop the empty `Notes` column.
 
 ```{r Drop Notes Column}
-heber_production_2021 <- heber_production_2021 %>% 
+heber_paired_plot_2021 <- heber_paired_plot_2021 %>% 
   dplyr::select(-(Notes))
 ```
 
 For easier viewing, we will re-arrange the data frame by site and plot type.
 
 ```{r Arrange Data Frame}
-heber_production_2021 <- heber_production_2021 %>% 
+heber_paired_plot_2021 <- heber_paired_plot_2021 %>% 
   dplyr::group_by(Site, Type) %>% 
   dplyr::arrange(Site, Plot, SubSample, .by_group = TRUE)
-print(heber_production_2021)
+print(heber_paired_plot_2021)
 ```
 
 The sub-sample for site Fifty One, plot 4, sub-sample 4, is "NA" in the dataset. We will fill this missing value in with 4.
 
 ```{r A51 Plot 4 sub-sample is NA}
 # TODO refactor this as slice by index or if_else()
-heber_production_2021[heber_production_2021$Site == "Area 51" & 
-                        is.na(heber_production_2021$SubSample) == TRUE &
-                        heber_production_2021$Type == "Exclosure", ] <- 
-heber_production_2021[heber_production_2021$Site == "Area 51" & 
-                        is.na(heber_production_2021$SubSample) == TRUE &
-                        heber_production_2021$Type == "Exclosure", ] %>% 
+heber_paired_plot_2021[heber_paired_plot_2021$Site == "Area 51" & 
+                        is.na(heber_paired_plot_2021$SubSample) == TRUE &
+                        heber_paired_plot_2021$Type == "Exclosure", ] <- 
+heber_paired_plot_2021[heber_paired_plot_2021$Site == "Area 51" & 
+                        is.na(heber_paired_plot_2021$SubSample) == TRUE &
+                        heber_paired_plot_2021$Type == "Exclosure", ] %>% 
   dplyr::mutate(SubSample = 4)
-print(heber_production_2021)
+print(heber_paired_plot_2021)
 ```
 
 ```{r add Index column}
-heber_production_2021 <- 
-heber_production_2021 %>% 
+heber_paired_plot_2021 <- 
+heber_paired_plot_2021 %>% 
   ungroup() %>% 
-  mutate(Index = (1:nrow(heber_production_2021)), .before = Site)
-print(heber_production_2021)
+  mutate(Index = (1:nrow(heber_paired_plot_2021)), .before = Site)
+print(heber_paired_plot_2021)
 ```
 
 We can also see that there are (2) sub-samples that are 1. 
 
 ```{r slice "SubSample" by index}
-heber_production_2021$SubSample[82:85]
+heber_paired_plot_2021$SubSample[82:85]
 ```
 
 Replace those values with the correct values.
 
 ```{r replace duplicate "SubSample" values}
-heber_production_2021$SubSample[82:85] <- c(1, 2, 3, 4)
+heber_paired_plot_2021$SubSample[82:85] <- c(1, 2, 3, 4)
 ```
 
 Check that it worked. 
 ```{r print sliced "SubSample"}
-heber_production_2021$SubSample[82:85]
+heber_paired_plot_2021$SubSample[82:85]
 ```
 
 The production data has two types of clipping methodologies which could lead to confusion. At the "Only Ponderosa" site we clipped the entire 1m^2^ exclosure plot, which means that the bag weights related to Only Ponderosa represent a larger clipped area than bags clipped from other sites. 
@@ -223,23 +223,23 @@ The production data has two types of clipping methodologies which could lead to 
 At all other sites, we clipped (3) 40cm x 40cm plots inside of each 1m^2^ exclosure plot, which means we can take an average sub-sample weight for each plot, and then either use the sub-sample average to generate average weight per 40cm quadrat, or we can add together the three sub-sample weights and divide by their combined area to get a weight per m^2^.
 
 ```{r Add "MethodDescription" Column}
-heber_production_2021 <- heber_production_2021 %>% 
+heber_paired_plot_2021 <- heber_paired_plot_2021 %>% 
   dplyr::mutate(MethodType = if_else(Site == "Only Ponderosa", # logical condition
                                             "Entire Plot", # true value
                                             "Sub Plots", # false value
                                             NA_character_), # missing value
                 .after = Type)
-print(heber_production_2021)
+print(heber_paired_plot_2021)
 ```
 
 ```{r Set Method Type for Residual Plots to NA}
-heber_production_2021 <- heber_production_2021 %>% 
+heber_paired_plot_2021 <- heber_paired_plot_2021 %>% 
   dplyr::mutate(MethodType = if_else(Type == "Residual", # logical condition
                                             NA_character_, # true
                                             MethodType, # false
                                             NA_character_) # missing
                 )
-print(heber_production_2021)
+print(heber_paired_plot_2021)
 ```
 
 We will use this "MethodType" variable to filter by in a future step. 
@@ -247,7 +247,7 @@ We will use this "MethodType" variable to filter by in a future step.
 It also looks like plot 5 of Only Ponderosa has two "sub-samples", but since we clipped the entire plot at Only Ponderosa, these "sub-samples" actually correspond to two bags of clippings from the same sample. Since these are the only two cases in the data where this occurred, we will just combine the weights of sub-sample 1 with sub-sample 2 to get the full weight of the entire 1m^2^ plot.
 
 ```{r Fix Only Ponderosa Plot 5}
-only_ponderosa_plot5 <- heber_production_2021 %>% 
+only_ponderosa_plot5 <- heber_paired_plot_2021 %>% 
   dplyr::filter(Site == "Only Ponderosa" & Type == "Exclosure" & Plot == 5) %>%
   dplyr::ungroup() %>%
   dplyr::mutate(Bag1DryWt = sum(Bag1DryWt), 
@@ -261,143 +261,42 @@ print(only_ponderosa_plot5)
 only_ponderosa_plot5 <- only_ponderosa_plot5 %>% dplyr::mutate(SubSample = NA_real_)
 ```
 
-
 ```{r Remove the Ponderosa Plot 5 Rows}
-heber_production_2021 <- heber_production_2021 %>%
+heber_paired_plot_2021 <- heber_paired_plot_2021 %>%
   subset(!(Site == "Only Ponderosa" & Type == "Exclosure" & Plot == 5))
-print(heber_production_2021)
+print(heber_paired_plot_2021)
 ```
 
 ```{r Add Only Ponderosa Plot 5 Data Back In}
-heber_production_2021 <- heber_production_2021 %>% 
+heber_paired_plot_2021 <- heber_paired_plot_2021 %>% 
   ungroup() %>% 
   add_row(only_ponderosa_plot5)
-print(heber_production_2021)
+print(heber_paired_plot_2021)
 ```
 
 ```{r group by site and type}
-heber_production_2021 <- heber_production_2021 %>% 
+heber_paired_plot_2021 <- heber_paired_plot_2021 %>% 
   dplyr::group_by(Site, Type) %>% 
   dplyr::arrange(Site, Plot, SubSample, .by_group = TRUE)
-print(heber_production_2021)
+print(heber_paired_plot_2021)
 ```
 
 ```{r rename Type to PlotType}
-heber_production_2021 <- heber_production_2021 %>% 
+heber_paired_plot_2021 <- heber_paired_plot_2021 %>% 
   dplyr::rename(PlotType = Type)
-print(heber_production_2021)
+print(heber_paired_plot_2021)
 ```
 
-```{r}
-heber_production_2021$SubSample[7:9]
-```
-
-```{r}
-heber_production_2021$SubSample[7:9] <- c(1, 2, 3)
-```
-
-```{r}
-heber_production_2021$SubSample[7:9]
-```
-
-```{r}
-heber_production_2021 %>% ungroup() %>% select(c("Index", "Site", "Plot", "SubSample"))
-```
-
-```{r}
-heber_production_2021$SubSample
-```
-
-```{r}
-heber_production_2021 %>% group_by(Site, PlotType, Plot) %>% group_keys()
-```
-
-```{r}
-heber_production_2021 %>% 
+```{r fix SubSample numbers}
+heber_paired_plot_2021 <- 
+heber_paired_plot_2021 %>% 
   group_by(Site, PlotType, Plot) %>% 
-  dplyr::count(Plot)
+  dplyr::mutate(SubSample = row_number())
+print(heber_paired_plot_2021)
 ```
-
-
-```{r}
-heber_production_2021 %>% 
-  group_by(Site, PlotType, Plot) %>% 
-  dplyr::add_count(Plot)
-```
-
-write an if else inside of for loop
-if its the same plot, add 1 to the SubSample number
-if its a different plot, start at 1
-
-```{r}
-heber_production_2021_exclosures <- heber_production_2021 %>% ungroup() %>% dplyr::filter(PlotType == "Exclosure")
-
-print(heber_production_2021_exclosures)
-```
-
-```{r}
-heber_production_2021_subsample <- NULL
-
-for (i in 1:nrow(heber_production_2021_exclosures)){
-  
-  while(i < nrow(heber_production_2021_exclosures)){
-    previous_row <- heber_production_2021_exclosures[i, ]
-    
-    next_row <- heber_production_2021_exclosures[i+1, ]
-    
-    if ((next_row$Site == previous_row$Site & next_row$Plot == previous_row$Plot)){
-      next_row$SubSample <- previous_row$SubSample + 1
-      } else {
-        next_row$SubSample <- 1
-      }
-    heber_production_2021_subsample[i] <- next_row
-    } 
-  }
-```
-
-```{r}
-heber_production_2021_exclosures %>% dplyr::group_by(Site, Plot) %>% dplyr::group_size()
-```
-
-
-```{r}
-typeof(i)
-```
-
-```{r}
-while (condition) {
-  
-}
-```
-
-```{r}
-for (variable in vector) {
-  
-}
-```
-
-
-```{r}
-print(previous_row)
-
-print(next_row)
-```
-
-
-```{r}
-heber_production_2021 %>% 
-  group_by(Site, PlotType, Plot) %>% 
-  dplyr::add_count(Plot) %>% 
-  mutate(SubSample = dplyr::if_else(n == 1, # condition
-                                    1, # if true
-                                    (1:n), # if false
-                                    NA_character_) # if missing
-  )
-```
-
 
 ```{r write cleaned data to csv}
-write_csv(heber_production_2021,
+write_csv(heber_paired_plot_2021,
           file.path(currentwd,
                     "data",
                     "production",
@@ -405,4 +304,3 @@ write_csv(heber_production_2021,
                     "csv",
                     "2021-heber-production-cleaned.csv"))
 ```
-
