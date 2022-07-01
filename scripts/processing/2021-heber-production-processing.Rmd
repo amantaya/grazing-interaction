@@ -15,16 +15,15 @@ output:
 
 Read in the required packages from another R script in the current working directory.
 ```{r setup environment}
-# source("~/grazing-interaction/environment.R")
-# source("~/grazing-interaction/packages.R")
-# source("~/grazing-interaction/functions.R")
+source("~/grazing-interaction/environment.R")
+source("~/grazing-interaction/packages.R")
+source("~/grazing-interaction/functions.R")
 ```
 
 ```{r knitr setup, include=FALSE}
-# knitr::opts_chunk$set(echo = TRUE)
-# knitr::opts_knit$set(root.dir = currentwd)
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = currentwd)
 ```
-
 
 # 2021 Heber Production
 ## Data Wrangling and Clean Up
@@ -331,7 +330,57 @@ if its the same plot, add 1 to the SubSample number
 if its a different plot, start at 1
 
 ```{r}
+heber_production_2021_exclosures <- heber_production_2021 %>% ungroup() %>% dplyr::filter(PlotType == "Exclosure")
 
+print(heber_production_2021_exclosures)
+```
+
+```{r}
+heber_production_2021_subsample <- NULL
+
+for (i in 1:nrow(heber_production_2021_exclosures)){
+  
+  while(i < nrow(heber_production_2021_exclosures)){
+    previous_row <- heber_production_2021_exclosures[i, ]
+    
+    next_row <- heber_production_2021_exclosures[i+1, ]
+    
+    if ((next_row$Site == previous_row$Site & next_row$Plot == previous_row$Plot)){
+      next_row$SubSample <- previous_row$SubSample + 1
+      } else {
+        next_row$SubSample <- 1
+      }
+    heber_production_2021_subsample[i] <- next_row
+    } 
+  }
+```
+
+```{r}
+heber_production_2021_exclosures %>% dplyr::group_by(Site, Plot) %>% dplyr::group_size()
+```
+
+
+```{r}
+typeof(i)
+```
+
+```{r}
+while (condition) {
+  
+}
+```
+
+```{r}
+for (variable in vector) {
+  
+}
+```
+
+
+```{r}
+print(previous_row)
+
+print(next_row)
 ```
 
 
