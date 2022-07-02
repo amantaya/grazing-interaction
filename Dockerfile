@@ -41,3 +41,4 @@ RUN R -e "install.packages('rmarkdown', dependencies=TRUE, repos='http://cran.rs
 RUN R -e "install.packages('dplyr', dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('tidyr', dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('units', dependencies=TRUE, repos='http://cran.rstudio.com/')"
+
