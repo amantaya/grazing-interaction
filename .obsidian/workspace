@@ -4,28 +4,12 @@
     "type": "split",
     "children": [
       {
-        "id": "02103460b8959472",
+        "id": "4073fcf63d7eb8ef",
         "type": "leaf",
         "state": {
-          "type": "markdown",
+          "type": "kanban",
           "state": {
-            "file": "docs/heber-project-notes/heber-photo-data-to-do-list.md",
-            "mode": "source",
-            "backlinks": false,
-            "source": false
-          }
-        }
-      },
-      {
-        "id": "6892f6254ccc1d5e",
-        "type": "leaf",
-        "state": {
-          "type": "markdown",
-          "state": {
-            "file": "docs/heber-project-notes/heber-photo-tasks-main-list.md",
-            "mode": "source",
-            "backlinks": false,
-            "source": true
+            "file": "docs/heber-project-notes/Heber Project Kanban.md"
           }
         }
       }
@@ -91,7 +75,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "docs/heber-project-notes/heber-photo-tasks-main-list.md",
+                "file": "docs/heber-project-notes/Heber Project Kanban.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -119,7 +103,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "docs/heber-project-notes/heber-photo-tasks-main-list.md",
+                "file": "docs/heber-project-notes/Heber Project Kanban.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -131,7 +115,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "docs/heber-project-notes/heber-photo-tasks-main-list.md"
+                "file": "docs/heber-project-notes/Heber Project Kanban.md"
               }
             }
           },
@@ -151,8 +135,9 @@
     "width": 300,
     "collapsed": true
   },
-  "active": "6892f6254ccc1d5e",
+  "active": "4073fcf63d7eb8ef",
   "lastOpenFiles": [
+    "docs/heber-project-notes/Heber Project Kanban.md",
     "docs/heber-project-notes/heber-photo-tasks-main-list.md",
     "docs/heber-project-notes/heber-photo-data-to-do-list.md",
     "Untitled.md",
@@ -161,7 +146,6 @@
     "docs/white-mountains-project-notes/boggy-wildcat-photo-data-to-do-list.md",
     "docs/heber-project-notes/cameratraps2-photo-data-to-do-list.md",
     "docs/heber-project-notes/Heber 2019 Stubble Height Figures.md",
-    "docs/heber-project-notes/WCS_05152018_06092018 is missing some sub-folders.md",
-    "data/path-to-free-file-sync-cli.md"
+    "docs/heber-project-notes/WCS_05152018_06092018 is missing some sub-folders.md"
   ]
 }
