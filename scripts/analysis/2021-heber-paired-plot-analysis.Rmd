@@ -57,10 +57,6 @@ heber_paired_plot_2021 <- heber_paired_plot_2021 %>%
 print(heber_paired_plot_2021)
 ```
 
-```{r temp}
-heber_paired_plot_2021 <- heber_paired_plot_2021
-```
-
 ## Unit Conversion
 
 The production data has two types of clipping methodologies which could lead to confusion. At the "Only Ponderosa" site we clipped the entire 1m^2^ exclosure plot, which means that the bag weights related to the Only Ponderosa site represent a larger clipped area than bags clipped from other sites. 
