@@ -3,7 +3,10 @@
 kanban-plugin: basic
 
 ---
-# Heber Project Kanban
+
+## Heber Project Kanban
+
+
 
 ## Daily Tasks
 
@@ -148,10 +151,6 @@ kanban-plugin: basic
 ## SORTING Assignments Awaiting Completion by Students
 
 - [ ] #task BRL_06222021_07232021 #heber2021photos
-- [ ] #task FLO_05282021_06112021 #heber2021photos
-- [ ] #task FLO_06232021_07232021 #heber2021photos
-- [ ] #task FLO_20210723_20210806 #heber2021photos
-- [ ] #task FLO_20210806_20210820 #heber2021photos
 - [ ] #task HPL_06212021_07232021 #heber2021photos
 - [ ] #task HPL_20210723_20210805 #heber2021photos
 - [ ] #task HPL_20210805_20290907 #heber2021photos
@@ -162,11 +161,15 @@ kanban-plugin: basic
 
 ## Folders to Copy Subject Photos to Sub-Folder on Hard Drive
 
-- [ ] #task BRL_20210723_20210805 #heber2021photos
 
 
 ## Folders to Chunk
 
+- [ ] #task FLO_20210806_20210820 #heber2021photos
+- [ ] #task FLO_20210723_20210806 #heber2021photos
+- [ ] #task FLO_06232021_07232021 #heber2021photos
+- [ ] #task FLO_05282021_06112021 #heber2021photos
+- [ ] #task BRL_20210723_20210805 #heber2021photos
 - [ ] #task BRL_20210805_20211001 #heber2021photos
 - [ ] #task HPL_05282021_06212021 #heber2021photos
 - [ ] #task A51_06252021_07162021 #heber2021photos
