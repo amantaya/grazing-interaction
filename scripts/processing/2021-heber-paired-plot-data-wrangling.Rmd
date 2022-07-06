@@ -287,6 +287,18 @@ heber_paired_plot_2021 <- heber_paired_plot_2021 %>%
 print(heber_paired_plot_2021)
 ```
 
+```{r fix residual sample numbers}
+heber_paired_plot_2021 <- 
+heber_paired_plot_2021 %>% 
+  group_by(Site, PlotType) %>% 
+  dplyr::mutate(Plot = dplyr::if_else(PlotType == "Residual",
+                                      dplyr::row_number(), # if true
+                                      as.integer(Plot), # if false
+                                      NA_integer_) # if missing
+                )
+print(heber_paired_plot_2021)
+```
+
 ```{r fix SubSample numbers}
 heber_paired_plot_2021 <- 
 heber_paired_plot_2021 %>% 
