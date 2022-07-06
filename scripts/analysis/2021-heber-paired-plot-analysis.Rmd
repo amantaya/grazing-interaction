@@ -35,16 +35,16 @@ knitr::opts_knit$set(root.dir = currentwd)
 ## Load Data
 
 ```{r Load Heber Production Data}
-heber_production_2021 <- readr::read_csv(
+heber_paired_plot_2021 <- readr::read_csv(
   file.path(currentwd,
             "data",
             "production",
             "heber",
             "csv",
-            "2021-heber-production-cleaned.csv"),
+            "2021-heber-paired-plot-cleaned.csv"),
   col_names = TRUE,
   na = c(""," ","NA"))
-print(heber_production_2021)
+print(heber_paired_plot_2021)
 ```
 
 ## Data Clean Up
@@ -52,13 +52,13 @@ print(heber_production_2021)
 The code expects a column called "TotalDryWt" that we need to add to the Heber data. This column usually is for row sums for each bag from a sub-plot, but in this case there aren't any sub-plots so we will set the "Bag1NetWt" column to equal the new "TotalDryWt" column.
 
 ```{r Add "TotalDryWt" to Heber Data}
-heber_production_2021 <- heber_production_2021 %>% 
+heber_paired_plot_2021 <- heber_paired_plot_2021 %>% 
   dplyr::mutate(TotalDryWt = Bag1NetWt)
-print(heber_production_2021)
+print(heber_paired_plot_2021)
 ```
 
 ```{r temp}
-heber_paired_plot_2021 <- heber_production_2021
+heber_paired_plot_2021 <- heber_paired_plot_2021
 ```
 
 ## Unit Conversion
@@ -135,63 +135,63 @@ This method combines the (3) sub-plots from within each exclosure by addition, a
 Here we group the data frame by site and plot, which generates 26 groups, a group for each site, and a group for each plot. Then we summarize the weight for each plot by adding together each sub-plot. We also use the `units` package to set the weight to grams. Setting units now will help us convert to grams per meter[^2] in a future step. And it's also nice to show what measurement units we are dealing with.
 
 ```{r summarize exclosure plots by subsample}
-heber_production_2021_method1 <- 
-heber_production_2021 %>% 
+heber_paired_plot_2021_method1 <- 
+heber_paired_plot_2021 %>% 
   dplyr::filter(PlotType == "Exclosure") %>% 
   dplyr::group_by(Site, Plot) %>% 
   dplyr::summarize(TotalDryWt = sum(units::set_units(TotalDryWt, g)))
-print(heber_production_2021_method1)
+print(heber_paired_plot_2021_method1)
 ```
 
 As we mentioned, we sampled the entire 1 m[^2] plot at the Only Ponderosa site. We will create a new column called `SampleArea` which represents the area sampled for each exclosure plot at each site. Here we set the units for the `SampleArea` column for the "Only Ponderosa" site, using 1 m[^2], because if we didn't, it would greatly overestimate the amount of production at the Only Ponderosa site. All other sites were set to 0.48 m[^2], as we sub-sampled each plot with (3) 40 cm x 40 cm sub-plots.
 
 ```{r adjust area sampled for only ponderosa site}
-heber_production_2021_method1 <- 
-heber_production_2021_method1 %>% 
+heber_paired_plot_2021_method1 <- 
+heber_paired_plot_2021_method1 %>% 
   dplyr::mutate(SampleArea = dplyr::if_else(Site == "Only Ponderosa", # condition
                                             units::set_units(1, m^2), # if true
                                             units::set_units(total_area_m2, m^2), # if false
                                             NA_real_) # if missing
   )
-print(heber_production_2021_method1)
+print(heber_paired_plot_2021_method1)
 ```
 
 Now that we have a column representing `SampleArea` and we can calculate the grams per meter[^2] for each exclosure.
 
 ```{r add "GramsPerMeter" column for method 1}
-heber_production_2021_method1 <- 
-heber_production_2021_method1 %>% 
+heber_paired_plot_2021_method1 <- 
+heber_paired_plot_2021_method1 %>% 
   mutate(GramsPerMeter = TotalDryWt / SampleArea)
-print(heber_production_2021_method1)
+print(heber_paired_plot_2021_method1)
 ```
 
 Calculate summary statistics for exclosure plots by site using the `rstatix` package.
 
 ```{r calc summary stats for method 1}
-heber_production_2021_method1_site_summary <- 
-heber_production_2021_method1 %>% 
+heber_paired_plot_2021_method1_site_summary <- 
+heber_paired_plot_2021_method1 %>% 
   group_by(Site) %>% 
   rstatix::get_summary_stats(GramsPerMeter, 
                              type = "common", 
                              show = c("n","mean","sd","ci"))
-print(heber_production_2021_method1_site_summary)
+print(heber_paired_plot_2021_method1_site_summary)
 ```
 
 ```{r set units on descriptive statistics method 1}
-heber_production_2021_method1_site_summary <- 
-heber_production_2021_method1_site_summary %>% 
+heber_paired_plot_2021_method1_site_summary <- 
+heber_paired_plot_2021_method1_site_summary %>% 
   dplyr::mutate(sd = set_units(sd, g/m^2)) %>% 
   dplyr::mutate(ci = set_units(ci, g/m^2))
-print(heber_production_2021_method1_site_summary)
+print(heber_paired_plot_2021_method1_site_summary)
 ```
 
 ```{r convert GramsPerMeter to LbsPerAcre method 1}
-heber_production_2021_method1_site_summary <- 
-heber_production_2021_method1_site_summary %>% 
+heber_paired_plot_2021_method1_site_summary <- 
+heber_paired_plot_2021_method1_site_summary %>% 
   dplyr::mutate(mean = set_units(mean, lb/acre)) %>% 
   dplyr::mutate(sd = set_units(sd, lb/acre)) %>% 
   dplyr::mutate(ci = set_units(ci, lb/acre))
-print(heber_production_2021_method1_site_summary)
+print(heber_paired_plot_2021_method1_site_summary)
 ```
 
 ### Method 2- Sub-Plots Separate
@@ -203,80 +203,80 @@ I am performing this method as an experiment to understand how the error compoun
 First we will create an object that is a copy of the production data so we can experiment without altering the original data.
 
 ```{r create copy of production data method 2}
-heber_production_2021_method2 <- heber_production_2021
+heber_paired_plot_2021_method2 <- heber_paired_plot_2021
 ```
 
 Then we set the units for the weights of each sub-plot using the `units` package. Each bag represents the net weight (Total Weight of Bag + Clippings - Weight of Bag = Net Weight Clippings) that were dried in an oven at 60 deg C for at least 48 hours.
 
 ```{r set units for each sub-plot method 2}
-heber_production_2021_method2$TotalDryWt <- heber_production_2021_method2 %>% 
+heber_paired_plot_2021_method2$TotalDryWt <- heber_paired_plot_2021_method2 %>% 
   pull(TotalDryWt) %>% 
   units::set_units("g")
-print(heber_production_2021_method2)
+print(heber_paired_plot_2021_method2)
 ```
 
 The `MethodType` column represents whether we clipped the entire exclosure plot ("Entire Plot"), or if we clipped 3 sub-plots inside of each exclosure ("Sub Plots"). Create a new column `SampleArea` that represents the area sampled by _each sub-plot_. Since we mixed-methods and clipped the entire plot at Only Ponderosa, we will set that to equal 1 m[^2] and all the other sub-plots to equal (1) 40cm x 40cm quadrat.
 
 ```{r create "SampleArea" column for each sub-plot method 2}
-heber_production_2021_method2 <- heber_production_2021_method2 %>% 
+heber_paired_plot_2021_method2 <- heber_paired_plot_2021_method2 %>% 
   dplyr::filter(PlotType == "Exclosure") %>% 
   dplyr::mutate(SampleArea = if_else((PlotType == "Exclosure" & MethodType == "Sub Plots"),
                                      sample_area_m, # true
                                      1, # false
                                      NA_real_) # missing
                 )
-print(heber_production_2021_method2)
+print(heber_paired_plot_2021_method2)
 ```
 
 Then we create a column with the grams per meter[^2].
 
 ```{r add "GramsPerMeter" column for each sub-plot method 2}
-heber_production_2021_method2 <- 
-  heber_production_2021_method2 %>% mutate(GramsPerMeter = TotalDryWt / SampleArea)
-print(heber_production_2021_method2)
+heber_paired_plot_2021_method2 <- 
+  heber_paired_plot_2021_method2 %>% mutate(GramsPerMeter = TotalDryWt / SampleArea)
+print(heber_paired_plot_2021_method2)
 ```
 
 Calculate the summary stats for Method 2 using the sub-plot averages to generate an average production estimate for each plot. Similar to Method 1, we are grouping by site and plot and then getting summary stats using the `rstatix` package.
 
 ```{r calc summary stats for each plot using sub-plot averages}
-heber_production_2021_method2_subplot_summary <- heber_production_2021_method2 %>% 
+heber_paired_plot_2021_method2_subplot_summary <- heber_paired_plot_2021_method2 %>% 
   dplyr::filter(PlotType == "Exclosure") %>% 
   group_by(Site, Plot) %>% 
   rstatix::get_summary_stats(GramsPerMeter, 
                              type = "common", 
                              show = c("n", "mean", "sd", "ci"))
-print(heber_production_2021_method2_subplot_summary)
+print(heber_paired_plot_2021_method2_subplot_summary)
 ```
 
 Then we generate an average production estimate for each site by averaging the plots.
 
 ```{r calc summary stats for each site using plot averages}
-heber_production_2021_method2_site_summary <- heber_production_2021_method2_subplot_summary %>% 
+heber_paired_plot_2021_method2_site_summary <- heber_paired_plot_2021_method2_subplot_summary %>% 
   group_by(Site) %>% 
   rstatix::get_summary_stats(mean,
                              type = "common", 
                              show = c("n", "mean", "sd", "ci"))
-print(heber_production_2021_method2_site_summary)
+print(heber_paired_plot_2021_method2_site_summary)
 ```
 
 Set the units for the standard deviation and the confidence interval using the `units` package. Setting the units for these descriptive statistics helps us understand the variability and spread of the data in relateable units.
 
 ```{r set units on descriptive statistics method 2}
-heber_production_2021_method2_site_summary <- heber_production_2021_method2_site_summary %>%
+heber_paired_plot_2021_method2_site_summary <- heber_paired_plot_2021_method2_site_summary %>%
   dplyr::mutate(sd = set_units(sd, g/m^2)) %>% 
   dplyr::mutate(ci = set_units(ci, g/m^2))
-print(heber_production_2021_method2_site_summary)
+print(heber_paired_plot_2021_method2_site_summary)
 ```
 
 And then convert grams per meter[^2] to pounds per acre so we can use units more commonly used in rangeland management when discussion production at the pasture scale.
 
 ```{r convert "GramsPerMeter" to "LbsPerAcre" method 2}
-heber_production_2021_method2_site_summary <- 
-  heber_production_2021_method2_site_summary %>% 
+heber_paired_plot_2021_method2_site_summary <- 
+  heber_paired_plot_2021_method2_site_summary %>% 
   dplyr::mutate(mean = set_units(mean, lb/acre)) %>% 
   dplyr::mutate(sd = set_units(sd, lb/acre)) %>% 
   dplyr::mutate(ci = set_units(ci, lb/acre))
-print(heber_production_2021_method2_site_summary)
+print(heber_paired_plot_2021_method2_site_summary)
 ```
 
 ## Compare Methods
@@ -286,47 +286,47 @@ Now that we've generated production estimates for each site using two different 
 Display the results from Method 1.
 
 ```{r print results method 1}
-heber_production_2021_method1_site_summary %>% dplyr::select(-c("variable", "n"))
+heber_paired_plot_2021_method1_site_summary %>% dplyr::select(-c("variable", "n"))
 ```
 
 Display the results from Method 2.
 
 ```{r print results method 2}
-heber_production_2021_method2_site_summary %>% dplyr::select(-c("variable", "n"))
+heber_paired_plot_2021_method2_site_summary %>% dplyr::select(-c("variable", "n"))
 ```
 
 We can also display the differences by subtracting the results from Method 1 from the results from Method 2.
 
 ```{r}
-heber_production_2021_method1_site_summary$mean - heber_production_2021_method2_site_summary$mean
+heber_paired_plot_2021_method1_site_summary$mean - heber_paired_plot_2021_method2_site_summary$mean
 ```
 
 ```{r}
-heber_production_2021_method1_site_summary$sd - heber_production_2021_method2_site_summary$sd
+heber_paired_plot_2021_method1_site_summary$sd - heber_paired_plot_2021_method2_site_summary$sd
 ```
 
 ```{r}
-heber_production_2021_method1_site_summary$ci - heber_production_2021_method2_site_summary$ci
+heber_paired_plot_2021_method1_site_summary$ci - heber_paired_plot_2021_method2_site_summary$ci
 ```
 
 
 ### Plot Production
 
 ```{r}
-heber_production_2021_method1$mean <- 
-  heber_production_2021_method1$mean %>% as.numeric()
+heber_paired_plot_2021_method1$mean <- 
+  heber_paired_plot_2021_method1$mean %>% as.numeric()
 
-heber_production_2021_method1$sd <- 
-  heber_production_2021_method1$sd %>% as.numeric()
+heber_paired_plot_2021_method1$sd <- 
+  heber_paired_plot_2021_method1$sd %>% as.numeric()
 
-heber_production_2021_method1$ci <- 
-  heber_production_2021_method1$ci %>% as.numeric()
+heber_paired_plot_2021_method1$ci <- 
+  heber_paired_plot_2021_method1$ci %>% as.numeric()
 
-print(heber_production_2021_method1)
+print(heber_paired_plot_2021_method1)
 ```
 
 ```{r}
-heber_production_stats_as_numeric_2021 <- heber_production_2021_method1
+heber_production_stats_as_numeric_2021 <- heber_paired_plot_2021_method1
 ```
 
 ```{r}
@@ -381,13 +381,13 @@ ggsave(filename = "2021-heber-production.jpg",
 ```
 
 ```{r}
-# heber_production_2021 <- heber_production_2021 %>% 
+# heber_paired_plot_2021 <- heber_paired_plot_2021 %>% 
 #   dplyr::mutate(SampleArea = if_else((PlotType == "Residual"),
 #                                      sample_area_m, # true
 #                                      1, # false
 #                                      NA_real_) # missing
 #                 )
-# print(heber_production_2021)
+# print(heber_paired_plot_2021)
 ```
 
 
