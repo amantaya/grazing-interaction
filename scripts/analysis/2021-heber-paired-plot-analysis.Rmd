@@ -60,7 +60,7 @@ The production data has two types of clipping methodologies which could lead to 
 | Area Fifty One  | (3) 40cm x 40cm quadrats | 6                         |
 
 
-At all other sites, we clipped (3) 40cm x 40cm plots inside of each 1m^2^ exclosure plot, which means we can take an average sub-sample weight for each plot, and then either use the sub-sample average to generate average weight per 40cm quadrat (Method 2), or we can add together the three sub-sample weights and divide by their combined area to get a weight per m^2^ (Method 1).
+At all other sites, we clipped (3) 40cm x 40cm plots inside of each 1m^2^ exclosure plot, which means we need to generate a estimate for each exclosure plot using 3 sub-samples. We will try two approaches to understand the error associated with each approach. In Method 1, we add together the three sub-sample weights and divide by their combined area to get a weight per m^2^. In Method 2, we average the 3 sub-samples together and then use the sub-sample average and then convert the units to g/m^2^ to generate an estimate for each exclosure plot.
 
 ### Set and Convert Units to m^2^
 
@@ -77,14 +77,14 @@ sample_area_cm <- dim_x*dim_y
 print(sample_area_cm)
 ```
 
-Now we convert to grams per meter[^2] which is traditionally how paired-plot data is represented in rangelands research.
-
-```{r convert g/cm^2 to g/m^2}
+```{r convert cm^2 to m^2}
 sample_area_m <- units::set_units(sample_area_cm, m^2)
 print(sample_area_m)
 ```
 
-Next, find the total area of (3) 40cm x 40cm quadrats in centimeters[^2]. We sub-sampled each exclosure by clipping 3 plots (with the execption of the Only Ponderosa site where we clipped the entire exclosure).
+One 40cm x 40cm sub-plot equates to `r sample_area_cm`.
+
+Next, find the total area of (3) 40cm x 40cm quadrats in centimeters^2^. We sub-sampled each exclosure by clipping 3 plots (with the execption of the Only Ponderosa site where we clipped the entire exclosure).
 
 ```{r Find Total Area from N Quadrats}
 # number of sampling frames/quadrats
@@ -96,7 +96,9 @@ total_area_cm <- sample_area_cm*n_frames
 print(total_area_cm)
 ```
 
-Convert from centimeters[^2] to meters[^2]. This is total area sampled by three 40cm x 40cm quadrats.
+This is the area sampled by (3) 40cm x 40cm quadrats in centimeters^2^ `r total_area_cm`
+
+Convert from centimeters^2^ to meters^2^. This is total area sampled by three 40cm x 40cm quadrats.
 
 ```{r Convert Area from cm to m}
 total_area_m2 <-  set_units(total_area_cm, m^2)
@@ -104,6 +106,7 @@ total_area_m2 <-  set_units(total_area_cm, m^2)
 print(total_area_m2)
 ```
 
+This is the total area sample by (3) 40cm x 40cm quadrats in meters^2^
 Take the reciprocal of the total area sampled by 3 quadrats. We want to know how much we need to multiply by get the total area sampled by three 40cm x 40cm quadrats to equal 1 m^2^.
 
 ```{r Three Frame Conversion Value}
@@ -118,7 +121,7 @@ print(three_frame_conversion)
 
 This method combines the (3) sub-plots from within each exclosure by addition, and it *does not* generate an average weight for the sub-plots as Method 2 does. Method 1 will likely generate less error because we are not taking an average of an average, as we do in Method 2.
 
-Here we group the data frame by site and plot, which generates 26 groups, a group for each site, and a group for each plot. Then we summarize the weight for each plot by adding together each sub-plot. We also use the `units` package to set the weight to grams. Setting units now will help us convert to grams per meter[^2] in a future step. And it's also nice to show what measurement units we are dealing with.
+Here we group the data frame by site and plot, which generates 26 groups, a group for each site, and a group for each plot. Then we summarize the weight for each plot by adding together each sub-plot. We also use the `units` package to set the weight to grams. Setting units now will help us convert to grams per meter^2^ in a future step. And it's also nice to show what measurement units we are dealing with.
 
 ```{r summarize exclosure plots by subsample}
 heber_paired_plot_2021_method1 <- 
@@ -129,7 +132,7 @@ heber_paired_plot_2021 %>%
 print(heber_paired_plot_2021_method1)
 ```
 
-As we mentioned, we sampled the entire 1 m[^2] plot at the Only Ponderosa site. We will create a new column called `SampleArea` which represents the area sampled for each exclosure plot at each site. Here we set the units for the `SampleArea` column for the "Only Ponderosa" site, using 1 m[^2], because if we didn't, it would greatly overestimate the amount of production at the Only Ponderosa site. All other sites were set to 0.48 m[^2], as we sub-sampled each plot with (3) 40 cm x 40 cm sub-plots.
+As we mentioned, we sampled the entire 1 m^2^ plot at the Only Ponderosa site. We will create a new column called `SampleArea` which represents the area sampled for each exclosure plot at each site. Here we set the units for the `SampleArea` column for the "Only Ponderosa" site, using 1 m^2^, because if we didn't, it would greatly overestimate the amount of production at the Only Ponderosa site. All other sites were set to 0.48 m^2^, as we sub-sampled each plot with (3) 40 cm x 40 cm sub-plots.
 
 ```{r adjust area sampled for only ponderosa site}
 heber_paired_plot_2021_method1 <- 
@@ -142,7 +145,7 @@ heber_paired_plot_2021_method1 %>%
 print(heber_paired_plot_2021_method1)
 ```
 
-Now that we have a column representing `SampleArea` and we can calculate the grams per meter[^2] for each exclosure.
+Now that we have a column representing `SampleArea` and we can calculate the grams per meter^2^ for each exclosure.
 
 ```{r add "GramsPerMeter" column for method 1}
 heber_paired_plot_2021_method1 <- 
@@ -201,7 +204,7 @@ heber_paired_plot_2021_method2$TotalDryWt <- heber_paired_plot_2021_method2 %>%
 print(heber_paired_plot_2021_method2)
 ```
 
-The `MethodType` column represents whether we clipped the entire exclosure plot ("Entire Plot"), or if we clipped 3 sub-plots inside of each exclosure ("Sub Plots"). Create a new column `SampleArea` that represents the area sampled by _each sub-plot_. Since we mixed-methods and clipped the entire plot at Only Ponderosa, we will set that to equal 1 m[^2] and all the other sub-plots to equal (1) 40cm x 40cm quadrat.
+The `MethodType` column represents whether we clipped the entire exclosure plot ("Entire Plot"), or if we clipped 3 sub-plots inside of each exclosure ("Sub Plots"). Create a new column `SampleArea` that represents the area sampled by _each sub-plot_. Since we mixed-methods and clipped the entire plot at Only Ponderosa, we will set that to equal 1 m^2^ and all the other sub-plots to equal (1) 40cm x 40cm quadrat.
 
 ```{r create "SampleArea" column for each sub-plot method 2}
 heber_paired_plot_2021_method2 <- heber_paired_plot_2021_method2 %>% 
@@ -214,7 +217,7 @@ heber_paired_plot_2021_method2 <- heber_paired_plot_2021_method2 %>%
 print(heber_paired_plot_2021_method2)
 ```
 
-Then we create a column with the grams per meter[^2].
+Then we create a column with the grams per meter^2^.
 
 ```{r add "GramsPerMeter" column for each sub-plot method 2}
 heber_paired_plot_2021_method2 <- 
@@ -254,7 +257,7 @@ heber_paired_plot_2021_method2_site_summary <- heber_paired_plot_2021_method2_si
 print(heber_paired_plot_2021_method2_site_summary)
 ```
 
-And then convert grams per meter[^2] to pounds per acre so we can use units more commonly used in rangeland management when discussion production at the pasture scale.
+And then convert grams per meter^2^ to pounds per acre so we can use units more commonly used in rangeland management when discussion production at the pasture scale.
 
 ```{r convert "GramsPerMeter" to "LbsPerAcre" method 2}
 heber_paired_plot_2021_method2_site_summary <- 
