@@ -1,3 +1,11 @@
+###########################################################################
+###########################################################################
+###                                                                     ###
+###               SECTION 1: BACKGROUND AND CONFIGURATION               ###
+###                                                                     ###
+###########################################################################
+###########################################################################
+
 ## Horse-Cattle-Elk Grazing Interaction Study Rproj
 ## Step 2: Match Subject Photo Text Files and Copy to Subjects Sub-Folder
 
@@ -10,21 +18,91 @@
 ## csv file from "01-extract-image-paths.R" containing all photos in a collection (this csv file needs to be located in the "metadata" sub-folder within the collection)
 ## subject text files (these text files need to be located in the "metadata" sub-folder within the collection)
 
-# clear the R environment
-rm(list=ls(all=TRUE))
+############################################################################
+############################################################################
+###                                                                      ###
+###                    SECTION 2: SETUP R ENVIRONMENT                    ###
+###                                                                      ###
+############################################################################
+############################################################################
 
 # set the working directory and environment variables
-source(paste0(getwd(), "/environment.R"))
+source("~/grazing-interaction/environment.R")
 
-# load in the required libraries
-source(paste0(currentwd, "/packages.R"))
+# load in the required packages
+source("~/grazing-interaction/packages.R")
 
-sessionInfo()
+############################################################################
+############################################################################
+###                                                                      ###
+###                 SECTION 3: SELECT FOLDERS TO EXTRACT                 ###
+###                                                                      ###
+############################################################################
+############################################################################
 
-tic("run entire script")
+# TODO remove the Boolean switch and
+is_single_folder <- TRUE
 
-# read in the csv file that contains the metadata for all photos in the collection folder (e.g., BRL_06052019_07022019)
-all_photos_in_collection <- read.csv(paste0(path_to_collection_folder, paste0("/metadata/", collection_folder, ".csv")))
+# initialize an empty object to hold paths to the folders we want to extract
+path_to_collection_folder <- NULL
+
+# create a variable to hold the file name in case we switch to a different project
+# and the file name is different we can switch it once here
+file <- "Heber Project Kanban.md"
+
+# read in the kanban board for the Heber project
+heber_project_kanban <- readr::read_lines(file.path("~",
+                                                    "grazing-interaction",
+                                                    "docs",
+                                                    "heber-project-notes",
+                                                    file),
+                                          skip_empty_rows = FALSE,
+                                          progress = readr::show_progress()
+                                          )
+
+# heading patterns to find
+folders_to_chunk_heading_regex <- "^##\\sFolders\\sto\\sChunk"
+
+folders_to_upload_to_Box_heading_regex <- "^##\\sFolders\\sto\\sUpload\\sto\\sBox\\sfor\\sSCORING"
+
+# create and index of the two headings
+# we want what's in between the headings
+folders_to_chunk_heading_index <- stringr::str_which(
+  heber_project_kanban, pattern = folders_to_chunk_heading_regex)
+
+folders_to_upload_to_Box_heading_index <- stringr::str_which(
+  heber_project_kanban, pattern = folders_to_upload_to_Box_heading_regex)
+
+# add 1 because we don't want to include the first heading
+# subtract 1 because we don't want to include the last heading
+# subset the kanban board using these indexes
+
+folders_to_chunk <- heber_project_kanban[
+  (folders_to_chunk_heading_index + 1):(folders_to_upload_to_Box_heading_index - 1)]
+
+folders_to_chunk_regex_pattern <- "[[:upper:]][[:upper:]][[:upper:]]_\\d{8}_\\d{8}"
+
+folders_to_chunk_pattern_matches <- stringr::str_extract(folders_to_chunk,
+                                                    pattern = folders_to_chunk_regex_pattern)
+
+# return only the pattern matches that were not NA
+folders_to_chunk <- folders_to_chunk_pattern_matches[
+  is.na(folders_to_chunk_pattern_matches) == FALSE]
+
+############################################################################
+############################################################################
+###                                                                      ###
+###             SECTION 4: EXTRACT SUBJECTS FROM EACH FOLDER             ###
+###                                                                      ###
+############################################################################
+############################################################################
+
+# TODO update file paths using file.path() and readr::read_csv()
+
+# read in the csv file that contains the metadata for all photos in the collection folder
+# (e.g., BRL_06052019_07022019)
+all_photos_in_collection <- read.csv(paste0(path_to_collection_folder,
+                                            paste0("/metadata/", collection_folder, ".csv")))
 
 # read in the text files from the metadata sub-folder
 # be careful not to put any other files with the file extension ".txt" inside of the metadata sub-folder because this function will read them in to R
@@ -57,15 +135,15 @@ all_subjects_vector <- NULL
 # use this for loop to read in all of subject text files and append (add) them to the vector
 for (i in 1:length(subject_txt_files)){
   subjects_from_text_file <- readLines(con <- file(subject_txt_files[i], encoding = "UTF-16LE"), warn = TRUE)
-  
+
   if (length(subjects_from_text_file) != 0) {
-    
+
     number_of_lines_in_text_file <- length(subjects_from_text_file)
-    
+
     all_subjects_vector <- append(all_subjects_vector, subjects_from_text_file[3:number_of_lines_in_text_file])
-    
+
   } else{
-      
+
     }
   }
 
@@ -100,7 +178,7 @@ if (nrow(all_subjects_tibble_drop_na) != nrow(all_subjects_tibble)){
                      nrow(all_subjects_tibble)-nrow(all_subjects_tibble_drop_na),
                      " ",
                      "NAs in the subject text files")
-  
+
   RPushbullet::pbPost(type = "note", title = "Warning", body = msg_body)
 }
 
@@ -111,7 +189,7 @@ closeAllConnections()
 all_subjects_vector_drop_na <- as.character(all_subjects_tibble_drop_na$path)
 
 # the character strings are stored in the R environment as \\ (double-backslashes) which are reserved characters
-# replace these reserved characters with a single forward-slash, which is how R reads in file paths 
+# replace these reserved characters with a single forward-slash, which is how R reads in file paths
 # (Windows 10 uses a single back-slash for file paths)
 all_subjects_vector_string_replaced <- str_replace_all(all_subjects_vector_drop_na, "\\\\", "/")
 
@@ -140,10 +218,10 @@ second_to_last_object <- num_data_objects - 1
 
 # keep_last_object <- all_subjects_string_split[[1]][last_object[1]]
 # keep_last_object
-# 
+#
 # keep_second_to_last_object <- all_subjects_string_split[[1]][second_to_last_object[1]]
 # keep_second_to_last_object
-# 
+#
 # first_all_subjects_rebound <- str_c(keep_second_to_last_object, keep_last_object, sep = "/", collapse = "")
 # first_all_subjects_rebound
 
@@ -152,13 +230,13 @@ keep_last_object <- NULL
 keep_second_to_last_object <- NULL
 
 for (i in 1:length(all_subjects_string_split)) {
-  
+
   keep_last_object[i] <- all_subjects_string_split[[i]][last_object[i]]
-  
+
   print(keep_last_object[i])
 
   keep_second_to_last_object[i] <- all_subjects_string_split[[i]][second_to_last_object[i]]
-  
+
   print(keep_second_to_last_object[i])
 
   all_subjects_keep_last_two_splits[i] <- str_c(keep_second_to_last_object[i],
@@ -268,7 +346,7 @@ all_photos_in_collection_drop_files_with_0size <- dplyr::filter(all_photos_in_co
 excelfilename <- paste0(paste(collection_folder, "matched_subject_photos", sep = "_"), ".csv")
 
 # write the new csv to the working directory
-# we can use this new file at a later point (for machine learning) to identify empty photos from photos with something in them 
+# we can use this new file at a later point (for machine learning) to identify empty photos from photos with something in them
 write.csv(all_photos_in_collection_drop_files_with_0size, file = paste0(path_to_collection_folder, "/metadata/", excelfilename), row.names=F)
 
 # now that we have identified which files contain subjects by reading in the text files created by IrFanView
@@ -286,7 +364,7 @@ to <- paste0(path_to_collection_folder, "/subjects")
 if (dir.exists(paste0(path_to_collection_folder, "/subjects")) == FALSE) {
   dir.create(paste0(path_to_collection_folder, "/subjects"))
 } else {
-  
+
 }
 
 # copy the photos containing subjects into the folders locations defined in the previous step
