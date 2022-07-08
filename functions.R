@@ -656,7 +656,7 @@ cameratraps_path_constructor <-
     cameratraps_folders_to_chunk <-
       data.frame(
         "site" = stringr::str_extract(folders_to_chunk,
-                                      pattern = "[[:upper:]][[:upper:]][[:upper:]]"),
+                                      pattern = "([[:upper:]][[:upper:]][[:upper:]]|[[:upper:]]\\d{2})"),
         "collection_folder" = folders_to_chunk
       )
     # matching on the first three letters to construct file paths
