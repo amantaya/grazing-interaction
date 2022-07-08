@@ -51,7 +51,7 @@ path_to_data_input_folder <- file.path("", "home", "rstudio", "work", "data", "i
 # this is the path to the data folder on a local file system
 path_to_local_data <- file.path("~", "grazing-interaction", "data")
 
-# urrentwd <- "C:/Users/andre/Dropbox/Dev/grazing-interaction"
+path_to_local_cameratraps_folder <- file.path("", "home", "rstudio", "cameratraps")
 
 # Setup Environmental Variables -------------------------------------------
 
@@ -76,7 +76,7 @@ if (RPushbullet::pbValidateConf(conf = "~/.rpushbullet.json") == FALSE) {
   RPushbullet::pbSetup()
 }
 
-options(error = function() {
-  RPushbullet::pbPost("note", "Error", geterrmessage())
-  if(!interactive()) stop(geterrmessage())
-})
+# options(error = function() {
+#   RPushbullet::pbPost("note", "Error", geterrmessage())
+#   if(!interactive()) stop(geterrmessage())
+# })
