@@ -89,6 +89,9 @@ folders_to_chunk_pattern_matches <- stringr::str_extract(folders_to_chunk,
 folders_to_chunk <- folders_to_chunk_pattern_matches[
   is.na(folders_to_chunk_pattern_matches) == FALSE]
 
+# create a data frame with a "site" column that we can use to construct file paths
+cameratraps_folders_to_chunk <- cameratraps_path_constructor(folders_to_chunk)
+
 ############################################################################
 ############################################################################
 ###                                                                      ###
@@ -100,17 +103,24 @@ folders_to_chunk <- folders_to_chunk_pattern_matches[
 # TODO update file paths using file.path() and readr::read_csv()
 
 # read in the csv file that contains the metadata for all photos in the collection folder
-# (e.g., BRL_06052019_07022019)
-all_photos_in_collection <- read.csv(paste0(path_to_collection_folder,
-                                            paste0("/metadata/", collection_folder, ".csv")))
+
+
+for (i in 1:nrow(cameratraps_folders_to_chunk)) {
+  all_photos_in_collection <- read.csv(
+    file.path(cameratraps_folders_to_chunk$full_path[i],
+              "metadata",
+              paste0(cameratraps_folders_to_chunk$collection_folder[i], ".csv")
+    )
+  )
 
 # read in the text files from the metadata sub-folder
-# be careful not to put any other files with the file extension ".txt" inside of the metadata sub-folder because this function will read them in to R
-# TODO prevent reading in the "~all_subjects.txt" file in case this script is re-run on the same collection folder
-subject_txt_files <- list.files(paste0(path_to_collection_folder, "/metadata"), pattern = ".txt", full.names = TRUE)
+# be careful not to put any other files with the file extension ".txt"
+# inside of the metadata sub-folder because this function will read them in to R
+subject_txt_files <- list.files(file.path(cameratraps_folders_to_chunk$full_path[i], "metadata"),
+                                pattern = ".txt",
+                                full.names = TRUE)
 
-# print the list of files (stored in a character vector inside R) in the console to check which text files were read into the R environment
-subject_txt_files
+}
 
 # open a file connection to the first text file (inside of each text file is a list of photo files that contain subjects)
 # define the text file encoding explicitly because R has trouble recognizing this type of file encoding
