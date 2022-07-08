@@ -93,45 +93,10 @@ cameratraps2_pattern_matches <- stringr::str_extract(folders_that_need_metadata,
 
 cameratraps2_folders_to_extract <- cameratraps2_pattern_matches[is.na(cameratraps2_pattern_matches) == FALSE]
 
-# create a data frame with a "site" column that we can use to contruct file paths
-cameratraps_folders_df <-
-  data.frame("site" = stringr::str_extract(cameratraps_folders_to_extract,
-                                          pattern = "[[:upper:]][[:upper:]][[:upper:]]"),
-             "collection_folder" = cameratraps_folders_to_extract)
+# create a data frame with a "site" column that we can use to construct file paths
+cameratraps_folders_df <- cameratraps_path_constructor(cameratraps_folders_df)
 
-# TODO add the logic for the remaining sites
-
-# for (i in 1:nrow(cameratraps_folders_df)) {
-#   if (cameratraps_folders_df$site[i] == "BRL") {
-#     cameratraps_folders_df$relative_path[i] <- file.path("~", "cameratraps", "bear", "timelapse")
-#   } else if (cameratraps_folders_df$site[i] == "BKT") {
-#     cameratraps_folders_df$relative_path[i] <- file.path("~", "cameratraps", "blackcanyon", "trail")
-#   } else if (cameratraps_folders_df$site[i] == "HPL") {
-#     cameratraps_folders_df$relative_path[i] <- file.path("~", "cameratraps", "holdingpasture", "timelapse")
-#   } else if (cameratraps_folders_df$site[i] == "OPO") {
-#     cameratraps_folders_df$relative_path[i] <- file.path("~", "cameratraps", "onlyponderosa", "timelapse")
-#   } else if (nrow(cameratraps_folders_df) == 0) {
-#     cameratraps_folders_df <- NULL
-#   }
-# }
-
-
-# cameratraps_folders_df$full_path <- file.path(
-#   cameratraps_folders_df$relative_path, cameratraps_folders_df$collection_folder)
-#
-# # create file paths for the "cameratraps" folders
-# path_to_collection_folder <- cameratraps_folders_df$full_path
-
-
-cameratraps2_folders_df <-
-  data.frame("site" = stringr::str_extract(cameratraps2_folders_to_extract,
-                                           pattern = "[[:upper:]][[:upper:]][[:upper:]]\\d\\d"),
-             "collection_folder" = cameratraps2_folders_to_extract)
-
-cameratraps2_folders_df$relative_path <- file.path("~", "cameratraps2", cameratraps2_folders_df$site)
-
-cameratraps2_folders_df$full_path <- file.path(
-  cameratraps2_folders_df$relative_path, cameratraps2_folders_df$collection_folder)
+cameratraps2_folders_df <- cameratraps2_path_constructor(cameratraps2_folders_to_extract)
 
 # create file paths for the "cameratraps" folders
 folders_to_extract_df <- dplyr::bind_rows(cameratraps_folders_df, cameratraps2_folders_df)
