@@ -8,10 +8,6 @@ kanban-plugin: basic
 
 
 
-## Heber Project Kanban
-
-
-
 ## Daily Tasks
 
 - [ ] #task [2022-06-20-09-17-08-Daily-Tasks](2022-06-20-09-17-08-Daily-Tasks.md)
@@ -69,6 +65,7 @@ kanban-plugin: basic
 
 ## Folders to Upload to Box and Cyverse for SORTING
 
+- [ ] #task BRL_06222021_07232021 #heber2021photos
 - [ ] #task BRL_07202018_10192018 #heber2018photos
 - [ ] #task BRL_02132018_02282018 #heber2018photos
 - [ ] #task SHT30_20210525_20210622 #cameratraps2/2021
@@ -175,27 +172,27 @@ kanban-plugin: basic
 
 
 
-## Folders to Chunk
+## Folders to Match Subject Photos
 
-- [ ] #task FLO_20210806_20210820 #heber2021photos
+
+
+## Folders to Chunk Subject Photos
+
+- [ ] #task A51_20210724_20210804 #heber2021photos
+- [ ] #task A51_06222021_06252021 #heber2021photos
+- [ ] #task A51_20210804_20210817 #heber2021photos
+- [ ] #task A51_05282021_06222021 #heber2021photos
+- [ ] #task A51_06252021_07162021 #heber2021photos
+- [ ] #task OPO_06212021_06252021 #heber2021photos
+- [ ] #task OPO_20210723_20210805 #heber2021photos
+- [ ] #task BRL_05282021_06222021 #heber2021photos
+- [ ] #task HPL_05282021_06212021 #heber2021photos
+- [ ] #task BRL_20210805_20211001 #heber2021photos
+- [ ] #task BRL_20210723_20210805 #heber2021photos
 - [ ] #task FLO_20210723_20210806 #heber2021photos
 - [ ] #task FLO_06232021_07232021 #heber2021photos
 - [ ] #task FLO_05282021_06112021 #heber2021photos
-- [ ] #task BRL_20210723_20210805 #heber2021photos
-- [ ] #task BRL_20210805_20211001 #heber2021photos
-- [ ] #task HPL_05282021_06212021 #heber2021photos
-- [ ] #task A51_06252021_07162021 #heber2021photos
-- [ ] #task BRL_05282021_06222021 #heber2021photos
-- [ ] #task A51_05282021_06222021 #heber2021photos
-- [ ] #task BRL_05282021_06222021 #heber2021photos
-- [ ] #task BRL_06222021_07232021 #heber2021photos
-- [ ] #task BRL_20210723_20210805 #heber2021photos
-- [ ] #task BRL_20210805_20211001 #heber2021photos
-- [ ] #task A51_20210804_20210817 #heber2021photos
-- [ ] #task OPO_20210723_20210805 #heber2021photos
-- [ ] #task A51_20210724_20210804 #heber2021photos
-- [ ] #task A51_06222021_06252021 #heber2021photos
-- [ ] #task OPO_06212021_06252021 #heber2021photos
+- [ ] #task FLO_20210806_20210820 #heber2021photos
 
 
 ## Folders to Copy into Blank Macro
