@@ -8,6 +8,10 @@ kanban-plugin: basic
 
 
 
+## Heber Project Kanban
+
+
+
 ## Daily Tasks
 
 - [ ] #task [2022-06-20-09-17-08-Daily-Tasks](2022-06-20-09-17-08-Daily-Tasks.md)
@@ -53,6 +57,14 @@ kanban-plugin: basic
 - [ ] #task BRL_08292017_09152017  #heber2017photos
 - [ ] #task BRL_08132017_08142017 #heber2017photos
 - [ ] #task BRL_07212017_08132017 #heber2017photos
+- [ ] #task BRL_07132017_07212017 #heber2017photos
+- [ ] #task BRL_08292017_09152017  #heber2017photos
+- [ ] #task BRL_07212017_08132017 #heber2017photos
+- [ ] #task BRL_08132017_08142017 #heber2017photos
+- [ ] #task BRL_02132018_02282018 #heber2018photos
+- [ ] #task BRL_05102018_07202018 #heber2018photos
+- [ ] #task BRL_07202018_10192018 #heber2018photos
+- [ ] #task BRL_03062018_04112018 #heber2018photos
 
 
 ## Folders to Upload to Box and Cyverse for SORTING
@@ -184,15 +196,11 @@ kanban-plugin: basic
 - [ ] #task A51_20210724_20210804 #heber2021photos
 - [ ] #task A51_06222021_06252021 #heber2021photos
 - [ ] #task OPO_06212021_06252021 #heber2021photos
+
+
+## Folders to Copy into Blank Macro
+
 - [ ] #task BKN_07022019_08132019 #heber2019photos
-- [ ] #task BRL_02132018_02282018 #heber2018photos
-- [ ] #task BRL_03062018_04112018 #heber2018photos
-- [ ] #task BRL_05102018_07202018 #heber2018photos
-- [ ] #task BRL_07132017_07212017 #heber2017photos
-- [ ] #task BRL_07202018_10192018 #heber2018photos
-- [ ] #task BRL_07212017_08132017 #heber2017photos
-- [ ] #task BRL_08132017_08142017 #heber2017photos
-- [ ] #task BRL_08292017_09152017  #heber2017photos
 
 
 ## Folders to Upload to Box for SCORING
