@@ -76,7 +76,7 @@ if (RPushbullet::pbValidateConf(conf = "~/.rpushbullet.json") == FALSE) {
   RPushbullet::pbSetup()
 }
 
-# options(error = function() {
-#   RPushbullet::pbPost("note", "Error", geterrmessage())
-#   if(!interactive()) stop(geterrmessage())
-# })
+options(error = function() {
+  RPushbullet::pbPost("note", "Error", geterrmessage())
+  if(!interactive()) stop(geterrmessage())
+})
