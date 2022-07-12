@@ -4,7 +4,7 @@
     "type": "split",
     "children": [
       {
-        "id": "4073fcf63d7eb8ef",
+        "id": "4788cb43b84bb251",
         "type": "leaf",
         "state": {
           "type": "kanban",
@@ -38,7 +38,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:#wm2017photos",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -55,11 +55,13 @@
               "state": {}
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "horizontal",
-    "width": 381.5
+    "width": 473.5,
+    "collapsed": true
   },
   "right": {
     "id": "0d993284571b1591",
@@ -128,24 +130,24 @@
             }
           }
         ],
-        "currentTab": 4
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
     "width": 300,
     "collapsed": true
   },
-  "active": "4073fcf63d7eb8ef",
+  "active": "4788cb43b84bb251",
   "lastOpenFiles": [
     "docs/heber-project-notes/Heber Project Kanban.md",
-    "docs/heber-project-notes/heber-photo-tasks-main-list.md",
-    "docs/heber-project-notes/heber-photo-data-to-do-list.md",
-    "Untitled.md",
-    "docs/heber-project-notes/Daubenmire.md",
-    "docs/white-mountains-project-notes/white-mountains-main-task-list.md",
-    "docs/white-mountains-project-notes/boggy-wildcat-photo-data-to-do-list.md",
-    "docs/heber-project-notes/cameratraps2-photo-data-to-do-list.md",
-    "docs/heber-project-notes/Heber 2019 Stubble Height Figures.md",
-    "docs/heber-project-notes/WCS_05152018_06092018 is missing some sub-folders.md"
+    "2022-07-11-15-29-14 What I Accomplished Last Week.md",
+    "docs/heber-project-notes/2022-06-20-09-17-08-Daily-Tasks.md",
+    "docs/heber-project-notes/2022-06-20-heber-photo-data-todo-list.md",
+    "docs/heber-project-notes/2022-06-20-cameratraps2-photo-data-todo-list.md",
+    "2022-07-06-09-37-39 Idea for Quality Control Samples when Calculating Paired-Plot.md",
+    "2022-07-05-13-19-13 Steps for Getting ML Working.md",
+    "docs/2022-06-27-11-12-17 Daily Tasks.md",
+    "docs/2022-07-01-09-38-11 camera trap machine learning repo.md",
+    "docs/2022-06-28-11-02-51.md"
   ]
 }

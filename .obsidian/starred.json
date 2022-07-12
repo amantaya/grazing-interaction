@@ -24,6 +24,11 @@
       "type": "file",
       "title": "White Mountains Project Kanban",
       "path": "white-mountains-project-notes/White Mountains Project Kanban.md"
+    },
+    {
+      "type": "file",
+      "title": "Heber Project Kanban",
+      "path": "docs/heber-project-notes/Heber Project Kanban.md"
     }
   ]
 }
