@@ -4,10 +4,6 @@ kanban-plugin: basic
 
 ---
 
-## Heber Project Kanban
-
-
-
 ## Daily Tasks
 
 - [ ] #task [2022-06-20-09-17-08-Daily-Tasks](2022-06-20-09-17-08-Daily-Tasks.md)
@@ -159,13 +155,8 @@ kanban-plugin: basic
 
 ## SORTING Assignments Awaiting Completion by Students
 
-- [ ] #task BRL_06222021_07232021 #heber2021photos
 - [ ] #task HPL_06212021_07232021 #heber2021photos
-- [ ] #task HPL_20210723_20210805 #heber2021photos
-- [ ] #task HPL_20210805_20290907 #heber2021photos
 - [ ] #task OPO_05282021_06212021 #heber2021photos
-- [ ] #task OPO_06252021_07232021 #heber2021photos
-- [ ] #task OPO_20210805_20210816 #heber2021photos
 
 
 ## Folders to Copy Subject Photos to Sub-Folder on Hard Drive
@@ -178,8 +169,22 @@ kanban-plugin: basic
 
 ## Folders to Chunk Subject Photos
 
-- [ ] #task A51_20210724_20210804 #heber2021photos
+
+
+## Folders to Copy into Blank Macro
+
+
+
+## Folders to Upload to Box for SCORING
+
+- [ ] #task BKN_07022019_08132019 #heber2019photos
+- [ ] #task OPO_20210805_20210816 #heber2021photos
+- [ ] #task HPL_20210805_20290907 #heber2021photos
+- [ ] #task HPL_20210723_20210805 #heber2021photos
+- [ ] #task BRL_06222021_07232021 #heber2021photos
+- [ ] #task OPO_06252021_07232021 #heber2021photos
 - [ ] #task A51_06222021_06252021 #heber2021photos
+- [ ] #task A51_20210724_20210804 #heber2021photos
 - [ ] #task A51_20210804_20210817 #heber2021photos
 - [ ] #task A51_05282021_06222021 #heber2021photos
 - [ ] #task A51_06252021_07162021 #heber2021photos
@@ -193,15 +198,6 @@ kanban-plugin: basic
 - [ ] #task FLO_06232021_07232021 #heber2021photos
 - [ ] #task FLO_05282021_06112021 #heber2021photos
 - [ ] #task FLO_20210806_20210820 #heber2021photos
-
-
-## Folders to Copy into Blank Macro
-
-- [ ] #task BKN_07022019_08132019 #heber2019photos
-
-
-## Folders to Upload to Box for SCORING
-
 - [ ] BKS_01112018_02132018 #task #heber2018photos
 - [ ] BKS_02132018_02232018 #task #heber2018photos
 - [ ] BKS_05102018_07202018 #task #heber2018photos
