@@ -3,6 +3,7 @@
 kanban-plugin: basic
 
 ---
+# White Mountains Project Kanban
 
 ## Daily Tasks
 
@@ -156,6 +157,10 @@ kanban-plugin: basic
 ## Folders to Upload to Box for SCORING
 - [ ] WCX_09082020_11092020 #wm2020photos #task
 - [ ] WCS_5min_07302019_09182019 #wm2019photos #task
+- [ ] BGT_07302019_09182019_subjects_chunk1 #task #wm2019photos
+- [ ] BGT_07302019_09182019_subjects_chunk2 #task #wm2019photos
+- [ ] BGT_07302019_09182019_subjects_chunk3 #task #wm2019photos
+- [ ] BGT_07302019_09182019_subjects_chunk4 #task #wm2019photos 
 
 ## Chunks That Are Missing or Need to Be Completed
 - [ ] WCS_5min_07132020_09072020_subjects_chunk2 #wm2020photos #task 
