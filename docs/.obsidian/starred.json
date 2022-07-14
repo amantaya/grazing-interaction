@@ -1,0 +1,34 @@
+{
+  "items": [
+    {
+      "type": "file",
+      "title": "Hotkeys",
+      "path": "Hotkeys.md"
+    },
+    {
+      "type": "file",
+      "title": "Websites to Check Out",
+      "path": "Things I Still Need to Learn/Websites to Check Out.md"
+    },
+    {
+      "type": "file",
+      "title": "heber-photo-tasks-main-list",
+      "path": "heber-project-notes/heber-photo-tasks-main-list.md"
+    },
+    {
+      "type": "file",
+      "title": "Heber Project Kanban",
+      "path": "heber-project-notes/Heber Kanban.md"
+    },
+    {
+      "type": "file",
+      "title": "White Mountains Project Kanban",
+      "path": "white-mountains-project-notes/White Mountains Project Kanban.md"
+    },
+    {
+      "type": "file",
+      "title": "Heber Project Kanban",
+      "path": "docs/heber-project-notes/Heber Project Kanban.md"
+    }
+  ]
+}
