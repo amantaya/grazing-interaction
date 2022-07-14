@@ -344,3 +344,5 @@ msg_body <-
 
 RPushbullet::pbPost(type = "note", title = "Script Completed", body = msg_body)
 }
+
+# TODO once this scripts completed, move the collection folder to the next task

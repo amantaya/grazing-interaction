@@ -45,6 +45,8 @@ if (project_switch == "heber") {
   blankmacro <- "HorseImaging-2021-Heber.xlsm"
 } else if (project_switch == "white mountains") {
   blankmacro <- "HorseImaging-2020-White-Mountains.xlsm"
+} else if (project_switch == "heber motion") {
+    blankmacro <- "HorseImaging-2021-Heber-Motion.xlsm"
 } else {
   warning("The project has not been selected or was entered incorrectly.")
 }
@@ -255,7 +257,7 @@ to <- temp_folder_for_uploading_chunk
 # copy the chunks onto my local drive for upload
 file.copy(from = from, to = to, recursive = TRUE)
 
-toc()
+# toc()
 
 system_time <- Sys.time()
 
@@ -267,3 +269,4 @@ msg_body <- paste("04-copy-chunk-to-blank-macro.R", "ran on folder", cameratraps
 RPushbullet::pbPost(type = "note", title = "Script Completed", body = msg_body)
 
 }
+

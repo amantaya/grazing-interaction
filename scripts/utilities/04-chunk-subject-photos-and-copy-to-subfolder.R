@@ -205,3 +205,5 @@ msg_body <- paste("03-chunk-subject-photos-and-copy-to-subfolder.R", "ran on fol
 
 RPushbullet::pbPost(type = "note", title = "Script Completed", body = msg_body)
 }
+
+# TODO once this scripts completed, move the collection folder to the next task
