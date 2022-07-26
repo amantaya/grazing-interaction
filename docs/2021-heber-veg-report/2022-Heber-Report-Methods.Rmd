@@ -1,0 +1,383 @@
+---
+title: "2022 Heber Report- Methods"
+author: "Andrew Antaya"
+date: "`r lubridate::now(tzone = 'US/Arizona')`"
+output:
+  bookdown::word_document2:
+    toc: yes
+    toc_depth: 3
+    keep_md: yes
+bibliography: references.bib
+citation_package: biblatex
+csl: rangeland-ecology-and-management.csl
+link-citations: yes
+editor_options:
+  markdown:
+    wrap: 72
+---
+
+# Methods
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      dpi = 300)
+knitr::opts_knit$set(root.dir = "~/grazing-interaction")
+
+source("~/grazing-interaction/environment.R")
+source("~/grazing-interaction/packages.R")
+source("~/grazing-interaction/functions.R")
+
+flextable::set_flextable_defaults(
+  font.size = 10, 
+  theme_fun = theme_box,
+  text.align = "center",
+  fonts_ignore = TRUE,
+  background.color = "#EFEFEF")
+```
+
+## Study Area
+
+We conducted this study on the Black Mesa Ranger District of the
+Apache-Sitgreaves National Forests, near Heber-Overgaard, in
+east-central Arizona. This study took place on the \~19,500 acre Heber
+Wild Horse Territory (HWHT) and off the territory on adjacent lands of
+Black Mesa Ranger District of the A-S National Forests.
+
+We monitored 2 grazing allotments, the Heber Allotment, consisting of
+the Gentry, Bunger, and H.P. (Holding Pasture) pastures, and the Black
+Canyon Allotment, consisting of the Sharp Hollow, King Phillip, and
+Stermer pastures. Pastures may have some or all of their boundaries
+within the HWHT. Practically speaking, it is difficult to delineate the
+physical boundary of the HWHT, as no physical barrier prevents grazing
+animals from entering or leaving the HWHT, rather grazing animals are
+confined to boundaries of each pasture (breaks in fencing
+notwithstanding). This report covers monitoring that occurred from June
+2021 to November 2021. The University of Arizona has been monitoring
+some of these sites since 2017 with data from these studies published in
+previous reports.
+
+```{r label='Map of Study Area', echo=FALSE, fig.cap='Location of Motion Cameras (Blue), Time-lapse Cameras (Red), and Addtional Vegetation Monitoring Sites (Green) within the Heber Wild Horse Territory (HWHT) and on adjacent lands of the Apache-Sitgreaves National Forests, Black Mesa Ranger District.'}
+
+knitr::include_graphics(
+  file.path("images/2021-Heber-Camera-and-Vegetation-Sites-University-of-Arizona.jpg"))
+
+```
+
+## Site Selection
+
+### Motion Cameras
+
+We selected motion camera monitoring sites using a stratified-random
+design. We split the study area into two parts, pasture or portions of
+pastures within the boundaries of the HWHT, and pastures or portions of
+pastures that were outside of the HWHT. We generated random points for
+each area that were stratified by Terrestrial Ecosystem Unit (TEUs) to
+ensure that we captured a range of vegetation types on and off the HWHT.
+From these stratified random points, we selected 15 sites on the HWHT
+and 10 sites off the HWHT on adjacent lands. We chose an un-even
+distribution of camera sites because our focus was on movements within
+the HWHT and we wanted to prioritize capturing movements of animals
+within the HWHT.
+
+### Time-lapse Cameras
+
+For time-lapse camera sites we selected 3 new sites in 2021 (Holding Pasture, Fire Lookout, and Only Ponderosa) as key areas based on the recommendations
+of USFS Range Managers. Key areas are areas that a likely to show a
+response to management actions
+[@coulloudonUtilizationStudiesResidual1999]. Bear and Fifty-One were
+time-lapse monitoring sites previously established in key areas in 2017
+and 2019, respectively.
+
+### Additional Vegetation Monitoring Sites
+
+We then chose 5 more vegetation monitoring sites as key areas based on
+feedback from USFS range management personnel. These key areas were
+identified as areas of potential high use/congregation of horses based
+on aerial observations of horses by USFS personnel conducted in 2021. We
+recognize that these key areas may not be necessarily representative of
+vegetation attributes for each pasture, but represent areas that are
+potentially impacted by high use and are of concern for range managers.
+To select these 5 additional sites, we first generated additional
+stratified random points using the same criteria we used to select
+motion camera sites. We then selected stratified random points that fell
+within the key areas identified by USFS range management personnel.
+
+```{r Heber Site Constructor, include=FALSE}
+heber_2021_canopy_cover <- 
+  readr::read_csv(file.path(currentwd,
+                          "data",
+                          "canopy-cover",
+                          "heber",
+                          "2021-heber-canopy-cover-summarized-by-species.csv"))
+
+heber_2021_canopy_cover <- heber_2021_canopy_cover %>% 
+  dplyr::rename(Site = SiteID)
+
+heber_veg_sites <- heber_2021_canopy_cover %>% 
+  pull(Site) %>% 
+  unique() %>% 
+  as_tibble() %>% 
+  tidyr::drop_na() %>% 
+  dplyr::rename(Site = value)
+
+heber_veg_sites <- heber_veg_sites %>% dplyr::mutate(Allotment = 
+                                    dplyr::if_else(
+                                      Site == "SHPT" | 
+                                        Site == "KPPJT" | 
+                                        Site == "STPO",
+                                      "Black Canyon",
+                                      "Heber")
+                                  )
+
+for (i in 1:nrow(heber_veg_sites)) {
+  if (heber_veg_sites$Site[i] == "BRL") {
+    heber_veg_sites$Pasture[i] <- "Bunger"
+  } else if (heber_veg_sites$Site[i] == "A51") {
+    heber_veg_sites$Pasture[i] <- "Bunger"
+  } else if (heber_veg_sites$Site[i] == "OPO1") {
+    heber_veg_sites$Pasture[i] <- "Bunger"
+  } else if (heber_veg_sites$Site[i] == "HPT") {
+    heber_veg_sites$Pasture[i] <- "HP" 
+  } else if (heber_veg_sites$Site[i] == "FLO1") {
+    heber_veg_sites$Pasture[i] <- "Gentry"
+  } else if (heber_veg_sites$Site[i] == "GETPBG") {
+    heber_veg_sites$Pasture[i] <- "Gentry"
+  } else if (heber_veg_sites$Site[i] == "GETO") {
+    heber_veg_sites$Pasture[i] <- "Gentry"
+  } else if (heber_veg_sites$Site[i] == "SHPT") {
+    heber_veg_sites$Pasture[i] <- "Sharp Hollow"
+  } else if (heber_veg_sites$Site[i] == "KPPJT") {
+    heber_veg_sites$Pasture[i] <- "King Phillip"
+  } else if (heber_veg_sites$Site[i] == "STPO") {
+    heber_veg_sites$Pasture[i] <- "Stermer"
+  }
+}
+
+for (i in 1:nrow(heber_veg_sites)) {
+  if (heber_veg_sites$Site[i] == "BRL") {
+    heber_veg_sites$`Within Territory`[i] <- "Yes"
+  } else if (heber_veg_sites$Site[i] == "A51") {
+    heber_veg_sites$`Within Territory`[i] <- "No"
+  } else if (heber_veg_sites$Site[i] == "OPO1") {
+    heber_veg_sites$`Within Territory`[i] <- "No"
+  } else if (heber_veg_sites$Site[i] == "HPT") {
+    heber_veg_sites$`Within Territory`[i] <- "No" 
+  } else if (heber_veg_sites$Site[i] == "FLO1") {
+    heber_veg_sites$`Within Territory`[i] <- "Yes"
+  } else if (heber_veg_sites$Site[i] == "GETPBG") {
+    heber_veg_sites$`Within Territory`[i] <- "Yes"
+  } else if (heber_veg_sites$Site[i] == "GETO") {
+    heber_veg_sites$`Within Territory`[i] <- "No"
+  } else if (heber_veg_sites$Site[i] == "SHPT") {
+    heber_veg_sites$`Within Territory`[i] <- "Yes"
+  } else if (heber_veg_sites$Site[i] == "KPPJT") {
+    heber_veg_sites$`Within Territory`[i] <- "Yes"
+  } else if (heber_veg_sites$Site[i] == "STPO") {
+    heber_veg_sites$`Within Territory`[i] <- "No"
+  }
+}
+
+for (i in 1:nrow(heber_veg_sites)) {
+  if (heber_veg_sites$Site[i] == "BRL") {
+    heber_veg_sites$`Time-Lapse Camera?`[i] <- "Yes"
+  } else if (heber_veg_sites$Site[i] == "A51") {
+    heber_veg_sites$`Time-Lapse Camera?`[i] <- "Yes"
+  } else if (heber_veg_sites$Site[i] == "OPO1") {
+    heber_veg_sites$`Time-Lapse Camera?`[i] <- "Yes"
+  } else if (heber_veg_sites$Site[i] == "HPT") {
+    heber_veg_sites$`Time-Lapse Camera?`[i] <- "Yes" 
+  } else if (heber_veg_sites$Site[i] == "FLO1") {
+    heber_veg_sites$`Time-Lapse Camera?`[i] <- "Yes"
+  } else if (heber_veg_sites$Site[i] == "GETPBG") {
+    heber_veg_sites$`Time-Lapse Camera?`[i] <- "No"
+  } else if (heber_veg_sites$Site[i] == "GETO") {
+    heber_veg_sites$`Time-Lapse Camera?`[i] <- "No"
+  } else if (heber_veg_sites$Site[i] == "SHPT") {
+    heber_veg_sites$`Time-Lapse Camera?`[i] <- "No"
+  } else if (heber_veg_sites$Site[i] == "KPPJT") {
+    heber_veg_sites$`Time-Lapse Camera?`[i] <- "No"
+  } else if (heber_veg_sites$Site[i] == "STPO") {
+    heber_veg_sites$`Time-Lapse Camera?`[i] <- "No"
+  }
+}
+
+print(heber_veg_sites)
+
+heber_veg_sites_df <- as.data.frame(heber_veg_sites)
+```
+
+```{r label='Table-Heber-Veg-Sites-Summary', echo=FALSE, ft_show_coltype=FALSE, tab.cap="Vegetation monitoring sites were established in key areas identified by USFS range management personnel and were selected by a stratified random design based on Terrestrial Ecosystem Unit. At all 10 vegetation monitoring sites, we measured species canopy cover (i.e. Daubenmire) and landscape appearance. Sites with time-lapse cameras also received 5 grazing exclosures for estimating production and utilization with the paired-plot method."}
+
+flextable::df_printer(heber_veg_sites_df)
+```
+
+### Paired-Plot
+
+At the 5 time-lapse monitoring sites, we estimated production and
+utilization with the paired-plot method
+[@rexforddaubenmireCanopycoverageMethodVegetational1959] . We placed (5)
+1 m^2^ grazing exclosures randomly at each site (except for the
+Fifty-One site where we accidentally placed 6 exclosures). Establishing
+grazing exclosures is labor intensive, and we were constrained to
+monitoring 5 sites. We decided to establish grazing exlosure plots at
+only the time-lapse sites with the intention of relating the paired-plot
+estimates to the time-lapse camera data. Grazing exclosures plots were
+established in June 2021 before summer monsoon rainfall and potential
+corresponding vegetation response.
+
+```{r label="Photo Grazing Exclosures at Bear", echo=FALSE, fig.cap="Example of three grazing exclosures at the Bear site, July 2021."}
+knitr::include_graphics("images/2021-bear-grazing-exclosures.JPG")
+```
+
+We clipped each of the (5) 1 m^2^ grazing exclosures in November 2021.
+We used has two types of clipping methodologies. At the Only Ponderosa
+site there was very little vegetation inside of the grazing exclosures
+we clipped the entire 1 m^2^ exclosure plot. Therefore the bag weights
+related to Only Ponderosa represent a larger clipped area than bags
+clipped from other sites. We account for this difference in sample area
+during analysis. At all other sites, we clipped (3) 40cm x 40cm
+sub-plots inside of each 1 m^2^ exclosure plot. Clipping 3 sub-plots at
+the center of each exclosure potentially negates any grazing that might
+occur on the perimeter of the exclosure plot.
+
+```{r Heber Paired Plot Site Summary, include=FALSE}
+heber_paired_plot_2021_site_summary <- 
+readr::read_csv(file.path(currentwd,
+                           "data",
+                           "production",
+                           "heber",
+                           "csv",
+                           "2021-heber-paired-plot-method1-site-summary.csv"))
+
+n_exclosure_plots_clipped <- 
+heber_paired_plot_2021_site_summary %>% 
+  dplyr::filter(PlotType == "Exclosure") %>% 
+  mutate(SampleArea = dplyr::if_else(Site == "Only Ponderosa",
+                                     "Entire 1 m² plot",
+                                     "(3) 40 cm x 40 cm sub-plots",
+                                     NA_character_)) %>% 
+  dplyr::select(-c("variable", "mean", "sd", "ci", "PlotType")) %>% 
+  dplyr::mutate(n = as.character(n)) %>% 
+  dplyr::rename("Number of Exclosure Plots" = n) %>% 
+  dplyr::rename("Clipped Sample Area" = SampleArea)
+```
+
+
+```{r Table-Heber-Paired-Plot-Site-Summary, echo=FALSE, ft_show_coltype=FALSE, tab.cap="Number of Exclosure Plots Clipped at Each Site."}
+
+# ft <- flextable::flextable(n_exclosure_plots_clipped) %>% 
+#   flextable::autofit(add_w = 0.2, add_h = 0.2) %>% 
+#   flextable::align(align = "center", part = "all") 
+# 
+# flextable::body_add_flextable(ft)
+
+flextable::df_printer(n_exclosure_plots_clipped)
+```
+
+Bags with grass clipping were dried at 60 °C for 48 hours. To get the
+net weight of dried clippings in each bag, we subtracted the dried bag
+weight when full of clippings from the bag weight when empty.
+
+```{r Calculate Total Sample Area, include=FALSE}
+# length of quadrat dimension X (in centimeters)
+dim_x <- units::set_units(40, cm)
+
+# length of quadrat dimension Y (in centimeters)
+dim_y <- units::set_units(40, cm)
+
+# calculate the area of the sampling frame in centimeters
+sample_area_cm <- dim_x*dim_y
+
+sample_area_m <- units::set_units(sample_area_cm, m^2)
+
+# number of sampling frames/sub-plots
+n_frames <- 3
+
+# calculate total area of three 40cm x 40cm sub-plots
+total_area_cm <- sample_area_cm*n_frames
+
+# convert to meters squared
+total_area_three_frames_m2 <-  set_units(total_area_cm, m^2)
+```
+
+We combined bag weights from 3 sub-plots together for each exclosure
+plot (with the exception of the Only Ponderosa site). We converted the
+bag weights to g/m^2^ by dividing the weight in grams by the area
+sampled, `r total_area_three_frames_m2` m^2^ for all sites except for
+the Only Ponderosa site, which was 1 m^2^. We estimated production at
+each site by taking the average g/m^2^ for all exclosure plots at each
+site.
+
+```{r Calculate Sample Area 1 Frame, include=FALSE}
+# length of quadrat dimension X (in centimeters)
+dim_x <- units::set_units(40, cm)
+
+# length of quadrat dimension Y (in centimeters)
+dim_y <- units::set_units(40, cm)
+
+# calculate the area of the sampling frame in centimeters
+sample_area_cm <- dim_x*dim_y
+
+sample_area_m <- units::set_units(sample_area_cm, m^2)
+
+# number of sampling frames/sub-plots
+n_frames <- 1
+
+# calculate total area of three 40cm x 40cm sub-plots
+total_area_cm <- sample_area_cm*n_frames
+
+# convert to meters squared
+total_area_one_frame_m2 <-  set_units(total_area_cm, m^2)
+```
+
+For the residual plots, we randomly placed (10) 40cm x 40cm plots at
+each site in November 2021 at the same time when we clipped the
+exclosure plots. We clipped, dried, and weighed each residual plot using
+the same methods as we did for the exclosure plots. We converted bag
+weights to g/m^2^ by dividing the weight in grams by the area sampled
+`r total_area_one_frame_m2` m^2^. We estimated the amount of vegetation
+remaining at each site by taking the average g/m^2^ for all residual
+plots at each site. We then converted from g/m^2^ to lbs/acre^2^. To
+estimate utilization, we divided the average production at each site by
+the average residual amount remaining at each site.
+
+## Daubenmire
+
+At all 10 vegetation monitoring sites, we also estimated plant cover by
+species with the Daubenmire method
+[@rexforddaubenmireCanopycoverageMethodVegetational1959]. At each
+vegetation monitoring site, we established (2) 50-pace linear transects,
+parallel and separated by 5-paces, starting at the GPS point. We used a
+40 cm x 40 cm handled sampling frame typical for rangeland monitoring.
+We did not use the 20 cm x 50 cm frame described by
+@rexforddaubenmireCanopycoverageMethodVegetational1959 because in
+practice, handled sampling frames are more efficiently used than 20cm x
+50 cm frames. We placed the sampling frame centered at the point nearest
+to our right foot, and each point was separated by 1 pace. We then
+estimated the percentage of each frame occupied by each plant species as
+1 of 6 classes, 0-5%, 5-25%, 25-50%, 50-75%, 75-95%, and 95-100%
+[@rexforddaubenmireCanopycoverageMethodVegetational1959] . Where we
+could not reliably establish species, we used plant genius instead. We
+summarized plant cover at each site by averaging the class mid-point for
+each species detected at each site.
+
+```{r Photo Monitoring GETPBG, echo=FALSE, fig.cap="Monitoring At the GETPBG site, November 2021."}
+knitr::include_graphics("images/monitoring-GETPBG.jpg")
+```
+
+## Landscape Appearance
+
+At all 10 vegetation monitoring sites, we also estimated utilization
+from the landscape appearance method. It is important to note that
+landscape appearance appears to give a *quantitative* estimate of
+utilization but in reality is a *qualitative* estimate of utilization
+[@smithGuideRangelandMonitoring2012]. We recorded 1 landscape appearance
+observation every 10 paces along each 50-pace transect while recording
+plant cover by species (i.e. Daubenmire method) for a total of 10
+landscape appearance observations per site. At each landscape appearance
+observation, we estimated the percent utilization based on written
+descriptions of 7 classes [@coulloudonUtilizationStudiesResidual1999].
+We calculated the average percent utilization at each site by taking the
+average of the class mid-point.
+
+## Literature Cited [Placeholder]
