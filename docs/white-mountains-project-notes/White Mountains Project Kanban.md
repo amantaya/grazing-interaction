@@ -94,7 +94,7 @@ kanban-plugin: basic
 
 ## Folders to Copy to Hard Drive
 
-## Folders to Upload to Box and Cyverse for SORTING
+## Folders to Upload for SORTING
 - [ ] WCS_04252018_05152018 #wm2018photos #task 
 - [ ] WCS_05152018_06092018 #wm2018photos #task 
 - [ ] WCS_05212019_06032019 #wm2019photos #task 
@@ -118,7 +118,8 @@ kanban-plugin: basic
 - [ ] BGW_09182019_09182019 #wm2019photos #task 
 - [ ] BGT_04182019_05212019 #wm2019photos #task
 - [ ] BGT_05212019_06042019 #wm2019photos #task 
-
+- [ ] #task WCS_07302019_09182019 #wm2019photos
+- [ ] #task WCS_06242019_07022019 #wm2019photos
 
 
 ## Folders to Add as Assignments to Basecamp for SORTING

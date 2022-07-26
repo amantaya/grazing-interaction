@@ -1,7 +1,7 @@
 # Heber-Photo-Tasks-Query
 // Requires the "Tasks" plugin for Obsidian to generate a tasks query.
 
-[Heber Project Kanban](Heber%20Project%20Kanban.md)
+[Heber Kanban](Heber%20Kanban.md)
 
 ## 2017
 ```tasks
