@@ -35,7 +35,7 @@ RUN R -e "install.packages('pwr', dependencies=TRUE, repos='http://cran.rstudio.
 RUN R -e "install.packages('hms', dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('styler', dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('lintr', dependencies=TRUE, repos='http://cran.rstudio.com/')"
-RUN R -e "install.packages('formatR', dependencies=TRUE, repos='http://cran.rstudio.com/')"
+RUN R -e "remotes::install_version('format', version = 1.12, repos = 'https://cran.r-project.org/')"
 RUN R -e "install.packages('RColorBrewer', dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('dlookr', dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('rmarkdown', dependencies=TRUE, repos='http://cran.rstudio.com/')"
