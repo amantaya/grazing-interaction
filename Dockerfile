@@ -6,7 +6,6 @@ LABEL org.opencontainers.image.authors="aantaya@arizona.edu"
 RUN apt-get update && apt-get install -y \
       libudunits2-dev
 
-
 RUN R -e "install.packages('remotes', repos = c(CRAN = 'https://cloud.r-project.org'))"
 RUN R -e "install.packages('pacman', dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('usethis', dependencies=TRUE, repos='http://cran.rstudio.com/')"
@@ -35,7 +34,7 @@ RUN R -e "install.packages('pwr', dependencies=TRUE, repos='http://cran.rstudio.
 RUN R -e "install.packages('hms', dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('styler', dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('lintr', dependencies=TRUE, repos='http://cran.rstudio.com/')"
-RUN R -e "remotes::install_version('format', version = 1.12, repos = 'https://cran.r-project.org/')"
+RUN R -e "remotes::install_version('formatR', version = 1.12, repos = 'https://cran.r-project.org/')"
 RUN R -e "install.packages('RColorBrewer', dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('dlookr', dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('rmarkdown', dependencies=TRUE, repos='http://cran.rstudio.com/')"
@@ -43,9 +42,6 @@ RUN R -e "install.packages('dplyr', dependencies=TRUE, repos='http://cran.rstudi
 RUN R -e "install.packages('tidyr', dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('units', dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "remotes::install_version('flextable', version = '0.7.2', repos = 'https://cran.r-project.org/')"
-RUN R -e "remotes::install_version('rticles', version = '0.0.23', repos = 'https://cran.r-project.org/')"
-RUN R -e "remotes::install_version('bookdown', version = '0.0.27', repos = 'https://cran.r-project.org/')"
+RUN R -e "remotes::install_version('rticles', version = '0.23', repos = 'https://cran.r-project.org/')"
+RUN R -e "remotes::install_version('bookdown', version = '0.27', repos = 'https://cran.r-project.org/')"
 RUN R -e "remotes::install_version('officedown', version = '0.2.4', repos = 'https://cran.r-project.org/')"
-
-# copy R Studio config preferences from repo into .config folder at runtime
-CMD R -e [ "system('cp ~/grazing-interaction/.rstudio/rstudio/rstudio-prefs.json ~/.config/rstudio/rstudio-prefs.json')" ]
