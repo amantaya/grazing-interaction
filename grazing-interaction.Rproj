@@ -20,5 +20,3 @@ QuitChildProcessesOnExit: Yes
 MarkdownWrap: Column
 MarkdownWrapAtColumn: 72
 MarkdownReferences: Block
-
-ZoteroLibraries: "My Library"
