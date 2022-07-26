@@ -7,9 +7,12 @@
         "id": "54ab807e12ad1e81",
         "type": "leaf",
         "state": {
-          "type": "kanban",
+          "type": "markdown",
           "state": {
-            "file": "docs/heber-project-notes/Heber Project Kanban.md"
+            "file": "docs/2022-07-15-09-34-17 Testing `Editor Syntax Highlight` plugin.md",
+            "mode": "source",
+            "backlinks": false,
+            "source": false
           }
         }
       }
@@ -55,13 +58,11 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "horizontal",
-    "width": 473.5,
-    "collapsed": true
+    "width": 473.5
   },
   "right": {
     "id": "0d993284571b1591",
@@ -77,7 +78,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "docs/heber-project-notes/Heber Project Kanban.md",
+                "file": "docs/2022-07-15-09-34-17 Testing `Editor Syntax Highlight` plugin.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -105,7 +106,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "docs/heber-project-notes/Heber Project Kanban.md",
+                "file": "docs/2022-07-15-09-34-17 Testing `Editor Syntax Highlight` plugin.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": false
               }
@@ -117,7 +118,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "docs/heber-project-notes/Heber Project Kanban.md"
+                "file": "docs/2022-07-15-09-34-17 Testing `Editor Syntax Highlight` plugin.md"
               }
             }
           },

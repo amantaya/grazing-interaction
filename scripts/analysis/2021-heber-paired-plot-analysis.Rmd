@@ -115,15 +115,7 @@ total_area_m2 <-  set_units(total_area_cm, m^2)
 
 print(total_area_m2)
 ```
-
-This is the total area sample by (3) 40cm x 40cm quadrats in meters^2^
-Take the reciprocal of the total area sampled by 3 quadrats. We want to know how much we need to multiply by get the total area sampled by three 40cm x 40cm quadrats to equal 1 m^2^.
-
-```{r Three Frame Conversion Value}
-three_frame_conversion <- as.numeric(1/total_area_m2)
-
-print(three_frame_conversion)
-```
+This is the area sampled by (3) 40cm x 40cm quadrats in meters^2^ `r total_area_m2`
 
 ## Summary Statistics
 
@@ -136,8 +128,7 @@ Here we group the data frame by site and plot, which generates 26 groups, a grou
 ```{r summarize exclosure plots by subsample}
 heber_paired_plot_2021_method1 <- 
 heber_paired_plot_2021 %>% 
-  dplyr::filter(PlotType == "Exclosure") %>% 
-  dplyr::group_by(Site, Plot) %>% 
+  dplyr::group_by(Site, PlotType, Plot) %>% 
   dplyr::summarize(TotalDryWt = sum(units::set_units(TotalDryWt, g)))
 print(heber_paired_plot_2021_method1)
 ```
@@ -147,10 +138,26 @@ As we mentioned, we sampled the entire 1 m^2^ plot at the Only Ponderosa site. W
 ```{r adjust area sampled for only ponderosa site}
 heber_paired_plot_2021_method1 <- 
 heber_paired_plot_2021_method1 %>% 
-  dplyr::mutate(SampleArea = dplyr::if_else(Site == "Only Ponderosa", # condition
-                                            units::set_units(1, m^2), # if true
-                                            units::set_units(total_area_m2, m^2), # if false
-                                            NA_real_) # if missing
+  dplyr::mutate(SampleArea = 
+                  dplyr::if_else(Site == "Only Ponderosa" 
+                                 & PlotType == "Exclosure", # condition
+                                 units::set_units(1, m^2), # if true
+                                 units::set_units(total_area_m2, m^2), # if false
+                                 NA_real_) # if missing
+  )
+print(heber_paired_plot_2021_method1)
+```
+
+The previous step assigned the incorrect sample area to the residual plots, so we need to fix that in this step. Residual plots are (1) 40cm x 40cm quadrat in size.
+
+```{r adjust area sampled for residual plots}
+heber_paired_plot_2021_method1 <- 
+heber_paired_plot_2021_method1 %>% 
+  dplyr::mutate(SampleArea = 
+                  dplyr::if_else(PlotType == "Residual", # condition
+                                 units::set_units(sample_area_m, m^2), # if true
+                                 SampleArea, # if false
+                                 NA_real_) # if missing
   )
 print(heber_paired_plot_2021_method1)
 ```
@@ -164,17 +171,30 @@ heber_paired_plot_2021_method1 %>%
 print(heber_paired_plot_2021_method1)
 ```
 
-Calculate summary statistics for exclosure plots by site using the `rstatix` package.
+Calculate summary statistics (sample size, mean, standard deviation, 95% confidence interval) for both types of plots by site using the `rstatix` package.
 
 ```{r calc summary stats for method 1}
 heber_paired_plot_2021_method1_site_summary <- 
 heber_paired_plot_2021_method1 %>% 
-  group_by(Site) %>% 
+  group_by(Site, PlotType) %>% 
   rstatix::get_summary_stats(GramsPerMeter, 
                              type = "common", 
                              show = c("n","mean","sd","ci"))
 print(heber_paired_plot_2021_method1_site_summary)
 ```
+
+```{r}
+readr::write_csv(heber_paired_plot_2021_method1_site_summary,
+                 file.path(currentwd,
+                           "data",
+                           "production",
+                           "heber",
+                           "csv",
+                           "2021-heber-paired-plot-method1-site-summary.csv"))
+```
+
+
+Standard deviation and confidence intervals are expressed in the original units, and for purposes of clarity, we will set the units for the SD and CI using the `units` package.
 
 ```{r set units on descriptive statistics method 1}
 heber_paired_plot_2021_method1_site_summary <- 
@@ -183,6 +203,8 @@ heber_paired_plot_2021_method1_site_summary %>%
   dplyr::mutate(ci = set_units(ci, g/m^2))
 print(heber_paired_plot_2021_method1_site_summary)
 ```
+
+Many rangeland managers use non-SI units to represent production values. Here we will convert grams per meter^2^ to pounds per acre^2^.
 
 ```{r convert GramsPerMeter to LbsPerAcre method 1}
 heber_paired_plot_2021_method1_site_summary <- 
@@ -203,6 +225,7 @@ First we will create an object that is a copy of the production data so we can e
 
 ```{r create copy of production data method 2}
 heber_paired_plot_2021_method2 <- heber_paired_plot_2021
+print(heber_paired_plot_2021_method2)
 ```
 
 Then we set the units for the weights of each sub-plot using the `units` package. Each bag represents the net weight (Total Weight of Bag + Clippings - Weight of Bag = Net Weight Clippings) that were dried in an oven at 60 deg C for at least 48 hours.
@@ -214,15 +237,23 @@ heber_paired_plot_2021_method2$TotalDryWt <- heber_paired_plot_2021_method2 %>%
 print(heber_paired_plot_2021_method2)
 ```
 
-The `MethodType` column represents whether we clipped the entire exclosure plot ("Entire Plot"), or if we clipped 3 sub-plots inside of each exclosure ("Sub Plots"). Create a new column `SampleArea` that represents the area sampled by _each sub-plot_. Since we mixed-methods and clipped the entire plot at Only Ponderosa, we will set that to equal 1 m^2^ and all the other sub-plots to equal (1) 40cm x 40cm quadrat.
+The `MethodType` column represents whether we clipped the entire exclosure plot (MethodType = Entire Plot), or if we clipped 3 sub-plots inside of each exclosure (MethodType = Sub Plots). Create a new column `SampleArea` that represents the area sampled by _each sub-plot_. Since we mixed-methods and clipped the entire exlclosure plot at Only Ponderosa, but at all other sites clipped (3) 40cm x 40cm sub-plots inside of each ex, we will set Only Ponderosa to equal 1 m^2^ and all the other sites' sub-plots to equal (1) 40cm x 40cm quadrat.
 
 ```{r create "SampleArea" column for each sub-plot method 2}
 heber_paired_plot_2021_method2 <- heber_paired_plot_2021_method2 %>% 
-  dplyr::filter(PlotType == "Exclosure") %>% 
-  dplyr::mutate(SampleArea = if_else((PlotType == "Exclosure" & MethodType == "Sub Plots"),
-                                     sample_area_m, # true
-                                     1, # false
-                                     NA_real_) # missing
+  dplyr::mutate(SampleArea = dplyr::if_else(MethodType == "Sub Plots",
+                                     units::set_units(sample_area_m, m^2), # if true
+                                     units::set_units(1, m^2), # if false
+                                     NA_real_) # if missing
+                )
+print(heber_paired_plot_2021_method2)
+```
+
+```{r adjust sample area for residual plots method 2}
+heber_paired_plot_2021_method2 <- heber_paired_plot_2021_method2 %>% 
+  dplyr::mutate(SampleArea = dplyr::if_else(PlotType == "Residual",
+                                     units::set_units(sample_area_m, m^2), # if true
+                                     SampleArea) # if false
                 )
 print(heber_paired_plot_2021_method2)
 ```
@@ -231,34 +262,62 @@ Then we create a column with the grams per meter^2^.
 
 ```{r add "GramsPerMeter" column for each sub-plot method 2}
 heber_paired_plot_2021_method2 <- 
-  heber_paired_plot_2021_method2 %>% mutate(GramsPerMeter = TotalDryWt / SampleArea)
+  heber_paired_plot_2021_method2 %>% 
+  mutate(GramsPerMeter = TotalDryWt / SampleArea)
 print(heber_paired_plot_2021_method2)
 ```
 
 Calculate the summary stats for Method 2 using the sub-plot averages to generate an average production estimate for each plot. Similar to Method 1, we are grouping by site and plot and then getting summary stats using the `rstatix` package.
 
+```{r}
+heber_paired_plot_2021_method2 %>% 
+  group_by(Site, PlotType, Plot) %>% group_keys()
+```
+
+
 ```{r calc summary stats for each plot using sub-plot averages}
 heber_paired_plot_2021_method2_subplot_summary <- heber_paired_plot_2021_method2 %>% 
-  dplyr::filter(PlotType == "Exclosure") %>% 
-  group_by(Site, Plot) %>% 
+  group_by(Site, PlotType, Plot) %>% 
   rstatix::get_summary_stats(GramsPerMeter, 
                              type = "common", 
                              show = c("n", "mean", "sd", "ci"))
 print(heber_paired_plot_2021_method2_subplot_summary)
 ```
 
+```{r}
+readr::write_csv(heber_paired_plot_2021_method2_subplot_summary, 
+                 file.path(currentwd, 
+                           "data", 
+                           "production", 
+                           "heber", 
+                           "csv",
+                           "2021-heber-paired-plot-method2-subplot-summary.csv")
+                 )
+```
+
+
 Then we generate an average production estimate for each site by averaging the plots.
 
 ```{r calc summary stats for each site using plot averages}
 heber_paired_plot_2021_method2_site_summary <- heber_paired_plot_2021_method2_subplot_summary %>% 
-  group_by(Site) %>% 
+  group_by(Site, PlotType) %>% 
   rstatix::get_summary_stats(mean,
                              type = "common", 
                              show = c("n", "mean", "sd", "ci"))
 print(heber_paired_plot_2021_method2_site_summary)
 ```
+```{r}
+readr::write_csv(heber_paired_plot_2021_method2_site_summary,
+                 file.path(currentwd,
+                           "data",
+                           "production",
+                           "heber",
+                           "csv",
+                           "2021-heber-paired-plot-method2-site-summary.csv"))
+```
 
-Set the units for the standard deviation and the confidence interval using the `units` package. Setting the units for these descriptive statistics helps us understand the variability and spread of the data in relateable units.
+
+Set the units for the standard deviation and the confidence interval using the `units` package. Setting the units for these descriptive statistics helps us understand the variability and spread of the data in understandable units.
 
 ```{r set units on descriptive statistics method 2}
 heber_paired_plot_2021_method2_site_summary <- heber_paired_plot_2021_method2_site_summary %>%
@@ -267,7 +326,7 @@ heber_paired_plot_2021_method2_site_summary <- heber_paired_plot_2021_method2_si
 print(heber_paired_plot_2021_method2_site_summary)
 ```
 
-And then convert grams per meter^2^ to pounds per acre so we can use units more commonly used in rangeland management when discussion production at the pasture scale.
+And then convert grams per meter^2^ to pounds per acre^2^ so we can use units more commonly used in rangeland management when discussing production at the pasture scale.
 
 ```{r convert "GramsPerMeter" to "LbsPerAcre" method 2}
 heber_paired_plot_2021_method2_site_summary <- 

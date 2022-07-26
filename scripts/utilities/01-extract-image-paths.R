@@ -43,6 +43,9 @@ source("~/grazing-interaction/environment.R")
 # load in the required packages
 source("~/grazing-interaction/packages.R")
 
+# load in the required functions
+source("~/grazing-interaction/functions.R")
+
 ############################################################################
 ############################################################################
 ###                                                                      ###

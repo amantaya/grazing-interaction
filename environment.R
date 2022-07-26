@@ -28,28 +28,33 @@ system("git config --global --add safe.directory /home/rstudio/grazing-interacti
 
 # Setup File Paths --------------------------------------------------------
 
-# set the working directory to the default mount location in the Docker container
-# the empty quotes causes file.path() to add a backslash before the first folder
-setwd(file.path("", "home", "rstudio", "grazing-interaction"))
-#
 # check the current working directory and store it in an object for future reference
-# this is where the code is temporarily stored
-# IT WILL BE ERASED WHEN THE CONTAINER STOPS
+# the empty quotes causes file.path() to add a backslash before the first folder
+
 currentwd <- file.path("", "home", "rstudio", "grazing-interaction")
-#
-# # Setup file paths to cameratraps data
+
+# set the working directory to the default mount location in the Docker container
+setwd(currentwd)
+
+
+# Paths to Data on Cyverse ------------------------------------------------
+
+# path to "cameratraps" data on Cyverse
 path_to_cameratraps_folder <- file.path("", "home", "rstudio", "work", "data", "iplant", "home", cyverse_username, "cameratraps")
-#
+
+# path to "cameratraps2" data on Cyverse
 path_to_cameratraps2_folder <- file.path("", "home", "rstudio", "work", "data", "iplant", "home", cyverse_username, "cameratraps2")
-#
-# # this is the path to Cyverse user folder
+
+# path to user folder on Cyverse
 path_to_user_folder <- file.path("", "home", "rstudio", "work", "data", "iplant", "home", cyverse_username)
-#
-# # this is the path to input data that we copied to the Docker container
+
+# path to input data that we copied or mounted to the Docker container
 path_to_data_input_folder <- file.path("", "home", "rstudio", "work", "data", "input", "grazing_data", "data")
 
+# Paths to Local Data -----------------------------------------------------
+
 # this is the path to the data folder on a local file system
-path_to_local_data <- file.path("~", "grazing-interaction", "data")
+path_to_local_data <- file.path("", "grazing-interaction", "data")
 
 path_to_local_cameratraps_folder <- file.path("", "home", "rstudio", "cameratraps")
 
@@ -63,6 +68,7 @@ options(digits = 2)
 
 sessioninfo <- utils::sessionInfo()
 
+# TODO I could move this to the docker image
 # copy my rstudio preferences into the config folder
 system("cp ~/grazing-interaction/.rstudio/rstudio/rstudio-prefs.json ~/.config/rstudio/rstudio-prefs.json")
 
@@ -72,11 +78,11 @@ system("cp ~/grazing-interaction/.rstudio/rstudio/rstudio-prefs.json ~/.config/r
 # RPushbullet::pbSetup()
 
 # warn if you are missing a rpushbullet config file
-if (RPushbullet::pbValidateConf(conf = "~/.rpushbullet.json") == FALSE) {
-  RPushbullet::pbSetup()
-}
+# if (RPushbullet::pbValidateConf(conf = "~/.rpushbullet.json") == FALSE) {
+#   RPushbullet::pbSetup()
+# }
 
-options(error = function() {
-  RPushbullet::pbPost("note", "Error", geterrmessage())
-  if(!interactive()) stop(geterrmessage())
-})
+# options(error = function() {
+#   RPushbullet::pbPost("note", "Error", geterrmessage())
+#   if(!interactive()) stop(geterrmessage())
+# })

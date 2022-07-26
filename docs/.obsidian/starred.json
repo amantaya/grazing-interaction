@@ -18,7 +18,7 @@
     {
       "type": "file",
       "title": "Heber Project Kanban",
-      "path": "heber-project-notes/Heber Kanban.md"
+      "path": "heber-project-notes/Heber Project Kanban.md"
     },
     {
       "type": "file",
@@ -29,6 +29,11 @@
       "type": "file",
       "title": "Heber Project Kanban",
       "path": "docs/heber-project-notes/Heber Project Kanban.md"
+    },
+    {
+      "type": "file",
+      "title": "Heber Kanban",
+      "path": "heber-project-notes/Heber Kanban.md"
     }
   ]
 }

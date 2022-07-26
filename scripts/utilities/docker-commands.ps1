@@ -3,7 +3,7 @@
 
 # docker run -d -e DISABLE_AUTH=true --rm -p 127.0.0.1:80:8787 -v C:/Users/andre/Dropbox/Dev/grazing-interaction:/home/rstudio/grazing-interaction amantaya/rocker_verse_grazing:4.0.5
 
-docker run -d -e DISABLE_AUTH=true -e ROOT=TRUE --rm -p 127.0.0.1:8787:8787 -v C:/Users/andre/Dropbox/Dev/grazing-interaction:/home/rstudio/grazing-interaction -v C:/Users/andre/Box/ -v G:/cameratraps:/home/rstudio/cameratraps -v G:/cameratraps2:/home/rstudio/cameratraps2 amantaya/rocker-verse:4.0.5
+docker run -d -e DISABLE_AUTH=true -e ROOT=TRUE --rm -p 127.0.0.1:8787:8787 -v C:/Users/andre/Dropbox/Dev/grazing-interaction:/home/rstudio/grazing-interaction -v G:/cameratraps:/home/rstudio/cameratraps -v G:/cameratraps2:/home/rstudio/cameratraps2 amantaya/rocker-verse:4.0.5
 
 #docker run -d -e DISABLE_AUTH=true --rm -p 127.0.0.1:8787:8787 -v C:/Users/andre/Dropbox/Dev/grazing-interaction:/home/rstudio/grazing-interaction amantaya/rocker-verse:4.0.5
 

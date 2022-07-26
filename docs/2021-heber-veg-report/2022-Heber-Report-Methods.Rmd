@@ -3,33 +3,24 @@ title: "2022 Heber Report- Methods"
 author: "Andrew Antaya"
 date: "`r lubridate::now(tzone = 'US/Arizona')`"
 output:
-  word_document: 
+  bookdown::word_document2:
     toc: yes
-    fig_caption: yes
+    toc_depth: 3
     keep_md: yes
-  citation_package: biblatex
-  html_document:
-    theme: readable
-    toc: yes
-    toc_depth: 5
-    fig_caption: yes
-  pdf_document: 
-    toc: yes
-    fig_caption: yes
-    number_sections: yes
-    keep_tex: yes
-subtitle:
 bibliography: references.bib
+citation_package: biblatex
+csl: rangeland-ecology-and-management.csl
 link-citations: yes
 editor_options:
   markdown:
     wrap: 72
 ---
 
-# 2022 Heber Report- Methods
+# Methods
 
-```{r Setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      dpi = 300)
 knitr::opts_knit$set(root.dir = "~/grazing-interaction")
 
 source("~/grazing-interaction/environment.R")
@@ -40,8 +31,8 @@ flextable::set_flextable_defaults(
   font.size = 10, 
   theme_fun = theme_box,
   text.align = "center",
+  fonts_ignore = TRUE,
   background.color = "#EFEFEF")
-flextable::use_df_printer()
 ```
 
 ## Study Area
@@ -65,8 +56,11 @@ notwithstanding). This report covers monitoring that occurred from June
 some of these sites since 2017 with data from these studies published in
 previous reports.
 
-```{r Photo: Map of Study Area, echo=FALSE, fig.width=6.5, fig.height=5, fig.cap="Location of Motion Cameras (Blue), Time-lapse Cameras (Red), and Addtional Vegetation Monitoring Sites (Green) within the Heber Wild Horse Territory (HWHT) and on adjacent lands of the Apache-Sitgreaves National Forests, Black Mesa Ranger District."}
-knitr::include_graphics("docs/pubs/images/2021-Heber-Camera-and-Vegetation-Sites-University-of-Arizona.jpg")
+```{r label='Map of Study Area', echo=FALSE, fig.cap='Location of Motion Cameras (Blue), Time-lapse Cameras (Red), and Addtional Vegetation Monitoring Sites (Green) within the Heber Wild Horse Territory (HWHT) and on adjacent lands of the Apache-Sitgreaves National Forests, Black Mesa Ranger District.'}
+
+knitr::include_graphics(
+  file.path("images/2021-Heber-Camera-and-Vegetation-Sites-University-of-Arizona.jpg"))
+
 ```
 
 ## Site Selection
@@ -143,7 +137,7 @@ for (i in 1:nrow(heber_veg_sites)) {
   } else if (heber_veg_sites$Site[i] == "OPO1") {
     heber_veg_sites$Pasture[i] <- "Bunger"
   } else if (heber_veg_sites$Site[i] == "HPT") {
-    heber_veg_sites$Pasture[i] <- "H.P." 
+    heber_veg_sites$Pasture[i] <- "HP" 
   } else if (heber_veg_sites$Site[i] == "FLO1") {
     heber_veg_sites$Pasture[i] <- "Gentry"
   } else if (heber_veg_sites$Site[i] == "GETPBG") {
@@ -208,10 +202,13 @@ for (i in 1:nrow(heber_veg_sites)) {
 }
 
 print(heber_veg_sites)
+
+heber_veg_sites_df <- as.data.frame(heber_veg_sites)
 ```
 
-```{r Heber Veg Sites Summary Table, echo=FALSE, fig.cap="Vegetation monitoring sites were established in key areas identified by USFS range management personnel and were selected by a stratified random design based on Terrestrial Ecosystem Unit. Sites with time-lapse cameras also received 5 grazing exclosures for the paired-plot method. At all vegetation monitoring sites, we measured species canopy cover i.e. Daubenmire and landscape appearance." }
-print(heber_veg_sites)
+```{r label='Table-Heber-Veg-Sites-Summary', echo=FALSE, ft_show_coltype=FALSE, tab.cap="Vegetation monitoring sites were established in key areas identified by USFS range management personnel and were selected by a stratified random design based on Terrestrial Ecosystem Unit. At all 10 vegetation monitoring sites, we measured species canopy cover (i.e. Daubenmire) and landscape appearance. Sites with time-lapse cameras also received 5 grazing exclosures for estimating production and utilization with the paired-plot method."}
+
+flextable::df_printer(heber_veg_sites_df)
 ```
 
 ### Paired-Plot
@@ -228,8 +225,8 @@ estimates to the time-lapse camera data. Grazing exclosures plots were
 established in June 2021 before summer monsoon rainfall and potential
 corresponding vegetation response.
 
-```{r Photo: Grazing Exclosures at Bear, echo=FALSE, fig.height=5, fig.width=6.5, fig.cap="Example of three grazing exclosures at the Bear site, July 2021."}
-knitr::include_graphics("docs/pubs/images/2021-bear-grazing-exclosures.JPG")
+```{r label="Photo Grazing Exclosures at Bear", echo=FALSE, fig.cap="Example of three grazing exclosures at the Bear site, July 2021."}
+knitr::include_graphics("images/2021-bear-grazing-exclosures.JPG")
 ```
 
 We clipped each of the (5) 1 m^2^ grazing exclosures in November 2021.
@@ -259,13 +256,14 @@ heber_paired_plot_2021_site_summary %>%
                                      "Entire 1 m² plot",
                                      "(3) 40 cm x 40 cm sub-plots",
                                      NA_character_)) %>% 
-  dplyr::select(-c("variable", "mean", "sd", "ci")) %>% 
+  dplyr::select(-c("variable", "mean", "sd", "ci", "PlotType")) %>% 
   dplyr::mutate(n = as.character(n)) %>% 
   dplyr::rename("Number of Exclosure Plots" = n) %>% 
   dplyr::rename("Clipped Sample Area" = SampleArea)
 ```
 
-```{r Heber Paired Plot Site Summary Table, echo=FALSE, tab.cap="Number of Exclosure Plots Clipped at Each Site"}
+
+```{r Table-Heber-Paired-Plot-Site-Summary, echo=FALSE, ft_show_coltype=FALSE, tab.cap="Number of Exclosure Plots Clipped at Each Site."}
 
 # ft <- flextable::flextable(n_exclosure_plots_clipped) %>% 
 #   flextable::autofit(add_w = 0.2, add_h = 0.2) %>% 
@@ -273,7 +271,7 @@ heber_paired_plot_2021_site_summary %>%
 # 
 # flextable::body_add_flextable(ft)
 
-print(n_exclosure_plots_clipped)
+flextable::df_printer(n_exclosure_plots_clipped)
 ```
 
 Bags with grass clipping were dried at 60 °C for 48 hours. To get the
@@ -355,7 +353,7 @@ We did not use the 20 cm x 50 cm frame described by
 @rexforddaubenmireCanopycoverageMethodVegetational1959 because in
 practice, handled sampling frames are more efficiently used than 20cm x
 50 cm frames. We placed the sampling frame centered at the point nearest
-to our right toes, and each point was separated by 1 pace. We then
+to our right foot, and each point was separated by 1 pace. We then
 estimated the percentage of each frame occupied by each plant species as
 1 of 6 classes, 0-5%, 5-25%, 25-50%, 50-75%, 75-95%, and 95-100%
 [@rexforddaubenmireCanopycoverageMethodVegetational1959] . Where we
@@ -363,8 +361,8 @@ could not reliably establish species, we used plant genius instead. We
 summarized plant cover at each site by averaging the class mid-point for
 each species detected at each site.
 
-```{r Photo: Monitoring GETPBG, echo=FALSE, fig.height=5, fig.width=6.5, fig.cap="Monitoring At the GETPBG site"}
-knitr::include_graphics("docs/pubs/images/monitoring-GETPBG.jpg")
+```{r Photo Monitoring GETPBG, echo=FALSE, fig.cap="Monitoring At the GETPBG site, November 2021."}
+knitr::include_graphics("images/monitoring-GETPBG.jpg")
 ```
 
 ## Landscape Appearance
