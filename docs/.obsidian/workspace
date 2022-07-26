@@ -4,7 +4,7 @@
     "type": "split",
     "children": [
       {
-        "id": "087287cc6575890a",
+        "id": "b5db31f103bfb5ac",
         "type": "leaf",
         "state": {
           "type": "kanban",
@@ -38,7 +38,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "kan",
+                "query": "heber kan",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -55,12 +55,11 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "horizontal",
-    "width": 284,
+    "width": 473.5,
     "collapsed": true
   },
   "right": {
@@ -120,6 +119,14 @@
                 "file": "heber-project-notes/Heber Kanban.md"
               }
             }
+          },
+          {
+            "id": "f5b9f7ce238b927c",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {}
+            }
           }
         ]
       }
@@ -128,17 +135,17 @@
     "width": 300,
     "collapsed": true
   },
-  "active": "087287cc6575890a",
+  "active": "b5db31f103bfb5ac",
   "lastOpenFiles": [
-    "white-mountains-project-notes/White Mountains Project Kanban.md",
     "heber-project-notes/Heber Kanban.md",
+    "2022-07-15-09-34-17.md",
+    "2022-07-14-14-46-21 Thoughts of Timing of Daubenmire.md",
+    "Zettlekasten Note Template.md",
+    "white-mountains-project-notes/White Mountains Project Kanban.md",
     "docs/2022-06-27-11-12-17 Daily Tasks.md",
     "docs/heber-project-notes/Heber Project Kanban.md",
     "docs/2022-06-28-15-57-12 Idea for Automatically Removing Assignments from Box.md",
     "docs/2022-06-20-11-09-19 Idea for Tracking Status of Each Camera Collection.md",
-    "docs/heber-project-notes/2022-06-20-09-17-08-Daily-Tasks.md",
-    "2022-07-12-17-55-12 Figure out Which Files are Correct.md",
-    "2022-07-11-15-29-14 What I Accomplished Last Week.md",
-    "2022-07-12-12-03-57.md"
+    "docs/heber-project-notes/2022-06-20-09-17-08-Daily-Tasks.md"
   ]
 }
