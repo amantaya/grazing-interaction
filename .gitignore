@@ -60,3 +60,5 @@ archived
 # ignore free file sync database
 *.ffs_db
 *.png
+*.docx
+*.pdf
