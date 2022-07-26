@@ -20,24 +20,26 @@ editor_options:
     wrap: 72
 ---
 
-# Setup
+## Setup
 
-```{r currentwd path}
-currentwd <- "/home/rstudio/grazing-interaction"
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      dpi = 300)
+knitr::opts_knit$set(root.dir = "~/grazing-interaction")
+
+source("~/grazing-interaction/environment.R")
+source("~/grazing-interaction/packages.R")
+source("~/grazing-interaction/functions.R")
+
+flextable::set_flextable_defaults(
+  font.size = 10, 
+  theme_fun = theme_box,
+  text.align = "center",
+  fonts_ignore = TRUE,
+  background.color = "#EFEFEF")
 ```
 
-```{r env setup}
-source(file.path(currentwd, "environment.R"))
-source(file.path(currentwd, "packages.R"))
-source(file.path(currentwd, "functions.R"))
-```
-
-```{r knitr setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_knit$set(root.dir = currentwd)
-```
-
-# Load Data
+## Load Data
 
 ```{r read csv}
 canopy_cover_df <- readr::read_csv(

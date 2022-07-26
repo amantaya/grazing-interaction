@@ -14,32 +14,21 @@ output:
 
 # Setup
 
-First, let's remove all objects from the environment to start fresh each time.
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      dpi = 300)
+knitr::opts_knit$set(root.dir = "~/grazing-interaction")
 
-```{r clear env}
-# clear the enviroment
-rm(list=ls(all=TRUE))
-```
+source("~/grazing-interaction/environment.R")
+source("~/grazing-interaction/packages.R")
+source("~/grazing-interaction/functions.R")
 
-Setup the R environment using a separate script. This helps me stay consistent with environmental variables that I use across multiple R scripts.
-
-```{r setup env}
-# the source() function executes all lines of code in the "mentioned" script (i.e. the pathway)
-source(paste0(getwd(), "/environment.R"))
-print(currentwd)
-```
-Check that the working directory is correct for your computer.
-
-Then, let's get our R environment ready by loading some useful packages.
-```{r load packages, include=FALSE}
-# "inlcude=FALSE" in the chunk evaluates the code, but doesn't write the output to the knitr document
-# loading packages involves alot of output in the console that we don't need in the knitr document
-# source(paste0(currentwd, "/packages.R"))
-```
-
-This separate R script contains all of the functions that I commonly use across multiple scripts. This chunk of code reads in those functions into the global R environment.
-```{r load functions}
-# source(paste0(currentwd, "/functions.R"))
+flextable::set_flextable_defaults(
+  font.size = 10, 
+  theme_fun = theme_box,
+  text.align = "center",
+  fonts_ignore = TRUE,
+  background.color = "#EFEFEF")
 ```
 
 ------------------------------------------------------------------------
