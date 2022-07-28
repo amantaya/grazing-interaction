@@ -19,7 +19,7 @@ editor_options:
   markdown:
     wrap: 72
 ---
-# Setup
+## Setup
 
 ```{r, setup, include=FALSE}}
 # set the working directory and environment variables
