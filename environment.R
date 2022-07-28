@@ -36,7 +36,6 @@ currentwd <- file.path("", "home", "rstudio", "grazing-interaction")
 # set the working directory to the default mount location in the Docker container
 setwd(currentwd)
 
-
 # Paths to Data on Cyverse ------------------------------------------------
 
 # path to "cameratraps" data on Cyverse
@@ -74,9 +73,9 @@ sessioninfo <- utils::sessionInfo()
 # RPushbullet::pbSetup()
 
 # warn if you are missing a rpushbullet config file
-# if (RPushbullet::pbValidateConf(conf = "~/.rpushbullet.json") == FALSE) {
-#   RPushbullet::pbSetup()
-# }
+if (RPushbullet::pbValidateConf(conf = "~/.rpushbullet.json") == FALSE) {
+  RPushbullet::pbSetup()
+  }
 
 # options(error = function() {
 #   RPushbullet::pbPost("note", "Error", geterrmessage())
