@@ -21,13 +21,17 @@ editor_options:
 ---
 # Setup
 
-```{r setup}
-source(file.path(currentwd, "environment.R"))
-source(file.path(currentwd, "packages.R"))
-source(file.path(currentwd, "functions.R"))
-```
+```{r, setup, include=FALSE}}
+# set the working directory and environment variables
+source("~/grazing-interaction/environment.R")
 
-```{r knitr setup, include=FALSE}
+# load in the required packages
+source("~/grazing-interaction/packages.R")
+
+# load in the required functions
+source("~/grazing-interaction/functions.R")
+
 knitr::opts_chunk$set(echo = TRUE)
+
 knitr::opts_knit$set(root.dir = currentwd)
 ```
