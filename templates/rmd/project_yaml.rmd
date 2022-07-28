@@ -21,7 +21,7 @@ editor_options:
 ---
 ## Setup
 
-```{r, setup, include=FALSE}}
+```{r setup, include=FALSE}}
 # set the working directory and environment variables
 source("~/grazing-interaction/environment.R")
 
