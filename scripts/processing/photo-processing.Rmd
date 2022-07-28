@@ -490,7 +490,7 @@ all_photo_data <- dplyr::bind_rows(data_2017_clean_dates,
 print(all_photo_data)
 ```
 
-```{r}
+```{r arrange by site name}
 all_photo_data <- all_photo_data %>% dplyr::arrange(Site)
 
 print(all_photo_data)
