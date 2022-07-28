@@ -34,4 +34,11 @@ source("~/grazing-interaction/functions.R")
 knitr::opts_chunk$set(echo = TRUE)
 
 knitr::opts_knit$set(root.dir = currentwd)
+
+flextable::set_flextable_defaults(
+  font.size = 10, 
+  theme_fun = theme_box,
+  text.align = "center",
+  fonts_ignore = TRUE,
+  background.color = "#EFEFEF")
 ```
