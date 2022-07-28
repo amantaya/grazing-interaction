@@ -592,7 +592,7 @@ save.first.three.parts.of.strings <- function(file_names_string_split){
 # **Output:**
 # Writes out a csv file that has all of the chunks recombined together, in order.
 
-recombine.chunks<- function(site, path){
+recombine.chunks <- function(site, path){
 
   deployments <- unique(site$deploydate)
 
@@ -600,7 +600,7 @@ recombine.chunks<- function(site, path){
 
     site_filtered <- filter(site, deploydate == deployments[i])
 
-    site_filtered_data <- file.path(path, site_filtered$relpath) %>% lapply(readr::read_csv) %>% bind_rows()
+    site_filtered_data <- file.path(path, site_filtered$relpath) %>% lapply(readr::read_csv) %>% dplyr::bind_rows()
 
     # create a file name string
     filename <- paste(unique(site_filtered$sitecode),
