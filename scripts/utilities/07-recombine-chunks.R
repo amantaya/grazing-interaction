@@ -1,5 +1,5 @@
 ## Horse-Cattle-Elk Grazing Interaction Study Rproj
-## Step 5: Convert Excel Scoring Macro (XLSM) to CSV and Recombine CSV Chunks
+## Step 7: Convert Excel Scoring Macro (XLSM) to CSV and Recombine CSV Chunks
 
 ## What this script does:
 ## Scans a file directory for XLSM files (hopefully completed XLSM)
@@ -11,43 +11,27 @@
 ## Must specify the location of the folder containing XLSM files
 ## Must specify where to write out CSV files
 
-# clear the R environment
-rm(list=ls(all=TRUE))
+# set the working directory and environment variables
+source("~/grazing-interaction/environment.R")
 
-source(paste0(getwd(), "/environment.R"))
+# load in the required packages
+source("~/grazing-interaction/packages.R")
 
-print(currentwd)
-
-# load in the required libraries
-source(paste0(currentwd, "/packages.R"))
-
-source(paste0(currentwd, "/functions.R"))
+# load in the required functions
+source("~/grazing-interaction/functions.R")
 
 # scan the current working directory for excel macro files
-xlsm_files <- dir(path = file.path(currentwd, "data", "xlsm"), pattern = "xlsm")
+xlsm_files <- dir(path = file.path(currentwd, "data", "photo", "completed-xlsm"), pattern = "xlsm")
 
-# read in the xlsm files and convert them to xlsx files
-# this only keeps the first sheet. It strips out the macro and other sheets
-xlsm_workbook <- loadWorkbook(file.path(currentwd, "data", "xlsm", xlsm_files[1]))
-
-# read the workbook
-xlsm_data <- readWorkbook(xlsm_workbook, sheet = 1)
-
-# create a new column by adding the time and date columns together
-xlsm_data <- mutate(xlsm_data, DateTime = ImageDate + ImageTime, .after = ImageDate)
-
-# convert the date time to a POSIXct class
-xlsm_data$DateTime <- openxlsx::convertToDateTime(xlsm_data$DateTime)
-
-# replace the xlsm file extension with xlsx
+# replace the xlsm file extension with csv
 # use this vector as the xlsx file names
-xlsm_file_names <- str_replace_all(xlsm_files, "xlsm", "xlsx")
+csv_file_names <- str_replace_all(xlsm_files, "xlsm", "csv")
 
 # create a sub-directory to store the xlsx files
-if (dir.exists(file.path(currentwd, "data", "xlsm", "xlsx")) == FALSE) {
-  dir.create(file.path(currentwd, "data", "xlsm", "xlsx"))
+if (dir.exists(file.path(currentwd, "data", "photo", "completed-xlsm", "csv")) == FALSE) {
+  dir.create(file.path(currentwd, "data", "photo", "completed-xlsm", "csv"))
 } else {
-  
+
 }
 
 # read in data from xlsm file as a data frame
@@ -55,65 +39,75 @@ if (dir.exists(file.path(currentwd, "data", "xlsm", "xlsx")) == FALSE) {
 # do this for all xlsm files in the current working directory
 for (i in 1:length(xlsm_files)) {
   # load the xlsm file
-  xlsm_workbook <- loadWorkbook(file.path(currentwd, "data", "xlsm", xlsm_files[i]))
+  xlsm_workbook <- loadWorkbook(file.path(currentwd, "data", "photo", "completed-xlsm", xlsm_files[1]))
+
   # read the data from the first sheet
   xlsm_data <- readWorkbook(xlsm_workbook, sheet = 1)
-  # create a new column by adding the time and date columns together
-  xlsm_data <- mutate(xlsm_data, DateTime = ImageDate + ImageTime, .after = ImageDate)
-  # convert the date time to a POSIXct class
-  xlsm_data$DateTime <- openxlsx::convertToDateTime(xlsm_data$DateTime)
+
+  # convert the date to a POSIXct class
+  if (typeof(xlsm_data$ImageDate) == "double" & typeof(xlsm_data$ImageTime) == "double") {
+
+    # add the numerical date and time values together
+    xlsm_data <- dplyr::mutate(xlsm_data, DateTime = (ImageDate + ImageTime), .after = ImageDate)
+
+    # then convert to a DateTime
+    xlsm_data$DateTime <- openxlsx::convertToDateTime(xlsm_data$DateTime, tz = Sys.getenv("TZ"))
+
+    } else if (typeof(xlsm_data$ImageDate) == "character" & typeof(xlsm_data$ImageTime) == "character") {
+
+    # create a new column by adding the time and date character strings together
+    xlsm_data <- mutate(xlsm_data, DateTime = stringr::str_c(ImageDate, ImageTime, sep = " "), .after = ImageDate)
+
+    # convert the character strings to date time class
+    xlsm_data <- mutate(xlsm_data, DateTime = lubridate::ymd_hms(DateTime, tz = Sys.getenv("TZ")), .after = ImageDate)
+
+    } else if (typeof(xlsm_data$ImageDate) == "double" & typeof(xlsm_data$ImageTime) == "character") {
+
+    # convert the numeric Excel formatted date to a datetime
+    xlsm_data$ImageDate <- openxlsx::convertToDateTime(xlsm_data$ImageDate, tz = Sys.getenv("TZ"))
+
+    # then convert the datetime to string
+    xlsm_data$ImageDate <- as.character(xlsm_data$ImageDate)
+
+    # then combine the two character strings together
+    xlsm_data <- mutate(xlsm_data, DateTime = stringr::str_c(ImageDate, ImageTime, sep = " "), .after = ImageDate)
+
+    # convert the character strings to date time class
+    xlsm_data <- mutate(xlsm_data, DateTime = lubridate::ymd_hms(DateTime, tz = Sys.getenv("TZ")), .after = ImageDate)
+
+  } else {
+
+    warning(paste("This file failed to parse the date:", xlsm_files[i]))
+
+    break
+  }
+
   # convert the "LastSavedOn" column into a POSIXct class
-  xlsm_data$LastSavedOn <- openxlsx::convertToDateTime(xlsm_data$LastSavedOn)
-  # convert the "ImageDate" column into S3 Date Class
-  xlsm_data$ImageDate <- openxlsx::convertToDate(xlsm_data$ImageDate)
+  xlsm_data$LastSavedOn <- openxlsx::convertToDateTime(xlsm_data$LastSavedOn, tz = Sys.getenv("TZ"))
+
   # then convert the date back into a ISO string
-  xlsm_data$ImageDate <- strftime(xlsm_data$ImageDate, format = "%F")
-  # convert the "ImageTime" column into S3 Time Class
-  xlsm_data$ImageTime <- hms::as_hms(xlsm_data$DateTime)
+  xlsm_data$ImageDate <- strftime(xlsm_data$DateTime, format = "%F")
+
+  xlsm_data$ImageTime <- strftime(xlsm_data$DateTime, format = "%T")
+
+  xlsm_data$DateTime <- strftime(xlsm_data$DateTime, usetz = TRUE)
+
   # write out the xlsm data as an xlsx
-  write.xlsx(xlsm_data, file.path(currentwd, "data", "xlsm", "xlsx", xlsm_file_names[i]), row.names = FALSE)
+  readr::write_csv(xlsm_data,
+                    file.path(currentwd, "data", "photo", "completed-xlsm", "csv", csv_file_names[i])
+  )
 }
 
-# scan the current working directory for xlsx files
-xlsx_files <- dir(path = file.path(currentwd, "data", "xlsm", "xlsx"), pattern = "xlsx")
 
-# replace the xlsx file extension with csv
-# use this vector as our file names for the csv files
-csv_file_names <- str_replace_all(xlsx_files, "xlsx", "csv")
+# Recombine Chunks --------------------------------------------------------
 
-# create a sub-directory to store the csv files
-if (dir.exists(file.path(currentwd, "data", "xlsm", "csv")) == FALSE) {
-  dir.create(file.path(currentwd, "data", "xlsm", "csv"))
-} else {
-  
-}
-
-# convert the xlsx files into csv files
-# write out data into the "csv" sub-directory
-for (i in 1:length(xlsx_files)) {
-  rio::convert(file.path(currentwd, "data", "xlsm", "xlsx", xlsx_files[i]), 
-               file.path(currentwd, "data", "xlsm", "csv", csv_file_names[i]))
-}
-
-# # try splitting the strings
-# csv_file_names_string_split<- str_split(csv_file_names, "_")
-# 
-# # look at how many splits were made in each file name
-# lengths(csv_file_names_string_split)
-# 
-# collection_folders <- save.first.three.parts.of.strings(csv_file_names_string_split)
-# 
-# df <- data.frame(cbind(collection_folders, csv_file_names))
-
-# try a different approach
-# list all the csv files in directory
-csv_file_list <- list.files(path = file.path(currentwd, "data", "xlsm", "csv"), full.names = FALSE, recursive = FALSE)
+csv_file_list <- list.files(path = file.path(currentwd, "data", "photo", "completed-xlsm", "csv"), full.names = FALSE, recursive = FALSE)
 
 csv_files_df <- data.frame(csv_file_list)
 
 names(csv_files_df)[names(csv_files_df) == "csv_file_list"] <- "relpath"
 
-csv_files_df_separated <- separate(csv_files_df, relpath, 
+csv_files_df_separated <- separate(csv_files_df, relpath,
                                                     into = c("sitecode",
                                                              "deploydate",
                                                              "collectdate",
@@ -121,8 +115,8 @@ csv_files_df_separated <- separate(csv_files_df, relpath,
                                                              "chunknumber",
                                                              "completed",
                                                              "qc",
-                                                             "author"), 
-                                                    sep = "_", 
+                                                             "author"),
+                                                    sep = "_",
                                                     remove = FALSE)
 
 # unique sites
@@ -149,12 +143,12 @@ names(grouped_site_list) <- sitecodes_in_csv_files
 # the double $$ operator!
 unique(grouped_site_list$BKS$deploydate)
 
-# this function recombines chunks together in the correct order for each site 
-# it writes out a csv file for each deployment date 
+# this function recombines chunks together in the correct order for each site
+# it writes out a csv file for each deployment date
 # for loop through a site list instead of repeating the function
 
 for (i in 1:length(grouped_site_list)) {
-  recombine.chunks(grouped_site_list[[i]], path = file.path(currentwd, "data", "xlsm", "csv"))
+  recombine.chunks(grouped_site_list[[i]], path = file.path(currentwd, "data", "photo", "completed-xlsm", "csv"))
 }
 
 # get the current system time to notify when the script is completed
@@ -162,8 +156,8 @@ for (i in 1:length(grouped_site_list)) {
 system_time <- Sys.time()
 
 # convert into the correct timezone for your locale (mine is Arizona so we follow Mountain Standard)
-attr(system_time,"tzone") <- "MST"
+attr(system_time,"tzone") <- Sys.getenv("TZ")
 
-msg_body <- paste("06-recombine-chunks.R", "run on folder", collection_folder, "completed at", system_time, sep = " ")
+msg_body <- paste("07-recombine-chunks.R", system_time, sep = " ")
 
 RPushbullet::pbPost(type = "note", title = "Script Completed", body = msg_body)
