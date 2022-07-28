@@ -1,18 +1,27 @@
-# clear the R environment
-rm(list=ls(all=TRUE))
+## Horse-Cattle-Elk Grazing Interaction Study Rproj
+## Step 8: Combine Chunks into Site-Year CSV File
 
-source(paste0(getwd(), "/environment.R"))
+## What this script does:
+## Scans a directory for CSV files
+## Combines CSV files for each site and year
+## Writes out a single CSV file for each site and year "2020-BKS.csv"
 
-print(currentwd)
+## What this script requires:
+## Must specify the location of the folder containing csv files
+## Must specify where to write out CSV files
 
-# load in the required libraries
-source(paste0(currentwd, "/packages.R"))
+# set the working directory and environment variables
+source("~/grazing-interaction/environment.R")
 
-source(paste0(currentwd, "/functions.R"))
+# load in the required packages
+source("~/grazing-interaction/packages.R")
+
+# load in the required functions
+source("~/grazing-interaction/functions.R")
 
 # set working directory to location of recombined csv files
 # file.path() is system agnostic (i.e. works on Mac/PC/Linux)
-path_to_recombined_csv_files <- file.path(currentwd, "data", "xlsm", "csv", "recombined")
+path_to_recombined_csv_files <- file.path(currentwd, "data", "photo", "completed-xlsm", "csv", "recombined")
 
 # list csv files that were recombined in the previous step
 # we want to recombine these files into a single csv file for each year
@@ -26,14 +35,14 @@ names(csv_files_tibble)[names(csv_files_tibble) == "csv_file_list"] <- "path"
 
 # create new columns using the name of each file as metadata
 # we can use these new columns to filter and handle the data
-csv_files_tibble_separated <- separate(csv_files_tibble, path, 
+csv_files_tibble_separated <- separate(csv_files_tibble, path,
                                    into = c("sitecode",
                                             "deploydate",
                                             "collectdate",
                                             "subjects",
                                             "all",
                                             "chunks"),
-                                   sep = "_", 
+                                   sep = "_",
                                    remove = FALSE)
 
 # create a year column that we can use to group by year
@@ -49,6 +58,22 @@ unique(csv_files_tibble_separated$sitecode)
 # but we want to combine data by site and write out a file for each site
 # we can use dplyr to group by the site code
 grouped_site_dataframes <- csv_files_tibble_separated %>% group_by(sitecode, year)
+
+# manual fix for sites named with year first
+# find the first 4 digits from the deploy date
+year_first_pattern_match <- stringr::str_extract(grouped_site_dataframes$deploydate, pattern = "\\d{4}")
+
+# then get the index for which files are named with the year first
+# the caret ^ indicates the very start of the string in a 2
+year_first_index <- stringr::str_which(year_first_pattern_match, pattern = "^2")
+
+# extract the year using the index
+subset_year_first_pattern_match <- year_first_pattern_match[year_first_index]
+
+# assign the year back into the tibbles for the year first files
+for (i in 1:length(subset_year_first_pattern_match)) {
+  grouped_site_dataframes$year[year_first_index[i]] <- subset_year_first_pattern_match[i]
+}
 
 # and then use the group split to create a list
 # each element corresponds to a site data frame
@@ -71,18 +96,24 @@ names(grouped_site_list) <- group_names_df$name
 # read in the data from each recombined csv file and bind rows together
 for (i in 1:length(grouped_site_list)) {
   data <-
-    file.path(path_to_recombined_csv_files, grouped_site_list[[i]]$path) %>% 
-    lapply(readr::read_csv) %>% 
+    file.path(path_to_recombined_csv_files, grouped_site_list[[i]]$path) %>%
+    lapply(readr::read_csv) %>%
     dplyr::bind_rows()
-  
-  # convert the "DateTime" column into a standardized format
-  data$DateTime <- lubridate::ymd_hms(data$DateTime)
-  
-  # construct a file name that uses the year from the data and the site code 
+
+  # construct a file name that uses the year from the data and the site code
   filename <- paste0(group_names_df$name[i], ".csv")
-  
+
+  # then convert the date back into a ISO string
+  data$ImageDate <- strftime(data$DateTime, format = "%F")
+
+  data$ImageTime <- strftime(data$DateTime, format = "%T")
+
+  data$DateTime <- strftime(data$DateTime, usetz = TRUE)
+
+  data$LastSavedOn <- strftime(data$LastSavedOn, usetz = TRUE)
+
   # write out the data as a csv file using the file name convention
-  write_excel_csv(data, file.path(currentwd, "data", "photo", filename))
+  write_csv(data, file.path(currentwd, "data", "photo", "combined-by-site-year", filename))
 }
 
 # get the current system time to notify when the script is completed
@@ -92,6 +123,6 @@ system_time <- Sys.time()
 # convert into the correct timezone for your locale (mine is Arizona so we follow Mountain Standard)
 attr(system_time,"tzone") <- "MST"
 
-msg_body <- paste("07-combine-data-by-site.R", "run on folder", collection_folder, "completed at", system_time, sep = " ")
+msg_body <- paste("08-combine-data-by-site.R", "completed at", system_time, sep = " ")
 
 RPushbullet::pbPost(type = "note", title = "Script Completed", body = msg_body)
