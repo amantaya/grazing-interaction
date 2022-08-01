@@ -769,3 +769,66 @@ cameratraps2_path_constructor <-
     return(cameratraps2_folders_df)
   }
 
+
+sitecode_constructor <-
+  function(sitecode_vector) {
+    # regex to construct a dataframe using the first three uppercase letters of the collection folder
+    reconstructed_site <-
+      data.frame(
+        "sitecode" = stringr::str_extract(sitecode_vector,
+                                          pattern = "([[:upper:]][[:upper:]][[:upper:]]|[[:upper:]]\\d{2})")
+        )
+    # matching on the first three letters to construct file paths
+    for (i in 1:nrow(reconstructed_site)) {
+      if (reconstructed_site$sitecode[i] == "BRL") {
+        reconstructed_site$site[i] <- "Bear Timelapse"
+      } else if (reconstructed_site$sitecode[i] == "BRT") {
+        reconstructed_site$site[i] <- "Bear Trail"
+      } else if (reconstructed_site$sitecode[i] == "BFD") {
+        reconstructed_site$site[i] <- "Big Field"
+      } else if (reconstructed_site$sitecode[i] == "BKD") {
+        reconstructed_site$site[i] <- "Black Canyon Dam"
+      } else if (reconstructed_site$sitecode[i] == "BKN") {
+        reconstructed_site$site[i] <- "Black Canyon North"
+      } else if (reconstructed_site$sitecode[i] == "BKS") {
+        reconstructed_site$site[i] <- "Black Canyon South"
+      } else if (reconstructed_site$sitecode[i] == "BKT") {
+        reconstructed_site$site[i] <- "Black Canyon Trail"
+      } else if (reconstructed_site$sitecode[i] == "BGX") {
+        reconstructed_site$site[i] <- "Boggy Exclosure"
+      } else if (reconstructed_site$sitecode[i] == "BGW") {
+        reconstructed_site$site[i] <- "Boggy West"
+      } else if (reconstructed_site$sitecode[i] == "BGE") {
+        reconstructed_site$site[i] <- "Boggy East"
+      } else if (reconstructed_site$sitecode[i] == "BGT") {
+        reconstructed_site$site[i] <- "Boggy Trail"
+      } else if (reconstructed_site$sitecode[i] == "EFK") {
+        reconstructed_site$site[i] <- "East Fork"
+      } else if (reconstructed_site$sitecode[i] == "A51") {
+        reconstructed_site$site[i] <- "Fifty One"
+      } else if (reconstructed_site$sitecode[i] == "FLO") {
+        reconstructed_site$site[i] <- "Fire Lookout"
+      } else if (reconstructed_site$sitecode[i] == "HWY") {
+        reconstructed_site$site[i] <- "Highway"
+      } else if (reconstructed_site$sitecode[i] == "HPL") {
+        reconstructed_site$site[i] <- "Holding Pasture"
+      } else if (reconstructed_site$sitecode[i] == "MAD") {
+        reconstructed_site$site[i] <- "Malden Phenocam"
+      } else if (reconstructed_site$sitecode[i] == "OPO") {
+        reconstructed_site$site[i] <- "Only Ponderosa"
+      } else if (reconstructed_site$sitecode[i] == "WCX") {
+        reconstructed_site$site[i] <- "Wildcat Exclosure"
+      } else if (reconstructed_site$sitecode[i] == "WCS") {
+        reconstructed_site$site[i] <- "Wildcat South"
+      } else if (reconstructed_site$sitecode[i] == "WCN") {
+        reconstructed_site$site[i] <- "Wildcat North"
+      } else if (reconstructed_site$sitecode[i] == "WCT") {
+        reconstructed_site$site[i] <- "Wildcat Trail"
+      } else {
+        reconstructed_site <- NULL
+        warning(paste("Site not a match!", reconstructed_site$sitecode[i]))
+      }
+    }
+    return(reconstructed_site)
+  }
+

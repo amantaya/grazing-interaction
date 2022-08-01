@@ -39,7 +39,7 @@ if (dir.exists(file.path(currentwd, "data", "photo", "completed-xlsm", "csv")) =
 # do this for all xlsm files in the current working directory
 for (i in 1:length(xlsm_files)) {
   # load the xlsm file
-  xlsm_workbook <- loadWorkbook(file.path(currentwd, "data", "photo", "completed-xlsm", xlsm_files[1]))
+  xlsm_workbook <- loadWorkbook(file.path(currentwd, "data", "photo", "completed-xlsm", xlsm_files[i]))
 
   # read the data from the first sheet
   xlsm_data <- readWorkbook(xlsm_workbook, sheet = 1)

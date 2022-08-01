@@ -158,7 +158,9 @@ print(BKD_2019)
 BKN_2019 <- all_data_all_species %>% 
   dplyr::filter(Site == "Black Canyon North") %>% 
   dplyr::filter(Year == "2019")
-  
+
+
+
 print(BKN_2019)
 ```
 

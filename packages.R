@@ -44,6 +44,7 @@ pacman::p_load("bookdown")
 pacman::p_load("rticles")
 pacman::p_load("officedown")
 pacman::p_load("flextable")
+pacman::p_load("fs")
 
 # remotes::install_github("mattcowgill/ggannotate")
 # p_load("ggannotate")

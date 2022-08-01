@@ -21,7 +21,7 @@ editor_options:
 ---
 ## Setup
 
-```{r, setup, include=FALSE}}
+```{r setup, include=FALSE}}
 # set the working directory and environment variables
 source("~/grazing-interaction/environment.R")
 
@@ -49,465 +49,338 @@ Let's read in the RAW photo data from 2017 and 2018, which human observers class
 
 For the first step in cleaning up the camera data, we are going to treat all fields with "" (blanks), " " (spaces- typically accidental input which is invisible in Excel), or "NA" (characters), as NA's inside R. This will help us deal with missing information in our dataset.
 
-```{r load BGW 2017 example}
-# read in the 2017 data, treating all blanks, spaces, and "NA"s as NA's
-BGW17 <- readr::read_csv(
-  'data/photo/BGW_2017.csv',
-  col_names = TRUE,
-  col_types = cols(TraitB1 = col_character()),
-  na = c("", " ", "NA")
-)
+```{r read csv files in directory}
+path_to_csv_files <- fs::dir_ls(file.path(currentwd, 
+                                  "data", 
+                                  "photo", 
+                                  "combined-by-site-year"), 
+                                regexp = "\\.csv$")
+
+path_to_csv_files
 ```
+
 The readr package may report problems parsing the data, this is usually OK. Readr is guessing the column type by reading the first 1000 rows in each column. Its expecting the data in each column to be all one type (Logical, Categorical/Factor).
 Readr will report a problem anywhere the data types are not the same.
 
 You can check the column specification manually. We can also store this column specification to be specify how the other columns in the data should be read in.
-```{r print col spec}
-column_spec <- readr::spec(BGW17)
 
-column_spec
-```
 There is a mismatch in the data types in the "TraitB1" column. Some of the columns are numeric, some are character, some are logical (NA). Specify that all of the "TraitB1" column into a character type. The "TraitB1" corresponds to temperature, which was manually entered in by the observer by reading the temperature reported by the camera trap.
 
-```{r load 2017 data}
-WCS17 <- readr::read_csv(
-  'data/photo/WCS_2017.csv',
-  col_names = TRUE,
-  col_types = cols(TraitB1 = col_character()),
-  na = c("", " ", "NA")
-)
-
-BRL17 <- readr::read_csv(
-  'data/photo/BRL_2017.csv',
-  col_names = TRUE,
-  col_types = cols(TraitB1 = col_character()),
-  na = c("", " ", "NA")
-)
-
-BKS17 <- readr::read_csv(
-  'data/photo/BKS_2017.csv',
-  col_names = TRUE,
-  col_types = cols(TraitB1 = col_character()),
-  na = c("", " ", "NA")
-)
-```
-
-```{r print 2017 data}
-print(BGW17)
-print(WCS17)
-print(BRL17)
-print(BKS17)
-```
-
-```{r load 2018 data}
-# read in the 2018 data, treating all blanks, spaces, and "NA"s as NA's
-BGX18 <- readr::read_csv(
-  'data/photo/BGX_2018.csv',
-  col_names = TRUE,
-  col_types = cols(TraitB1 = col_character()),
-  na = c("", " ", "NA")
-)
-
-BGW18 <- readr::read_csv(
-  'data/photo/BGW_2018.csv',
-  col_names = TRUE,
-  col_types = cols(TraitB1 = col_character()),
-  na = c("", " ", "NA")
-)
-
-BGT18 <- readr::read_csv(
-  'data/photo/BGT_2018.csv',
-  col_names = TRUE,
-  col_types = cols(TraitB1 = col_character()),
-  na = c("", " ", "NA")
-)
-
-WCX18 <- readr::read_csv(
-  'data/photo/WCX_2018.csv',
-  col_names = TRUE,
-  col_types = cols(TraitB1 = col_character()),
-  na = c("", " ", "NA")
-)
-
-WCS18 <- readr::read_csv(
-  'data/photo/WCS_2018.csv',
-  col_names = TRUE,
-  col_types = cols(TraitB1 = col_character()),
-  na = c("", " ", "NA")
-)
-
-WCT18 <- readr::read_csv(
-  'data/photo/WCT_2018.csv',
-  col_names = TRUE,
-  col_types = cols(TraitB1 = col_character()),
-  na = c("", " ", "NA")
-)
-
-BRL18 <- readr::read_csv(
-  'data/photo/BRL_2018.csv',
-  col_names = TRUE,
-  col_types = cols(TraitB1 = col_character()),
-  na = c("", " ", "NA")
-)
-
-BKS18 <- readr::read_csv(
-  'data/photo/2018_BKS.csv',
-  col_names = TRUE,
-  col_types = cols(TraitB1 = col_character()),
-  na = c("", " ", "NA")
-)
-```
-
-```{r view 2018 data}
-print(BGX18)
-print(BGW18)
-print(BGT18)
-print(WCX18)
-print(WCS18)
-print(WCT18)
-print(BRL18)
-print(BKS18)
-```
-
-Do the same for the 2019 data.
-```{r load 2019 data}
-# read in the 2019 data, treating all blanks, spaces, and "NA"s as NA's_19_RAW
-AFO19 <- readr::read_csv(
-  "data/photo/A51_2019.csv",
-  col_names = TRUE,
-  col_types = cols(TraitB1 = col_character()),
-  na = c("", " ", "NA")
-)
-BKD19 <- readr::read_csv(
-  "data/photo/BKD_2019.csv",
-  col_names = TRUE,
-  col_types = cols(TraitB1 = col_character()),
-  na = c("", " ", "NA")
-)
-BKN19 <- readr::read_csv(
-  "data/photo/BKN_2019.csv",
-  col_names = TRUE,
-  col_types = cols(TraitB1 = col_character()),
-  na = c("", " ", "NA")
-)
-BKS19 <- readr::read_csv(
-  "data/photo/BKS_2019.csv",
-  col_names = TRUE,
-  col_types = cols(TraitB1 = col_character()),
-  na = c("", " ", "NA")
-)
-BRL19 <- readr::read_csv(
-  "data/photo/BRL_2019.csv",
-  col_names = TRUE,
-  col_types = cols(TraitB1 = col_character()),
-  na = c("", " ", "NA")
-)
-BRT19 <- readr::read_csv(
-  "data/photo/BRT_2019.csv",
-  col_names = TRUE,
-  col_types = cols(TraitB1 = col_character()),
-  na = c("", " ", "NA")
-)
-```
-
-```{r view 2019 data}
-print(AFO19)
-print(BKD19)
-print(BKN19)
-print(BKS19)
-print(BRL19)
-print(BRT19)
-```
-
-And again for the 2020 data.
-```{r load 2020 data}
-AFO20 <- readr::read_csv(
-  "data/photo/A51_2020.csv",
-  col_names = TRUE,
-  col_types = cols(TraitB1 = col_character()),
-  na = c("", " ", "NA")
-)
-BKN20 <- readr::read_csv(
-  "data/photo/BKN_2020.csv",
-  col_names = TRUE,
-  col_types = cols(TraitB1 = col_character()),
-  na = c("", " ", "NA")
-)
-BKS20 <- readr::read_csv(
-  "data/photo/BKS_2020.csv",
-  col_names = TRUE,
-  col_types = cols(TraitB1 = col_character()),
-  na = c("", " ", "NA")
-)
-BRL20 <- readr::read_csv(
-  "data/photo/BRL_2020.csv",
-  col_names = TRUE,
-  col_types = cols(TraitB1 = col_character()),
-  na = c("", " ", "NA")
+```{r set column specification}
+col_spec <- cols(
+  RecordNumber = col_double(),
+  ImageFilename = col_character(),
+  ImagePath = col_character(),
+  ImageRelative = col_character(),
+  ImageSize = col_double(),
+  ImageTime = col_time(format = ""),
+  ImageDate = col_date(format = ""),
+  DateTime = col_character(),
+  ImageAlert = col_logical(),
+  Frame1 = col_character(),
+  chkFrame1Lock = col_logical(),
+  Frame3 = col_character(),
+  chkFrame3Lock = col_logical(),
+  Conditions1 = col_character(),
+  Conditions2 = col_character(),
+  Conditions3 = col_character(),
+  Conditions4 = col_character(),
+  Conditions5 = col_character(),
+  Conditions6 = col_character(),
+  Conditions7 = col_character(),
+  Conditions8 = col_character(),
+  chkConditionsLock = col_logical(),
+  Trait1 = col_character(),
+  Trait2 = col_character(),
+  Trait3 = col_character(),
+  Trait4 = col_character(),
+  chkTraitsLock = col_logical(),
+  TraitB1 = col_character(),
+  TraitB2 = col_character(),
+  TraitB3 = col_character(),
+  TraitB4 = col_character(),
+  chkTraitsBLock = col_logical(),
+  ConditionsB1 = col_character(),
+  ConditionsB2 = col_character(),
+  ConditionsB3 = col_character(),
+  ConditionsB4 = col_character(),
+  ConditionsB5 = col_character(),
+  ConditionsB6 = col_character(),
+  ConditionsB7 = col_logical(),
+  ConditionsB8 = col_logical(),
+  chkConditionsBLock = col_logical(),
+  Species1 = col_character(),
+  Species2 = col_character(),
+  Species3 = col_character(),
+  Species4 = col_character(),
+  Species5 = col_character(),
+  Species6 = col_character(),
+  Species7 = col_character(),
+  Species8 = col_character(),
+  Species9 = col_character(),
+  Species10 = col_character(),
+  Species11 = col_character(),
+  Species12 = col_character(),
+  Species13 = col_character(),
+  Species14 = col_character(),
+  Species15 = col_character(),
+  Species16 = col_character(),
+  Species17 = col_character(),
+  Species18 = col_character(),
+  Species19 = col_character(),
+  Species20 = col_character(),
+  Species21 = col_character(),
+  Species22 = col_character(),
+  Species23 = col_character(),
+  Species24 = col_character(),
+  Species25 = col_character(),
+  Species26 = col_character(),
+  Species27 = col_character(),
+  Species28 = col_character(),
+  Species29 = col_character(),
+  Species30 = col_character(),
+  Species31 = col_character(),
+  Species32 = col_character(),
+  Species33 = col_character(),
+  Species34 = col_character(),
+  Species35 = col_character(),
+  Species36 = col_character(),
+  Species37 = col_character(),
+  Species38 = col_character(),
+  Species39 = col_character(),
+  Species40 = col_character(),
+  Species41 = col_character(),
+  Species42 = col_character(),
+  Species43 = col_character(),
+  Species44 = col_character(),
+  Species45 = col_character(),
+  Species46 = col_character(),
+  Species47 = col_character(),
+  Species48 = col_character(),
+  Species49 = col_character(),
+  Species50 = col_character(),
+  Species51 = col_character(),
+  Species52 = col_character(),
+  Species53 = col_character(),
+  Species54 = col_character(),
+  Species55 = col_character(),
+  Species56 = col_character(),
+  Species57 = col_character(),
+  Species58 = col_character(),
+  Species59 = col_character(),
+  Species60 = col_character(),
+  Species61 = col_character(),
+  Species62 = col_character(),
+  Species63 = col_character(),
+  Species64 = col_character(),
+  Species65 = col_character(),
+  Species66 = col_character(),
+  Species67 = col_character(),
+  Species68 = col_character(),
+  chkSpeciesLock = col_logical(),
+  Count1Species = col_character(),
+  Count1Class1 = col_double(),
+  Count1Class2 = col_double(),
+  Count1Class3 = col_double(),
+  Count1Class4 = col_double(),
+  Count1Class5 = col_double(),
+  Count1Class6 = col_double(),
+  Count1Class7 = col_double(),
+  Count1Total = col_double(),
+  Count2Species = col_character(),
+  Count2Class1 = col_double(),
+  Count2Class2 = col_double(),
+  Count2Class3 = col_double(),
+  Count2Class4 = col_double(),
+  Count2Class5 = col_double(),
+  Count2Class6 = col_double(),
+  Count2Class7 = col_double(),
+  Count2Total = col_double(),
+  Count3Species = col_character(),
+  Count3Class1 = col_double(),
+  Count3Class2 = col_double(),
+  Count3Class3 = col_double(),
+  Count3Class4 = col_double(),
+  Count3Class5 = col_double(),
+  Count3Class6 = col_double(),
+  Count3Class7 = col_double(),
+  Count3Total = col_double(),
+  Count4Species = col_character(),
+  Count4Class1 = col_double(),
+  Count4Class2 = col_double(),
+  Count4Class3 = col_double(),
+  Count4Class4 = col_double(),
+  Count4Class5 = col_double(),
+  Count4Class6 = col_double(),
+  Count4Class7 = col_double(),
+  Count4Total = col_double(),
+  Count5Species = col_character(),
+  Count5Class1 = col_double(),
+  Count5Class2 = col_double(),
+  Count5Class3 = col_double(),
+  Count5Class4 = col_double(),
+  Count5Class5 = col_double(),
+  Count5Class6 = col_double(),
+  Count5Class7 = col_double(),
+  Count5Total = col_double(),
+  chkCountsLock = col_logical(),
+  Comments = col_character(),
+  chkCommentsLock = col_logical(),
+  Flag1 = col_logical(),
+  Flag2 = col_logical(),
+  Flag3 = col_logical(),
+  Flag4 = col_logical(),
+  chkFlagsLock = col_logical(),
+  chkAllLock = col_logical(),
+  LastSavedOn = col_character(),
+  chkRelative = col_logical()
 )
 ```
 
-```{r view 2020 data}
-print(AFO20)
-print(BKN20)
-print(BKS20)
-print(BRL20)
+```{r load all csv files}
+csv_files <- path_to_csv_files %>% 
+  purrr::map(readr::read_csv,
+             na = c("", " ", "NA"),
+             col_types = col_spec)
 ```
 
-### Clean Data by Adding Useful Columns and Removing Unuseful Columns
+```{r list names}
+long_names <- names(csv_files)
+
+short_names <- str_extract(long_names, 
+                           pattern = ("\\d{4}_[:upper:][:upper:][:upper:]")
+                           )
+
+print(short_names)
+```
+
+# TODO test if will work with cameratraps2
+
+```{r rename elements in list of csv files}
+long_names <- names(csv_files)
+
+short_names <- stringr::str_extract(long_names, 
+                           pattern = "\\d{4}_[[:upper:]]..|[[:upper:]][[:upper:]][[:upper:]]\\d\\d")
+
+names(csv_files) <- short_names
+
+names(csv_files)
+```
+
+## Clean Data by Adding Useful Columns and Removing Unuseful Columns
 
 We read in CSV files containing the camera data. Each data frame corresponds to a site and year (e.g., BGW18 is Boggy West Timelapse, data from year 2018). In all of the data frames, each row corresponds to a single image and each column corresponds to a single 'variable'. Some of these 'variables' are actually metadata, such as the file name of the image and the file path.
 
-```{r add site and year columns}
-BGW17 <- BGW17 %>% dplyr::mutate(Site = "Boggy", Year = 2017)
-WCS17 <- WCS17 %>% dplyr::mutate(Site = "Wildcat", Year = 2017)
-BRL17 <- BRL17 %>% dplyr::mutate(Site = "Bear", Year = 2017)
-BKS17 <- BKS17 %>% dplyr::mutate(Site = "Black Canyon South", Year = 2017)
+```{r get sites from sitecodes}
 
-BGX18 <- BGX18 %>% dplyr::mutate(Site = "Boggy Exclosure", Year = 2018)
-BGW18 <- BGW18 %>% dplyr::mutate(Site = "Boggy West", Year = 2018)
-BGT18 <- BGT18 %>% dplyr::mutate(Site = "Boggy Trail", Year = 2018)
-WCX18 <- WCX18 %>% dplyr::mutate(Site = "Wildcat Exclosure", Year = 2018)
-WCS18 <- WCS18 %>% dplyr::mutate(Site = "Wildcat South", Year = 2018)
-WCT18 <- WCT18 %>% dplyr::mutate(Site = "Wildcat Trail", Year = 2018)
-BRL18 <- BRL18 %>% dplyr::mutate(Site = "Bear Timelapse", Year = 2018)
-BKS18 <- BKS18 %>% dplyr::mutate(Site = "Black Canyon South", Year = 2018)
+csv_files_sitecodes <- short_names <- stringr::str_extract(long_names, 
+                           pattern = "[[:upper:]]..|[[:upper:]][[:upper:]][[:upper:]]")
 
-AFO19 <- AFO19 %>% dplyr::mutate(Site = "Fifty One", Year = 2019)
-BKD19 <- BKD19 %>% dplyr::mutate(Site = "Black Canyon Dam", Year = 2019)
-BKN19 <- BKN19 %>% dplyr::mutate(Site = "Black Canyon North", Year = 2019)
-BKS19 <- BKS19 %>% dplyr::mutate(Site = "Black Canyon South", Year = 2019)
-BRL19 <- BRL19 %>% dplyr::mutate(Site = "Bear Timelapse", Year = 2019)
-BRT19 <- BRT19 %>% dplyr::mutate(Site = "Bear Trail", Year = 2019)
+sites <- sitecode_constructor(csv_files_sitecodes)
 
-AFO20 <- AFO20 %>% dplyr::mutate(Site = "Fifty One", Year = 2020)
-BKN20 <- BKN20 %>% dplyr::mutate(Site = "Black Canyon North", Year = 2020)
-BKS20 <- BKS20 %>% dplyr::mutate(Site = "Black Canyon South", Year = 2020)
-BRL20 <- BRL20 %>% dplyr::mutate(Site = "Bear Timelapse", Year = 2020)
+print(sites)
 ```
 
-```{r rbind 2017 data}
-data_2017 <- dplyr::bind_rows(BGW17, WCS17, BRL17, BKS17)
+```{r add site column to all csv files}
 
-data_2017 <- data_2017 %>% relocate(Site, .before = RecordNumber)
-
-data_2017 <- data_2017 %>% relocate(Year, .after = Site)
-
-print(data_2017)
+for (i in 1:length(csv_files)) {
+  
+  site_df <- sitecode_constructor(names(csv_files[i]))
+  
+  csv_files[[i]] <- dplyr::mutate(csv_files[[i]], 
+                                  Site = site_df$site, 
+                                  .before = RecordNumber)
+}
 ```
 
-```{r rbind 2018 data}
-# bind all 2018 data together to make handling easier
-data_2018 <- dplyr::bind_rows(BGX18, BGW18, BGT18, WCX18, WCS18, WCT18, BRL18)
-
-# convert the "ImageDate" column into a S3 date class
-# before conversion the column is a character data type
-# data_2018$ImageDate <- lubridate::mdy(data_2018$ImageDate)
-
-# add the 2018 Black Canyon South data
-# data_2018 <- dplyr::bind_rows(data_2018, BKS18)
-
-# arrange the data frame by site in alphabetical order
-data_2018 <- dplyr::arrange(data_2018, Site)
-
-# move the "Site" column more to the left side of the data frame
-data_2018 <- data_2018 %>% relocate(Site, .before = RecordNumber)
-
-# also move the site column to the left side of the data frame
-data_2018 <- data_2018 %>% relocate(Year, .after = Site)
-
-print(data_2018)
+```{r add year column to all csv files}
+for (i in 1:length(csv_files)) {
+  
+  year <- stringr::str_extract(names(csv_files[i]), pattern = "\\d{4}")
+  
+  csv_files[[i]] <- dplyr::mutate(csv_files[[i]], 
+                                  Year = year, 
+                                  .after = Site)
+}
 ```
 
-```{r rbind 2019 data}
-data_2019 <- dplyr::bind_rows(AFO19, BKD19, BKN19, BKS19, BRL19, BRT19)
+## Checking for Comments
 
-data_2019 <- data_2019 %>% relocate(Site, .before = RecordNumber)
+```{r get photos with comments}
 
-data_2019 <- data_2019 %>% relocate(Year, .after = Site)
+comments_df <- purrr::map_dfr(csv_files, dplyr::filter, (is.na(Comments) == FALSE))
 
-data_2019$LastSavedOn <- data_2019 %>% pull(LastSavedOn) %>% openxlsx::convertToDateTime()
-
-print(data_2019)
 ```
 
-```{r rbind 2020 data}
-data_2020 <- dplyr::bind_rows(AFO20, BKN20, BKS20, BRL20)
-
-data_2020 <- data_2020 %>% relocate(Site, .before = RecordNumber)
-
-data_2020 <- data_2020 %>% relocate(Year, .after = Site)
-
-data_2020$LastSavedOn <- data_2020 %>% pull(LastSavedOn) %>% openxlsx::convertToDateTime()
-
-print(data_2020)
+```{r}
+comments_df %>% pull(Comments) %>% unique() %>% tibble()
 ```
+
+# TODO I will copy these photos into a separate folder for manual review
+
+```{r}
+
+# change the drive letter to G
+
+# create new directory
+
+# copy files to new directory
+
+# copy data into blank macro
+
+```
+
 
 Some of the images we classified in the Excel macro were 'empty' (i.e. the observer could not detect a subject in the image). We want to remove these empty images from analysis.
 
 We're going to use the "Count1Species"" column in each data frame to remove 'empty' photos. The "Count1Species" column corresponds to the 1st detected species in each photo (i.e. the primary species (>50%) if more than one species is detected in a photo). If the image is 'empty' then it will have "NA" for a value in the "Count1Species" column. We're going to use the function complete.cases() to remove all of the rows that have "NA" in the "Count1Species" column. We'll do this for each of the data frames, and save these new data frames into new objects.
 
-```{r drop no detections 2017}
-n_2017 <- data_2017 %>% pull(Count1Species) %>% length()
+```{r drop no detections}
 
-data_2017_drop_na <- data_2017 %>% tidyr::drop_na(Count1Species)
+csv_files_dropped_no_detections <- 
+  purrr::map(csv_files, tidyr::drop_na, "Count1Species")
 
-n_after_2017 <- data_2017_drop_na %>% pull(Count1Species) %>% length()
-
-n_dropped_photos_2017 <- n_2017 - n_after_2017
-
-n_dropped_photos_2017
-```
-
-```{r drop no detections 2018}
-n_2018 <- data_2018 %>% pull(Count1Species) %>% length()
-
-data_2018_drop_na <- data_2018 %>% tidyr::drop_na(Count1Species)
-
-n_after_2018 <- data_2018_drop_na %>% pull(Count1Species) %>% length()
-
-n_dropped_photos_2018 <- n_2018 - n_after_2018
-
-n_dropped_photos_2018
-```
-
-```{r drop no detections 2019}
-n_2019 <- data_2019 %>% pull(Count1Species) %>% length()
-
-data_2019_drop_na <- data_2019 %>% tidyr::drop_na(Count1Species)
-
-n_after_2019 <- data_2019_drop_na %>% pull(Count1Species) %>% length()
-
-n_dropped_photos_2019 <- n_2019 - n_after_2019
-
-n_dropped_photos_2019
-```
-
-```{r drop no detections 2020}
-n_2020 <- data_2020 %>% pull(Count1Species) %>% length()
-
-data_2020_drop_na <- data_2020 %>% tidyr::drop_na(Count1Species)
-
-n_after_2020 <- data_2020_drop_na %>% pull(Count1Species) %>% length()
-
-n_dropped_photos_2020 <- n_2020 - n_after_2020
-
-n_dropped_photos_2020
 ```
 
 The data has date and time in separate columns. The lubridate package provides a convenient way to manage time in R. However, first we need to combine the "ImageDate" and "ImageTime" columns.
 
-```{r view example of ImageDate col}
-data_2017_drop_na
-```
-
-### Convert the "ImageDate" and "ImageTime" Columns
-
-Our "clean_dates" function combines the "ImageDate" and "ImageTime" columns into a single column "DateTime". But these columns are character types, and we want them to be a special data type called a datetime. The "lubridate" and "hms" packages provide helpful ways to handle datetime objects.
-
-```{r clean_dates 2017}
-
-# instead of supplying a data frame and always selecting the ImageDate column
-data_2017_clean_dates <- clean_dates(data_2017_drop_na)
-
-data_2017_clean_dates$LastSavedOn <- data_2017_clean_dates %>% 
-  pull(LastSavedOn) %>% 
-  lubridate::mdy_hm()
-
-print(data_2017_clean_dates)
-```
-
-```{r clean_dates 2018}
-data_2018_clean_dates <- clean_dates(data_2018_drop_na)
-
-data_2018_clean_dates$LastSavedOn <- data_2018_clean_dates %>% 
-  pull(LastSavedOn) %>% 
-  lubridate::mdy_hm()
-
-print(data_2018_clean_dates)
-```
-
-```{r add BKS 2018 data}
-# drop the date and time columns because BKS 2018 already has a "DateTime" column
-BKS18 <- BKS18 %>% 
-  dplyr::select(-c(ImageDate, ImageTime))
-
-# convert the "DateTime" column from a character to datetime 
-BKS18$DateTime <- BKS18 %>% 
-  dplyr::pull(DateTime) %>% 
-  lubridate::ymd_hms()
-
-# convert the "LastSavedOn" column from a character to datetime
-BKS18$LastSavedOn <- BKS18 %>% 
-  dplyr::pull(LastSavedOn) %>% 
-  lubridate::ymd_hms()
-
-# bind data together after all datetime columns are in the same formate
-data_2018_clean_dates <- dplyr::bind_rows(data_2018_clean_dates, BKS18)
-
-print(data_2018_clean_dates)
-```
-
-
-```{r clean_dates 2019}
-data_2019_drop_na$DateTime <- data_2019_drop_na %>% pull(DateTime) %>% lubridate::ymd_hms()
-
-data_2019_clean_dates <- data_2019_drop_na %>% select(-c("ImageTime", "ImageDate"))
-
-print(data_2019_clean_dates)
-```
-
-```{r clean_dates 2020}
-data_2020_drop_na$DateTime <- data_2020_drop_na %>% pull(DateTime) %>% lubridate::ymd_hms()
-
-data_2020_clean_dates <- data_2020_drop_na %>% select(-c("ImageTime", "ImageDate"))
-
-print(data_2020_clean_dates)
-```
-
 The 2017 has two columns that have different names than any of the 2018-2020 data. Those columns are "multi" and "water". 
-```{r view 2017 multi and water cols}
-print(data_2017_clean_dates)
-```
 
 Rename the "TraitB2" and "Trait4" columns from the 2018, 2019, and 2020 data to match the name of the columns in the 2017 data "multi" and "water".
 
 ```{r rename TraitB2 and Trait4 cols}
-data_2018_rename_col <- data_2018_clean_dates %>% rename(multi = TraitB2)
-data_2018_rename_col <- data_2018_rename_col %>% rename(water = Trait4)
 
-data_2019_rename_col <- data_2019_clean_dates %>% rename(multi = TraitB2)
-data_2019_rename_col <- data_2019_rename_col %>% rename(water = Trait4)
+csv_files_dropped_no_detections <- 
+  purrr::map(csv_files, dplyr::rename, multi = TraitB2)
 
-data_2020_rename_col <- data_2020_clean_dates %>% rename(multi = TraitB2)
-data_2020_rename_col <- data_2020_rename_col %>% rename(water = Trait4)
+csv_files_dropped_no_detections <- 
+  purrr::map(csv_files, dplyr::rename, water = Trait4)
 
-print(data_2018_rename_col)
-print(data_2019_rename_col)
-print(data_2020_rename_col)
 ```
-Bind data from all sites and all years into a single data frame.
 
-```{r rbind all sites all years}
-all_photo_data <- dplyr::bind_rows(data_2017_clean_dates, 
-                            data_2018_rename_col, 
-                            data_2019_rename_col, 
-                            data_2020_rename_col)
+```{r arrange by site name and convert to data frame}
+all_photo_data <- purrr::map_dfr(csv_files_dropped_no_detections,
+                                 dplyr::arrange, 
+                                 Site)
 
 print(all_photo_data)
 ```
 
-```{r arrange by site name}
-all_photo_data <- all_photo_data %>% dplyr::arrange(Site)
+```{r convert date and time to strings}
 
-print(all_photo_data)
+all_photo_data$ImageDate <- strftime(all_photo_data$ImageDate, format = "%F")
+
+all_photo_data$ImageTime <- strftime(all_photo_data$ImageTime, format = "%T")
 ```
 
-
-### Write Data to CSV File
+## Write Data to CSV File
 
 Write out the data frame as a csv file formatted for Excel. We will use this file as an intermediate data file for the next step in our analysis. Having an intermediate data file is helpful because we can perform wrangling steps all at once, and then can use dplyr functions to filter and sort data by site and year. 
 
 ```{r write to csv}
-readr::write_excel_csv(all_photo_data, file.path(currentwd, "data", "photo", "all_photo_data.csv"))
+readr::write_csv(all_photo_data, 
+                       file.path(currentwd, 
+                                 "data", 
+                                 "photo", 
+                                 "all_photo_data.csv"))
 ```
