@@ -2,7 +2,11 @@
   "commitMessage": "vault backup: {{date}}",
   "autoCommitMessage": "vault backup: {{date}}",
   "commitDateFormat": "YYYY-MM-DD HH:mm:ss",
+<<<<<<< HEAD
   "autoSaveInterval": 0,
+=======
+  "autoSaveInterval": 60,
+>>>>>>> parent of ba2e569 (vault backup: 2022-08-01 12:48:31)
   "autoPushInterval": 0,
   "autoPullInterval": 0,
   "autoPullOnBoot": false,
