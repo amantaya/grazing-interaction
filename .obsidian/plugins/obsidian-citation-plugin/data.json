@@ -2,7 +2,7 @@
   "citationExportFormat": "biblatex",
   "literatureNoteTitleTemplate": "@{{citekey}}",
   "literatureNoteFolder": "Literature Notes",
-  "literatureNoteContentTemplate": "---\ntitle: {{title}}\nauthors: {{authorString}}\nyear: {{year}}\ncitekey: {{citekey}}\n---\n",
+  "literatureNoteContentTemplate": "---\ntitle: {{title}}\nauthors: {{authorString}}\nyear: {{year}}\ncitekey: {{citekey}}\nDOI: {{DOI}}\nZotero: {{zoteroSelectURI}}\n---\n",
   "markdownCitationTemplate": "[@{{citekey}}]",
   "alternativeMarkdownCitationTemplate": "@{{citekey}}",
   "citationExportPath": "C:\\Users\\andre\\Zotero\\My Library.bib"

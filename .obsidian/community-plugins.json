@@ -1,9 +1,16 @@
 [
   "obsidian-file-path-to-uri",
+  "obsidian-git",
+  "table-editor-obsidian",
+  "dataview",
+  "obsidian-pandoc",
+  "templater-obsidian",
   "obsidian-filename-heading-sync",
   "sliding-panes-obsidian",
-  "obsidian-git",
-  "dataview",
-  "obsidian-kanban",
-  "obsidian-tasks-plugin"
+  "obsidian-tasks-plugin",
+  "metaedit",
+  "obsidian-citation-plugin",
+  "obsidian-zotero-desktop-connector",
+  "obsidian-smart-typography",
+  "readwise-official"
 ]

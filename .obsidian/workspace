@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "docs/2022-07-15-09-34-17 Testing `Editor Syntax Highlight` plugin.md",
+            "file": "2022-07-28-17-36-50 Set metadata as checkbox in macro.md",
             "mode": "source",
             "backlinks": false,
             "source": false
@@ -78,7 +78,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "docs/2022-07-15-09-34-17 Testing `Editor Syntax Highlight` plugin.md",
+                "file": "2022-07-28-17-36-50 Set metadata as checkbox in macro.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -106,7 +106,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "docs/2022-07-15-09-34-17 Testing `Editor Syntax Highlight` plugin.md",
+                "file": "2022-07-28-17-36-50 Set metadata as checkbox in macro.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": false
               }
@@ -118,7 +118,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "docs/2022-07-15-09-34-17 Testing `Editor Syntax Highlight` plugin.md"
+                "file": "2022-07-28-17-36-50 Set metadata as checkbox in macro.md"
               }
             }
           },
@@ -139,6 +139,7 @@
   },
   "active": "54ab807e12ad1e81",
   "lastOpenFiles": [
+    "docs/2022-07-15-09-34-17 Testing `Editor Syntax Highlight` plugin.md",
     "docs/2022-06-27-11-12-17 Daily Tasks.md",
     "docs/heber-project-notes/Heber Project Kanban.md",
     "docs/2022-06-28-15-57-12 Idea for Automatically Removing Assignments from Box.md",
@@ -147,7 +148,6 @@
     "2022-07-12-17-55-12 Figure out Which Files are Correct.md",
     "2022-07-11-15-29-14 What I Accomplished Last Week.md",
     "2022-07-12-12-03-57.md",
-    "docs/2022-06-28-09-47-57 Lab Meeting Prep.md",
-    "docs/white-mountains-project-notes/White Mountains Project Kanban.md"
+    "docs/2022-06-28-09-47-57 Lab Meeting Prep.md"
   ]
 }

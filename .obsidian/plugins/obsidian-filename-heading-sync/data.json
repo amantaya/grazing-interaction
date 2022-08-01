@@ -1,11 +1,8 @@
 {
   "userIllegalSymbols": [],
   "ignoredFiles": {
-    "Templates/Zettlekasten Note Template.md": null,
-    "white-mountains-project-notes/Untitled Kanban.md": null,
-    "white-mountains-project-notes/White Mountains Project Kanban.md": null,
-    "docs/heber-project-notes/Heber Project Kanban.md": null
+    "Templates/Zettlekasten Note Template.md": null
   },
-  "ignoreRegex": "",
+  "ignoreRegex": "Templates/*.",
   "useFileOpenHook": true
 }
