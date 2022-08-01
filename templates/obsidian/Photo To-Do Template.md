@@ -1,4 +1,4 @@
-# Camera TODO List
+# Photo To-Do Template
 
 ## Site
 
