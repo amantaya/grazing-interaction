@@ -2,13 +2,15 @@
 Created: 2022-08-01 12:55:01
 
 1. Problem Statement
-	1. What problem/challenge are we trying to solve?
+	1. How do photos benefit rangeland monitoring?
+		1. What are we trying to learn or gain insight into with photos?
+	2. What problem/challenge are we trying to solve?
 		1. data management and analysis of large data sets
-	2. Why is this a problem?
+	3. Why is this a problem?
 		1. current methods take alot of personnel time (and therefore money) to process photos from camera traps
-			1. estimates for how long it currently takes to process photos
+			1. estimates for how long it currently takes to process photos 
 2. Our Solution
-	1. Basics- how does it work? (keep it simple and very top-level, avoid jargon)
+	1. Basics- how does it work? (keep it simple and very top-level, avoid jargon) 
 	2. Output- what data does it generate?
 		1. examples
 			1. `output.json`
