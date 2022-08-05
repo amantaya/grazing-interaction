@@ -84,7 +84,7 @@ BKS_2017 <- all_data_all_species %>%
   dplyr::filter(Site == "Black Canyon South") %>% 
   dplyr::filter(Year == "2017")
   
-print(BKS_2017)
+
 ```
 
 ```{r black canyon south 2018}
@@ -92,7 +92,7 @@ BKS_2018 <- all_data_all_species %>%
   dplyr::filter(Site == "Black Canyon South") %>% 
   dplyr::filter(Year == "2018")
   
-print(BKS_2018)
+
 ```
 
 ```{r black canyon south 2019}
@@ -100,7 +100,7 @@ BKS_2019 <- all_data_all_species %>%
   dplyr::filter(Site == "Black Canyon South") %>% 
   dplyr::filter(Year == "2019")
   
-print(BKS_2019)
+
 ```
 
 ```{r black canyon south 2020}
@@ -108,16 +108,16 @@ BKS_2020 <- all_data_all_species %>%
   dplyr::filter(Site == "Black Canyon South") %>% 
   dplyr::filter(Year == "2020")
   
-print(BKS_2020)
+
 ```
 
 ```{r bear timelapse 2017}
-# TODO go back to the photo processing step and name this site as "Bear Timelapse"
+
 BRL_2017 <- all_data_all_species %>% 
-  dplyr::filter(Site == "Bear") %>% 
+  dplyr::filter(Site == "Bear Timelapse") %>% 
   dplyr::filter(Year == "2017")
   
-print(BRL_2017)
+
 ```
 
 ```{r bear timelapse 2018}
@@ -125,7 +125,7 @@ BRL_2018 <- all_data_all_species %>%
   dplyr::filter(Site == "Bear Timelapse") %>% 
   dplyr::filter(Year == "2018")
   
-print(BRL_2018)
+
 ```
 
 ```{r bear timelapse 2019}
@@ -133,7 +133,7 @@ BRL_2019 <- all_data_all_species %>%
   dplyr::filter(Site == "Bear Timelapse") %>% 
   dplyr::filter(Year == "2019")
   
-print(BRL_2019)
+
 ```
 
 ```{r bear timelapse 2020}
@@ -141,7 +141,7 @@ BRL_2020 <- all_data_all_species %>%
   dplyr::filter(Site == "Bear Timelapse") %>%
   dplyr::filter(Year == "2020")
   
-print(BRL_2020)
+
 ```
 
 ```{r fifty one timelapse 2019}
@@ -149,7 +149,7 @@ A51_2019 <- all_data_all_species %>%
   dplyr::filter(Site == "Fifty One") %>% 
   dplyr::filter(Year == "2019")
   
-print(A51_2019)
+
 ```
 
 ```{r fifty one timelapse 2020}
@@ -157,7 +157,7 @@ A51_2020 <- all_data_all_species %>%
   dplyr::filter(Site == "Fifty One") %>% 
   dplyr::filter(Year == "2020")
   
-print(A51_2020)
+
 ```
 
 ```{r black canyon dam 2019}
@@ -165,7 +165,7 @@ BKD_2019 <- all_data_all_species %>%
   dplyr::filter(Site == "Black Canyon Dam") %>% 
   dplyr::filter(Year == "2019")
   
-print(BKD_2019)
+
 ```
 
 ```{r black canyon north 2019}
@@ -173,7 +173,7 @@ BKN_2019 <- all_data_all_species %>%
   dplyr::filter(Site == "Black Canyon North") %>% 
   dplyr::filter(Year == "2019")
 
-print(BKN_2019)
+
 ```
 
 ```{r black canyon north 2020}
@@ -181,7 +181,7 @@ BKN_2020 <- all_data_all_species %>%
   dplyr::filter(Site == "Black Canyon North") %>% 
   dplyr::filter(Year == "2020")
   
-print(BKN_2020)
+
 ```
 
 ------------------------------------------------------------------------
@@ -262,107 +262,10 @@ BKS_2020 <- calc.grazing.time.unwtd(BKS_2020, interval = 5)
 BKS_2020 <- calc.grazing.time.wtd(BKS_2020, interval = 5)
 ```
 
-```{r}
-BKS_2018 %>% pull(horse_grazing_unwtd) %>% sum()
+# TODO rename the elements in the list by their object name
+# Or by reading in with purrr map read_csv
 
-BKS_2018 %>% pull(horse_grazing_wtd) %>% sum()
-```
-
-```{r}
-BKS_2018 %>% pull(cow_grazing_unwtd) %>% sum()
-
-BKS_2018 %>% pull(cow_grazing_wtd) %>% sum()
-```
-
-```{r}
-BKS_2018 %>% pull(elk_grazing_unwtd) %>% sum()
-
-BKS_2018 %>% pull(elk_grazing_wtd) %>% sum()
-```
-
-```{r}
-BKS_2018 %>% pull(DateTime) %>% lubridate::date() %>% unique()
-```
-
-```{r function summarize unweighted daily totals}
-summarize.unwtd.daily.totals <- function(cameradf){
-
-  cameradf_horses <- NULL
-  cameradf_horses <- cameradf %>% 
-    dplyr::group_by(Date) %>% 
-    dplyr::summarise(daily_total_unwtd = sum(horse_grazing_unwtd))
-  cameradf_horses <- cameradf_horses %>% mutate(Species = "Horse")
-  
-  cameradf_cows <- NULL
-  cameradf_cows <- cameradf %>% 
-    dplyr::group_by(Date) %>% 
-    dplyr::summarise(daily_total_unwtd = sum(cow_grazing_unwtd))
-  cameradf_cows <- cameradf_cows %>% mutate(Species = "Cow")  
-  
-  cameradf_elk <- NULL
-  cameradf_elk <- cameradf %>% 
-    dplyr::group_by(Date) %>% 
-    dplyr::summarise(daily_total_unwtd = sum(elk_grazing_unwtd))
-  cameradf_elk <- cameradf_elk %>% mutate(Species = "Elk")  
-  
-  cameradf_bind <- dplyr::bind_rows(cameradf_horses, cameradf_cows, cameradf_elk)
-  
-  cameradf_bind$Site <- NULL
-  
-  cameradf_bind$Site <- cameradf$Site[1]
-  
-  cameradf_bind$Year <- NULL
-  
-  cameradf_bind$Year <- cameradf$Year[1]
-  
-  return(cameradf_bind)
-}
-```
-
-```{r function summarize weighted daily totals}
-summarize.wtd.daily.totals <- function(cameradf){
-
-  cameradf_horses <- NULL
-  cameradf_horses <- cameradf %>% 
-    dplyr::group_by(Date) %>% 
-    dplyr::summarise(daily_total_wtd = sum(horse_grazing_wtd))
-  cameradf_horses <- cameradf_horses %>% mutate(Species = "Horse")
-  
-  cameradf_cows <- NULL
-  cameradf_cows <- cameradf %>% 
-    dplyr::group_by(Date) %>% 
-    dplyr::summarise(daily_total_wtd = sum(cow_grazing_wtd))
-  cameradf_cows <- cameradf_cows %>% mutate(Species = "Cow")  
-  
-  cameradf_elk <- NULL
-  cameradf_elk <- cameradf %>% 
-    dplyr::group_by(Date) %>% 
-    dplyr::summarise(daily_total_wtd = sum(elk_grazing_wtd))
-  cameradf_elk <- cameradf_elk %>% mutate(Species = "Elk")  
-  
-  cameradf_bind <- dplyr::bind_rows(cameradf_horses, cameradf_cows, cameradf_elk)
-  
-  cameradf_bind$Site <- NULL
-  
-  cameradf_bind$Site <- cameradf$Site[1]
-  
-  cameradf_bind$Year <- NULL
-  
-  cameradf_bind$Year <- cameradf$Year[1]
-  
-  return(cameradf_bind)
-}
-```
-
-```{r}
-summarize.unwtd.daily.totals(BKS_2018)
-```
-
-```{r}
-summarize.wtd.daily.totals(BKS_2018)
-```
-
-```{r}
+```{r list of dataframes}
 list_of_dataframes <- list(A51_2019, 
                            A51_2020, 
                            BKD_2019, 
@@ -377,87 +280,71 @@ list_of_dataframes <- list(A51_2019,
                            BRL_2019, 
                            BRL_2020)
 
-list_of_dataframes
+
+names(list_of_dataframes) <- c("A51_2019", 
+                           "A51_2020", 
+                           "BKD_2019", 
+                           "BKN_2019", 
+                           "BKN_2020", 
+                           "BKS_2017", 
+                           "BKS_2018", 
+                           "BKS_2019", 
+                           "BKS_2020", 
+                           "BRL_2017", 
+                           "BRL_2018", 
+                           "BRL_2019", 
+                           "BRL_2020")
+
 ```
 
-```{r}
-list_of_summarized_dataframes_unwtd <- list_of_dataframes %>% purrr::map(summarize.unwtd.daily.totals)
+```{r purrr map summarize.unwtd.daily.totals}
 
-list_of_summarized_dataframes_unwtd
+list_of_summarized_dataframes_unwtd <- 
+  list_of_dataframes %>% 
+  purrr::map(summarize.unwtd.daily.totals)
+
 ```
 
-```{r}
-list_of_summarized_dataframes_wtd <- list_of_dataframes %>% purrr::map(summarize.wtd.daily.totals)
+```{r set element names list_of_summarized_dataframes_unwtd}
 
-list_of_summarized_dataframes_wtd
+names(list_of_summarized_dataframes_unwtd) <- c("A51_2019",
+                                                "A51_2020",
+                                                "BKD_2019",
+                                                "BKN_2019",
+                                                "BKN_2020",
+                                                "BKS_2017",
+                                                "BKS_2018",
+                                                "BKS_2019",
+                                                "BKS_2020",
+                                                "BRL_2017",
+                                                "BRL_2018",
+                                                "BRL_2019",
+                                                "BRL_2020")
 ```
 
-```{r}
-# purrr::flatten(list_of_summarized_dataframes_unwtd)
+```{r purrr map summarize.wtd.daily.totals}
+
+list_of_summarized_dataframes_wtd <- 
+  list_of_dataframes %>% 
+  purrr::map(summarize.wtd.daily.totals)
+
 ```
 
-```{r}
-A51_2019_unwtd_summary <- list_of_summarized_dataframes_unwtd[[1]]
-A51_2020_unwtd_summary <- list_of_summarized_dataframes_unwtd[[2]]
-BKD_2019_unwtd_summary <- list_of_summarized_dataframes_unwtd[[3]]
-BKN_2019_unwtd_summary <- list_of_summarized_dataframes_unwtd[[4]]
-BKN_2020_unwtd_summary <- list_of_summarized_dataframes_unwtd[[5]]
-BKS_2017_unwtd_summary <- list_of_summarized_dataframes_unwtd[[6]]
-BKS_2018_unwtd_summary <- list_of_summarized_dataframes_unwtd[[7]]
-BKS_2019_unwtd_summary <- list_of_summarized_dataframes_unwtd[[8]]
-BKS_2020_unwtd_summary <- list_of_summarized_dataframes_unwtd[[9]]
-BRL_2017_unwtd_summary <- list_of_summarized_dataframes_unwtd[[10]]
-BRL_2018_unwtd_summary <- list_of_summarized_dataframes_unwtd[[11]]
-BRL_2019_unwtd_summary <- list_of_summarized_dataframes_unwtd[[12]]
-BRL_2020_unwtd_summary <- list_of_summarized_dataframes_unwtd[[13]]
-```
+```{r set element names list_of_summarized_dataframes_wtd}
 
-```{r}
-A51_2019_unwtd_summary
-A51_2020_unwtd_summary
-BKD_2019_unwtd_summary
-BKN_2019_unwtd_summary
-BKN_2020_unwtd_summary
-BKS_2017_unwtd_summary
-BKS_2018_unwtd_summary
-BKS_2019_unwtd_summary
-BKS_2020_unwtd_summary
-BRL_2017_unwtd_summary
-BRL_2018_unwtd_summary
-BRL_2019_unwtd_summary
-BRL_2020_unwtd_summary
-```
-
-```{r}
-A51_2019_wtd_summary <- list_of_summarized_dataframes_wtd[[1]]
-A51_2020_wtd_summary <- list_of_summarized_dataframes_wtd[[2]]
-BKD_2019_wtd_summary <- list_of_summarized_dataframes_wtd[[3]]
-BKN_2019_wtd_summary <- list_of_summarized_dataframes_wtd[[4]]
-BKN_2020_wtd_summary <- list_of_summarized_dataframes_wtd[[5]]
-BKS_2017_wtd_summary <- list_of_summarized_dataframes_wtd[[6]]
-BKS_2018_wtd_summary <- list_of_summarized_dataframes_wtd[[7]]
-BKS_2019_wtd_summary <- list_of_summarized_dataframes_wtd[[8]]
-BKS_2020_wtd_summary <- list_of_summarized_dataframes_wtd[[9]]
-BRL_2017_wtd_summary <- list_of_summarized_dataframes_wtd[[10]]
-BRL_2018_wtd_summary <- list_of_summarized_dataframes_wtd[[11]]
-BRL_2019_wtd_summary <- list_of_summarized_dataframes_wtd[[12]]
-BRL_2020_wtd_summary <- list_of_summarized_dataframes_wtd[[13]]
-```
-
-```{r}
-A51_2019_wtd_summary
-A51_2020_wtd_summary
-BKD_2019_wtd_summary
-BKN_2019_wtd_summary
-BKN_2020_wtd_summary
-BKS_2017_wtd_summary
-BKS_2018_wtd_summary
-BKS_2019_wtd_summary
-BKS_2020_wtd_summary
-BRL_2017_wtd_summary
-BRL_2018_wtd_summary
-BRL_2019_wtd_summary
-BRL_2020_wtd_summary
+names(list_of_summarized_dataframes_wtd) <- c("A51_2019",
+                                                "A51_2020",
+                                                "BKD_2019",
+                                                "BKN_2019",
+                                                "BKN_2020",
+                                                "BKS_2017",
+                                                "BKS_2018",
+                                                "BKS_2019",
+                                                "BKS_2020",
+                                                "BRL_2017",
+                                                "BRL_2018",
+                                                "BRL_2019",
+                                                "BRL_2020")
 ```
 
 ```{r Bear 2017 Unweighted Figure}
