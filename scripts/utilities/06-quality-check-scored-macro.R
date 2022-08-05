@@ -5,12 +5,12 @@
 ## Reads in the completed excel macro (must be first saved as a csv)
 ## Randomly selects a percentage of the completed records for review
 ## Writes out a csv with these records to be copied into the excel macro
-## this csv can then be copied and pasted into the excel macro (HorseImaging2018.xlsm) for scoring 
+## this csv can then be copied and pasted into the excel macro (HorseImaging2018.xlsm) for scoring
 
 ## What this script requires:
-## the csv file from the completed excel macro "BRT_06052019_10032019_subjects_chunk1.csv" 
+## the csv file from the completed excel macro "BRT_06052019_10032019_subjects_chunk1.csv"
 ## this csv file needs to be located in a chunk folder within the collection folder
-## this csv file is named by the photo collection folder and "~subjects_chunk[x]" 
+## this csv file is named by the photo collection folder and "~subjects_chunk[x]"
 ## e.g., BRT_06052019_10032019_subjects_chunk1.csv
 
 # clear the R environment
@@ -47,7 +47,7 @@ getwd()
 chunkcsv <- read.csv(paste0(paste(collection_folder, "subjects", chunk_folder, "completed", sep = "_"), ".csv"))
 
 # if there are less than 50 rows in a chunk, than select at least 10 rows to check
-# if there are more than 100 rows in a chunk, than select 30 rows to check 
+# if there are more than 100 rows in a chunk, than select 30 rows to check
 if(nrow(chunkcsv) < 100){
   sample_size <- 10
 } else if (nrow(chunkcsv) >= 100 && (nrow(chunkcsv) < 300)){
@@ -111,4 +111,18 @@ student_counts <- counts.df(student_species)
 
 # print this value to check its contents
 student_counts
+
+# TODO extract test photos to set/adjust date and time
+
+# TODO drop photos of U of A personnel checking cameras, photos of ropes or climbers
+
+# TODO copy photos with some ambiguity and needing a second opinion into a separate folder for manual review
+
+# change the drive letter to G
+
+# create new directory
+
+# copy files to new directory
+
+# copy data into blank macro
 
