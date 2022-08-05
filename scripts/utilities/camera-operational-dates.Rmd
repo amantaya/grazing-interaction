@@ -16,3 +16,14 @@ write.csv(BGW17dates, file = "Boggy_2017_Operational_Dates.csv", row.names = FAL
 BGW18dates <- unique(date(BGW18$DateTime))
 write.csv(BGW18dates, file = "Boggy_2018_Operational_Dates.csv", row.names = FALSE)
 ```
+
+
+Let's check the operational dates for Bear Timelapse 2018. This represents only the dates in this data frame, which corresponds only to 'subject' photos. This data frame does not contain blank or empty photos that were sorted out during an earlier phase of photo processing.
+
+```{r}
+BRL_2018 %>% pull(DateTime) %>% lubridate::date() %>% unique() %>% tibble()
+
+BRL_2019 %>% pull(DateTime) %>% lubridate::date() %>% unique() %>% tibble()
+```
+
+These operational dates represent days with observations containing subjects, but does not contain the dates without observations, but where the camera was still functioning.

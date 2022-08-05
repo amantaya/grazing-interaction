@@ -186,18 +186,6 @@ BKN_2020 <- all_data_all_species %>%
 
 ------------------------------------------------------------------------
 
-Let's check the operational dates for Bear Timelapse 2018. This represents only the dates in this data frame, which corresponds only to 'subject' photos. This data frame does not contain blank or empty photos that were sorted out during an earlier phase of photo processing.
-
-```{r}
-BRL_2018 %>% pull(DateTime) %>% lubridate::date() %>% unique() %>% tibble()
-
-BRL_2019 %>% pull(DateTime) %>% lubridate::date() %>% unique() %>% tibble()
-```
-
-These operational dates represent days with observations containing subjects, but does not contain the dates without observations, but where the camera was still functioning.
-
-------------------------------------------------------------------------
-
 Let's calculate grazing minutes using the Bear Timelapse 2018 data. From our metadata, we know that the Bear Timelapse site in 2018 used a 1 minute collection interval for timelapse photos.
 
 ```{r calc grazing bear timelapse}
