@@ -113,7 +113,7 @@ for (i in 1:length(grouped_site_list)) {
   data$LastSavedOn <- strftime(data$LastSavedOn, usetz = TRUE)
 
   # write out the data as a csv file using the file name convention
-  write_csv(data, file.path(currentwd, "data", "photo", "combined-by-site-year", filename))
+  write_csv(data, file.path(currentwd, "data", "photo", "combined-by-site-year", "unprocessed", filename))
 }
 
 # get the current system time to notify when the script is completed
