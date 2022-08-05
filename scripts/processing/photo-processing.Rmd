@@ -22,8 +22,11 @@ editor_options:
 ## Setup
 
 ```{r setup, include=FALSE}}
+
+rm(list = ls())
+
 # set the working directory and environment variables
-source("~/grazing-interaction/environment.R")
+ source("~/grazing-interaction/environment.R")
 
 # load in the required packages
 source("~/grazing-interaction/packages.R")
@@ -53,7 +56,8 @@ For the first step in cleaning up the camera data, we are going to treat all fie
 path_to_csv_files <- fs::dir_ls(file.path(currentwd, 
                                   "data", 
                                   "photo", 
-                                  "combined-by-site-year"), 
+                                  "combined-by-site-year",
+                                  "unprocessed"), 
                                 regexp = "\\.csv$")
 
 path_to_csv_files
@@ -73,9 +77,9 @@ col_spec <- cols(
   ImagePath = col_character(),
   ImageRelative = col_character(),
   ImageSize = col_double(),
-  ImageTime = col_time(format = ""),
-  ImageDate = col_date(format = ""),
-  DateTime = col_character(),
+  ImageTime = col_character(), # set as character to preserve formatting
+  ImageDate = col_character(), # set as character to preserve formatting
+  DateTime = col_character(), # set as character to preserve formatting
   ImageAlert = col_logical(),
   Frame1 = col_character(),
   chkFrame1Lock = col_logical(),
@@ -244,42 +248,40 @@ csv_files <- path_to_csv_files %>%
              col_types = col_spec)
 ```
 
-```{r list names}
-long_names <- names(csv_files)
-
-short_names <- str_extract(long_names, 
-                           pattern = ("\\d{4}_[:upper:][:upper:][:upper:]")
-                           )
-
-print(short_names)
+```{r rename elements in list of csv files }
+csv_files <- rename_elements_in_list_of_csv_files(csv_files)
 ```
 
-# TODO test if will work with cameratraps2
-
-```{r rename elements in list of csv files}
-long_names <- names(csv_files)
-
-short_names <- stringr::str_extract(long_names, 
-                           pattern = "\\d{4}_[[:upper:]]..|[[:upper:]][[:upper:]][[:upper:]]\\d\\d")
-
-names(csv_files) <- short_names
-
+```{r print names of elements in list of csv files}
 names(csv_files)
+```
+
+There was a missing columns from one of the csv files.
+
+```{r}
+
+for (i in 1:length(csv_files)) {
+
+  column_search <- stringr::str_detect(colnames(csv_files[[i]]), "TraitB3")
+
+  if (any(column_search) != TRUE) {
+
+    print(names(csv_files[i]))
+    
+    break
+
+  } else if (any(column_search) == TRUE) {
+    
+    print(paste("TraitB3 column is not missing from", names(csv_files[i])))
+    
+  }
+}
+
 ```
 
 ## Clean Data by Adding Useful Columns and Removing Unuseful Columns
 
 We read in CSV files containing the camera data. Each data frame corresponds to a site and year (e.g., BGW18 is Boggy West Timelapse, data from year 2018). In all of the data frames, each row corresponds to a single image and each column corresponds to a single 'variable'. Some of these 'variables' are actually metadata, such as the file name of the image and the file path.
-
-```{r get sites from sitecodes}
-
-csv_files_sitecodes <- short_names <- stringr::str_extract(long_names, 
-                           pattern = "[[:upper:]]..|[[:upper:]][[:upper:]][[:upper:]]")
-
-sites <- sitecode_constructor(csv_files_sitecodes)
-
-print(sites)
-```
 
 ```{r add site column to all csv files}
 
@@ -312,24 +314,55 @@ comments_df <- purrr::map_dfr(csv_files, dplyr::filter, (is.na(Comments) == FALS
 
 ```
 
-```{r}
-comments_df %>% pull(Comments) %>% unique() %>% tibble()
+```{r print all photos with comments}
+comments_df %>% pull(Comments) %>% tibble()
 ```
 
-# TODO I will copy these photos into a separate folder for manual review
+```{r search for comment about cows across fencline}
 
-```{r}
+search_comment <- "across the fenceline in the next pasture to the north"
 
-# change the drive letter to G
+search_results <- NULL
 
-# create new directory
+search_results <- as.list(search_results)
 
-# copy files to new directory
+for (i in 1:length(csv_files)) {
+  
+  search_results[[i]] <- 
+    stringr::str_which(csv_files[[i]]$Comments, pattern = search_comment)
 
-# copy data into blank macro
-
+  }
 ```
 
+
+```{r drop photos with comments about cows across fence line}
+for (i in 1:length(csv_files)) {
+  
+  # check if regex search resulted in different number of list elements
+  # stop if not a match
+  if (length(csv_files) != length(search_results)) {
+    warning("Length of CSV files does not match length of search results")
+    break
+  }
+  
+  # run if there was a regex match in search results 
+  if (length(search_results[[i]]) != 0) {
+    
+    csv_files[[i]] <- dplyr::slice(csv_files[[i]], -c(search_results[[i]]))
+    
+    # print the number of rows dropped from each list element
+    # to give a diagnostic output of search results
+    n_rows_dropped <- length(search_results[[i]])
+    
+    print(paste("Dropped", 
+                n_rows_dropped, 
+                "rows from", 
+                names(csv_files[i]), 
+                sep = " ")
+          )
+    }
+  }
+```
 
 Some of the images we classified in the Excel macro were 'empty' (i.e. the observer could not detect a subject in the image). We want to remove these empty images from analysis.
 
@@ -337,8 +370,14 @@ We're going to use the "Count1Species"" column in each data frame to remove 'emp
 
 ```{r drop no detections}
 
-csv_files_dropped_no_detections <- 
+csv_files <- 
   purrr::map(csv_files, tidyr::drop_na, "Count1Species")
+
+```
+
+```{r tally number of species in each csv file}
+
+purrr::map(csv_files, dplyr::count, Count1Species)
 
 ```
 
@@ -350,27 +389,12 @@ Rename the "TraitB2" and "Trait4" columns from the 2018, 2019, and 2020 data to 
 
 ```{r rename TraitB2 and Trait4 cols}
 
-csv_files_dropped_no_detections <- 
+csv_files <- 
   purrr::map(csv_files, dplyr::rename, multi = TraitB2)
 
-csv_files_dropped_no_detections <- 
+csv_files <- 
   purrr::map(csv_files, dplyr::rename, water = Trait4)
 
-```
-
-```{r arrange by site name and convert to data frame}
-all_photo_data <- purrr::map_dfr(csv_files_dropped_no_detections,
-                                 dplyr::arrange, 
-                                 Site)
-
-print(all_photo_data)
-```
-
-```{r convert date and time to strings}
-
-all_photo_data$ImageDate <- strftime(all_photo_data$ImageDate, format = "%F")
-
-all_photo_data$ImageTime <- strftime(all_photo_data$ImageTime, format = "%T")
 ```
 
 ## Write Data to CSV File
@@ -378,9 +402,10 @@ all_photo_data$ImageTime <- strftime(all_photo_data$ImageTime, format = "%T")
 Write out the data frame as a csv file formatted for Excel. We will use this file as an intermediate data file for the next step in our analysis. Having an intermediate data file is helpful because we can perform wrangling steps all at once, and then can use dplyr functions to filter and sort data by site and year. 
 
 ```{r write to csv}
-readr::write_csv(all_photo_data, 
-                       file.path(currentwd, 
-                                 "data", 
-                                 "photo", 
-                                 "all_photo_data.csv"))
+
+list_of_lists <- list(list_of_dataframes = csv_files, 
+                      file_names = names(csv_files))
+
+purrr::pmap(list_of_lists, write_csv_purrr)
+
 ```
