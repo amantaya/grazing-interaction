@@ -35,16 +35,104 @@ se <- function(x){sqrt(var(x)/length(x))}
 #' (Note: you have assign the output of the function to the original dataframe
 #' if you want to overwrite the original dataframe).
 ## ------------------------------------------------------------------------
-clean_dates <- function(cameradf){
+clean_dates <- function(cameradf) {
   # combine the "ImageDate" and "ImageTime" columns into a single column "DateTime"
   # however it is not a datetime class yet its is a character vector
-  cameradf <- unite(cameradf, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
+  cameradf <- dplyr::unite(cameradf, ImageDate, ImageTime, col = "DateTime", sep = " ", remove = TRUE)
   # convert the "DateTime" column into a datetime class
-  cameradf$DateTime <- mdy_hms(cameradf$DateTime)
+  cameradf$DateTime <- lubridate::mdy_hms(cameradf$DateTime)
   # arrange the data frame from
-  cameradf <- arrange(cameradf, DateTime)
+  cameradf <- dplyr::arrange(cameradf, DateTime)
   # return a "cleaned" data frame
   cameradf
+}
+
+datetime_cleaner_csv <- function(cameradf) {
+
+  column_search <- stringr::str_detect(colnames(cameradf), "DateTime")
+
+  if (any(column_search) != TRUE) {
+
+  if (typeof(cameradf$ImageDate) == "double" & typeof(cameradf$ImageTime) == "double") {
+
+    # add the numerical date and time values together
+    cameradf <- dplyr::mutate(cameradf, DateTime = (ImageDate + ImageTime), .after = ImageDate)
+
+    # then convert to a DateTime
+    cameradf$DateTime <- openxlsx::convertToDateTime(cameradf$DateTime, tz = Sys.getenv("TZ"))
+
+    } else if (typeof(cameradf$ImageDate) == "character" & typeof(cameradf$ImageTime) == "character") {
+
+    # create a new column by adding the time and date character strings together
+    cameradf <- mutate(cameradf,
+                       DateTime = stringr::str_c(ImageDate, ImageTime, sep = " "),
+                       .after = ImageDate)
+
+    } else if (typeof(cameradf$ImageDate) == "double" & typeof(cameradf$ImageTime) == "character") {
+
+      # convert the numeric Excel formatted date to a datetime
+      cameradf$ImageDate <- openxlsx::convertToDateTime(cameradf$ImageDate,
+                                                        tz = Sys.getenv("TZ"))
+
+      # then convert the datetime to string
+      cameradf$ImageDate <- as.character(cameradf$ImageDate)
+
+      # then combine the two character strings together
+      cameradf <- mutate(cameradf,
+                         DateTime = stringr::str_c(ImageDate, ImageTime, sep = " "),
+                         .after = ImageDate)
+
+    } else if (typeof(cameradf$ImageDate) == "character" & typeof(cameradf$ImageTime) == "double") {
+
+      # convert the `hms` class into a character
+      cameradf <- dplyr::mutate(cameradf, ImageTime = as.character(ImageTime))
+
+      # then combine the two character strings together
+      cameradf <- mutate(cameradf,
+                         DateTime = stringr::str_c(ImageDate, ImageTime, sep = " "),
+                         .after = ImageDate)
+
+    } else {
+
+      warning(paste("This file failed to parse the date:", names(cameradf)))
+
+    }
+
+  # there are potentially 2 different types of date formats in our data
+  # year month day and month day year
+  # we need to identify how the column in formatted before we can convert it properly
+
+  # month day year pattern
+  date_regex_match <- stringr::str_detect(cameradf$DateTime, pattern = "\\d{1,2}/\\d{1,2}/\\d{4}")
+
+  if (date_regex_match[1] == TRUE) {
+
+    # convert the character strings to date-time class
+    cameradf <- mutate(cameradf,
+                       DateTime = lubridate::mdy_hms(DateTime, tz = Sys.getenv("TZ")),
+                       .after = ImageDate)
+
+  } else {
+    # convert the character strings to date-time class
+    cameradf <- mutate(cameradf,
+                       DateTime = lubridate::ymd_hms(DateTime, tz = Sys.getenv("TZ")),
+                       .after = ImageDate)
+  }
+
+  # convert the "LastSavedOn" column into a POSIXct class
+  cameradf$LastSavedOn <- openxlsx::convertToDateTime(cameradf$LastSavedOn,
+                                                     tz = Sys.getenv("TZ"))
+
+  cameradf <- dplyr::mutate(cameradf, ImageTime = as.character(ImageTime))
+
+  cameradf <- dplyr::mutate(cameradf, ImageDate = as.character(ImageDate))
+
+  cameradf$DateTime <- strftime(cameradf$DateTime, usetz = TRUE)
+
+  }
+
+  return(cameradf)
+
 }
 
 #' ***
@@ -770,65 +858,189 @@ cameratraps2_path_constructor <-
   }
 
 
+# TODO given the opportunity I would design this in a different way
+# first, I would have the users enter the name of each site
+# then I would either programitcally generate a site code from the site name (checking for collisions)
+# or I would allow the user to enter in a site code for each site name
+# I could store this data as a json file
+# then I would use a function like this to match data
+# you could rename the a site in by editing the json file and it should propogate to other files
+
+
 sitecode_constructor <-
   function(sitecode_vector) {
     # regex to construct a dataframe using the first three uppercase letters of the collection folder
+    # or 3 uppercase and 2 digits if a camertraps2 colllection folder
+    regex <- "(?<=_).{3,5}(?=\\.csv)"
+
     reconstructed_site <-
-      data.frame(
-        "sitecode" = stringr::str_extract(sitecode_vector,
-                                          pattern = "([[:upper:]][[:upper:]][[:upper:]]|[[:upper:]]\\d{2})")
-        )
-    # matching on the first three letters to construct file paths
-    for (i in 1:nrow(reconstructed_site)) {
-      if (reconstructed_site$sitecode[i] == "BRL") {
-        reconstructed_site$site[i] <- "Bear Timelapse"
-      } else if (reconstructed_site$sitecode[i] == "BRT") {
-        reconstructed_site$site[i] <- "Bear Trail"
-      } else if (reconstructed_site$sitecode[i] == "BFD") {
-        reconstructed_site$site[i] <- "Big Field"
-      } else if (reconstructed_site$sitecode[i] == "BKD") {
-        reconstructed_site$site[i] <- "Black Canyon Dam"
-      } else if (reconstructed_site$sitecode[i] == "BKN") {
-        reconstructed_site$site[i] <- "Black Canyon North"
-      } else if (reconstructed_site$sitecode[i] == "BKS") {
-        reconstructed_site$site[i] <- "Black Canyon South"
-      } else if (reconstructed_site$sitecode[i] == "BKT") {
-        reconstructed_site$site[i] <- "Black Canyon Trail"
-      } else if (reconstructed_site$sitecode[i] == "BGX") {
-        reconstructed_site$site[i] <- "Boggy Exclosure"
-      } else if (reconstructed_site$sitecode[i] == "BGW") {
-        reconstructed_site$site[i] <- "Boggy West"
-      } else if (reconstructed_site$sitecode[i] == "BGE") {
-        reconstructed_site$site[i] <- "Boggy East"
-      } else if (reconstructed_site$sitecode[i] == "BGT") {
-        reconstructed_site$site[i] <- "Boggy Trail"
-      } else if (reconstructed_site$sitecode[i] == "EFK") {
-        reconstructed_site$site[i] <- "East Fork"
-      } else if (reconstructed_site$sitecode[i] == "A51") {
-        reconstructed_site$site[i] <- "Fifty One"
-      } else if (reconstructed_site$sitecode[i] == "FLO") {
-        reconstructed_site$site[i] <- "Fire Lookout"
-      } else if (reconstructed_site$sitecode[i] == "HWY") {
-        reconstructed_site$site[i] <- "Highway"
-      } else if (reconstructed_site$sitecode[i] == "HPL") {
-        reconstructed_site$site[i] <- "Holding Pasture"
-      } else if (reconstructed_site$sitecode[i] == "MAD") {
-        reconstructed_site$site[i] <- "Malden Phenocam"
-      } else if (reconstructed_site$sitecode[i] == "OPO") {
-        reconstructed_site$site[i] <- "Only Ponderosa"
-      } else if (reconstructed_site$sitecode[i] == "WCX") {
-        reconstructed_site$site[i] <- "Wildcat Exclosure"
-      } else if (reconstructed_site$sitecode[i] == "WCS") {
-        reconstructed_site$site[i] <- "Wildcat South"
-      } else if (reconstructed_site$sitecode[i] == "WCN") {
-        reconstructed_site$site[i] <- "Wildcat North"
-      } else if (reconstructed_site$sitecode[i] == "WCT") {
-        reconstructed_site$site[i] <- "Wildcat Trail"
-      } else {
-        reconstructed_site <- NULL
-        warning(paste("Site not a match!", reconstructed_site$sitecode[i]))
-      }
-    }
-    return(reconstructed_site)
+      data.frame("sitecode" = stringr::str_extract(sitecode_vector,
+                                                   pattern = regex)
+      )
+                 for (i in 1:nrow(reconstructed_site)) {
+                   if (nchar(reconstructed_site$sitecode[i]) == 3) {
+                     if (reconstructed_site$sitecode[i] == "BRL") {
+                       reconstructed_site$site[i] <- "Bear Timelapse"
+                     } else if (reconstructed_site$sitecode[i] == "BRT") {
+                       reconstructed_site$site[i] <- "Bear Trail"
+                     } else if (reconstructed_site$sitecode[i] == "BFD") {
+                       reconstructed_site$site[i] <- "Big Field"
+                     } else if (reconstructed_site$sitecode[i] == "BKD") {
+                       reconstructed_site$site[i] <- "Black Canyon Dam"
+                     } else if (reconstructed_site$sitecode[i] == "BKN") {
+                       reconstructed_site$site[i] <- "Black Canyon North"
+                     } else if (reconstructed_site$sitecode[i] == "BKS") {
+                       reconstructed_site$site[i] <- "Black Canyon South"
+                     } else if (reconstructed_site$sitecode[i] == "BKT") {
+                       reconstructed_site$site[i] <- "Black Canyon Trail"
+                     } else if (reconstructed_site$sitecode[i] == "BGX") {
+                       reconstructed_site$site[i] <- "Boggy Exclosure"
+                     } else if (reconstructed_site$sitecode[i] == "BGW") {
+                       reconstructed_site$site[i] <- "Boggy West"
+                     } else if (reconstructed_site$sitecode[i] == "BGE") {
+                       reconstructed_site$site[i] <- "Boggy East"
+                     } else if (reconstructed_site$sitecode[i] == "BGT") {
+                       reconstructed_site$site[i] <- "Boggy Trail"
+                     } else if (reconstructed_site$sitecode[i] == "EFK") {
+                       reconstructed_site$site[i] <- "East Fork"
+                     } else if (reconstructed_site$sitecode[i] == "A51") {
+                       reconstructed_site$site[i] <- "Fifty One"
+                     } else if (reconstructed_site$sitecode[i] == "FLO") {
+                       reconstructed_site$site[i] <- "Fire Lookout"
+                     } else if (reconstructed_site$sitecode[i] == "HWY") {
+                       reconstructed_site$site[i] <- "Highway"
+                     } else if (reconstructed_site$sitecode[i] == "HPL") {
+                       reconstructed_site$site[i] <- "Holding Pasture"
+                     } else if (reconstructed_site$sitecode[i] == "MAD") {
+                       reconstructed_site$site[i] <- "Malden Phenocam"
+                     } else if (reconstructed_site$sitecode[i] == "OPO") {
+                       reconstructed_site$site[i] <- "Only Ponderosa"
+                     } else if (reconstructed_site$sitecode[i] == "WCX") {
+                       reconstructed_site$site[i] <- "Wildcat Exclosure"
+                     } else if (reconstructed_site$sitecode[i] == "WCS") {
+                       reconstructed_site$site[i] <- "Wildcat South"
+                     } else if (reconstructed_site$sitecode[i] == "WCN") {
+                       reconstructed_site$site[i] <- "Wildcat North"
+                     } else if (reconstructed_site$sitecode[i] == "WCT") {
+                       reconstructed_site$site[i] <- "Wildcat Trail"
+                     }
+                   } else if (nchar(reconstructed_site$sitecode[i]) == 5) {
+                     if (reconstructed_site$sitecode[i] == "BUO01") {
+                       reconstructed_site$site[i] <- "Bunger Off Territory 01"
+                     } else if (reconstructed_site$sitecode[i] == "BUO07") {
+                       reconstructed_site$site[i] <- "Bunger Off Territory 07"
+                     } else if (reconstructed_site$sitecode[i] == "BUO23") {
+                       reconstructed_site$site[i] <- "Bunger Off Territory 23"
+                     } else if (reconstructed_site$sitecode[i] == "BUO29") {
+                       reconstructed_site$site[i] <- "Bunger Off Territory 29"
+                     } else if (reconstructed_site$sitecode[i] == "BUT12") {
+                       reconstructed_site$site[i] <- "Bunger On Territory 12"
+                     } else if (reconstructed_site$sitecode[i] == "BUT19") {
+                       reconstructed_site$site[i] <- "Bunger On Territory 19"
+                     } else if (reconstructed_site$sitecode[i] == "GEO02") {
+                       reconstructed_site$site[i] <- "Gentry Off Territory 02"
+                     } else if (reconstructed_site$sitecode[i] == "GEO30") {
+                       reconstructed_site$site[i] <- "Gentry Off Territory 30"
+                     } else if (reconstructed_site$sitecode[i] == "GEO32") {
+                       reconstructed_site$site[i] <- "Gentry Off Territory 32"
+                     } else if (reconstructed_site$sitecode[i] == "GET01") {
+                       reconstructed_site$site[i] <- "Gentry On Territory 01"
+                     } else if (reconstructed_site$sitecode[i] == "GET06") {
+                       reconstructed_site$site[i] <- "Gentry On Territory 06"
+                     } else if (reconstructed_site$sitecode[i] == "GET13") {
+                       reconstructed_site$site[i] <- "Gentry On Territory 13"
+                     } else if (reconstructed_site$sitecode[i] == "GET21") {
+                       reconstructed_site$site[i] <- "Gentry On Territory 21"
+                     } else if (reconstructed_site$sitecode[i] == "GEO22") {
+                       reconstructed_site$site[i] <- "Gentry Off Territory 22"
+                     } else if (reconstructed_site$sitecode[i] == "KPT14") {
+                       reconstructed_site$site[i] <- "King Phillip On Territory 14"
+                     } else if (reconstructed_site$sitecode[i] == "KPT16") {
+                       reconstructed_site$site[i] <- "King Phillip On Territory 16"
+                     } else if (reconstructed_site$sitecode[i] == "KPT27") {
+                       reconstructed_site$site[i] <- "King Phillip On Territory 27"
+                     } else if (reconstructed_site$sitecode[i] == "SHT11") {
+                       reconstructed_site$site[i] <- "Sharp Hollow On Territory 11"
+                     } else if (reconstructed_site$sitecode[i] == "SHT15") {
+                       reconstructed_site$site[i] <- "Sharp Hollow On Territory 15"
+                     } else if (reconstructed_site$sitecode[i] == "SHT18") {
+                       reconstructed_site$site[i] <- "Sharp Hollow On Territory 18"
+                     } else if (reconstructed_site$sitecode[i] == "SHT30") {
+                       reconstructed_site$site[i] <- "Sharp Hollow On Territory 30"
+                     } else if (reconstructed_site$sitecode[i] == "STO08") {
+                       reconstructed_site$site[i] <- "Stermer Off Territory 08"
+                     } else if (reconstructed_site$sitecode[i] == "STO09") {
+                       reconstructed_site$site[i] <- "Stermer Off Territory 09"
+                     } else if (reconstructed_site$sitecode[i] == "STO39") {
+                       reconstructed_site$site[i] <- "Stermer Off Territory 39"
+                     } else if (reconstructed_site$sitecode[i] == "STT29") {
+                       reconstructed_site$site[i] <- "Stermer On Territory 29"
+                     }
+                   } else {
+                     warning(paste("Site not a match!", reconstructed_site$sitecode[i]))
+                   }
+                 }
+                 return(reconstructed_site)
   }
 
+rename_water_column_to_TraitB2 <- function(cameradf) {
+
+  column_search <- stringr::str_detect(colnames(cameradf), "multi")
+
+  if (any(column_search) == TRUE) {
+
+    cameradf <- dplyr::rename(cameradf, TraitB2 = multi)
+
+  }
+  return(cameradf)
+}
+
+rename_water_column_to_Trait4 <- function(cameradf) {
+
+  column_search <- stringr::str_detect(colnames(cameradf), "water")
+
+  if (any(column_search) == TRUE) {
+
+    cameradf <- dplyr::rename(cameradf, Trait4 = water)
+
+  }
+  return(cameradf)
+}
+
+
+rename_measured_column_to_TraitB3 <- function(cameradf) {
+
+  column_search <- stringr::str_detect(colnames(cameradf), "measured")
+
+  if (any(column_search) == TRUE) {
+
+    cameradf <- dplyr::rename(cameradf, TraitB3 = measured)
+
+  }
+  return(cameradf)
+}
+
+
+rename_elements_in_list_of_csv_files <- function(csv_files) {
+
+  long_names <- names(csv_files)
+
+  names(csv_files) <- basename(long_names)
+
+  return(csv_files)
+
+}
+
+
+write_csv_purrr <- function(list_of_dataframes, file_names) {
+
+  folder_path <- file.path(currentwd,
+                           "data",
+                           "photo",
+                           "combined-by-site-year",
+                           "processed")
+
+  readr::write_csv(list_of_dataframes,
+                   file.path(folder_path, file_names))
+
+}
