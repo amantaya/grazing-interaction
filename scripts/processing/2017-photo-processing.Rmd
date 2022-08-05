@@ -1,0 +1,114 @@
+---
+title: "2017 Photo Processing"
+author: "Andrew Antaya"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  word_document:
+    toc: yes
+  citation_package: biblatex
+  html_document:
+    theme: readable
+    toc: yes
+    toc_depth: 5
+    fig_caption: yes
+  pdf_document: default
+subtitle:
+bibliography: My Library.bib
+link-citations: yes
+editor_options:
+  markdown:
+    wrap: 72
+---
+
+```{r setup, include=FALSE}}
+
+rm(list = ls())
+
+# set the working directory and environment variables
+ source("~/grazing-interaction/environment.R")
+
+# load in the required packages
+source("~/grazing-interaction/packages.R")
+
+# load in the required functions
+source("~/grazing-interaction/functions.R")
+
+knitr::opts_chunk$set(echo = TRUE)
+
+knitr::opts_knit$set(root.dir = currentwd)
+
+flextable::set_flextable_defaults(
+  font.size = 10, 
+  theme_fun = theme_box,
+  text.align = "center",
+  fonts_ignore = TRUE,
+  background.color = "#EFEFEF")
+```
+
+```{r read csv files in directory}
+path_to_csv_files <- fs::dir_ls(file.path(currentwd, 
+                                  "data", 
+                                  "photo", 
+                                  "combined-by-site-year",
+                                  "unprocessed"), 
+                                regexp = "2017.*\\.csv$")
+
+path_to_csv_files
+```
+
+```{r load all csv files}
+csv_files <- path_to_csv_files %>% 
+  purrr::map(readr::read_csv,
+             na = c("", " ", "NA"))
+```
+
+```{r rename elements in list of csv files }
+csv_files <- rename_elements_in_list_of_csv_files(csv_files)
+```
+
+## Create a DateTime column
+
+```{r clean date and time cols}
+csv_files <- purrr::map(csv_files, datetime_cleaner_csv)
+```
+
+## Rename columns water and multi
+
+```{r rename multi to TraitB2}
+
+csv_files <- purrr::map(csv_files, rename_water_column_to_TraitB2)
+```
+
+```{r rename water to Trait4}
+
+csv_files <- purrr::map(csv_files, rename_water_column_to_Trait4)
+```
+
+```{r rename measured to TraitB3}
+csv_files <- purrr::map(csv_files, rename_measured_column_to_TraitB3)
+```
+
+```{r write_csv_purrr function}
+write_csv_purrr <- function(list_of_dataframes, file_names) { 
+  
+  folder_path <- file.path(currentwd, 
+                           "data",
+                           "photo",
+                           "combined-by-site-year", 
+                           "unprocessed")
+  
+  readr::write_csv(list_of_dataframes, 
+                   file.path(folder_path, file_names))
+
+  }
+```
+
+```{r write to csv}
+
+list_of_lists <- list(list_of_dataframes = csv_files, 
+                      file_names = names(csv_files))
+
+purrr::pmap(list_of_lists, write_csv_purrr)
+
+```
+
