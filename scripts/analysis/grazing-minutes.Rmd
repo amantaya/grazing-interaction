@@ -200,28 +200,6 @@ These operational dates represent days with observations containing subjects, bu
 
 Let's calculate grazing minutes using the Bear Timelapse 2018 data. From our metadata, we know that the Bear Timelapse site in 2018 used a 1 minute collection interval for timelapse photos.
 
-```{r}
-calc.grazing.time.unwtd <- function(cameradf, interval) {
-  cameradf <- cameradf %>% dplyr::mutate(horse_grazing_unwtd = horse * interval)
-  
-  cameradf <- cameradf %>% dplyr::mutate(cow_grazing_unwtd = cow * interval)
-  
-  cameradf <- cameradf %>% dplyr::mutate(elk_grazing_unwtd = elk * interval)
-  
-  return(cameradf)
-}
-
-calc.grazing.time.wtd <- function(cameradf, interval) {
-  cameradf <- cameradf %>% dplyr::mutate(horse_grazing_wtd = horse * interval * 1.1)
-  
-  cameradf <- cameradf %>% dplyr::mutate(cow_grazing_wtd = cow * interval * 1)
-  
-  cameradf <- cameradf %>% dplyr::mutate(elk_grazing_wtd = elk * interval * 0.7)
-  
-  return(cameradf)
-}
-```
-
 ```{r calc grazing bear timelapse}
 BRL_2017 <- calc.grazing.time.unwtd(BRL_2017, interval = 1)
 
