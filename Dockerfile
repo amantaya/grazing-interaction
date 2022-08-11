@@ -47,6 +47,7 @@ RUN R -e "remotes::install_version('rticles', version = '0.23', repos = 'https:/
 RUN R -e "remotes::install_version('bookdown', version = '0.27', repos = 'https://cran.r-project.org/')"
 RUN R -e "remotes::install_version('officedown', version = '0.2.4', repos = 'https://cran.r-project.org/')"
 RUN R -e "remotes::install_version('fs', version = '1.5.2', repos = 'https://cran.r-project.org/')"
+RUN R -e "remotes::install_version('jsonlite', version = '1.8.0', repos = 'https://cran.r-project.org/')"
 
 # copy my R Studio preferences into the .config folder
 COPY --chown=rstudio .rstudio/rstudio/rstudio-prefs.json home/rstudio/.config/rstudio/rstudio-prefs.json
