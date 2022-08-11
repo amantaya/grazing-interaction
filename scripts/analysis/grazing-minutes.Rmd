@@ -12,7 +12,7 @@ output:
     toc: yes
 ---
 
-# Setup
+## Setup
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,
@@ -29,6 +29,9 @@ flextable::set_flextable_defaults(
   text.align = "center",
   fonts_ignore = TRUE,
   background.color = "#EFEFEF")
+
+# set the plot theme to our custom theme
+ggplot2::theme_set(theme_grazer())
 ```
 
 ------------------------------------------------------------------------
@@ -41,7 +44,7 @@ path_to_csv_files <- fs::dir_ls(file.path(currentwd,
                                   "photo", 
                                   "combined-by-site-year",
                                   "processed"), 
-                                regexp = "\\.csv$")
+                                regexp = "\\d{4}_(..[^T])\\.csv$")
 
 path_to_csv_files
 ```
@@ -55,10 +58,22 @@ source(file.path(currentwd,
 ```
 
 ```{r load all csv files}
-all_data <- path_to_csv_files %>% 
-  purrr::map_dfr(readr::read_csv,
+
+cameradf_list <- path_to_csv_files %>% 
+  purrr::map(readr::read_csv,
              na = c("", " ", "NA"),
              col_types = col_spec)
+
+```
+
+```{r rename elements in cameradf_list}
+
+cameradf_list <- rename_elements_in_list_of_csv_files(cameradf_list)
+
+```
+
+```{r set timezone}
+cameradf_list <- purrr::map(cameradf_list, set_timezone)
 ```
 
 ------------------------------------------------------------------------
@@ -69,9 +84,14 @@ The "speciestotal" function will count up the number of individuals for each spe
 
 A second function "allspecies" uses the "speciestotal" function for all of the species possible (24 total), and creates a new column for each species.
 
+# TODO rename the `allspecies` funciton
+
+# TODO refactor functions so they do not include periods "."
+
 ```{r species counts}
 
-all_data_all_species <- allspecies(all_data)
+cameradf_list <- 
+  purrr::map(cameradf_list, allspecies)
 
 ```
 
@@ -79,264 +99,38 @@ all_data_all_species <- allspecies(all_data)
 
 This new data frame has 24 additional columns that contain counts of the 'subjects' (e.g., horses, cows, ATVs, humans) in each photo. These columns were created primarily to simplify the data frame, where a single row has the counts for each species stored in a separate column.
 
-```{r black canyon south 2017}
-BKS_2017 <- all_data_all_species %>% 
-  dplyr::filter(Site == "Black Canyon South") %>% 
-  dplyr::filter(Year == "2017")
-  
-
-```
-
-```{r black canyon south 2018}
-BKS_2018 <- all_data_all_species %>% 
-  dplyr::filter(Site == "Black Canyon South") %>% 
-  dplyr::filter(Year == "2018")
-  
-
-```
-
-```{r black canyon south 2019}
-BKS_2019 <- all_data_all_species %>% 
-  dplyr::filter(Site == "Black Canyon South") %>% 
-  dplyr::filter(Year == "2019")
-  
-
-```
-
-```{r black canyon south 2020}
-BKS_2020 <- all_data_all_species %>% 
-  dplyr::filter(Site == "Black Canyon South") %>% 
-  dplyr::filter(Year == "2020")
-  
-
-```
-
-```{r bear timelapse 2017}
-
-BRL_2017 <- all_data_all_species %>% 
-  dplyr::filter(Site == "Bear Timelapse") %>% 
-  dplyr::filter(Year == "2017")
-  
-
-```
-
-```{r bear timelapse 2018}
-BRL_2018 <- all_data_all_species %>% 
-  dplyr::filter(Site == "Bear Timelapse") %>% 
-  dplyr::filter(Year == "2018")
-  
-
-```
-
-```{r bear timelapse 2019}
-BRL_2019 <- all_data_all_species %>% 
-  dplyr::filter(Site == "Bear Timelapse") %>% 
-  dplyr::filter(Year == "2019")
-  
-
-```
-
-```{r bear timelapse 2020}
-BRL_2020 <- all_data_all_species %>% 
-  dplyr::filter(Site == "Bear Timelapse") %>%
-  dplyr::filter(Year == "2020")
-  
-
-```
-
-```{r fifty one timelapse 2019}
-A51_2019 <- all_data_all_species %>% 
-  dplyr::filter(Site == "Fifty One") %>% 
-  dplyr::filter(Year == "2019")
-  
-
-```
-
-```{r fifty one timelapse 2020}
-A51_2020 <- all_data_all_species %>% 
-  dplyr::filter(Site == "Fifty One") %>% 
-  dplyr::filter(Year == "2020")
-  
-
-```
-
-```{r black canyon dam 2019}
-BKD_2019 <- all_data_all_species %>% 
-  dplyr::filter(Site == "Black Canyon Dam") %>% 
-  dplyr::filter(Year == "2019")
-  
-
-```
-
-```{r black canyon north 2019}
-BKN_2019 <- all_data_all_species %>% 
-  dplyr::filter(Site == "Black Canyon North") %>% 
-  dplyr::filter(Year == "2019")
-
-
-```
-
-```{r black canyon north 2020}
-BKN_2020 <- all_data_all_species %>% 
-  dplyr::filter(Site == "Black Canyon North") %>% 
-  dplyr::filter(Year == "2020")
-  
-
-```
-
 ------------------------------------------------------------------------
 
 Let's calculate grazing minutes using the Bear Timelapse 2018 data. From our metadata, we know that the Bear Timelapse site in 2018 used a 1 minute collection interval for timelapse photos.
 
-```{r calc grazing bear timelapse}
-BRL_2017 <- calc.grazing.time.unwtd(BRL_2017, interval = 1)
+```{r calc grazing time unwtd}
 
-BRL_2017 <- calc.grazing.time.wtd(BRL_2017, interval = 1)
-
-BRL_2018 <- calc.grazing.time.unwtd(BRL_2018, interval = 1)
-
-BRL_2018 <- calc.grazing.time.wtd(BRL_2018, interval = 1)
-
-BRL_2019 <- calc.grazing.time.unwtd(BRL_2019, interval = 5)
-
-BRL_2019 <- calc.grazing.time.wtd(BRL_2019, interval = 5)
-
-BRL_2020 <- calc.grazing.time.unwtd(BRL_2020, interval = 5)
-
-BRL_2020 <- calc.grazing.time.wtd(BRL_2020, interval = 5)
-```
-
-```{r calc grazing fifty one}
-A51_2019 <- calc.grazing.time.unwtd(A51_2019, interval = 5)
-
-A51_2019 <- calc.grazing.time.wtd(A51_2019, interval = 5)
-
-A51_2020 <- calc.grazing.time.unwtd(A51_2020, interval = 5)
-
-A51_2020 <- calc.grazing.time.wtd(A51_2020, interval = 5)
-```
-
-```{r calc grazing black canyon dam}
-BKD_2019 <- calc.grazing.time.unwtd(BKD_2019, interval = 5)
-
-BKD_2019 <- calc.grazing.time.wtd(BKD_2019, interval = 5)
-```
-
-```{r calc grazing black canyon north}
-BKN_2019 <- calc.grazing.time.unwtd(BKN_2019, interval = 5)
-
-BKN_2019 <- calc.grazing.time.wtd(BKN_2019, interval = 5)
-
-BKN_2020 <- calc.grazing.time.unwtd(BKN_2020, interval = 5)
-
-BKN_2020 <- calc.grazing.time.wtd(BKN_2020, interval = 5)
-```
-
-```{r calc grazing black canyon south}
-BKS_2017 <- calc.grazing.time.unwtd(BKS_2017, interval = 1)
-
-BKS_2017 <- calc.grazing.time.wtd(BKS_2017, interval = 1)
-
-BKS_2018 <- calc.grazing.time.unwtd(BKS_2018, interval = 1)
-
-BKS_2018 <- calc.grazing.time.wtd(BKS_2018, interval = 1)
-
-BKS_2019 <- calc.grazing.time.unwtd(BKS_2019, interval = 5)
-
-BKS_2019 <- calc.grazing.time.wtd(BKS_2019, interval = 5)
-
-BKS_2020 <- calc.grazing.time.unwtd(BKS_2020, interval = 5)
-
-BKS_2020 <- calc.grazing.time.wtd(BKS_2020, interval = 5)
-```
-
-# TODO rename the elements in the list by their object name
-# Or by reading in with purrr map read_csv
-
-```{r list of dataframes}
-list_of_dataframes <- list(A51_2019, 
-                           A51_2020, 
-                           BKD_2019, 
-                           BKN_2019, 
-                           BKN_2020, 
-                           BKS_2017, 
-                           BKS_2018, 
-                           BKS_2019, 
-                           BKS_2020, 
-                           BRL_2017, 
-                           BRL_2018, 
-                           BRL_2019, 
-                           BRL_2020)
-
-
-names(list_of_dataframes) <- c("A51_2019", 
-                           "A51_2020", 
-                           "BKD_2019", 
-                           "BKN_2019", 
-                           "BKN_2020", 
-                           "BKS_2017", 
-                           "BKS_2018", 
-                           "BKS_2019", 
-                           "BKS_2020", 
-                           "BRL_2017", 
-                           "BRL_2018", 
-                           "BRL_2019", 
-                           "BRL_2020")
+cameradf_list <- purrr::map(cameradf_list, calc.grazing.time.unwtd)
 
 ```
 
-```{r purrr map summarize.unwtd.daily.totals}
+```{r calc grazing time wtd}
 
-list_of_summarized_dataframes_unwtd <- 
-  list_of_dataframes %>% 
-  purrr::map(summarize.unwtd.daily.totals)
+cameradf_list <- purrr::map(cameradf_list, calc.grazing.time.wtd)
 
 ```
 
-```{r set element names list_of_summarized_dataframes_unwtd}
+```{r calc daily summary}
 
-names(list_of_summarized_dataframes_unwtd) <- c("A51_2019",
-                                                "A51_2020",
-                                                "BKD_2019",
-                                                "BKN_2019",
-                                                "BKN_2020",
-                                                "BKS_2017",
-                                                "BKS_2018",
-                                                "BKS_2019",
-                                                "BKS_2020",
-                                                "BRL_2017",
-                                                "BRL_2018",
-                                                "BRL_2019",
-                                                "BRL_2020")
-```
-
-```{r purrr map summarize.wtd.daily.totals}
-
-list_of_summarized_dataframes_wtd <- 
-  list_of_dataframes %>% 
-  purrr::map(summarize.wtd.daily.totals)
+list_of_summarized_cameradf <- 
+  purrr::map(cameradf_list, summarize_daily_totals)
 
 ```
 
-```{r set element names list_of_summarized_dataframes_wtd}
+## Daily Totals
 
-names(list_of_summarized_dataframes_wtd) <- c("A51_2019",
-                                                "A51_2020",
-                                                "BKD_2019",
-                                                "BKN_2019",
-                                                "BKN_2020",
-                                                "BKS_2017",
-                                                "BKS_2018",
-                                                "BKS_2019",
-                                                "BKS_2020",
-                                                "BRL_2017",
-                                                "BRL_2018",
-                                                "BRL_2019",
-                                                "BRL_2020")
-```
+# TODO the monitoring start and end dates should be programatically generated
+# TODO save the annotations as a data frame and then use geom_text to add the labels to the plot
 
 ```{r Bear 2017 Unweighted Figure}
-p <- ggplot(BRL_2017_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = Species)) +
+
+ggplot(list_of_summarized_cameradf$`2017_BRL.csv`,
+            aes(x = ImageDate, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b", 
                date_breaks = "1 month",
@@ -345,16 +139,12 @@ p <- ggplot(BRL_2017_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
   labs(title = "Bear Timelapse", subtitle = "2017") +
   ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
     annotate(geom = "text", 
            x = date(("2017-07-10")), 
            y = (250/2),
            label = "Monitoring Start Date",
            angle = 90,
-           size = 2) +
+           size = 9) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2017-07-13")), 
@@ -366,12 +156,12 @@ ggsave("Bear-Timelapse-2017-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
        height = 6,
        width = 9,
        units = "in",
-       path = paste0(currentwd,"/figures", "/grazing-minutes"))
-p
+       path = file.path(currentwd, "figures", "grazing-minutes", "daily-site-use"))
 ```
 
 ```{r Bear 2017 Weighted Figure}
-p <- ggplot(BRL_2017_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Species)) +
+ggplot(list_of_summarized_cameradf$`2017_BRL.csv`, 
+            aes(x = ImageDate, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b", 
                date_breaks = "1 month",
@@ -380,16 +170,12 @@ p <- ggplot(BRL_2017_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
   labs(title = "Bear Timelapse", subtitle = "2017") +
   ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
   annotate(geom = "text", 
            x = date(("2017-07-10")), 
            y = (250/2),
            label = "Monitoring Start Date",
            angle = 90,
-           size = 2) +
+           size = 9) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2017-07-13")), 
@@ -397,20 +183,16 @@ p <- ggplot(BRL_2017_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
            y = 0, 
            yend = 250,
            color = "black")
-
-p
-```
-
-```{r}
 ggsave("Bear-Timelapse-2017-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
        height = 6,
        width = 9,
        units = "in",
-       path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       path = file.path(currentwd, "figures", "grazing-minutes", "daily-site-use"))
 ```
 
 ```{r Bear 2018 Unweighted Figure}
-p <- ggplot(BRL_2018_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = Species)) +
+ggplot(list_of_summarized_cameradf$`2018_BRL.csv`,
+            aes(x = ImageDate, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b", 
                date_breaks = "1 month",
@@ -418,25 +200,17 @@ p <- ggplot(BRL_2018_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
   scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
   labs(title = "Bear Timelapse", subtitle = "2018") +
   ylab("Grazing Minutes (Unweighted)") +
-  facet_grid(Species ~ .) +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)))
-
-p
-```
-
-```{r}
+  facet_grid(Species ~ .)
 ggsave("Bear-Timelapse-2018-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
-      height = 6,
+       height = 6,
        width = 9,
        units = "in",
-       path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       path = file.path(currentwd, "figures", "grazing-minutes", "daily-site-use"))
 ```
 
 ```{r Bear 2018 Weighted Figure}
-p <- ggplot(BRL_2018_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Species)) +
+ggplot(list_of_summarized_cameradf$`2018_BRL.csv`, 
+       aes(x = ImageDate, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b", 
                date_breaks = "1 month", 
@@ -444,25 +218,17 @@ p <- ggplot(BRL_2018_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
   scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
   labs(title = "Bear Timelapse", subtitle = "2018") +
   ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
-  facet_grid(Species ~ .) +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)))
-
-p
-```
-
-```{r}
+  facet_grid(Species ~ .)
 ggsave("Bear-Timelapse-2018-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
        height = 6,
        width = 9,
        units = "in",
-       path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       path = file.path(currentwd, "figures", "grazing-minutes", "daily-site-use"))
 ```
 
 ```{r Bear 2019 Unweighted Figure}
-p <- ggplot(BRL_2019_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = Species)) +
+ggplot(list_of_summarized_cameradf$`2019_BRL.csv`, 
+            aes(x = ImageDate, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -471,16 +237,13 @@ p <- ggplot(BRL_2019_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
   labs(title = "Bear Timelapse", subtitle = "2019") +
   ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+
   annotate(geom = "text", 
            x = date(("2019-06-02")), 
            y = (10000/2),
            label = "Monitoring Start Date",
            angle = 90,
-           size = 2) +
+           size = 9) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2019-06-05")), 
@@ -488,19 +251,16 @@ p <- ggplot(BRL_2019_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
            y = 0, 
            yend = 10000,
            color = "black")
-p
-```
-
-```{r}
 ggsave("Bear-Timelapse-2019-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
-      height = 6,
+       height = 6,
        width = 9,
        units = "in",
-     path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       path = file.path(currentwd, "figures", "grazing-minutes", "daily-site-use"))
 ```
 
 ```{r Bear 2019 Weighted Figure}
-p <- ggplot(BRL_2019_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Species)) +
+ggplot(list_of_summarized_cameradf$`2019_BRL.csv`, 
+            aes(x = ImageDate, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -509,16 +269,13 @@ p <- ggplot(BRL_2019_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
   labs(title = "Bear Timelapse", subtitle = "2019") +
   ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+
   annotate(geom = "text", 
            x = date(("2019-06-02")), 
            y = (10000/2),
            label = "Monitoring Start Date",
            angle = 90,
-           size = 2) +
+           size = 9) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2019-06-05")), 
@@ -526,19 +283,16 @@ p <- ggplot(BRL_2019_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
            y = 0, 
            yend = 10000,
            color = "black")
-p
-```
-
-```{r}
 ggsave("Bear-Timelapse-2019-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
-      height = 6,
+       height = 6,
        width = 9,
        units = "in",
-     path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       path = file.path(currentwd, "figures", "grazing-minutes", "daily-site-use"))
 ```
 
 ```{r Bear 2020 Unweighted Figure}
-p <- ggplot(BRL_2020_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = Species)) +
+ggplot(list_of_summarized_cameradf$`2020_BRL.csv`, 
+            aes(x = ImageDate, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -547,16 +301,13 @@ p <- ggplot(BRL_2020_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
   labs(title = "Bear Timelapse", subtitle = "2020") +
   ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+
   annotate(geom = "text", 
            x = date(("2020-07-08")), 
            y = 500,
            label = "Monitoring Start Date",
            angle = 90,
-           size = 2) +
+           size = 9) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2020-07-11")), 
@@ -564,19 +315,16 @@ p <- ggplot(BRL_2020_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
            y = 0, 
            yend = 1000,
            color = "black")
-p
-```
-
-```{r}
 ggsave("Bear-Timelapse-2020-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
-      height = 6,
+       height = 6,
        width = 9,
        units = "in",
-     path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       path = file.path(currentwd, "figures", "grazing-minutes", "daily-site-use"))
 ```
 
 ```{r Bear 2020 Weighted Figure}
-p <- ggplot(BRL_2020_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Species)) +
+ggplot(list_of_summarized_cameradf$`2020_BRL.csv`, 
+            aes(x = ImageDate, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -585,16 +333,13 @@ p <- ggplot(BRL_2020_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
   labs(title = "Bear Timelapse", subtitle = "2020") +
   ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+  
   annotate(geom = "text", 
            x = date(("2020-07-08")), 
            y = 500,
            label = "Monitoring Start Date",
            angle = 90,
-           size = 2) +
+           size = 9) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2020-07-11")), 
@@ -602,19 +347,16 @@ p <- ggplot(BRL_2020_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
            y = 0, 
            yend = 1000,
            color = "black")
-p
-```
-
-```{r}
 ggsave("Bear-Timelapse-2020-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
-      height = 6,
+       height = 6,
        width = 9,
        units = "in",
-     path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       path = file.path(currentwd, "figures", "grazing-minutes", "daily-site-use"))
 ```
 
-```{r}
-p <- ggplot(A51_2019_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = Species)) +
+```{r Area 51 2019 Unweighted Figure}
+ggplot(list_of_summarized_cameradf$`2019_A51.csv`, 
+            aes(x = ImageDate, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -623,16 +365,13 @@ p <- ggplot(A51_2019_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
   labs(title = "Fifty One Timelapse", subtitle = "2019") +
   ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+
   annotate(geom = "text",
            x = date(("2019-06-08")),
            y = 1000,
            label = "Monitoring Start Date",
            angle = 90,
-           size = 2) +
+           size = 9) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2019-06-11")),
@@ -640,19 +379,15 @@ p <- ggplot(A51_2019_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
            y = 0,
            yend = 2000,
            color = "black")
-p
-```
-
-```{r}
 ggsave("FiftyOne-Timelapse-2019-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
-      height = 6,
+       height = 6,
        width = 9,
        units = "in",
-     path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       path = file.path(currentwd, "figures", "grazing-minutes", "daily-site-use"))
 ```
 
-```{r}
-p <- ggplot(A51_2019_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Species)) +
+```{r Area 51 2019 Weighted Figure}
+ggplot(list_of_summarized_cameradf$`2019_A51.csv`, aes(x = ImageDate, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -661,16 +396,13 @@ p <- ggplot(A51_2019_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
   labs(title = "Fifty One Timelapse", subtitle = "2019") +
   ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+
   annotate(geom = "text",
            x = date(("2019-06-08")),
            y = 1000,
            label = "Monitoring Start Date",
            angle = 90,
-           size = 2) +
+           size = 9) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2019-06-11")),
@@ -678,19 +410,16 @@ p <- ggplot(A51_2019_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
            y = 0,
            yend = 2000,
            color = "black")
-p
-```
-
-```{r}
 ggsave("FiftyOne-Timelapse-2019-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
-        height = 6,
+       height = 6,
        width = 9,
        units = "in",
-     path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       path = file.path(currentwd, "figures", "grazing-minutes", "daily-site-use"))
 ```
 
-```{r}
-p <- ggplot(A51_2020_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = Species)) +
+```{r Area 51 2020 Unweighted Figure}
+ggplot(list_of_summarized_cameradf$`2020_A51.csv`,
+       aes(x = ImageDate, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -699,16 +428,13 @@ p <- ggplot(A51_2020_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
   labs(title = "Fifty One Timelapse", subtitle = "2020") +
   ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+
   annotate(geom = "text",
            x = date(("2020-07-09")),
            y = 1000,
            label = "Monitoring Start Date",
            angle = 90,
-           size = 2) +
+           size = 9) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2020-07-12")),
@@ -716,19 +442,15 @@ p <- ggplot(A51_2020_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
            y = 0,
            yend = 2000,
            color = "black")
-p
-```
-
-```{r}
 ggsave("FiftyOne-Timelapse-2020-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
-      height = 6,
+       height = 6,
        width = 9,
        units = "in",
-     path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       path = file.path(currentwd, "figures", "grazing-minutes", "daily-site-use"))
 ```
 
-```{r}
-p <- ggplot(A51_2020_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Species)) +
+```{r Area 51 2020 Weighted Figure}
+ggplot(list_of_summarized_cameradf$`2020_A51.csv`, aes(x = ImageDate, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -737,16 +459,13 @@ p <- ggplot(A51_2020_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
   labs(title = "Fifty One Timelapse", subtitle = "2020") +
   ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+
   annotate(geom = "text",
            x = date(("2020-07-09")),
            y = 1000,
            label = "Monitoring Start Date",
            angle = 90,
-           size = 2) +
+           size = 9) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2020-07-12")),
@@ -754,19 +473,16 @@ p <- ggplot(A51_2020_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
            y = 0,
            yend = 2000,
            color = "black")
-p
-```
-
-```{r}
 ggsave("FiftyOne-Timelapse-2020-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
-      height = 6,
+       height = 6,
        width = 9,
        units = "in",
-     path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       path = file.path(currentwd, "figures", "grazing-minutes", "daily-site-use"))
 ```
 
-```{r}
-p <- ggplot(BKD_2019_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = Species)) +
+```{r Black Canyon Dam 2019 Unweighted Figure}
+ggplot(list_of_summarized_cameradf$`2019_BKD.csv`, 
+       aes(x = ImageDate, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -775,16 +491,13 @@ p <- ggplot(BKD_2019_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
   labs(title = "Black Canyon Dam Timelapse", subtitle = "2019") +
   ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+
   annotate(geom = "text",
            x = date(("2019-06-09")),
            y = 1000,
            label = "Monitoring Start Date",
            angle = 90,
-           size = 2) +
+           size = 9) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2019-06-11")),
@@ -792,19 +505,16 @@ p <- ggplot(BKD_2019_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
            y = 0,
            yend = 2000,
            color = "black")
-p
-```
-
-```{r}
 ggsave("Black-Canyon-Dam-Timelapse-2019-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
-      height = 6,
+       height = 6,
        width = 9,
        units = "in",
-     path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       path = file.path(currentwd, "figures", "grazing-minutes", "daily-site-use"))
 ```
 
-```{r}
-p <- ggplot(BKD_2019_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Species)) +
+```{r Black Canyon Dam 2019 Weighted Figure}
+ggplot(list_of_summarized_cameradf$`2019_BKD.csv`, 
+       aes(x = ImageDate, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -813,16 +523,13 @@ p <- ggplot(BKD_2019_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
   labs(title = "Black Canyon Dam Timelapse", subtitle = "2019") +
   ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+
   annotate(geom = "text",
            x = date(("2019-06-09")),
            y = 1000,
            label = "Monitoring Start Date",
            angle = 90,
-           size = 2) +
+           size = 9) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2019-06-11")),
@@ -830,19 +537,16 @@ p <- ggplot(BKD_2019_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
            y = 0,
            yend = 2000,
            color = "black")
-p
-```
-
-```{r}
 ggsave("Black-Canyon-Dam-Timelapse-2019-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
-      height = 6,
+       height = 6,
        width = 9,
        units = "in",
-     path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       path = file.path(currentwd, "figures", "grazing-minutes", "daily-site-use"))
 ```
 
-```{r}
-p <- ggplot(BKS_2017_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = Species)) +
+```{r Black Canyon South 2017 Unweighted Figure}
+ggplot(list_of_summarized_cameradf$`2017_BKS.csv`, 
+       aes(x = ImageDate, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b", 
                date_breaks = "1 month",
@@ -851,16 +555,13 @@ p <- ggplot(BKS_2017_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
   labs(title = "Black Canyon South Timelapse", subtitle = "2017") +
   ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+
   annotate(geom = "text", 
            x = date(("2017-06-09")), 
            y = (250/2),
            label = "Monitoring Start Date",
            angle = 90,
-           size = 2) +
+           size = 9) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2017-06-12")), 
@@ -868,20 +569,16 @@ p <- ggplot(BKS_2017_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
            y = 0, 
            yend = 250,
            color = "black")
-
-p
-```
-
-```{r}
 ggsave("Black-Canyon-South-Timelapse-2017-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
-      height = 6,
+       height = 6,
        width = 9,
        units = "in",
-       path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       path = file.path(currentwd, "figures", "grazing-minutes", "daily-site-use"))
 ```
 
-```{r}
-p <- ggplot(BKS_2017_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Species)) +
+```{r Black Canyon South 2017 Weighted Figure}
+ggplot(list_of_summarized_cameradf$`2017_BKS.csv`,
+       aes(x = ImageDate, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b", 
                date_breaks = "1 month",
@@ -890,16 +587,13 @@ p <- ggplot(BKS_2017_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
   labs(title = "Black Canyon South Timelapse", subtitle = "2017") +
   ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+
   annotate(geom = "text", 
            x = date(("2017-06-09")), 
            y = (250/2),
            label = "Monitoring Start Date",
            angle = 90,
-           size = 2) +
+           size = 9) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2017-06-12")), 
@@ -907,20 +601,16 @@ p <- ggplot(BKS_2017_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
            y = 0, 
            yend = 250,
            color = "black")
-
-p
-```
-
-```{r}
 ggsave("Black-Canyon-South-Timelapse-2017-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
-      height = 6,
+       height = 6,
        width = 9,
        units = "in",
-       path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       path = file.path(currentwd, "figures", "grazing-minutes", "daily-site-use"))
 ```
 
-```{r Black Canyon South 2018 Unweighted Daily Site Use Figure}
-p <- ggplot(BKS_2018_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = Species)) +
+```{r Black Canyon South 2018 Unweighted Figure}
+ggplot(list_of_summarized_cameradf$`2018_BKS.csv`,
+       aes(x = ImageDate, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -928,25 +618,18 @@ p <- ggplot(BKS_2018_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
   scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
   labs(title = "Black Canyon South Timelapse", subtitle = "2018") +
   ylab("Grazing Minutes (Unweighted)") +
-  facet_grid(Species ~ .) +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)))
-
-p
-```
-
-```{r}
+  facet_grid(Species ~ .)
 ggsave("Black-Canyon-South-Timelapse-2018-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
-      height = 6,
+       height = 6,
        width = 9,
        units = "in",
-       path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       path = file.path(currentwd, "figures", "grazing-minutes", "daily-site-use"))
 ```
+# TODO rename ImageDate to Date
 
-```{r Black Canyon South 2018 Weighted Daily Site Use Figure}
-p <- ggplot(BKS_2018_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Species)) +
+```{r Black Canyon South 2018 Weighted Figure}
+ggplot(list_of_summarized_cameradf$`2018_BKS.csv`,
+       aes(x = ImageDate, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -954,25 +637,18 @@ p <- ggplot(BKS_2018_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
   scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
   labs(title = "Black Canyon South Timelapse", subtitle = "2018") +
   ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
-  facet_grid(Species ~ .) +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)))
-
-p
-```
-
-```{r}
+  facet_grid(Species ~ .)
+  
 ggsave("Black-Canyon-South-Timelapse-2018-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
-      height = 6,
+       height = 6,
        width = 9,
        units = "in",
-       path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       path = file.path(currentwd, "figures", "grazing-minutes", "daily-site-use"))
 ```
 
-```{r}
-p <- ggplot(BKS_2019_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = Species)) +
+```{r Black Canyon South 2019 Unweighted Figure}
+ggplot(list_of_summarized_cameradf$`2019_BKS.csv`, 
+       aes(x = ImageDate, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -981,16 +657,12 @@ p <- ggplot(BKS_2019_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
   labs(title = "Black Canyon South Timelapse", subtitle = "2019") +
   ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
   annotate(geom = "text", 
            x = date(("2019-06-02")), 
            y = (2500/2),
            label = "Monitoring Start Date",
            angle = 90,
-           size = 2) +
+           size = 9) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2019-06-05")), 
@@ -998,19 +670,16 @@ p <- ggplot(BKS_2019_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
            y = 0, 
            yend = 2500,
            color = "black")
-p
-```
-
-```{r}
 ggsave("Black-Canyon-South-Timelapse-2019-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
-      height = 6,
+       height = 6,
        width = 9,
        units = "in",
-     path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       path = file.path(currentwd, "figures", "grazing-minutes", "daily-site-use"))
 ```
 
-```{r}
-p <- ggplot(BKS_2019_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Species)) +
+```{r Black Canyon South 2019 Weighted Figure}
+ggplot(list_of_summarized_cameradf$`2019_BKS.csv`, 
+       aes(x = ImageDate, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -1019,16 +688,13 @@ p <- ggplot(BKS_2019_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
   labs(title = "Black Canyon South Timelapse", subtitle = "2019") +
   ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+
   annotate(geom = "text", 
            x = date(("2019-06-02")), 
            y = (2500/2),
            label = "Monitoring Start Date",
            angle = 90,
-           size = 2) +
+           size = 9) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2019-06-05")), 
@@ -1036,19 +702,16 @@ p <- ggplot(BKS_2019_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
            y = 0, 
            yend = 2500,
            color = "black")
-p
-```
-
-```{r}
 ggsave("Black-Canyon-South-Timelapse-2019-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
-      height = 6,
+       height = 6,
        width = 9,
        units = "in",
-     path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       path = file.path(currentwd, "figures", "grazing-minutes", "daily-site-use"))
 ```
 
-```{r}
-p <- ggplot(BKS_2020_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = Species)) +
+```{r Black Canyon South 2020 Unweighted Figure}
+ggplot(list_of_summarized_cameradf$`2020_BKS.csv`, 
+       aes(x = ImageDate, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -1057,16 +720,13 @@ p <- ggplot(BKS_2020_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
   labs(title = "Black Canyon South Timelapse", subtitle = "2020") +
   ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+
   annotate(geom = "text", 
            x = date(("2020-07-07")), 
            y = 500,
            label = "Monitoring Start Date",
            angle = 90,
-           size = 2) +
+           size = 9) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2020-07-10")), 
@@ -1074,19 +734,16 @@ p <- ggplot(BKS_2020_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
            y = 0, 
            yend = 1000,
            color = "black")
-p
-```
-
-```{r}
 ggsave("Black-Canyon-South-Timelapse-2020-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
-      height = 6,
+       height = 6,
        width = 9,
        units = "in",
-     path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       path = file.path(currentwd, "figures", "grazing-minutes", "daily-site-use"))
 ```
 
-```{r}
-p <- ggplot(BKS_2020_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Species)) +
+```{r Black Canyon South 2020 Weighted Figure}
+ggplot(list_of_summarized_cameradf$`2020_BKS.csv`, 
+       aes(x = ImageDate, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -1095,16 +752,13 @@ p <- ggplot(BKS_2020_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
   labs(title = "Black Canyon South Timelapse", subtitle = "2020") +
   ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+
   annotate(geom = "text", 
            x = date(("2020-07-07")), 
            y = 500,
            label = "Monitoring Start Date",
            angle = 90,
-           size = 2) +
+           size = 9) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2020-07-10")), 
@@ -1112,19 +766,16 @@ p <- ggplot(BKS_2020_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
            y = 0, 
            yend = 1000,
            color = "black")
-p
-```
-
-```{r}
 ggsave("Black-Canyon-South-Timelapse-2020-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
-      height = 6,
+       height = 6,
        width = 9,
        units = "in",
-     path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       path = file.path(currentwd, "figures", "grazing-minutes", "daily-site-use"))
 ```
 
-```{r}
-p <- ggplot(BKN_2019_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = Species)) +
+```{r Black Canyon North 2019 Unweighted Figure}
+ggplot(list_of_summarized_cameradf$`2019_BKN.csv`, 
+       aes(x = ImageDate, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -1133,16 +784,13 @@ p <- ggplot(BKN_2019_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
   labs(title = "Black Canyon North Timelapse", subtitle = "2019") +
   ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+
   annotate(geom = "text", 
            x = date(("2019-06-02")), 
            y = (2500/2),
            label = "Monitoring Start Date",
            angle = 90,
-           size = 2) +
+           size = 9) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2019-06-05")), 
@@ -1150,19 +798,16 @@ p <- ggplot(BKN_2019_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
            y = 0, 
            yend = 2500,
            color = "black")
-p
-```
-
-```{r}
 ggsave("Black-Canyon-North-Timelapse-2019-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
-      height = 6,
+       height = 6,
        width = 9,
        units = "in",
-     path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       path = file.path(currentwd, "figures", "grazing-minutes", "daily-site-use"))
 ```
 
-```{r}
-p <- ggplot(BKN_2019_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Species)) +
+```{r Black Canyon North 2019 Weighted Figure}
+ggplot(list_of_summarized_cameradf$`2019_BKN.csv`, 
+       aes(x = ImageDate, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -1171,16 +816,13 @@ p <- ggplot(BKN_2019_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
   labs(title = "Black Canyon North Timelapse", subtitle = "2019") +
   ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+
   annotate(geom = "text", 
            x = date(("2019-06-02")), 
            y = (2500/2),
            label = "Monitoring Start Date",
            angle = 90,
-           size = 2) +
+           size = 9) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2019-06-05")), 
@@ -1188,19 +830,16 @@ p <- ggplot(BKN_2019_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
            y = 0, 
            yend = 2500,
            color = "black")
-p
-```
-
-```{r}
 ggsave("Black-Canyon-North-Timelapse-2019-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
-      height = 6,
+       height = 6,
        width = 9,
        units = "in",
-     path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       path = file.path(currentwd, "figures", "grazing-minutes", "daily-site-use"))
 ```
 
-```{r}
-p <- ggplot(BKN_2020_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = Species)) +
+```{r Black Canyon North 2020 Unweighted Figure}
+ggplot(list_of_summarized_cameradf$`2020_BKN.csv`, 
+       aes(x = ImageDate, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -1209,16 +848,13 @@ p <- ggplot(BKN_2020_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
   labs(title = "Black Canyon North Timelapse", subtitle = "2020") +
   ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+
   annotate(geom = "text", 
            x = date(("2020-07-07")), 
            y = 500,
            label = "Monitoring Start Date",
            angle = 90,
-           size = 2) +
+           size = 9) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2020-07-10")), 
@@ -1226,19 +862,16 @@ p <- ggplot(BKN_2020_unwtd_summary, aes(x = Date, y = daily_total_unwtd, fill = 
            y = 0, 
            yend = 1000,
            color = "black")
-p
-```
-
-```{r}
 ggsave("Black-Canyon-North-Timelapse-2020-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
-      height = 6,
+       height = 6,
        width = 9,
        units = "in",
-     path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       path = file.path(currentwd, "figures", "grazing-minutes", "daily-site-use"))
 ```
 
-```{r}
-p <- ggplot(BKN_2020_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Species)) +
+```{r Black Canyon North 2020 Weighted Figure}
+ggplot(list_of_summarized_cameradf$`2020_BKN.csv`, 
+       aes(x = ImageDate, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -1247,16 +880,13 @@ p <- ggplot(BKN_2020_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
   labs(title = "Black Canyon North Timelapse", subtitle = "2020") +
   ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 10, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) +
+
   annotate(geom = "text", 
            x = date(("2020-07-07")), 
            y = 500,
            label = "Monitoring Start Date",
            angle = 90,
-           size = 2) +
+           size = 9) +
   annotate(geom = "segment",
            linetype = 2,
            x = date(("2020-07-10")), 
@@ -1264,633 +894,356 @@ p <- ggplot(BKN_2020_wtd_summary, aes(x = Date, y = daily_total_wtd, fill = Spec
            y = 0, 
            yend = 1000,
            color = "black")
-p
-```
-
-```{r}
 ggsave("Black-Canyon-North-Timelapse-2020-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
-      height = 6,
+       height = 6,
        width = 9,
        units = "in",
-     path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       path = file.path(currentwd, "figures", "grazing-minutes", "daily-site-use"))
 ```
 
-```{r}
-calc.grazing.totals.unwtd <- function(site_summary){
-  site_total <- site_summary %>% 
-    dplyr::group_by(Species) %>% 
-    dplyr::summarise(season_total = sum(daily_total_unwtd)) %>% 
-    dplyr::mutate(proportion = season_total/sum(season_total)) %>% 
-    dplyr::mutate(Site = site_summary$Site[1])
-  
-return(site_total)
-}
-```
+## Yearly Site Totals
 
-```{r}
-calc.grazing.totals.wtd <- function(site_summary){
-  site_total <- site_summary %>% 
-    dplyr::group_by(Species) %>% 
-    dplyr::summarise(season_total = sum(daily_total_wtd)) %>% 
-    dplyr::mutate(proportion = season_total/sum(season_total)) %>% 
-    dplyr::mutate(Site = site_summary$Site[1])
-  
-return(site_total)
-}
-```
-
-```{r }
-reorder.factors.by.season.total <- function(sitetotal){
-  sitetotal$Species <- sitetotal$Species %>% forcats::as_factor()
-  sitetotal$Species <- forcats::fct_reorder(sitetotal$Species, sitetotal$season_total)
-  
-  return(sitetotal)
-}
-```
-
-```{r}
-BKS_2018 %>% pull(horse_grazing_unwtd) %>% sum()
-
-BKS_2018 %>% pull(horse_grazing_wtd) %>% sum()
-```
-
-```{r}
-BKS_2018 %>% pull(cow_grazing_unwtd) %>% sum()
-
-BKS_2018 %>% pull(cow_grazing_wtd) %>% sum()
-```
-
-```{r}
-BKS_2018 %>% pull(elk_grazing_unwtd) %>% sum()
-
-BKS_2018 %>% pull(elk_grazing_wtd) %>% sum()
-```
-
-```{r}
-BRL_2017_unwtd_summary %>% 
+```{r example calc season total BKS 2020}
+list_of_summarized_cameradf$`2020_BKS.csv` %>% 
   dplyr::group_by(Species) %>% 
-  dplyr::summarise(season_total = sum(daily_total_unwtd))
+  dplyr::summarise(across(c(daily_total_unwtd, daily_total_wtd), sum)) %>% 
+  dplyr::rename_with(~stringr::str_replace(pattern = "daily", 
+                                       replacement = "season", .), 
+                     .cols = starts_with("daily")) %>% 
+  dplyr::mutate(proportion_unwtd = 
+                  season_total_unwtd/sum(season_total_unwtd)) %>% 
+  dplyr::mutate(proportion_wtd = 
+                  season_total_wtd/sum(season_total_wtd)) %>% 
+  dplyr::mutate(Site = list_of_summarized_cameradf$`2020_BKS.csv`$Site[1], 
+                .before = Species)
+
 ```
 
-```{r}
-BRL_2017_unwtd_total <- BRL_2017_unwtd_summary %>% 
-  dplyr::group_by(Species) %>% 
-  dplyr::summarise(season_total = sum(daily_total_unwtd)) %>% 
-  dplyr::mutate(proportion = season_total/sum(season_total)) %>% 
-  dplyr::mutate(Site = "Bear")
+```{r calc season total and proportions}
 
-BRL_2017_unwtd_total
+list_of_season_totals <- 
+  purrr::map(list_of_summarized_cameradf, calc_season_total)
+
 ```
 
-```{r}
-BKS_2017_unwtd_total <- BKS_2017_unwtd_summary %>% 
-  dplyr::group_by(Species) %>% 
-  dplyr::summarise(season_total = sum(daily_total_unwtd)) %>% 
-  dplyr::mutate(proportion = season_total/sum(season_total)) %>% 
-  dplyr::mutate(Site = "Black Canyon South")
 
-BKS_2017_unwtd_total
-```
 
-```{r}
-BRL_2017_unwtd_total$Species <- BRL_2017_unwtd_total %>% 
+
+```{r example as factor levels BKS 2017}
+list_of_season_totals$`2017_BKS.csv` %>% 
   pull(Species) %>% 
-  forcats::as_factor()
-
-levels(BRL_2017_unwtd_total$Species)
+  forcats::as_factor() %>% 
+  levels()
 ```
 
-```{r}
-BRL_2017_unwtd_total$Species <- 
-  forcats::fct_reorder(BRL_2017_unwtd_total$Species, BRL_2017_unwtd_total$season_total)
-
-levels(BRL_2017_unwtd_total$Species)
-```
-
-```{r}
-# BRL_2017_unwtd_total$Species <- forcats::fct_rev(BRL_2017_unwtd_total$Species)
-# 
-# levels(BRL_2017_unwtd_total$Species)
-```
-
-```{r}
-BKS_2017_unwtd_total$Species <- BKS_2017_unwtd_total %>% 
-  pull(Species) %>% 
-  forcats::as_factor()
-
-levels(BKS_2017_unwtd_total$Species)
-```
-
-```{r}
-BKS_2017_unwtd_total$Species <-   forcats::fct_reorder(BKS_2017_unwtd_total$Species, BKS_2017_unwtd_total$season_total)
-
-levels(BKS_2017_unwtd_total$Species)
-```
-
-```{r}
-# BKS_2017_unwtd_total$Species <- forcats::fct_rev(BKS_2017_unwtd_total$Species)
-# 
-# levels(BKS_2017_unwtd_total$Species)
-```
-
-```{r}
-unwtd_2017 <- bind_rows(BRL_2017_unwtd_total, BKS_2017_unwtd_total)
-unwtd_2017
-```
-
-```{r}
-unwtd_2017$Species <- unwtd_2017 %>% 
+```{r example relevel}
+list_of_season_totals$`2017_BKS.csv` %>% 
   dplyr::pull(Species) %>% 
-  forcats::fct_relevel(c("Elk", "Cow", "Horse"))
-
-levels(unwtd_2017$Species)
+  forcats::fct_relevel(c("Elk", "Cow", "Horse")) %>% 
+  levels()
 ```
 
-```{r}
-pull.species.percentage <- function(site_unwtd_total, species){
-  site_unwtd_percent_species <- site_unwtd_total %>% 
-    dplyr::filter(Species == species) %>% 
-    dplyr::pull(proportion)
-  return(site_unwtd_percent_species)
-}
+```{r separate heber and white mountains data}
+# separate/remove heber and white mountains data
+list_of_season_totals_heber <- list_of_season_totals[stringr::str_detect(
+  names(list_of_season_totals), "\\d{4}_(BG.|WC.)\\.csv") == FALSE]
+
+# subset a list by names of its elements i.e. year
+list_of_season_totals_whitemountains <- list_of_season_totals[stringr::str_detect(
+  names(list_of_season_totals), "\\d{4}_(BG.|WC.)\\.csv") == TRUE]
+
 ```
 
-```{r}
-BRL_2017_unwtd_cow_percent <- pull.species.percentage(BRL_2017_unwtd_total, species = "Cow")
-BRL_2017_unwtd_elk_percent <- pull.species.percentage(BRL_2017_unwtd_total, species = "Elk")
-BRL_2017_unwtd_horse_percent <- pull.species.percentage(BRL_2017_unwtd_total, species = "Horse")
+```{r group season total by year}
+
+list_of_grouped_season_totals <- group_season_total_by_year(list_of_season_totals_heber)
+
 ```
 
-```{r}
-BKS_2017_unwtd_cow_percent <- pull.species.percentage(BKS_2017_unwtd_total, species = "Cow")
-BKS_2017_unwtd_elk_percent <- pull.species.percentage(BKS_2017_unwtd_total, species = "Elk")
-BKS_2017_unwtd_horse_percent <- pull.species.percentage(BKS_2017_unwtd_total, species = "Horse")
+```{r manually relevel species as factors}
+
+list_of_grouped_season_totals <- 
+purrr::map(list_of_grouped_season_totals, manually_relevel_species_as_factors)
+
+```
+
+```{r set plot colors for species}
+
+elk_color <- "#00BA38"
+
+cow_color <- "#F8766D"
+
+horse_color <- "#619CFF"
 ```
 
 ```{r 2017 Unwtd Total Grazing Minutes}
-p <- ggplot(unwtd_2017, aes(x = Site, y = season_total, fill = Species)) + 
+ggplot(list_of_grouped_season_totals$`2017`,
+       aes(x = Site, y = season_total_unwtd, fill = Species)) + 
   geom_col(position = "stack") +
   labs(title = "Total Grazing Minutes by Site (Unweighted)",
        subtitle = "2017",
        x = "Site",
        y = "Grazing Minutes (Unweighted)") +
-  scale_fill_manual(values = c(Cow = "#F8766D",
-                                Elk = "#00BA38",
-                                Horse = "#619CFF")) +
-  annotate(geom = "text", 
-           x = 1, 
-           y = 2500, 
-           label = percent(BRL_2017_unwtd_cow_percent, 0.1)) +
-  annotate(geom = "label", 
-           x = 1, 
-           y = 0, 
-           label = percent(BRL_2017_unwtd_horse_percent, 0.1),
-           fill = "#619CFF") +
-  annotate(geom = "label", 
-           x = 1, 
-           y = 5000, 
-           label = percent(BRL_2017_unwtd_elk_percent),
-           fill = "#00BA38") +
-  annotate(geom = "text", 
-           x = 2, 
-           y = 12500, 
-           label = percent(BKS_2017_unwtd_cow_percent)) +
-  annotate(geom = "text", 
-           x = 2, 
-           y = 3000, 
-           label = percent(BKS_2017_unwtd_horse_percent)) +
-    annotate(geom = "label", 
-           x = 2, 
-           y = 21000, 
-           label = percent(BKS_2017_unwtd_elk_percent),
-           fill = "#00BA38") +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) 
+  scale_fill_manual(values = c(Cow = cow_color,
+                                Elk = elk_color,
+                                Horse = horse_color)) +
 
-p
-```
-
-```{r}
+annotate(geom = "label",
+           x = 1,
+           y = elk_position(list_of_grouped_season_totals$`2017`, 
+                            site = "Bear Timelapse",
+                            weighted = FALSE),
+         size = 9,
+         label = percent(list_of_grouped_season_totals$`2017`$proportion_unwtd[1],
+                           prefix = "<"),
+         fill = elk_color) +
+  annotate(geom = "text",
+           x = 1,
+           y = cow_position(list_of_grouped_season_totals$`2017`, 
+                            site = "Bear Timelapse",
+                            weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2017`$proportion_unwtd[2])) +
+  annotate(geom = "text", 
+           x = 1, 
+           y = horse_position(list_of_grouped_season_totals$`2017`, 
+                              site = "Bear Timelapse",
+                              weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2017`$proportion_unwtd[3])) +
+  annotate(geom = "text",
+           x = 2,
+           y = elk_position(list_of_grouped_season_totals$`2017`, 
+                            site = "Black Canyon South",
+                            weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2017`$proportion_unwtd[4])) +
+  annotate(geom = "text",
+           x = 2,
+           y = cow_position(list_of_grouped_season_totals$`2017`, 
+                            site = "Black Canyon South",
+                            weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2017`$proportion_unwtd[5])) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = horse_position(list_of_grouped_season_totals$`2017`,
+                              site = "Black Canyon South",
+                              weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2017`$proportion_unwtd[6]))
 ggsave("2017-Total-Grazing-Minutes-by-Site-Unweighted.jpg",
-     path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       height = 4,
+       width = 6.5,
+       units = "in",
+     path = file.path(currentwd, "figures", "grazing-minutes", "total-site-use"))
 ```
-
-```{r}
-BRL_2017_wtd_total <- BRL_2017_wtd_summary %>% 
-  dplyr::group_by(Species) %>% 
-  dplyr::summarise(season_total = sum(daily_total_wtd)) %>% 
-  dplyr::mutate(proportion = season_total/sum(season_total)) %>% 
-  dplyr::mutate(Site = "Bear")
-
-BRL_2017_wtd_total
-```
-
-```{r}
-BKS_2017_wtd_total <- BKS_2017_wtd_summary %>% 
-  dplyr::group_by(Species) %>% 
-  dplyr::summarise(season_total = sum(daily_total_wtd)) %>% 
-  dplyr::mutate(proportion = season_total/sum(season_total)) %>% 
-  dplyr::mutate(Site = "Black Canyon South")
-
-BKS_2017_wtd_total
-```
-
-```{r}
-BRL_2017_wtd_total$Species <- BRL_2017_wtd_total %>% 
-  pull(Species) %>% 
-  forcats::as_factor()
-
-levels(BRL_2017_wtd_total$Species)
-```
-
-```{r}
-BRL_2017_wtd_total$Species <- 
-  forcats::fct_reorder(BRL_2017_wtd_total$Species, BRL_2017_wtd_total$season_total)
-
-levels(BRL_2017_wtd_total$Species)
-```
-
-```{r}
-BKS_2017_wtd_total$Species <- BKS_2017_wtd_total %>% 
-  pull(Species) %>% 
-  forcats::as_factor()
-
-levels(BKS_2017_wtd_total$Species)
-```
-
-```{r}
-BKS_2017_wtd_total$Species <-   forcats::fct_reorder(BKS_2017_wtd_total$Species, BKS_2017_wtd_total$season_total)
-
-levels(BKS_2017_wtd_total$Species)
-```
-
-```{r}
-wtd_2017 <- bind_rows(BRL_2017_wtd_total, BKS_2017_wtd_total)
-wtd_2017
-```
-
-```{r}
-levels(wtd_2017$Species)
-```
-
-```{r}
-wtd_2017$Species <- wtd_2017 %>% dplyr::pull(Species) %>% forcats::fct_relevel(c("Elk", "Cow", "Horse"))
-
-levels(wtd_2017$Species)
-```
-
-```{r}
-BRL_2017_wtd_cow_percent <- pull.species.percentage(BRL_2017_wtd_total, species = "Cow")
-BRL_2017_wtd_elk_percent <- pull.species.percentage(BRL_2017_wtd_total, species = "Elk")
-BRL_2017_wtd_horse_percent <- pull.species.percentage(BRL_2017_wtd_total, species = "Horse")
-```
-
-```{r}
-BRL_2017_wtd_cow_percent
-BRL_2017_wtd_elk_percent
-BRL_2017_wtd_horse_percent
-
-BRL_2017_wtd_cow_percent %>% round(digits = 2)
-BRL_2017_wtd_elk_percent %>% signif(digits = 2)
-BRL_2017_wtd_horse_percent %>% signif(digits = 2)
-```
-
-```{r}
-BKS_2017_wtd_cow_percent <- pull.species.percentage(BKS_2017_wtd_total, species = "Cow")
-BKS_2017_wtd_elk_percent <- pull.species.percentage(BKS_2017_wtd_total, species = "Elk")
-BKS_2017_wtd_horse_percent <- pull.species.percentage(BKS_2017_wtd_total, species = "Horse")
-```
-
 
 ```{r 2017 Wtd Total grazing Minutes}
-p <- ggplot(wtd_2017, aes(x = Site, y = season_total, fill = Species)) + 
+ggplot(list_of_grouped_season_totals$`2017`, 
+       aes(x = Site, y = season_total_wtd, fill = Species)) + 
   geom_col(position = "stack") +
   labs(title = "Total Grazing Minutes by Site (Weighted by AUE)",
        subtitle = "2017",
        x = "Site",
        y = "Grazing Minutes (Weighted by Animal Unit Equivalents)") +
-  scale_fill_manual(values = c(Cow = "#F8766D",
-                                Elk = "#00BA38",
-                                Horse = "#619CFF")) +
+  scale_fill_manual(values = c(Cow = cow_color,
+                                Elk = elk_color,
+                                Horse = horse_color)) +
+
+    # elk
+annotate(geom = "label",
+           x = 1,
+           y = elk_position(list_of_grouped_season_totals$`2017`, 
+                            site = "Bear Timelapse",
+                            weighted = TRUE),
+         size = 9,
+           label = percent(list_of_grouped_season_totals$`2017`$proportion_wtd[1],
+                           prefix = "<"),
+         fill = elk_color) +
+  annotate(geom = "text",
+           x = 1,
+           y = cow_position(list_of_grouped_season_totals$`2017`, 
+                            site = "Bear Timelapse",
+                            weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2017`$proportion_wtd[2])) +
   annotate(geom = "text", 
            x = 1, 
-           y = 2700, 
-           label = percent(BRL_2017_wtd_cow_percent)) +
-  annotate(geom = "label", 
-           x = 1, 
-           y = 0, 
-           label = percent(BRL_2017_wtd_horse_percent),
-           fill = "#619CFF") +
-  annotate(geom = "label", 
-           x = 1, 
-           y = 5000, 
-           label = "<1%",
-           fill = "#00BA38") +
+           y = horse_position(list_of_grouped_season_totals$`2017`, 
+                              site = "Bear Timelapse",
+                              weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2017`$proportion_wtd[3])) +
+  annotate(geom = "text",
+           x = 2,
+           y = elk_position(list_of_grouped_season_totals$`2017`, 
+                            site = "Black Canyon South",
+                            weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2017`$proportion_wtd[4])) +
+  annotate(geom = "text",
+           x = 2,
+           y = cow_position(list_of_grouped_season_totals$`2017`, 
+                            site = "Black Canyon South",
+                            weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2017`$proportion_wtd[5])) +
   annotate(geom = "text", 
            x = 2, 
-           y = 13500, 
-           label = percent(BKS_2017_wtd_cow_percent)) +
-  annotate(geom = "text", 
-           x = 2, 
-           y = 4000, 
-           label = percent(BKS_2017_wtd_horse_percent)) +
-    annotate(geom = "label", 
-           x = 2, 
-           y = 21000, 
-           label = percent(BKS_2017_wtd_elk_percent),
-           fill = "#00BA38") +
-
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) 
-
-p
-```
-
-```{r}
+           y = horse_position(list_of_grouped_season_totals$`2017`,
+                              site = "Black Canyon South",
+                              weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2017`$proportion_wtd[6]))
 ggsave("2017-Total-Grazing-Minutes-by-Site-Weighted-by-AUE.jpg",
-     path = paste0(currentwd,"/figures", "/grazing-minutes"))
-```
-
-```{r}
-BRL_2018_unwtd_total <- calc.grazing.totals.unwtd(BRL_2018_unwtd_summary)
-
-BKS_2018_unwtd_total <- calc.grazing.totals.unwtd(BKS_2018_unwtd_summary)
-
-print(BRL_2018_unwtd_total)
-print(BKS_2018_unwtd_total)
-```
-
-```{r}
-BRL_2018_unwtd_total <- reorder.factors.by.season.total(BRL_2018_unwtd_total)
-
-BKS_2018_unwtd_total <- reorder.factors.by.season.total(BKS_2018_unwtd_total)
-
-print(BRL_2018_unwtd_total)
-print(BKS_2018_unwtd_total)
-```
-
-```{r}
-levels(BRL_2018_unwtd_total$Species)
-levels(BKS_2018_unwtd_total$Species)
-```
-
-```{r rbind 2018 totals}
-unwtd_2018 <- dplyr::bind_rows(BRL_2018_unwtd_total, BKS_2018_unwtd_total)
-
-unwtd_2018
-```
-
-```{r}
-unwtd_2018 %>% dplyr::filter(Site == "Black Canyon South") %>% pull(season_total) %>% sum()
-unwtd_2018 %>% dplyr::filter(Site == "Bear Timelapse") %>% pull(season_total) %>% sum()
-```
-
-
-```{r}
-levels(unwtd_2018$Species)
-```
-
-```{r}
-unwtd_2018$Species <- unwtd_2018$Species %>% fct_relevel(c("Elk", "Horse", "Cow"))
-
-levels(unwtd_2018$Species)
-```
-
-```{r}
-unwtd_2018_cow_percent <- pull.species.percentage(unwtd_2018, species = "Cow")
-unwtd_2018_elk_percent <- pull.species.percentage(unwtd_2018, species = "Elk")
-unwtd_2018_horse_percent <- pull.species.percentage(unwtd_2018, species = "Horse")
+       height = 4,
+       width = 6.5,
+       units = "in",
+       path = file.path(currentwd, "figures", "grazing-minutes", "total-site-use"))
 ```
 
 ```{r 2018 Unwtd Total grazing Minutes}
-p <- ggplot(unwtd_2018, 
+ggplot(list_of_grouped_season_totals$`2018`, 
             aes(x = Site, 
-                y = season_total, 
-                fill = Species, 
-                label = scales::percent(proportion, 1))) + 
+                y = season_total_unwtd, 
+                fill = Species)) + 
   geom_col(position = "stack") +
   labs(title = "Total Grazing Minutes by Site (Unweighted)",
        subtitle = "2018",
        x = "Site",
        y = "Grazing Minutes (Unweighted)") +
-  scale_y_continuous(limits = c(0, 10000), breaks = seq(0, 10000, by = 2500))+
-  scale_fill_manual(values = c(Cow = "#F8766D",
-                                Elk = "#00BA38",
-                                Horse = "#619CFF")) +
-  geom_fit_text(position = "stack", show.legend = FALSE) +
+  # scale_y_continuous(limits = c(0, 7500), breaks = seq(0, 7500, by = 2500)) +
+  scale_fill_manual(values = c(Cow = cow_color,
+                                Elk = elk_color,
+                                Horse = horse_color)) +
+
+    # elk
+annotate(geom = "text",
+           x = 1,
+           y = elk_position(list_of_grouped_season_totals$`2018`, 
+                            site = "Bear Timelapse",
+                            weighted = FALSE),
+         size = 9,
+           label = percent(list_of_grouped_season_totals$`2018`$proportion_unwtd[1])) +
   annotate(geom = "label",
            x = 1,
-           y = 3000,
-           label = "<1%",
-           fill = "#F8766D") +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) 
-
-p
-```
-
-```{r}
+           y = cow_position(list_of_grouped_season_totals$`2018`, 
+                            site = "Bear Timelapse",
+                            weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2018`$proportion_unwtd[2]),
+           fill = cow_color) +
+  annotate(geom = "text", 
+           x = 1, 
+           y = horse_position(list_of_grouped_season_totals$`2018`, 
+                              site = "Bear Timelapse",
+                              weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2018`$proportion_unwtd[3])) +
+  annotate(geom = "text",
+           x = 2,
+           y = elk_position(list_of_grouped_season_totals$`2018`, 
+                            site = "Black Canyon South",
+                            weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2018`$proportion_unwtd[4])) +
+  annotate(geom = "label",
+           x = 2,
+           y = cow_position(list_of_grouped_season_totals$`2018`, 
+                            site = "Black Canyon South",
+                            weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2018`$proportion_unwtd[5]),
+           fill = cow_color) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = horse_position(list_of_grouped_season_totals$`2018`,
+                              site = "Black Canyon South",
+                              weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2018`$proportion_unwtd[6]))
 ggsave("2018-Total-Grazing-Minutes-Unweighted.jpg",
-     path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       height = 4,
+       width = 6.5,
+       units = "in",
+     path = file.path(currentwd, "figures", "grazing-minutes", "total-site-use"))
 ```
 
-```{r}
-BRL_2018_wtd_total <- calc.grazing.totals.wtd(BRL_2018_wtd_summary)
-
-BKS_2018_wtd_total <- calc.grazing.totals.wtd(BKS_2018_wtd_summary)
-
-print(BRL_2018_wtd_total)
-print(BKS_2018_wtd_total)
-```
-
-```{r}
-wtd_2018 <- dplyr::bind_rows(BRL_2018_wtd_total, BKS_2018_wtd_total)
-
-print(wtd_2018)
-```
-
-```{r}
-wtd_2018_cow_percent <- pull.species.percentage(wtd_2018, species = "Cow")
-wtd_2018_elk_percent <- pull.species.percentage(wtd_2018, species = "Elk")
-wtd_2018_horse_percent <- pull.species.percentage(wtd_2018, species = "Horse")
-```
-
-```{r}
-wtd_2018$Species <- wtd_2018$Species %>% fct_relevel(c("Elk", "Horse", "Cow"))
-
-levels(wtd_2018$Species)
-```
-
-```{r}
-wtd_2018 %>% dplyr::filter(Site == "Black Canyon South") %>% pull(season_total) %>% sum()
-wtd_2018 %>% dplyr::filter(Site == "Bear Timelapse") %>% pull(season_total) %>% sum()
-```
-
-```{r}
-1518/1762
-```
 
 ```{r 2018 Wtd Total grazing Minutes}
-p <- ggplot(wtd_2018, 
+ggplot(list_of_grouped_season_totals$`2018`, 
             aes(x = Site, 
-                y = season_total, 
-                fill = Species,
-                label = scales::percent(proportion, 1))) + 
+                y = season_total_wtd, 
+                fill = Species)) +
   geom_col(position = "stack") +
   labs(title = "Total Grazing Minutes by Site (Weighted by AUE)",
        subtitle = "2018",
        x = "Site",
        y = "Grazing Minutes (Weighted by Animal Unit Equivalents)") +
-  scale_y_continuous(limits = c(0, 10000), breaks = seq(0, 10000, by = 2500))+
-  scale_fill_manual(values = c(Cow = "#F8766D",
-                                Elk = "#00BA38",
-                                Horse = "#619CFF")) +
-  geom_fit_text(position = "stack", show.legend = FALSE) +
+  scale_fill_manual(values = c(Cow = cow_color,
+                                Elk = elk_color,
+                                Horse = horse_color)) +
+
+annotate(geom = "text",
+           x = 1,
+           y = elk_position(list_of_grouped_season_totals$`2018`, 
+                            site = "Bear Timelapse",
+                            weighted = TRUE),
+         size = 9,
+           label = percent(list_of_grouped_season_totals$`2018`$proportion_wtd[1])) +
   annotate(geom = "label",
            x = 1,
-           y = 2800,
-           label = "<1%",
-           fill = "#F8766D") +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10))) 
-
-p
-```
-
-```{r}
+           y = cow_position(list_of_grouped_season_totals$`2018`, 
+                            site = "Bear Timelapse",
+                            weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2018`$proportion_wtd[2]),
+           fill = cow_color) +
+  annotate(geom = "text", 
+           x = 1, 
+           y = horse_position(list_of_grouped_season_totals$`2018`, 
+                              site = "Bear Timelapse",
+                              weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2018`$proportion_wtd[3])) +
+  annotate(geom = "text",
+           x = 2,
+           y = elk_position(list_of_grouped_season_totals$`2018`, 
+                            site = "Black Canyon South",
+                            weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2018`$proportion_wtd[4])) +
+  annotate(geom = "label",
+           x = 2,
+           y = cow_position(list_of_grouped_season_totals$`2018`, 
+                            site = "Black Canyon South",
+                            weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2018`$proportion_wtd[5]),
+           fill = cow_color) +
+  annotate(geom = "text", 
+           x = 2, 
+           y = horse_position(list_of_grouped_season_totals$`2018`,
+                              site = "Black Canyon South",
+                              weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2018`$proportion_wtd[6]))
 ggsave("2018-Total-Grazing-Minutes-by-Site-Weighted-by-AUE.jpg",
-     path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       height = 4,
+       width = 6.5,
+       units = "in",
+     path = file.path(currentwd, "figures", "grazing-minutes", "total-site-use"))
+
 ```
 
-```{r}
-A51_2019_unwtd_total <- calc.grazing.totals.unwtd(A51_2019_unwtd_summary)
-
-print(A51_2019_unwtd_total)
-```
-
-```{r}
-A51_2019_unwtd_total <- reorder.factors.by.season.total(A51_2019_unwtd_total)
-
-levels(A51_2019_unwtd_total$Species)
-```
-
-```{r}
-BKD_2019_unwtd_total <- calc.grazing.totals.unwtd(BKD_2019_unwtd_summary)
-
-print(BKD_2019_unwtd_total)
-```
-
-```{r}
-reorder.factors.by.season.total(BKD_2019_unwtd_total)
-```
-
-```{r}
-A51_2019_unwtd_total <- calc.grazing.totals.unwtd(A51_2019_unwtd_summary)
-BKD_2019_unwtd_total <- calc.grazing.totals.unwtd(BKD_2019_unwtd_summary)
-BKN_2019_unwtd_total <- calc.grazing.totals.unwtd(BKN_2019_unwtd_summary)
-BKS_2019_unwtd_total <- calc.grazing.totals.unwtd(BKS_2019_unwtd_summary)
-BRL_2019_unwtd_total <- calc.grazing.totals.unwtd(BRL_2019_unwtd_summary)
-```
-
-```{r}
-A51_2019_unwtd_total
-BKD_2019_unwtd_total
-BKN_2019_unwtd_total
-BKS_2019_unwtd_total
-BRL_2019_unwtd_total
-```
-
-```{r}
-A51_2019_unwtd_total <- reorder.factors.by.season.total(A51_2019_unwtd_total)
-BKD_2019_unwtd_total <- reorder.factors.by.season.total(BKD_2019_unwtd_total)
-BKN_2019_unwtd_total <- reorder.factors.by.season.total(BKN_2019_unwtd_total)
-BKS_2019_unwtd_total <- reorder.factors.by.season.total(BKS_2019_unwtd_total)
-BRL_2019_unwtd_total <- reorder.factors.by.season.total(BRL_2019_unwtd_total)
-```
-
-```{r}
-levels(A51_2019_unwtd_total$Species)
-levels(BKD_2019_unwtd_total$Species)
-levels(BKN_2019_unwtd_total$Species)
-levels(BKS_2019_unwtd_total$Species)
-levels(BRL_2019_unwtd_total$Species)
-```
-
-```{r}
-unwtd_2019 <- bind_rows(A51_2019_unwtd_total,
-                        BKD_2019_unwtd_total,
-                        BKN_2019_unwtd_total,
-                        BKS_2019_unwtd_total,
-                        BRL_2019_unwtd_total)
-unwtd_2019
-```
-
-```{r}
-levels(unwtd_2019$Species)
-```
-
-```{r}
-unwtd_2019$Species <- forcats::fct_relevel(unwtd_2019$Species, c("Elk", "Cow", "Horse"))
-
-levels(unwtd_2019$Species)
-```
-
-```{r}
-unwtd_2019
-```
-
-```{r}
-A51_2019_unwtd_total
-```
-
-```{r}
-A51_2019_unwtd_cow_percent <- A51_2019_unwtd_total %>% dplyr::filter(Species == "Cow") %>% dplyr::pull(proportion)
-A51_2019_unwtd_elk_percent <- A51_2019_unwtd_total %>% dplyr::filter(Species == "Elk") %>% dplyr::pull(proportion)
-A51_2019_unwtd_horse_percent <- A51_2019_unwtd_total %>% dplyr::filter(Species == "Horse") %>% dplyr::pull(proportion)
-```
-
-```{r}
-BRL_2019_unwtd_cow_percent <- pull.species.percentage(BRL_2019_unwtd_total, species = "Cow")
-BRL_2019_unwtd_elk_percent <- pull.species.percentage(BRL_2019_unwtd_total, species = "Elk")
-BRL_2019_unwtd_horse_percent <- pull.species.percentage(BRL_2019_unwtd_total, species = "Horse")
-
-BKD_2019_unwtd_cow_percent <- pull.species.percentage(BKD_2019_unwtd_total, species = "Cow")
-BKD_2019_unwtd_elk_percent <- pull.species.percentage(BKD_2019_unwtd_total, species = "Elk")
-BKD_2019_unwtd_horse_percent <- pull.species.percentage(BKD_2019_unwtd_total, species = "Horse")
-
-BKN_2019_unwtd_cow_percent <- pull.species.percentage(BKN_2019_unwtd_total, species = "Cow")
-BKN_2019_unwtd_elk_percent <- pull.species.percentage(BKN_2019_unwtd_total, species = "Elk")
-BKN_2019_unwtd_horse_percent <- pull.species.percentage(BKN_2019_unwtd_total, species = "Horse")
-
-BKS_2019_unwtd_cow_percent <- pull.species.percentage(BKS_2019_unwtd_total, species = "Cow")
-BKS_2019_unwtd_elk_percent <- pull.species.percentage(BKS_2019_unwtd_total, species = "Elk")
-BKS_2019_unwtd_horse_percent <- pull.species.percentage(BKS_2019_unwtd_total, species = "Horse")
-```
-
-```{r}
-BKD_2019_elk_annotation <- BKD_2019_unwtd_total %>% pull(season_total) %>% sum() + 4000
-
-BKD_2019_elk_annotation
-```
-
-```{r}
-BKS_2019_elk_annotation <- BKS_2019_unwtd_total %>% pull(season_total) %>% sum() + 4000
-
-BKS_2019_elk_annotation
-```
+# TODO fix the label overalp for fifty one 2019
 
 ```{r 2019 Unwtd grazing Minutes}
-p <- ggplot(unwtd_2019, aes(x = Site, 
-                            y = season_total, 
-                            fill = Species)) + 
+ggplot(list_of_grouped_season_totals$`2019`, 
+       aes(x = Site, 
+           y = season_total_unwtd, 
+           fill = Species)) + 
   geom_col(position = "stack") +
   labs(title = "Total Grazing Minutes by Site (Unweighted)",
        subtitle = "2019",
@@ -1898,190 +1251,142 @@ p <- ggplot(unwtd_2019, aes(x = Site,
        y = "Grazing Minutes (Unweighted)") +
   scale_y_continuous(limits = c(-3000, 125000), 
                      breaks = seq(0, 125000, by = 25000)) +
-  scale_fill_manual(values = c(Cow = "#F8766D",
-                                Elk = "#00BA38",
-                                Horse = "#619CFF")) +
+  scale_fill_manual(values = c(Cow = cow_color,
+                                Elk = elk_color,
+                                Horse = horse_color)) +
+  theme(axis.text = element_text(size = 18)) +
+annotate(geom = "label",
+           x = 1,
+           y = elk_position(list_of_grouped_season_totals$`2019`, 
+                            site = "Bear Timelapse",
+                            weighted = FALSE),
+         size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[1]),
+         fill = elk_color) +
+  annotate(geom = "text",
+           x = 1,
+           y = cow_position(list_of_grouped_season_totals$`2019`, 
+                            site = "Bear Timelapse",
+                            weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[2])) +
   annotate(geom = "text", 
            x = 1, 
-           y = 8000, 
-           label = percent(BRL_2019_unwtd_horse_percent)) +
-  annotate(geom = "text", 
-           x = 1, 
-           y = 65000, 
-           label = percent(BRL_2019_unwtd_cow_percent)) +
-  annotate(geom = "label", 
-           x = 1, 
-           y = 116000, 
-           label = "<1%",
-           fill = "#00BA38") +
+           y = horse_position(list_of_grouped_season_totals$`2019`, 
+                              site = "Bear Timelapse",
+                              weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[3])) +
+  annotate(geom = "label",
+           x = 2,
+           y = elk_position(list_of_grouped_season_totals$`2019`, 
+                            site = "Black Canyon South",
+                            weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[4]),
+           fill = elk_color) +
+  annotate(geom = "label",
+           x = 2,
+           y = cow_position(list_of_grouped_season_totals$`2019`, 
+                            site = "Black Canyon South",
+                            weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[5]),
+           fill = cow_color) +
   annotate(geom = "label", 
            x = 2, 
-           y = -3000, 
-           label = percent(BKD_2019_unwtd_horse_percent), 
-           fill = "#619CFF") +
-  annotate(geom = "text", 
-           x = 2, 
-           y = 8000, 
-           label = percent(BKD_2019_unwtd_cow_percent)) +
-  annotate(geom = "label", 
-           x = 2, 
-           y = BKD_2019_elk_annotation, 
-           label = percent(BKD_2019_unwtd_elk_percent), 
-           fill = "#00BA38") +
+           y = horse_position(list_of_grouped_season_totals$`2019`,
+                              site = "Black Canyon South",
+                              weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[6]),
+           fill = horse_color) +
+    annotate(geom = "label",
+           x = 3,
+           y = elk_position(list_of_grouped_season_totals$`2019`, 
+                            site = "Black Canyon North",
+                            weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[7]),
+           fill = elk_color) +
+  annotate(geom = "label",
+           x = 3,
+           y = cow_position(list_of_grouped_season_totals$`2019`, 
+                            site = "Black Canyon North",
+                            weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[8]),
+           fill = cow_color) +
   annotate(geom = "label", 
            x = 3, 
-           y = -3000, 
-           label = percent(BKN_2019_unwtd_horse_percent),
-           fill = "#619CFF") +
-  annotate(geom = "text", 
-           x = 3, 
-           y = 6000, 
-           label = percent(BKN_2019_unwtd_cow_percent)) +
-  annotate(geom = "label", 
-           x = 3, 
-           y = 15000, 
-           label = "<1%",
-           fill = "#00BA38") +
+           y = horse_position(list_of_grouped_season_totals$`2019`,
+                              site = "Black Canyon North",
+                              weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[9]),
+           fill = horse_color) +
+      annotate(geom = "label",
+           x = 4,
+           y = elk_position(list_of_grouped_season_totals$`2019`, 
+                            site = "Black Canyon South",
+                            weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[10]),
+           fill = elk_color) +
+  annotate(geom = "text",
+           x = 4,
+           y = cow_position(list_of_grouped_season_totals$`2019`, 
+                            site = "Black Canyon South",
+                            weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[11])) +
   annotate(geom = "label", 
            x = 4, 
-           y = -3000, 
-           label = percent(BKS_2019_unwtd_horse_percent), 
-           fill = "#619CFF") +
-  annotate(geom = "text", 
-           x = 4, 
-           y = 25000, 
-           label = percent(BKS_2019_unwtd_cow_percent), 
-           fill = "#F8766D") +
-  annotate(geom = "label", 
-           x = 4, 
-           y = BKS_2019_elk_annotation, 
-           label = percent(BKS_2019_unwtd_elk_percent), 
-           fill = "#00BA38") +
+           y = horse_position(list_of_grouped_season_totals$`2019`,
+                              site = "Black Canyon South",
+                              weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[12]),
+           fill = horse_color) +
+        annotate(geom = "label",
+           x = 5,
+           y = elk_position(list_of_grouped_season_totals$`2019`, 
+                            site = "Fifty One",
+                            weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[13]),
+           fill = elk_color) +
+  annotate(geom = "text",
+           x = 5,
+           y = cow_position(list_of_grouped_season_totals$`2019`, 
+                            site = "Fifty One",
+                            weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[14])) +
   annotate(geom = "text", 
            x = 5, 
-           y = 6000, 
-           label = percent(A51_2019_unwtd_horse_percent), 
-           fill = "#619CFF") +
-  annotate(geom = "text", 
-           x = 5, 
-           y = 19000, 
-           label = percent(A51_2019_unwtd_cow_percent), 
-           fill = "#F8766D") +
-  annotate(geom = "label", 
-           x = 5, 
-           y = 29000, 
-           label = "<1%",
-           fill = "#00BA38") +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0), size = 7),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)))
-
-p
-```
-
-```{r}
+           y = horse_position(list_of_grouped_season_totals$`2019`,
+                              site = "Fifty One",
+                              weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[15]))
 ggsave("2019-Total-Grazing-Minutes-by-Site-Unweighted.jpg",
-     path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       height = 4,
+       width = 6.5,
+       units = "in",
+     path = file.path(currentwd,"figures", "grazing-minutes", "total-site-use"))
+
 ```
 
-```{r}
-A51_2019_wtd_total <- calc.grazing.totals.wtd(A51_2019_wtd_summary)
-BKD_2019_wtd_total <- calc.grazing.totals.wtd(BKD_2019_wtd_summary)
-BKN_2019_wtd_total <- calc.grazing.totals.wtd(BKN_2019_wtd_summary)
-BKS_2019_wtd_total <- calc.grazing.totals.wtd(BKS_2019_wtd_summary)
-BRL_2019_wtd_total <- calc.grazing.totals.wtd(BRL_2019_wtd_summary)
-```
+# TODO write a geom = text or geom = label helper function?
 
-```{r}
-A51_2019_wtd_total
-BKD_2019_wtd_total
-BKN_2019_wtd_total
-BKS_2019_wtd_total
-BRL_2019_wtd_total
-```
+# TODO need to cleanup position funcitons and add comments also might refactor the vairables names
 
-```{r}
-A51_2019_wtd_total <- reorder.factors.by.season.total(A51_2019_wtd_total)
-BKD_2019_wtd_total <- reorder.factors.by.season.total(BKD_2019_wtd_total)
-BKN_2019_wtd_total <- reorder.factors.by.season.total(BKN_2019_wtd_total)
-BKS_2019_wtd_total <- reorder.factors.by.season.total(BKS_2019_wtd_total)
-BRL_2019_wtd_total <- reorder.factors.by.season.total(BRL_2019_wtd_total)
-```
-
-```{r}
-levels(A51_2019_wtd_total$Species)
-levels(BKD_2019_wtd_total$Species)
-levels(BKN_2019_wtd_total$Species)
-levels(BKS_2019_wtd_total$Species)
-levels(BRL_2019_wtd_total$Species)
-```
-
-```{r}
-wtd_2019 <- bind_rows(A51_2019_wtd_total,
-                        BKD_2019_wtd_total,
-                        BKN_2019_wtd_total,
-                        BKS_2019_wtd_total,
-                        BRL_2019_wtd_total)
-wtd_2019
-```
-
-```{r}
-A51_2019_wtd_cow_percent <- pull.species.percentage(A51_2019_wtd_total, species = "Cow")
-A51_2019_wtd_elk_percent <- pull.species.percentage(A51_2019_wtd_total, species = "Elk")
-A51_2019_wtd_horse_percent <- pull.species.percentage(A51_2019_wtd_total, species = "Horse")
-```
-
-```{r}
-BRL_2019_wtd_cow_percent <- pull.species.percentage(BRL_2019_wtd_total, species = "Cow")
-BRL_2019_wtd_elk_percent <- pull.species.percentage(BRL_2019_wtd_total, species = "Elk")
-BRL_2019_wtd_horse_percent <- pull.species.percentage(BRL_2019_wtd_total, species = "Horse")
-```
-
-```{r}
-BKD_2019_wtd_cow_percent <- pull.species.percentage(BKD_2019_wtd_total, species = "Cow")
-BKD_2019_wtd_elk_percent <- pull.species.percentage(BKD_2019_wtd_total, species = "Elk")
-BKD_2019_wtd_horse_percent <- pull.species.percentage(BKD_2019_wtd_total, species = "Horse")
-```
-
-```{r}
-BKN_2019_wtd_cow_percent <- pull.species.percentage(BKN_2019_wtd_total, species = "Cow")
-BKN_2019_wtd_elk_percent <- pull.species.percentage(BKN_2019_wtd_total, species = "Elk")
-BKN_2019_wtd_horse_percent <- pull.species.percentage(BKN_2019_wtd_total, species = "Horse")
-```
-
-```{r}
-BKS_2019_wtd_cow_percent <- pull.species.percentage(BKS_2019_wtd_total, species = "Cow")
-BKS_2019_wtd_elk_percent <- pull.species.percentage(BKS_2019_wtd_total, species = "Elk")
-BKS_2019_wtd_horse_percent <- pull.species.percentage(BKS_2019_wtd_total, species = "Horse")
-```
-
-```{r}
-BKD_2019_wtd_elk_annotation <- BKD_2019_wtd_total %>% pull(season_total) %>% sum() + 3000
-
-BKD_2019_wtd_elk_annotation
-```
-
-```{r}
-BKS_2019_wtd_elk_annotation <- BKS_2019_wtd_total %>% pull(season_total) %>% sum() + 4000
-
-BKS_2019_wtd_elk_annotation
-```
-
-```{r}
-wtd_2019$Species <- forcats::fct_relevel(wtd_2019$Species, c("Elk", "Cow", "Horse"))
-
-levels(wtd_2019$Species)
-```
-
-```{r}
-wtd_2019
-```
-
-```{r 2019 wtd grazing Minutes}
-p <- ggplot(wtd_2019, aes(x = Site, 
-                            y = season_total, 
-                            fill = Species)) + 
+```{r 2019 Wtd Grazing Minutes}
+ggplot(list_of_grouped_season_totals$`2019`, 
+       aes(x = Site, 
+           y = season_total_wtd, 
+           fill = Species)) + 
   geom_col(position = "stack") +
   labs(title = "Total Grazing Minutes by Site (Weighted by AUE)",
        subtitle = "2019",
@@ -2089,191 +1394,135 @@ p <- ggplot(wtd_2019, aes(x = Site,
        y = "Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   scale_y_continuous(limits = c(-3000, 125000), 
                      breaks = seq(0, 125000, by = 25000)) +
-  scale_fill_manual(values = c(Cow = "#F8766D",
-                                Elk = "#00BA38",
-                                Horse = "#619CFF")) +
+  scale_fill_manual(values = c(Cow = cow_color,
+                                Elk = elk_color,
+                                Horse = horse_color)) +
+  theme(axis.text = element_text(size = 18)) +
+  annotate(geom = "label",
+           x = 1,
+           y = elk_position(list_of_grouped_season_totals$`2019`, 
+                            site = "Bear Timelapse",
+                            weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[1]),
+         fill = elk_color) +
+  annotate(geom = "text",
+           x = 1,
+           y = cow_position(list_of_grouped_season_totals$`2019`, 
+                            site = "Bear Timelapse",
+                            weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[2])) +
   annotate(geom = "text", 
            x = 1, 
-           y = 8000, 
-           label = percent(BRL_2019_wtd_horse_percent)) +
-  annotate(geom = "text", 
-           x = 1, 
-           y = 65000, 
-           label = percent(BRL_2019_wtd_cow_percent)) +
-  annotate(geom = "label", 
-           x = 1, 
-           y = 120000, 
-           label = "<1%",
-           fill = "#00BA38") +
+           y = horse_position(list_of_grouped_season_totals$`2019`, 
+                              site = "Bear Timelapse",
+                              weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[3])) +
+  annotate(geom = "label",
+           x = 2,
+           y = elk_position(list_of_grouped_season_totals$`2019`, 
+                            site = "Black Canyon Dam",
+                            weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[4]),
+           fill = elk_color) +
+  annotate(geom = "label",
+           x = 2,
+           y = cow_position(list_of_grouped_season_totals$`2019`, 
+                            site = "Black Canyon Dam",
+                            weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[5]),
+           fill = cow_color) +
   annotate(geom = "label", 
            x = 2, 
-           y = -3000, 
-           label = percent(BKD_2019_wtd_horse_percent), 
-           fill = "#619CFF") +
-  annotate(geom = "text", 
-           x = 2, 
-           y = 8000, 
-           label = percent(BKD_2019_wtd_cow_percent)) +
-  annotate(geom = "label", 
-           x = 2, 
-           y = 21000, 
-           label = "<1%",
-           fill = "#00BA38") +
+           y = horse_position(list_of_grouped_season_totals$`2019`,
+                              site = "Black Canyon Dam",
+                              weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[6]),
+           fill = horse_color) +
+    annotate(geom = "label",
+           x = 3,
+           y = elk_position(list_of_grouped_season_totals$`2019`, 
+                            site = "Black Canyon North",
+                            weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[7]),
+           fill = elk_color) +
+  annotate(geom = "label",
+           x = 3,
+           y = cow_position(list_of_grouped_season_totals$`2019`, 
+                            site = "Black Canyon North",
+                            weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[8]),
+           fill = cow_color) +
   annotate(geom = "label", 
            x = 3, 
-           y = -3000, 
-           label = percent(BKN_2019_wtd_horse_percent),
-           fill = "#619CFF") +
-  annotate(geom = "text", 
-           x = 3, 
-           y = 6000, 
-           label = percent(BKN_2019_wtd_cow_percent)) +
-  annotate(geom = "label", 
-           x = 3, 
-           y = 15000, 
-           label = "<1%",
-           fill = "#00BA38") +
+           y = horse_position(list_of_grouped_season_totals$`2019`,
+                              site = "Black Canyon North",
+                              weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[9]),
+           fill = horse_color) +
+      annotate(geom = "label",
+           x = 4,
+           y = elk_position(list_of_grouped_season_totals$`2019`, 
+                            site = "Black Canyon South",
+                            weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[10]),
+           fill = elk_color) +
+  annotate(geom = "text",
+           x = 4,
+           y = cow_position(list_of_grouped_season_totals$`2019`, 
+                            site = "Black Canyon South",
+                            weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[11])) +
   annotate(geom = "label", 
            x = 4, 
-           y = -3000, 
-           label = percent(BKS_2019_wtd_horse_percent), 
-           fill = "#619CFF") +
-  annotate(geom = "text", 
-           x = 4, 
-           y = 25000, 
-           label = percent(BKS_2019_wtd_cow_percent)) +
-  annotate(geom = "label", 
-           x = 4, 
-           y = BKS_2019_wtd_elk_annotation, 
-           label = percent(BKS_2019_wtd_elk_percent), 
-           fill = "#00BA38") +
+           y = horse_position(list_of_grouped_season_totals$`2019`,
+                              site = "Black Canyon South",
+                              weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[12]),
+           fill = horse_color) +
+        annotate(geom = "label",
+           x = 5,
+           y = elk_position(list_of_grouped_season_totals$`2019`, 
+                            site = "Fifty One",
+                            weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[13]),
+           fill = elk_color) +
+  annotate(geom = "text",
+           x = 5,
+           y = cow_position(list_of_grouped_season_totals$`2019`, 
+                            site = "Fifty One",
+                            weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[14])) +
   annotate(geom = "text", 
            x = 5, 
-           y = 6000, 
-           label = percent(A51_2019_wtd_horse_percent)) +
-  annotate(geom = "text", 
-           x = 5, 
-           y = 19000, 
-           label = percent(A51_2019_wtd_cow_percent)) +
-  annotate(geom = "label", 
-           x = 5, 
-           y = 30000, 
-           label = "<1%",
-           fill = "#00BA38") +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0), size = 7),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)))
-
-p
-```
-
-```{r}
+           y = horse_position(list_of_grouped_season_totals$`2019`,
+                              site = "Fifty One",
+                              weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[15]))
 ggsave("2019-Total-Grazing-Minutes-by-Site-Weighted-by-AUE.jpg",
-     path = paste0(currentwd,"/figures", "/grazing-minutes"))
-```
-
-```{r}
-A51_2020_unwtd_total <- calc.grazing.totals.unwtd(A51_2020_unwtd_summary)
-BKN_2020_unwtd_total <- calc.grazing.totals.unwtd(BKN_2020_unwtd_summary)
-BKS_2020_unwtd_total <- calc.grazing.totals.unwtd(BKS_2020_unwtd_summary)
-BRL_2020_unwtd_total <- calc.grazing.totals.unwtd(BRL_2020_unwtd_summary)
-```
-
-```{r}
-A51_2020_unwtd_total
-BKN_2020_unwtd_total
-BKS_2020_unwtd_total
-BRL_2020_unwtd_total
-```
-
-```{r}
-A51_2020_unwtd_cow_percent <- pull.species.percentage(A51_2020_unwtd_total, species = "Cow")
-A51_2020_unwtd_elk_percent <- pull.species.percentage(A51_2020_unwtd_total, species = "Elk")
-A51_2020_unwtd_horse_percent <- pull.species.percentage(A51_2020_unwtd_total, species = "Horse")
-
-BRL_2020_unwtd_cow_percent <- pull.species.percentage(BRL_2020_unwtd_total, species = "Cow")
-BRL_2020_unwtd_elk_percent <- pull.species.percentage(BRL_2020_unwtd_total, species = "Elk")
-BRL_2020_unwtd_horse_percent <- pull.species.percentage(BRL_2020_unwtd_total, species = "Horse")
-
-BKN_2020_unwtd_cow_percent <- pull.species.percentage(BKN_2020_unwtd_total, species = "Cow")
-BKN_2020_unwtd_elk_percent <- pull.species.percentage(BKN_2020_unwtd_total, species = "Elk")
-BKN_2020_unwtd_horse_percent <- pull.species.percentage(BKN_2020_unwtd_total, species = "Horse")
-
-BKS_2020_unwtd_cow_percent <- pull.species.percentage(BKS_2020_unwtd_total, species = "Cow")
-BKS_2020_unwtd_elk_percent <- pull.species.percentage(BKS_2020_unwtd_total, species = "Elk")
-BKS_2020_unwtd_horse_percent <- pull.species.percentage(BKS_2020_unwtd_total, species = "Horse")
-```
-
-```{r}
-unwtd_2020 <- bind_rows(A51_2020_unwtd_total, BKN_2020_unwtd_total, BKS_2020_unwtd_total, BRL_2020_unwtd_total)
-
-unwtd_2020
-```
-
-```{r}
-levels(unwtd_2020$Species)
-```
-
-```{r}
-unwtd_2020$Species <- unwtd_2020 %>% dplyr::pull(Species) %>% forcats::as_factor()
-
-levels(unwtd_2020$Species)
-```
-
-```{r}
-unwtd_2020$Species <- unwtd_2020 %>% dplyr::pull(Species) %>% fct_relevel(c("Elk", "Cow", "Horse"))
-
-levels(unwtd_2020$Species)
-```
-
-```{r}
-print(unwtd_2020)
-```
-
-```{r}
-BKN_2020_unwtd_elk_annotation <- BKN_2020_unwtd_total %>% pull(season_total) %>% sum() + 1000
-
-BKN_2020_unwtd_elk_annotation
-```
-
-```{r}
-BKS_2020_unwtd_cow_annotation <- BKS_2020_unwtd_total %>% pull(season_total) %>% sum() + 1000
-
-BKS_2020_unwtd_cow_annotation
-```
-
-```{r}
-BKS_2020_unwtd_elk_annotation <- BKS_2020_unwtd_cow_annotation + 1750
-
-BKS_2020_unwtd_elk_annotation
-```
-
-```{r}
-y1 <- A51_2020_unwtd_total %>% 
-  filter(Species == "Horse") %>% 
-  pull(season_total)
-
-y2 <- A51_2020_unwtd_total %>% 
-  filter(Species == "Cow") %>% 
-  pull(season_total) + y1
-
-ymid <- (y1 + y2) / 2  
-
-print(ymid)
-
-A51_2020_unwtd_cow_annotation <- ymid
-```
-
-```{r}
-A51_2020_unwtd_elk_annotation <- A51_2020_unwtd_total %>% pull(season_total) %>% sum() + 1000
-
-A51_2020_unwtd_elk_annotation
+       height = 4,
+       width = 6.5,
+       units = "in",
+     path = file.path(currentwd, "figures", "grazing-minutes", "total-site-use"))
 ```
 
 ```{r 2020 Unwtd grazing Minutes}
-p <- ggplot(unwtd_2020, aes(x = Site, 
-                            y = season_total, 
+ggplot(list_of_grouped_season_totals$`2020`, aes(x = Site, 
+                            y = season_total_unwtd, 
                             fill = Species)) + 
   geom_col(position = "stack") +
   labs(title = "Total Grazing Minutes by Site (Unweighted)",
@@ -2282,260 +1531,219 @@ p <- ggplot(unwtd_2020, aes(x = Site,
        y = "Grazing Minutes (Unweighted)") +
   scale_y_continuous(limits = c(-500, 30000), 
                      breaks = seq(0, 30000, by = 5000)) +
-  scale_fill_manual(values = c(Cow = "#F8766D",
-                                Elk = "#00BA38",
-                                Horse = "#619CFF")) +
-  annotate(geom = "text",
-           x = 1,
-           y = BRL_2020_unwtd_total %>% filter(Species == "Horse") %>% pull(season_total) / 2,
-           label = percent(BRL_2020_unwtd_horse_percent)) +
+  scale_fill_manual(values = c(Cow = cow_color,
+                                Elk = elk_color,
+                                Horse = horse_color)) +
+
   annotate(geom = "label",
            x = 1,
-           y = -500,
-           label = percent(BRL_2020_unwtd_cow_percent),
-           fill = "#F8766D") +
-  annotate(geom = "label",
+           y = elk_position(list_of_grouped_season_totals$`2020`, 
+                            site = "Bear Timelapse",
+                            weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[1]),
+         fill = elk_color) +
+  annotate(geom = "text",
            x = 1,
-           y = BRL_2020_unwtd_total %>% pull(season_total) %>% sum() + 1000,
-           label = "<1%",
-           fill = "#00BA38") +
-  annotate(geom = "text",
-           x = 2,
-           y = BKN_2020_unwtd_total %>% filter(Species == "Cow") %>% pull(season_total) / 2,
-           label = percent(BKN_2020_unwtd_cow_percent)) +
-  annotate(geom = "label",
-           x = 2,
-           y = BKN_2020_unwtd_elk_annotation,
-           label = percent(BKN_2020_unwtd_elk_percent),
-           fill = "#00BA38") +
-  annotate(geom = "label",
-           x = 2,
-           y = -500,
-           label = percent(BKN_2020_unwtd_horse_percent),
-           fill = "#619CFF") +
-  annotate(geom = "text",
-           x = 3,
-           y = BKS_2020_unwtd_total %>% filter(Species == "Horse") %>% pull(season_total) / 2,
-           label = percent(BKS_2020_unwtd_horse_percent),
-           fill = "#619CFF") +
-  annotate(geom = "label",
-           x = 3,
-           y = BKS_2020_unwtd_cow_annotation,
-           label = percent(BKS_2020_unwtd_cow_percent),
-           fill = "#F8766D") +
-  annotate(geom = "label",
-           x = 3,
-           y = BKS_2020_unwtd_elk_annotation,
-           label = percent(BKS_2020_unwtd_elk_percent),
-           fill = "#00BA38") +
-  annotate(geom = "text",
-           x = 4,
-           y = A51_2020_unwtd_total %>% filter(Species == "Horse") %>% pull(season_total) / 2,
-           label = percent(A51_2020_unwtd_horse_percent)) +
-  annotate(geom = "text",
-           x = 4,
-           y = A51_2020_unwtd_cow_annotation,
-           label = percent(A51_2020_unwtd_cow_percent)) +
+           y = cow_position(list_of_grouped_season_totals$`2020`, 
+                            site = "Bear Timelapse",
+                            weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[2])) +
+  annotate(geom = "text", 
+           x = 1, 
+           y = horse_position(list_of_grouped_season_totals$`2020`, 
+                              site = "Bear Timelapse",
+                              weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[3])) +
     annotate(geom = "label",
+           x = 2,
+           y = elk_position(list_of_grouped_season_totals$`2020`, 
+                            site = "Black Canyon North",
+                            weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[4]),
+           fill = elk_color) +
+  annotate(geom = "label",
+           x = 2,
+           y = cow_position(list_of_grouped_season_totals$`2020`, 
+                            site = "Black Canyon North",
+                            weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[5]),
+           fill = cow_color) +
+  annotate(geom = "label", 
+           x = 2, 
+           y = horse_position(list_of_grouped_season_totals$`2020`,
+                              site = "Black Canyon North",
+                              weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[6]),
+           fill = horse_color) +
+      annotate(geom = "label",
+           x = 3,
+           y = elk_position(list_of_grouped_season_totals$`2020`, 
+                            site = "Black Canyon South",
+                            weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[7]),
+           fill = elk_color) +
+  annotate(geom = "label",
+           x = 3,
+           y = cow_position(list_of_grouped_season_totals$`2020`, 
+                            site = "Black Canyon South",
+                            weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[8]),
+           fill = cow_color) +
+  annotate(geom = "label", 
+           x = 3, 
+           y = horse_position(list_of_grouped_season_totals$`2020`,
+                              site = "Black Canyon South",
+                              weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[9]),
+           fill = horse_color) +
+        annotate(geom = "label",
            x = 4,
-           y = A51_2020_unwtd_elk_annotation,
-           label = "<1%",
-           fill = "#00BA38") +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0), size = 7),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)))
-
-p
-```
-
-```{r}
+           y = elk_position(list_of_grouped_season_totals$`2020`, 
+                            site = "Fifty One",
+                            weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[10]),
+           fill = elk_color) +
+  annotate(geom = "text",
+           x = 4,
+           y = cow_position(list_of_grouped_season_totals$`2020`, 
+                            site = "Fifty One",
+                            weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[11])) +
+  annotate(geom = "text", 
+           x = 4, 
+           y = horse_position(list_of_grouped_season_totals$`2020`,
+                              site = "Fifty One",
+                              weighted = FALSE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[12]))
 ggsave("2020-Total-Grazing-Minutes-by-Site-Unweighted.jpg",
-     path = paste0(currentwd,"/figures", "/grazing-minutes"))
-```
-
-```{r}
-scales::show_col(hue_pal()(3))
-```
-
-```{r}
-A51_2020_wtd_total <- calc.grazing.totals.wtd(A51_2020_wtd_summary)
-BKN_2020_wtd_total <- calc.grazing.totals.wtd(BKN_2020_wtd_summary)
-BKS_2020_wtd_total <- calc.grazing.totals.wtd(BKS_2020_wtd_summary)
-BRL_2020_wtd_total <- calc.grazing.totals.wtd(BRL_2020_wtd_summary)
-```
-
-```{r}
-A51_2020_wtd_total
-BKN_2020_wtd_total
-BKS_2020_wtd_total
-BRL_2020_wtd_total
-```
-
-```{r}
-A51_2020_wtd_cow_percent <- pull.species.percentage(A51_2020_wtd_total, species = "Cow")
-A51_2020_wtd_elk_percent <- pull.species.percentage(A51_2020_wtd_total, species = "Elk")
-A51_2020_wtd_horse_percent <- pull.species.percentage(A51_2020_wtd_total, species = "Horse")
-
-BRL_2020_wtd_cow_percent <- pull.species.percentage(BRL_2020_wtd_total, species = "Cow")
-BRL_2020_wtd_elk_percent <- pull.species.percentage(BRL_2020_wtd_total, species = "Elk")
-BRL_2020_wtd_horse_percent <- pull.species.percentage(BRL_2020_wtd_total, species = "Horse")
-
-BKN_2020_wtd_cow_percent <- pull.species.percentage(BKN_2020_wtd_total, species = "Cow")
-BKN_2020_wtd_elk_percent <- pull.species.percentage(BKN_2020_wtd_total, species = "Elk")
-BKN_2020_wtd_horse_percent <- pull.species.percentage(BKN_2020_wtd_total, species = "Horse")
-
-BKS_2020_wtd_cow_percent <- pull.species.percentage(BKS_2020_wtd_total, species = "Cow")
-BKS_2020_wtd_elk_percent <- pull.species.percentage(BKS_2020_wtd_total, species = "Elk")
-BKS_2020_wtd_horse_percent <- pull.species.percentage(BKS_2020_wtd_total, species = "Horse")
-```
-
-```{r}
-wtd_2020 <- bind_rows(A51_2020_wtd_total, BKN_2020_wtd_total, BKS_2020_wtd_total, BRL_2020_wtd_total)
-
-wtd_2020
-```
-
-```{r}
-wtd_2020$Species <- wtd_2020 %>% dplyr::pull(Species) %>% forcats::as_factor()
-
-levels(wtd_2020$Species)
-```
-
-```{r}
-wtd_2020$Species <- wtd_2020 %>% dplyr::pull(Species) %>% forcats::fct_relevel(c("Elk", "Cow", "Horse"))
-
-levels(wtd_2020$Species)
-```
-
-```{r}
-BKN_2020_wtd_elk_annotation <- BKN_2020_wtd_total %>% pull(season_total) %>% sum() + 1000
-
-BKN_2020_wtd_elk_annotation
-```
-
-```{r}
-BKS_2020_wtd_cow_annotation <- BKS_2020_wtd_total %>% pull(season_total) %>% sum() + 1000
-
-BKS_2020_wtd_cow_annotation
-```
-
-```{r}
-BKS_2020_wtd_elk_annotation <- BKS_2020_wtd_cow_annotation + 1750
-
-BKS_2020_wtd_elk_annotation
-```
-
-```{r}
-y1 <- A51_2020_wtd_total %>% 
-  filter(Species == "Horse") %>% 
-  pull(season_total)
-
-y2 <- A51_2020_wtd_total %>% 
-  filter(Species == "Cow") %>% 
-  pull(season_total) + y1
-
-ymid <- (y1 + y2) / 2  
-
-print(ymid)
-
-A51_2020_wtd_cow_annotation <- ymid
-```
-
-```{r}
-A51_2020_wtd_elk_annotation <- A51_2020_wtd_total %>% pull(season_total) %>% sum() + 500
-
-A51_2020_wtd_elk_annotation
+       height = 4,
+       width = 6.5,
+       units = "in",
+     path = file.path(currentwd, "figures", "grazing-minutes", "total-site-use"))
 ```
 
 ```{r 2020 Wtd grazing Minutes}
-p <- ggplot(wtd_2020, aes(x = Site, 
-                            y = season_total, 
+ggplot(list_of_grouped_season_totals$`2020`, aes(x = Site, 
+                            y = season_total_wtd, 
                             fill = Species)) + 
   geom_col(position = "stack") +
   labs(title = "Total Grazing Minutes by Site (Weighted by AUE)",
        subtitle = "2020",
        x = "Site",
-       y = "Grazing Minutes (Weighted by Animal Unit Equivalents)") +
+       y = "Grazing Minutes (Unweighted)") +
   scale_y_continuous(limits = c(-500, 30000), 
                      breaks = seq(0, 30000, by = 5000)) +
-  scale_fill_manual(values = c(Cow = "#F8766D",
-                                Elk = "#00BA38",
-                                Horse = "#619CFF")) +
-  annotate(geom = "text",
-           x = 1,
-           y = BRL_2020_wtd_total %>% filter(Species == "Horse") %>% pull(season_total) / 2,
-           label = percent(BRL_2020_wtd_horse_percent)) +
+  scale_fill_manual(values = c(Cow = cow_color,
+                                Elk = elk_color,
+                                Horse = horse_color)) +
+
   annotate(geom = "label",
            x = 1,
-           y = -500,
-           label = percent(BRL_2020_wtd_cow_percent),
-           fill = "#F8766D") +
-  annotate(geom = "label",
+           y = elk_position(list_of_grouped_season_totals$`2020`, 
+                            site = "Bear Timelapse",
+                            weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[1]),
+         fill = elk_color) +
+  annotate(geom = "text",
            x = 1,
-           y = BRL_2020_wtd_total %>% pull(season_total) %>% sum() + 1000,
-           label = "<1%",
-           fill = "#00BA38") +
-  annotate(geom = "label",
-           x = 2,
-           y = -500,
-           label = percent(BKN_2020_wtd_horse_percent),
-           fill = "#619CFF") +
-  annotate(geom = "text",
-           x = 2,
-           y = BKN_2020_wtd_total %>% filter(Species == "Cow") %>% pull(season_total) / 2,
-           label = percent(BKN_2020_wtd_cow_percent)) +
-  annotate(geom = "label",
-           x = 2,
-           y = BKN_2020_wtd_elk_annotation,
-           label = "<1%",
-           fill = "#00BA38") +
-  annotate(geom = "text",
-           x = 3,
-           y = BKS_2020_wtd_total %>% filter(Species == "Horse") %>% pull(season_total) / 2,
-           label = percent(BKS_2020_wtd_horse_percent),
-           fill = "#619CFF") +
-  annotate(geom = "label",
-           x = 3,
-           y = BKS_2020_wtd_cow_annotation,
-           label = percent(BKS_2020_wtd_cow_percent),
-           fill = "#F8766D") +
-  annotate(geom = "label",
-           x = 3,
-           y = BKS_2020_wtd_elk_annotation,
-           label = percent(BKS_2020_wtd_elk_percent),
-           fill = "#00BA38") +
-  annotate(geom = "text",
-           x = 4,
-           y = A51_2020_wtd_total %>% filter(Species == "Horse") %>% pull(season_total) / 2,
-           label = percent(A51_2020_wtd_horse_percent)) +
-  annotate(geom = "text",
-           x = 4,
-           y = A51_2020_wtd_cow_annotation,
-           label = percent(A51_2020_wtd_cow_percent)) +
+           y = cow_position(list_of_grouped_season_totals$`2020`, 
+                            site = "Bear Timelapse",
+                            weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[2])) +
+  annotate(geom = "text", 
+           x = 1, 
+           y = horse_position(list_of_grouped_season_totals$`2020`, 
+                              site = "Bear Timelapse",
+                              weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[3])) +
     annotate(geom = "label",
+           x = 2,
+           y = elk_position(list_of_grouped_season_totals$`2020`, 
+                            site = "Black Canyon North",
+                            weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[4]),
+           fill = elk_color) +
+  annotate(geom = "label",
+           x = 2,
+           y = cow_position(list_of_grouped_season_totals$`2020`, 
+                            site = "Black Canyon North",
+                            weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[5]),
+           fill = cow_color) +
+  annotate(geom = "label", 
+           x = 2, 
+           y = horse_position(list_of_grouped_season_totals$`2020`,
+                              site = "Black Canyon North",
+                              weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[6]),
+           fill = horse_color) +
+      annotate(geom = "label",
+           x = 3,
+           y = elk_position(list_of_grouped_season_totals$`2020`, 
+                            site = "Black Canyon South",
+                            weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[7]),
+           fill = elk_color) +
+  annotate(geom = "label",
+           x = 3,
+           y = cow_position(list_of_grouped_season_totals$`2020`, 
+                            site = "Black Canyon South",
+                            weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[8]),
+           fill = cow_color) +
+  annotate(geom = "label", 
+           x = 3, 
+           y = horse_position(list_of_grouped_season_totals$`2020`,
+                              site = "Black Canyon South",
+                              weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[9]),
+           fill = horse_color) +
+        annotate(geom = "label",
            x = 4,
-           y = A51_2020_wtd_elk_annotation,
-           label = "<1%",
-           fill = "#00BA38") +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        axis.text.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0), size = 7),
-        axis.text.y = element_text(margin = margin(t = 0, r = 0, b = 0, l = 10)))
-
-p
-```
-
-```{r}
+           y = elk_position(list_of_grouped_season_totals$`2020`, 
+                            site = "Fifty One",
+                            weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[10]),
+           fill = elk_color) +
+  annotate(geom = "text",
+           x = 4,
+           y = cow_position(list_of_grouped_season_totals$`2020`, 
+                            site = "Fifty One",
+                            weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[11])) +
+  annotate(geom = "text", 
+           x = 4, 
+           y = horse_position(list_of_grouped_season_totals$`2020`,
+                              site = "Fifty One",
+                              weighted = TRUE),
+           size = 9,
+           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[12]))
 ggsave("2020-Total-Grazing-Minutes-by-Site-Weighted-By-AUE.jpg",
-     path = paste0(currentwd,"/figures", "/grazing-minutes"))
+       height = 4,
+       width = 6.5,
+       units = "in",
+     path = file.path(currentwd, "figures", "grazing-minutes", "total-site-use"))
 ```
-
-```{r}
-unwtd_2019 %>% filter(Site == "Black Canyon North") %>% pull(season_total) %>% sum()
-```
-
-```{r}
-unwtd_2020 %>% filter(Site == "Black Canyon North") %>% pull(season_total) %>% sum()
-```
-

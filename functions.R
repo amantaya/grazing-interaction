@@ -1044,3 +1044,604 @@ write_csv_purrr <- function(list_of_dataframes, file_names) {
                    file.path(folder_path, file_names))
 
 }
+
+# TODO set the interval from the JSON setting
+
+calc.grazing.time.unwtd <- function(cameradf) {
+
+  sites_from_json <- jsonlite::fromJSON(
+    file.path(currentwd, "data", "metadata", "cameratrap-sites.json"))
+
+  # match the site name from sites_from_json to cameradf
+  site_match <- dplyr::filter(sites_from_json, sites_from_json$Site == unique(cameradf$Site) &
+                                sites_from_json$Year == unique(cameradf$Year))
+
+  cameradf <- cameradf %>% dplyr::mutate(horse_grazing_unwtd = horse * site_match$Timelapse_Interval)
+
+  cameradf <- cameradf %>% dplyr::mutate(cow_grazing_unwtd = cow * site_match$Timelapse_Interval)
+
+  cameradf <- cameradf %>% dplyr::mutate(elk_grazing_unwtd = elk * site_match$Timelapse_Interval)
+
+  return(cameradf)
+}
+
+calc.grazing.time.wtd <- function(cameradf) {
+
+  sites_from_json <- jsonlite::fromJSON(
+    file.path(currentwd, "data", "metadata", "cameratrap-sites.json"))
+
+  # match the site name from sites_from_json to cameradf
+  site_match <- dplyr::filter(sites_from_json, sites_from_json$Site == unique(cameradf$Site) &
+                                sites_from_json$Year == unique(cameradf$Year))
+
+  cameradf <- cameradf %>% dplyr::mutate(horse_grazing_wtd = horse * site_match$Timelapse_Interval * 1.1)
+
+  cameradf <- cameradf %>% dplyr::mutate(cow_grazing_wtd = cow * site_match$Timelapse_Interval * 1)
+
+  cameradf <- cameradf %>% dplyr::mutate(elk_grazing_wtd = elk * site_match$Timelapse_Interval * 0.7)
+
+  return(cameradf)
+}
+
+
+summarize.unwtd.daily.totals <- function(cameradf) {
+
+  cameradf_horses <- NULL
+  cameradf_horses <- cameradf %>%
+    dplyr::group_by(ImageDate) %>%
+    dplyr::summarise(daily_total_unwtd = sum(horse_grazing_unwtd))
+  cameradf_horses <- cameradf_horses %>% mutate(Species = "Horse")
+
+  cameradf_cows <- NULL
+  cameradf_cows <- cameradf %>%
+    dplyr::group_by(ImageDate) %>%
+    dplyr::summarise(daily_total_unwtd = sum(cow_grazing_unwtd))
+  cameradf_cows <- cameradf_cows %>% mutate(Species = "Cow")
+
+  cameradf_elk <- NULL
+  cameradf_elk <- cameradf %>%
+    dplyr::group_by(ImageDate) %>%
+    dplyr::summarise(daily_total_unwtd = sum(elk_grazing_unwtd))
+  cameradf_elk <- cameradf_elk %>% mutate(Species = "Elk")
+
+  cameradf_bind <- dplyr::bind_rows(cameradf_horses, cameradf_cows, cameradf_elk)
+
+  cameradf_bind$Site <- NULL
+
+  cameradf_bind$Site <- cameradf$Site[1]
+
+  cameradf_bind$Year <- NULL
+
+  cameradf_bind$Year <- cameradf$Year[1]
+
+  return(cameradf_bind)
+}
+
+
+summarize.wtd.daily.totals <- function(cameradf) {
+
+  cameradf_horses <- NULL
+  cameradf_horses <- cameradf %>%
+    dplyr::group_by(ImageDate) %>%
+    dplyr::summarise(daily_total_wtd = sum(horse_grazing_wtd))
+  cameradf_horses <- cameradf_horses %>% mutate(Species = "Horse")
+
+  cameradf_cows <- NULL
+  cameradf_cows <- cameradf %>%
+    dplyr::group_by(ImageDate) %>%
+    dplyr::summarise(daily_total_wtd = sum(cow_grazing_wtd))
+  cameradf_cows <- cameradf_cows %>% mutate(Species = "Cow")
+
+  cameradf_elk <- NULL
+  cameradf_elk <- cameradf %>%
+    dplyr::group_by(ImageDate) %>%
+    dplyr::summarise(daily_total_wtd = sum(elk_grazing_wtd))
+  cameradf_elk <- cameradf_elk %>% mutate(Species = "Elk")
+
+  cameradf_bind <- dplyr::bind_rows(cameradf_horses, cameradf_cows, cameradf_elk)
+
+  cameradf_bind$Site <- NULL
+
+  cameradf_bind$Site <- cameradf$Site[1]
+
+  cameradf_bind$Year <- NULL
+
+  cameradf_bind$Year <- cameradf$Year[1]
+
+  return(cameradf_bind)
+
+}
+
+
+summarize_daily_totals <- function(cameradf) {
+
+  cameradf_horses <- NULL
+
+  cameradf_horses <- cameradf %>%
+    dplyr::group_by(ImageDate) %>%
+    dplyr::summarise(across(c(horse_grazing_unwtd, horse_grazing_wtd), sum)) %>%
+    dplyr::rename(daily_total_unwtd = horse_grazing_unwtd, daily_total_wtd = horse_grazing_wtd)
+
+  cameradf_horses <- cameradf_horses %>% mutate(Species = "Horse")
+
+  cameradf_cows <- NULL
+
+  cameradf_cows <- cameradf %>%
+    dplyr::group_by(ImageDate) %>%
+    dplyr::summarise(across(c(cow_grazing_unwtd, cow_grazing_wtd), sum)) %>%
+    dplyr::rename(daily_total_unwtd = cow_grazing_unwtd, daily_total_wtd = cow_grazing_wtd)
+
+  cameradf_cows <- cameradf_cows %>% mutate(Species = "Cow")
+
+  cameradf_elk <- NULL
+
+  cameradf_elk <- cameradf %>%
+    dplyr::group_by(ImageDate) %>%
+    dplyr::summarise(across(c(elk_grazing_unwtd, elk_grazing_wtd), sum)) %>%
+    dplyr::rename(daily_total_unwtd = elk_grazing_unwtd, daily_total_wtd = elk_grazing_wtd)
+
+  cameradf_elk <- cameradf_elk %>% mutate(Species = "Elk")
+
+  cameradf_bind <- dplyr::bind_rows(cameradf_horses, cameradf_cows, cameradf_elk)
+
+  cameradf_bind$Site <- NULL
+
+  cameradf_bind$Site <- cameradf$Site[1]
+
+  cameradf_bind$Year <- NULL
+
+  cameradf_bind$Year <- cameradf$Year[1]
+
+  return(cameradf_bind)
+
+  }
+
+
+
+set_timezone <- function(cameradf) {
+
+  cameradf <- dplyr::mutate(cameradf, DateTime = lubridate::with_tz(DateTime, Sys.timezone()))
+
+  return(cameradf)
+
+}
+
+
+calc.grazing.totals.unwtd <- function(site_summary){
+  site_total <- site_summary %>%
+    dplyr::group_by(Species) %>%
+    dplyr::summarise(season_total = sum(daily_total_unwtd)) %>%
+    dplyr::mutate(proportion = season_total/sum(season_total)) %>%
+    dplyr::mutate(Site = site_summary$Site[1])
+
+  return(site_total)
+}
+
+
+
+calc.grazing.totals.wtd <- function(site_summary){
+  site_total <- site_summary %>%
+    dplyr::group_by(Species) %>%
+    dplyr::summarise(season_total = sum(daily_total_wtd)) %>%
+    dplyr::mutate(proportion = season_total/sum(season_total)) %>%
+    dplyr::mutate(Site = site_summary$Site[1])
+
+  return(site_total)
+}
+
+
+
+reorder.factors.by.season.total <- function(sitetotal){
+  sitetotal$Species <- sitetotal$Species %>% forcats::as_factor()
+  sitetotal$Species <- forcats::fct_reorder(sitetotal$Species, sitetotal$season_total)
+
+  return(sitetotal)
+}
+
+pull.species.percentage <- function(site_unwtd_total, species) {
+  site_unwtd_percent_species <- site_unwtd_total %>%
+    dplyr::filter(Species == species) %>%
+    dplyr::pull(proportion)
+  return(site_unwtd_percent_species)
+}
+
+calc_season_total <- function(site_summary) {
+
+  # grab the summarized df from the list of summarized df
+  site_summary %>%
+    dplyr::group_by(Species) %>%
+
+    # create two new summary columns containing the weighted and unweighted season totals for each species
+    dplyr::summarise(across(c(daily_total_unwtd, daily_total_wtd), sum)) %>%
+
+    # replace the default column names generated by across()
+    dplyr::rename_with(~stringr::str_replace(pattern = "daily",
+                                           replacement = "season", .),
+                       .cols = starts_with("daily")) %>%
+
+    # create a new column with the unweighted proportion for each species
+    dplyr::mutate(proportion_unwtd =
+                  season_total_unwtd/sum(season_total_unwtd)) %>%
+
+    # create a new column with the weighted proportion for each speices
+    dplyr::mutate(proportion_wtd =
+                  season_total_wtd/sum(season_total_wtd)) %>%
+
+    # add the site name back into the data frame to help keep track of where the data is from
+    dplyr::mutate(Site = site_summary$Site[1],
+                .before = Species)
+}
+
+# TODO this could be optimized to accept a string as input so users could change the input
+manually_relevel_species_as_factors <- function(site_summary) {
+
+  site_summary$Species <-
+  site_summary$Species %>%
+  forcats::as_factor() %>%
+  forcats::fct_relevel(c("Elk", "Cow", "Horse"))
+
+  site_summary$Site <-
+    site_summary$Site %>%
+    as.character()
+
+  site_summary <-
+    site_summary %>%
+    dplyr::arrange(Site)
+
+  site_summary$Site <-
+    site_summary$Site %>%
+    forcats::as_factor()
+
+  site_summary <-
+    site_summary %>%
+    group_by(Site) %>%
+    dplyr::arrange(Species, .by_group = TRUE)
+
+  return(site_summary)
+}
+
+group_season_total_by_year <- function(list_of_season_totals) {
+
+  names <- names(list_of_season_totals)
+
+  name_matches <- stringr::str_extract(names, pattern = "\\d{4}")
+
+  years <- unique(name_matches)
+
+  list_of_grouped_season_totals <- NULL
+
+  list_of_grouped_season_totals <- as.list(list_of_grouped_season_totals)
+
+  for (i in 1:length(years)) {
+
+    list_of_grouped_season_totals[[i]] <-
+      list_of_season_totals[stringr::str_detect(names, years[i]) == TRUE] %>%
+      purrr::imap_dfr(as_tibble)
+
+  }
+
+  # rename the elements in the list by the year
+  names(list_of_grouped_season_totals) <- years
+
+  return(list_of_grouped_season_totals)
+
+  }
+
+
+horse_position <- function(season_total, site, weighted) {
+
+  if (weighted == FALSE) {
+    summarized_season_total <-
+      season_total %>%
+      dplyr::group_by(Site) %>%
+      dplyr::summarize(Total = sum(season_total_unwtd)) %>%
+      dplyr::mutate(Scaling_Factor = max(Total) / Total)
+
+    site_scaling_factor <-
+      summarized_season_total %>%
+      dplyr::filter(Site == site) %>%
+      dplyr::pull(Scaling_Factor)
+
+    if (site_scaling_factor >= 5)  {
+      horse_position_y <- 0
+
+    } else {
+      horse_position_y <-
+        season_total %>%
+        dplyr::filter(Species == "Horse" & Site == site) %>%
+        dplyr::pull(season_total_unwtd) %>%
+        divide_by(2)
+
+    }
+
+  } else if (weighted == TRUE) {
+    summarized_season_total <-
+      season_total %>%
+      dplyr::group_by(Site) %>%
+      dplyr::summarize(Total = sum(season_total_wtd)) %>%
+      dplyr::mutate(Scaling_Factor = max(Total) / Total)
+
+    site_scaling_factor <-
+      summarized_season_total %>%
+      dplyr::filter(summarized_season_total$Site == site) %>%
+      dplyr::pull(Scaling_Factor)
+
+    if (site_scaling_factor >= 5)  {
+      horse_position_y <- 0
+
+    } else {
+
+      horse_position_y <-
+        season_total %>%
+        dplyr::filter(Species == "Horse" & Site == site) %>%
+        dplyr::pull(season_total_wtd) %>%
+        divide_by(2)
+
+    }
+
+  }
+
+  return(horse_position_y)
+
+}
+
+cow_position <- function(season_total, site, weighted) {
+
+  if (weighted == FALSE) {
+
+    summarized_season_total <-
+      season_total %>%
+      dplyr::group_by(Site) %>%
+      dplyr::summarize(Total = sum(season_total_unwtd)) %>%
+      dplyr::mutate(Scaling_Factor = max(Total) / Total)
+
+    site_scaling_factor <-
+      summarized_season_total %>%
+      dplyr::filter(Site == site) %>%
+      dplyr::pull(Scaling_Factor)
+
+    if (site_scaling_factor >= 5)  {
+
+      horse_column_y <-
+        season_total %>%
+        dplyr::filter(Species == "Horse" & Site == site) %>%
+        dplyr::pull(season_total_unwtd)
+
+      elk_column_y <-
+        season_total %>%
+        dplyr::filter(Species == "Elk" & Site == site) %>%
+        dplyr::pull(season_total_unwtd)
+
+      cow_position_y <-
+        season_total %>%
+        dplyr::filter(Species == "Cow" & Site == site) %>%
+        dplyr::pull(season_total_unwtd) %>%
+        add(horse_column_y) %>%
+        add(elk_column_y)
+
+    } else {
+
+      horse_column_y <-
+        season_total %>%
+        dplyr::filter(Species == "Horse" & Site == site) %>%
+        dplyr::pull(season_total_unwtd)
+
+      cow_position_y <-
+        season_total %>%
+        dplyr::filter(Species == "Cow" & Site == site) %>%
+        dplyr::pull(season_total_unwtd) %>%
+        divide_by(2) %>%
+        add(horse_column_y)
+
+    }
+
+  } else if (weighted == TRUE) {
+
+    summarized_season_total <-
+      season_total %>%
+      dplyr::group_by(Site) %>%
+      dplyr::summarize(Total = sum(season_total_wtd)) %>%
+      dplyr::mutate(Scaling_Factor = max(Total) / Total)
+
+    site_scaling_factor <-
+      summarized_season_total %>%
+      dplyr::filter(Site == site) %>%
+      dplyr::pull(Scaling_Factor)
+
+    if (site_scaling_factor >= 5)  {
+
+      horse_column_y <-
+        season_total %>%
+        dplyr::filter(Species == "Horse" & Site == site) %>%
+        dplyr::pull(season_total_wtd)
+
+      elk_column_y <-
+        season_total %>%
+        dplyr::filter(Species == "Elk" & Site == site) %>%
+        dplyr::pull(season_total_wtd)
+
+      cow_position_y <-
+        season_total %>%
+        dplyr::filter(Species == "Cow" & Site == site) %>%
+        dplyr::pull(season_total_wtd) %>%
+        add(horse_column_y) %>%
+        add(elk_column_y)
+
+    } else {
+
+      horse_column_y <-
+        season_total %>%
+        dplyr::filter(Species == "Horse" & Site == site) %>%
+        dplyr::pull(season_total_wtd)
+
+      cow_position_y <-
+        season_total %>%
+        dplyr::filter(Species == "Cow" & Site == site) %>%
+        dplyr::pull(season_total_wtd) %>%
+        divide_by(2) %>%
+        add(horse_column_y)
+
+    }
+
+  }
+
+  return(cow_position_y)
+
+}
+
+elk_position <- function(season_total, site, weighted) {
+
+  if (weighted == FALSE) {
+
+    summarized_season_total <-
+      season_total %>%
+      dplyr::group_by(Site) %>%
+      dplyr::summarize(Total = sum(season_total_unwtd)) %>%
+      dplyr::mutate(Scaling_Factor = max(Total) / Total)
+
+    site_scaling_factor <-
+      summarized_season_total %>%
+      dplyr::filter(Site == site) %>%
+      dplyr::pull(Scaling_Factor)
+
+    horse_column_y <-
+      season_total %>%
+      dplyr::filter(Species == "Horse" & Site == site) %>%
+      dplyr::pull(season_total_unwtd)
+
+    cow_column_y <-
+      season_total %>%
+      dplyr::filter(Species == "Cow" & Site == site) %>%
+      dplyr::pull(season_total_unwtd)
+
+    if (site_scaling_factor >= 5)  {
+
+      elk_position_y <-
+        season_total %>%
+        dplyr::filter(Species == "Elk" & Site == site) %>%
+        dplyr::pull(season_total_unwtd) %>%
+        add(horse_column_y) %>%
+        add(cow_column_y) %>%
+        multiply_by(2)
+
+    } else {
+
+      elk_position_y <-
+        season_total %>%
+        dplyr::filter(Species == "Elk" & Site == site) %>%
+        dplyr::pull(season_total_unwtd) %>%
+        divide_by(2) %>%
+        add(horse_column_y) %>%
+        add(cow_column_y)
+
+    }
+
+  } else if (weighted == TRUE) {
+
+    summarized_season_total <-
+      season_total %>%
+      dplyr::group_by(Site) %>%
+      dplyr::summarize(Total = sum(season_total_wtd)) %>%
+      dplyr::mutate(Scaling_Factor = max(Total) / Total)
+
+    site_scaling_factor <-
+      summarized_season_total %>%
+      dplyr::filter(Site == site) %>%
+      dplyr::pull(Scaling_Factor)
+
+    horse_column_y <-
+      season_total %>%
+      dplyr::filter(Species == "Horse" & Site == site) %>%
+      dplyr::pull(season_total_wtd)
+
+    cow_column_y <-
+      season_total %>%
+      dplyr::filter(Species == "Cow" & Site == site) %>%
+      dplyr::pull(season_total_wtd)
+
+    if (site_scaling_factor >= 5)  {
+
+      elk_position_y <-
+        season_total %>%
+        dplyr::filter(Species == "Elk" & Site == site) %>%
+        dplyr::pull(season_total_wtd) %>%
+        add(horse_column_y) %>%
+        add(cow_column_y) %>%
+        multiply_by(2)
+
+    } else {
+
+      elk_position_y <-
+        season_total %>%
+        dplyr::filter(Species == "Elk" & Site == site) %>%
+        dplyr::pull(season_total_wtd) %>%
+        divide_by(2) %>%
+        add(horse_column_y) %>%
+        add(cow_column_y)
+
+    }
+
+  }
+
+  return(elk_position_y)
+
+}
+
+
+theme_grazer <- function() {
+
+  font <- "sans"   #assign font family up front
+
+  theme() %+replace%    #replace elements we want to change
+
+    theme(
+
+      plot.title = element_text(
+        family = font,
+        size = 42,
+        face = 'bold',
+        margin = margin(t = 10, r = 0, b = 10, l = 0),
+        hjust = 0.5),
+
+      plot.subtitle = element_text(
+        family = font,
+        hjust = 0.5,
+        margin = margin(t = 0, r = 0, b = 0, l = 0),
+        face = 'italic',
+        size = 32),
+
+      plot.caption = element_text(
+        family = font,
+        size = 24,
+        hjust = 1),
+
+      axis.title = element_text(
+        family = font,
+        size = 32,
+        face = 'bold'),
+
+      axis.text = element_text(
+        family = font,
+        size = 24),
+
+      axis.text.x = element_text(
+        margin = margin(t = 10, r = 0, b = 10, l = 0)),
+
+      axis.text.y = element_text(
+        margin = margin(t = 10, r = 0, b = 10, l = 10)),
+
+      legend.text = element_text(
+        family = font,
+        size = 24),
+
+      legend.title = element_text(
+        size = 32,
+        face = 'bold'),
+
+      strip.text = element_text(
+        size = 24
+      )
+
+
+    )
+}
