@@ -15,6 +15,9 @@ output:
 ## Setup
 
 ```{r setup, include=FALSE}
+
+rm(list = ls())
+
 knitr::opts_chunk$set(echo = TRUE,
                       dpi = 300)
 knitr::opts_knit$set(root.dir = "~/grazing-interaction")
@@ -30,8 +33,6 @@ flextable::set_flextable_defaults(
   fonts_ignore = TRUE,
   background.color = "#EFEFEF")
 
-# set the plot theme to our custom theme
-ggplot2::theme_set(theme_grazer())
 ```
 
 ------------------------------------------------------------------------
@@ -122,15 +123,26 @@ list_of_summarized_cameradf <-
 
 ```
 
+
+```{r Rename ImageDate to Date}
+
+list_of_summarized_cameradf <- 
+  purrr::map(list_of_summarized_cameradf, dplyr::rename, Date = ImageDate)
+
+```
+
 ## Daily Totals
 
-# TODO the monitoring start and end dates should be programatically generated
 # TODO save the annotations as a data frame and then use geom_text to add the labels to the plot
+
+
+
+
 
 ```{r Bear 2017 Unweighted Figure}
 
 ggplot(list_of_summarized_cameradf$`2017_BRL.csv`,
-            aes(x = ImageDate, y = daily_total_unwtd, fill = Species)) +
+            aes(x = Date, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b", 
                date_breaks = "1 month",
@@ -139,6 +151,7 @@ ggplot(list_of_summarized_cameradf$`2017_BRL.csv`,
   labs(title = "Bear Timelapse", subtitle = "2017") +
   ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
+  theme_grazer_daily() +
     annotate(geom = "text", 
            x = date(("2017-07-10")), 
            y = (250/2),
@@ -161,7 +174,7 @@ ggsave("Bear-Timelapse-2017-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
 
 ```{r Bear 2017 Weighted Figure}
 ggplot(list_of_summarized_cameradf$`2017_BRL.csv`, 
-            aes(x = ImageDate, y = daily_total_wtd, fill = Species)) +
+            aes(x = Date, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b", 
                date_breaks = "1 month",
@@ -170,6 +183,7 @@ ggplot(list_of_summarized_cameradf$`2017_BRL.csv`,
   labs(title = "Bear Timelapse", subtitle = "2017") +
   ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
+  theme_grazer_daily() +
   annotate(geom = "text", 
            x = date(("2017-07-10")), 
            y = (250/2),
@@ -192,7 +206,7 @@ ggsave("Bear-Timelapse-2017-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
 
 ```{r Bear 2018 Unweighted Figure}
 ggplot(list_of_summarized_cameradf$`2018_BRL.csv`,
-            aes(x = ImageDate, y = daily_total_unwtd, fill = Species)) +
+            aes(x = Date, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b", 
                date_breaks = "1 month",
@@ -200,7 +214,8 @@ ggplot(list_of_summarized_cameradf$`2018_BRL.csv`,
   scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
   labs(title = "Bear Timelapse", subtitle = "2018") +
   ylab("Grazing Minutes (Unweighted)") +
-  facet_grid(Species ~ .)
+  facet_grid(Species ~ .) +
+  theme_grazer_daily()
 ggsave("Bear-Timelapse-2018-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
        height = 6,
        width = 9,
@@ -210,7 +225,7 @@ ggsave("Bear-Timelapse-2018-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
 
 ```{r Bear 2018 Weighted Figure}
 ggplot(list_of_summarized_cameradf$`2018_BRL.csv`, 
-       aes(x = ImageDate, y = daily_total_wtd, fill = Species)) +
+       aes(x = Date, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b", 
                date_breaks = "1 month", 
@@ -218,7 +233,8 @@ ggplot(list_of_summarized_cameradf$`2018_BRL.csv`,
   scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
   labs(title = "Bear Timelapse", subtitle = "2018") +
   ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
-  facet_grid(Species ~ .)
+  facet_grid(Species ~ .) +
+  theme_grazer_daily()
 ggsave("Bear-Timelapse-2018-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
        height = 6,
        width = 9,
@@ -228,7 +244,7 @@ ggsave("Bear-Timelapse-2018-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
 
 ```{r Bear 2019 Unweighted Figure}
 ggplot(list_of_summarized_cameradf$`2019_BRL.csv`, 
-            aes(x = ImageDate, y = daily_total_unwtd, fill = Species)) +
+            aes(x = Date, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -237,7 +253,7 @@ ggplot(list_of_summarized_cameradf$`2019_BRL.csv`,
   labs(title = "Bear Timelapse", subtitle = "2019") +
   ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
-
+  theme_grazer_daily() +
   annotate(geom = "text", 
            x = date(("2019-06-02")), 
            y = (10000/2),
@@ -260,7 +276,7 @@ ggsave("Bear-Timelapse-2019-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
 
 ```{r Bear 2019 Weighted Figure}
 ggplot(list_of_summarized_cameradf$`2019_BRL.csv`, 
-            aes(x = ImageDate, y = daily_total_wtd, fill = Species)) +
+            aes(x = Date, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -269,7 +285,7 @@ ggplot(list_of_summarized_cameradf$`2019_BRL.csv`,
   labs(title = "Bear Timelapse", subtitle = "2019") +
   ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
-
+  theme_grazer_daily() +
   annotate(geom = "text", 
            x = date(("2019-06-02")), 
            y = (10000/2),
@@ -292,7 +308,7 @@ ggsave("Bear-Timelapse-2019-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
 
 ```{r Bear 2020 Unweighted Figure}
 ggplot(list_of_summarized_cameradf$`2020_BRL.csv`, 
-            aes(x = ImageDate, y = daily_total_unwtd, fill = Species)) +
+            aes(x = Date, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -301,7 +317,7 @@ ggplot(list_of_summarized_cameradf$`2020_BRL.csv`,
   labs(title = "Bear Timelapse", subtitle = "2020") +
   ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
-
+  theme_grazer_daily() +
   annotate(geom = "text", 
            x = date(("2020-07-08")), 
            y = 500,
@@ -324,7 +340,7 @@ ggsave("Bear-Timelapse-2020-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
 
 ```{r Bear 2020 Weighted Figure}
 ggplot(list_of_summarized_cameradf$`2020_BRL.csv`, 
-            aes(x = ImageDate, y = daily_total_wtd, fill = Species)) +
+            aes(x = Date, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -333,7 +349,7 @@ ggplot(list_of_summarized_cameradf$`2020_BRL.csv`,
   labs(title = "Bear Timelapse", subtitle = "2020") +
   ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
-  
+  theme_grazer_daily() +
   annotate(geom = "text", 
            x = date(("2020-07-08")), 
            y = 500,
@@ -356,7 +372,7 @@ ggsave("Bear-Timelapse-2020-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
 
 ```{r Area 51 2019 Unweighted Figure}
 ggplot(list_of_summarized_cameradf$`2019_A51.csv`, 
-            aes(x = ImageDate, y = daily_total_unwtd, fill = Species)) +
+            aes(x = Date, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -365,7 +381,7 @@ ggplot(list_of_summarized_cameradf$`2019_A51.csv`,
   labs(title = "Fifty One Timelapse", subtitle = "2019") +
   ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
-
+  theme_grazer_daily() +
   annotate(geom = "text",
            x = date(("2019-06-08")),
            y = 1000,
@@ -387,7 +403,7 @@ ggsave("FiftyOne-Timelapse-2019-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
 ```
 
 ```{r Area 51 2019 Weighted Figure}
-ggplot(list_of_summarized_cameradf$`2019_A51.csv`, aes(x = ImageDate, y = daily_total_wtd, fill = Species)) +
+ggplot(list_of_summarized_cameradf$`2019_A51.csv`, aes(x = Date, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -396,7 +412,7 @@ ggplot(list_of_summarized_cameradf$`2019_A51.csv`, aes(x = ImageDate, y = daily_
   labs(title = "Fifty One Timelapse", subtitle = "2019") +
   ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
-
+  theme_grazer_daily() +
   annotate(geom = "text",
            x = date(("2019-06-08")),
            y = 1000,
@@ -419,7 +435,7 @@ ggsave("FiftyOne-Timelapse-2019-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
 
 ```{r Area 51 2020 Unweighted Figure}
 ggplot(list_of_summarized_cameradf$`2020_A51.csv`,
-       aes(x = ImageDate, y = daily_total_unwtd, fill = Species)) +
+       aes(x = Date, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -428,7 +444,7 @@ ggplot(list_of_summarized_cameradf$`2020_A51.csv`,
   labs(title = "Fifty One Timelapse", subtitle = "2020") +
   ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
-
+  theme_grazer_daily() +
   annotate(geom = "text",
            x = date(("2020-07-09")),
            y = 1000,
@@ -450,7 +466,7 @@ ggsave("FiftyOne-Timelapse-2020-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
 ```
 
 ```{r Area 51 2020 Weighted Figure}
-ggplot(list_of_summarized_cameradf$`2020_A51.csv`, aes(x = ImageDate, y = daily_total_wtd, fill = Species)) +
+ggplot(list_of_summarized_cameradf$`2020_A51.csv`, aes(x = Date, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -459,7 +475,7 @@ ggplot(list_of_summarized_cameradf$`2020_A51.csv`, aes(x = ImageDate, y = daily_
   labs(title = "Fifty One Timelapse", subtitle = "2020") +
   ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
-
+  theme_grazer_daily() +
   annotate(geom = "text",
            x = date(("2020-07-09")),
            y = 1000,
@@ -482,7 +498,7 @@ ggsave("FiftyOne-Timelapse-2020-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
 
 ```{r Black Canyon Dam 2019 Unweighted Figure}
 ggplot(list_of_summarized_cameradf$`2019_BKD.csv`, 
-       aes(x = ImageDate, y = daily_total_unwtd, fill = Species)) +
+       aes(x = Date, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -491,7 +507,7 @@ ggplot(list_of_summarized_cameradf$`2019_BKD.csv`,
   labs(title = "Black Canyon Dam Timelapse", subtitle = "2019") +
   ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
-
+  theme_grazer_daily() +
   annotate(geom = "text",
            x = date(("2019-06-09")),
            y = 1000,
@@ -514,7 +530,7 @@ ggsave("Black-Canyon-Dam-Timelapse-2019-Unweighted-Grazing-Minutes-June-01-Sept-
 
 ```{r Black Canyon Dam 2019 Weighted Figure}
 ggplot(list_of_summarized_cameradf$`2019_BKD.csv`, 
-       aes(x = ImageDate, y = daily_total_wtd, fill = Species)) +
+       aes(x = Date, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -523,7 +539,7 @@ ggplot(list_of_summarized_cameradf$`2019_BKD.csv`,
   labs(title = "Black Canyon Dam Timelapse", subtitle = "2019") +
   ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
-
+  theme_grazer_daily() +
   annotate(geom = "text",
            x = date(("2019-06-09")),
            y = 1000,
@@ -546,7 +562,7 @@ ggsave("Black-Canyon-Dam-Timelapse-2019-Weighted-Grazing-Minutes-June-01-Sept-30
 
 ```{r Black Canyon South 2017 Unweighted Figure}
 ggplot(list_of_summarized_cameradf$`2017_BKS.csv`, 
-       aes(x = ImageDate, y = daily_total_unwtd, fill = Species)) +
+       aes(x = Date, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b", 
                date_breaks = "1 month",
@@ -555,7 +571,7 @@ ggplot(list_of_summarized_cameradf$`2017_BKS.csv`,
   labs(title = "Black Canyon South Timelapse", subtitle = "2017") +
   ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
-
+  theme_grazer_daily() +
   annotate(geom = "text", 
            x = date(("2017-06-09")), 
            y = (250/2),
@@ -578,7 +594,7 @@ ggsave("Black-Canyon-South-Timelapse-2017-Unweighted-Grazing-Minutes-June-01-Sep
 
 ```{r Black Canyon South 2017 Weighted Figure}
 ggplot(list_of_summarized_cameradf$`2017_BKS.csv`,
-       aes(x = ImageDate, y = daily_total_wtd, fill = Species)) +
+       aes(x = Date, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b", 
                date_breaks = "1 month",
@@ -587,7 +603,7 @@ ggplot(list_of_summarized_cameradf$`2017_BKS.csv`,
   labs(title = "Black Canyon South Timelapse", subtitle = "2017") +
   ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
-
+  theme_grazer_daily() +
   annotate(geom = "text", 
            x = date(("2017-06-09")), 
            y = (250/2),
@@ -610,7 +626,7 @@ ggsave("Black-Canyon-South-Timelapse-2017-Weighted-Grazing-Minutes-June-01-Sept-
 
 ```{r Black Canyon South 2018 Unweighted Figure}
 ggplot(list_of_summarized_cameradf$`2018_BKS.csv`,
-       aes(x = ImageDate, y = daily_total_unwtd, fill = Species)) +
+       aes(x = Date, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -618,18 +634,18 @@ ggplot(list_of_summarized_cameradf$`2018_BKS.csv`,
   scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
   labs(title = "Black Canyon South Timelapse", subtitle = "2018") +
   ylab("Grazing Minutes (Unweighted)") +
-  facet_grid(Species ~ .)
+  facet_grid(Species ~ .) +
+  theme_grazer_daily()
 ggsave("Black-Canyon-South-Timelapse-2018-Unweighted-Grazing-Minutes-June-01-Sept-30.jpg",
        height = 6,
        width = 9,
        units = "in",
        path = file.path(currentwd, "figures", "grazing-minutes", "daily-site-use"))
 ```
-# TODO rename ImageDate to Date
 
 ```{r Black Canyon South 2018 Weighted Figure}
 ggplot(list_of_summarized_cameradf$`2018_BKS.csv`,
-       aes(x = ImageDate, y = daily_total_wtd, fill = Species)) +
+       aes(x = Date, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -637,8 +653,8 @@ ggplot(list_of_summarized_cameradf$`2018_BKS.csv`,
   scale_y_continuous(limits = c(0, 250), breaks = seq(0, 250, by = 50)) +
   labs(title = "Black Canyon South Timelapse", subtitle = "2018") +
   ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
-  facet_grid(Species ~ .)
-  
+  facet_grid(Species ~ .) +
+  theme_grazer_daily()
 ggsave("Black-Canyon-South-Timelapse-2018-Weighted-Grazing-Minutes-June-01-Sept-30.jpg",
        height = 6,
        width = 9,
@@ -648,7 +664,7 @@ ggsave("Black-Canyon-South-Timelapse-2018-Weighted-Grazing-Minutes-June-01-Sept-
 
 ```{r Black Canyon South 2019 Unweighted Figure}
 ggplot(list_of_summarized_cameradf$`2019_BKS.csv`, 
-       aes(x = ImageDate, y = daily_total_unwtd, fill = Species)) +
+       aes(x = Date, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -657,6 +673,7 @@ ggplot(list_of_summarized_cameradf$`2019_BKS.csv`,
   labs(title = "Black Canyon South Timelapse", subtitle = "2019") +
   ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
+  theme_grazer_daily() +
   annotate(geom = "text", 
            x = date(("2019-06-02")), 
            y = (2500/2),
@@ -679,7 +696,7 @@ ggsave("Black-Canyon-South-Timelapse-2019-Unweighted-Grazing-Minutes-June-01-Sep
 
 ```{r Black Canyon South 2019 Weighted Figure}
 ggplot(list_of_summarized_cameradf$`2019_BKS.csv`, 
-       aes(x = ImageDate, y = daily_total_wtd, fill = Species)) +
+       aes(x = Date, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -688,7 +705,7 @@ ggplot(list_of_summarized_cameradf$`2019_BKS.csv`,
   labs(title = "Black Canyon South Timelapse", subtitle = "2019") +
   ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
-
+  theme_grazer_daily() +
   annotate(geom = "text", 
            x = date(("2019-06-02")), 
            y = (2500/2),
@@ -711,7 +728,7 @@ ggsave("Black-Canyon-South-Timelapse-2019-Weighted-Grazing-Minutes-June-01-Sept-
 
 ```{r Black Canyon South 2020 Unweighted Figure}
 ggplot(list_of_summarized_cameradf$`2020_BKS.csv`, 
-       aes(x = ImageDate, y = daily_total_unwtd, fill = Species)) +
+       aes(x = Date, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -720,7 +737,7 @@ ggplot(list_of_summarized_cameradf$`2020_BKS.csv`,
   labs(title = "Black Canyon South Timelapse", subtitle = "2020") +
   ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
-
+  theme_grazer_daily() +
   annotate(geom = "text", 
            x = date(("2020-07-07")), 
            y = 500,
@@ -743,7 +760,7 @@ ggsave("Black-Canyon-South-Timelapse-2020-Unweighted-Grazing-Minutes-June-01-Sep
 
 ```{r Black Canyon South 2020 Weighted Figure}
 ggplot(list_of_summarized_cameradf$`2020_BKS.csv`, 
-       aes(x = ImageDate, y = daily_total_wtd, fill = Species)) +
+       aes(x = Date, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -752,7 +769,7 @@ ggplot(list_of_summarized_cameradf$`2020_BKS.csv`,
   labs(title = "Black Canyon South Timelapse", subtitle = "2020") +
   ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
-
+  theme_grazer_daily() +
   annotate(geom = "text", 
            x = date(("2020-07-07")), 
            y = 500,
@@ -775,7 +792,7 @@ ggsave("Black-Canyon-South-Timelapse-2020-Weighted-Grazing-Minutes-June-01-Sept-
 
 ```{r Black Canyon North 2019 Unweighted Figure}
 ggplot(list_of_summarized_cameradf$`2019_BKN.csv`, 
-       aes(x = ImageDate, y = daily_total_unwtd, fill = Species)) +
+       aes(x = Date, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -784,7 +801,7 @@ ggplot(list_of_summarized_cameradf$`2019_BKN.csv`,
   labs(title = "Black Canyon North Timelapse", subtitle = "2019") +
   ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
-
+  theme_grazer_daily() +
   annotate(geom = "text", 
            x = date(("2019-06-02")), 
            y = (2500/2),
@@ -807,7 +824,7 @@ ggsave("Black-Canyon-North-Timelapse-2019-Unweighted-Grazing-Minutes-June-01-Sep
 
 ```{r Black Canyon North 2019 Weighted Figure}
 ggplot(list_of_summarized_cameradf$`2019_BKN.csv`, 
-       aes(x = ImageDate, y = daily_total_wtd, fill = Species)) +
+       aes(x = Date, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -816,7 +833,7 @@ ggplot(list_of_summarized_cameradf$`2019_BKN.csv`,
   labs(title = "Black Canyon North Timelapse", subtitle = "2019") +
   ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
-
+  theme_grazer_daily() +
   annotate(geom = "text", 
            x = date(("2019-06-02")), 
            y = (2500/2),
@@ -839,7 +856,7 @@ ggsave("Black-Canyon-North-Timelapse-2019-Weighted-Grazing-Minutes-June-01-Sept-
 
 ```{r Black Canyon North 2020 Unweighted Figure}
 ggplot(list_of_summarized_cameradf$`2020_BKN.csv`, 
-       aes(x = ImageDate, y = daily_total_unwtd, fill = Species)) +
+       aes(x = Date, y = daily_total_unwtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -848,7 +865,7 @@ ggplot(list_of_summarized_cameradf$`2020_BKN.csv`,
   labs(title = "Black Canyon North Timelapse", subtitle = "2020") +
   ylab("Grazing Minutes (Unweighted)") +
   facet_grid(Species ~ .) +
-
+  theme_grazer_daily() +
   annotate(geom = "text", 
            x = date(("2020-07-07")), 
            y = 500,
@@ -871,7 +888,7 @@ ggsave("Black-Canyon-North-Timelapse-2020-Unweighted-Grazing-Minutes-June-01-Sep
 
 ```{r Black Canyon North 2020 Weighted Figure}
 ggplot(list_of_summarized_cameradf$`2020_BKN.csv`, 
-       aes(x = ImageDate, y = daily_total_wtd, fill = Species)) +
+       aes(x = Date, y = daily_total_wtd, fill = Species)) +
   geom_col(position = "dodge") +
   scale_x_date(date_labels = "%b",
                date_breaks = "1 month",
@@ -880,7 +897,7 @@ ggplot(list_of_summarized_cameradf$`2020_BKN.csv`,
   labs(title = "Black Canyon North Timelapse", subtitle = "2020") +
   ylab("Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   facet_grid(Species ~ .) +
-
+  theme_grazer_daily() +
   annotate(geom = "text", 
            x = date(("2020-07-07")), 
            y = 500,
@@ -987,7 +1004,7 @@ ggplot(list_of_grouped_season_totals$`2017`,
   scale_fill_manual(values = c(Cow = cow_color,
                                 Elk = elk_color,
                                 Horse = horse_color)) +
-
+  theme_grazer_season() +
 annotate(geom = "label",
            x = 1,
            y = elk_position(list_of_grouped_season_totals$`2017`, 
@@ -1050,6 +1067,7 @@ ggplot(list_of_grouped_season_totals$`2017`,
   scale_fill_manual(values = c(Cow = cow_color,
                                 Elk = elk_color,
                                 Horse = horse_color)) +
+  theme_grazer_season() +
 
     # elk
 annotate(geom = "label",
@@ -1117,7 +1135,7 @@ ggplot(list_of_grouped_season_totals$`2018`,
   scale_fill_manual(values = c(Cow = cow_color,
                                 Elk = elk_color,
                                 Horse = horse_color)) +
-
+  theme_grazer_season() +
     # elk
 annotate(geom = "text",
            x = 1,
@@ -1184,7 +1202,7 @@ ggplot(list_of_grouped_season_totals$`2018`,
   scale_fill_manual(values = c(Cow = cow_color,
                                 Elk = elk_color,
                                 Horse = horse_color)) +
-
+  theme_grazer_season() +
 annotate(geom = "text",
            x = 1,
            y = elk_position(list_of_grouped_season_totals$`2018`, 
@@ -1254,7 +1272,7 @@ ggplot(list_of_grouped_season_totals$`2019`,
   scale_fill_manual(values = c(Cow = cow_color,
                                 Elk = elk_color,
                                 Horse = horse_color)) +
-  theme(axis.text = element_text(size = 18)) +
+  theme_grazer_season() +
 annotate(geom = "label",
            x = 1,
            y = elk_position(list_of_grouped_season_totals$`2019`, 
@@ -1397,7 +1415,7 @@ ggplot(list_of_grouped_season_totals$`2019`,
   scale_fill_manual(values = c(Cow = cow_color,
                                 Elk = elk_color,
                                 Horse = horse_color)) +
-  theme(axis.text = element_text(size = 18)) +
+  theme_grazer_season() +
   annotate(geom = "label",
            x = 1,
            y = elk_position(list_of_grouped_season_totals$`2019`, 
@@ -1534,7 +1552,7 @@ ggplot(list_of_grouped_season_totals$`2020`, aes(x = Site,
   scale_fill_manual(values = c(Cow = cow_color,
                                 Elk = elk_color,
                                 Horse = horse_color)) +
-
+  theme_grazer_season() +
   annotate(geom = "label",
            x = 1,
            y = elk_position(list_of_grouped_season_totals$`2020`, 
@@ -1648,7 +1666,7 @@ ggplot(list_of_grouped_season_totals$`2020`, aes(x = Site,
   scale_fill_manual(values = c(Cow = cow_color,
                                 Elk = elk_color,
                                 Horse = horse_color)) +
-
+  theme_grazer_season() +
   annotate(geom = "label",
            x = 1,
            y = elk_position(list_of_grouped_season_totals$`2020`, 

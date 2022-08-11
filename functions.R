@@ -1328,9 +1328,15 @@ group_season_total_by_year <- function(list_of_season_totals) {
   }
 
 
+# create a data frame of positions
+
+
+
+
 horse_position <- function(season_total, site, weighted) {
 
   if (weighted == FALSE) {
+
     summarized_season_total <-
       season_total %>%
       dplyr::group_by(Site) %>%
@@ -1355,16 +1361,6 @@ horse_position <- function(season_total, site, weighted) {
     }
 
   } else if (weighted == TRUE) {
-    summarized_season_total <-
-      season_total %>%
-      dplyr::group_by(Site) %>%
-      dplyr::summarize(Total = sum(season_total_wtd)) %>%
-      dplyr::mutate(Scaling_Factor = max(Total) / Total)
-
-    site_scaling_factor <-
-      summarized_season_total %>%
-      dplyr::filter(summarized_season_total$Site == site) %>%
-      dplyr::pull(Scaling_Factor)
 
     if (site_scaling_factor >= 5)  {
       horse_position_y <- 0
@@ -1588,7 +1584,7 @@ elk_position <- function(season_total, site, weighted) {
 }
 
 
-theme_grazer <- function() {
+theme_grazer_daily <- function() {
 
   font <- "sans"   #assign font family up front
 
@@ -1645,3 +1641,62 @@ theme_grazer <- function() {
 
     )
 }
+
+theme_grazer_season <- function() {
+
+  font <- "sans"   #assign font family up front
+
+  theme() %+replace%    #replace elements we want to change
+
+    theme(
+
+      plot.title = element_text(
+        family = font,
+        size = 32,
+        face = 'bold',
+        margin = margin(t = 5, r = 0, b = 10, l = 0),
+        hjust = 0.5),
+
+      plot.subtitle = element_text(
+        family = font,
+        hjust = 0.5,
+        margin = margin(t = 0, r = 0, b = 5, l = 0),
+        face = 'italic',
+        size = 24),
+
+      plot.caption = element_text(
+        family = font,
+        size = 24,
+        hjust = 1),
+
+      axis.title = element_text(
+        family = font,
+        size = 24,
+        face = 'bold'),
+
+      axis.text = element_text(
+        family = font,
+        size = 18),
+
+      axis.text.x = element_text(
+        margin = margin(t = 10, r = 0, b = 10, l = 0)),
+
+      axis.text.y = element_text(
+        margin = margin(t = 10, r = 0, b = 10, l = 10)),
+
+      legend.text = element_text(
+        family = font,
+        size = 24),
+
+      legend.title = element_text(
+        size = 24,
+        face = 'bold'),
+
+      strip.text = element_text(
+        size = 24
+      )
+
+
+    )
+}
+
