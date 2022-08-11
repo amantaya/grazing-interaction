@@ -4,9 +4,9 @@ col_spec <- cols(
   ImagePath = col_character(),
   ImageRelative = col_character(),
   ImageSize = col_double(),
-  ImageTime = col_character(), # set as character to preserve formatting
-  ImageDate = col_character(), # set as character to preserve formatting
-  DateTime = col_character(), # set as character to preserve formatting
+  ImageTime = col_time(format = ""), # set as character to preserve formatting
+  ImageDate = col_date(format = ""), # set as character to preserve formatting
+  DateTime = col_datetime("%Y-%m-%d %H:%M:%S %Z"), # set as character to preserve formatting
   ImageAlert = col_logical(),
   Frame1 = col_character(),
   chkFrame1Lock = col_logical(),
