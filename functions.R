@@ -1330,256 +1330,31 @@ group_season_total_by_year <- function(list_of_season_totals) {
 
 # create a data frame of positions
 
-
-
-
-horse_position <- function(season_total, site, weighted) {
+calc_scaling_factor <- function(season_total, weighted) {
 
   if (weighted == FALSE) {
 
-    summarized_season_total <-
+    scaling_factor_tibble <-
       season_total %>%
       dplyr::group_by(Site) %>%
       dplyr::summarize(Total = sum(season_total_unwtd)) %>%
       dplyr::mutate(Scaling_Factor = max(Total) / Total)
 
-    site_scaling_factor <-
-      summarized_season_total %>%
-      dplyr::filter(Site == site) %>%
-      dplyr::pull(Scaling_Factor)
-
-    if (site_scaling_factor >= 5)  {
-      horse_position_y <- 0
-
-    } else {
-      horse_position_y <-
-        season_total %>%
-        dplyr::filter(Species == "Horse" & Site == site) %>%
-        dplyr::pull(season_total_unwtd) %>%
-        divide_by(2)
-
-    }
-
   } else if (weighted == TRUE) {
 
-    if (site_scaling_factor >= 5)  {
-      horse_position_y <- 0
-
-    } else {
-
-      horse_position_y <-
-        season_total %>%
-        dplyr::filter(Species == "Horse" & Site == site) %>%
-        dplyr::pull(season_total_wtd) %>%
-        divide_by(2)
-
-    }
-
-  }
-
-  return(horse_position_y)
-
-}
-
-cow_position <- function(season_total, site, weighted) {
-
-  if (weighted == FALSE) {
-
-    summarized_season_total <-
-      season_total %>%
-      dplyr::group_by(Site) %>%
-      dplyr::summarize(Total = sum(season_total_unwtd)) %>%
-      dplyr::mutate(Scaling_Factor = max(Total) / Total)
-
-    site_scaling_factor <-
-      summarized_season_total %>%
-      dplyr::filter(Site == site) %>%
-      dplyr::pull(Scaling_Factor)
-
-    if (site_scaling_factor >= 5)  {
-
-      horse_column_y <-
-        season_total %>%
-        dplyr::filter(Species == "Horse" & Site == site) %>%
-        dplyr::pull(season_total_unwtd)
-
-      elk_column_y <-
-        season_total %>%
-        dplyr::filter(Species == "Elk" & Site == site) %>%
-        dplyr::pull(season_total_unwtd)
-
-      cow_position_y <-
-        season_total %>%
-        dplyr::filter(Species == "Cow" & Site == site) %>%
-        dplyr::pull(season_total_unwtd) %>%
-        add(horse_column_y) %>%
-        add(elk_column_y)
-
-    } else {
-
-      horse_column_y <-
-        season_total %>%
-        dplyr::filter(Species == "Horse" & Site == site) %>%
-        dplyr::pull(season_total_unwtd)
-
-      cow_position_y <-
-        season_total %>%
-        dplyr::filter(Species == "Cow" & Site == site) %>%
-        dplyr::pull(season_total_unwtd) %>%
-        divide_by(2) %>%
-        add(horse_column_y)
-
-    }
-
-  } else if (weighted == TRUE) {
-
-    summarized_season_total <-
+    scaling_factor_tibble <-
       season_total %>%
       dplyr::group_by(Site) %>%
       dplyr::summarize(Total = sum(season_total_wtd)) %>%
       dplyr::mutate(Scaling_Factor = max(Total) / Total)
-
-    site_scaling_factor <-
-      summarized_season_total %>%
-      dplyr::filter(Site == site) %>%
-      dplyr::pull(Scaling_Factor)
-
-    if (site_scaling_factor >= 5)  {
-
-      horse_column_y <-
-        season_total %>%
-        dplyr::filter(Species == "Horse" & Site == site) %>%
-        dplyr::pull(season_total_wtd)
-
-      elk_column_y <-
-        season_total %>%
-        dplyr::filter(Species == "Elk" & Site == site) %>%
-        dplyr::pull(season_total_wtd)
-
-      cow_position_y <-
-        season_total %>%
-        dplyr::filter(Species == "Cow" & Site == site) %>%
-        dplyr::pull(season_total_wtd) %>%
-        add(horse_column_y) %>%
-        add(elk_column_y)
-
-    } else {
-
-      horse_column_y <-
-        season_total %>%
-        dplyr::filter(Species == "Horse" & Site == site) %>%
-        dplyr::pull(season_total_wtd)
-
-      cow_position_y <-
-        season_total %>%
-        dplyr::filter(Species == "Cow" & Site == site) %>%
-        dplyr::pull(season_total_wtd) %>%
-        divide_by(2) %>%
-        add(horse_column_y)
-
-    }
-
   }
 
-  return(cow_position_y)
+  # match on the site and add a scaling factor column
+  scaling_factor_tibble <- dplyr::left_join(season_total,
+                                          scaling_factor_tibble,
+                                          by = "Site")
 
-}
-
-elk_position <- function(season_total, site, weighted) {
-
-  if (weighted == FALSE) {
-
-    summarized_season_total <-
-      season_total %>%
-      dplyr::group_by(Site) %>%
-      dplyr::summarize(Total = sum(season_total_unwtd)) %>%
-      dplyr::mutate(Scaling_Factor = max(Total) / Total)
-
-    site_scaling_factor <-
-      summarized_season_total %>%
-      dplyr::filter(Site == site) %>%
-      dplyr::pull(Scaling_Factor)
-
-    horse_column_y <-
-      season_total %>%
-      dplyr::filter(Species == "Horse" & Site == site) %>%
-      dplyr::pull(season_total_unwtd)
-
-    cow_column_y <-
-      season_total %>%
-      dplyr::filter(Species == "Cow" & Site == site) %>%
-      dplyr::pull(season_total_unwtd)
-
-    if (site_scaling_factor >= 5)  {
-
-      elk_position_y <-
-        season_total %>%
-        dplyr::filter(Species == "Elk" & Site == site) %>%
-        dplyr::pull(season_total_unwtd) %>%
-        add(horse_column_y) %>%
-        add(cow_column_y) %>%
-        multiply_by(2)
-
-    } else {
-
-      elk_position_y <-
-        season_total %>%
-        dplyr::filter(Species == "Elk" & Site == site) %>%
-        dplyr::pull(season_total_unwtd) %>%
-        divide_by(2) %>%
-        add(horse_column_y) %>%
-        add(cow_column_y)
-
-    }
-
-  } else if (weighted == TRUE) {
-
-    summarized_season_total <-
-      season_total %>%
-      dplyr::group_by(Site) %>%
-      dplyr::summarize(Total = sum(season_total_wtd)) %>%
-      dplyr::mutate(Scaling_Factor = max(Total) / Total)
-
-    site_scaling_factor <-
-      summarized_season_total %>%
-      dplyr::filter(Site == site) %>%
-      dplyr::pull(Scaling_Factor)
-
-    horse_column_y <-
-      season_total %>%
-      dplyr::filter(Species == "Horse" & Site == site) %>%
-      dplyr::pull(season_total_wtd)
-
-    cow_column_y <-
-      season_total %>%
-      dplyr::filter(Species == "Cow" & Site == site) %>%
-      dplyr::pull(season_total_wtd)
-
-    if (site_scaling_factor >= 5)  {
-
-      elk_position_y <-
-        season_total %>%
-        dplyr::filter(Species == "Elk" & Site == site) %>%
-        dplyr::pull(season_total_wtd) %>%
-        add(horse_column_y) %>%
-        add(cow_column_y) %>%
-        multiply_by(2)
-
-    } else {
-
-      elk_position_y <-
-        season_total %>%
-        dplyr::filter(Species == "Elk" & Site == site) %>%
-        dplyr::pull(season_total_wtd) %>%
-        divide_by(2) %>%
-        add(horse_column_y) %>%
-        add(cow_column_y)
-
-    }
-
-  }
-
-  return(elk_position_y)
+  return(scaling_factor_tibble)
 
 }
 
@@ -1700,3 +1475,116 @@ theme_grazer_season <- function() {
     )
 }
 
+round_percent <- function(x) {
+  x <- x/sum(x)*100  # Standardize result
+  res <- floor(x)    # Find integer bits
+  rsum <- sum(res)   # Find out how much we are missing
+  if(rsum<100) {
+    # Distribute points based on remainders and a random tie breaker
+    o <- order(x%%1, sample(length(x)), decreasing=TRUE)
+    res[o[1:(100-rsum)]] <- res[o[1:(100-rsum)]]+1
+  }
+  res
+}
+
+create_annotations <- function(season_total, weighted) {
+
+  if (weighted == FALSE) {
+
+  season_total <-
+  season_total %>%
+  # calculate the scaling factor for each group
+  calc_scaling_factor(weighted = FALSE) %>%
+  # rename the season_total_unwtd to full height
+  dplyr::rename(full_height = season_total_unwtd) %>%
+  # add a new column with the half column height
+  dplyr::mutate(half_height = full_height / 2, .after = full_height) %>%
+  # remove the necessary columns for readability
+  dplyr::select(-c("season_total_wtd", "proportion_wtd")) %>%
+  # create a character label from the proportion column
+  dplyr::rename(label = proportion_unwtd) %>%
+  # TODO not happy with how this handles percentages
+  # percentages do not equal 100
+  dplyr::mutate(label = round(label, digits = 4)) %>%
+  # convert the numeric proportion to character
+  dplyr::mutate(label = scales::percent(label, accuracy = 0.01)) %>%
+  # add an X coordinate based on grouping by Site
+  # the "Site" must be a factor and then the factor is converted to integer
+  dplyr::mutate(x = as.integer(Site), .after = Species) %>%
+  # set horse position y to mid-point in the horse stacked bar
+  dplyr::mutate(y = dplyr::if_else(Species == "Horse", half_height, 0, NA_real_), .after = x) %>%
+  # set horse y position to 0 based on scaling factor
+  dplyr::mutate(y = dplyr::if_else(Species == "Horse" & Scaling_Factor >= 4, 0, y, NA_real_)) %>%
+  # create a new column that has the height of the horse column for each group
+  dplyr::mutate(horse_height = dplyr::if_else(Species == "Horse", full_height, 0)) %>%
+  # fill the 0s with the height of horse column for each group
+  dplyr::mutate(horse_height = max(horse_height)) %>%
+  # do the same for the cow column
+  dplyr::mutate(cow_height = dplyr::if_else(Species == "Cow", full_height, 0)) %>%
+  dplyr::mutate(cow_height = max(cow_height)) %>%
+  # and the same for the elk column
+  dplyr::mutate(elk_height = dplyr::if_else(Species == "Elk", full_height, 0)) %>%
+  dplyr::mutate(elk_height = max(elk_height)) %>%
+  # to center cow position y to mid-point in the cow stacked bar on top of the horse bar
+  dplyr::mutate(y = dplyr::if_else(Species == "Cow", (cow_height/2 + horse_height), y)) %>%
+  # adjust position of the cow to (horse full + cow full) if scaling factor >= 7
+  dplyr::mutate(y = dplyr::if_else(Species == "Cow" & Scaling_Factor >= 7, (cow_height + horse_height), y, NA_real_)) %>%
+  # center the elk position y in mid-point of elk column ontop of cow and horse bars
+  dplyr::mutate(y = dplyr::if_else(Species == "Elk", elk_height/2 + cow_height + horse_height, y, NA_real_)) %>%
+  # if the scaling factor is >= 4 put the elk label the same distance that the cow and horse labels are from each other
+  dplyr::mutate(y = dplyr::if_else(Species == "Elk" & Scaling_Factor >= 4, ((cow_height/2 + horse_height) * 2), y, NA_real_)) %>%
+  # if the sacling factor is >= 7 put the elk label equidistant from cow + horse
+    dplyr::mutate(y = dplyr::if_else(Species == "Elk" & Scaling_Factor >= 7, ((cow_height + horse_height) * 2), y, NA_real_))
+
+  } else if (weighted == TRUE) {
+
+    season_total <-
+      season_total %>%
+      # calculate the scaling factor for each group
+      calc_scaling_factor(weighted = TRUE) %>%
+      # rename the season_total_wtd to full height
+      dplyr::rename(full_height = season_total_wtd) %>%
+      # add a new column with the half column height
+      dplyr::mutate(half_height = full_height / 2, .after = full_height) %>%
+      # remove the necessary columns for readability
+      dplyr::select(-c("season_total_unwtd", "proportion_unwtd")) %>%
+      # create a character label from the proportion column
+      dplyr::rename(label = proportion_wtd) %>%
+      # TODO not happy with how this handles percentages
+      # percentages do not equal 100
+      dplyr::mutate(label = round(label, digits = 4)) %>%
+      # convert the numeric proportion to character
+      dplyr::mutate(label = scales::percent(label, accuracy = 0.01)) %>%
+      # add an X coordinate based on grouping by Site
+      # the "Site" must be a factor and then the factor is converted to integer
+      dplyr::mutate(x = as.integer(Site), .after = Species) %>%
+      # set horse position y to mid-point in the horse stacked bar
+      dplyr::mutate(y = dplyr::if_else(Species == "Horse", half_height, 0, NA_real_), .after = x) %>%
+      # set horse y position to 0 based on scaling factor
+      dplyr::mutate(y = dplyr::if_else(Species == "Horse" & Scaling_Factor >= 4, 0, y, NA_real_)) %>%
+      # create a new column that has the height of the horse column for each group
+      dplyr::mutate(horse_height = dplyr::if_else(Species == "Horse", full_height, 0)) %>%
+      # fill the 0s with the height of horse column for each group
+      dplyr::mutate(horse_height = max(horse_height)) %>%
+      # do the same for the cow column
+      dplyr::mutate(cow_height = dplyr::if_else(Species == "Cow", full_height, 0)) %>%
+      dplyr::mutate(cow_height = max(cow_height)) %>%
+      # and the same for the elk column
+      dplyr::mutate(elk_height = dplyr::if_else(Species == "Elk", full_height, 0)) %>%
+      dplyr::mutate(elk_height = max(elk_height)) %>%
+      # to center cow position y to mid-point in the cow stacked bar on top of the horse bar
+      dplyr::mutate(y = dplyr::if_else(Species == "Cow", (cow_height/2 + horse_height), y)) %>%
+      # adjust position of the cow to (horse full + cow full) if scaling factor >= 7
+      dplyr::mutate(y = dplyr::if_else(Species == "Cow" & Scaling_Factor >= 7, (cow_height + horse_height), y, NA_real_)) %>%
+      # center the elk position y in mid-point of elk column ontop of cow and horse bars
+      dplyr::mutate(y = dplyr::if_else(Species == "Elk", elk_height/2 + cow_height + horse_height, y, NA_real_)) %>%
+      # if the scaling factor is >= 4 put the elk label the same distance that the cow and horse labels are from each other
+      dplyr::mutate(y = dplyr::if_else(Species == "Elk" & Scaling_Factor >= 4, ((cow_height/2 + horse_height) * 2), y, NA_real_)) %>%
+      # if the sacling factor is >= 7 put the elk label equidistant from cow + horse
+      dplyr::mutate(y = dplyr::if_else(Species == "Elk" & Scaling_Factor >= 7, ((cow_height + horse_height) * 2), y, NA_real_))
+
+  }
+
+  return(season_total)
+
+  }

@@ -33,6 +33,8 @@ flextable::set_flextable_defaults(
   fonts_ignore = TRUE,
   background.color = "#EFEFEF")
 
+update_geom_defaults("text", list(size = 7))
+update_geom_defaults("label", list(size = 7))
 ```
 
 ------------------------------------------------------------------------
@@ -85,10 +87,6 @@ The "speciestotal" function will count up the number of individuals for each spe
 
 A second function "allspecies" uses the "speciestotal" function for all of the species possible (24 total), and creates a new column for each species.
 
-# TODO rename the `allspecies` funciton
-
-# TODO refactor functions so they do not include periods "."
-
 ```{r species counts}
 
 cameradf_list <- 
@@ -132,8 +130,6 @@ list_of_summarized_cameradf <-
 ```
 
 ## Daily Totals
-
-# TODO save the annotations as a data frame and then use geom_text to add the labels to the plot
 
 
 
@@ -920,21 +916,6 @@ ggsave("Black-Canyon-North-Timelapse-2020-Weighted-Grazing-Minutes-June-01-Sept-
 
 ## Yearly Site Totals
 
-```{r example calc season total BKS 2020}
-list_of_summarized_cameradf$`2020_BKS.csv` %>% 
-  dplyr::group_by(Species) %>% 
-  dplyr::summarise(across(c(daily_total_unwtd, daily_total_wtd), sum)) %>% 
-  dplyr::rename_with(~stringr::str_replace(pattern = "daily", 
-                                       replacement = "season", .), 
-                     .cols = starts_with("daily")) %>% 
-  dplyr::mutate(proportion_unwtd = 
-                  season_total_unwtd/sum(season_total_unwtd)) %>% 
-  dplyr::mutate(proportion_wtd = 
-                  season_total_wtd/sum(season_total_wtd)) %>% 
-  dplyr::mutate(Site = list_of_summarized_cameradf$`2020_BKS.csv`$Site[1], 
-                .before = Species)
-
-```
 
 ```{r calc season total and proportions}
 
@@ -942,8 +923,6 @@ list_of_season_totals <-
   purrr::map(list_of_summarized_cameradf, calc_season_total)
 
 ```
-
-
 
 
 ```{r example as factor levels BKS 2017}
@@ -993,6 +972,40 @@ cow_color <- "#F8766D"
 horse_color <- "#619CFF"
 ```
 
+If percentage is less than 1% add a label "<1%"
+
+If there are no detections add a label 0%
+(I don't want rounding to 0 to misrepresent sites that had very few detections)
+
+Data frame that has:
+    x positions
+    y positions
+    percentage labels
+
+each row needs to have site and species
+
+the x positions are 1,1,1 for the first site 2,2,2, for the second site
+
+season total unweighted is the height of each column
+
+```{r create unweighted annotations}
+
+unwtd_annotations <- purrr::map(list_of_grouped_season_totals, 
+                                create_annotations, 
+                                weighted = FALSE)
+
+print(unwtd_annotations)
+```
+
+```{r create weighted annotations}
+
+wtd_annotations <- purrr::map(list_of_grouped_season_totals, 
+                              create_annotations, 
+                              weighted = TRUE)
+
+print(wtd_annotations)
+```
+
 ```{r 2017 Unwtd Total Grazing Minutes}
 ggplot(list_of_grouped_season_totals$`2017`,
        aes(x = Site, y = season_total_unwtd, fill = Species)) + 
@@ -1001,54 +1014,14 @@ ggplot(list_of_grouped_season_totals$`2017`,
        subtitle = "2017",
        x = "Site",
        y = "Grazing Minutes (Unweighted)") +
+  scale_y_continuous(limits = c(-500, 30000), 
+                     breaks = seq(0, 30000, by = 5000)) +
   scale_fill_manual(values = c(Cow = cow_color,
                                 Elk = elk_color,
                                 Horse = horse_color)) +
   theme_grazer_season() +
-annotate(geom = "label",
-           x = 1,
-           y = elk_position(list_of_grouped_season_totals$`2017`, 
-                            site = "Bear Timelapse",
-                            weighted = FALSE),
-         size = 9,
-         label = percent(list_of_grouped_season_totals$`2017`$proportion_unwtd[1],
-                           prefix = "<"),
-         fill = elk_color) +
-  annotate(geom = "text",
-           x = 1,
-           y = cow_position(list_of_grouped_season_totals$`2017`, 
-                            site = "Bear Timelapse",
-                            weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2017`$proportion_unwtd[2])) +
-  annotate(geom = "text", 
-           x = 1, 
-           y = horse_position(list_of_grouped_season_totals$`2017`, 
-                              site = "Bear Timelapse",
-                              weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2017`$proportion_unwtd[3])) +
-  annotate(geom = "text",
-           x = 2,
-           y = elk_position(list_of_grouped_season_totals$`2017`, 
-                            site = "Black Canyon South",
-                            weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2017`$proportion_unwtd[4])) +
-  annotate(geom = "text",
-           x = 2,
-           y = cow_position(list_of_grouped_season_totals$`2017`, 
-                            site = "Black Canyon South",
-                            weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2017`$proportion_unwtd[5])) +
-  annotate(geom = "text", 
-           x = 2, 
-           y = horse_position(list_of_grouped_season_totals$`2017`,
-                              site = "Black Canyon South",
-                              weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2017`$proportion_unwtd[6]))
+  geom_label(data = unwtd_annotations$`2017`, 
+             aes(x = x, y = y, label = label), show.legend = FALSE)
 ggsave("2017-Total-Grazing-Minutes-by-Site-Unweighted.jpg",
        height = 4,
        width = 6.5,
@@ -1056,7 +1029,7 @@ ggsave("2017-Total-Grazing-Minutes-by-Site-Unweighted.jpg",
      path = file.path(currentwd, "figures", "grazing-minutes", "total-site-use"))
 ```
 
-```{r 2017 Wtd Total grazing Minutes}
+```{r 2017 Wtd Total Grazing Minutes}
 ggplot(list_of_grouped_season_totals$`2017`, 
        aes(x = Site, y = season_total_wtd, fill = Species)) + 
   geom_col(position = "stack") +
@@ -1064,62 +1037,21 @@ ggplot(list_of_grouped_season_totals$`2017`,
        subtitle = "2017",
        x = "Site",
        y = "Grazing Minutes (Weighted by Animal Unit Equivalents)") +
+  scale_y_continuous(limits = c(-500, 30000), 
+                     breaks = seq(0, 30000, by = 5000)) +
   scale_fill_manual(values = c(Cow = cow_color,
                                 Elk = elk_color,
                                 Horse = horse_color)) +
   theme_grazer_season() +
-
-    # elk
-annotate(geom = "label",
-           x = 1,
-           y = elk_position(list_of_grouped_season_totals$`2017`, 
-                            site = "Bear Timelapse",
-                            weighted = TRUE),
-         size = 9,
-           label = percent(list_of_grouped_season_totals$`2017`$proportion_wtd[1],
-                           prefix = "<"),
-         fill = elk_color) +
-  annotate(geom = "text",
-           x = 1,
-           y = cow_position(list_of_grouped_season_totals$`2017`, 
-                            site = "Bear Timelapse",
-                            weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2017`$proportion_wtd[2])) +
-  annotate(geom = "text", 
-           x = 1, 
-           y = horse_position(list_of_grouped_season_totals$`2017`, 
-                              site = "Bear Timelapse",
-                              weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2017`$proportion_wtd[3])) +
-  annotate(geom = "text",
-           x = 2,
-           y = elk_position(list_of_grouped_season_totals$`2017`, 
-                            site = "Black Canyon South",
-                            weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2017`$proportion_wtd[4])) +
-  annotate(geom = "text",
-           x = 2,
-           y = cow_position(list_of_grouped_season_totals$`2017`, 
-                            site = "Black Canyon South",
-                            weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2017`$proportion_wtd[5])) +
-  annotate(geom = "text", 
-           x = 2, 
-           y = horse_position(list_of_grouped_season_totals$`2017`,
-                              site = "Black Canyon South",
-                              weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2017`$proportion_wtd[6]))
+  geom_label(data = wtd_annotations$`2017`, 
+             aes(x = x, y = y, label = label), show.legend = FALSE)
 ggsave("2017-Total-Grazing-Minutes-by-Site-Weighted-by-AUE.jpg",
        height = 4,
        width = 6.5,
        units = "in",
-       path = file.path(currentwd, "figures", "grazing-minutes", "total-site-use"))
+     path = file.path(currentwd, "figures", "grazing-minutes", "total-site-use"))
 ```
+
 
 ```{r 2018 Unwtd Total grazing Minutes}
 ggplot(list_of_grouped_season_totals$`2018`, 
@@ -1131,63 +1063,19 @@ ggplot(list_of_grouped_season_totals$`2018`,
        subtitle = "2018",
        x = "Site",
        y = "Grazing Minutes (Unweighted)") +
-  # scale_y_continuous(limits = c(0, 7500), breaks = seq(0, 7500, by = 2500)) +
+  scale_y_continuous(limits = c(0, 5000), breaks = seq(0, 5000, by = 1000)) +
   scale_fill_manual(values = c(Cow = cow_color,
                                 Elk = elk_color,
                                 Horse = horse_color)) +
   theme_grazer_season() +
-    # elk
-annotate(geom = "text",
-           x = 1,
-           y = elk_position(list_of_grouped_season_totals$`2018`, 
-                            site = "Bear Timelapse",
-                            weighted = FALSE),
-         size = 9,
-           label = percent(list_of_grouped_season_totals$`2018`$proportion_unwtd[1])) +
-  annotate(geom = "label",
-           x = 1,
-           y = cow_position(list_of_grouped_season_totals$`2018`, 
-                            site = "Bear Timelapse",
-                            weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2018`$proportion_unwtd[2]),
-           fill = cow_color) +
-  annotate(geom = "text", 
-           x = 1, 
-           y = horse_position(list_of_grouped_season_totals$`2018`, 
-                              site = "Bear Timelapse",
-                              weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2018`$proportion_unwtd[3])) +
-  annotate(geom = "text",
-           x = 2,
-           y = elk_position(list_of_grouped_season_totals$`2018`, 
-                            site = "Black Canyon South",
-                            weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2018`$proportion_unwtd[4])) +
-  annotate(geom = "label",
-           x = 2,
-           y = cow_position(list_of_grouped_season_totals$`2018`, 
-                            site = "Black Canyon South",
-                            weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2018`$proportion_unwtd[5]),
-           fill = cow_color) +
-  annotate(geom = "text", 
-           x = 2, 
-           y = horse_position(list_of_grouped_season_totals$`2018`,
-                              site = "Black Canyon South",
-                              weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2018`$proportion_unwtd[6]))
+  geom_label(data = unwtd_annotations$`2018`, 
+             aes(x = x, y = y, label = label), show.legend = FALSE)
 ggsave("2018-Total-Grazing-Minutes-Unweighted.jpg",
        height = 4,
        width = 6.5,
        units = "in",
      path = file.path(currentwd, "figures", "grazing-minutes", "total-site-use"))
 ```
-
 
 ```{r 2018 Wtd Total grazing Minutes}
 ggplot(list_of_grouped_season_totals$`2018`, 
@@ -1199,54 +1087,13 @@ ggplot(list_of_grouped_season_totals$`2018`,
        subtitle = "2018",
        x = "Site",
        y = "Grazing Minutes (Weighted by Animal Unit Equivalents)") +
+  scale_y_continuous(limits = c(0, 5000), breaks = seq(0, 5000, by = 1000)) +
   scale_fill_manual(values = c(Cow = cow_color,
                                 Elk = elk_color,
                                 Horse = horse_color)) +
   theme_grazer_season() +
-annotate(geom = "text",
-           x = 1,
-           y = elk_position(list_of_grouped_season_totals$`2018`, 
-                            site = "Bear Timelapse",
-                            weighted = TRUE),
-         size = 9,
-           label = percent(list_of_grouped_season_totals$`2018`$proportion_wtd[1])) +
-  annotate(geom = "label",
-           x = 1,
-           y = cow_position(list_of_grouped_season_totals$`2018`, 
-                            site = "Bear Timelapse",
-                            weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2018`$proportion_wtd[2]),
-           fill = cow_color) +
-  annotate(geom = "text", 
-           x = 1, 
-           y = horse_position(list_of_grouped_season_totals$`2018`, 
-                              site = "Bear Timelapse",
-                              weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2018`$proportion_wtd[3])) +
-  annotate(geom = "text",
-           x = 2,
-           y = elk_position(list_of_grouped_season_totals$`2018`, 
-                            site = "Black Canyon South",
-                            weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2018`$proportion_wtd[4])) +
-  annotate(geom = "label",
-           x = 2,
-           y = cow_position(list_of_grouped_season_totals$`2018`, 
-                            site = "Black Canyon South",
-                            weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2018`$proportion_wtd[5]),
-           fill = cow_color) +
-  annotate(geom = "text", 
-           x = 2, 
-           y = horse_position(list_of_grouped_season_totals$`2018`,
-                              site = "Black Canyon South",
-                              weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2018`$proportion_wtd[6]))
+    geom_label(data = wtd_annotations$`2018`, 
+             aes(x = x, y = y, label = label), show.legend = FALSE)
 ggsave("2018-Total-Grazing-Minutes-by-Site-Weighted-by-AUE.jpg",
        height = 4,
        width = 6.5,
@@ -1254,8 +1101,6 @@ ggsave("2018-Total-Grazing-Minutes-by-Site-Weighted-by-AUE.jpg",
      path = file.path(currentwd, "figures", "grazing-minutes", "total-site-use"))
 
 ```
-
-# TODO fix the label overalp for fifty one 2019
 
 ```{r 2019 Unwtd grazing Minutes}
 ggplot(list_of_grouped_season_totals$`2019`, 
@@ -1273,121 +1118,8 @@ ggplot(list_of_grouped_season_totals$`2019`,
                                 Elk = elk_color,
                                 Horse = horse_color)) +
   theme_grazer_season() +
-annotate(geom = "label",
-           x = 1,
-           y = elk_position(list_of_grouped_season_totals$`2019`, 
-                            site = "Bear Timelapse",
-                            weighted = FALSE),
-         size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[1]),
-         fill = elk_color) +
-  annotate(geom = "text",
-           x = 1,
-           y = cow_position(list_of_grouped_season_totals$`2019`, 
-                            site = "Bear Timelapse",
-                            weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[2])) +
-  annotate(geom = "text", 
-           x = 1, 
-           y = horse_position(list_of_grouped_season_totals$`2019`, 
-                              site = "Bear Timelapse",
-                              weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[3])) +
-  annotate(geom = "label",
-           x = 2,
-           y = elk_position(list_of_grouped_season_totals$`2019`, 
-                            site = "Black Canyon South",
-                            weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[4]),
-           fill = elk_color) +
-  annotate(geom = "label",
-           x = 2,
-           y = cow_position(list_of_grouped_season_totals$`2019`, 
-                            site = "Black Canyon South",
-                            weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[5]),
-           fill = cow_color) +
-  annotate(geom = "label", 
-           x = 2, 
-           y = horse_position(list_of_grouped_season_totals$`2019`,
-                              site = "Black Canyon South",
-                              weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[6]),
-           fill = horse_color) +
-    annotate(geom = "label",
-           x = 3,
-           y = elk_position(list_of_grouped_season_totals$`2019`, 
-                            site = "Black Canyon North",
-                            weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[7]),
-           fill = elk_color) +
-  annotate(geom = "label",
-           x = 3,
-           y = cow_position(list_of_grouped_season_totals$`2019`, 
-                            site = "Black Canyon North",
-                            weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[8]),
-           fill = cow_color) +
-  annotate(geom = "label", 
-           x = 3, 
-           y = horse_position(list_of_grouped_season_totals$`2019`,
-                              site = "Black Canyon North",
-                              weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[9]),
-           fill = horse_color) +
-      annotate(geom = "label",
-           x = 4,
-           y = elk_position(list_of_grouped_season_totals$`2019`, 
-                            site = "Black Canyon South",
-                            weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[10]),
-           fill = elk_color) +
-  annotate(geom = "text",
-           x = 4,
-           y = cow_position(list_of_grouped_season_totals$`2019`, 
-                            site = "Black Canyon South",
-                            weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[11])) +
-  annotate(geom = "label", 
-           x = 4, 
-           y = horse_position(list_of_grouped_season_totals$`2019`,
-                              site = "Black Canyon South",
-                              weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[12]),
-           fill = horse_color) +
-        annotate(geom = "label",
-           x = 5,
-           y = elk_position(list_of_grouped_season_totals$`2019`, 
-                            site = "Fifty One",
-                            weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[13]),
-           fill = elk_color) +
-  annotate(geom = "text",
-           x = 5,
-           y = cow_position(list_of_grouped_season_totals$`2019`, 
-                            site = "Fifty One",
-                            weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[14])) +
-  annotate(geom = "text", 
-           x = 5, 
-           y = horse_position(list_of_grouped_season_totals$`2019`,
-                              site = "Fifty One",
-                              weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_unwtd[15]))
+  geom_label(data = unwtd_annotations$`2019`, 
+             aes(x = x, y = y, label = label), show.legend = FALSE)
 ggsave("2019-Total-Grazing-Minutes-by-Site-Unweighted.jpg",
        height = 4,
        width = 6.5,
@@ -1395,10 +1127,6 @@ ggsave("2019-Total-Grazing-Minutes-by-Site-Unweighted.jpg",
      path = file.path(currentwd,"figures", "grazing-minutes", "total-site-use"))
 
 ```
-
-# TODO write a geom = text or geom = label helper function?
-
-# TODO need to cleanup position funcitons and add comments also might refactor the vairables names
 
 ```{r 2019 Wtd Grazing Minutes}
 ggplot(list_of_grouped_season_totals$`2019`, 
@@ -1416,121 +1144,8 @@ ggplot(list_of_grouped_season_totals$`2019`,
                                 Elk = elk_color,
                                 Horse = horse_color)) +
   theme_grazer_season() +
-  annotate(geom = "label",
-           x = 1,
-           y = elk_position(list_of_grouped_season_totals$`2019`, 
-                            site = "Bear Timelapse",
-                            weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[1]),
-         fill = elk_color) +
-  annotate(geom = "text",
-           x = 1,
-           y = cow_position(list_of_grouped_season_totals$`2019`, 
-                            site = "Bear Timelapse",
-                            weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[2])) +
-  annotate(geom = "text", 
-           x = 1, 
-           y = horse_position(list_of_grouped_season_totals$`2019`, 
-                              site = "Bear Timelapse",
-                              weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[3])) +
-  annotate(geom = "label",
-           x = 2,
-           y = elk_position(list_of_grouped_season_totals$`2019`, 
-                            site = "Black Canyon Dam",
-                            weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[4]),
-           fill = elk_color) +
-  annotate(geom = "label",
-           x = 2,
-           y = cow_position(list_of_grouped_season_totals$`2019`, 
-                            site = "Black Canyon Dam",
-                            weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[5]),
-           fill = cow_color) +
-  annotate(geom = "label", 
-           x = 2, 
-           y = horse_position(list_of_grouped_season_totals$`2019`,
-                              site = "Black Canyon Dam",
-                              weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[6]),
-           fill = horse_color) +
-    annotate(geom = "label",
-           x = 3,
-           y = elk_position(list_of_grouped_season_totals$`2019`, 
-                            site = "Black Canyon North",
-                            weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[7]),
-           fill = elk_color) +
-  annotate(geom = "label",
-           x = 3,
-           y = cow_position(list_of_grouped_season_totals$`2019`, 
-                            site = "Black Canyon North",
-                            weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[8]),
-           fill = cow_color) +
-  annotate(geom = "label", 
-           x = 3, 
-           y = horse_position(list_of_grouped_season_totals$`2019`,
-                              site = "Black Canyon North",
-                              weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[9]),
-           fill = horse_color) +
-      annotate(geom = "label",
-           x = 4,
-           y = elk_position(list_of_grouped_season_totals$`2019`, 
-                            site = "Black Canyon South",
-                            weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[10]),
-           fill = elk_color) +
-  annotate(geom = "text",
-           x = 4,
-           y = cow_position(list_of_grouped_season_totals$`2019`, 
-                            site = "Black Canyon South",
-                            weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[11])) +
-  annotate(geom = "label", 
-           x = 4, 
-           y = horse_position(list_of_grouped_season_totals$`2019`,
-                              site = "Black Canyon South",
-                              weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[12]),
-           fill = horse_color) +
-        annotate(geom = "label",
-           x = 5,
-           y = elk_position(list_of_grouped_season_totals$`2019`, 
-                            site = "Fifty One",
-                            weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[13]),
-           fill = elk_color) +
-  annotate(geom = "text",
-           x = 5,
-           y = cow_position(list_of_grouped_season_totals$`2019`, 
-                            site = "Fifty One",
-                            weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[14])) +
-  annotate(geom = "text", 
-           x = 5, 
-           y = horse_position(list_of_grouped_season_totals$`2019`,
-                              site = "Fifty One",
-                              weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2019`$proportion_wtd[15]))
+  geom_label(data = wtd_annotations$`2019`, 
+             aes(x = x, y = y, label = label), show.legend = FALSE)
 ggsave("2019-Total-Grazing-Minutes-by-Site-Weighted-by-AUE.jpg",
        height = 4,
        width = 6.5,
@@ -1553,98 +1168,8 @@ ggplot(list_of_grouped_season_totals$`2020`, aes(x = Site,
                                 Elk = elk_color,
                                 Horse = horse_color)) +
   theme_grazer_season() +
-  annotate(geom = "label",
-           x = 1,
-           y = elk_position(list_of_grouped_season_totals$`2020`, 
-                            site = "Bear Timelapse",
-                            weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[1]),
-         fill = elk_color) +
-  annotate(geom = "text",
-           x = 1,
-           y = cow_position(list_of_grouped_season_totals$`2020`, 
-                            site = "Bear Timelapse",
-                            weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[2])) +
-  annotate(geom = "text", 
-           x = 1, 
-           y = horse_position(list_of_grouped_season_totals$`2020`, 
-                              site = "Bear Timelapse",
-                              weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[3])) +
-    annotate(geom = "label",
-           x = 2,
-           y = elk_position(list_of_grouped_season_totals$`2020`, 
-                            site = "Black Canyon North",
-                            weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[4]),
-           fill = elk_color) +
-  annotate(geom = "label",
-           x = 2,
-           y = cow_position(list_of_grouped_season_totals$`2020`, 
-                            site = "Black Canyon North",
-                            weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[5]),
-           fill = cow_color) +
-  annotate(geom = "label", 
-           x = 2, 
-           y = horse_position(list_of_grouped_season_totals$`2020`,
-                              site = "Black Canyon North",
-                              weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[6]),
-           fill = horse_color) +
-      annotate(geom = "label",
-           x = 3,
-           y = elk_position(list_of_grouped_season_totals$`2020`, 
-                            site = "Black Canyon South",
-                            weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[7]),
-           fill = elk_color) +
-  annotate(geom = "label",
-           x = 3,
-           y = cow_position(list_of_grouped_season_totals$`2020`, 
-                            site = "Black Canyon South",
-                            weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[8]),
-           fill = cow_color) +
-  annotate(geom = "label", 
-           x = 3, 
-           y = horse_position(list_of_grouped_season_totals$`2020`,
-                              site = "Black Canyon South",
-                              weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[9]),
-           fill = horse_color) +
-        annotate(geom = "label",
-           x = 4,
-           y = elk_position(list_of_grouped_season_totals$`2020`, 
-                            site = "Fifty One",
-                            weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[10]),
-           fill = elk_color) +
-  annotate(geom = "text",
-           x = 4,
-           y = cow_position(list_of_grouped_season_totals$`2020`, 
-                            site = "Fifty One",
-                            weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[11])) +
-  annotate(geom = "text", 
-           x = 4, 
-           y = horse_position(list_of_grouped_season_totals$`2020`,
-                              site = "Fifty One",
-                              weighted = FALSE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[12]))
+  geom_label(data = unwtd_annotations$`2020`, 
+             aes(x = x, y = y, label = label), show.legend = FALSE)
 ggsave("2020-Total-Grazing-Minutes-by-Site-Unweighted.jpg",
        height = 4,
        width = 6.5,
@@ -1660,108 +1185,19 @@ ggplot(list_of_grouped_season_totals$`2020`, aes(x = Site,
   labs(title = "Total Grazing Minutes by Site (Weighted by AUE)",
        subtitle = "2020",
        x = "Site",
-       y = "Grazing Minutes (Unweighted)") +
+       y = "Grazing Minutes (Weighted by Animal Unit Equivalents)") +
   scale_y_continuous(limits = c(-500, 30000), 
                      breaks = seq(0, 30000, by = 5000)) +
   scale_fill_manual(values = c(Cow = cow_color,
                                 Elk = elk_color,
                                 Horse = horse_color)) +
   theme_grazer_season() +
-  annotate(geom = "label",
-           x = 1,
-           y = elk_position(list_of_grouped_season_totals$`2020`, 
-                            site = "Bear Timelapse",
-                            weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[1]),
-         fill = elk_color) +
-  annotate(geom = "text",
-           x = 1,
-           y = cow_position(list_of_grouped_season_totals$`2020`, 
-                            site = "Bear Timelapse",
-                            weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[2])) +
-  annotate(geom = "text", 
-           x = 1, 
-           y = horse_position(list_of_grouped_season_totals$`2020`, 
-                              site = "Bear Timelapse",
-                              weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[3])) +
-    annotate(geom = "label",
-           x = 2,
-           y = elk_position(list_of_grouped_season_totals$`2020`, 
-                            site = "Black Canyon North",
-                            weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[4]),
-           fill = elk_color) +
-  annotate(geom = "label",
-           x = 2,
-           y = cow_position(list_of_grouped_season_totals$`2020`, 
-                            site = "Black Canyon North",
-                            weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[5]),
-           fill = cow_color) +
-  annotate(geom = "label", 
-           x = 2, 
-           y = horse_position(list_of_grouped_season_totals$`2020`,
-                              site = "Black Canyon North",
-                              weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[6]),
-           fill = horse_color) +
-      annotate(geom = "label",
-           x = 3,
-           y = elk_position(list_of_grouped_season_totals$`2020`, 
-                            site = "Black Canyon South",
-                            weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[7]),
-           fill = elk_color) +
-  annotate(geom = "label",
-           x = 3,
-           y = cow_position(list_of_grouped_season_totals$`2020`, 
-                            site = "Black Canyon South",
-                            weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[8]),
-           fill = cow_color) +
-  annotate(geom = "label", 
-           x = 3, 
-           y = horse_position(list_of_grouped_season_totals$`2020`,
-                              site = "Black Canyon South",
-                              weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[9]),
-           fill = horse_color) +
-        annotate(geom = "label",
-           x = 4,
-           y = elk_position(list_of_grouped_season_totals$`2020`, 
-                            site = "Fifty One",
-                            weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[10]),
-           fill = elk_color) +
-  annotate(geom = "text",
-           x = 4,
-           y = cow_position(list_of_grouped_season_totals$`2020`, 
-                            site = "Fifty One",
-                            weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[11])) +
-  annotate(geom = "text", 
-           x = 4, 
-           y = horse_position(list_of_grouped_season_totals$`2020`,
-                              site = "Fifty One",
-                              weighted = TRUE),
-           size = 9,
-           label = percent(list_of_grouped_season_totals$`2020`$proportion_wtd[12]))
+  geom_label(data = wtd_annotations$`2020`, 
+             aes(x = x, y = y, label = label), show.legend = FALSE)
 ggsave("2020-Total-Grazing-Minutes-by-Site-Weighted-By-AUE.jpg",
        height = 4,
        width = 6.5,
        units = "in",
      path = file.path(currentwd, "figures", "grazing-minutes", "total-site-use"))
 ```
+
