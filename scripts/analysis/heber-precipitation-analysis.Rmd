@@ -1,0 +1,123 @@
+---
+title: Heber Precipitation Analysis
+author: "Andrew Antaya"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  word_document:
+    toc: yes
+  citation_package: biblatex
+  html_document:
+    theme: readable
+    toc: yes
+    toc_depth: 5
+    fig_caption: yes
+  pdf_document: default
+subtitle:
+bibliography: My Library.bib
+link-citations: yes
+editor_options:
+  markdown:
+    wrap: 72
+---
+## Setup
+
+```{r setup, include=FALSE}
+# clear objects from the environment
+rm(list = ls())
+
+# set the working directory and environment variables
+source("~/grazing-interaction/environment.R")
+
+# load in the required packages
+source("~/grazing-interaction/packages.R")
+
+# load in the required functions
+source("~/grazing-interaction/functions.R")
+
+knitr::opts_chunk$set(echo = TRUE)
+
+knitr::opts_knit$set(root.dir = currentwd)
+
+flextable::set_flextable_defaults(
+  font.size = 10, 
+  theme_fun = theme_box,
+  text.align = "center",
+  fonts_ignore = TRUE,
+  background.color = "#EFEFEF")
+
+ggplot2::update_geom_defaults("text", list(size = 7))
+ggplot2::update_geom_defaults("label", list(size = 7))
+```
+
+
+## Load Data
+
+```{r read csv files in directory}
+
+file <- "2016-12-31_2022-07-30_HEBER_BLACK_MESA_RANGER_STATION_AZ_US.csv"
+
+weather_data <- readr::read_csv(file.path(currentwd, 
+                                  "data", 
+                                  "weather",
+                                  file))
+
+weather_data
+```
+
+Summarize the precipitation data by each year, also keeping the name of the station, and the station code. We can use the station name and station code for additional information on the plot.
+
+```{r group by year and summarize precip}
+
+summarized_precip <- 
+weather_data %>% 
+  dplyr::filter(year(DATE) != "2022" & year(DATE) != "2021") %>% 
+  dplyr::group_by(year(DATE), STATION, NAME) %>% 
+  dplyr::summarise(Precip = sum(PRCP, na.rm = TRUE)) %>% 
+  dplyr::rename(Year = "year(DATE)")
+
+print(summarized_precip)
+```
+
+Create a dataframe of annotations to add precipitation labels to each of the bars in the plot. Creating a dataframe of annotations will reduce the number of `annotate()` functions that we add to each plot, as well as making this code reusable if we use it to plot a different station or different years.
+
+```{r create weather annotations dataframe}
+weather_annotations <- 
+  summarized_precip %>% 
+  dplyr::mutate(y = Precip + 5) %>% 
+  dplyr::mutate(x = Year)
+print(weather_annotations)
+```
+
+Generate a plot displaying the summarized yearly precipitation for a single weather station. Save the plot as JPG to add it in into a Word Doc.
+
+```{r plot}
+
+ggplot(summarized_precip,
+            aes(x = Year, y = Precip, fill = Year)) +
+  geom_col(width = 0.5) +
+  theme_grazer_precip() +
+  scale_y_continuous(limits = c(0, 55), breaks = seq(0, 50, by = 10)) +
+  ylab("Precipitation (Inches)") +
+  labs(title = "Heber Precipitation", 
+       subtitle = "2017-2020") +
+  geom_text(data = weather_annotations, aes(x = x, y = y, label = Precip),
+            show.legend = FALSE) +
+  annotate("text", 
+           x = 2018.5, 
+           y = 55, 
+           label = paste("Station Name:", weather_annotations$NAME[1]), 
+           size = 6) +
+  annotate("text", 
+           x = 2018.5, 
+           y = 50, 
+           label = paste("Station ID:", weather_annotations$STATION[1]),
+           size = 6) +
+  coord_cartesian(ylim = c(0, 55), clip="off")
+  ggsave("2017-2020-Heber-Precipitation.jpg",
+       height = 4,
+       width = 6.5,
+       units = "in",
+     path = file.path(currentwd, "figures", "weather"))
+  
+```
+
