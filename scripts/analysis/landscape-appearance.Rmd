@@ -42,8 +42,10 @@ knitr::opts_knit$set(root.dir = currentwd)
 # Load Data
 
 ```{r Load Landscape Appearance Database}
-landscape_appearance_database <- readr::read_csv(file.path(
-  path_to_data_input_folder, 
+landscape_appearance_database <- readr::read_csv(
+  file.path(
+  currentwd,
+  "data", 
   "landscape-appearance",
   "heber",
   "landscape-appearance-database.csv"),
