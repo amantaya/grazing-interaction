@@ -1197,10 +1197,10 @@ summarize_daily_totals <- function(cameradf) {
   }
 
 
-
+# TODO add a column parameter to function
 set_timezone <- function(cameradf) {
 
-  cameradf <- dplyr::mutate(cameradf, DateTime = lubridate::with_tz(DateTime, Sys.timezone()))
+  cameradf <- dplyr::mutate(cameradf, Datetime = lubridate::with_tz(Datetime, Sys.timezone()))
 
   return(cameradf)
 
@@ -1588,3 +1588,64 @@ create_annotations <- function(season_total, weighted) {
   return(season_total)
 
   }
+
+
+theme_grazer_precip <- function() {
+
+  font <- "sans"   #assign font family up front
+
+  theme() %+replace%    #replace elements we want to change
+
+    theme(
+
+      plot.title = element_text(
+        family = font,
+        size = 32,
+        face = 'bold',
+        margin = margin(t = 5, r = 0, b = 10, l = 0),
+        hjust = 0.5),
+
+      plot.subtitle = element_text(
+        family = font,
+        hjust = 0.5,
+        margin = margin(t = 0, r = 0, b = 10, l = 0),
+        face = 'italic',
+        size = 24),
+
+      plot.caption = element_text(
+        family = font,
+        size = 24,
+        hjust = 0.5),
+
+      axis.title = element_text(
+        family = font,
+        size = 24,
+        face = 'bold'),
+
+      axis.text = element_text(
+        family = font,
+        size = 18),
+
+      axis.text.x = element_text(
+        margin = margin(t = 10, r = 0, b = 10, l = 0)),
+
+      axis.text.y = element_text(
+        margin = margin(t = 10, r = 0, b = 10, l = 10)),
+
+      legend.position = "none",
+
+      legend.text = element_text(
+        family = font,
+        size = 24),
+
+      legend.title = element_text(
+        size = 24,
+        face = 'bold'),
+
+      strip.text = element_text(
+        size = 24
+      )
+
+
+    )
+}
