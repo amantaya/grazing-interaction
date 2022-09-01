@@ -1,0 +1,174 @@
+---
+title: "Yearly Precipitation Heber"
+author: "Andrew Antaya"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  word_document:
+    toc: yes
+  citation_package: biblatex
+  html_document:
+    theme: readable
+    toc: yes
+    toc_depth: 5
+    fig_caption: yes
+  pdf_document: default
+subtitle:
+bibliography: My Library.bib
+link-citations: yes
+editor_options:
+  markdown:
+    wrap: 72
+---
+## Setup
+
+```{r setup, include=FALSE}}
+# clear objects from the environment
+rm(list = ls())
+
+# set the working directory and environment variables
+source("~/grazing-interaction/environment.R")
+
+# load in the required packages
+source("~/grazing-interaction/packages.R")
+
+# load in the required functions
+source("~/grazing-interaction/functions.R")
+
+knitr::opts_chunk$set(echo = TRUE)
+
+knitr::opts_knit$set(root.dir = currentwd)
+
+flextable::set_flextable_defaults(
+  font.size = 10, 
+  theme_fun = theme_box,
+  text.align = "center",
+  fonts_ignore = TRUE,
+  background.color = "#EFEFEF")
+```
+
+## Load Data
+
+```{r read csv files in directory}
+path_to_csv_files <- fs::dir_ls(file.path(currentwd, 
+                                  "data", 
+                                  "weather",
+                                  "global-historical-climatology-network-daily"), 
+                                regexp = "3066336.csv")
+
+path_to_csv_files
+```
+
+```{r load all csv files}
+
+weather_data <- path_to_csv_files %>% 
+  purrr::map_dfr(readr::read_csv,
+             na = c("", " ", "NA"))
+
+```
+
+```{r check structure}
+
+weather_data %>% str()
+
+```
+
+Use the package `dlookr` to check quality of the weather data. 
+
+```{r diagnose weather data}
+
+dlookr::diagnose(weather_data)
+
+```
+
+```{r diagnose numeric}
+
+dlookr::diagnose_numeric(weather_data)
+
+```
+
+```{r plot outliers}
+
+weather_data %>% 
+  select(PRCP) %>% 
+  dlookr::plot_outlier()
+
+```
+
+```{r plot na pareto}
+
+plot_na_pareto(weather_data, only_na = TRUE, plot = FALSE) 
+
+```
+
+```{r set timezone}
+
+weather_data <- weather_data %>% 
+  dplyr::mutate(DATE = lubridate::with_tz(DATE, tzone = Sys.timezone()))
+
+```
+
+```{r split by station}
+
+list_of_weather_stations <- 
+  weather_data %>% 
+  dplyr::group_by(STATION) %>% 
+  dplyr::group_split()
+
+print(list_of_weather_stations)
+```
+```{r check unique stations}
+
+station_names <- 
+purrr::map(list_of_weather_stations, dplyr::select, "NAME") %>% 
+  purrr::map_dfr(unique) %>% 
+  dplyr::pull()
+
+print(station_names)
+```
+
+```{r rename elements in list of weather stations}
+
+names(list_of_weather_stations) <- station_names
+
+names(list_of_weather_stations)
+
+```
+
+```{r rename and write to csv}
+
+for (i in 1:length(list_of_weather_stations)) {
+
+weather_station_name <- names(list_of_weather_stations)[i]
+
+weather_station_name <- stringr::str_remove(weather_station_name, 
+                                            pattern = "[[:punct:]]")
+
+weather_station_name <- stringr::str_replace_all(weather_station_name, 
+                                             pattern = "[[:blank:]]", 
+                                             replacement = "_")
+
+start_date <- list_of_weather_stations[[i]] %>% 
+  dplyr::pull(DATE) %>% 
+  min() %>% 
+  lubridate::date() %>% 
+  strftime()
+
+end_date <- list_of_weather_stations[[i]] %>% 
+  dplyr::pull(DATE) %>% 
+  max() %>% 
+  lubridate::date() %>% 
+  strftime()
+
+filename <- paste0(paste(start_date, end_date, weather_station_name, sep = "_"), ".csv")
+
+readr::write_csv(list_of_weather_stations[[i]], 
+                 file = file.path(currentwd,
+                                  "data",
+                                  "weather",
+                                  "processed",
+                                  filename))
+
+}
+```
+
+
