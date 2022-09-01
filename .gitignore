@@ -1,7 +1,6 @@
 # ignore R user data generated from the project
 .Rproj.user
 .Rhistory
-.Rprofile
 .RData
 .Ruserdata
 
