@@ -53,27 +53,170 @@ ggplot2::update_geom_defaults("label", list(size = 7))
 ## Load Data
 
 ```{r read csv files in directory}
-
-file <- "2016-12-31_2022-07-30_HEBER_BLACK_MESA_RANGER_STATION_AZ_US.csv"
-
-weather_data <- readr::read_csv(file.path(currentwd, 
+path_to_csv_files <- fs::dir_ls(file.path(currentwd, 
                                   "data", 
                                   "weather",
-                                  file))
+                                  "analyzed"), 
+                                regexp = "\\.csv")
 
-weather_data
+path_to_csv_files
 ```
+
+```{r load all csv files}
+
+weather_data <- path_to_csv_files %>% 
+  purrr::map(readr::read_csv,
+             na = c("", " ", "NA"))
+
+print(weather_data)
+```
+
+```{r rename elements in weather data}
+
+weather_data <- rename_elements_in_list_of_csv_files(weather_data)
+
+names(weather_data)
+```
+
+```{r rename DATE column to Datetime}
+weather_data <- 
+purrr::map(weather_data, dplyr::rename, Datetime = DATE)
+print(weather_data)
+```
+
+```{r set timezone}
+weather_data <- purrr::map(weather_data, set_timezone)
+print(weather_data)
+```
+
+```{r remove weather observations before 2017}
+weather_data <- 
+purrr::map(weather_data, dplyr::filter, year(Datetime) > 2016)
+print(weather_data)
+```
+
+```{r check for missing dates}
+
+start_date <- ymd("2017-01-01")
+
+end_date <- ymd("2022-08-29")
+
+date_range <- seq(start_date, end_date, by = 1)
+
+check_for_missing_dates <- function(data) {
+
+return(date_range[!date_range %in% date(data$Datetime)])
+
+}
+
+missing_dates <- purrr::map(weather_data, check_for_missing_dates)
+
+print(missing_dates)
+```
+
+```{r check for duplicate dates function}
+
+check_for_duplicated_dates <- function(data) {
+
+n_duplicates <- 
+data %>% 
+  dplyr::pull(Datetime) %>% 
+  lubridate::date() %>% 
+  anyDuplicated()
+  
+if (n_duplicates != 0) {
+  
+  warning("The data contains duplicate dates. Fix before proceeding.")
+  
+}
+
+return(n_duplicates)
+
+}
+
+purrr::map(weather_data, check_for_duplicated_dates)
+```
+
+Inject duplicate dates to test the function.
+
+```{r inject duplicate dates}
+
+test_duplicate_dates <- dplyr::bind_rows(weather_data[[1]], weather_data[[1]]) 
+
+check_for_duplicated_dates(test_duplicate_dates)
+
+```
+
+```{r remove test for duplicate dates object}
+
+rm(test_duplicate_dates)
+
+```
+
+```{r remove weather stations with missing date}
+# TODO how many missing dates are okay?
+
+# use 10% of the date range as a condition for removing a weather station
+cutoff_criteria <- length(date_range) / 10
+
+elements_to_remove <- NULL
+
+for (i in 1:length(weather_data)) {
+  
+  if (length(missing_dates[[i]]) >= cutoff_criteria) {
+    
+    elements_to_remove <- append(elements_to_remove, i)
+    
+    }
+  }
+
+if (length(elements_to_remove) != 0) { 
+
+weather_data <- weather_data[-elements_to_remove]
+
+}
+
+print(weather_data)
+```
+
+```{r check for missing precip values}
+
+missing_precip <- purrr::map(weather_data, dlookr::diagnose, PRCP)
+
+print(missing_precip)
+
+```
+
+```{r warn if missing precip over 5%}
+
+for (i in 1:length(missing_precip)) {
+  
+  if (missing_precip[[i]]$missing_percent >= 5) {
+    
+    warning("More than 5% of the precip values are missing. Proceed with caution.")
+    
+  }
+  
+}
+
+```
+
 
 Summarize the precipitation data by each year, also keeping the name of the station, and the station code. We can use the station name and station code for additional information on the plot.
 
 ```{r group by year and summarize precip}
 
-summarized_precip <- 
-weather_data %>% 
-  dplyr::filter(year(DATE) != "2022" & year(DATE) != "2021") %>% 
-  dplyr::group_by(year(DATE), STATION, NAME) %>% 
+summarized_precip <- NULL
+
+for (i in 1:length(weather_data)) {
+  
+summarized_precip[[i]] <- 
+weather_data[[i]] %>% 
+  dplyr::group_by(year(Datetime), STATION, NAME) %>% 
   dplyr::summarise(Precip = sum(PRCP, na.rm = TRUE)) %>% 
-  dplyr::rename(Year = "year(DATE)")
+  dplyr::rename(Year = "year(Datetime)") %>%
+  dplyr::mutate(Year = as.character(Year))
+}
 
 print(summarized_precip)
 ```
@@ -81,39 +224,63 @@ print(summarized_precip)
 Create a dataframe of annotations to add precipitation labels to each of the bars in the plot. Creating a dataframe of annotations will reduce the number of `annotate()` functions that we add to each plot, as well as making this code reusable if we use it to plot a different station or different years.
 
 ```{r create weather annotations dataframe}
-weather_annotations <- 
-  summarized_precip %>% 
-  dplyr::mutate(y = Precip + 5) %>% 
+
+weather_annotations <- NULL
+
+for (i in 1:length(weather_data)) {
+
+weather_annotations[[i]] <- 
+  summarized_precip[[i]] %>% 
+  dplyr::mutate(y = Precip + 2.5) %>% 
   dplyr::mutate(x = Year)
+
+}
+
 print(weather_annotations)
 ```
 
 Generate a plot displaying the summarized yearly precipitation for a single weather station. Save the plot as JPG to add it in into a Word Doc.
 
-```{r plot}
+```{r HEBER BLACK MESA RANGER STATION, AZ US}
+last_observation <- weather_data[[1]]$Datetime %>% 
+  max() %>% 
+  strftime(format = "%B %e, %Y",
+           usetz = FALSE)
 
-ggplot(summarized_precip,
-            aes(x = Year, y = Precip, fill = Year)) +
+ggplot(summarized_precip[[1]], aes(x = Year, y = Precip, fill = Year)) +
   geom_col(width = 0.5) +
   theme_grazer_precip() +
-  scale_y_continuous(limits = c(0, 55), breaks = seq(0, 50, by = 10)) +
+  scale_y_continuous(limits = c(0, 50), breaks = seq(0, 50, by = 10)) +
   ylab("Precipitation (Inches)") +
   labs(title = "Heber Precipitation", 
-       subtitle = "2017-2020") +
-  geom_text(data = weather_annotations, aes(x = x, y = y, label = Precip),
+       subtitle = "2017-2022") +
+  geom_text(data = weather_annotations[[1]], aes(x = x, y = y, label = Precip),
             show.legend = FALSE) +
   annotate("text", 
-           x = 2018.5, 
-           y = 55, 
-           label = paste("Station Name:", weather_annotations$NAME[1]), 
+           x = 3.5, 
+           y = 40, 
+           label = paste("Data from: Menne et al., 2012"),
            size = 6) +
   annotate("text", 
-           x = 2018.5, 
-           y = 50, 
-           label = paste("Station ID:", weather_annotations$STATION[1]),
+           x = 3.5, 
+           y = 45, 
+           label = paste("Station Name:", weather_annotations[[1]]$NAME[1]), 
            size = 6) +
-  coord_cartesian(ylim = c(0, 55), clip="off")
-  ggsave("2017-2020-Heber-Precipitation.jpg",
+  annotate("text", 
+           x = 3.5, 
+           y = 50, 
+           label = paste("Station ID:", weather_annotations[[1]]$STATION[1]),
+           size = 6) +
+  annotate("text", 
+           x = 6, 
+           y = 20, 
+           label = paste("As of", last_observation), 
+           size = 6)
+  # coord_cartesian(ylim = c(0, 55), clip = "off")
+
+filename <- paste(start_date, "to", end_date, weather_annotations[[1]]$NAME[1])
+
+ggsave(paste0(filename, ".jpg"),
        height = 4,
        width = 6.5,
        units = "in",
@@ -121,3 +288,49 @@ ggplot(summarized_precip,
   
 ```
 
+```{r OVERGAARD 1.4 ENE, AZ US}
+last_observation <- weather_data[[2]]$Datetime %>% 
+  max() %>% 
+  strftime(format = "%B %e, %Y",
+           usetz = FALSE)
+
+ggplot(summarized_precip[[2]], aes(x = Year, y = Precip, fill = Year)) +
+  geom_col(width = 0.5) +
+  theme_grazer_precip() +
+  scale_y_continuous(limits = c(0, 50), breaks = seq(0, 50, by = 10)) +
+  ylab("Precipitation (Inches)") +
+  labs(title = "Heber Precipitation", 
+       subtitle = "2017-2022") +
+  geom_text(data = weather_annotations[[2]], aes(x = x, y = y, label = Precip),
+            show.legend = FALSE) +
+  annotate("text", 
+           x = 3.5, 
+           y = 40, 
+           label = paste("Data from: Menne et al., 2012"),
+           size = 6) +
+  annotate("text", 
+           x = 3.5, 
+           y = 45, 
+           label = paste("Station Name:", weather_annotations[[2]]$NAME[1]), 
+           size = 6) +
+  annotate("text", 
+           x = 3.5, 
+           y = 50, 
+           label = paste("Station ID:", weather_annotations[[2]]$STATION[1]),
+           size = 6) +
+  annotate("text", 
+           x = 6, 
+           y = 25, 
+           label = paste("As of", last_observation), 
+           size = 6)
+  # coord_cartesian(ylim = c(0, 55), clip = "off")
+
+filename <- paste(start_date, "to", end_date, weather_annotations[[2]]$NAME[1])
+
+ggsave(paste0(filename, ".jpg"),
+       height = 4,
+       width = 6.5,
+       units = "in",
+     path = file.path(currentwd, "figures", "weather"))
+  
+```
