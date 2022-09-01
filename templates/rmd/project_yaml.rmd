@@ -22,6 +22,9 @@ editor_options:
 ## Setup
 
 ```{r setup, include=FALSE}}
+# clear objects from the environment
+rm(list = ls())
+
 # set the working directory and environment variables
 source("~/grazing-interaction/environment.R")
 
@@ -41,4 +44,7 @@ flextable::set_flextable_defaults(
   text.align = "center",
   fonts_ignore = TRUE,
   background.color = "#EFEFEF")
+
+update_geom_defaults("text", list(size = 7))
+update_geom_defaults("label", list(size = 7))
 ```
