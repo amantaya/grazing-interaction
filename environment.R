@@ -13,7 +13,7 @@ usethis::use_git_config(user.name = github_username, user.email = github_email)
 # Set your GitHub password
 # If you have 2-FA enabled on your GitHub account, use a Personal Access Token
 # https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
-credentials::git_credential_ask(repo_url)
+# credentials::git_credential_ask(repo_url)
 
 # Adds .DS_Store, .Rproj.user, .Rdata, .Rhistory, and .httr-oauth to your global (a.k.a. user-level) .gitignore
 usethis::git_vaccinate()
@@ -63,7 +63,10 @@ path_to_local_cameratraps_folder <- file.path("", "home", "rstudio", "cameratrap
 Sys.setenv(TZ = "US/Arizona")
 
 # set the number of digits to 2
-options(digits = 2)
+options(digits = 5)
+
+# set the max print to 10,000
+options(max.print = 100)
 
 sessioninfo <- utils::sessionInfo()
 
@@ -73,9 +76,9 @@ sessioninfo <- utils::sessionInfo()
 # RPushbullet::pbSetup()
 
 # warn if you are missing a rpushbullet config file
-if (RPushbullet::pbValidateConf(conf = "~/.rpushbullet.json") == FALSE) {
-  RPushbullet::pbSetup()
-  }
+# if (RPushbullet::pbValidateConf(conf = "~/.rpushbullet.json") == FALSE) {
+#  RPushbullet::pbSetup()
+#  }
 
 # options(error = function() {
 #   RPushbullet::pbPost("note", "Error", geterrmessage())
