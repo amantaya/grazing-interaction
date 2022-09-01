@@ -3,6 +3,11 @@
 kanban-plugin: basic
 
 ---
+# Heber Kanban
+
+## Heber Kanban
+
+
 
 ## Daily Tasks
 
@@ -174,29 +179,27 @@ kanban-plugin: basic
 
 ## SCORING Assignments Awaiting Completion by Students
 
-- [ ] #task BRL_06222021_07232021 #heber2021photos
-- [ ] #task OPO_06212021_06252021 #heber2021photos
-- [ ] #task BRL_05282021_06222021 #heber2021photos
-- [ ] #task BRL_20210805_20211001 #heber2021photos
-- [ ] #task BRL_20210723_20210805 #heber2021photos
-- [ ] #task FLO_20210723_20210806 #heber2021photos
-- [ ] #task FLO_06232021_07232021 #heber2021photos
-- [ ] #task FLO_20210806_20210820 #heber2021photos
-- [ ] #task A51_20210804_20210817 #heber2021photos
-- [ ] #task A51_20210724_20210804 #heber2021photos
-- [ ] #task A51_06222021_06252021 #heber2021photos
-- [ ] #task OPO_06252021_07232021 #heber2021photos
-- [ ] #task BRL_06222021_07232021 #heber2021photos
-- [ ] #task HPL_20210723_20210805 #heber2021photos
-- [ ] #task HPL_20210805_20290907 #heber2021photos
-- [ ] #task BKN_07022019_08132019 #heber2019photos
-- [ ] #task OPO_05282021_06212021 #heber2021photos
-- [ ] #task HPL_06212021_07232021 #heber2021photos
-- [ ] #task A51_05282021_06222021 #heber2021photos
 
 
 ## Quality Check Not Started
 
+- [ ] #task FLO_20210806_20210820 #heber2021photos
+- [ ] #task OPO_06212021_06252021 #heber2021photos
+- [ ] #task HPL_06212021_07232021 #heber2021photos
+- [ ] #task HPL_20210805_20290907 #heber2021photos
+- [ ] #task BRL_20210805_20211001 #heber2021photos
+- [ ] #task HPL_20210723_20210805 #heber2021photos
+- [ ] #task OPO_06252021_07232021 #heber2021photos
+- [ ] #task FLO_06232021_07232021 #heber2021photos
+- [ ] #task FLO_20210723_20210806 #heber2021photos
+- [ ] #task BRL_20210723_20210805 #heber2021photos
+- [ ] #task A51_20210724_20210804 #heber2021photos
+- [ ] #task A51_06222021_06252021 #heber2021photos
+- [ ] #task A51_05282021_06222021 #heber2021photos
+- [ ] #task BRL_05282021_06222021 #heber2021photos
+- [ ] #task BRL_06222021_07232021 #heber2021photos
+- [ ] #task BKN_07022019_08132019 #heber2019photos
+- [ ] #task OPO_05282021_06212021 #heber2021photos
 - [ ] #task OPO_20210805_20210816 #heber2021photos
 - [ ] #task OPO_20210723_20210805 #heber2021photos
 - [ ] #task FLO_05282021_06112021 #heber2021photos
@@ -207,6 +210,7 @@ kanban-plugin: basic
 - [ ] A51_07022019_08132019_subjects_chunk2 #task #heber2019photos
 - [ ] A51_07122020_10112020_subjects_chunk3 #task #heber2020photos
 - [ ] A51_07122020_10112020_subjects_chunk4 #task #heber2020photos
+- [ ] #task A51_20210804_20210817 #heber2021photos
 - [ ] A51_08132019_08192019_subjects_chunk1 #task #heber2020photos
 - [ ] A51_10222020_12022020_subjects_chunk1 #task #heber2020photos
 - [ ] A51_11052019_12062019_subjects_chunk1 #task #heber2019photos
