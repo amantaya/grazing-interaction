@@ -1,5 +1,5 @@
 {
-  "folder": "docs",
+  "folder": "docs/notes",
   "format": "YYYY-MM-DD-HH-mm-ss",
-  "template": "templates/obsidian/Templater/Zettlekasten Note Template"
+  "template": "Templates/Templater/Zettlekasten Note Template"
 }

@@ -13,7 +13,7 @@
     "margin": "0",
     "downscalePercent": 100
   },
-  "attachmentFolderPath": "Attachments",
+  "attachmentFolderPath": "docs/attachments",
   "fileSortOrder": "byCreatedTime",
   "userIgnoreFilters": [
     "*.pdf",
@@ -22,7 +22,7 @@
     "*.png"
   ],
   "useMarkdownLinks": true,
-  "newFileFolderPath": "Fleeting Notes",
+  "newFileFolderPath": "docs/notes",
   "showUnsupportedFiles": true,
   "autoPairBrackets": false,
   "autoPairMarkdown": false
