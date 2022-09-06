@@ -1,1 +1,1 @@
-foreach ($file in get-childitem *.md) { git mv $file.FullName ./docs/notes }
+foreach ($file in get-childitem ./scripts/analysis/archived) { git mv $file.FullName ./scripts/archived }

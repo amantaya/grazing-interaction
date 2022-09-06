@@ -1,0 +1,48 @@
+---
+title: "Txt2Consolidate"
+author: "Brandon Mayer"
+date: "1/14/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(stringi)
+```
+List out folders to be copied into the script below
+```{r}
+
+```
+
+Make a csv of of all the files in the target folder
+```{r}
+photosource<- gsub("\\\\", "/", readline())
+Photofolders <- list.files(photosource)
+path <- paste0(getwd(),"/","TxtFiles","/")
+files <- list.files(path)
+# Match folders with the available completed text files
+focusedfolders <- NULL
+for (i in seq_along(files)) {
+  for (j in seq_along(Photofolders)) {
+      if (files[i]==Photofolders[j]) {
+        focusedfolders<- append(focusedfolders, files[i])
+    }
+  }
+}
+
+for (i  in seq_along(focusedfolders)) {
+  subject_txt_files <- list.files(paste0(getwd(),"/","TxtFiles","/",focusedfolders[i]), full.name= T)
+  all_subjects_vector <- NULL
+        for (k in 1:length(subject_txt_files)){
+          all_subjects_vector <- append(all_subjects_vector, readLines(con <- file(subject_txt_files[k],encoding = "UCS-2LE")))
+        }
+        n<- length(str_split(string = all_subjects_vector,pattern =  "\\\\")[[1]])-1
+        all_subjects_vector_string_replaced <- paste0(photosource,"/",focusedfolders[i],"/",gsub("\\\\", "/",str_split_fixed(string = all_subjects_vector,pattern =  "\\\\",n = n)[,n]))
+        from <- as.character(all_subjects_vector_string_replaced)
+        dir.create(paste0(photosource,"/", focusedfolders[i],"_sorted"))
+        to <- paste0(photosource,"/", focusedfolders[i],"_sorted")
+        file.copy(from, to, overwrite = FALSE)
+}
+
+```
