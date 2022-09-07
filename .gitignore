@@ -61,7 +61,6 @@ archived
 *.png
 *.docx
 *.pdf
-*.JPG
 
 # ignore Obsidian workspace
 .obsidian/workspace
