@@ -36,7 +36,8 @@ source(file.path("", "home", "rstudio", "grazing-interaction", "environment.R"))
 
 ```{r Load 2021 Heber Landscape Appearance Data}
 heber_2021_landscape_appearance <- readr::read_csv(
-    file.path(path_to_data_input_folder, 
+    file.path(currentwd,
+              "data",
               "landscape-appearance",
               "heber",
               "2021-heber-landscape-appearance-vgs.csv"
