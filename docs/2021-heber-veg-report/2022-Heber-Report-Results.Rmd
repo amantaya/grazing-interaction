@@ -1,0 +1,34 @@
+---
+title: "2022 Heber Report- Results"
+author: "Carter Blouin"
+date: "`r lubridate::now(tzone = 'US/Arizona')`"
+output:
+  bookdown::word_document2:
+    toc: yes
+    toc_depth: 3
+    keep_md: yes
+bibliography: references.bib
+citation_package: biblatex
+csl: rangeland-ecology-and-management.csl
+link-citations: yes
+editor_options:
+  markdown:
+    wrap: 72
+---
+
+# Results
+
+
+## Landscape Appearance
+
+```{r label='Landscape Appearance', echo=FALSE, fig.cap=''}
+
+knitr::include_graphics(
+  file.path("../../figures/landscape-appearance/2021-Heber-Landscape-Appearance-95CI.jpg"))
+
+```
+
+
+## Canopy-Cover (Daubenmire)
+
+## 
