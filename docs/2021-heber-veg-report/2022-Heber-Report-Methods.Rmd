@@ -28,7 +28,7 @@ source("~/grazing-interaction/packages.R")
 source("~/grazing-interaction/functions.R")
 
 flextable::set_flextable_defaults(
-  font.size = 10, 
+  font.size = 10,
   theme_fun = theme_box,
   text.align = "center",
   fonts_ignore = TRUE,
@@ -59,7 +59,7 @@ previous reports.
 ```{r label='Map of Study Area', echo=FALSE, fig.cap='Location of Motion Cameras (Blue), Time-lapse Cameras (Red), and Addtional Vegetation Monitoring Sites (Green) within the Heber Wild Horse Territory (HWHT) and on adjacent lands of the Apache-Sitgreaves National Forests, Black Mesa Ranger District.'}
 
 knitr::include_graphics(
-  file.path("images/2021-Heber-Camera-and-Vegetation-Sites-University-of-Arizona.jpg"))
+  file.path("docs/2021-heber-veg-report/images/2021-Heber-Camera-and-Vegetation-Sites-University-of-Arizona.jpg"))
 
 ```
 
@@ -103,27 +103,27 @@ motion camera sites. We then selected stratified random points that fell
 within the key areas identified by USFS range management personnel.
 
 ```{r Heber Site Constructor, include=FALSE}
-heber_2021_canopy_cover <- 
+heber_2021_canopy_cover <-
   readr::read_csv(file.path(currentwd,
                           "data",
                           "canopy-cover",
                           "heber",
                           "2021-heber-canopy-cover-summarized-by-species.csv"))
 
-heber_2021_canopy_cover <- heber_2021_canopy_cover %>% 
+heber_2021_canopy_cover <- heber_2021_canopy_cover %>%
   dplyr::rename(Site = SiteID)
 
-heber_veg_sites <- heber_2021_canopy_cover %>% 
-  pull(Site) %>% 
-  unique() %>% 
-  as_tibble() %>% 
-  tidyr::drop_na() %>% 
+heber_veg_sites <- heber_2021_canopy_cover %>%
+  pull(Site) %>%
+  unique() %>%
+  as_tibble() %>%
+  tidyr::drop_na() %>%
   dplyr::rename(Site = value)
 
-heber_veg_sites <- heber_veg_sites %>% dplyr::mutate(Allotment = 
+heber_veg_sites <- heber_veg_sites %>% dplyr::mutate(Allotment =
                                     dplyr::if_else(
-                                      Site == "SHPT" | 
-                                        Site == "KPPJT" | 
+                                      Site == "SHPT" |
+                                        Site == "KPPJT" |
                                         Site == "STPO",
                                       "Black Canyon",
                                       "Heber")
@@ -137,7 +137,7 @@ for (i in 1:nrow(heber_veg_sites)) {
   } else if (heber_veg_sites$Site[i] == "OPO1") {
     heber_veg_sites$Pasture[i] <- "Bunger"
   } else if (heber_veg_sites$Site[i] == "HPT") {
-    heber_veg_sites$Pasture[i] <- "HP" 
+    heber_veg_sites$Pasture[i] <- "HP"
   } else if (heber_veg_sites$Site[i] == "FLO1") {
     heber_veg_sites$Pasture[i] <- "Gentry"
   } else if (heber_veg_sites$Site[i] == "GETPBG") {
@@ -161,7 +161,7 @@ for (i in 1:nrow(heber_veg_sites)) {
   } else if (heber_veg_sites$Site[i] == "OPO1") {
     heber_veg_sites$`Within Territory`[i] <- "No"
   } else if (heber_veg_sites$Site[i] == "HPT") {
-    heber_veg_sites$`Within Territory`[i] <- "No" 
+    heber_veg_sites$`Within Territory`[i] <- "No"
   } else if (heber_veg_sites$Site[i] == "FLO1") {
     heber_veg_sites$`Within Territory`[i] <- "Yes"
   } else if (heber_veg_sites$Site[i] == "GETPBG") {
@@ -185,7 +185,7 @@ for (i in 1:nrow(heber_veg_sites)) {
   } else if (heber_veg_sites$Site[i] == "OPO1") {
     heber_veg_sites$`Time-Lapse Camera?`[i] <- "Yes"
   } else if (heber_veg_sites$Site[i] == "HPT") {
-    heber_veg_sites$`Time-Lapse Camera?`[i] <- "Yes" 
+    heber_veg_sites$`Time-Lapse Camera?`[i] <- "Yes"
   } else if (heber_veg_sites$Site[i] == "FLO1") {
     heber_veg_sites$`Time-Lapse Camera?`[i] <- "Yes"
   } else if (heber_veg_sites$Site[i] == "GETPBG") {
@@ -226,7 +226,7 @@ established in June 2021 before summer monsoon rainfall and potential
 corresponding vegetation response.
 
 ```{r label="Photo Grazing Exclosures at Bear", echo=FALSE, fig.cap="Example of three grazing exclosures at the Bear site, July 2021."}
-knitr::include_graphics("images/2021-bear-grazing-exclosures.JPG")
+knitr::include_graphics("docs/2021-heber-veg-report/images/2021-bear-grazing-exclosures.JPG")
 ```
 
 We clipped each of the (5) 1 m^2^ grazing exclosures in November 2021.
@@ -241,7 +241,7 @@ the center of each exclosure potentially negates any grazing that might
 occur on the perimeter of the exclosure plot.
 
 ```{r Heber Paired Plot Site Summary, include=FALSE}
-heber_paired_plot_2021_site_summary <- 
+heber_paired_plot_2021_site_summary <-
 readr::read_csv(file.path(currentwd,
                            "data",
                            "production",
@@ -249,26 +249,26 @@ readr::read_csv(file.path(currentwd,
                            "csv",
                            "2021-heber-paired-plot-method1-site-summary.csv"))
 
-n_exclosure_plots_clipped <- 
-heber_paired_plot_2021_site_summary %>% 
-  dplyr::filter(PlotType == "Exclosure") %>% 
+n_exclosure_plots_clipped <-
+heber_paired_plot_2021_site_summary %>%
+  dplyr::filter(PlotType == "Exclosure") %>%
   mutate(SampleArea = dplyr::if_else(Site == "Only Ponderosa",
                                      "Entire 1 m² plot",
                                      "(3) 40 cm x 40 cm sub-plots",
-                                     NA_character_)) %>% 
-  dplyr::select(-c("variable", "mean", "sd", "ci", "PlotType")) %>% 
-  dplyr::mutate(n = as.character(n)) %>% 
-  dplyr::rename("Number of Exclosure Plots" = n) %>% 
+                                     NA_character_)) %>%
+  dplyr::select(-c("variable", "mean", "sd", "ci", "PlotType")) %>%
+  dplyr::mutate(n = as.character(n)) %>%
+  dplyr::rename("Number of Exclosure Plots" = n) %>%
   dplyr::rename("Clipped Sample Area" = SampleArea)
 ```
 
 
 ```{r Table-Heber-Paired-Plot-Site-Summary, echo=FALSE, ft_show_coltype=FALSE, tab.cap="Number of Exclosure Plots Clipped at Each Site."}
 
-# ft <- flextable::flextable(n_exclosure_plots_clipped) %>% 
-#   flextable::autofit(add_w = 0.2, add_h = 0.2) %>% 
-#   flextable::align(align = "center", part = "all") 
-# 
+# ft <- flextable::flextable(n_exclosure_plots_clipped) %>%
+#   flextable::autofit(add_w = 0.2, add_h = 0.2) %>%
+#   flextable::align(align = "center", part = "all")
+#
 # flextable::body_add_flextable(ft)
 
 flextable::df_printer(n_exclosure_plots_clipped)
@@ -362,7 +362,7 @@ summarized plant cover at each site by averaging the class mid-point for
 each species detected at each site.
 
 ```{r Photo Monitoring GETPBG, echo=FALSE, fig.cap="Monitoring At the GETPBG site, November 2021."}
-knitr::include_graphics("images/monitoring-GETPBG.jpg")
+knitr::include_graphics("docs/2021-heber-veg-report/images/monitoring-GETPBG.jpg")
 ```
 
 ## Landscape Appearance
