@@ -63,6 +63,7 @@ amantaya/rocker-verse:4.0.5
 This is code from [scripts/utilities/docker-run-commands.ps1](https://github.com/amantaya/grazing-interaction/blob/main/scripts/utilities/docker-run-commands.ps1)
 
 If successful, you will see something similar (the numbers correspond to the container id and will be different on your machine):
+
 ![](attachments/Pasted%20image%2020220913120006.png)
 
 Next, open Docker Desktop. Under “Containers”, go to image labeled `amantaya/rocker-verse:4.0.5`. The name of your container will be different.
