@@ -58,7 +58,8 @@ archived
 
 # ignore free file sync database
 *.ffs_db
-*.png
+
+# ignore docs generated from md
 *.docx
 *.pdf
 
