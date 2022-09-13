@@ -3,7 +3,7 @@ Created: 2022-09-08 10:08:49
 
 A common problem when trying to reproduce analysis are the intervening changes in the underlying software dependencies that run the analysis code. Changes in software dependencies such as your operating system (e.g., Windows 10, MacOS) and the R packages themselves used in your analysis (e.g., dplyr, lubridate) can cause analyses to fail or produce different results. Docker containers gives scientists the ability to share their exact analysis code and software dependencies with other scientists making research and collaboration more reproducible, potentially many years later (more on that later).
 
-![](docs/tutorials/attachments/f5d47c021f4c79d21eb8b6cc4747d73b38c3b4fd3ffddaae4639552af3ede40c.jpg)
+![](attachments/f5d47c021f4c79d21eb8b6cc4747d73b38c3b4fd3ffddaae4639552af3ede40c.jpg)
 Credit: http://www.quickmeme.com/p/3vuukg/page/5
 
 To get started, you first need to install the software to run the Docker containers, for many scientists, this is Docker Desktop [(Download Link)](https://www.docker.com/products/docker-desktop/) Docker Desktop runs containers using your local computer’s resources (memory, storage, and processor). Docker can also be run on servers for larger analysis and collaboration. Projects such as [Cyverse](https://cyverse.org/) run Docker containers (called “Apps” on Cyverse) and as well as host data on their file system.
@@ -24,7 +24,7 @@ wsl --install -d Ubuntu-20.04
 
 Your PowerShell terminal should look like this:
 
-![](docs/tutorials/attachments/Pasted-image-20220908103747.png)
+![](attachments/Pasted-image-20220908103747.png)
 
 After you’ve installed WSL and Docker Desktop, you can run Docker containers on your local machine. To run a container for this project, you can run this PowerShell script which has the [[scripts/utilities/docker-run-commands.ps1]] necessary commands to launch the Docker container. 
 
