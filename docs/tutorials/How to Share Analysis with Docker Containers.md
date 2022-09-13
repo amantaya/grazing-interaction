@@ -26,27 +26,57 @@ Your PowerShell terminal should look like this:
 
 ![](attachments/Pasted-image-20220908103747.png)
 
+
+## Downloading the Code
+
+### Fork the Repo
+
+The analysis code used in this project is hosted on GitHub [here](https://github.com/amantaya/grazing-interaction). This GitHub repository (repo) contains the scripts used to analyze data and produce figures. Since you don’t have permission to write to this repository directly, you can create a copy of the code called a ‘fork’ in git terminology. A fork allows you to modify the code from this repo and track those changes under version control. Follow these [instructions](https://docs.github.com/en/get-started/quickstart/fork-a-repo) to fork this repo. *Forks are created under your GitHub account*.
+
+### Clone the Repo
+
+After you’ve created a fork, you need to download a copy of the code to your computer, in git terminology this is called a ‘clone’. To create a copy of this run the below code in a terminal/shell on your computer, replacing ‘YOUR-USERNAME’ with your GitHub username. Make a note of where this folder is located on your computer.
+
+>[!NOTE]
+>You need to have git installed on your computer to run the following command. Download git [here](https://git-scm.com/downloads
+
+```shell
+git clone https://github.com/YOUR-USERNAME/grazing-interaction
+```
+
+## Running the Container
 After you’ve installed WSL and Docker Desktop, you can run Docker containers on your local machine. To run a container for this project, you can run this PowerShell script which has the [[scripts/utilities/docker-run-commands.ps1]] necessary commands to launch the Docker container. 
 
-## Clone the Repo with the Analysis Code
+Copy and paste the below commands into a shell/terminal, and change the location of `C:/Users/andre/Dropbox/Dev/grazing-interaction` to the location of the cloned repo on your computer (i.e. the folder containing the analysis code). Leave the `:/home/rstudio/grazing-interaction` on the right side of the colon unchanged. This is the location of the files _inside_ of the Docker container.
 
-You will need to edit the location of the file mounts inside of that PowerShell script. Change the location of `C:/Users/andre/Dropbox/Dev/grazing-interaction` to the location of the cloned repo on your computer (i.e. the folder containing the analysis code).
+This command will first download the Docker container built for this project `amantaya/rocker-verse:4.0.5` which has all of the required R packages and dependencies already installed inside of the Docker container. It will then mount the analysis code that your forked onto the container. Finally, it will run the container in Docker Desktop.
 
-This is code from [[scripts/utilities/docker-run-commands.ps1]]
+>[!Important]
+> Only run the following Docker commands on your local computer because it is unsecure. Authentication is disabled and the user runs as root (to install packages inside of a running container, if needed).
 
 ```PowerShell
 docker run -d -e DISABLE_AUTH=true -e ROOT=TRUE --rm -p 127.0.0.1:8787:8787 `
 -v C:/Users/andre/Dropbox/Dev/grazing-interaction:/home/rstudio/grazing-interaction `
--v G:/cameratraps:/home/rstudio/cameratraps `
--v G:/cameratraps2:/home/rstudio/cameratraps2 `
--v C:/Users/andre/temp:/home/rstudio/temp `
 amantaya/rocker-verse:4.0.5
 ```
 
-## Running the Container
+This is code from [scripts/utilities/docker-run-commands.ps1](https://github.com/amantaya/grazing-interaction/blob/main/scripts/utilities/docker-run-commands.ps1)
+
+If successful, you will see something similar (the numbers correspond to the container id and will be different on your machine):
+![](attachments/Pasted%20image%2020220913120006.png)
+
+Next, open Docker Desktop. Under “Containers”, go to image labeled `amantaya/rocker-verse:4.0.5`. The name of your container will be different.
+
+Then under Container “Actions”, click “Open with Browser”.
+
+![](attachments/Pasted%20image%2020220913121321.png)
+
+If successful, you should see R Studio running in your browser!
+
+![](attachments/Pasted%20image%2020220913121559.png)
 
 ## Tags
-#🚧 #tutorial #docker #wsl 
+#tutorial #docker #wsl 
 
 ## References
 1. 
