@@ -38,7 +38,7 @@ The analysis code used in this project is hosted on GitHub [here](https://github
 After you’ve created a fork, you need to download a copy of the code to your computer, in git terminology this is called a ‘clone’. To create a copy of this run the below code in a terminal/shell on your computer, replacing ‘YOUR-USERNAME’ with your GitHub username. Make a note of where this folder is located on your computer.
 
 >[!NOTE]
->You need to have git installed on your computer to run the following command. Download git [here](https://git-scm.com/downloads
+>You need to have git installed on your computer to run the following command. Download git [here](https://git-scm.com/downloads)
 
 ```shell
 git clone https://github.com/YOUR-USERNAME/grazing-interaction
