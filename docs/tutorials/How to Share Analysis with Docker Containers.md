@@ -43,6 +43,7 @@ docker run -d -e DISABLE_AUTH=true -e ROOT=TRUE --rm -p 127.0.0.1:8787:8787 `
 amantaya/rocker-verse:4.0.5
 ```
 
+## Running the Container
 
 ## Tags
 #🚧 #tutorial #docker #wsl 
