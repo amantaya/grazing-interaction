@@ -129,7 +129,7 @@ to embed a photo with the relevant metadata inside the photo folder
 on the SD card. This will help the photos be better documented for
 future use. See the below image for an example of camera trap that
 has taken a picture of the Camera Trap Test Photo datasheet.
-#task blur GPS coordinates
+
 ![](media1/image3.jpeg)
 
 4. Record the camera metadata using the Camera Trap Maintenance Visit
@@ -172,31 +172,24 @@ clicking on the folder name, and then using the following scheme:
 three-letter site code, the date of the first photo captured, and
 the date of the last photo captured (e.g., WCS_07302019_09182019)
 
-10. Use the Bulk Rename Command Line tool
+10. Install the Bulk Rename Command Line tool
 https://www.bulkrenameutility.co.uk/ to rename each photo by the
 time and date it was captured. You may need to download this program
 if you haven't already.
 
-#task we no longer use the `Bulk Rename Commands.txt` to rename files
+a. The following command will rename photos by their date and will append a number if the date and time is the same as another file which is what the `/NODUP` flag does.
 
-a. To do this, copy and paste a single line from the "Bulk Rename
-Commands.txt" script from Andrew's Github
-(<https://github.com/amantaya/Horse-Cattle-Elk-Grazing-Interaction-Study>)
+b. Change the name of the folder in the script (`andre\temp` below) to the name of the folder that you copied to a temporary folder on your desktop.
 
-b. Change the name of the folder in the script to the name of the
-folder that you copied to a temporary folder on your desktop
-e.g.,
-```
-C:\\Users\\Andrew\\Desktop\\BRC64.exe
-/DIR:\"C:\\Users\\Andrew\\Desktop\\temp\\WCS_07302019_09182019\\\"
-/NOFOLDERS /RECURSIVE /PATTERN:\"\*.JPG\" /REMOVENAME
-/APPENDDATE:M:P::-:10:\"%Y-%m-%d-%H-%M-%S\" /EXECUTE
-```
 c. Copy and paste this edited line into Windows Powershell or Command
 Prompt and press enter. Your window should scroll by fast if the
 script was executed correctly. If there is an error in the script
 (e.g., incorrect folder name) the renaming script will not work and
-will not show any output in the window.
+will not show any output in the window. 
+
+```PowerShell
+C:\Program` Files\BRC64\BRC64.exe /DIR:"C:\Users\andre\temp" /NOFOLDERS /RECURSIVE /PATTERN:"*.JPG" /REMOVENAME /APPENDDATE:M:P::-:10:"%Y-%m-%d-%H-%M-%S" /NODUP /EXECUTE
+```
 
 11. Run the `01-extract-image-paths.R` script on the renamed parent
 folder (e.g., WCS_07302019_09182019). This may take a few minutes
@@ -223,7 +216,7 @@ path as above.
 
 ### Sorting Photos 
 
-See the [Photo Tagging and Sorting Using IrFanView](Photo%20Tagging%20and%20Sorting%20Using%20IrFanView.md) protocol for
+See the [Camera Trap Sorting and Scoring Protocol](Camera%20Trap%20Sorting%20and%20Scoring%20Protocol.md) protocol for
 more details. This section provides a brief overview of the process.
 
 16. ***Tag*** ***Photos with Subjects*** Photos with subjects are
@@ -234,6 +227,7 @@ Sorting Using IrFanView.pdf" protocol).
 also *recorded* as a text file to keep track of which files have
 subjects (see the "Photo Tagging and Sorting Using IrFanView.pdf"
 protocol).
+
 18. **Repeat this process for all of subfolders** (e.g., 100EK113)
 within a collection folder (e.g. WCN_04252018_05122018).
 
@@ -365,44 +359,32 @@ scoring came from a trail camera (see definitions).
 b. Select "Time-lapse" in the dropdown box if the photos you are
 scoring came from a time lapse camera (see definitions).
 
-c. Select "NA" in the dropdown box [only]{.underline} if there is
+c. Select "NA" in the dropdown box [only] if there is
 an error.
 
 c. The third dropdown box in the red "Traits" box asks you the
 *location* (i.e. site name) of the camera. Select the correct camera
 location for the photos you are scoring. Try using the scroll bar in
-dropdown box if you don't see the correct camera location. The
-*location* choices (in order of the dropdown box) are:
+dropdown box if you don't see the correct camera location. Locations are only included in each xlsm macro if those locations are relevant to the respective project. In other words, locations from the White Mountains project are not included in the Heber project xlsm macro.
 
-> NA
->
-> BoggyEast
->
-> BoggyWest
->
-> BoggyTrail
->
-> WidcatN (spelled incorrectly in the dropdown box)
->
-> WidcatS (spelled incorrectly in the dropdown box)
->
-> WildcatTrail
->
-> EastFork
->
-> BearTL
->
-> BearTrail
->
-> BearField
->
-> BlackCanTL
->
-> BlackCanTrail
->
-> BigField
->
-> Highway
+White Mountains Project (may not be complete list)
+>NA
+>BoggyEast
+>BoggyWest
+>BoggyTrail
+>WidcatN (spelled incorrectly in the dropdown box)
+>WidcatS (spelled incorrectly in the dropdown box)
+>WildcatTrail
+>EastFork
+
+Heber Project (may not be complete list)
+>BearTL
+>BearTrail
+>BearField
+>BlackCanTL
+>BlackCanTrail
+>BigField
+>Highway
 
 d. The fourth and final dropdown box in the red "Traits" box asks you
 if animals are in the *Waterway*- the *Waterway* is defined as the
@@ -676,7 +658,7 @@ photo was checking the camera".
 ![](media1/image32.jpeg)
 
 42. The "Restore Nulls" box in the below screenshot will reset all the
-attributes to their default settings and [erase]{.underline} all the
+attributes to their default settings and [erase] all the
 attributes you selected. You can use "Restore Nulls" to quickly
 reset the selections made on a photo.
 
@@ -708,7 +690,7 @@ photo.
 
 ![](media1/image35.jpeg)
 
-45. **Important**: The last thing you ***[must]{.underline}*** before
+45. **Important**: The last thing you ***[must]*** before
 scoring the next photo is to click the red "Save and Move To Next
 Record" button. This button will save all of the selections you made
 in all of the colored boxes. If you do not hit this button, all of
@@ -774,115 +756,10 @@ the date corrections in the camera trap metadata standard text file.
 
 ## Appendix 2
 ### Camera Trap Test Photo Metadata Sheet
-#task link to a PDF or DOCX instead of EMF
-![](media1/image38.emf)
+[Camera Trap Metadata and Checklist Data Sheet v1.4](../datasheets/Camera%20Trap%20Metadata%20and%20Checklist%20Data%20Sheet%20v1.4.pdf)
 
 ### Camera Trap Maintenance Visit Metadata Sheet
-#task link to a PDF or Docx Instead 
-Site
-Name:\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-Site Code: \_\_\_\_\_\_\_\_\_\_\_\_
-
-Visit Date:\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ GPS Time
-(Camera Turned Off):\_\_\_\_\_\_\_\_\_\_
-
-**Initial Camera Settings- Upon Arrival to the Site**
-
-Camera Number:\_\_\_\_\_\_\_\_\_
-Model:\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Camera
-Functioning?\_\_\_\_\_\_\_\_\_\_
-
-Camera Clock Date:\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Camera Clock
-Time:\_\_\_\_\_\_\_\_\_\_\_ ITP?\_\_\_\_\_\_\_
-
-Number of Photos:\_\_\_\_\_\_\_\_\_\_\_ Battery Level:\_\_\_\_\_\_\_\_\_
-SD Card #:\_\_\_\_\_\_\_\_\_\_\_
-
-**Settings**: Mode:\_\_\_\_\_\_\_\_\_\_\_\_ Image
-Size:\_\_\_\_\_\_\_\_\_\_ Image Format:\_\_\_\_\_\_\_\_\_\_
-
-Capture Number (per motion trigger):\_\_\_\_\_ Interval (Quiet
-Period):\_\_\_\_\_\_\_\_
-
-Sensor Level:\_\_\_\_\_\_\_\_\_ Camera Mode:\_\_\_\_\_\_\_\_\_ Timestamp
-(On/Off):\_\_\_\_\_\_\_\_
-
-LED Control:\_\_\_\_\_\_\_\_ NV Shutter:\_\_\_\_\_\_\_\_\_\_ Field Scan
-On/Off:\_\_\_\_\_
-
-Field Scan A:\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Field Scan
-B:\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Interval:\_\_\_\_\_\_\_
-
-**Final Camera Settings- Upon Leaving the Site**
-
-GPS Time (Camera Turned On):\_\_\_\_\_\_\_\_\_\_\_\_
-
-Camera Number:\_\_\_\_\_\_\_\_\_
-Model:\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Camera
-Replaced?\_\_\_\_\_\_\_\_\_\_
-
-Camera Clock Date:\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Camera Clock
-Time:\_\_\_\_\_\_\_\_\_\_\_\_\_ FTP?\_\_\_\_\_\_\_
-
-Number of Photos:\_\_\_\_\_\_\_ Battery Level:\_\_\_\_\_\_\_\_\_
-Batteries Changed?\_\_\_\_\_\_
-
-SD Card #:\_\_\_\_\_\_\_\_\_\_ SD Card Changed?\_\_\_\_\_\_\_\_\_ SD
-Card Capacity (GB) \_\_\_\_\_\_\_\_\_
-
-**Settings**: Mode:\_\_\_\_\_\_\_\_\_\_\_\_ Image
-Size:\_\_\_\_\_\_\_\_\_\_ Image Format:\_\_\_\_\_\_\_\_\_\_\_
-
-Capture Number (per motion trigger):\_\_\_\_\_ Interval (Quiet
-Period):\_\_\_\_\_\_\_\_
-
-Sensor Level:\_\_\_\_\_\_\_\_\_ Camera Mode:\_\_\_\_\_\_\_\_\_ Timestamp
-(On/Off):\_\_\_\_\_\_\_\_
-
-LED Control:\_\_\_\_\_\_\_\_ NV Shutter:\_\_\_\_\_\_\_\_\_\_ Field Scan
-On/Off:\_\_\_\_\_
-
-Field Scan A:\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Field Scan
-B:\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Interval:\_\_\_\_\_\_\_
-
-### Camera Trap Visit Checklist
-#task link to a PDF or DOCX instead
-Camera appear to be functioning correctly *upon arrival to site*? □Yes
-□No
-
--   If NO, does the camera function correctly *after installing fresh
-    batteries*? □Yes □No
-
-Camera aimed in its original position (not tilted/crooked/knocked down)?
-□Yes □No
-
--   If NO, did you realign the camera position? (i.e. reset to original
-    position) □Yes □No
-
-Initial test photo taken? □Yes □ No, card full
-
-SD card removed from camera? □Yes □No, not needed
-
-Photos reviewed in a camera/phone? □Yes □No
-
-Batteries replaced? □Yes □No, not needed
-
-SD card replaced with new one? □Yes □No, not needed
-
-Is the SD card lock switch un-locked? □Yes □No
-
-Camera lens cleaned? □Yes □No, not needed
-
-Shooting lane maintained (i.e. vegetation trimmed)? □Yes □No, not needed
-
-Camera turned ON (i.e. not in Setup mode)? □Yes □No
-
-Final test photo taken? □Yes □No
-
-Case relocked? □Yes □No
-
-**\
-**
+[Camera Trap Test Photo Data Sheet v1.2](../datasheets/Camera%20Trap%20Test%20Photo%20Data%20Sheet%20v1.2.pdf)
 
 ## Appendix 3
 
