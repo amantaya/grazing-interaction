@@ -118,7 +118,7 @@ illuminate, replace the batteries with new AA lithium batteries
 >settings compared to the Bushnell Tropy or NatureView models. These
 > settings have been marked as ‘(Bushnell E3 models N/A)'.
 
-![250](image2.jpeg)
+![](media1/image2.jpeg)
 
 
 3. Fill out a Camera Trap Test Photo datasheet found in the Appendix
@@ -130,7 +130,7 @@ on the SD card. This will help the photos be better documented for
 future use. See the below image for an example of camera trap that
 has taken a picture of the Camera Trap Test Photo datasheet.
 #task blur GPS coordinates
-![500](image3.jpeg)
+![](media1/image3.jpeg)
 
 4. Record the camera metadata using the Camera Trap Maintenance Visit
 datasheet found in the Appendix. This datasheet documents the number
@@ -142,7 +142,7 @@ datasheet. *Note: some of the fields have N/As because some Bushnell
 models have those settings and other models (e.g., Bushnell
 Essenstial E3) don't have those settings.*
 
-![500](media1/image4.jpeg)
+![](media1/image4.jpeg)
 
 5. Remove the SD card from the camera and put it in the black zippered
 SD card case.
@@ -155,7 +155,7 @@ collect more photos, unless you are removing the camera from the
 field. See the below image for an example of a completed Camera Trap
 Visit Checklist.
 
-![500](media1/image5.jpeg)
+![](media1/image5.jpeg)
 
 ## Data Management
 
@@ -238,7 +238,7 @@ protocol).
 within a collection folder (e.g. WCN_04252018_05122018).
 
 ### Scoring Photos
-![](image8.JPG)
+![](media1/image8.JPG)
 
 19. Open the .xlsm file in Microsoft Excel. You should see a spreadsheet
 with 8 columns by however many photos were in the "subjects" folder
@@ -249,12 +249,12 @@ had file sizes of 0. You will get a security warning about enabling macros.
 >[!Important]
 >You must enable macros for this spreadsheet to work properly. See screenshot below.
 
-![](image10.png)
+![](media1/image10.png)
 
 22. Navigate to the "ImageData" sheet on the lower left corner of the
 spreadsheet (See screenshot below). 
 
-![](image11.png)
+![](media1/image11.png)
 
 24. You should get a .xlsm file that looks like this (see screenshot below).
 
@@ -262,7 +262,7 @@ spreadsheet (See screenshot below).
 
 25. Click on the button “Open Form” to launch the Scoring Macro (a graphical interface written in Visual Basic for Applications (VBA)) (See screenshot below).
 
-![](image13.jpg)
+![](media1/image13.jpg)
 
 #### Resizing the Macro Window to Fit Your Screen
 
@@ -280,7 +280,7 @@ screen.
 desktop. A menu (screenshot below) will open. Click on the option that
 says "Display settings".
 
-![250](media1/image15.jpeg)
+![](media1/image15.jpeg)
 
 The "Display" settings window will open. Scroll down until you see the
 "Scale and layout" option (screenshow below).
@@ -293,15 +293,15 @@ Excel form. On my computer, 125% scaling makes the pop-up window fit my
 screen. You may need to choose 100% scaling depending on your screen's
 resolution.
 
-![](image17.jpeg)
+![](media1/image17.jpeg)
 
-![](image18.jpeg)
+![](media1/image18.jpeg)
 
 By changing the display scaling, the window now fits on my screen
 (barely). I had to hide the task bar so I could see the information
 displayed along the bottom of the macro window.
 
-![](image19.JPG)
+![](media1/image19.JPG)
 
 29. The Photo Scoring Form runs on the Excel macro that was programmed
 into this spreadsheet using Visual Basic for Applications (VBA). The
@@ -330,7 +330,7 @@ know where to deliver your mail, so you have to update your address.
 Try to minimize folder name changes to prevent this problem from
 occurring.
 
-![](image21.png)
+![](media1/image21.png)
 
 32. The Photo View shows each photo from the "Subjects" folder from
 which you extracted metadata. It loads these photos using file paths
@@ -354,7 +354,7 @@ dropdown box to indicate that the image is *useable*.
 c. Select "NA" in the dropdown box if you're not sure if the
 image is useable or if there is a general error.
 
-![](image22.png)
+![](media1/image22.png)
 
 b. The second dropdown box in the red "Traits" box asks you the *camera
 type*-
@@ -362,7 +362,7 @@ type*-
 a. select "Motion" in the dropdown box if the photos you are
 scoring came from a trail camera (see definitions).
 
-b. Select "TimeLapse" in the dropdown box if the photos you are
+b. Select "Time-lapse" in the dropdown box if the photos you are
 scoring came from a time lapse camera (see definitions).
 
 c. Select "NA" in the dropdown box [only]{.underline} if there is
@@ -413,9 +413,9 @@ subjective, therefore review the below screenshots to help determine
 if animals are in the *Waterway*. The below screenshot is an example
 of a horse in the *Waterway.*
 
-![](image23.JPG)
+![](media1/image23.JPG)
 
-![](image24.jpeg)
+![](media1/image24.jpeg)
 
 e. The above screenshot has two red lines drawn onto the image to
 roughly indicate the +/- 2m strip of land along the *Waterway*.
@@ -463,7 +463,7 @@ and horses, elk/horses/cows), then select "Yes" in the
 c. If the photo does not have any species visible in the photo,
 > then select "NA" in the *Multi Species* dropdown box.
 
-![](image25.jpeg)
+![](media1/image25.jpeg)
 
 33. The next set of attributes to score are in the teal "Conditions" box
 (see below screenshot). The teal "Conditions" box is a checkbox
@@ -489,7 +489,7 @@ f. Select "Wind" if dust devils or other indicators of strong winds
 are visible in the photo. Do not select "Wind" if you think its
 just a gentle breeze.
 
-![](image26.jpeg)
+![](media1/image26.jpeg)
 
 34. The next attribute to score is the light green "ConditionsB" box
 (see below screenshot). The light green "ConditionsB" is also a
@@ -537,7 +537,7 @@ single individual can display more than one behavior, such as
 standing and foraging. You can make multiple selections for the
 same individual.
 
-![](image27.jpeg)
+![](media1/image27.jpeg)
 
 35. The next attribute to score is the pink "Frame1" box (see screenshot
 below). The "Frame1" box is a single selection box that lets the
@@ -561,7 +561,7 @@ species. The most frequently observed behavior for all of
 the horses visible in the photo should be selected in the
 light pink "Frame1" box.
 
-![](image28.jpeg)
+![](media1/image28.jpeg)
 
 37. The next attribute to score is the yellow "Frame3" box (see below
 screenshot). Similar to the light pink "Frame1" box, the yellow
@@ -577,7 +577,7 @@ a. The tertiary species is defined as the species that has the
 fewest individuals visible in the photo in the case of Multi
 Species photos.
 
-![](image29.jpeg)
+![](media1/image29.jpeg)
 
 38. Before we score the purple "Counts" box, we must first make one or
 more selections for light blue "Species" checkbox. The purple
@@ -608,7 +608,7 @@ b. In the below screenshot, only mule deer are visible,
 therefore only the "Muledeer" selection was checked in the
 light blue "Species" checkbox.
 
-![](image30.jpeg)
+![](media1/image30.jpeg)
 
 39. After we make one or more selections in the light blue "Species"
 box, the species we selected will appear in the purple "Counts" box
@@ -657,7 +657,7 @@ species and dividing them into age and sex classes for all
 species visible in the photo (in the case of a Multi Species
 photo).
 
-![](image31.jpeg)
+![](media1/image31.jpeg)
 
 40. In the above screenshot, there is one adult female deer (doe) at the
 center of photo and one juvenile deer (fawn) on the right side of
@@ -673,14 +673,14 @@ age and sex.
 comment might be "Is this a fox or a coyote?" or "Person in this
 photo was checking the camera".
 
-![](image32.jpeg)
+![](media1/image32.jpeg)
 
 42. The "Restore Nulls" box in the below screenshot will reset all the
 attributes to their default settings and [erase]{.underline} all the
 attributes you selected. You can use "Restore Nulls" to quickly
 reset the selections made on a photo.
 
-![](image33.jpeg)
+![](media1/image33.jpeg)
 
 43. The "lock" check boxes found at the bottom of each box remembers the
 values you selected for each box when you go to the next picture.
@@ -697,7 +697,7 @@ b. The "Lock/Unlock All" checkbox (see in the below screenshot with
 a star next to it) can unlock or lock all the boxes without
 having to manually click each checkbox.
 
-![](image34.jpeg)
+![](media1/image34.jpeg)
 
 44. If you do not detect an animal in the photo, make the selections for
 each attribute similar to the selections made in the screenshot
@@ -706,7 +706,7 @@ below, then click the "No Detection" button to autofill the purple
 before the Photo Scoring Form will allow you to go to the next
 photo.
 
-![](image35.jpeg)
+![](media1/image35.jpeg)
 
 45. **Important**: The last thing you ***[must]{.underline}*** before
 scoring the next photo is to click the red "Save and Move To Next
@@ -714,7 +714,7 @@ Record" button. This button will save all of the selections you made
 in all of the colored boxes. If you do not hit this button, all of
 the selections you made for that photo will be lost!
 
-![](image36.jpeg)
+![](media1/image36.jpeg)
 
 46. After you have saved and moved to the next photo, you may find that
 many of the attributes you selected have not changed from one photo
@@ -729,7 +729,7 @@ juvenile. You can use "Copy all Previous" to copy the attribute
 selections you made on the last photo and then just change the
 values in the "Counts" box.
 
-![](image37.jpeg)
+![](media1/image37.jpeg)
 
 47. Repeat this process for all of the photos you are scoring.
 
@@ -775,7 +775,7 @@ the date corrections in the camera trap metadata standard text file.
 ## Appendix 2
 ### Camera Trap Test Photo Metadata Sheet
 #task link to a PDF or DOCX instead of EMF
-![](image38.emf)
+![](media1/image38.emf)
 
 ### Camera Trap Maintenance Visit Metadata Sheet
 #task link to a PDF or Docx Instead 
