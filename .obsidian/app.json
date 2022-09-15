@@ -13,7 +13,7 @@
     "margin": "0",
     "downscalePercent": 100
   },
-  "attachmentFolderPath": "docs/attachments",
+  "attachmentFolderPath": "./",
   "fileSortOrder": "byCreatedTime",
   "userIgnoreFilters": [
     "*.pdf",
@@ -24,6 +24,9 @@
   "useMarkdownLinks": true,
   "newFileFolderPath": "docs/notes",
   "showUnsupportedFiles": true,
-  "autoPairBrackets": false,
-  "autoPairMarkdown": false
+  "autoPairBrackets": true,
+  "autoPairMarkdown": true,
+  "readableLineLength": false,
+  "strictLineBreaks": true,
+  "newLinkFormat": "relative"
 }

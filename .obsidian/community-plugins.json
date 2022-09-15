@@ -14,5 +14,7 @@
   "templater-obsidian",
   "obsidian-zotero-desktop-connector",
   "media-extended",
-  "obsidian-kanban"
+  "obsidian-kanban",
+  "control-characters",
+  "obsidian-regex-replace"
 ]
