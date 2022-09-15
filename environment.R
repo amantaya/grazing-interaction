@@ -53,7 +53,7 @@ path_to_data_input_folder <- file.path("", "home", "rstudio", "work", "data", "i
 # Paths to Local Data -----------------------------------------------------
 
 # this is the path to the data folder on a local file system
-path_to_local_data <- file.path("", "grazing-interaction", "data")
+path_to_local_data <- file.path("", "home", "rstudio", "temp", "upload")
 
 path_to_local_cameratraps_folder <- file.path("", "home", "rstudio", "cameratraps")
 
@@ -73,14 +73,14 @@ sessioninfo <- utils::sessionInfo()
 # RPushBullet Setup -------------------------------------------------------
 
 # Enter an API key for the Push Bullet push notification service
-# RPushbullet::pbSetup()
+options(rpushbullet.dotfile = "~/grazing-interaction/.rpushbullet.json")
 
 # warn if you are missing a rpushbullet config file
-# if (RPushbullet::pbValidateConf(conf = "~/.rpushbullet.json") == FALSE) {
-#  RPushbullet::pbSetup()
-#  }
+if (RPushbullet::pbValidateConf() == FALSE) {
+  RPushbullet::pbSetup()
+  }
 
-# options(error = function() {
-#   RPushbullet::pbPost("note", "Error", geterrmessage())
-#   if(!interactive()) stop(geterrmessage())
-# })
+ options(error = function() {
+   RPushbullet::pbPost("note", "Error", geterrmessage())
+   if(!interactive()) stop(geterrmessage())
+ })
