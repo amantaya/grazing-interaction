@@ -1,10 +1,6 @@
-\# {{title}}
+# Note with Tags Template
 Created: {{date}} {{time}}
 
-```dataview  
-TABLE WITHOUT ID file.mtime AS "Last Modified" FROM [[#]]  
-```
-***
 
 
 ***

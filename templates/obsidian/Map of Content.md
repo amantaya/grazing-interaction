@@ -1,4 +1,4 @@
-# {{title}}
+# Map of Content
 Created: {{date}} {{time}}
 
 1.

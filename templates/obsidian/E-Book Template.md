@@ -1,4 +1,4 @@
-# {{title}}
+# E-Book Template
 Created: {{date}} {{time}}
 
 ***
