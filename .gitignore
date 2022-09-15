@@ -66,3 +66,4 @@ archived
 # ignore Obsidian workspace
 .obsidian/workspace
 
+.rpushbullet.json
