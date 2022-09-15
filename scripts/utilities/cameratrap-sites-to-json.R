@@ -209,4 +209,4 @@ all_sites_years_df <- dplyr::bind_rows(sites_2017_df,
                                        sites_2020_df,
                                        sites_2021_df)
 
-jsonlite::write_json(all_sites_years_df, file.path(currentwd, "data", "metadata", "cameratrap-sites.json"))
+jsonlite::write_json(all_sites_years_df, file.path(currentwd, "data", "metadata", "cameratraps.json"))
