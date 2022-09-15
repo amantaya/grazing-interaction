@@ -7,24 +7,31 @@
 ```tasks
 description includes #heber2017photos 
 group by heading
+short mode
 ```
 ***
 ## 2018
 ```tasks
 description includes #heber2018photos 
 group by heading
+not done
+short mode
 ```
 ***
 ## 2019
 ```tasks
 description includes #heber2019photos 
 group by heading
+not done
+short mode
 ```
 ***
 ## 2020
 ```tasks
 description includes #heber2020photos 
 group by heading
+not done
+short mode
 ```
 ***
 ## 2021
@@ -33,22 +40,14 @@ not done
 description includes #heber2021photos 
 description does not include #cameratraps2 
 group by heading
+short mode
 ```
 ***
 ## Cameratraps2
-[cameratraps2-photo-data-to-do-list](cameratraps2-photo-data-to-do-list.md)
+[Cameratraps2 Kanban](Cameratraps2%20Kanban.md)
 ```tasks
 not done
 description includes #cameratraps2
 group by heading
 short mode
 ```
-***
-## All Heber Photo Tasks
-```tasks
-not done
-short mode
-group by heading
-```
-***
-

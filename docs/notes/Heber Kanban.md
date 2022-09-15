@@ -5,10 +5,6 @@ kanban-plugin: basic
 ---
 # Heber Kanban
 
-## Heber Kanban
-
-
-
 ## Daily Tasks
 
 - [ ] [2022-07-12-17-55-12 Figure out Which Files are Correct](2022-07-12-17-55-12%20Figure%20out%20Which%20Files%20are%20Correct.md)
@@ -63,6 +59,7 @@ kanban-plugin: basic
 - [ ] #task BRL_03062018_04112018 #heber2018photos
 - [ ] #task [GEO30_20210622_20220723](GEO30_20210622_20220723.md) #cameratraps2/2021
 
+## Folders to Copy to Hard Drive
 
 ## Folders to Upload for SORTING
 
@@ -103,8 +100,8 @@ kanban-plugin: basic
 - [ ] #task SHT15_20210527_20210611 #cameratraps2/2021
 - [ ] #task SHT15_20210623_20210723 #cameratraps2/2021
 - [ ] #task SHT30_20210722_20210805 #cameratraps2/2021
-- [ ] #task SHT30_20210805_20211107 #cameratraps2/2021
-- [ ] #task STO08_20210722_20220106 #cameratraps2/2021
+- [x] #task SHT30_20210805_20211107 #cameratraps2/2021 ✅ 2022-09-12
+- [x] #task STO08_20210722_20220106 #cameratraps2/2021 ✅ 2022-09-12
 
 
 ## Folders Currently Uploading
@@ -224,12 +221,11 @@ kanban-plugin: basic
 
 
 
-## Completed Quality Checked
+## Quality Checked Completed 
 
 - [ ] #task A51_07122020_10112020_subjects_chunk1 #heber2020photos
 - [ ] A51_07122020_10112020_subjects_chunk2 #task #heber2020photos
 - [ ] BKD_06112019_07022019_subjects_chunk1 #task #heber2019photos
-
 
 ## Completed SCORING Assignments to Copy to Hard Drive
 
