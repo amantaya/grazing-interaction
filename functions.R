@@ -743,82 +743,82 @@ cameratraps_path_constructor <-
     # regex to construct a dataframe using the first three uppercase letters of the collection folder
     cameratraps_folders_to_chunk <-
       data.frame(
-        "site" = stringr::str_extract(folders_to_chunk,
-                                      pattern = "([[:upper:]][[:upper:]][[:upper:]]|[[:upper:]]\\d{2})"),
+        "sitecode" = stringr::str_extract(folders_to_chunk,
+                                      pattern = "[[:upper:]]{3}(?=_\\d{8})|[[:upper:]]\\d{2}(?=_\\d{8})|[[:upper:]]{3}_5min(?=_\\d{8})"),
         "collection_folder" = folders_to_chunk
       )
     # matching on the first three letters to construct file paths
     for (i in 1:nrow(cameratraps_folders_to_chunk)) {
-      if (cameratraps_folders_to_chunk$site[i] == "BRL") {
+      if (cameratraps_folders_to_chunk$sitecode[i] == "BRL") {
         cameratraps_folders_to_chunk$relative_path[i] <-
           file.path("~", "cameratraps", "bear", "timelapse")
-      } else if (cameratraps_folders_to_chunk$site[i] == "BRT") {
+      } else if (cameratraps_folders_to_chunk$sitecode[i] == "BRT") {
         cameratraps_folders_to_chunk$relative_path[i] <-
           file.path("~", "cameratraps", "bear", "trail")
-      } else if (cameratraps_folders_to_chunk$site[i] == "BFD") {
+      } else if (cameratraps_folders_to_chunk$sitecode[i] == "BFD") {
         cameratraps_folders_to_chunk$relative_path[i] <-
           file.path("~", "cameratraps", "bigfield", "timelapse")
-      } else if (cameratraps_folders_to_chunk$site[i] == "BKD") {
+      } else if (cameratraps_folders_to_chunk$sitecode[i] == "BKD") {
         cameratraps_folders_to_chunk$relative_path[i] <-
           file.path("~", "cameratraps", "blackcanyon", "timelapsedam")
-      } else if (cameratraps_folders_to_chunk$site[i] == "BKN") {
+      } else if (cameratraps_folders_to_chunk$sitecode[i] == "BKN") {
         cameratraps_folders_to_chunk$relative_path[i] <-
           file.path("~", "cameratraps", "blackcanyon", "timelapsenorth")
-      } else if (cameratraps_folders_to_chunk$site[i] == "BKS") {
+      } else if (cameratraps_folders_to_chunk$sitecode[i] == "BKS") {
         cameratraps_folders_to_chunk$relative_path[i] <-
           file.path("~", "cameratraps", "blackcanyon", "timelapsesouth")
-      } else if (cameratraps_folders_to_chunk$site[i] == "BKT") {
+      } else if (cameratraps_folders_to_chunk$sitecode[i] == "BKT") {
         cameratraps_folders_to_chunk$relative_path[i] <-
           file.path("~", "cameratraps", "blackcanyon", "trail")
-      } else if (cameratraps_folders_to_chunk$site[i] == "BGX") {
+      } else if (cameratraps_folders_to_chunk$sitecode[i] == "BGX") {
         cameratraps_folders_to_chunk$relative_path[i] <-
           file.path("~", "cameratraps", "boggy", "exclosure")
-      } else if (cameratraps_folders_to_chunk$site[i] == "BGW") {
+      } else if (cameratraps_folders_to_chunk$sitecode[i] == "BGW_5min") {
         cameratraps_folders_to_chunk$relative_path[i] <-
           file.path("~", "cameratraps", "boggy", "timelapse5min")
-      } else if (cameratraps_folders_to_chunk$site[i] == "BGE") {
+      } else if (cameratraps_folders_to_chunk$sitecode[i] == "BGE") {
         cameratraps_folders_to_chunk$relative_path[i] <-
           file.path("~", "cameratraps", "boggy", "timelapseeast")
-      } else if (cameratraps_folders_to_chunk$site[i] == "BGW") {
+      } else if (cameratraps_folders_to_chunk$sitecode[i] == "BGW") {
         cameratraps_folders_to_chunk$relative_path[i] <-
           file.path("~", "cameratraps", "boggy", "timelapsewest")
-      } else if (cameratraps_folders_to_chunk$site[i] == "BGT") {
+      } else if (cameratraps_folders_to_chunk$sitecode[i] == "BGT") {
         cameratraps_folders_to_chunk$relative_path[i] <-
           file.path("~", "cameratraps", "boggy", "trail")
-      } else if (cameratraps_folders_to_chunk$site[i] == "EFK") {
+      } else if (cameratraps_folders_to_chunk$sitecode[i] == "EFK") {
         cameratraps_folders_to_chunk$relative_path[i] <-
           file.path("~", "cameratraps", "eastfork", "timelapse")
-      } else if (cameratraps_folders_to_chunk$site[i] == "A51") {
+      } else if (cameratraps_folders_to_chunk$sitecode[i] == "A51") {
         cameratraps_folders_to_chunk$relative_path[i] <-
           file.path("~", "cameratraps", "fiftyone", "timelapse")
-      } else if (cameratraps_folders_to_chunk$site[i] == "FLO") {
+      } else if (cameratraps_folders_to_chunk$sitecode[i] == "FLO") {
         cameratraps_folders_to_chunk$relative_path[i] <-
           file.path("~", "cameratraps", "firelookout", "timelapse")
-      } else if (cameratraps_folders_to_chunk$site[i] == "HWY") {
+      } else if (cameratraps_folders_to_chunk$sitecode[i] == "HWY") {
         cameratraps_folders_to_chunk$relative_path[i] <-
           file.path("~", "cameratraps", "highway", "timelapse")
-      } else if (cameratraps_folders_to_chunk$site[i] == "HPL") {
+      } else if (cameratraps_folders_to_chunk$sitecode[i] == "HPL") {
         cameratraps_folders_to_chunk$relative_path[i] <-
           file.path("~", "cameratraps", "holdingpasture", "timelapse")
-      } else if (cameratraps_folders_to_chunk$site[i] == "MAD") {
+      } else if (cameratraps_folders_to_chunk$sitecode[i] == "MAD") {
         cameratraps_folders_to_chunk$relative_path[i] <-
           file.path("~", "cameratraps", "mauldin", "phenocam")
-      } else if (cameratraps_folders_to_chunk$site[i] == "OPO") {
+      } else if (cameratraps_folders_to_chunk$sitecode[i] == "OPO") {
         cameratraps_folders_to_chunk$relative_path[i] <-
           file.path("~", "cameratraps", "onlyponderosa", "timelapse")
-      } else if (cameratraps_folders_to_chunk$site[i] == "WCX") {
+      } else if (cameratraps_folders_to_chunk$sitecode[i] == "WCX") {
         cameratraps_folders_to_chunk$relative_path[i] <-
           file.path("~", "cameratraps", "wildcat", "exclosure")
-      } else if (cameratraps_folders_to_chunk$site[i] == "WCS") {
+      } else if (cameratraps_folders_to_chunk$sitecode[i] == "WCS_5min") {
         cameratraps_folders_to_chunk$relative_path[i] <-
           file.path("~", "cameratraps", "wildcat", "timelapse5min")
-      } else if (cameratraps_folders_to_chunk$site[i] == "WCN") {
+      } else if (cameratraps_folders_to_chunk$sitecode[i] == "WCN") {
         cameratraps_folders_to_chunk$relative_path[i] <-
           file.path("~", "cameratraps", "wildcat", "timelapsenorth")
-      } else if (cameratraps_folders_to_chunk$site[i] == "WCS") {
+      } else if (cameratraps_folders_to_chunk$sitecode[i] == "WCS") {
         cameratraps_folders_to_chunk$relative_path[i] <-
           file.path("~", "cameratraps", "wildcat", "timelapsesouth")
-      } else if (cameratraps_folders_to_chunk$site[i] == "WCT") {
+      } else if (cameratraps_folders_to_chunk$sitecode[i] == "WCT") {
         cameratraps_folders_to_chunk$relative_path[i] <-
           file.path("~", "cameratraps", "wildcat", "trail")
       } else {
@@ -842,13 +842,13 @@ cameratraps2_path_constructor <-
   function(cameratraps2_folders_to_extract) {
     cameratraps2_folders_df <-
       data.frame(
-        "site" = stringr::str_extract(cameratraps2_folders_to_extract,
+        "sitecode" = stringr::str_extract(cameratraps2_folders_to_extract,
                                       pattern = "[[:upper:]][[:upper:]][[:upper:]]\\d\\d"),
         "collection_folder" = cameratraps2_folders_to_extract
       )
 
     cameratraps2_folders_df$relative_path <-
-      file.path("~", "cameratraps2", cameratraps2_folders_df$site)
+      file.path("~", "cameratraps2", cameratraps2_folders_df$sitecode)
 
     cameratraps2_folders_df$full_path <- file.path(
       cameratraps2_folders_df$relative_path,
