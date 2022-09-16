@@ -29,6 +29,10 @@ knitr::include_graphics(
 ```
 
 
+
+
 ## Canopy-Cover (Daubenmire)
+
+
 
 ## 
