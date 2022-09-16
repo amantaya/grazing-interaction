@@ -15,6 +15,7 @@
   "obsidian-zotero-desktop-connector",
   "media-extended",
   "obsidian-kanban",
-  "control-characters",
-  "obsidian-regex-replace"
+  "obsidian-regex-replace",
+  "obsidian-linter",
+  "obsidian-gist"
 ]
