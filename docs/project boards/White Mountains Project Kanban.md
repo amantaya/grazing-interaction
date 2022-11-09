@@ -159,12 +159,12 @@ kanban-plugin: basic
 - [ ] WCS_04192019_05212019 #wm2019photos #task #copytoxlsm
 - [ ] WCS_09182019_10162019 #wm2019photos #task #copytoxlsm
 - [ ] BGX_09182019_10062019 (missing some subjects text files) #wm2019photos #task #copytoxlsm
-
+- [ ] WCS_5min_07302019_09182019 #wm2019photos #task #copytoxlsm 
 
 ## Folders to Upload to Box for SCORING
 
 - [ ] WCX_09082020_11092020 #wm2020photos #task #uploadtobox/scoring
-- [ ] WCS_5min_07302019_09182019 #wm2019photos #task #uploadtobox/scoring
+
 - [ ] BGT_07302019_09182019_subjects_chunk1 #task #wm2019photos #uploadtobox/scoring
 - [ ] BGT_07302019_09182019_subjects_chunk2 #task #wm2019photos #uploadtobox/scoring
 - [ ] BGT_07302019_09182019_subjects_chunk3 #task #wm2019photos #uploadtobox/scoring
