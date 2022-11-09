@@ -1,4 +1,4 @@
-# paths-for-heber-2021-assignments
+# 2022-06-20-paths-for-freefilesync-heber-2021-assignments
 Source
 ```
 H:\cameratraps\bear\timelapse\BRL_05282021_06222021

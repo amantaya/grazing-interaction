@@ -1,1 +1,0 @@
-# Cameratraps2 Kanban
