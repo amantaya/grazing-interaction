@@ -20,7 +20,7 @@ source("~/grazing-interaction/functions.R")
 
 # create a variable to hold the file name in case we switch to a different project
 # and the file name is different we can switch it once here
-file <- "White Mountains Project Kanban.md"
+file <- "Heber Kanban.md"
 
 # read in the kanban board for the Heber project
 project_kanban <- readr::read_lines(
@@ -28,7 +28,7 @@ project_kanban <- readr::read_lines(
     "~",
     "grazing-interaction",
     "docs",
-    "notes",
+    "project boards",
     file
   ),
   skip_empty_rows = FALSE,
