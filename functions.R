@@ -738,8 +738,16 @@ source_rmd <- function(file_path) {
 # **Output**
 #
 #
+
 cameratraps_path_constructor <-
   function(folders_to_chunk) {
+
+    if (length(folders_to_chunk) == 0) {
+
+      cameratraps_folders_to_chunk <- NULL
+
+    } else {
+
     # regex to construct a dataframe using the first three uppercase letters of the collection folder
     cameratraps_folders_to_chunk <-
       data.frame(
@@ -829,6 +837,7 @@ cameratraps_path_constructor <-
       cameratraps_folders_to_chunk$relative_path,
       cameratraps_folders_to_chunk$collection_folder)
     return(cameratraps_folders_to_chunk)
+    }
   }
 
 # The "cameratraps2_path_constructor"
