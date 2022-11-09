@@ -1,5 +1,6 @@
 {
-  "baseFontSize": 18,
+  "baseFontSize": 14,
   "translucency": false,
-  "cssTheme": "Dracula for Obsidian"
+  "cssTheme": "Dracula for Obsidian",
+  "accentColor": ""
 }

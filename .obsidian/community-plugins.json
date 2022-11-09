@@ -1,21 +1,13 @@
 [
   "table-editor-obsidian",
   "obsidian-citation-plugin",
-  "dataview",
   "obsidian-file-path-to-uri",
   "obsidian-filename-heading-sync",
-  "metaedit",
   "obsidian-git",
   "obsidian-pandoc",
-  "readwise-official",
-  "sliding-panes-obsidian",
-  "obsidian-smart-typography",
   "obsidian-tasks-plugin",
   "templater-obsidian",
   "obsidian-zotero-desktop-connector",
-  "media-extended",
   "obsidian-kanban",
-  "obsidian-regex-replace",
-  "obsidian-linter",
   "obsidian-gist"
 ]

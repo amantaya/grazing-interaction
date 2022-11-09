@@ -26,7 +26,7 @@
   "showUnsupportedFiles": true,
   "autoPairBrackets": true,
   "autoPairMarkdown": true,
-  "readableLineLength": true,
+  "readableLineLength": false,
   "strictLineBreaks": true,
   "newLinkFormat": "relative"
 }
