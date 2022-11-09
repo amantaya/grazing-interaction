@@ -40,17 +40,17 @@ project_kanban <- readr::read_lines(
 folders_to_upload_heading_regex <-
   "##\\sFolders\\sto\\sUpload\\sfor\\sSORTING"
 
-folders_to_add_to_basecamp_heading_regex <-
-  "##\\sFolders\\sto\\sAdd\\sas\\sAssignments\\sto\\sBasecamp\\sfor\\sSORTING"
+folders_currently_uploading_heading_regex <-
+  "##\\sFolders\\sCurrently\\sUploading"
 
 # create and index of the two headings
 # we want what's in between the headings
 folders_to_upload_heading_index <- stringr::str_which(project_kanban, pattern = folders_to_upload_heading_regex)
 
-folders_to_add_to_basecamp_heading_index <- stringr::str_which(project_kanban, pattern = folders_to_add_to_basecamp_heading_regex)
+folders_currently_uploading_heading_regex <- stringr::str_which(project_kanban, pattern = folders_currently_uploading_heading_regex)
 
 # subset the kanban board using these indexes
-folders_to_chunk <- project_kanban[folders_to_upload_heading_index:folders_to_add_to_basecamp_heading_index]
+folders_to_chunk <- project_kanban[folders_to_upload_heading_index:folders_currently_uploading_heading_regex]
 
 cameratraps_regex_pattern <- "([[:upper:]][[:upper:]][[:upper:]]_\\d{8}_\\d{8}|A\\d{2}_\\d{8}_\\d{8}|[[:upper:]][[:upper:]][[:upper:]]_5min_\\d{8}_\\d{8})"
 
