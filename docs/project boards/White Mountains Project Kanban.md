@@ -8,21 +8,21 @@ kanban-plugin: basic
 
 - [ ] WCS_05262017_06142017 #wm2017photos #task #rename
 - [ ] WCS_05152018_06092018 #wm2018photos #task #rename
-- [ ] WCS_04252018_05152018 #wm2018photos #task #rename 
-- [ ] WCS_05262017_06142017 #wm2017photos #task #rename 
-- [ ] WCS_06112018_07122018 #wm2018photos #task #rename 
-- [ ] WCS_06172017_06232017 #wm2017photos #task #rename 
-- [ ] WCS_06232017_07132017 #wm2017photos #task #rename 
+- [ ] WCS_04252018_05152018 #wm2018photos #task #rename
+- [ ] WCS_05262017_06142017 #wm2017photos #task #rename
+- [ ] WCS_06112018_07122018 #wm2018photos #task #rename
+- [ ] WCS_06172017_06232017 #wm2017photos #task #rename
+- [ ] WCS_06232017_07132017 #wm2017photos #task #rename
 - [ ] WCS_07122018_07212018 #wm2018photos #task #rename
-- [ ] WCS_07132017_07222017 #wm2017photos #task #rename 
-- [ ] WCS_08122017_08212017 #wm2017photos #task #rename 
-- [ ] WCS_08252018_09282018 #wm2018photos #task #rename 
-- [ ] WCS_08282017_09142017 #wm2017photos #task #rename 
-- [ ] WCS_09142017_09192017 #wm2017photos #task #rename 
-- [ ] WCS_09302018_10302018 #wm2018photos #task #rename 
-- [ ] WCS_09302018_10302018 #wm2018photos #task #rename 
-- [ ] WCS_10082017_11052017 #wm2017photos #task #rename 
-- [ ] WCT_06122018_07132018 #wm2018photos #task #rename 
+- [ ] WCS_07132017_07222017 #wm2017photos #task #rename
+- [ ] WCS_08122017_08212017 #wm2017photos #task #rename
+- [ ] WCS_08252018_09282018 #wm2018photos #task #rename
+- [ ] WCS_08282017_09142017 #wm2017photos #task #rename
+- [ ] WCS_09142017_09192017 #wm2017photos #task #rename
+- [ ] WCS_09302018_10302018 #wm2018photos #task #rename
+- [ ] WCS_09302018_10302018 #wm2018photos #task #rename
+- [ ] WCS_10082017_11052017 #wm2017photos #task #rename
+- [ ] WCT_06122018_07132018 #wm2018photos #task #rename
 - [ ] WCT_06122018_07132018 #wm2018photos #task #rename
 - [ ] BGW_08252018_09102018 #wm2018photos #task #rename
 - [ ] BGW_08282017_09152017 #wm2017photos #task #rename
@@ -71,7 +71,7 @@ kanban-plugin: basic
 - [ ] BGW_07122018_07282018 #wm2018photos #task #needsmetadata
 - [ ] BGW_07132017_07222017 #wm2017photos #task #needsmetadata
 - [ ] BGW_07222017_07262017 #wm2017photos #task #needsmetadata
-- [ ] BGW_08122017_08212017 #wm2017photos #task #needsmetadata 
+- [ ] BGW_08122017_08212017 #wm2017photos #task #needsmetadata
 - [ ] BGT_06042019_06252019 #wm2019photos #task #needsmetadata
 
 
@@ -79,17 +79,21 @@ kanban-plugin: basic
 
 #copytohdd
 
+
 ## Folders to Upload for SORTING
 
 #uploadtobox/sorting
+
 
 ## Folders Currently Uploading
 
 #uploadingtobox
 
+
 ## Folders to Add as Assignments to Basecamp for SORTING
 
 #addtobasecamp/sorting
+
 
 ## SORTING Assignments Awaiting Completion by Students
 
@@ -101,7 +105,7 @@ kanban-plugin: basic
 - [ ] BGW_05212019_06042019 #wm2019photos #task #sort
 - [ ] BGW_06042019_06252019 #wm2019photos #task #sort
 - [ ] WCS_07302019_09182019 #wm2019photos #task #sort
-- [ ] WCS_06242019_07022019 #wm2019photos #task #sort
+
 
 ## Folders to Copy Subject Photos to Sub-Folder on Hard Drive
 
@@ -109,22 +113,22 @@ kanban-plugin: basic
 
 ## Folders to Match Subject Photos
 
+- [ ] [WCS_06242019_07022019](../notes/WCS_06242019_07022019.md) #wm2019photos #task #matchsubjects 
 - [ ] BGT_04182019_05212019 #wm2019photos #task #matchsubjects
-- [ ] BGT_05212019_06042019 #wm2019photos #task #matchsubjects 
-- [ ] BGW_5min_04182019_05212019 #wm2019photos #task #matchsubjects 
-- [ ] BGW_5min_05212019_06042019 #wm2019photos #task #matchsubjects 
-- [ ] BGW_5min_07302019_08032019 #wm2019photos #task #matchsubjects 
-- [ ] BGW_5min_04182019_05212019 #wm2019photos #task #matchsubjects 
-- [ ] BGW_5min_09182019_09182019 #wm2019photos #task #matchsubjects 
-- [ ] BGW_09182019_09182019 #wm2019photos #task #matchsubjects 
-- [ ] BGX_07302019_08172019 #wm2019photos #task #matchsubjects 
-- [ ] WCS_05152018_06092018 #wm2018photos #task #matchsubjects 
-- [ ] WCS_05212019_06032019 #wm2018photos #task #matchsubjects 
-- [ ] WCS_05262017_06142017 #wm2017photos #task #matchsubjects 
-- [ ] WCS_06242019_07022019 #wm2019photos #task #matchsubjects 
-- [ ] WCS_07302019_09182019 #wm2019photos #task #matchsubjects 
-- [ ] WCT_04252018_05152018 #wm2018photos #task #matchsubjects 
-- [ ] WCT_05152018_06112018 #wm2018photos #task #matchsubjects 
+- [ ] BGT_05212019_06042019 #wm2019photos #task #matchsubjects
+- [ ] BGW_5min_04182019_05212019 #wm2019photos #task #matchsubjects
+- [ ] BGW_5min_05212019_06042019 #wm2019photos #task #matchsubjects
+- [ ] BGW_5min_07302019_08032019 #wm2019photos #task #matchsubjects
+- [ ] BGW_5min_04182019_05212019 #wm2019photos #task #matchsubjects
+- [ ] BGW_5min_09182019_09182019 #wm2019photos #task #matchsubjects
+- [ ] BGW_09182019_09182019 #wm2019photos #task #matchsubjects
+- [ ] BGX_07302019_08172019 #wm2019photos #task #matchsubjects
+- [ ] WCS_05152018_06092018 #wm2018photos #task #matchsubjects
+- [ ] WCS_05212019_06032019 #wm2018photos #task #matchsubjects
+- [ ] WCS_05262017_06142017 #wm2017photos #task #matchsubjects
+- [ ] WCS_07302019_09182019 #wm2019photos #task #matchsubjects
+- [ ] WCT_04252018_05152018 #wm2018photos #task #matchsubjects
+- [ ] WCT_05152018_06112018 #wm2018photos #task #matchsubjects
 
 
 ## Folders to Chunk Subject Photos
@@ -138,7 +142,7 @@ kanban-plugin: basic
 - [ ] BGW_5min_09072020_12042020 #wm2019photos #task #chunk
 - [ ] BGW_06252019_07042019 #wm2019photos #task #chunk
 - [ ] BGW_07132020_09072020 #wm2020photos #task #chunk
-- [ ] BGW_07302019_08082019 #wm2019photos #task #chunk 
+- [ ] BGW_07302019_08082019 #wm2019photos #task #chunk
 - [ ] BGW_09072020_09242020 #wm2020photos #task #chunk
 - [ ] BGT_06252019_07302019 #wm2019photos #task #chunk
 - [ ] BGT_09182019_10152019 #wm2019photos #task #chunk
@@ -147,6 +151,7 @@ kanban-plugin: basic
 ## Folders to Extract Subject Photos
 
 #extractsubjphotos
+
 
 ## Folders to Copy into Blank Macro
 
@@ -159,12 +164,12 @@ kanban-plugin: basic
 - [ ] WCS_04192019_05212019 #wm2019photos #task #copytoxlsm
 - [ ] WCS_09182019_10162019 #wm2019photos #task #copytoxlsm
 - [ ] BGX_09182019_10062019 (missing some subjects text files) #wm2019photos #task #copytoxlsm
-- [ ] WCS_5min_07302019_09182019 #wm2019photos #task #copytoxlsm 
+- [ ] WCS_5min_07302019_09182019 #wm2019photos #task #copytoxlsm
+
 
 ## Folders to Upload to Box for SCORING
 
 - [ ] WCX_09082020_11092020 #wm2020photos #task #uploadtobox/scoring
-
 - [ ] BGT_07302019_09182019_subjects_chunk1 #task #wm2019photos #uploadtobox/scoring
 - [ ] BGT_07302019_09182019_subjects_chunk2 #task #wm2019photos #uploadtobox/scoring
 - [ ] BGT_07302019_09182019_subjects_chunk3 #task #wm2019photos #uploadtobox/scoring
@@ -175,6 +180,7 @@ kanban-plugin: basic
 
 #addtobasecamp/scoring
 
+
 ## SCORING Assignments Awaiting Completion by Students
 
 #scoring
@@ -184,31 +190,35 @@ kanban-plugin: basic
 
 #qc/ns
 
+
 ## Quality Check In Progress
 
 #qc/inprogress
 
+
 ## Quality Checked Completed
 #qc/completed
+
 
 
 ## Completed SCORING Assignments to Copy to Hard Drive
 
 #copytohdd/completed
 
+
 ## Chunks to Recombine
 
-#recombinechunks
 
-## Completed Folders 
+
+## Completed Folders
 
 - [ ] WCX_04192019_05212019 #wm2019photos #task #completed
-- [ ] WCX_05212019_07102019 #wm2019photos #task #completed 
-- [ ] WCX_07132020_09082020 #wm2020photos #task #completed 
-- [ ] WCX_09182019_10062019 #wm2019photos #task #completed 
-- [ ] WCS_5min_06032019_06242019 #wm2019photos #task #completed 
-- [ ] WCS_5min_09082020_09162020 #wm2020photos #task #completed 
-- [ ] BGW_05262017_06042017 #wm2017photos #task #completed 
+- [ ] WCX_05212019_07102019 #wm2019photos #task #completed
+- [ ] WCX_07132020_09082020 #wm2020photos #task #completed
+- [ ] WCX_09182019_10062019 #wm2019photos #task #completed
+- [ ] WCS_5min_06032019_06242019 #wm2019photos #task #completed
+- [ ] WCS_5min_09082020_09162020 #wm2020photos #task #completed
+- [ ] BGW_05262017_06042017 #wm2017photos #task #completed
 
 
 ## Scoring Backlog
@@ -218,19 +228,19 @@ kanban-plugin: basic
 ## Chunks That Are Missing or Need to Be Completed
 
 - [ ] WCS_5min_07132020_09072020_subjects_chunk2 #wm2020photos #task #missing
-- [ ] WCS_07132020_09072020_subjects_chunk1 #wm2020photos #task #missing 
-- [ ] WCS_07132020_09072020_subjects_chunk2 #wm2020photos #task #missing 
-- [ ] WCS_07132020_09072020_subjects_chunk3 #wm2020photos #task #missing 
-- [ ] WCS_07132020_09072020_subjects_chunk4 #wm2020photos #task #missing  
-- [ ] WCS_07132020_09072020_subjects_chunk5 #wm2020photos #task #missing 
-- [ ] WCS_09082020_12042020_subjects_chunk1 #wm2020photos #task #missing 
-- [ ] WCS_09082020_12042020_subjects_chunk2 #wm2020photos #task #missing 
-- [ ] BGT_07302019_09182019 (need to copy to xlsm file) #wm2019photos #task #missing 
+- [ ] WCS_07132020_09072020_subjects_chunk1 #wm2020photos #task #missing
+- [ ] WCS_07132020_09072020_subjects_chunk2 #wm2020photos #task #missing
+- [ ] WCS_07132020_09072020_subjects_chunk3 #wm2020photos #task #missing
+- [ ] WCS_07132020_09072020_subjects_chunk4 #wm2020photos #task #missing
+- [ ] WCS_07132020_09072020_subjects_chunk5 #wm2020photos #task #missing
+- [ ] WCS_09082020_12042020_subjects_chunk1 #wm2020photos #task #missing
+- [ ] WCS_09082020_12042020_subjects_chunk2 #wm2020photos #task #missing
+- [ ] BGT_07302019_09182019 (need to copy to xlsm file) #wm2019photos #task #missing
 
 
 ## Folders with Duplicate Photos
 
-- [ ] WCT_07232017_08122017 (duplicate photos?) #wm2017photos #task #rename 
+- [ ] WCT_07232017_08122017 (duplicate photos?) #wm2017photos #task #rename
 - [ ] WCT_08122017_08282017 (duplicate photos?) #wm2017photos #task #rename
 - [ ] WCT_08252018_09302018 (duplicate photos?) #wm2018photos #task #rename
 - [ ] WCT_08282017_09112017 (duplicate photos?) #wm2017photos #task #rename
@@ -239,9 +249,10 @@ kanban-plugin: basic
 - [ ] WCT_07232017_08122017 (duplicate photos?) #wm2017photos #task #rename
 - [ ] WCT_08122017_08282017 (duplicate photos?) #wm2017photos #task #rename
 - [ ] WCT_08252018_09302018 (duplicate photos?) #wm2018photos #task #rename
-- [ ] WCT_08282017_09112017 (duplicate photos?) #wm2017photos #task #rename 
-- [ ] WCT_09142017_10082017 (duplicate photos?) #wm2017photos #task #rename 
-- [ ] WCT_10082017_11042017 (duplicate photos?) #wm2017photos #task #rename 
+- [ ] WCT_08282017_09112017 (duplicate photos?) #wm2017photos #task #rename
+- [ ] WCT_09142017_10082017 (duplicate photos?) #wm2017photos #task #rename
+- [ ] WCT_10082017_11042017 (duplicate photos?) #wm2017photos #task #rename
+
 
 ***
 
