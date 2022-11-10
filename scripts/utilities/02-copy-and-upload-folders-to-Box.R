@@ -20,7 +20,7 @@ source("~/grazing-interaction/functions.R")
 
 # create a variable to hold the file name in case we switch to a different project
 # and the file name is different we can switch it once here
-file <- "Heber Kanban.md"
+file <- "Cameratraps2 Kanban.md"
 
 # read in the kanban board for the Heber project
 project_kanban <- readr::read_lines(
@@ -78,6 +78,9 @@ cameratraps2_folders_to_copy_df <-
   cameratraps2_path_constructor(cameratraps2_folders_to_copy)
 
 folders_to_copy <- dplyr::bind_rows(cameratraps_folders_to_copy_df, cameratraps2_folders_to_copy_df)
+
+# grab first 5 folders to upload to avoid taking up too much space on HDD
+folders_to_copy <- folders_to_copy[1:5, ]
 
 # Copy Folders to Box -----------------------------------------------------
 
