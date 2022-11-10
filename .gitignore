@@ -67,3 +67,5 @@ archived
 .obsidian/workspace
 
 .rpushbullet.json
+.boxr.auth
+token.json
