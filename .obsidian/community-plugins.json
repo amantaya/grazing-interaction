@@ -9,5 +9,6 @@
   "templater-obsidian",
   "obsidian-zotero-desktop-connector",
   "obsidian-kanban",
-  "obsidian-gist"
+  "obsidian-gist",
+  "tag-wrangler"
 ]
