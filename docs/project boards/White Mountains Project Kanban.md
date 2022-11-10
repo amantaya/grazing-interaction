@@ -4,7 +4,7 @@ kanban-plugin: basic
 
 ---
 
-## Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
+## Photos That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
 - [ ] WCS_05262017_06142017 #wm2017photos #task #rename
 - [ ] WCS_05152018_06092018 #wm2018photos #task #rename
@@ -77,43 +77,37 @@ kanban-plugin: basic
 
 ## Folders to Copy to Hard Drive
 
-#copytohdd
 
 
 ## Folders to Upload for SORTING
 
-#uploadtobox/sorting
 
 
 ## Folders Currently Uploading
 
-#uploadingtobox
 
 
 ## Folders to Add as Assignments to Basecamp for SORTING
 
-#addtobasecamp/sorting
 
 
 ## SORTING Assignments Awaiting Completion by Students
 
-- [ ] WCS_04252018_05152018 #wm2018photos #task #sort
-- [ ] WCS_07222017_07252017 #wm2017photos #task #sort
-- [ ] WCT_04192019_05212019 #wm2019photos #task #sort
-- [ ] WCT_09302018_10302018 #wm2018photos #task #sort
-- [ ] BGW_04182019_05212019 #wm2019photos #task #sort
-- [ ] BGW_05212019_06042019 #wm2019photos #task #sort
-- [ ] BGW_06042019_06252019 #wm2019photos #task #sort
-- [ ] WCS_07302019_09182019 #wm2019photos #task #sort
+- [ ] BGW_04182019_05212019 #wm2019photos #task #sorting
+- [ ] BGW_05212019_06042019 #wm2019photos #task #sorting
+- [ ] BGW_06042019_06252019 #wm2019photos #task #sorting
+- [ ] WCT_04192019_05212019 #wm2019photos #task #sorting
+- [ ] WCT_09302018_10302018 #wm2018photos #task #sorting
+- [ ] WCS_04252018_05152018 #wm2018photos #task #sorting
 
 
 ## Folders to Copy Subject Photos to Sub-Folder on Hard Drive
 
- #copysubjtohdd 
+
 
 ## Folders to Match Subject Photos
 
-- [ ] [WCS_06242019_07022019](../notes/WCS_06242019_07022019.md) #wm2019photos #task #matchsubjects 
+- [ ] [WCS_06242019_07022019](../notes/WCS_06242019_07022019.md) #wm2019photos #task #matchsubjects
 - [ ] BGT_04182019_05212019 #wm2019photos #task #matchsubjects
 - [ ] BGT_05212019_06042019 #wm2019photos #task #matchsubjects
 - [ ] BGW_5min_04182019_05212019 #wm2019photos #task #matchsubjects
@@ -150,7 +144,6 @@ kanban-plugin: basic
 
 ## Folders to Extract Subject Photos
 
-#extractsubjphotos
 
 
 ## Folders to Copy into Blank Macro
@@ -178,32 +171,26 @@ kanban-plugin: basic
 
 ## Folders to Add to Basecamp as SCORING Assignments
 
-#addtobasecamp/scoring
 
 
 ## SCORING Assignments Awaiting Completion by Students
 
-#scoring
 
 
 ## Quality Check Not Started
 
-#qc/ns
 
 
 ## Quality Check In Progress
 
-#qc/inprogress
 
 
 ## Quality Checked Completed
-#qc/completed
 
 
 
 ## Completed SCORING Assignments to Copy to Hard Drive
 
-#copytohdd/completed
 
 
 ## Chunks to Recombine
@@ -302,6 +289,8 @@ kanban-plugin: basic
 - [x] 2022-09-12 14:46:44 BGT_05212019_06042019 #wm2019photos #task ✅ 2022-09-12
 - [x] 2022-09-12 14:46:44 WCS_07302019_09182019 #wm2019photos #task ✅ 2022-09-12
 - [x] 2022-09-12 14:46:44 WCS_06242019_07022019 #wm2019photos #task ✅ 2022-09-12
+- [x] 2022-11-10 10:12:03 WCS_07302019_09182019 #wm2019photos #task #sorting ✅ 2022-11-10
+- [x] 2022-11-10 10:20:22 WCS_07222017_07252017 #wm2017photos #task #sorting ✅ 2022-11-10
 
 %% kanban:settings
 ```
