@@ -90,6 +90,33 @@ to <- file.path(path_to_local_data, folders_to_copy$collection_folder)
 
 fs::dir_copy(path = from, new_path = to, overwrite = TRUE)
 
+# Update Kanban Board -----------------------------------------------------
+
+lines_to_write <- folders_to_copy$collection_folder
+
+markdown_checkbox_characters <- "- [ ] "
+
+tags <- "#task #uploadtobox/sorting"
+
+# add task characters for Obsidian markdown
+lines_to_write <- stringr::str_c(markdown_checkbox_characters, lines_to_write)
+
+# add tags for Obsidian markdown
+lines_to_write <- stringr::str_c(lines_to_write, tags, sep = " ")
+
+# create a temporary markdown file to copy and paste into the Kanban
+file <- "Folders to Upload to Box.md"
+
+path <- file.path(
+  "~",
+  "grazing-interaction",
+  "docs",
+  "tasks",
+  file)
+
+# write to markdown file
+readr::write_lines(lines_to_write, path)
+
 # get the current system time to notify when the script is completed
 # note that this defaults to UTC (aka Greenwich Mean Time)
 system_time <- Sys.time()
