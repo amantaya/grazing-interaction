@@ -7,7 +7,7 @@ kanban-plugin: basic
 
 ## Daily Tasks
 
-## Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
+## Photos That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
 
 
@@ -86,24 +86,26 @@ kanban-plugin: basic
 
 ## Folders Currently Uploading
 
-- [ ] #task BUO01_20210625_20210723 #cameratraps2/2021 
-- [ ] #task BUO01_20210723_20210804 #cameratraps2/2021
-- [ ] #task BUO07_20210625_20210723 #cameratraps2/2021
-- [ ] #task BUO07_20210723_20210804 #cameratraps2/2021
-- [ ] #task BUO07_20210804_20220107 #cameratraps2/2021
-- [ ] #task BUO23_20210525_20210624 #cameratraps2/2021
-- [ ] #task BUO23_20210624_20210723 #cameratraps2/2021
-- [ ] #task BUO29_20210624_20210722 #cameratraps2/2021
+
 
 
 ## Folders to Add as Assignments to Basecamp for SORTING
 
-- [ ] #task BUO01_20150101_20210804 #cameratraps2/2021
+
+
 
 
 ## SORTING Assignments Awaiting Completion by Students
 
-
+- [ ] BUO01_20150101_20210804 #cameratraps2/2021 #task #sorting 
+- [ ] BUO01_20210625_20210723 #cameratraps2/2021 #task #sorting 
+- [ ] BUO01_20210723_20210804 #cameratraps2/2021 #task #sorting 
+- [ ] BUO07_20210625_20210723 #cameratraps2/2021 #task #sorting 
+- [ ] BUO07_20210723_20210804 #cameratraps2/2021 #task #sorting 
+- [ ] BUO07_20210804_20220107 #cameratraps2/2021 #task #sorting 
+- [ ] BUO23_20210525_20210624 #cameratraps2/2021 #task #sorting 
+- [ ] BUO23_20210624_20210723 #cameratraps2/2021 #task #sorting 
+- [ ] BUO29_20210624_20210722 #cameratraps2/2021 #task #sorting 
 
 ## Folders to Copy Subject Photos to Sub-Folder on Hard Drive
 
