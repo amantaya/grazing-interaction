@@ -8,7 +8,7 @@ kanban-plugin: basic
 ## Daily Tasks
 
 
-## Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
+## Photos That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
 
 
