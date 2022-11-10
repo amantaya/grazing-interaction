@@ -117,6 +117,8 @@ path <- file.path(
 # write to markdown file
 readr::write_lines(lines_to_write, path)
 
+# Send Push Notification --------------------------------------------------
+
 # get the current system time to notify when the script is completed
 # note that this defaults to UTC (aka Greenwich Mean Time)
 system_time <- Sys.time()
