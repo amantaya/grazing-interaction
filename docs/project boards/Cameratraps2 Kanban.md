@@ -86,13 +86,12 @@ kanban-plugin: basic
 
 ## Folders Currently Uploading
 
-
-
+#uploadtobox/sorting 
 
 ## Folders to Add as Assignments to Basecamp for SORTING
 
 
-
+#addtobasecamp
 
 
 ## SORTING Assignments Awaiting Completion by Students
