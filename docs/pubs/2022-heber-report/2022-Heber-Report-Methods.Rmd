@@ -120,6 +120,8 @@ heber_veg_sites <- heber_2021_canopy_cover %>%
   tidyr::drop_na() %>%
   dplyr::rename(Site = value)
 
+# TODO move this outside of the notebook chunk
+
 heber_veg_sites <- heber_veg_sites %>% dplyr::mutate(Allotment =
                                     dplyr::if_else(
                                       Site == "SHPT" |
@@ -226,7 +228,10 @@ established in June 2021 before summer monsoon rainfall and potential
 corresponding vegetation response.
 
 ```{r label="Photo Grazing Exclosures at Bear", echo=FALSE, fig.cap="Example of three grazing exclosures at the Bear site, July 2021."}
-knitr::include_graphics("images/2021-bear-grazing-exclosures.JPG")
+
+knitr::include_graphics(
+  file.path("images/2021-bear-exclosures.JPG"))
+
 ```
 
 We clipped each of the (5) 1 m^2^ grazing exclosures in November 2021.
@@ -362,7 +367,10 @@ summarized plant cover at each site by averaging the class mid-point for
 each species detected at each site.
 
 ```{r Photo Monitoring GETPBG, echo=FALSE, fig.cap="Monitoring At the GETPBG site, November 2021."}
-knitr::include_graphics("images/monitoring-GETPBG.jpg")
+
+knitr::include_graphics(
+  file.path("images/monitoring-GETPBG.jpg"))
+
 ```
 
 ## Landscape Appearance
