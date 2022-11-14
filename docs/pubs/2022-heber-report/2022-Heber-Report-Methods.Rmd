@@ -74,7 +74,7 @@ pastures that were outside of the HWHT. We generated random points for
 each area that were stratified by Terrestrial Ecosystem Unit (TEUs) to
 ensure that we captured a range of vegetation types on and off the HWHT.
 From these stratified random points, we selected 15 sites on the HWHT
-and 10 sites off the HWHT on adjacent lands. We chose an un-even
+and 10 sites off the HWHT on adjacent lands. We chose an uneven
 distribution of camera sites because our focus was on movements within
 the HWHT and we wanted to prioritize capturing movements of animals
 within the HWHT.
@@ -96,7 +96,7 @@ identified as areas of potential high use/congregation of horses based
 on aerial observations of horses by USFS personnel conducted in 2021. We
 recognize that these key areas may not be necessarily representative of
 vegetation attributes for each pasture, but represent areas that are
-potentially impacted by high use and are of concern for range managers.
+potentially impacted by high use and are of concern for range managers. These high-use areas are also more likely to show a response to management actions when compared to low-use areas. 
 To select these 5 additional sites, we first generated additional
 stratified random points using the same criteria we used to select
 motion camera sites. We then selected stratified random points that fell
