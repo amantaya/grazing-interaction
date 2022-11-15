@@ -54,13 +54,15 @@ print(heber_2021_landscape_appearance)
 
 ```{r}
 heber_2021_landscape_appearance <- heber_2021_landscape_appearance %>% 
-  dplyr::select(-c("ProtocolType", "FormName", "Element"))
+  dplyr::select(-c("ProtocolType", 
+                   "FormName", 
+                   "Element"))
 print(heber_2021_landscape_appearance)
 ```
 
 ## Rename Columns
 
-Some of the column names have changed between versions of VGS. We will rename these columns so that they are consistent between years.
+Some of the column names have changed between versions of VGS. We will rename these columns so that they are consistent between years. 
 
 ```{r}
 heber_2021_landscape_appearance <- heber_2021_landscape_appearance %>% 
@@ -80,7 +82,7 @@ heber_2021_landscape_appearance %>%
 print(heber_2021_landscape_appearance)
 ```
 
-Create a new column "Year" to make this data conistent with data from other years.
+Create a new column "Year" to make this data consistent with data from other years.
 
 ```{r}
 heber_2021_landscape_appearance <- 
