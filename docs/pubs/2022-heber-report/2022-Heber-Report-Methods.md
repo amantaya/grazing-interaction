@@ -1,7 +1,7 @@
 ---
 title: "2022 Heber Report- Methods"
 author: "Andrew Antaya"
-date: "2022-11-14 16:29:56"
+date: "2022-11-14 17:02:50"
 output:
   bookdown::word_document2:
     toc: yes
@@ -54,7 +54,7 @@ pastures that were outside of the HWHT. We generated random points for
 each area that were stratified by Terrestrial Ecosystem Unit (TEUs) to
 ensure that we captured a range of vegetation types on and off the HWHT.
 From these stratified random points, we selected 15 sites on the HWHT
-and 10 sites off the HWHT on adjacent lands. We chose an un-even
+and 10 sites off the HWHT on adjacent lands. We chose an uneven
 distribution of camera sites because our focus was on movements within
 the HWHT and we wanted to prioritize capturing movements of animals
 within the HWHT.
@@ -76,7 +76,7 @@ identified as areas of potential high use/congregation of horses based
 on aerial observations of horses by USFS personnel conducted in 2021. We
 recognize that these key areas may not be necessarily representative of
 vegetation attributes for each pasture, but represent areas that are
-potentially impacted by high use and are of concern for range managers.
+potentially impacted by high use and are of concern for range managers. These high-use areas are also likely to show a response to management actions when compared to low-use areas. 
 To select these 5 additional sites, we first generated additional
 stratified random points using the same criteria we used to select
 motion camera sites. We then selected stratified random points that fell
@@ -138,9 +138,10 @@ We combined bag weights from 3 sub-plots together for each exclosure
 plot (with the exception of the Only Ponderosa site). We converted the
 bag weights to g/m^2^ by dividing the weight in grams by the area
 sampled, 0.48 m^2^ for all sites except for
-the Only Ponderosa site, which was 1 m^2^. We estimated production at
-each site by taking the average g/m^2^ for all exclosure plots at each
-site.
+the Only Ponderosa site, which was 1 m^2^. At each site, we estimated production at by taking the average g/m^2^ of exclosure plots and converted g/m^2^ to kg/ha by multiplying g/m^2^ by 10.
+
+
+
 
 
 
