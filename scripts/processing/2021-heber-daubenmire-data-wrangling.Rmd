@@ -23,7 +23,7 @@ editor_options:
 
 ```{r knitr setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_chunk$set(root.dir = file.path(currentwd))
+# knitr::opts_chunk$set(root.dir = file.path(currentwd))
 knitr_opts <- knitr::opts_chunk$get()
 ```
 
@@ -38,12 +38,12 @@ source(file.path(currentwd, "functions.R"))
 # Load Data
 
 ```{r load data}
-path <- file.path(path_to_data_input_folder, "vgs", "2022-04-08-vgs-export.xlsx")
+file <- file.path(currentwd, "data", "vgs", "2022-04-08-vgs-export.xlsx")
 
-sheets <- openxlsx::getSheetNames(file = path)
+sheets <- openxlsx::getSheetNames(file = file)
 
 vgs_data <- lapply(sheets, openxlsx::read.xlsx, 
-                   xlsxFile = path, 
+                   xlsxFile = file, 
                    na.strings = c("NA", " ", ""))
 ```
 
@@ -97,5 +97,10 @@ canopy_cover_df <- canopy_cover_df %>%
 ```
 
 ```{r}
-readr::write_csv(canopy_cover_df, file.path(path_to_user_folder, "grazing_data", "data", "canopy-cover", "2021-heber-canopy-cover.csv"))
+readr::write_csv(canopy_cover_df, 
+                 file.path(currentwd,
+                           "data", 
+                           "canopy-cover", 
+                           "heber", 
+                           "2021-heber-canopy-cover.csv"))
 ```
