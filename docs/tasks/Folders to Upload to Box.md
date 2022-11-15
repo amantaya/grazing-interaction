@@ -1,3 +1,4 @@
+# Folders to Upload to Box
 - [ ] GET06_20210722_20220106 #task #uploadtobox/sorting
 - [ ] SHT15_20210527_20210611 #task #uploadtobox/sorting
 - [ ] BUT12_20210527_20210622 #task #uploadtobox/sorting
