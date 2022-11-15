@@ -4,7 +4,8 @@
     "Templates/Zettlekasten Note Template.md": null,
     "docs/notes/White Mountains Project Kanban.md": null,
     "docs/project boards/Heber Kanban.md": null,
-    "docs/project boards/White Mountains Project Kanban.md": null
+    "docs/project boards/White Mountains Project Kanban.md": null,
+    "docs/project boards/Cameratraps2 Kanban.md": null
   },
   "ignoreRegex": "Templates/*.",
   "useFileOpenHook": true,
