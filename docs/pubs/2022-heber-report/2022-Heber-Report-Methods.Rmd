@@ -97,6 +97,7 @@ on aerial observations of horses by USFS personnel conducted in 2021. We
 recognize that these key areas may not be necessarily representative of
 vegetation attributes for each pasture, but represent areas that are
 potentially impacted by high use and are of concern for range managers. These high-use areas are also more likely to show a response to management actions when compared to low-use areas. 
+potentially impacted by high use and are of concern for range managers. These high-use areas are also likely to show a response to management actions when compared to low-use areas. 
 To select these 5 additional sites, we first generated additional
 stratified random points using the same criteria we used to select
 motion camera sites. We then selected stratified random points that fell
@@ -309,9 +310,16 @@ We combined bag weights from 3 sub-plots together for each exclosure
 plot (with the exception of the Only Ponderosa site). We converted the
 bag weights to g/m^2^ by dividing the weight in grams by the area
 sampled, `r total_area_three_frames_m2` m^2^ for all sites except for
-the Only Ponderosa site, which was 1 m^2^. We estimated production at
-each site by taking the average g/m^2^ for all exclosure plots at each
-site.
+the Only Ponderosa site, which was 1 m^2^. At each site, we estimated production at by taking the average g/m^2^ of exclosure plots and converted g/m^2^ to kg/ha by multiplying g/m^2^ by 10.
+
+```{r Example Conversion to kg/ha, include=FALSE}
+
+grams_per_m2 <- units::set_units(200, g/m^2)
+
+units::set_units(grams_per_m2, kg/ha)
+
+```
+
 
 ```{r Calculate Sample Area 1 Frame, include=FALSE}
 # length of quadrat dimension X (in centimeters)
