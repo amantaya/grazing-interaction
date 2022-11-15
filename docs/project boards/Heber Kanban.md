@@ -56,12 +56,12 @@ kanban-plugin: basic
 - [ ] #task BRL_03062018_04112018 #heber2018photos
 
 
-
 ## Folders to Copy to Hard Drive
 
 
 
 ## Folders to Upload for SORTING
+
 
 
 ## Folders Currently Uploading
@@ -128,7 +128,7 @@ kanban-plugin: basic
 - [ ] #task OPO_20210805_20210816 #heber2021photos
 - [ ] #task OPO_20210723_20210805 #heber2021photos
 - [ ] #task FLO_05282021_06112021 #heber2021photos
-- [ ] #task A51_06252021_07162021 #heber2021photos
+- [ ] #task [A51_06252021_07162021](../notes/A51_06252021_07162021.md) #heber2021photos
 - [ ] #task [HPL_05282021_06212021](../tasks/HPL_05282021_06212021.md) #heber2021photos
 - [ ] A51_06112019_07022019_subjects_chunk1 #task #heber2019photos
 - [ ] A51_07022019_08132019_subjects_chunk1 #task #heber2019photos
@@ -143,7 +143,7 @@ kanban-plugin: basic
 - [ ] BKD_07022019_08132019_subjects_chunk1 #task #heber2019photos
 - [ ] BKD_07022019_08132019_subjects_chunk2 #task #heber2019photos
 - [ ] BKD_07022019_08132019_subjects_chunk3 #task #heber2019photos
-
+- [ ] BKS_07202018_08242018 #task #heber2018photos 
 
 ## Quality Check In Progress
 
@@ -172,7 +172,7 @@ kanban-plugin: basic
 
 - [ ] BKS_01112018_02132018 #task #heber2018photos
 - [ ] BKS_05102018_07202018 #task #heber2018photos
-- [ ] BKS_07202018_08242018 #task #heber2018photos
+
 - [ ] BKS_02132018_02232018 #task #heber2018photos
 
 
