@@ -21,15 +21,14 @@ editor_options:
 
 ## Landscape Appearance
 
-```{r label='Landscape Appearance', echo=FALSE, fig.cap=''}
+
+
+```{r label='Landscape Appearance', echo=FALSE, fig.cap='Average Percent Utilization +- 95% confidence interval using the landscape appearance method at 10 sites before the monsoon (blue) and after the monsoon (yellow) on the Black Mesa Range Distric of the Apache-Sitgreaves National Forest.'}
 
 knitr::include_graphics(
-  file.path("../../figures/landscape-appearance/2021-Heber-Landscape-Appearance-95CI.jpg"))
+  file.path("../../../figures/landscape-appearance/2021-Heber-Landscape-Appearance-95CI.jpg"))
 
 ```
-
-
-
 
 ## Canopy-Cover (Daubenmire)
 
