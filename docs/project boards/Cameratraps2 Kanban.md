@@ -3,9 +3,18 @@
 kanban-plugin: basic
 
 ---
-# Cameratraps2 Kanban
+
+## Cameratraps2 Kanban
+
+
+
+## Cameratraps2 Kanban
+
+
 
 ## Daily Tasks
+
+
 
 ## Photos That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
@@ -24,11 +33,6 @@ kanban-plugin: basic
 
 ## Folders to Upload for SORTING
 
-- [ ] #task GET06_20210722_20220106 #cameratraps2/2021
-- [ ] #task SHT15_20210527_20210611 #cameratraps2/2021
-- [ ] #task BUT12_20210527_20210622 #cameratraps2/2021
-- [ ] #task BUT12_20210622_20210723 #cameratraps2/2021
-- [ ] #task BUT19_20210527_20210623 #cameratraps2/2021
 - [ ] #task BUT19_20210623_20210723 #cameratraps2/2021
 - [ ] #task GEO02_20210723_20210805 #cameratraps2/2021
 - [ ] #task GEO32_20210526_20210609 #cameratraps2/2021
@@ -84,27 +88,32 @@ kanban-plugin: basic
 - [ ] #task STT29_20210623_20210722 #cameratraps2/2021
 - [ ] #task STT29_20210722_20220107 #cameratraps2/2021
 
+
 ## Folders Currently Uploading
 
-#uploadtobox/sorting 
+- [ ] GET06_20210722_20220106 #task #uploadtobox/sorting
+- [ ] SHT15_20210527_20210611 #task #uploadtobox/sorting
+- [ ] BUT12_20210527_20210622 #task #uploadtobox/sorting
+- [ ] BUT12_20210622_20210723 #task #uploadtobox/sorting
+- [ ] BUT19_20210527_20210623 #task #uploadtobox/sorting
+
 
 ## Folders to Add as Assignments to Basecamp for SORTING
 
 
-#addtobasecamp
-
 
 ## SORTING Assignments Awaiting Completion by Students
 
-- [ ] BUO01_20150101_20210804 #cameratraps2/2021 #task #sorting 
-- [ ] BUO01_20210625_20210723 #cameratraps2/2021 #task #sorting 
-- [ ] BUO01_20210723_20210804 #cameratraps2/2021 #task #sorting 
-- [ ] BUO07_20210625_20210723 #cameratraps2/2021 #task #sorting 
-- [ ] BUO07_20210723_20210804 #cameratraps2/2021 #task #sorting 
-- [ ] BUO07_20210804_20220107 #cameratraps2/2021 #task #sorting 
-- [ ] BUO23_20210525_20210624 #cameratraps2/2021 #task #sorting 
-- [ ] BUO23_20210624_20210723 #cameratraps2/2021 #task #sorting 
-- [ ] BUO29_20210624_20210722 #cameratraps2/2021 #task #sorting 
+- [ ] BUO01_20150101_20210804 #cameratraps2/2021 #task #sorting
+- [ ] BUO01_20210625_20210723 #cameratraps2/2021 #task #sorting
+- [ ] BUO01_20210723_20210804 #cameratraps2/2021 #task #sorting
+- [ ] BUO07_20210625_20210723 #cameratraps2/2021 #task #sorting
+- [ ] BUO07_20210723_20210804 #cameratraps2/2021 #task #sorting
+- [ ] BUO07_20210804_20220107 #cameratraps2/2021 #task #sorting
+- [ ] BUO23_20210525_20210624 #cameratraps2/2021 #task #sorting
+- [ ] BUO23_20210624_20210723 #cameratraps2/2021 #task #sorting
+- [ ] BUO29_20210624_20210722 #cameratraps2/2021 #task #sorting
+
 
 ## Folders to Copy Subject Photos to Sub-Folder on Hard Drive
 
@@ -139,7 +148,6 @@ kanban-plugin: basic
 
 
 
-
 ## Quality Check In Progress
 
 
@@ -167,7 +175,12 @@ kanban-plugin: basic
 ## Chunks That Are Missing or Need to Be Completed
 
 
+
 ## Folders with Duplicate Photos
+
+
+
+## Archive
 
 
 
@@ -175,6 +188,11 @@ kanban-plugin: basic
 
 ## Archive
 
+- [x] 2022-11-14 17:06:31 #task GET06_20210722_20220106 #cameratraps2/2021 ✅ 2022-11-14
+- [x] 2022-11-14 17:06:31 #task SHT15_20210527_20210611 #cameratraps2/2021 ✅ 2022-11-14
+- [x] 2022-11-14 17:06:31 #task BUT12_20210527_20210622 #cameratraps2/2021 ✅ 2022-11-14
+- [x] 2022-11-14 17:06:31 #task BUT12_20210622_20210723 #cameratraps2/2021 ✅ 2022-11-14
+- [x] 2022-11-14 17:06:31 #task BUT19_20210527_20210623 #cameratraps2/2021 ✅ 2022-11-14
 
 %% kanban:settings
 ```
