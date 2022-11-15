@@ -4,14 +4,6 @@ kanban-plugin: basic
 
 ---
 
-## Cameratraps2 Kanban
-
-
-
-## Cameratraps2 Kanban
-
-
-
 ## Daily Tasks
 
 
@@ -91,11 +83,6 @@ kanban-plugin: basic
 
 ## Folders Currently Uploading
 
-- [ ] GET06_20210722_20220106 #task #uploadtobox/sorting
-- [ ] SHT15_20210527_20210611 #task #uploadtobox/sorting
-- [ ] BUT12_20210527_20210622 #task #uploadtobox/sorting
-- [ ] BUT12_20210622_20210723 #task #uploadtobox/sorting
-- [ ] BUT19_20210527_20210623 #task #uploadtobox/sorting
 
 
 ## Folders to Add as Assignments to Basecamp for SORTING
@@ -113,6 +100,11 @@ kanban-plugin: basic
 - [ ] BUO23_20210525_20210624 #cameratraps2/2021 #task #sorting
 - [ ] BUO23_20210624_20210723 #cameratraps2/2021 #task #sorting
 - [ ] BUO29_20210624_20210722 #cameratraps2/2021 #task #sorting
+- [ ] GET06_20210722_20220106 #task #uploadtobox/sorting
+- [ ] SHT15_20210527_20210611 #task #uploadtobox/sorting
+- [ ] BUT12_20210527_20210622 #task #uploadtobox/sorting
+- [ ] BUT12_20210622_20210723 #task #uploadtobox/sorting
+- [ ] BUT19_20210527_20210623 #task #uploadtobox/sorting
 
 
 ## Folders to Copy Subject Photos to Sub-Folder on Hard Drive
