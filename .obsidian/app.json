@@ -28,5 +28,5 @@
   "autoPairMarkdown": true,
   "readableLineLength": false,
   "strictLineBreaks": true,
-  "newLinkFormat": "relative"
+  "newLinkFormat": "shortest"
 }
