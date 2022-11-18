@@ -79,7 +79,7 @@ cameratraps2_folders_to_copy_df <-
 
 folders_to_copy <- dplyr::bind_rows(cameratraps_folders_to_copy_df, cameratraps2_folders_to_copy_df)
 
-# grab first 5 folders to upload to avoid taking up too much space on HDD
+# grab first 10 folders to upload to avoid taking up too much space on HDD
 folders_to_copy <- folders_to_copy[1:10, ]
 
 # Copy Folders to Box -----------------------------------------------------
