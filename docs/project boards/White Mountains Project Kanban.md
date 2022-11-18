@@ -107,7 +107,7 @@ kanban-plugin: basic
 ## Folders to Match Subject Photos
 
 - [ ] WCT_04192019_05212019 #wm2019photos #task #sorting
-- [ ] [WCS_06242019_07022019](../notes/WCS_06242019_07022019.md) #wm2019photos #task #matchsubjects
+- [ ] [WCS_06242019_07022019](../tasks/WCS_06242019_07022019.md) #wm2019photos #task #matchsubjects
 - [ ] BGT_04182019_05212019 #wm2019photos #task #matchsubjects
 - [ ] BGT_05212019_06042019 #wm2019photos #task #matchsubjects
 - [ ] BGW_5min_04182019_05212019 #wm2019photos #task #matchsubjects
@@ -117,7 +117,7 @@ kanban-plugin: basic
 - [ ] BGW_5min_09182019_09182019 #wm2019photos #task #matchsubjects
 - [ ] BGW_09182019_09182019 #wm2019photos #task #matchsubjects
 - [ ] BGX_07302019_08172019 #wm2019photos #task #matchsubjects
-- [ ] [WCS_05152018_06092018](../notes/WCS_05152018_06092018.md) #wm2018photos #task #matchsubjects
+- [ ] [WCS_05152018_06092018](../tasks/WCS_05152018_06092018.md) #wm2018photos #task #matchsubjects
 - [ ] WCS_05212019_06032019 #wm2018photos #task #matchsubjects
 - [ ] WCS_05262017_06142017 #wm2017photos #task #matchsubjects
 - [ ] WCS_07302019_09182019 #wm2019photos #task #matchsubjects
