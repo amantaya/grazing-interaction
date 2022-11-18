@@ -62,5 +62,15 @@
       ],
       "key": "K"
     }
+  ],
+  "obsidian-kanban:archive-completed-cards": [
+    {
+      "modifiers": [
+        "Alt",
+        "Mod",
+        "Shift"
+      ],
+      "key": "K"
+    }
   ]
 }
