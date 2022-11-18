@@ -1,0 +1,9 @@
+# Folders to Upload to Box
+- [ ] GEO02_20210805_20210907 #task #uploadtobox/sorting
+- [ ] GEO30_20210723_20211016 #task #uploadtobox/sorting
+- [ ] GEO32_20210805_20220108 #task #uploadtobox/sorting
+- [ ] GET01_20210722_20220108 #task #uploadtobox/sorting
+- [ ] GET13_20210723_20220107 #task #uploadtobox/sorting
+- [ ] GET21_20210724_20220107 #task #uploadtobox/sorting
+- [ ] GET22_20210724_20220107 #task #uploadtobox/sorting
+- [ ] KPT14_20210722_20220106 #task #uploadtobox/sorting
