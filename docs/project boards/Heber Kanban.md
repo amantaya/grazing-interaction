@@ -110,7 +110,7 @@ kanban-plugin: basic
 
 - [ ] #task FLO_20210806_20210820 #heber2021photos
 - [ ] #task OPO_06212021_06252021 #heber2021photos
-- [ ] #task [HPL_06212021_07232021](../notes/HPL_06212021_07232021.md) #heber2021photos
+- [ ] #task [HPL_06212021_07232021](../tasks/HPL_06212021_07232021.md) #heber2021photos
 - [ ] #task HPL_20210805_20290907 #heber2021photos
 - [ ] #task BRL_20210805_20211001 #heber2021photos
 - [ ] #task HPL_20210723_20210805 #heber2021photos
