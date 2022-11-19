@@ -1,9 +1,0 @@
-- [ ] SHT15_20210723_20211212 #task #uploadtobox/sorting
-- [ ] SHT18_20210622_20210722 #task #uploadtobox/sorting
-- [ ] SHT18_20210722_20210805 #task #uploadtobox/sorting
-- [ ] SHT18_20210805_20220107 #task #uploadtobox/sorting
-- [ ] STO09_20210722_20220107 #task #uploadtobox/sorting
-- [ ] STO39_20210723_20220106 #task #uploadtobox/sorting
-- [ ] STT29_20210527_20210623 #task #uploadtobox/sorting
-- [ ] STT29_20210623_20210722 #task #uploadtobox/sorting
-- [ ] STT29_20210722_20220107 #task #uploadtobox/sorting
