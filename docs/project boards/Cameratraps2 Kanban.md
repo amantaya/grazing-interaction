@@ -40,15 +40,6 @@ kanban-plugin: basic
 
 ## Folders to Upload for SORTING
 
-- [ ] SHT15_20210723_20211212 #cameratraps2/2021 #task #uploadtobox/sorting
-- [ ] SHT18_20210622_20210722 #cameratraps2/2021 #task #uploadtobox/sorting
-- [ ] SHT18_20210722_20210805 #cameratraps2/2021 #task #uploadtobox/sorting
-- [ ] SHT18_20210805_20220107 #cameratraps2/2021 #task #uploadtobox/sorting
-- [ ] STO09_20210722_20220107 #cameratraps2/2021 #task #uploadtobox/sorting
-- [ ] STO39_20210723_20220106 #cameratraps2/2021 #task #uploadtobox/sorting
-- [ ] STT29_20210527_20210623 #cameratraps2/2021 #task #uploadtobox/sorting
-- [ ] STT29_20210623_20210722 #cameratraps2/2021 #task #uploadtobox/sorting
-- [ ] STT29_20210722_20220107 #cameratraps2/2021 #task #uploadtobox/sorting
 
 
 ## Folders Currently Uploading
@@ -61,7 +52,15 @@ kanban-plugin: basic
 - [ ] GET21_20210724_20220107 #task #uploadtobox/sorting
 - [ ] GET22_20210724_20220107 #task #uploadtobox/sorting
 - [ ] KPT14_20210722_20220106 #task #uploadtobox/sorting
-
+- [ ] SHT15_20210723_20211212 #task #uploadtobox/sorting
+- [ ] SHT18_20210622_20210722 #task #uploadtobox/sorting
+- [ ] SHT18_20210722_20210805 #task #uploadtobox/sorting
+- [ ] SHT18_20210805_20220107 #task #uploadtobox/sorting
+- [ ] STO09_20210722_20220107 #task #uploadtobox/sorting
+- [ ] STO39_20210723_20220106 #task #uploadtobox/sorting
+- [ ] STT29_20210527_20210623 #task #uploadtobox/sorting
+- [ ] STT29_20210623_20210722 #task #uploadtobox/sorting
+- [ ] STT29_20210722_20220107 #task #uploadtobox/sorting
 
 ## Folders to Add as Assignments to Basecamp for SORTING
 
@@ -212,6 +211,15 @@ kanban-plugin: basic
 - [x] 2022-11-18 15:44:54 GET21_20210724_20220107 #cameratraps2/2021 #task #uploadtobox/sorting ✅ 2022-11-18
 - [x] 2022-11-18 15:44:54 GET22_20210724_20220107 #cameratraps2/2021 #task #uploadtobox/sorting ✅ 2022-11-18
 - [x] 2022-11-18 15:44:54 KPT14_20210722_20220106 #cameratraps2/2021 #task #uploadtobox/sorting ✅ 2022-11-18
+- [x] 2022-11-18 17:13:42 SHT15_20210723_20211212 #cameratraps2/2021 #task #uploadtobox/sorting
+- [x] 2022-11-18 17:13:42 SHT18_20210622_20210722 #cameratraps2/2021 #task #uploadtobox/sorting
+- [x] 2022-11-18 17:13:42 SHT18_20210722_20210805 #cameratraps2/2021 #task #uploadtobox/sorting
+- [x] 2022-11-18 17:13:42 SHT18_20210805_20220107 #cameratraps2/2021 #task #uploadtobox/sorting
+- [x] 2022-11-18 17:13:42 STO09_20210722_20220107 #cameratraps2/2021 #task #uploadtobox/sorting
+- [x] 2022-11-18 17:13:42 STO39_20210723_20220106 #cameratraps2/2021 #task #uploadtobox/sorting
+- [x] 2022-11-18 17:13:42 STT29_20210527_20210623 #cameratraps2/2021 #task #uploadtobox/sorting
+- [x] 2022-11-18 17:13:42 STT29_20210623_20210722 #cameratraps2/2021 #task #uploadtobox/sorting
+- [x] 2022-11-18 17:13:42 STT29_20210722_20220107 #cameratraps2/2021 #task #uploadtobox/sorting
 
 %% kanban:settings
 ```
