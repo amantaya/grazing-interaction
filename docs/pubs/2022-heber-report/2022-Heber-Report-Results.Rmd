@@ -21,7 +21,11 @@ editor_options:
 
 ## Landscape Appearance
 
+Write results here.
 
+The on-territory sites had overall low utilization during June and November. The GETPBG site had the highest apparent use at 8.4% in June and 23% in November. 
+
+The off-territory sites had overall 
 
 ```{r label='Landscape Appearance', echo=FALSE, fig.cap='Average Percent Utilization +- 95% confidence interval using the landscape appearance method at 10 sites before the monsoon (blue) and after the monsoon (yellow) on the Black Mesa Range Distric of the Apache-Sitgreaves National Forest.'}
 
@@ -32,6 +36,10 @@ knitr::include_graphics(
 
 ## Canopy-Cover (Daubenmire)
 
+```{r Table of Species}
 
+# store wide, with date of survey as column name
+# {optional} in another column say if it increased, decreased, or stayed the same
+```
 
-## 
+## Paired-Plot
