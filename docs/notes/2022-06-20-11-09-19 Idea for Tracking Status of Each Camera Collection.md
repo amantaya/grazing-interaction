@@ -1,4 +1,5 @@
 # 2022-06-20-11-09-19 Idea for Tracking Status of Each Camera Collection
+
 Created: 2022-06-20 11:09:19
 
 What am I trying to do?

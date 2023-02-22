@@ -1,4 +1,5 @@
 # 2022-07-06-09-37-39 Idea for Quality Control Samples when Calculating Paired-Plot
+
 Created: 2022-07-06 09:37:39
 
 It would be worthwhile to add some quality control data to the paired-plot analysis script in the form of bag weights. With known outcomes, this quality control data should test if the calculations in the R script output the correct values for production and utilization.
