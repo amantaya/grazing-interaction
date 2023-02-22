@@ -115,8 +115,6 @@ lines_to_write <- stringr::str_c(lines_to_write, tags, sep = " ")
 file <- "Folders to Upload to Box.md"
 
 path <- file.path(
-  "~",
-  "grazing-interaction",
   "docs",
   "tasks",
   file)
