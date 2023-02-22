@@ -43,7 +43,7 @@ flextable::set_flextable_defaults(
 
 ```{r read csv}
 canopy_cover_df <- readr::read_csv(
-  file.path(path_to_local_data, 
+  file.path(path_to_temp_data, 
             "canopy-cover", 
             "heber", 
             "2021-heber-canopy-cover.csv")
