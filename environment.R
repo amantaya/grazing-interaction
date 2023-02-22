@@ -51,6 +51,8 @@ path_to_temp_data <- file.path("C:","Users", "andre", "temp")
 
 path_to_external_hdd <- file.path("G:")
 
+path_to_box_sorting_folder <- file.path("C:", "Users", "andre", "Box", "1.Ruyle_lab", "Photos-to-Sort")
+
 # Setup Environmental Variables -------------------------------------------
 
 # set the environment time zone to Arizona timezone
