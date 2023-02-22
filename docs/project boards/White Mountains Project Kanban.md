@@ -94,19 +94,17 @@ kanban-plugin: basic
 ## SORTING Assignments Awaiting Completion by Students
 
 - [ ] BGW_04182019_05212019 #wm2019photos #task #sorting
-- [ ] BGW_05212019_06042019 #wm2019photos #task #sorting
-- [ ] BGW_06042019_06252019 #wm2019photos #task #sorting
-- [ ] WCT_09302018_10302018 #wm2018photos #task #sorting
-- [ ] WCS_04252018_05152018 #wm2018photos #task #sorting
 
 
 ## Folders to Copy Subject Photos to Sub-Folder on Hard Drive
 
-
+- [ ] WCS_04252018_05152018 #wm2018photos #task #copytohdd/sorting
+- [ ] BGW_05212019_06042019 #wm2019photos #task #copytohdd/sorting 
+- [ ] WCT_09302018_10302018 #wm2018photos #task #copytohdd/sorting 
 
 ## Folders to Match Subject Photos
 
-- [ ] WCT_04192019_05212019 #wm2019photos #task #sorting
+- [ ] WCT_04192019_05212019 #wm2019photos #task #matchsubjects 
 - [ ] [WCS_06242019_07022019](../tasks/WCS_06242019_07022019.md) #wm2019photos #task #matchsubjects
 - [ ] BGT_04182019_05212019 #wm2019photos #task #matchsubjects
 - [ ] BGT_05212019_06042019 #wm2019photos #task #matchsubjects
@@ -123,6 +121,7 @@ kanban-plugin: basic
 - [ ] WCS_07302019_09182019 #wm2019photos #task #matchsubjects
 - [ ] WCT_04252018_05152018 #wm2018photos #task #matchsubjects
 - [ ] WCT_05152018_06112018 #wm2018photos #task #matchsubjects
+- [ ] BGW_06042019_06252019 #wm2019photos #task #matchsubjects
 
 
 ## Folders to Chunk Subject Photos
@@ -142,10 +141,6 @@ kanban-plugin: basic
 - [ ] BGT_09182019_10152019 #wm2019photos #task #chunk
 
 
-## Folders to Extract Subject Photos
-
-
-
 ## Folders to Copy into Blank Macro
 
 - [ ] WCX_07302019_08082019 #wm2019photos #task #copytoxlsm
@@ -162,11 +157,6 @@ kanban-plugin: basic
 
 ## Folders to Upload to Box for SCORING
 
-- [ ] WCX_09082020_11092020 #wm2020photos #task #uploadtobox/scoring
-- [ ] BGT_07302019_09182019_subjects_chunk1 #task #wm2019photos #uploadtobox/scoring
-- [ ] BGT_07302019_09182019_subjects_chunk2 #task #wm2019photos #uploadtobox/scoring
-- [ ] BGT_07302019_09182019_subjects_chunk3 #task #wm2019photos #uploadtobox/scoring
-- [ ] BGT_07302019_09182019_subjects_chunk4 #task #wm2019photos #uploadtobox/scoring
 
 
 ## Folders to Add to Basecamp as SCORING Assignments
@@ -175,10 +165,15 @@ kanban-plugin: basic
 
 ## SCORING Assignments Awaiting Completion by Students
 
+- [ ] BGT_07302019_09182019_subjects_chunk1 #task #wm2019photos #uploadtobox/scoring
+- [ ] BGT_07302019_09182019_subjects_chunk2 #task #wm2019photos #uploadtobox/scoring
 
 
 ## Quality Check Not Started
 
+- [ ] WCX_09082020_11092020 #wm2020photos #task #qualitycheck/notstarted
+- [ ] BGT_07302019_09182019_subjects_chunk4 #wm2019photos #task #qualitycheck/notstarted 
+- [ ] BGT_07302019_09182019_subjects_chunk3 #wm2019photos #task #qualitycheck/notstarted 
 
 
 ## Quality Check In Progress
@@ -227,18 +222,18 @@ kanban-plugin: basic
 
 ## Folders with Duplicate Photos
 
-- [ ] WCT_07232017_08122017 (duplicate photos?) #wm2017photos #task #rename
-- [ ] WCT_08122017_08282017 (duplicate photos?) #wm2017photos #task #rename
-- [ ] WCT_08252018_09302018 (duplicate photos?) #wm2018photos #task #rename
-- [ ] WCT_08282017_09112017 (duplicate photos?) #wm2017photos #task #rename
-- [ ] WCT_09142017_10082017 (duplicate photos?) #wm2017photos #task #rename
-- [ ] WCT_10082017_11042017 (duplicate photos?) #wm2017photos #task #rename
-- [ ] WCT_07232017_08122017 (duplicate photos?) #wm2017photos #task #rename
-- [ ] WCT_08122017_08282017 (duplicate photos?) #wm2017photos #task #rename
-- [ ] WCT_08252018_09302018 (duplicate photos?) #wm2018photos #task #rename
-- [ ] WCT_08282017_09112017 (duplicate photos?) #wm2017photos #task #rename
-- [ ] WCT_09142017_10082017 (duplicate photos?) #wm2017photos #task #rename
-- [ ] WCT_10082017_11042017 (duplicate photos?) #wm2017photos #task #rename
+- [ ] WCT_07232017_08122017 (duplicate photos?) #wm2017photos #task #duplicatephotos
+- [ ] WCT_08122017_08282017 (duplicate photos?) #wm2017photos #task #duplicatephotos
+- [ ] WCT_08252018_09302018 (duplicate photos?) #wm2018photos #task #duplicatephotos
+- [ ] WCT_08282017_09112017 (duplicate photos?) #wm2017photos #task #duplicatephotos
+- [ ] WCT_09142017_10082017 (duplicate photos?) #wm2017photos #task #duplicatephotos
+- [ ] WCT_10082017_11042017 (duplicate photos?) #wm2017photos #task #duplicatephotos
+- [ ] WCT_07232017_08122017 (duplicate photos?) #wm2017photos #task #duplicatephotos
+- [ ] WCT_08122017_08282017 (duplicate photos?) #wm2017photos #task #duplicatephotos
+- [ ] WCT_08252018_09302018 (duplicate photos?) #wm2018photos #task #duplicatephotos
+- [ ] WCT_08282017_09112017 (duplicate photos?) #wm2017photos #task #duplicatephotos
+- [ ] WCT_09142017_10082017 (duplicate photos?) #wm2017photos #task #duplicatephotos
+- [ ] WCT_10082017_11042017 (duplicate photos?) #wm2017photos #task #duplicatephotos
 
 
 ***
@@ -291,6 +286,14 @@ kanban-plugin: basic
 - [x] 2022-09-12 14:46:44 WCS_06242019_07022019 #wm2019photos #task ✅ 2022-09-12
 - [x] 2022-11-10 10:12:03 WCS_07302019_09182019 #wm2019photos #task #sorting ✅ 2022-11-10
 - [x] 2022-11-10 10:20:22 WCS_07222017_07252017 #wm2017photos #task #sorting ✅ 2022-11-10
+- [x] 2023-02-21 10:42:20 BGW_05212019_06042019 #wm2019photos #task #sorting ✅ 2023-02-21
+- [x] 2023-02-21 10:42:20 WCT_09302018_10302018 #wm2018photos #task #sorting ✅ 2023-02-21
+- [x] 2023-02-21 10:42:20 WCS_04252018_05152018 #wm2018photos #task #sorting ✅ 2023-02-21
+- [x] 2023-02-21 12:01:00 BGW_06042019_06252019 #wm2019photos #task #uploadtobox/sorting
+- [x] 2023-02-21 16:26:24 BGT_07302019_09182019_subjects_chunk4 #task #wm2019photos #uploadtobox/scoring
+- [x] 2023-02-21 16:34:58 BGW_04182019_05212019 #wm2019photos #task #uploadtobox/sorting
+- [x] 2023-02-21 16:49:17 BGW_04182019_05212019 #wm2019photos #task #addtobasecamp
+- [x] 2023-02-21 16:52:11 BGT_07302019_09182019_subjects_chunk3 #task #wm2019photos #uploadtobox/scoring
 
 %% kanban:settings
 ```

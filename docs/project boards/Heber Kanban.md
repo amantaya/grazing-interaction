@@ -56,12 +56,12 @@ kanban-plugin: basic
 - [ ] #task BRL_03062018_04112018 #heber2018photos
 
 
-
 ## Folders to Copy to Hard Drive
 
 
 
 ## Folders to Upload for SORTING
+
 
 
 ## Folders Currently Uploading
@@ -83,7 +83,6 @@ kanban-plugin: basic
 
 ## Folders to Match Subject Photos
 
-- [ ] #task GEO02_20210625_20210703 #cameratraps2/2021
 
 
 ## Folders to Chunk Subject Photos

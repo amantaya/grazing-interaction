@@ -44,23 +44,7 @@ kanban-plugin: basic
 
 ## Folders Currently Uploading
 
-- [ ] GEO02_20210805_20210907 #task #uploadtobox/sorting
-- [ ] GEO30_20210723_20211016 #task #uploadtobox/sorting
-- [ ] GEO32_20210805_20220108 #task #uploadtobox/sorting
-- [ ] GET01_20210722_20220108 #task #uploadtobox/sorting
-- [ ] GET13_20210723_20220107 #task #uploadtobox/sorting
-- [ ] GET21_20210724_20220107 #task #uploadtobox/sorting
-- [ ] GET22_20210724_20220107 #task #uploadtobox/sorting
-- [ ] KPT14_20210722_20220106 #task #uploadtobox/sorting
-- [ ] SHT15_20210723_20211212 #task #uploadtobox/sorting
-- [ ] SHT18_20210622_20210722 #task #uploadtobox/sorting
-- [ ] SHT18_20210722_20210805 #task #uploadtobox/sorting
-- [ ] SHT18_20210805_20220107 #task #uploadtobox/sorting
-- [ ] STO09_20210722_20220107 #task #uploadtobox/sorting
-- [ ] STO39_20210723_20220106 #task #uploadtobox/sorting
-- [ ] STT29_20210527_20210623 #task #uploadtobox/sorting
-- [ ] STT29_20210623_20210722 #task #uploadtobox/sorting
-- [ ] STT29_20210722_20220107 #task #uploadtobox/sorting
+
 
 ## Folders to Add as Assignments to Basecamp for SORTING
 
@@ -68,29 +52,47 @@ kanban-plugin: basic
 
 ## SORTING Assignments Awaiting Completion by Students
 
-- [ ] BUO01_20150101_20210804 #cameratraps2/2021 #task #sorting
-- [ ] BUO01_20210723_20210804 #cameratraps2/2021 #task #sorting
-- [ ] BUO07_20210723_20210804 #cameratraps2/2021 #task #sorting
-- [ ] BUO07_20210804_20220107 #cameratraps2/2021 #task #sorting
-- [ ] GET06_20210722_20220106 #cameratraps2/2021 #task #sorting
-- [ ] GEO02_20210723_20210805 #cameratraps2/2021 #task #sorting
-- [ ] GEO32_20210723_20210805 #cameratraps2/2021 #task #sorting
-- [ ] SHT15_20210527_20210611 #cameratraps2/2021 #task #sorting
-- [ ] SHT15_20210623_20210723 #cameratraps2/2021 #task #sorting
-- [ ] SHT30_20210722_20210805 #cameratraps2/2021 #task #sorting
-- [ ] BUO23_20210723_20220107 #cameratraps2/2021 #task #sorting
-- [ ] BUO29_20210722_20220106 #cameratraps2/2021 #task #sorting
-- [ ] BUT19_20210723_20220106 #cameratraps2/2021 #task #sorting
+- [ ] GEO02_20210805_20210907 #cameratraps2/2021 #task #sorting
+- [ ] GEO30_20210723_20211016  #cameratraps2/2021 #task #sorting
+- [ ] GEO32_20210805_20220108 #cameratraps2/2021 #task #sorting
+- [ ] GET01_20210722_20220108 #cameratraps2/2021 #task #sorting
+- [ ] GET13_20210723_20220107 #cameratraps2/2021 #task #sorting
+- [ ] GET21_20210724_20220107 #cameratraps2/2021 #task #sorting
+- [ ] GET22_20210724_20220107 #cameratraps2/2021 #task #sorting
+- [ ] SHT15_20210723_20211212 #cameratraps2/2021 #task #sorting
+- [ ] KPT14_20210722_20220106  #cameratraps2/2021 #task #sorting
+- [ ] SHT18_20210622_20210722 #cameratraps2/2021 #task #sorting
+- [ ] SHT18_20210722_20210805 #cameratraps2/2021 #task #sorting
+- [ ] SHT18_20210805_20220107 #cameratraps2/2021 #task #sorting
+- [ ] STO09_20210722_20220107 #cameratraps2/2021 #task #sorting
+- [ ] STO39_20210723_20220106 #cameratraps2/2021 #task #sorting
+- [ ] STT29_20210527_20210623 #cameratraps2/2021 #task #sorting
+- [ ] STT29_20210623_20210722 #cameratraps2/2021 #task #sorting
+- [ ] STT29_20210722_20220107 #cameratraps2/2021 #task #sorting
 
 
 ## Folders to Copy Subject Photos to Sub-Folder on Hard Drive
 
+- [ ] BUO01_20150101_20210804 #cameratraps2/2021 #task #copytohdd
+- [ ] BUO07_20210804_20220107 #cameratraps2/2021 #task #copytohdd
+- [ ] BUO01_20210723_20210804 #cameratraps2/2021 #task #copytohdd
+- [ ] BUO23_20210723_20220107 #cameratraps2/2021 #task #copytohdd
+- [ ] BUT19_20210723_20220106 #cameratraps2/2021 #task #sorting
+- [ ] SHT30_20210722_20210805 #cameratraps2/2021 #task #copytohdd
+- [ ] SHT15_20210623_20210723 #cameratraps2/2021 #task #copytohdd
+- [ ] SHT15_20210527_20210611 #cameratraps2/2021 #task #copytohdd
+- [ ] BUO29_20210722_20220106 #cameratraps2/2021 #task #copytohdd
+- [ ] [GEO32_20210723_20210805](GEO32_20210723_20210805.md) #cameratraps2/2021 #task #sorting
+- [ ] GEO02_20210723_20210805 #cameratraps2/2021 #task #copytohdd
+- [ ] KPT16_20210527_20210622 #cameratraps2/2021 #task #copytohdd
+- [ ] GET06_20210722_20220106 #cameratraps2/2021 #task #copytohdd
+- [ ] BUO07_20210723_20210804 #cameratraps2/2021 #task #copytohdd
 
 
 ## Folders to Match Subject Photos
 
 - [ ] GEO02_20210625_20210703 #cameratraps2/2021 #task #matchsubjects
-- [ ] BUO01_20210625_20210723 #cameratraps2/2021 #task #matchsubjects
+- [ ] [BUO01_20210625_20210723](../tasks/BUO01_20210625_20210723) #cameratraps2/2021 #task #matchsubjects
 - [ ] BUO07_20210625_20210723 #cameratraps2/2021 #task #matchsubjects
 - [ ] BUO23_20210525_20210624 #cameratraps2/2021 #task #matchsubjects
 - [ ] BUO23_20210624_20210723 #cameratraps2/2021 #task #matchsubjects
@@ -114,6 +116,7 @@ kanban-plugin: basic
 - [ ] STO08_20210624_20210722 #cameratraps2/2021 #task #matchsubjects
 - [ ] STO09_20210624_20210722 #cameratraps2/2021 #task #matchsubjects
 - [ ] STO39_20210624_20210722 #cameratraps2/2021 #task #matchsubjects
+- [ ] GEO02_20210625_20210703 #cameratraps2/2021 #task #matchsubjects
 
 
 ## Folders to Chunk Subject Photos
@@ -220,6 +223,69 @@ kanban-plugin: basic
 - [x] 2022-11-18 17:13:42 STT29_20210527_20210623 #cameratraps2/2021 #task #uploadtobox/sorting
 - [x] 2022-11-18 17:13:42 STT29_20210623_20210722 #cameratraps2/2021 #task #uploadtobox/sorting
 - [x] 2022-11-18 17:13:42 STT29_20210722_20220107 #cameratraps2/2021 #task #uploadtobox/sorting
+- [x] 2023-02-21 10:48:14 BUO01_20150101_20210804 #cameratraps2/2021 #task #sorting
+- [x] 2023-02-21 10:48:36 BUO07_20210804_20220107 #cameratraps2/2021 #task #sorting
+- [x] 2023-02-21 10:50:15 BUO01_20210723_20210804 #cameratraps2/2021 #task #sorting
+- [x] 2023-02-21 10:51:06 BUO23_20210723_20220107 #cameratraps2/2021 #task #sorting
+- [x] 2023-02-21 10:52:06 BUT19_20210723_20220106 #cameratraps2/2021 #task #sorting
+- [x] 2023-02-21 10:53:08 SHT30_20210722_20210805 #cameratraps2/2021 #task #sorting
+- [x] 2023-02-21 11:40:39 SHT15_20210623_20210723 #cameratraps2/2021 #task #sorting
+- [x] 2023-02-21 11:48:01 SHT15_20210527_20210611 #cameratraps2/2021 #task #sorting
+- [x] 2023-02-21 11:51:22 BUO29_20210722_20220106 #cameratraps2/2021 #task #sorting
+- [x] 2023-02-21 11:52:28 GEO32_20210723_20210805 #cameratraps2/2021 #task #sorting
+- [x] 2023-02-21 11:54:13 GEO02_20210723_20210805 #cameratraps2/2021 #task #sorting
+- [x] 2023-02-21 11:58:46 GET06_20210722_20220106 #cameratraps2/2021 #task #sorting
+- [x] 2023-02-21 12:23:23 BUO07_20210723_20210804 #cameratraps2/2021 #task #sorting
+- [x] 2023-02-21 16:19:51 GEO02_20210805_20210907 #task #addtobasecamp
+- [x] 2023-02-21 16:20:41 GEO02_20210805_20210907 #task #uploadtobox/sorting
+- [x] 2023-02-22 12:43:24 GEO30_20210723_20211016 #task #uploadtobox/sorting
+- [x] 2023-02-22 12:43:24 GEO32_20210805_20220108 #task #uploadtobox/sorting
+- [x] 2023-02-22 12:43:24 GET01_20210722_20220108 #task #uploadtobox/sorting
+- [x] 2023-02-22 12:43:24 GET13_20210723_20220107 #task #uploadtobox/sorting
+- [x] 2023-02-22 12:43:24 GET21_20210724_20220107 #task #uploadtobox/sorting
+- [x] 2023-02-22 12:43:24 GET22_20210724_20220107 #task #uploadtobox/sorting
+- [x] 2023-02-22 12:43:24 SHT15_20210723_20211212 #task #uploadtobox/sorting
+- [x] 2023-02-22 12:43:24 KPT14_20210722_20220106 #task #uploadtobox/sorting
+- [x] 2023-02-22 12:43:24 SHT18_20210622_20210722 #task #uploadtobox/sorting
+- [x] 2023-02-22 12:43:24 SHT18_20210722_20210805 #task #uploadtobox/sorting
+- [x] 2023-02-22 13:08:06 GEO30_20210723_20211016 #task #uploading/sorting ✅ 2023-02-22
+- [x] 2023-02-22 13:08:06 GEO32_20210805_20220108 #task #uploading/sorting ✅ 2023-02-22
+- [x] 2023-02-22 13:08:06 GET01_20210722_20220108 #task #uploading/sorting ✅ 2023-02-22
+- [x] 2023-02-22 13:08:06 GET13_20210723_20220107 #task #uploading/sorting ✅ 2023-02-22
+- [x] 2023-02-22 13:08:06 GET21_20210724_20220107 #task #uploading/sorting ✅ 2023-02-22
+- [x] 2023-02-22 13:08:06 GET22_20210724_20220107 #task #uploading/sorting ✅ 2023-02-22
+- [x] 2023-02-22 13:08:06 SHT15_20210723_20211212 #task #uploading/sorting ✅ 2023-02-22
+- [x] 2023-02-22 13:08:06 KPT14_20210722_20220106 #task #uploading/sorting ✅ 2023-02-22
+- [x] 2023-02-22 13:08:06 SHT18_20210622_20210722 #task #uploading/sorting ✅ 2023-02-22
+- [x] 2023-02-22 13:08:06 SHT18_20210722_20210805 #task #uploading/sorting ✅ 2023-02-22
+- [x] 2023-02-22 13:14:13 GEO30_20210723_20211016 #task #addtobasecamp/sorting ✅ 2023-02-22
+- [x] 2023-02-22 13:14:13 GEO32_20210805_20220108 #task #addtobasecamp/sorting ✅ 2023-02-22
+- [x] 2023-02-22 13:14:13 GET01_20210722_20220108 #task #addtobasecamp/sorting ✅ 2023-02-22
+- [x] 2023-02-22 13:14:13 GET13_20210723_20220107 #task #addtobasecamp/sorting ✅ 2023-02-22
+- [x] 2023-02-22 13:14:13 GET21_20210724_20220107 #task #addtobasecamp/sorting ✅ 2023-02-22
+- [x] 2023-02-22 13:14:13 GET22_20210724_20220107 #task #addtobasecamp/sorting ✅ 2023-02-22
+- [x] 2023-02-22 13:14:13 SHT15_20210723_20211212 #task #addtobasecamp/sorting ✅ 2023-02-22
+- [x] 2023-02-22 13:14:13 KPT14_20210722_20220106 #task #addtobasecamp/sorting ✅ 2023-02-22
+- [x] 2023-02-22 13:14:13 SHT18_20210622_20210722 #task #addtobasecamp/sorting ✅ 2023-02-22
+- [x] 2023-02-22 13:14:13 SHT18_20210722_20210805 #task #addtobasecamp/sorting ✅ 2023-02-22
+- [x] 2023-02-22 14:40:45 SHT18_20210805_20220107 #task #uploadtobox/sorting ✅ 2023-02-22
+- [x] 2023-02-22 14:40:45 STO09_20210722_20220107 #task #uploadtobox/sorting ✅ 2023-02-22
+- [x] 2023-02-22 14:40:45 STO39_20210723_20220106 #task #uploadtobox/sorting ✅ 2023-02-22
+- [x] 2023-02-22 14:40:45 STT29_20210527_20210623 #task #uploadtobox/sorting ✅ 2023-02-22
+- [x] 2023-02-22 14:40:45 STT29_20210623_20210722 #task #uploadtobox/sorting ✅ 2023-02-22
+- [x] 2023-02-22 14:40:45 STT29_20210722_20220107 #task #uploadtobox/sorting ✅ 2023-02-22
+- [x] 2023-02-22 16:02:44 SHT18_20210805_20220107 #task #uploading/sorting ✅ 2023-02-22
+- [x] 2023-02-22 16:02:44 STO09_20210722_20220107 #task #uploading/sorting ✅ 2023-02-22
+- [x] 2023-02-22 16:02:44 STO39_20210723_20220106 #task #uploading/sorting ✅ 2023-02-22
+- [x] 2023-02-22 16:02:44 STT29_20210527_20210623 #task #uploading/sorting ✅ 2023-02-22
+- [x] 2023-02-22 16:02:44 STT29_20210623_20210722 #task #uploading/sorting ✅ 2023-02-22
+- [x] 2023-02-22 16:02:44 STT29_20210722_20220107 #task #uploading/sorting ✅ 2023-02-22
+- [x] 2023-02-22 16:13:28 SHT18_20210805_20220107 #cameratraps2/2021 #task #addtobasecamp/sorting ✅ 2023-02-22
+- [x] 2023-02-22 16:13:28 STO09_20210722_20220107 #cameratraps2/2021 #task #addtobasecamp/sorting ✅ 2023-02-22
+- [x] 2023-02-22 16:13:28 STO39_20210723_20220106 #cameratraps2/2021 #task #addtobasecamp/sorting ✅ 2023-02-22
+- [x] 2023-02-22 16:13:28 STT29_20210527_20210623 #cameratraps2/2021 #task #addtobasecamp/sorting ✅ 2023-02-22
+- [x] 2023-02-22 16:13:28 STT29_20210623_20210722 #cameratraps2/2021 #task #addtobasecamp/sorting ✅ 2023-02-22
+- [x] 2023-02-22 16:13:28 STT29_20210722_20220107 #cameratraps2/2021 #task #addtobasecamp/sorting ✅ 2023-02-22
 
 %% kanban:settings
 ```
