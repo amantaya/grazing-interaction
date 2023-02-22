@@ -1,9 +1,0 @@
-Warning messages:
-1: In file.copy(from, to, overwrite = FALSE) :
-  problem copying J:\cameratraps\boggy\timelapsewest\BGW_09072020_09242020\100EK113\2020-09-08-15-44-02.JPG to J:\cameratraps\boggy\timelapsewest\BGW_09072020_09242020\subjects\2020-09-08-15-44-02.JPG: No such file or directory
-2: In file.copy(from, to, overwrite = FALSE) :
-  problem copying J:\cameratraps\boggy\timelapsewest\BGW_09072020_09242020\100EK113\2020-09-08-18-23-02.JPG to J:\cameratraps\boggy\timelapsewest\BGW_09072020_09242020\subjects\2020-09-08-18-23-02.JPG: No such file or directory
-3: In file.copy(from, to, overwrite = FALSE) :
-  problem copying J:\cameratraps\boggy\timelapsewest\BGW_09072020_09242020\120EK113\2020-09-23-03-15-02.JPG to J:\cameratraps\boggy\timelapsewest\BGW_09072020_09242020\subjects\2020-09-23-03-15-02.JPG: No such file or directory
-4: In file.copy(from, to, overwrite = FALSE) :
-  problem copying J:\cameratraps\boggy\timelapsewest\BGW_09072020_09242020\120EK113\2020-09-23-03-16-02.JPG to J:\cameratraps\boggy\timelapsewest\BGW_09072020_09242020\subjects\2020-09-23-03-16-02.JPG: No such file or directory
