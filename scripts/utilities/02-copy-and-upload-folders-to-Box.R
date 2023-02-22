@@ -1,6 +1,5 @@
 # Background and Configuration --------------------------------------------
 
-# TODO add what this script does
 ## What this script does:
 ## Reads a project markdown file which is tracking the status of each collection
 ## Locates the collection folders that need to be uploaded to Box for sorting by markdown heading
