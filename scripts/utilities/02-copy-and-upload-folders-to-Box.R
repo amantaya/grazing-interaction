@@ -92,7 +92,6 @@ folders_to_copy <- tidyr::drop_na(folders_to_copy)
 
 from <- folders_to_copy$full_path
 
-to <- file.path(path_to_local_data, folders_to_copy$collection_folder)
 to <- file.path(path_to_temp_data, folders_to_copy$collection_folder)
 
 fs::dir_copy(path = from, new_path = to, overwrite = TRUE)
