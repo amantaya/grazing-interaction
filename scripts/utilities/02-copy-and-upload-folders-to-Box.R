@@ -16,15 +16,12 @@ rm(list=ls(all=TRUE))
 rm(list = ls(all.names = TRUE))
 
 # set the working directory and environment variables
-source("~/grazing-interaction/environment.R")
 source("environment.R")
 
 # load in the required packages
-source("~/grazing-interaction/packages.R")
 source("packages.R")
 
 # load in the required functions
-source("~/grazing-interaction/functions.R")
 source("functions.R")
 
 # Select Folders to Copy --------------------------------------------------
