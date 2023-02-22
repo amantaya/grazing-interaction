@@ -15,12 +15,7 @@
   },
   "attachmentFolderPath": "./",
   "fileSortOrder": "byCreatedTime",
-  "userIgnoreFilters": [
-    "*.pdf",
-    "*.docx",
-    "*.jpg",
-    "*.png"
-  ],
+  "userIgnoreFilters": null,
   "useMarkdownLinks": true,
   "newFileFolderPath": "docs/notes",
   "showUnsupportedFiles": true,
