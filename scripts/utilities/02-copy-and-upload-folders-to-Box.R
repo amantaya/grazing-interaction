@@ -102,13 +102,8 @@ lines_to_write <- folders_to_copy$collection_folder
 
 markdown_checkbox_characters <- "- [ ] "
 
-tags <- "#task #uploading/sorting"
-
 # add task characters for Obsidian markdown
 lines_to_write <- stringr::str_c(markdown_checkbox_characters, lines_to_write)
-
-# add tags for Obsidian markdown
-lines_to_write <- stringr::str_c(lines_to_write, tags, sep = " ")
 
 # create a temporary markdown file to copy and paste into the Kanban
 file <- "Folders to Upload to Box.md"
