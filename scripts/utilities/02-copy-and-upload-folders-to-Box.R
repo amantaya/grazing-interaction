@@ -31,14 +31,10 @@ file <- "Cameratraps2 Kanban.md"
 # read in the kanban board for the Heber project
 project_kanban <- readr::read_lines(
   file.path(
-    "~",
-    "grazing-interaction",
     "docs",
     "project boards",
     file
   ),
-  skip_empty_rows = FALSE,
-  progress = readr::show_progress()
   skip_empty_rows = FALSE
 )
 
