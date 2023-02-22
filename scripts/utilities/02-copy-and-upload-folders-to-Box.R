@@ -112,7 +112,7 @@ lines_to_write <- folders_to_copy$collection_folder
 
 markdown_checkbox_characters <- "- [ ] "
 
-tags <- "#task #uploadtobox/sorting"
+tags <- "#task #uploading/sorting"
 
 # add task characters for Obsidian markdown
 lines_to_write <- stringr::str_c(markdown_checkbox_characters, lines_to_write)
