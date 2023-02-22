@@ -44,6 +44,7 @@ project_kanban <- readr::read_lines(
   ),
   skip_empty_rows = FALSE,
   progress = readr::show_progress()
+  skip_empty_rows = FALSE
 )
 
 
