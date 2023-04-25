@@ -68,7 +68,7 @@ for (i in 1:length(subject_txt_files)){
 all_subjects_vector
 
 # the character strings are stored in the R environment as \\ (double-backslashes) which are reserved characters
-# replace these reserved characters with a single forward-slash, which is how R reads in file paths 
+# replace these reserved characters with a single forward-slash, which is how R reads in file paths
 # (Windows 10 uses a single back-slash for file paths)
 all_subjects_vector_string_replaced <- str_replace_all(all_subjects_vector, "\\\\", "/")
 
@@ -83,7 +83,7 @@ all_subjects_vector_string_replaced
 # i.e. we'll use the absolute path and use it create relative paths
 # TODO this function needs to accept strings with different lengths/sections
 # I could do this by string splitting each text file separately, then combining only the sections that I need after
-# I could then write out the correct text files 
+# I could then write out the correct text files
 all_subjects_separated <- do.call("rbind", strsplit(all_subjects_vector_string_replaced, split = "/"))
 
 # TODO ideally, instead of using the inputs of the student's file paths and cutting out the back half of the string
@@ -142,7 +142,7 @@ all_photos_in_collection_add_subjects_column
 excelfilename <- paste0(paste(collection_folder, "matched_subject_photos", sep = "_"), ".csv")
 
 # write the new csv to the working directory
-# we can use this new file at a later point (for machine learning) to identify empty photos from photos with something in them 
+# we can use this new file at a later point (for machine learning) to identify empty photos from photos with something in them
 # TODO ideally this new csv file would be put in the metadata sub-folder
 write.csv(all_photos_in_collection_add_subjects_column, excelfilename, row.names=F)
 

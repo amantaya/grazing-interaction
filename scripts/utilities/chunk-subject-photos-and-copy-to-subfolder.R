@@ -65,7 +65,7 @@ chunk_names <- paste0("chunk", chunk_number)
 # divide the number of rows in the data frame by the desired chunk size
 # then create a repeating pattern of the chunk number (chunk 1, chunk 2, etc) multiplied by the chunk size
 # i.e. if chunk_size = 500, then chunk 1 will be rep(1, each = 500)
-# then subset the resulting pattern by the number of rows, which will remove the "excess" rows 
+# then subset the resulting pattern by the number of rows, which will remove the "excess" rows
 # created by the last chunk which has less rows than the chunk size
 pattern  <- rep(1:ceiling(n_rows/chunk_size), each = chunk_size)[1:n_rows]
 
@@ -89,15 +89,15 @@ for (i in chunk_number) {
 
 # copy the subject photos for each chunk into their corresponding folder
 for (i in chunk_number) {
-  
+
   from <- file.path(root_folder, main_folder, location_folder, site_folder, collection_folder, chunks[[i]]$ImageRelative)
-  
+
   to <- file.path(root_folder, main_folder, location_folder, site_folder, collection_folder, subjects_folder, chunk_names[i])
-  
+
   file.copy(from, to, overwrite = FALSE)
 }
 
-# run the extract-image-paths script on each group of photos to generate 
+# run the extract-image-paths script on each group of photos to generate
 # name each csv file the collection folder and the name of the chunk (e.g., BGT_07302019_09182019_subjects_chunk1.csv)
 for (i in chunk_number) {
   excelfilename <- paste0(paste(collection_folder, subjects_folder, chunk_names[i], sep = "_"), ".csv")
