@@ -66,6 +66,9 @@ options(max.print = 100)
 
 # RPushBullet Setup -------------------------------------------------------
 
+# Requires a free Pushbullet API Key
+# https://www.rdocumentation.org/packages/RPushbullet/versions/0.3.4/topics/pbSetup
+
 if (interactive() == TRUE) {
 
 # Enter an API key for the Push Bullet push notification service
