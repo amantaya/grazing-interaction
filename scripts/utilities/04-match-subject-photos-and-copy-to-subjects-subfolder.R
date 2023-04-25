@@ -1,10 +1,4 @@
-###########################################################################
-###########################################################################
-###                                                                     ###
-###               SECTION 1: BACKGROUND AND CONFIGURATION               ###
-###                                                                     ###
-###########################################################################
-###########################################################################
+# BACKGROUND AND CONFIGURATION --------------------------------------------
 
 ## Horse-Cattle-Elk Grazing Interaction Study Rproj
 ## Step 4: Match Subject Photo Text Files and Copy to Subjects Sub-Folder
@@ -18,13 +12,7 @@
 ## csv file from "01-extract-image-paths.R" containing all photos in a collection (this csv file needs to be located in the "metadata" sub-folder within the collection)
 ## subject text files (these text files need to be located in the "metadata" sub-folder within the collection)
 
-############################################################################
-############################################################################
-###                                                                      ###
-###                    SECTION 2: SETUP R ENVIRONMENT                    ###
-###                                                                      ###
-############################################################################
-############################################################################
+# SETUP R ENVIRONMENT -----------------------------------------------------
 
 # clear the R environment
 # rm(list=ls(all=TRUE))
@@ -38,13 +26,7 @@ source("~/grazing-interaction/packages.R")
 # load in the required functions
 source("~/grazing-interaction/functions.R")
 
-############################################################################
-############################################################################
-###                                                                      ###
-###                 SECTION 3: SELECT FOLDERS TO EXTRACT                 ###
-###                                                                      ###
-############################################################################
-############################################################################
+# SELECT FOLDERS TO EXTRACT -----------------------------------------------
 
 # create a variable to hold the file name in case we switch to a different project
 # and the file name is different we can switch it once here
@@ -94,13 +76,7 @@ folders_to_chunk <- folders_to_chunk_pattern_matches[is.na(folders_to_chunk_patt
 cameratraps_folders_to_chunk <-
   cameratraps_path_constructor(folders_to_chunk)
 
-############################################################################
-############################################################################
-###                                                                      ###
-###             SECTION 4: EXTRACT SUBJECT TEXT FILES                    ###
-###                                                                      ###
-############################################################################
-############################################################################
+# EXTRACT SUBJECT TEXT FILES ----------------------------------------------
 
 # read in the csv file that contains the metadata for all photos in the collection folder
 
@@ -236,13 +212,7 @@ all_subjects_filename <- paste(cameratraps_folders_to_chunk$collection_folder[i]
 readr::write_csv(all_subjects_reconstructed_paths,
                  file = file.path(cameratraps_folders_to_chunk$full_path[i], "metadata", all_subjects_filename))
 
-###########################################################################
-###########################################################################
-###                                                                     ###
-###            SECTION 5: MATCH SUBJECT PHOTOS TO ALL PHOTOS            ###
-###                                                                     ###
-###########################################################################
-###########################################################################
+# MATCH SUBJECT PHOTOS TO ALL PHOTOS --------------------------------------
 
 all_subjects_csv <- readr::read_csv(
   file.path(cameratraps_folders_to_chunk$full_path[i],
@@ -287,13 +257,7 @@ readr::write_csv(
   file = file.path(cameratraps_folders_to_chunk$full_path[i], "metadata", excelfilename)
   )
 
-###########################################################################
-###########################################################################
-###                                                                     ###
-###         SECTION 6: COPY SUBJECT PHOTOS TO "SUBJECTS" FOLDER         ###
-###                                                                     ###
-###########################################################################
-###########################################################################
+# COPY SUBJECT PHOTOS TO "SUBJECTS" FOLDER --------------------------------
 
 # now that we have identified which files contain subjects by reading in the text files created by IrFanView
 # we want to copy them to a "subjects" sub-folder in the file directory
