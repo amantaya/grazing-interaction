@@ -1,5 +1,5 @@
 # install the "pacman" package manager for installing and loading R packages
-# install.packages("pacman")
+# renv::install("pacman")
 
 # attach the "pacman" package for installing and loading R packages
 library("pacman")
