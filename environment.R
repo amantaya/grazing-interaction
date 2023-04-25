@@ -66,6 +66,8 @@ options(max.print = 100)
 
 # RPushBullet Setup -------------------------------------------------------
 
+if (interactive() == TRUE) {
+
 # Enter an API key for the Push Bullet push notification service
 options(rpushbullet.dotfile = file.path(currentwd, ".rpushbullet.json"))
 
@@ -78,3 +80,4 @@ if (RPushbullet::pbValidateConf(getOption("rpushbullet.dotfile")) == FALSE) {
    RPushbullet::pbPost("note", "Error", geterrmessage())
    if (!interactive()) stop(geterrmessage())
  })
+}
