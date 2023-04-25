@@ -93,11 +93,11 @@ kanban-plugin: basic
 
 ## SORTING Assignments Awaiting Completion by Students
 
-- [ ] [BGW_04182019_05212019](BGW_04182019_05212019.md) #wm2019photos #task #sorting
 
 
 ## Folders to Copy Subject Photos to Sub-Folder on Hard Drive
 
+- [ ] [BGW_04182019_05212019](BGW_04182019_05212019.md) #wm2019photos #task #sorting
 - [ ] WCS_04252018_05152018 #wm2018photos #task #copytohdd/sorting
 - [ ] BGW_05212019_06042019 #wm2019photos #task #copytohdd/sorting
 - [ ] WCT_09302018_10302018 #wm2018photos #task #copytohdd/sorting
@@ -167,11 +167,11 @@ kanban-plugin: basic
 ## SCORING Assignments Awaiting Completion by Students
 
 - [ ] BGT_07302019_09182019_subjects_chunk1 #task #wm2019photos #uploadtobox/scoring
-- [ ] BGT_07302019_09182019_subjects_chunk2 #task #wm2019photos #uploadtobox/scoring
 
 
 ## Quality Check Not Started
 
+- [ ] BGT_07302019_09182019_subjects_chunk2 #task #wm2019photos #uploadtobox/scoring
 - [ ] WCX_09082020_11092020 #wm2020photos #task #qualitycheck/notstarted
 - [ ] BGT_07302019_09182019_subjects_chunk4 #wm2019photos #task #qualitycheck/notstarted
 - [ ] BGT_07302019_09182019_subjects_chunk3 #wm2019photos #task #qualitycheck/notstarted
