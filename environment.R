@@ -4,7 +4,7 @@
 # Change this stuff
 repo_url <- "https://github.com/amantaya/grazing-interaction"
 github_username <- "amantaya"
-github_email <- "aantaya@arizona.edu"
+github_email <- "aantaya@email.arizona.edu"
 cyverse_username <- "aantaya"
 
 # Set your git username and email address
