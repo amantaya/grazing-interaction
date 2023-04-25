@@ -52,27 +52,27 @@ kanban-plugin: basic
 
 ## SORTING Assignments Awaiting Completion by Students
 
-- [ ] GEO02_20210805_20210907 #cameratraps2/2021 #task #sorting
 - [ ] GEO30_20210723_20211016  #cameratraps2/2021 #task #sorting
-- [ ] GEO32_20210805_20220108 #cameratraps2/2021 #task #sorting
-- [ ] GET01_20210722_20220108 #cameratraps2/2021 #task #sorting
-- [ ] GET13_20210723_20220107 #cameratraps2/2021 #task #sorting
-- [ ] GET21_20210724_20220107 #cameratraps2/2021 #task #sorting
-- [ ] GET22_20210724_20220107 #cameratraps2/2021 #task #sorting
-- [ ] SHT15_20210723_20211212 #cameratraps2/2021 #task #sorting
-- [ ] KPT14_20210722_20220106  #cameratraps2/2021 #task #sorting
-- [ ] SHT18_20210622_20210722 #cameratraps2/2021 #task #sorting
-- [ ] SHT18_20210722_20210805 #cameratraps2/2021 #task #sorting
-- [ ] SHT18_20210805_20220107 #cameratraps2/2021 #task #sorting
-- [ ] STO09_20210722_20220107 #cameratraps2/2021 #task #sorting
-- [ ] STO39_20210723_20220106 #cameratraps2/2021 #task #sorting
-- [ ] STT29_20210527_20210623 #cameratraps2/2021 #task #sorting
-- [ ] STT29_20210623_20210722 #cameratraps2/2021 #task #sorting
 - [ ] STT29_20210722_20220107 #cameratraps2/2021 #task #sorting
 
 
 ## Folders to Copy Subject Photos to Sub-Folder on Hard Drive
 
+- [ ] GEO02_20210805_20210907 #cameratraps2/2021 #task #sorting
+- [ ] STT29_20210623_20210722 #cameratraps2/2021 #task #sorting
+- [ ] STT29_20210527_20210623 #cameratraps2/2021 #task #sorting
+- [ ] STO39_20210723_20220106 #cameratraps2/2021 #task #sorting
+- [ ] STO09_20210722_20220107 #cameratraps2/2021 #task #sorting
+- [ ] SHT18_20210805_20220107 #cameratraps2/2021 #task #sorting
+- [ ] SHT18_20210722_20210805 #cameratraps2/2021 #task #sorting
+- [ ] SHT18_20210622_20210722 #cameratraps2/2021 #task #sorting
+- [ ] SHT15_20210723_20211212 #cameratraps2/2021 #task #sorting
+- [ ] KPT14_20210722_20220106  #cameratraps2/2021 #task #sorting
+- [ ] GET22_20210724_20220107 #cameratraps2/2021 #task #sorting
+- [ ] GET21_20210724_20220107 #cameratraps2/2021 #task #sorting
+- [ ] GET13_20210723_20220107 #cameratraps2/2021 #task #sorting
+- [ ] GET01_20210722_20220108 #cameratraps2/2021 #task #sorting
+- [ ] GEO32_20210805_20220108 #cameratraps2/2021 #task #sorting
 - [ ] BUO01_20150101_20210804 #cameratraps2/2021 #task #copytohdd
 - [ ] BUO07_20210804_20220107 #cameratraps2/2021 #task #copytohdd
 - [ ] BUO01_20210723_20210804 #cameratraps2/2021 #task #copytohdd
@@ -80,7 +80,7 @@ kanban-plugin: basic
 - [ ] BUT19_20210723_20220106 #cameratraps2/2021 #task #sorting
 - [ ] SHT30_20210722_20210805 #cameratraps2/2021 #task #copytohdd
 - [ ] SHT15_20210623_20210723 #cameratraps2/2021 #task #copytohdd
-- [ ] SHT15_20210527_20210611 #cameratraps2/2021 #task #copytohdd
+- [ ] [SHT15_20210527_20210611 1](SHT15_20210527_20210611%201.md) #cameratraps2/2021 #task #copytohdd
 - [ ] BUO29_20210722_20220106 #cameratraps2/2021 #task #copytohdd
 - [ ] [GEO32_20210723_20210805](GEO32_20210723_20210805.md) #cameratraps2/2021 #task #sorting
 - [ ] GEO02_20210723_20210805 #cameratraps2/2021 #task #copytohdd
