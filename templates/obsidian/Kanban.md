@@ -103,6 +103,6 @@ kanban-plugin: basic
 
 %% kanban:settings
 ```
-{"kanban-plugin":"basic","show-checkboxes":true,"hide-tags-display":false,"hide-tags-in-title":true,"prepend-archive-date":true,"lane-width":300}
+{"kanban-plugin":"basic","show-checkboxes":true,"hide-tags-display":false,"hide-tags-in-title":true,"prepend-archive-date":true,"lane-width":365,"time-trigger":"@@","link-date-to-daily-note":true}
 ```
 %%
