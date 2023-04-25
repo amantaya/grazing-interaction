@@ -28,7 +28,7 @@ usethis::git_sitrep()
 
 # Setup File Paths --------------------------------------------------------
 
-currentwd <- getwd()
+currentwd <- here::here()
 
 # Paths to Data on Cyverse ------------------------------------------------
 
