@@ -2,13 +2,13 @@
 ## D. Christianson
 ##
 ## This R Script when executed in R will create a .csv file (Comma seperated values) that stores the
-## name, date and time of every photo in a folder.  All the data from this .csv file can then be copied into the 
+## name, date and time of every photo in a folder.  All the data from this .csv file can then be copied into the
 ## Excel form for photo classification.
-## 
-## This script should be stored in a directory with the photos to be classified. The photos can be in the same 
+##
+## This script should be stored in a directory with the photos to be classified. The photos can be in the same
 ##	directory as this script and in subfolders within this directory.
-## 
-## If images are organized by trap-site, then naming image storage folders after each trap-site is good practice as 
+##
+## If images are organized by trap-site, then naming image storage folders after each trap-site is good practice as
 ## the image path (with the trapsite folder names) will be included in the data produced by this script.
 ## the name of the folder can be extracted from the image path using simple R commands (e.g., "substr()" or "rep()")
 ## or Excel functions (e.g. "=MID()") and trapsite names can be linked to trapsite covariates stored in anotther
@@ -18,14 +18,11 @@
 ##		1. define a subset of the available images to include based on time (rather than all images)
 ##		2. define a schedule when an custome pop-up alter message will appear on the excel form.
 ##
-## If these options are not desired, the entire script can be run in R without alteration. the code is annoated to provide 
+## If these options are not desired, the entire script can be run in R without alteration. the code is annoated to provide
 ## an explanation of the process, should this need to be update
 
 # clear the R environment
 rm(list=ls(all=TRUE))
-
-# load the required packages
-library(beepr)
 
 root_folder <- "J:"
 
@@ -51,7 +48,7 @@ currentfolder<-getwd()
 ## make a list of all the JPEGs in the file, if images are stored in some other format, update the code below
 imagefiles<-list.files(path=getwd(),full.names=T,pattern=c(".JPG|.jpg"),include.dirs = T,recursive=T)
 
-## create a data.frame from the list of all image files and extract metadata associated with each image	
+## create a data.frame from the list of all image files and extract metadata associated with each image
 imagefilesinfo<-as.data.frame(do.call("rbind",lapply(imagefiles,file.info)))
 imagefilesinfo<-imagefilesinfo[,c("size","mtime")]
 imagefilesinfo$ImagePath<-imagefiles
@@ -102,20 +99,17 @@ alerthours = c("06","15")
 alertminutes = c("00")
 # this code will set the ImageAlert to "TRUE" for all images matching the above specified time conditions
 if (Alert==T){
-  imagefilesinfo$ImageAlert <- c(substr(imagefilesinfo$ImageDate,1,4) %in% alertyears & 
-                                   substr(imagefilesinfo$ImageDate,6,7) %in% alertmonths & 
-                                   substr(imagefilesinfo$ImageDate,9,10) %in% alertdays & 
-                                   substr(imagefilesinfo$ImageTime,1,2) %in% alerthours & 
+  imagefilesinfo$ImageAlert <- c(substr(imagefilesinfo$ImageDate,1,4) %in% alertyears &
+                                   substr(imagefilesinfo$ImageDate,6,7) %in% alertmonths &
+                                   substr(imagefilesinfo$ImageDate,9,10) %in% alertdays &
+                                   substr(imagefilesinfo$ImageTime,1,2) %in% alerthours &
                                    substr(imagefilesinfo$ImageTime,4,5) %in% alertminutes)
 } else {
   imagefilesinfo$ImageAlert<- FALSE
 }
 
-## write a .csv file named after the working directory containing the image data.  All the data from this .csv file should be copied into the 
+## write a .csv file named after the working directory containing the image data.  All the data from this .csv file should be copied into the
 ## Excel form.  The .csv file will show up in the same directory as this script once this script is run.
 
 excelfilename<-paste(rev(strsplit(currentfolder,split="/")[[1]])[1],".csv",sep="")
 write.csv(imagefilesinfo,excelfilename,row.names=F)
-
-# play a sound to indicate the transfer is complete
-beep("coin")
