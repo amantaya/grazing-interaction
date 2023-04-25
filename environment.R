@@ -64,8 +64,6 @@ options(digits = 5)
 # set the max print to 10,000
 options(max.print = 100)
 
-sessioninfo <- utils::sessionInfo()
-
 # RPushBullet Setup -------------------------------------------------------
 
 # Enter an API key for the Push Bullet push notification service
