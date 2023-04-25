@@ -7,7 +7,7 @@
 ###########################################################################
 
 ## Horse-Cattle-Elk Grazing Interaction Study Rproj
-## Step 2: Match Subject Photo Text Files and Copy to Subjects Sub-Folder
+## Step 4: Match Subject Photo Text Files and Copy to Subjects Sub-Folder
 
 ## What this script does:
 ## Reads in the subject text files from a photo collection folder
