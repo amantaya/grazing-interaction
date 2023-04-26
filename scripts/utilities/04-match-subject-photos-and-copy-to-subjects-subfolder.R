@@ -30,7 +30,8 @@ source(here::here("functions.R"))
 
 # create a variable to hold the file name in case we switch to a different project
 # and the file name is different we can switch it once here
-file <- "Heber Project Kanban.md"
+# TODO create a switch to intelligently switch between project boards
+file <- here::here("docs", "project boards", "Cameratraps2 Project Kanban.md")
 
 # read in the kanban board for the Heber project
 heber_project_kanban <- readr::read_lines(
