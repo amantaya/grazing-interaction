@@ -49,15 +49,15 @@ folders_to_chunk_heading_regex <- "^##\\sFolders\\sto\\sChunk\\sSubject\\sPhotos
 
 # create and index of the two headings
 # we want what's in between the headings
-folders_to_match_heading_index <- stringr::str_which(heber_project_kanban, pattern = folders_to_match_heading_regex)
+folders_to_match_heading_index <- stringr::str_which(project_kanban, pattern = folders_to_match_heading_regex)
 
-folders_to_chunk_heading_index <- stringr::str_which(heber_project_kanban, pattern = folders_to_chunk_heading_regex)
+folders_to_chunk_heading_index <- stringr::str_which(project_kanban, pattern = folders_to_chunk_heading_regex)
 
 # add 1 because we don't want to include the first heading
 # subtract 1 because we don't want to include the last heading
 # subset the kanban board using these indexes
 # TODO should I consider not using the index?
-folders_to_chunk <- heber_project_kanban[(folders_to_match_heading_index + 2):(folders_to_chunk_heading_index - 2)]
+folders_to_chunk <- project_kanban[(folders_to_match_heading_index + 2):(folders_to_chunk_heading_index - 2)]
 
 folders_to_chunk_regex_pattern <-
   "([[:upper:]][[:upper:]][[:upper:]]_\\d{8}_\\d{8}|[[:upper:]]\\d{2}_\\d{8}_\\d{8})"
