@@ -105,7 +105,6 @@ kanban-plugin: basic
 
 ## Folders to Match Subject Photos
 
-- [ ] BGW_5min_04182019_05212019 #wm2019photos #task #matchsubjects
 - [ ] BGW_5min_05212019_06042019 #wm2019photos #task #matchsubjects
 - [ ] BGW_5min_07302019_08032019 #wm2019photos #task #matchsubjects
 - [ ] BGW_5min_04182019_05212019 #wm2019photos #task #matchsubjects
@@ -141,6 +140,7 @@ kanban-plugin: basic
 - [ ] [WCS_06242019_07022019](../tasks/WCS_06242019_07022019.md) #wm2019photos #task #chunk
 - [ ] BGT_04182019_05212019 #wm2019photos #task #chunk
 - [ ] BGT_05212019_06042019 #wm2019photos #task #chunk
+- [ ] BGW_5min_04182019_05212019 #wm2019photos #task #chunk
 
 ## Folders to Copy into Blank Macro
 
@@ -299,6 +299,7 @@ kanban-plugin: basic
 - [x] 2023-05-24 14:40:56 [WCS_06242019_07022019](../tasks/WCS_06242019_07022019.md) #wm2019photos #task #matchsubjects
 - [x] 2023-05-24 14:42:54 BGT_04182019_05212019 #wm2019photos #task #matchsubjects
 - [x] 2023-05-24 14:48:28 BGT_05212019_06042019 #wm2019photos #task #matchsubjects
+- [x] 2023-05-24 14:50:30 BGW_5min_04182019_05212019 #wm2019photos #task #matchsubjects
 
 %% kanban:settings
 ```
