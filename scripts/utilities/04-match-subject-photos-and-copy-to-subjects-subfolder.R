@@ -205,9 +205,9 @@ readr::write_csv(all_subjects_from_collection_folder,
 # Match Subject Photos to All Photos--------------------------------------
 
 all_subjects_csv <- readr::read_csv(
-  file.path(cameratraps_folders_to_chunk$full_path[i],
+  file.path(cameratraps_folders_to_match$full_path[1],
             "metadata",
-            all_subjects_filename))
+            all_subjects_csv_filename))
 
 # compare the subjects vector to all of the photos in the collection to check for matching photos
 # the %in% checks for matches from the left object in the object to the right
