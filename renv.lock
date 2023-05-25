@@ -2658,6 +2658,19 @@
         "xfun"
       ]
     },
+    "todor": {
+      "Package": "todor",
+      "Version": "0.1.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "c98f11db2d150554b43b3ab0557af50b",
+      "Requirements": [
+        "R.utils",
+        "rex",
+        "rstudioapi",
+        "stringr"
+      ]
+    },
     "triebeard": {
       "Package": "triebeard",
       "Version": "0.3.0",
