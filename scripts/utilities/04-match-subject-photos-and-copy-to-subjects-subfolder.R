@@ -103,6 +103,17 @@ all_photos_in_collection_folder <- readr::read_csv(
     )
   )
 
+# Read in Subject Text Files from Each Collection Folder ------------------
+
+# read in the text files from the metadata sub-folder
+# the pattern arg should match "subjects.txt" and "no_subjects.txt" files
+txt_files_from_collection_folder <-
+  list.files(
+    file.path(cameratraps_folders_to_match$full_path[1], "metadata"),
+      pattern = "subjects.txt",
+      full.names = TRUE
+    )
+
 }
 
 # the character strings are stored in the R environment as \\ (double-backslashes) which are reserved characters
