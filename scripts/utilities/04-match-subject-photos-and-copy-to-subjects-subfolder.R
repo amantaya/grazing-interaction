@@ -232,11 +232,13 @@ all_photos_in_collection_folder <-
 # Write Matched Subject Photos to CSV --------------------------------
 
 # create a flexible excel file name that uses the first row of the collection folder
-excelfilename <-paste0(
-  paste(cameratraps_folders_to_chunk$collection_folder[i],
-        "matched_subject_photos",
-        sep = "_"),
-  ".csv")
+matched_subjects_csv_filename <- paste0(
+  paste(cameratraps_folders_to_match$collection_folder[1],
+    "matched_subject_photos",
+    sep = "_"
+  ),
+  ".csv"
+)
 
 # write the new csv to the working directory
 # we can use this new file at a later point (for machine learning)
