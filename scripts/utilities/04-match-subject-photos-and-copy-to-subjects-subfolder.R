@@ -154,7 +154,7 @@ all_subjects_from_collection_folder$path <-
 # matches A51_05282021_06222021
 # WCS_5min_04192019_05212019
 # KPT16_20210527_20210622
-# TODO write test cases for each regex to see if catches different colelction folder names
+# TODO write test cases for each regex to see if catches different collection folder names
 collection_folder_regex <-
   "([[:upper:]]{3}_\\d{8}_\\d{8})|([[:upper:]]\\d{2}_\\d{8}_\\d{8})|([[:upper:]]{3}_5min_\\d{8}_\\d{8})|([[:upper:]]{3}\\d{2}_\\d{8}_\\d{8})"
 
