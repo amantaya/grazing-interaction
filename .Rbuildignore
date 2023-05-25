@@ -3,3 +3,7 @@
 ^grazing-interaction\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
+^containers$
+^debug$
+^learning$
+^logs$
