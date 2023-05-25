@@ -47,6 +47,7 @@ kanban-plugin: basic
 
 ## Folders That Need Metadata
 
+- [ ] BGW_06042019_06252019 #wm2019photos #task #matchsubjects
 - [ ] WCX_07122018_08062018 #wm2018photos #task #needsmetadata
 - [ ] WCX_09302018_10232018 #wm2018photos #task #needsmetadata
 - [ ] WCS_05262017_06142017 #wm2017photos #task #needsmetadata
@@ -73,6 +74,7 @@ kanban-plugin: basic
 - [ ] BGW_07222017_07262017 #wm2017photos #task #needsmetadata
 - [ ] BGW_08122017_08212017 #wm2017photos #task #needsmetadata
 - [ ] BGT_06042019_06252019 #wm2019photos #task #needsmetadata
+
 
 ## Folders to Copy to Hard Drive
 
@@ -104,7 +106,6 @@ kanban-plugin: basic
 
 ## Folders to Match Subject Photos
 
-- [ ] BGW_06042019_06252019 #wm2019photos #task #matchsubjects
 
 
 ## Folders to Chunk Subject Photos
@@ -139,6 +140,7 @@ kanban-plugin: basic
 - [ ] WCS_07302019_09182019 #wm2019photos #task #chunk
 - [ ] WCT_04252018_05152018 #wm2018photos #task #chunk
 - [ ] WCT_05152018_06112018 #wm2018photos #task #chunk
+
 
 ## Folders to Copy into Blank Macro
 
