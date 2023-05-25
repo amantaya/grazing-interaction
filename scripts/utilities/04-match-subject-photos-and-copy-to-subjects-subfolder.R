@@ -83,9 +83,8 @@ combined_folder_pattern_matches <- combined_folder_pattern_matches[is.na(combine
 sites_from_json <- jsonlite::fromJSON(
   here::here("data", "metadata", "cameratraps.json"))
 
-  RPushbullet::pbPost(type = "note",
-                      title = "Warning",
-                      body = msg_body)
+cameratraps_folders_to_match <-
+  cameratraps_path_constructor(combined_folder_pattern_matches)
 
 }
 
