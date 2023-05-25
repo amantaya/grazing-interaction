@@ -15,7 +15,7 @@
 # Setup R Environment -----------------------------------------------------
 
 # clear the R environment
-# rm(list=ls(all=TRUE))
+rm(list=ls(all=TRUE))
 
 # set the working directory and environment variables
 source(here::here("environment.R"))
