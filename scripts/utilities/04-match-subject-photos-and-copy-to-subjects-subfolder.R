@@ -130,11 +130,18 @@ all_subjects_from_collection_folder <-
                            skip_empty_rows = TRUE))
 }
 
-# the character strings are stored in the R environment as \\ (double-backslashes) which are reserved characters
-# replace these reserved characters with a single forward-slash, which is how R reads in file paths
-# (Windows 10 uses a single back-slash for file paths)
-all_subjects_tibble_drop_na$path <-
-  str_replace_all(all_subjects_tibble_drop_na$path, "\\\\", "/")
+# create a tibble to identify any missing data
+# add an index to make identifying trouble data easier
+all_subjects_from_collection_folder <-
+  tibble::tibble('index' = 1:length(all_subjects_from_collection_folder),
+                 'path' = all_subjects_from_collection_folder)
+
+# the character strings are read into R as double-backslashes \\
+# double-backslashes which are reserved characters in R
+# replace these reserved characters with a single forward-slash
+# R requires a single forward slash to represent file paths
+all_subjects_from_collection_folder$path <-
+  str_replace_all(all_subjects_from_collection_folder$path, "\\\\", "/")
 
 # the path of each photo may be different on each computer
 # so we need to make this script as flexible as possible
