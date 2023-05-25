@@ -209,16 +209,10 @@ all_subjects_csv <- readr::read_csv(
             "metadata",
             all_subjects_csv_filename))
 
-# compare the subjects vector to all of the photos in the collection to check for matching photos
-# the %in% checks for matches from the left object in the object to the right
-# if the name of file in the subjects vector matches the name of the file in the all photos data frame, it will report as TRUE
-# all values should report as TRUE because the subjects vector is a subset of the all photos data frame
-# all_subjects_csv$filename %in% all_photos_in_collection$ImageFilename
-
-# reversing matching function should illustrate how it works
-# in this case, it is looking for matches in the all photos data frame using the file names in the subjects vector
+# compare the all subjects csv to all of the photos in the collection to check for matching photos
+# the %in% operator checks for matches from the left object in the object to the right
+# if the filename in the all_photos_in_collection_folder data frame matches the filename in all subjects csv file, it will report as TRUE
 # only some of the values should report as TRUE (i.e. they match) because not all photos contain subjects
-# all_photos_in_collection$ImageFilename %in% all_subjects_csv$filename
 
 photo_contains_subject <- all_photos_in_collection$ImageFilename %in% all_subjects_csv$filename
 
