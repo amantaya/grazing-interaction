@@ -4,12 +4,8 @@ Version: 0.0.0.9000
 Authors@R: 
     person("Andrew", "Antaya", , "aantaya@arizona.edu", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-6067-9807"))
-Description: This package is used to manage and analyze data from cameratraps 
-that are used in grazing studies to estimate forage utilization 
-and parameters related to site use by grazing animals. It provides a workflow
-to ingest camera data, organize, wrangle, and analyse data from camera traps.
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+Description: This package is used to manage and analyze data from cameratraps that are used in grazing studies to estimate forage utilization and parameters related to site use by grazing animals. It provides a workflow to ingest, organize, wrangle, and analyze data from cameratraps.
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
