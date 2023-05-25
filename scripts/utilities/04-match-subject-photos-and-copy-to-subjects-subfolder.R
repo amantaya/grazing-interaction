@@ -150,7 +150,7 @@ all_subjects_from_collection_folder <- NULL
 
 # read the lines from each text file in the metadata folder
 # appending the lines to
-for (i in 1:length(txt_files_from_collection_folder)) {
+for (i in seq_along(txt_files_from_collection_folder)) {
 all_subjects_from_collection_folder <-
   append(all_subjects_from_collection_folder,
          readr::read_lines(txt_files_from_collection_folder[i],
@@ -160,8 +160,8 @@ all_subjects_from_collection_folder <-
 # create a tibble to identify any missing data
 # add an index to make identifying trouble data easier
 all_subjects_from_collection_folder <-
-  tibble::tibble('index' = 1:length(all_subjects_from_collection_folder),
-                 'path' = all_subjects_from_collection_folder)
+  tibble::tibble("index" = seq_along(all_subjects_from_collection_folder),
+                 "path" = all_subjects_from_collection_folder)
 
 # the character strings are read into R as double-backslashes \\
 # double-backslashes which are reserved characters in R
