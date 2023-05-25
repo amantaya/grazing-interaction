@@ -157,16 +157,32 @@ all_subjects_from_collection_folder$path <-
 collection_folder_regex <-
   "([[:upper:]]{3}_\\d{8}_\\d{8})|([[:upper:]]\\d{2}_\\d{8}_\\d{8})|([[:upper:]]{3}_5min_\\d{8}_\\d{8})|([[:upper:]]{3}\\d{2}_\\d{8}_\\d{8})"
 
-# pattern to match on renamed files including files with a trailing underscore
-filename_regex_pattern <-
-  "(\\d{4}-\\d{2}-\\d{2}-\\d{2}-\\d{2}-\\d{2}\\.JPG|\\d{4}-\\d{2}-\\d{2}-\\d{2}-\\d{2}-\\d{2}[:punct:]\\d*\\.JPG)"
+# matches 100EK113
+subfolder_regex <- "\\d{3}\\EK\\d{3}"
 
-all_subjects_reconstructed_paths <-
-all_subjects_tibble_drop_na %>%
-  dplyr::mutate(collection_folder = str_extract(path, collection_folder_regex_pattern)) %>%
-  dplyr::mutate(subfolder = str_extract(path, subfolder_regex_pattern)) %>%
-  dplyr::mutate(filename = str_extract(path, filename_regex_pattern)) %>%
-  dplyr::mutate(path = file.path(cameratraps_folders_to_chunk$full_path[i], subfolder, filename))
+# TODO extract to a function
+# TODO add test cases for each collection folder name
+all_subjects_from_collection_folder <-
+  all_subjects_from_collection_folder %>%
+  dplyr::mutate(
+    collection_folder =
+      str_extract(path, collection_folder_regex)
+  ) %>%
+  dplyr::mutate(
+    subfolder =
+      str_extract(path, subfolder_regex)
+  ) %>%
+  dplyr::mutate(
+    filename = basename(path)) %>%
+  dplyr::mutate(
+    path =
+      file.path(
+        cameratraps_folders_to_match$full_path[1],
+        subfolder,
+        filename
+      )
+  )
+
 
 # create a file name for the single subjects text file
 all_subjects_filename <- paste(cameratraps_folders_to_chunk$collection_folder[i], "all_subjects.csv", sep = "_")
