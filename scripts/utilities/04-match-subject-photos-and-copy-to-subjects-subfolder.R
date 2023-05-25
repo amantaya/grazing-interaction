@@ -215,12 +215,19 @@ all_subjects_csv <- readr::read_csv(
 # if the filename in the all_photos_in_collection_folder data frame matches the filename in all subjects csv file, it will report as TRUE
 # only some of the values should report as TRUE (i.e. they match) because not all photos contain subjects
 
-photo_contains_subject <- all_photos_in_collection$ImageFilename %in% all_subjects_csv$filename
+photo_contains_subject <-
+  all_photos_in_collection_folder$ImageFilename %in% all_subjects_csv$filename
 
 # create a new column in the all photos data frame that identifies that if the photo has a subject
 # i.e. if SubjectPhoto = TRUE then that photo has been recorded in the subject text files as having something in it (i.e. a subject)
-all_photos_in_collection <-
-  tibble::add_column(all_photos_in_collection, SubjectPhoto = photo_contains_subject)
+all_photos_in_collection_folder <-
+  tibble::add_column(all_photos_in_collection_folder,
+    SubjectPhoto = photo_contains_subject
+  )
+
+# filter out the images with a file size of 0 file may be corrupted
+all_photos_in_collection_folder <-
+  dplyr::filter(all_photos_in_collection_folder, ImageSize != 0)
 
 # filter out the images with a file size of 0
 # i.e. file may be corrupted
