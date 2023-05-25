@@ -70,17 +70,13 @@ options(max.print = 100)
 # https://www.rdocumentation.org/packages/RPushbullet/versions/0.3.4/topics/pbSetup
 
 if (interactive() == TRUE) {
-
-# Enter an API key for the Push Bullet push notification service
-options(rpushbullet.dotfile = file.path(currentwd, ".rpushbullet.json"))
-
-# warn if you are missing a rpushbullet config file
-if (RPushbullet::pbValidateConf(getOption("rpushbullet.dotfile")) == FALSE) {
-  RPushbullet::pbSetup()
+  # run the Pushbullet setup if you are missing a rpushbullet config file
+  if (RPushbullet::pbValidateConf(conf = ".rpushbullet.json") == FALSE) {
+    RPushbullet::pbSetup()
   }
 
- options(error = function() {
-   RPushbullet::pbPost("note", "Error", geterrmessage())
-   if (!interactive()) stop(geterrmessage())
- })
+  options(error = function() {
+    RPushbullet::pbPost("note", "Error", geterrmessage())
+    if (!interactive()) stop(geterrmessage())
+  })
 }
