@@ -71,77 +71,15 @@ cameratraps2_folder_pattern_matches <-
   stringr::str_extract(kanban_board_subset,
                        pattern = cameratraps2_regex_pattern)
 
-  # open a file connection to the first text file (inside of each text file is a list of photo files that contain subjects)
-  # define the text file encoding explicitly because R has trouble recognizing this type of file encoding
-  # print the character string to the console to check if R read in the strings correctly
-  # if R misreads the text files, you will see embedded nulls, strange characters, or blank strings printed in the console
-  # readLines(con <- file(subject_txt_files[1], encoding = "UTF-16LE"))
+# combine the folder matches so we can match subject text files from both project folders
+combined_folder_pattern_matches <- c(cameratraps_folders_pattern_matches, cameratraps2_folder_pattern_matches)
 
-  # store the photos with subjects from the first text file in the metadata subfolder into a character vector
-  # this will allow us to test converting from UCS-2LE to UTF-8
-  # first_subjects_text_file <- readr::read_lines(con <- file(subject_txt_files[1], encoding = "UTF-16LE"))
+# return only the pattern matches that were not NA
+combined_folder_pattern_matches <- combined_folder_pattern_matches[is.na(combined_folder_pattern_matches) == FALSE]
 
-  # create an empty vector to hold all of the photos with subjects
-  all_subjects_vector <- NULL
-
-  # use this for loop to read in all of subject text files and append (add) them to the vector
-  for (j in 1:length(subject_txt_files)) {
-
-    subjects_from_text_file <- readLines(con <- file(subject_txt_files[j], encoding = "UTF-16LE"))
-
-    if (length(subjects_from_text_file) != 0) {
-      number_of_lines_in_text_file <- length(subjects_from_text_file)
-
-      all_subjects_vector <-
-        append(all_subjects_vector, subjects_from_text_file)
-
-    } else{
-
-    }
-  # close the open file connections
-  closeAllConnections()
-  }
-
-  # create a tibble to identify any missing data
-  # add an index to make identifying trouble data easier
-  all_subjects_tibble <-
-    tibble::tibble('index' = 1:length(all_subjects_vector),
-                   'path' = all_subjects_vector)
-
-  # Create an error message to identify which rows contain NA values
-  for (k in 1:nrow(all_subjects_tibble)) {
-    if (is.na(all_subjects_tibble$path[k]) == TRUE) {
-      warning(paste(
-        "This subject text file has an NA.",
-        "Index",
-        "=",
-        as.character(all_subjects_tibble$index[k], sep = " ")
-        )
-      )
-    } else {
-      # print("There are no NAs in the subject text files.")
-    }
-
-  }
-
-  # drop any lines that contain NAs (usually caused by encoding problems)
-  all_subjects_tibble_drop_na <-
-    all_subjects_tibble %>% tidyr::drop_na()
-
-# add a descriptive push notification to alert me when NAs are dropped
-# if any lines were dropped alert the user
-if (nrow(all_subjects_tibble_drop_na) != nrow(all_subjects_tibble)) {
-  msg_body <- paste0(
-    "In collection folder:",
-    " ",
-    cameratraps_folders_to_chunk$collection_folder[i],
-    "\n",
-    "there are",
-    " ",
-    nrow(all_subjects_tibble) - nrow(all_subjects_tibble_drop_na),
-    " ",
-    "NAs in the subject text files"
-  )
+# create a data frame with a "site" column that we can use to construct file paths
+# TODO replace these path constructing functions with reading the file paths from a JSON
+# the fromJSON creates a data frame whereas the read_json creates a list
 
   RPushbullet::pbPost(type = "note",
                       title = "Warning",
