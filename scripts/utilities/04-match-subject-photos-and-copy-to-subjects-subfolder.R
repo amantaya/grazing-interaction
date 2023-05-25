@@ -1,4 +1,4 @@
-# BACKGROUND AND CONFIGURATION --------------------------------------------
+# Background and Configuration --------------------------------------------
 
 ## Horse-Cattle-Elk Grazing Interaction Study Rproj
 ## Step 4: Match Subject Photo Text Files and Copy to Subjects Sub-Folder
@@ -12,7 +12,7 @@
 ## csv file from "01-extract-image-paths.R" containing all photos in a collection (this csv file needs to be located in the "metadata" sub-folder within the collection)
 ## subject text files (these text files need to be located in the "metadata" sub-folder within the collection)
 
-# SETUP R ENVIRONMENT -----------------------------------------------------
+# Setup R Environment -----------------------------------------------------
 
 # clear the R environment
 # rm(list=ls(all=TRUE))
@@ -26,7 +26,7 @@ source(here::here("packages.R"))
 # load in the required functions
 source(here::here("functions.R"))
 
-# SELECT FOLDERS TO EXTRACT -----------------------------------------------
+# Select Folders to Extract -----------------------------------------------
 
 # create a variable to hold the file name in case we switch to a different project
 # and the file name is different we can switch it once here
@@ -209,7 +209,7 @@ all_subjects_filename <- paste(cameratraps_folders_to_chunk$collection_folder[i]
 readr::write_csv(all_subjects_reconstructed_paths,
                  file = file.path(cameratraps_folders_to_chunk$full_path[i], "metadata", all_subjects_filename))
 
-# MATCH SUBJECT PHOTOS TO ALL PHOTOS --------------------------------------
+# Match Subject Photos to All Photos--------------------------------------
 
 all_subjects_csv <- readr::read_csv(
   file.path(cameratraps_folders_to_chunk$full_path[i],
@@ -254,7 +254,7 @@ readr::write_csv(
   file = file.path(cameratraps_folders_to_chunk$full_path[i], "metadata", excelfilename)
   )
 
-# COPY SUBJECT PHOTOS TO "SUBJECTS" FOLDER --------------------------------
+# Copy Subject Photos to "Subjects" Folder --------------------------------
 
 # now that we have identified which files contain subjects by reading in the text files created by IrFanView
 # we want to copy them to a "subjects" sub-folder in the file directory
