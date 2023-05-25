@@ -54,8 +54,7 @@ folders_to_chunk_heading_index <- stringr::str_which(project_kanban, pattern = f
 # add 2 because we don't want to include the first heading and the new line
 # subtract 2 because we don't want to include the last heading and the new line
 # subset the kanban board using these indexes
-# TODO should I consider not using the index?
-folders_to_chunk <- project_kanban[(folders_to_match_heading_index + 2):(folders_to_chunk_heading_index - 2)]
+kanban_board_subset <- project_kanban[(folders_to_match_heading_index + 2):(folders_to_chunk_heading_index - 2)]
 
 folders_to_chunk_regex_pattern <-
   "([[:upper:]][[:upper:]][[:upper:]]_\\d{8}_\\d{8}|[[:upper:]]\\d{2}_\\d{8}_\\d{8})"
