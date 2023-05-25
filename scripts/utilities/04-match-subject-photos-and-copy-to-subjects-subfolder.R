@@ -183,6 +183,10 @@ all_subjects_from_collection_folder <-
       )
   )
 
+# drop rows where the file path is NA
+all_subjects_from_collection_folder <-
+  all_subjects_from_collection_folder %>%
+  tidyr::drop_na(collection_folder)
 
 # create a file name for the single subjects text file
 all_subjects_filename <- paste(cameratraps_folders_to_chunk$collection_folder[i], "all_subjects.csv", sep = "_")
