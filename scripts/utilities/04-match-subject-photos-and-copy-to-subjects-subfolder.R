@@ -90,6 +90,19 @@ cameratraps_folders_to_match <-
 cameratraps2_folders_to_match <-
   cameratraps2_path_constructor(combined_folder_pattern_matches)
 
+# Extract Subject Text Files ----------------------------------------------
+
+# read in the csv file that contains the metadata for all photos in the collection folder
+
+# read in the CSV file from each collection folder containing the photo metadata
+all_photos_in_collection_folder <- readr::read_csv(
+    here::here(
+      cameratraps_folders_to_match$full_path[1],
+      "metadata",
+      paste0(cameratraps_folders_to_match$collection_folder[1], ".csv")
+    )
+  )
+
 }
 
 # the character strings are stored in the R environment as \\ (double-backslashes) which are reserved characters
