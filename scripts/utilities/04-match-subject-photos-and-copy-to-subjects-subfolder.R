@@ -262,7 +262,7 @@ readr::write_csv(
 # this function uses objects defined in a previous step to create file paths for our external hard drives
 from <- file.path(all_subjects_csv$path)
 
-to <- file.path(cameratraps_folders_to_chunk$full_path[i], "subjects")
+to <- file.path(cameratraps_folders_to_match$full_path[1], "subjects")
 
 # make a subjects folder if one doesn't already exist
 # create a "metadata" directory if one doesn't already exist in the collection folder
