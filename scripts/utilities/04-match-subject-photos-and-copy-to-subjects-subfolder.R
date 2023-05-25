@@ -80,6 +80,8 @@ combined_folder_pattern_matches <- combined_folder_pattern_matches[is.na(combine
 # create a data frame with a "site" column that we can use to construct file paths
 # TODO replace these path constructing functions with reading the file paths from a JSON
 # the fromJSON creates a data frame whereas the read_json creates a list
+sites_from_json <- jsonlite::fromJSON(
+  here::here("data", "metadata", "cameratraps.json"))
 
   RPushbullet::pbPost(type = "note",
                       title = "Warning",
