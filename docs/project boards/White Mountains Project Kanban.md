@@ -141,6 +141,7 @@ kanban-plugin: basic
 - [ ] WCT_04252018_05152018 #wm2018photos #task #chunk
 - [ ] WCT_05152018_06112018 #wm2018photos #task #chunk
 
+- [ ] WCT_05152018_06112018 #wm2018photos #task #chunk
 
 ## Folders to Copy into Blank Macro
 
@@ -312,6 +313,7 @@ kanban-plugin: basic
 - [x] 2023-05-25 09:36:50 WCS_07302019_09182019 #wm2019photos #task #matchsubjects
 - [x] 2023-05-25 09:38:09 WCT_04252018_05152018 #wm2018photos #task #matchsubjects
 - [x] 2023-05-25 09:40:40 WCT_05152018_06112018 #wm2018photos #task #matchsubjects
+- [x] 2023-05-25 14:37:49 WCT_05152018_06112018 #wm2018photos #task #chunk
 
 %% kanban:settings
 ```
