@@ -346,7 +346,7 @@ if (
       "04-match-subject-photos-and-copy-to-subjects-subfolder.R",
       "ran on folder",
       cameratraps_folders_to_match$collection_folder[1],
-      "did not copy all files",
+      "n files copied does not equal n files in folder",
       system_time,
       sep = " "
     )
