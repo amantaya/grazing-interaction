@@ -229,10 +229,7 @@ all_photos_in_collection_folder <-
 all_photos_in_collection_folder <-
   dplyr::filter(all_photos_in_collection_folder, ImageSize != 0)
 
-# filter out the images with a file size of 0
-# i.e. file may be corrupted
-all_photos_in_collection <-
-  dplyr::filter(all_photos_in_collection, ImageSize != 0)
+# Write Matched Subject Photos to CSV --------------------------------
 
 # create a flexible excel file name that uses the first row of the collection folder
 excelfilename <-paste0(
