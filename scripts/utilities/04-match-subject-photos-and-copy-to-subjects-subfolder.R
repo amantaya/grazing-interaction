@@ -29,14 +29,12 @@ source(here::here("functions.R"))
 # Select Folders to Extract -----------------------------------------------
 
 # create a variable to hold the file name in case we switch to a different project
-# and the file name is different we can switch it once here
-# TODO create a switch to intelligently switch between project boards
-file <- here::here("docs", "project boards", "Cameratraps2 Kanban.md")
+project_kanban_file <- here::here("docs", "project boards", "Cameratraps2 Kanban.md")
 
 # read in the kanban board for the Heber project
 project_kanban <- readr::read_lines(
   here::here(
-    file
+    project_kanban_file
   ),
   skip_empty_rows = FALSE,
   progress = readr::show_progress()
