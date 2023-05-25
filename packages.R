@@ -53,6 +53,7 @@ library("jsonlite")
 library("devtools")
 library("roxygen2")
 library("testthat")
+library("todor")
 
 # remotes::install_github("mattcowgill/ggannotate")
 # p_load("ggannotate")
