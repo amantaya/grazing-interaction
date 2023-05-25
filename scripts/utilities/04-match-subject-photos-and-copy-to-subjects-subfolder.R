@@ -188,13 +188,19 @@ all_subjects_from_collection_folder <-
   all_subjects_from_collection_folder %>%
   tidyr::drop_na(collection_folder)
 
-# create a file name for the single subjects text file
-all_subjects_filename <- paste(cameratraps_folders_to_chunk$collection_folder[i], "all_subjects.csv", sep = "_")
+# Write All Subjects in Collection Folder to CSV ---------------------
 
-# write out a single text file containing the concatenated subject text files
-# encode this text file as UTF-8 depending on your locale
-readr::write_csv(all_subjects_reconstructed_paths,
-                 file = file.path(cameratraps_folders_to_chunk$full_path[i], "metadata", all_subjects_filename))
+# create a file name for the combined subjects csv file
+all_subjects_csv_filename <- paste(cameratraps_folders_to_match$collection_folder[1],
+  "all_subjects.csv",
+  sep = "_"
+)
+
+# write out a single csv file containing the concatenated subject text files
+readr::write_csv(all_subjects_from_collection_folder,
+  file = file.path(cameratraps_folders_to_match$full_path[1],
+                   "metadata", all_subjects_csv_filename)
+)
 
 # Match Subject Photos to All Photos--------------------------------------
 
