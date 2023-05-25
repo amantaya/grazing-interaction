@@ -56,40 +56,20 @@ folders_to_chunk_heading_index <- stringr::str_which(project_kanban, pattern = f
 # subset the kanban board using these indexes
 kanban_board_subset <- project_kanban[(folders_to_match_heading_index + 2):(folders_to_chunk_heading_index - 2)]
 
-folders_to_chunk_regex_pattern <-
-  "([[:upper:]][[:upper:]][[:upper:]]_\\d{8}_\\d{8}|[[:upper:]]\\d{2}_\\d{8}_\\d{8})"
+cameratraps_regex_pattern <- "([[:upper:]][[:upper:]][[:upper:]]_\\d{8}_\\d{8}|A\\d{2}_\\d{8}_\\d{8}|[[:upper:]][[:upper:]][[:upper:]]_5min_\\d{8}_\\d{8})"
 
-folders_to_chunk_pattern_matches <-
-  stringr::str_extract(folders_to_chunk,
-                       pattern = folders_to_chunk_regex_pattern)
+cameratraps2_regex_pattern <- "[[:upper:]][[:upper:]][[:upper:]]\\d{2}_\\d{8}_\\d{8}"
 
-# return only the pattern matches that were not NA
-folders_to_chunk <- folders_to_chunk_pattern_matches[is.na(folders_to_chunk_pattern_matches) == FALSE]
+# extract the folders from the cameratraps project
+cameratraps_folders_pattern_matches <-
+  stringr::str_extract(kanban_board_subset,
+                       pattern = cameratraps_regex_pattern)
 
-# create a data frame with a "site" column that we can use to construct file paths
-cameratraps_folders_to_chunk <-
-  cameratraps_path_constructor(folders_to_chunk)
-
-# EXTRACT SUBJECT TEXT FILES ----------------------------------------------
-
-# read in the csv file that contains the metadata for all photos in the collection folder
-
-for (i in 1:nrow(cameratraps_folders_to_chunk)) {
-  all_photos_in_collection <- read.csv(file.path(
-    cameratraps_folders_to_chunk$full_path[i],
-    "metadata",
-    paste0(cameratraps_folders_to_chunk$collection_folder[i], ".csv")
-  ))
-
-  # read in the text files from the metadata sub-folder
-  # be careful not to put any other files with the file extension ".txt"
-  # inside of the metadata sub-folder because this function will read them in to R
-  subject_txt_files <-
-    list.files(
-      file.path(cameratraps_folders_to_chunk$full_path[i], "metadata"),
-      pattern = ".txt",
-      full.names = TRUE
-    )
+# extract the folders from the cameratraps2 projects
+# the cameratraps2 project has different site codes and require a different regex
+cameratraps2_folder_pattern_matches <-
+  stringr::str_extract(kanban_board_subset,
+                       pattern = cameratraps2_regex_pattern)
 
   # open a file connection to the first text file (inside of each text file is a list of photo files that contain subjects)
   # define the text file encoding explicitly because R has trouble recognizing this type of file encoding
