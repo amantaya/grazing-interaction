@@ -150,10 +150,12 @@ all_subjects_from_collection_folder$path <-
 # discarding the parts of the string that we don't need
 
 # create a series of regular expressions to extract parts of the filepath
-collection_folder_regex_pattern <-
-  "[[:upper:]][[:upper:]][[:upper:]]_\\d{8}_\\d{8}"
-
-subfolder_regex_pattern <- "\\d{3}\\EK\\d{3}"
+# matches WCS_04192019_05212019
+# matches A51_05282021_06222021
+# WCS_5min_04192019_05212019
+# KPT16_20210527_20210622
+collection_folder_regex <-
+  "([[:upper:]]{3}_\\d{8}_\\d{8})|([[:upper:]]\\d{2}_\\d{8}_\\d{8})|([[:upper:]]{3}_5min_\\d{8}_\\d{8})|([[:upper:]]{3}\\d{2}_\\d{8}_\\d{8})"
 
 # pattern to match on renamed files including files with a trailing underscore
 filename_regex_pattern <-
