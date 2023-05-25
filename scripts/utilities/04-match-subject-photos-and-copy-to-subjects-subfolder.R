@@ -86,6 +86,10 @@ sites_from_json <- jsonlite::fromJSON(
 cameratraps_folders_to_match <-
   cameratraps_path_constructor(combined_folder_pattern_matches)
 
+# TODO this breaks if you run it on a cameratraps folder
+cameratraps2_folders_to_match <-
+  cameratraps2_path_constructor(combined_folder_pattern_matches)
+
 }
 
 # the character strings are stored in the R environment as \\ (double-backslashes) which are reserved characters
