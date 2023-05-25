@@ -403,6 +403,7 @@ readr::write_lines(project_kanban,
 system_time <- Sys.time()
 
 # convert into the correct timezone for your locale (mine is Arizona so we follow Mountain Standard)
+# TODO read the documenation for setting time zone
 attr(system_time, "tzone") <- "MST"
 
 msg_body <-
