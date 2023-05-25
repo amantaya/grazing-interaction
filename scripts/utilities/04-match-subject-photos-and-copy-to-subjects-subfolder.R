@@ -259,7 +259,7 @@ readr::write_csv(
 # that way we can run the Excel macro on only the photos that containing subjects, greatly speeding up the scoring process
 
 # define explicitly where the files are coming from, and where we want to copy them to
-# this function uses vectors defined in a previous step to create file paths for our external hard drives
+# this function uses objects defined in a previous step to create file paths for our external hard drives
 from <- file.path(all_subjects_csv$path)
 
 to <- file.path(cameratraps_folders_to_chunk$full_path[i], "subjects")
