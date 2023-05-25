@@ -287,12 +287,32 @@ file.copy(from = from,
           to = to,
           overwrite = FALSE)
 
-# TODO Add a some logic to check if files were not copied due to incorrect paths
+# Check if files were not copied due to incorrect paths
 # one way to do this would be to compare the number of observations on the all subjects data frame to the number of copied files
 
-# play a sound to indicate the transfer is complete
-# beep("coin")
-# toc()
+n_files_copied_to_subjects_folder <- list.files(file.path(
+  cameratraps_folders_to_match$full_path[1],
+  "subjects"
+))
+
+if (length(all_subjects_csv$path) != length(n_files_copied_to_subjects_folder)) {
+  system_time <- Sys.time()
+
+  attr(system_time, "tzone") <- "MST"
+
+  msg_body <-
+    paste(
+      "04-match-subject-photos-and-copy-to-subjects-subfolder.R",
+      "ran on folder",
+      cameratraps_folders_to_match$collection_folder[1],
+      "did not copy all files",
+      system_time,
+      sep = " "
+    )
+
+  RPushbullet::pbPost(type = "note", title = "WARNING", body = msg_body)
+}
+
 
 # get the current system time to notify when the script is completed
 # note that this defaults to UTC (aka Greenwich Mean Time)
