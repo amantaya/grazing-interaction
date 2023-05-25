@@ -1,0 +1,4 @@
+^renv$
+^renv\.lock$
+^grazing-interaction\.Rproj$
+^\.Rproj\.user$
