@@ -1059,7 +1059,7 @@ write_csv_purrr <- function(list_of_dataframes, file_names) {
 calc.grazing.time.unwtd <- function(cameradf) {
 
   sites_from_json <- jsonlite::fromJSON(
-    file.path(currentwd, "data", "metadata", "cameratrap-sites.json"))
+    here::here("data", "metadata", "cameratraps.json"))
 
   # match the site name from sites_from_json to cameradf
   site_match <- dplyr::filter(sites_from_json, sites_from_json$Site == unique(cameradf$Site) &
