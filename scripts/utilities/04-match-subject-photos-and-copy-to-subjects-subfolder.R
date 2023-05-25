@@ -266,8 +266,18 @@ to <- file.path(cameratraps_folders_to_match$full_path[1], "subjects")
 
 # make a subjects folder if one doesn't already exist
 # create a "metadata" directory if one doesn't already exist in the collection folder
-if (dir.exists(file.path(cameratraps_folders_to_chunk$full_path[i], "subjects")) == FALSE) {
-  dir.create(file.path(cameratraps_folders_to_chunk$full_path[i], "subjects"))
+if (dir.exists(
+  file.path(
+    cameratraps_folders_to_match$full_path[1],
+    "subjects"
+  )
+) == FALSE) {
+  dir.create(
+    file.path(
+      cameratraps_folders_to_match$full_path[1],
+      "subjects"
+    )
+  )
 } else {
 
 }
