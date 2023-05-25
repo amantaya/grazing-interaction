@@ -62,7 +62,7 @@ Sys.setenv(TZ = "US/Arizona")
 options(digits = 5)
 
 # set the max print to 10,000
-options(max.print = 100)
+options(max.print = 500)
 
 # RPushBullet Setup -------------------------------------------------------
 
