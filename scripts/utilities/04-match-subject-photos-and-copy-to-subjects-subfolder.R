@@ -114,6 +114,20 @@ txt_files_from_collection_folder <-
       full.names = TRUE
     )
 
+# TODO empty text files cause `read_lines` to fail
+# TODO you could open up write "no subjects" to all of the files named "...no_subjects.txt"
+# TODO write a test for each case
+
+# initialize an empty character vector to hold the subject photos
+all_subjects_from_collection_folder <- NULL
+
+# read the lines from each text file in the metadata folder
+# appending the lines to
+for (i in 1:length(txt_files_from_collection_folder)) {
+all_subjects_from_collection_folder <-
+  append(all_subjects_from_collection_folder,
+         readr::read_lines(txt_files_from_collection_folder[i],
+                           skip_empty_rows = TRUE))
 }
 
 # the character strings are stored in the R environment as \\ (double-backslashes) which are reserved characters
