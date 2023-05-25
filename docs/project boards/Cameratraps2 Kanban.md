@@ -14,10 +14,12 @@ kanban-plugin: basic
 
 ## Folders That Need Metadata
 
+- [ ] [GET21_20210525_20210623 1](GET21_20210525_20210623%201.md) #cameratraps2/2021 #task #matchsubjects
+- [ ] [GET13_20210623_20210723 1](GET13_20210623_20210723%201.md) #cameratraps2/2021 #task #matchsubjects
 - [ ] SHT30_20210622_20210722 #cameratraps2/2021 #task #needsmetadata
 - [ ] SHT30_20210525_20210622 #cameratraps2/2021 #task #needsmetadata
 - [ ] GEO30_20210622_20220723 #cameratraps2/2021 #task #needsmetadata
-- [ ] [[GET13_20210623_20210723]] #cameratraps2/2021 #task #needsmetadata
+- [ ] [[GET13_20210623_20210723 1]] #cameratraps2/2021 #task #needsmetadata
 - [ ] [[../tasks/GET21_20210525_20210623]] #cameratraps2/2021 #task #needsmetadata
 - [ ] [[../tasks/GET21_20210623_20210723]] #cameratraps2/2021 #task #needsmetadata
 - [ ] [[../tasks/GET22_20210525_20210622]] #cameratraps2/2021 #task #needsmetadata
@@ -107,8 +109,6 @@ kanban-plugin: basic
 - [ ] GET06_20210525_20210622 #cameratraps2/2021 #task #matchsubjects
 - [ ] GET06_20210622_20210722 #cameratraps2/2021 #task #matchsubjects
 - [ ] GET13_20210527_20210613 #cameratraps2/2021 #task #matchsubjects
-- [ ] GET13_20210623_20210723 #cameratraps2/2021 #task #matchsubjects
-- [ ] GET21_20210525_20210623 #cameratraps2/2021 #task #matchsubjects
 - [ ] KPT27_20210525_20210622 #cameratraps2/2021 #task #matchsubjects
 - [ ] KPT27_20210622_20210722 #cameratraps2/2021 #task #matchsubjects
 - [ ] SHT18_20210525_20210528 #cameratraps2/2021 #task #matchsubjects
