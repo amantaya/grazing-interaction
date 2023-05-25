@@ -77,7 +77,7 @@ kanban_board_subset <-
   ]
 
 cameratraps_regex_pattern <-
-  "([[:upper:]][[:upper:]][[:upper:]]_\\d{8}_\\d{8}|A\\d{2}_\\d{8}_\\d{8}|[[:upper:]][[:upper:]][[:upper:]]_5min_\\d{8}_\\d{8})"
+  "([[:upper:]][[:upper:]][[:upper:]]_\\d{8}_\\d{8}|A\\d{2}_\\d{8}_\\d{8}|[[:upper:]][[:upper:]][[:upper:]]_5min_\\d{8}_\\d{8})" # nolint: line_length_linter
 
 cameratraps2_regex_pattern <-
   "[[:upper:]][[:upper:]][[:upper:]]\\d{2}_\\d{8}_\\d{8}"
@@ -141,7 +141,8 @@ txt_files_from_collection_folder <-
     )
 
 # TODO empty text files cause `read_lines` to fail
-# TODO you could open up write "no subjects" to all of the files named "...no_subjects.txt"
+# you could open up the file and write "no subjects"
+# to all of the files named "...no_subjects.txt"
 # TODO write a test for each case
 
 # initialize an empty character vector to hold the subject photos
@@ -182,7 +183,7 @@ all_subjects_from_collection_folder$path <-
 # KPT16_20210527_20210622
 # TODO write test cases for each regex to see if catches different collection folder names
 collection_folder_regex <-
-  "([[:upper:]]{3}_\\d{8}_\\d{8})|([[:upper:]]\\d{2}_\\d{8}_\\d{8})|([[:upper:]]{3}_5min_\\d{8}_\\d{8})|([[:upper:]]{3}\\d{2}_\\d{8}_\\d{8})"
+  "([[:upper:]]{3}_\\d{8}_\\d{8})|([[:upper:]]\\d{2}_\\d{8}_\\d{8})|([[:upper:]]{3}_5min_\\d{8}_\\d{8})|([[:upper:]]{3}\\d{2}_\\d{8}_\\d{8})" # nolint: line_length_linter
 
 # matches 100EK113
 subfolder_regex <- "\\d{3}\\EK\\d{3}"
@@ -218,10 +219,11 @@ all_subjects_from_collection_folder <-
 # Write All Subjects in Collection Folder to CSV ---------------------
 
 # create a file name for the combined subjects csv file
-all_subjects_csv_filename <- paste(cameratraps_folders_to_match$collection_folder[1],
-  "all_subjects.csv",
-  sep = "_"
-)
+all_subjects_csv_filename <-
+  paste(cameratraps_folders_to_match$collection_folder[1],
+    "all_subjects.csv",
+    sep = "_"
+  )
 
 # write out a single csv file containing the concatenated subject text files
 readr::write_csv(all_subjects_from_collection_folder,
@@ -236,16 +238,21 @@ all_subjects_csv <- readr::read_csv(
             "metadata",
             all_subjects_csv_filename))
 
-# compare the all subjects csv to all of the photos in the collection to check for matching photos
-# the %in% operator checks for matches from the left object in the object to the right
-# if the filename in the all_photos_in_collection_folder data frame matches the filename in all subjects csv file, it will report as TRUE
-# only some of the values should report as TRUE (i.e. they match) because not all photos contain subjects
+# compare the all subjects csv to all of the photos in the collection
+# to check for matching photos
+# the %in% operator checks for matches from left object to the right object
+# if the filename in the all_photos_in_collection_folder data frame matches
+# the filename in all subjects csv file, it will report as TRUE
+# only some of the values should report as TRUE (i.e. they match)
+# because not all photos contain subjects
 
 photo_contains_subject <-
   all_photos_in_collection_folder$ImageFilename %in% all_subjects_csv$filename
 
-# create a new column in the all photos data frame that identifies that if the photo has a subject
-# i.e. if SubjectPhoto = TRUE then that photo has been recorded in the subject text files as having something in it (i.e. a subject)
+# create a new column in the all photos data frame
+# that identifies that if the photo has a subject
+# i.e. if SubjectPhoto = TRUE then that photo has been recorded
+# in the subject text files as having something in it (i.e. a subject)
 all_photos_in_collection_folder <-
   tibble::add_column(all_photos_in_collection_folder,
     SubjectPhoto = photo_contains_subject
@@ -257,7 +264,7 @@ all_photos_in_collection_folder <-
 
 # Write Matched Subject Photos to CSV --------------------------------
 
-# create a flexible excel file name that uses the first row of the collection folder
+# create a flexible filename from the name of the collection folder
 matched_subjects_csv_filename <- paste0(
   paste(cameratraps_folders_to_match$collection_folder[1],
     "matched_subject_photos",
@@ -280,18 +287,23 @@ readr::write_csv(
 
 # Copy Subject Photos to "Subjects" Folder --------------------------------
 
-# now that we have identified which files contain subjects by reading in the text files created by IrFanView
+# now that we have identified which files contain subjects
+# by reading in the text files created by IrFanView
 # we want to copy them to a "subjects" sub-folder in the file directory
-# that way we can run the Excel macro on only the photos that containing subjects, greatly speeding up the scoring process
+# so we can run the Excel macro on only the photos that containing subjects
+# greatly speeding up the scoring process
 
-# define explicitly where the files are coming from, and where we want to copy them to
-# this function uses objects defined in a previous step to create file paths for our external hard drives
+# define explicitly where the files are coming from
+# and where we want to copy them to
+# this function uses objects defined in a previous step to create file paths
+# for our external hard drives
 from <- file.path(all_subjects_csv$path)
 
 to <- file.path(cameratraps_folders_to_match$full_path[1], "subjects")
 
 # make a subjects folder if one doesn't already exist
-# create a "metadata" directory if one doesn't already exist in the collection folder
+# create a "metadata" directory
+# if one doesn't already exist in the collection folder
 if (dir.exists(
   file.path(
     cameratraps_folders_to_match$full_path[1],
@@ -308,20 +320,23 @@ if (dir.exists(
 
 }
 
-# copy the photos containing subjects into the folders locations defined in the previous step
+# copy the photos containing subjects into the folders locations
 file.copy(from = from,
           to = to,
           overwrite = FALSE)
 
 # Check if files were not copied due to incorrect paths
-# one way to do this would be to compare the number of observations on the all subjects data frame to the number of copied files
+# one way to do this would be to compare the number of observations
+# on the all subjects data frame to the number of copied files
 
 n_files_copied_to_subjects_folder <- list.files(file.path(
   cameratraps_folders_to_match$full_path[1],
   "subjects"
 ))
 
-if (length(all_subjects_csv$path) != length(n_files_copied_to_subjects_folder)) {
+if (
+  length(all_subjects_csv$path) != length(n_files_copied_to_subjects_folder)
+) {
   system_time <- Sys.time()
 
   attr(system_time, "tzone") <- "MST"
@@ -345,14 +360,20 @@ if (length(all_subjects_csv$path) != length(n_files_copied_to_subjects_folder)) 
 archive_heading_regex <- "^##\\sArchive"
 
 # find the index of the Archive heading
-archive_heading_index <- stringr::str_which(project_kanban, pattern = archive_heading_regex)
+archive_heading_index <-
+  stringr::str_which(project_kanban,
+    pattern = archive_heading_regex
+  )
 
 # create a regex to match the kanban settings section
 # this is the last section on the board
 kanban_settings_regex <- "^%% kanban:settings"
 
 # find the end of the Archive heading
-kanban_settings_heading_index <- stringr::str_which(project_kanban, pattern = kanban_settings_regex)
+kanban_settings_heading_index <-
+  stringr::str_which(project_kanban,
+    pattern = kanban_settings_regex
+  )
 
 location_to_write_archived_task <- kanban_settings_heading_index - 2
 
@@ -392,7 +413,8 @@ folders_to_chunk_heading_index <-
   )
 
 # create a regex to find the next heading
-folders_to_copy_into_blank_macro_heading_regex <- "##\\sFolders\\sto\\sCopy\\sinto\\sBlank\\sMacro"
+folders_to_copy_into_blank_macro_heading_regex <-
+  "##\\sFolders\\sto\\sCopy\\sinto\\sBlank\\sMacro"
 
 folders_to_copy_into_blank_macro_heading_index <-
   stringr::str_which(
@@ -400,12 +422,14 @@ folders_to_copy_into_blank_macro_heading_index <-
     pattern = folders_to_copy_into_blank_macro_heading_regex
   )
 
-# subtract 2 so we  don't include the heading and 1 new line
+# subtract 2 so we don't include the heading and 1 new line
 location_to_put_next_task <- folders_to_copy_into_blank_macro_heading_index - 2
 
-project_kanban <- append(project_kanban,
-                         values = next_task_string,
-                         after = location_to_put_next_task)
+project_kanban <-
+  append(project_kanban,
+    values = next_task_string,
+    after = location_to_put_next_task
+  )
 
 
 # Remove Completed Task from Kanban Board ---------------------------------
