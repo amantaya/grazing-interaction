@@ -244,9 +244,13 @@ matched_subjects_csv_filename <- paste0(
 # we can use this new file at a later point (for machine learning)
 # to identify empty photos from photos with something in them
 readr::write_csv(
-  all_photos_in_collection,
-  file = file.path(cameratraps_folders_to_chunk$full_path[i], "metadata", excelfilename)
+  all_photos_in_collection_folder,
+  file = file.path(
+    cameratraps_folders_to_match$full_path[1],
+    "metadata",
+    matched_subjects_csv_filename
   )
+)
 
 # Copy Subject Photos to "Subjects" Folder --------------------------------
 
