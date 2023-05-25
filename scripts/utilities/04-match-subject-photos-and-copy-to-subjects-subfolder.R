@@ -408,15 +408,15 @@ attr(system_time, "tzone") <- "MST"
 
 msg_body <-
   paste(
-    "02-match-subject-photos-and-copy-to-subjects-subfolder.R",
+    "04-match-subject-photos-and-copy-to-subjects-subfolder.R",
     "ran on folder",
-    cameratraps_folders_to_chunk$collection_folder[i],
+    cameratraps_folders_to_match$collection_folder[1],
     "completed at",
     system_time,
     sep = " "
   )
 
 RPushbullet::pbPost(type = "note", title = "Script Completed", body = msg_body)
-}
+
 
 # TODO once this scripts completed, move the collection folder to the next task
