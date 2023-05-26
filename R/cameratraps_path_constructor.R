@@ -39,7 +39,7 @@ extract_sitecode_from_collection_folder <-
 #' @examples
 site_folder_from_sitecode <- function(sitecode_df, path) {
   # matching on the first three letters to construct file paths
-  for (i in 1:nrow(sitecode_df)) {
+  for (i in seq_len(nrow(sitecode_df))) {
     if (sitecode_df$site_code[i] == "BRL") {
       sitecode_df$site_folder[i] <-
         file.path(path, "cameratraps", "bear", "timelapse")
