@@ -136,7 +136,7 @@ site_folder_from_sitecode <- function(sitecode_df, path) {
     } else if (sitecode_df$site_code[i] == "GEO30") {
       sitecode_df$site_folder[i] <-
         file.path(path, "cameratraps2", "GEO30")
-    } else if (sitecode_df[i] == "GEO32") {
+    } else if (sitecode_df$site_code[i] == "GEO32") {
       sitecode_df$site_folder[i] <-
         file.path(path, "cameratraps2", "GEO32")
     } else if (sitecode_df$site_code[i] == "GET01") {
