@@ -166,11 +166,8 @@ all_subjects_from_collection_folder$path <-
 # we'll do this by splitting the file path string into multiple parts
 # discarding the parts of the string that we don't need
 
-# TODO extract to a function
-# TODO add test cases for each collection folder name
 all_subjects_from_collection_folder <-
-  subject_text_files_to_cameratraps_path(all_subjects_from_collection_folder$path)
-
+  subject_text_files_to_cameratraps_path(all_subjects_from_collection_folder)
 
 # drop rows where the file path is NA
 all_subjects_from_collection_folder <-
