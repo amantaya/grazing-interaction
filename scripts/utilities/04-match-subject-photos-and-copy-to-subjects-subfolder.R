@@ -150,8 +150,7 @@ all_subjects_from_collection_folder <-
 # create a tibble to identify any missing data
 # add an index to make identifying trouble data easier
 all_subjects_from_collection_folder <-
-  tibble::tibble("index" = seq_along(all_subjects_from_collection_folder),
-                 "path" = all_subjects_from_collection_folder)
+  tibble::tibble("path" = all_subjects_from_collection_folder)
 
 # the character strings are read into R as double-backslashes \\
 # double-backslashes which are reserved characters in R
@@ -173,7 +172,6 @@ all_subjects_from_collection_folder <-
 all_subjects_from_collection_folder <-
   all_subjects_from_collection_folder %>%
   tidyr::drop_na(collection_folder) %>%
-  dplyr::select(-c(index)) %>%
   tibble::rowid_to_column("index")
 
 # Write All Subjects in Collection Folder to CSV ---------------------
