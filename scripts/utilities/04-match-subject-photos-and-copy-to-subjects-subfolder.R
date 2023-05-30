@@ -77,32 +77,17 @@ kanban_board_subset <-
   ]
 
 cameratraps_regex_pattern <-
-  "([[:upper:]][[:upper:]][[:upper:]]_\\d{8}_\\d{8}|A\\d{2}_\\d{8}_\\d{8}|[[:upper:]][[:upper:]][[:upper:]]_5min_\\d{8}_\\d{8})" # nolint: line_length_linter
-
-cameratraps2_regex_pattern <-
-  "[[:upper:]][[:upper:]][[:upper:]]\\d{2}_\\d{8}_\\d{8}"
+  "([[:upper:]][[:upper:]][[:upper:]]_\\d{8}_\\d{8}|A\\d{2}_\\d{8}_\\d{8}|[[:upper:]][[:upper:]][[:upper:]]_5min_\\d{8}_\\d{8}|[[:upper:]][[:upper:]][[:upper:]]\\d{2}_\\d{8}_\\d{8})" # nolint: line_length_linter
 
 # extract the folders from the cameratraps project
 cameratraps_folders_pattern_matches <-
   stringr::str_extract(kanban_board_subset,
                        pattern = cameratraps_regex_pattern)
 
-# extract the folders from the cameratraps2 projects
-# the cameratraps2 project has different site codes
-# and require a different regex
-cameratraps2_folder_pattern_matches <-
-  stringr::str_extract(kanban_board_subset,
-                       pattern = cameratraps2_regex_pattern)
-
-# combine the folder matches so we can match subject text files
-# from both project folders
-combined_folder_pattern_matches <-
-  c(cameratraps_folders_pattern_matches, cameratraps2_folder_pattern_matches)
-
 # return only the pattern matches that were not NA
-combined_folder_pattern_matches <-
-  combined_folder_pattern_matches[
-    is.na(combined_folder_pattern_matches) == FALSE
+cameratraps_folders_pattern_matches <-
+  cameratraps_folders_pattern_matches[
+    is.na(cameratraps_folders_pattern_matches) == FALSE
   ]
 
 # create a data frame with a "site" column
@@ -113,7 +98,7 @@ sites_from_json <- jsonlite::fromJSON(
   here::here("data", "metadata", "cameratraps.json"))
 
 cameratraps_folders_to_match <-
-  extract_sitecode_from_collection_folder(combined_folder_pattern_matches)
+  extract_sitecode_from_collection_folder(cameratraps_folders_pattern_matches)
 
 cameratraps_folders_to_match <-
   site_folder_from_sitecode(
