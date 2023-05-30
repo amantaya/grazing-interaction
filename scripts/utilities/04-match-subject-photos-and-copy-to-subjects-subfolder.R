@@ -120,7 +120,7 @@ cameratraps_folders_to_match <-
 # for all photos in the collection folder
 all_photos_in_collection_folder <- readr::read_csv(
   here::here(
-    cameratraps_folders_to_match$full_path[1],
+    cameratraps_folders_to_match$path[1],
     "metadata",
     paste0(cameratraps_folders_to_match$collection_folder[1], ".csv")
   )
@@ -130,7 +130,7 @@ all_photos_in_collection_folder <- readr::read_csv(
 # the pattern arg should match "subjects.txt" and "no_subjects.txt" files
 txt_files_from_collection_folder <-
   list.files(
-    file.path(cameratraps_folders_to_match$full_path[1], "metadata"),
+    file.path(cameratraps_folders_to_match$path[1], "metadata"),
       pattern = "subjects.txt",
       full.names = TRUE
     )
@@ -188,14 +188,14 @@ all_subjects_csv_filename <-
 
 # write out a single csv file containing the concatenated subject text files
 readr::write_csv(all_subjects_from_collection_folder,
-  file = file.path(cameratraps_folders_to_match$full_path[1],
+  file = file.path(cameratraps_folders_to_match$path[1],
                    "metadata", all_subjects_csv_filename)
 )
 
 # Match Subject Photos to All Photos--------------------------------------
 
 all_subjects_csv <- readr::read_csv(
-  file.path(cameratraps_folders_to_match$full_path[1],
+  file.path(cameratraps_folders_to_match$path[1],
             "metadata",
             all_subjects_csv_filename))
 
@@ -240,7 +240,7 @@ matched_subjects_csv_filename <- paste0(
 readr::write_csv(
   all_photos_in_collection_folder,
   file = file.path(
-    cameratraps_folders_to_match$full_path[1],
+    cameratraps_folders_to_match$path[1],
     "metadata",
     matched_subjects_csv_filename
   )
@@ -260,20 +260,20 @@ readr::write_csv(
 # for our external hard drives
 from <- file.path(all_subjects_csv$path)
 
-to <- file.path(cameratraps_folders_to_match$full_path[1], "subjects")
+to <- file.path(cameratraps_folders_to_match$path[1], "subjects")
 
 # make a subjects folder if one doesn't already exist
 # create a "metadata" directory
 # if one doesn't already exist in the collection folder
 if (dir.exists(
   file.path(
-    cameratraps_folders_to_match$full_path[1],
+    cameratraps_folders_to_match$path[1],
     "subjects"
   )
 ) == FALSE) {
   dir.create(
     file.path(
-      cameratraps_folders_to_match$full_path[1],
+      cameratraps_folders_to_match$path[1],
       "subjects"
     )
   )
@@ -291,7 +291,7 @@ file.copy(from = from,
 # on the all subjects data frame to the number of copied files
 
 n_files_copied_to_subjects_folder <- list.files(file.path(
-  cameratraps_folders_to_match$full_path[1],
+  cameratraps_folders_to_match$path[1],
   "subjects"
 ))
 
@@ -432,3 +432,4 @@ RPushbullet::pbPost(type = "note", title = "Script Completed", body = msg_body)
 
 
 # TODO once this scripts completed, move the collection folder to the next task
+
