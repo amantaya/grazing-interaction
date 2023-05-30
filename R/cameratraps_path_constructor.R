@@ -206,7 +206,7 @@ site_folder_from_sitecode <- function(sitecode_df, path) {
 #'
 #' @examples
 construct_path_from_collection_and_site_folders <- function(sitecode_df){
-  sitecode_df$full_path <-
+  sitecode_df$path <-
     file.path(sitecode_df$site_folder,
               sitecode_df$collection_folder)
   return(sitecode_df)

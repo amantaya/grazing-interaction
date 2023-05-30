@@ -104,7 +104,7 @@ test_that("file paths form correctly when combining site and collection folders"
     site_code = "BUO23",
     collection_folder = "BUO23_20210525_20210624",
     site_folder = "G:/cameratraps2/BUO23",
-    full_path = "G:/cameratraps2/BUO23/BUO23_20210525_20210624"
+    path = "G:/cameratraps2/BUO23/BUO23_20210525_20210624"
   )
   expect_equal(construct_path_from_collection_and_site_folders(df), df2)
 })
