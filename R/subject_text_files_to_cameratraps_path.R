@@ -25,11 +25,11 @@ subject_text_files_to_cameratraps_path <- function(subject_txt_df, cameratraps_f
   subject_txt_df %>%
     dplyr::mutate(
       collection_folder =
-        stringr::str_extract(subject_txt_df, collection_folder_regex)
+        stringr::str_extract(subject_txt_df$path, collection_folder_regex)
     ) %>%
     dplyr::mutate(
       sub_folder =
-        stringr::str_extract(subject_txt_df, subfolder_regex)
+        stringr::str_extract(subject_txt_df$path, subfolder_regex)
     ) %>%
     dplyr::mutate(
       file_name = basename(subject_txt_df$path)
