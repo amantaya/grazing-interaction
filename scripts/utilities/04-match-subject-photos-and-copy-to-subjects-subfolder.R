@@ -175,7 +175,9 @@ all_subjects_from_collection_folder <-
 # drop rows where the file path is NA
 all_subjects_from_collection_folder <-
   all_subjects_from_collection_folder %>%
-  tidyr::drop_na(collection_folder)
+  tidyr::drop_na(collection_folder) %>%
+  dplyr::select(-c(index)) %>%
+  tibble::rowid_to_column("index")
 
 # Write All Subjects in Collection Folder to CSV ---------------------
 
