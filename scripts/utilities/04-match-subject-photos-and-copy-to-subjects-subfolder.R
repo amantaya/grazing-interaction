@@ -106,7 +106,11 @@ cameratraps_folders_to_match <-
     path = "G:"
   )
 
-# TODO write function for combining the site_folder and collection_folder to create a file path
+# construct a file path to each collection folder
+# by combining the site_folder and collection_folder
+# for each row in the data frame
+cameratraps_folders_to_match <-
+  construct_path_from_collection_and_site_folders(cameratraps_folders_to_match)
 
 # Read in Subject Text Files from Each Collection Folder ------------------
 
