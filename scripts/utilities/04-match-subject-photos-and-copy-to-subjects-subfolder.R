@@ -135,11 +135,6 @@ txt_files_from_collection_folder <-
       full.names = TRUE
     )
 
-# TODO empty text files cause `read_lines` to fail
-# you could open up the file and write "no subjects"
-# to all of the files named "...no_subjects.txt"
-# TODO write a test for each case
-
 # initialize an empty character vector to hold the subject photos
 all_subjects_from_collection_folder <- NULL
 
