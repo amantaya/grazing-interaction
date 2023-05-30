@@ -166,39 +166,11 @@ all_subjects_from_collection_folder$path <-
 # we'll do this by splitting the file path string into multiple parts
 # discarding the parts of the string that we don't need
 
-# create a series of regular expressions to extract parts of the filepath
-# matches WCS_04192019_05212019
-# matches A51_05282021_06222021
-# WCS_5min_04192019_05212019
-# KPT16_20210527_20210622
-collection_folder_regex <-
-  "([[:upper:]]{3}_\\d{8}_\\d{8})|([[:upper:]]\\d{2}_\\d{8}_\\d{8})|([[:upper:]]{3}_5min_\\d{8}_\\d{8})|([[:upper:]]{3}\\d{2}_\\d{8}_\\d{8})" # nolint: line_length_linter
-
-# matches 100EK113
-subfolder_regex <- "\\d{3}\\EK\\d{3}"
-
 # TODO extract to a function
 # TODO add test cases for each collection folder name
 all_subjects_from_collection_folder <-
-  all_subjects_from_collection_folder %>%
-  dplyr::mutate(
-    collection_folder =
-      str_extract(path, collection_folder_regex)
-  ) %>%
-  dplyr::mutate(
-    subfolder =
-      str_extract(path, subfolder_regex)
-  ) %>%
-  dplyr::mutate(
-    filename = basename(path)) %>%
-  dplyr::mutate(
-    path =
-      file.path(
-        cameratraps_folders_to_match$full_path[1],
-        subfolder,
-        filename
-      )
-  )
+  subject_text_files_to_cameratraps_path(all_subjects_from_collection_folder$path)
+
 
 # drop rows where the file path is NA
 all_subjects_from_collection_folder <-
