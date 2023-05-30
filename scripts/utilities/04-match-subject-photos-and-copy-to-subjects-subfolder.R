@@ -202,13 +202,13 @@ all_subjects_csv <- readr::read_csv(
 # compare the all subjects csv to all of the photos in the collection
 # to check for matching photos
 # the %in% operator checks for matches from left object to the right object
-# if the filename in the all_photos_in_collection_folder data frame matches
-# the filename in all subjects csv file, it will report as TRUE
+# if the file_name in the all_photos_in_collection_folder data frame matches
+# the file_name in all subjects csv file, it will report as TRUE
 # only some of the values should report as TRUE (i.e. they match)
 # because not all photos contain subjects
 
 photo_contains_subject <-
-  all_photos_in_collection_folder$ImageFilename %in% all_subjects_csv$filename
+  all_photos_in_collection_folder$ImageFilename %in% all_subjects_csv$file_name
 
 # create a new column in the all photos data frame
 # that identifies that if the photo has a subject
