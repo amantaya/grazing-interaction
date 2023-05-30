@@ -194,22 +194,21 @@ site_folder_from_sitecode <- function(sitecode_df, path) {
   return(sitecode_df)
 }
 
+#' construct_path_from_collection_and_site_folders
+#'
+#' @description
+#' `construct_path_from_collection_and_site_folders` constructs a file path by combining the path to the site_folder and appending the collection folder onto the path.
+#'
+#' @param sitecode_df
+#'
+#' @return
+#' @export
+#'
+#' @examples
+construct_path_from_collection_and_site_folders <- function(sitecode_df){
+  sitecode_df$full_path <-
+    file.path(sitecode_df$site_folder,
+              sitecode_df$collection_folder)
+  return(sitecode_df)
+}
 
-cameratraps2_path_constructor <-
-  function(cameratraps2_folders_to_extract) {
-    cameratraps2_folders_df <-
-      data.frame(
-        "sitecode" = stringr::str_extract(cameratraps2_folders_to_extract,
-                                          pattern = "[[:upper:]][[:upper:]][[:upper:]]\\d\\d"),
-        "collection_folder" = cameratraps2_folders_to_extract
-      )
-
-    cameratraps2_folders_df$site_folder <-
-      file.path(path, "cameratraps2", cameratraps2_folders_df$sitecode)
-
-    cameratraps2_folders_df$full_path <- file.path(
-      cameratraps2_folders_df$site_folder,
-      cameratraps2_folders_df$collection_folder
-    )
-    return(cameratraps2_folders_df)
-  }
