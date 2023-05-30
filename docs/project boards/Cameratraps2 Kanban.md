@@ -93,7 +93,6 @@ kanban-plugin: basic
 
 ## Folders to Match Subject Photos
 
-- [ ] KPT27_20210525_20210622 #cameratraps2/2021 #task #matchsubjects
 - [ ] KPT27_20210622_20210722 #cameratraps2/2021 #task #matchsubjects
 - [ ] SHT18_20210525_20210528 #cameratraps2/2021 #task #matchsubjects
 - [ ] STO08_20210526_20210616 #cameratraps2/2021 #task #matchsubjects
@@ -122,6 +121,7 @@ kanban-plugin: basic
 - [ ] GET06_20210525_20210622 #cameratraps2/2021 #task #chunk
 - [ ] GET06_20210622_20210722 #cameratraps2/2021 #task #chunk
 - [ ] GET13_20210527_20210613 #cameratraps2/2021 #task #chunk
+- [ ] KPT27_20210525_20210622 #cameratraps2/2021 #task #chunk
 
 ## Folders to Copy into Blank Macro
 
@@ -302,6 +302,7 @@ kanban-plugin: basic
 - [x] 2023-05-30 11:41:59 GET06_20210525_20210622 #cameratraps2/2021 #task #matchsubjects
 - [x] 2023-05-30 11:42:05 GET06_20210622_20210722 #cameratraps2/2021 #task #matchsubjects
 - [x] 2023-05-30 11:42:11 GET13_20210527_20210613 #cameratraps2/2021 #task #matchsubjects
+- [x] 2023-05-30 11:42:52 KPT27_20210525_20210622 #cameratraps2/2021 #task #matchsubjects
 
 %% kanban:settings
 ```
