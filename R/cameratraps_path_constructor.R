@@ -39,7 +39,7 @@ extract_sitecode_from_collection_folder <-
 #' @examples
 site_folder_from_sitecode <- function(sitecode_df, path) {
   if (is.null(sitecode_df) == TRUE) {
-    stop("There a 0 Folders to Match Subject Photos on the Project Board")
+    stop("There are 0 Remaining Folders to Process on the Project Board")
   } else {
     # matching on the first three letters to construct file paths
     for (i in seq_len(nrow(sitecode_df))) {

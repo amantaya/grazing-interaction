@@ -93,11 +93,11 @@ test_that("3-letter and '5_min' site code return correct path", {
   expect_equal(site_folder_from_sitecode(df, path = "G:"), df2)
 })
 
-test_that("0 subject folders to match generates error message", {
+test_that("0 folders remaining generates error message", {
   df <- NULL
 
   expect_error(site_folder_from_sitecode(df, path = "G:"),
-    regexp = "There a 0 Folders to Match Subject Photos on the Project Board"
+    regexp = "There are 0 Remaining Folders to Process on the Project Board"
   )
 })
 
