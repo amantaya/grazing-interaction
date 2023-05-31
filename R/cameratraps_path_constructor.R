@@ -38,157 +38,162 @@ extract_sitecode_from_collection_folder <-
 #'
 #' @examples
 site_folder_from_sitecode <- function(sitecode_df, path) {
-  # matching on the first three letters to construct file paths
-  for (i in seq_len(nrow(sitecode_df))) {
-    if (sitecode_df$site_code[i] == "BRL") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps", "bear", "timelapse")
-    } else if (sitecode_df$site_code[i] == "BRT") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps", "bear", "trail")
-    } else if (sitecode_df$site_code[i] == "BFD") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps", "bigfield", "timelapse")
-    } else if (sitecode_df$site_code[i] == "BKD") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps", "blackcanyon", "timelapsedam")
-    } else if (sitecode_df$site_code[i] == "BKN") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps", "blackcanyon", "timelapsenorth")
-    } else if (sitecode_df$site_code[i] == "BKS") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps", "blackcanyon", "timelapsesouth")
-    } else if (sitecode_df$site_code[i] == "BKT") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps", "blackcanyon", "trail")
-    } else if (sitecode_df$site_code[i] == "BGX") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps", "boggy", "exclosure")
-    } else if (sitecode_df$site_code[i] == "BGW_5min") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps", "boggy", "timelapse5min")
-    } else if (sitecode_df$site_code[i] == "BGE") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps", "boggy", "timelapseeast")
-    } else if (sitecode_df$site_code[i] == "BGW") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps", "boggy", "timelapsewest")
-    } else if (sitecode_df$site_code[i] == "BGT") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps", "boggy", "trail")
-    } else if (sitecode_df$site_code[i] == "EFK") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps", "eastfork", "timelapse")
-    } else if (sitecode_df$site_code[i] == "A51") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps", "fiftyone", "timelapse")
-    } else if (sitecode_df$site_code[i] == "FLO") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps", "firelookout", "timelapse")
-    } else if (sitecode_df$site_code[i] == "HWY") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps", "highway", "timelapse")
-    } else if (sitecode_df$site_code[i] == "HPL") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps", "holdingpasture", "timelapse")
-    } else if (sitecode_df$site_code[i] == "MAD") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps", "mauldin", "phenocam")
-    } else if (sitecode_df$site_code[i] == "OPO") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps", "onlyponderosa", "timelapse")
-    } else if (sitecode_df$site_code[i] == "WCX") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps", "wildcat", "exclosure")
-    } else if (sitecode_df$site_code[i] == "WCS_5min") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps", "wildcat", "timelapse5min")
-    } else if (sitecode_df$site_code[i] == "WCN") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps", "wildcat", "timelapsenorth")
-    } else if (sitecode_df$site_code[i] == "WCS") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps", "wildcat", "timelapsesouth")
-    } else if (sitecode_df$site_code[i] == "WCT") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps", "wildcat", "trail")
-    } else if (sitecode_df$site_code[i] == "BUO01") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps2", "BUO01")
-    } else if (sitecode_df$site_code[i] == "BUO07") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps2", "BUO07")
-    } else if (sitecode_df$site_code[i] == "BUO23") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps2", "BUO23")
-    } else if (sitecode_df$site_code[i] == "BUO29") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps2", "BUO29")
-    } else if (sitecode_df$site_code[i] == "BUT12") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps2", "BUT12")
-    } else if (sitecode_df$site_code[i] == "BUT19") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps2", "BUT19")
-    } else if (sitecode_df$site_code[i] == "GEO02") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps2", "GEO02")
-    } else if (sitecode_df$site_code[i] == "GEO30") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps2", "GEO30")
-    } else if (sitecode_df$site_code[i] == "GEO32") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps2", "GEO32")
-    } else if (sitecode_df$site_code[i] == "GET01") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps2", "GET01")
-    } else if (sitecode_df$site_code[i] == "GET06") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps2", "GET06")
-    } else if (sitecode_df$site_code[i] == "GET13") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps2", "GET13")
-    } else if (sitecode_df$site_code[i] == "GET21") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps2", "GET21")
-    } else if (sitecode_df$site_code[i] == "GET22") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps2", "GET22")
-    } else if (sitecode_df$site_code[i] == "KPT14") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps2", "KPT14")
-    } else if (sitecode_df$site_code[i] == "KPT16") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps2", "KPT16")
-    } else if (sitecode_df$site_code[i] == "KPT27") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps2", "KPT27")
-    } else if (sitecode_df$site_code[i] == "SHT11") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps2", "SHT11")
-    } else if (sitecode_df$site_code[i] == "SHT15") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps2", "SHT15")
-    } else if (sitecode_df$site_code[i] == "SHT18") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps2", "SHT18")
-    } else if (sitecode_df$site_code[i] == "SHT30") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps2", "SHT30")
-    } else if (sitecode_df$site_code[i] == "STO08") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps2", "STO08")
-    } else if (sitecode_df$site_code[i] == "STO09") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps2", "STO09")
-    } else if (sitecode_df$site_code[i] == "STO39") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps2", "STO39")
-    } else if (sitecode_df$site_code[i] == "STT29") {
-      sitecode_df$site_folder[i] <-
-        file.path(path, "cameratraps2", "STT29")
-    } else {
-      sitecode_df <- NULL
+  # TODO if the list of assignments is empty print a message
+  if (is.null(sitecode_df) == TRUE) {
+    stop("There a 0 Folders to Match Subject Photos on the Project Board")
+  } else {
+    # matching on the first three letters to construct file paths
+    for (i in seq_len(nrow(sitecode_df))) {
+      if (sitecode_df$site_code[i] == "BRL") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps", "bear", "timelapse")
+      } else if (sitecode_df$site_code[i] == "BRT") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps", "bear", "trail")
+      } else if (sitecode_df$site_code[i] == "BFD") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps", "bigfield", "timelapse")
+      } else if (sitecode_df$site_code[i] == "BKD") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps", "blackcanyon", "timelapsedam")
+      } else if (sitecode_df$site_code[i] == "BKN") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps", "blackcanyon", "timelapsenorth")
+      } else if (sitecode_df$site_code[i] == "BKS") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps", "blackcanyon", "timelapsesouth")
+      } else if (sitecode_df$site_code[i] == "BKT") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps", "blackcanyon", "trail")
+      } else if (sitecode_df$site_code[i] == "BGX") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps", "boggy", "exclosure")
+      } else if (sitecode_df$site_code[i] == "BGW_5min") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps", "boggy", "timelapse5min")
+      } else if (sitecode_df$site_code[i] == "BGE") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps", "boggy", "timelapseeast")
+      } else if (sitecode_df$site_code[i] == "BGW") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps", "boggy", "timelapsewest")
+      } else if (sitecode_df$site_code[i] == "BGT") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps", "boggy", "trail")
+      } else if (sitecode_df$site_code[i] == "EFK") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps", "eastfork", "timelapse")
+      } else if (sitecode_df$site_code[i] == "A51") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps", "fiftyone", "timelapse")
+      } else if (sitecode_df$site_code[i] == "FLO") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps", "firelookout", "timelapse")
+      } else if (sitecode_df$site_code[i] == "HWY") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps", "highway", "timelapse")
+      } else if (sitecode_df$site_code[i] == "HPL") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps", "holdingpasture", "timelapse")
+      } else if (sitecode_df$site_code[i] == "MAD") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps", "mauldin", "phenocam")
+      } else if (sitecode_df$site_code[i] == "OPO") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps", "onlyponderosa", "timelapse")
+      } else if (sitecode_df$site_code[i] == "WCX") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps", "wildcat", "exclosure")
+      } else if (sitecode_df$site_code[i] == "WCS_5min") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps", "wildcat", "timelapse5min")
+      } else if (sitecode_df$site_code[i] == "WCN") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps", "wildcat", "timelapsenorth")
+      } else if (sitecode_df$site_code[i] == "WCS") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps", "wildcat", "timelapsesouth")
+      } else if (sitecode_df$site_code[i] == "WCT") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps", "wildcat", "trail")
+      } else if (sitecode_df$site_code[i] == "BUO01") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps2", "BUO01")
+      } else if (sitecode_df$site_code[i] == "BUO07") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps2", "BUO07")
+      } else if (sitecode_df$site_code[i] == "BUO23") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps2", "BUO23")
+      } else if (sitecode_df$site_code[i] == "BUO29") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps2", "BUO29")
+      } else if (sitecode_df$site_code[i] == "BUT12") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps2", "BUT12")
+      } else if (sitecode_df$site_code[i] == "BUT19") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps2", "BUT19")
+      } else if (sitecode_df$site_code[i] == "GEO02") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps2", "GEO02")
+      } else if (sitecode_df$site_code[i] == "GEO30") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps2", "GEO30")
+      } else if (sitecode_df$site_code[i] == "GEO32") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps2", "GEO32")
+      } else if (sitecode_df$site_code[i] == "GET01") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps2", "GET01")
+      } else if (sitecode_df$site_code[i] == "GET06") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps2", "GET06")
+      } else if (sitecode_df$site_code[i] == "GET13") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps2", "GET13")
+      } else if (sitecode_df$site_code[i] == "GET21") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps2", "GET21")
+      } else if (sitecode_df$site_code[i] == "GET22") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps2", "GET22")
+      } else if (sitecode_df$site_code[i] == "KPT14") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps2", "KPT14")
+      } else if (sitecode_df$site_code[i] == "KPT16") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps2", "KPT16")
+      } else if (sitecode_df$site_code[i] == "KPT27") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps2", "KPT27")
+      } else if (sitecode_df$site_code[i] == "SHT11") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps2", "SHT11")
+      } else if (sitecode_df$site_code[i] == "SHT15") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps2", "SHT15")
+      } else if (sitecode_df$site_code[i] == "SHT18") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps2", "SHT18")
+      } else if (sitecode_df$site_code[i] == "SHT30") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps2", "SHT30")
+      } else if (sitecode_df$site_code[i] == "STO08") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps2", "STO08")
+      } else if (sitecode_df$site_code[i] == "STO09") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps2", "STO09")
+      } else if (sitecode_df$site_code[i] == "STO39") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps2", "STO39")
+      } else if (sitecode_df$site_code[i] == "STT29") {
+        sitecode_df$site_folder[i] <-
+          file.path(path, "cameratraps2", "STT29")
+      } else {
+        sitecode_df <- NULL
+      }
     }
   }
   return(sitecode_df)
