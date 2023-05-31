@@ -20,7 +20,7 @@
 # Setup R Environment -----------------------------------------------------
 
 # clear the R environment
-# rm(list=ls(all=TRUE))
+rm(list = ls(all.names = TRUE))
 
 # set the working directory and environment variables
 source("~/grazing-interaction/environment.R")
