@@ -209,6 +209,91 @@ for (l in chunk_number) {
     )
   )
 }
+# Archive Completed Task on Kanban Board ----------------------------------
+
+# create a regex to match the "Archive" heading
+archive_heading_regex <- "^##\\sArchive"
+
+# find the index of the Archive heading
+archive_heading_index <-
+  stringr::str_which(project_kanban,
+                     pattern = archive_heading_regex
+  )
+
+# create a regex to match the kanban settings section
+# this is the last section on the board
+kanban_settings_regex <- "^%% kanban:settings"
+
+# find the end of the Archive heading
+kanban_settings_heading_index <-
+  stringr::str_which(project_kanban,
+                     pattern = kanban_settings_regex
+  )
+
+location_to_write_archived_task <- kanban_settings_heading_index - 2
+
+completed_task_string <- kanban_board_subset[1]
+
+# trim the first 6 characters from the completed task string
+# i.e. remove "- [ ] "
+completed_task_string_remove_checkbox <-
+  stringr::str_remove(string = completed_task_string, pattern = "- \\[ \\] ")
+
+# create an archived task string
+archived_task_string <- paste("- [x]",
+  Sys.time(),
+  completed_task_string_remove_checkbox,
+  sep = " "
+)
+
+# add the completed task to the Archive heading
+project_kanban <- append(project_kanban,
+  values = archived_task_string,
+  after = location_to_write_archived_task
+)
+
+# Create Next Task for Kanban Board ---------------------------------------
+
+# create a new task string to put in the next section
+next_task_string <- stringr::str_replace(
+  string = completed_task_string,
+  pattern = "chunk",
+  replacement = "copytoxlsm")
+
+# create a regex to find the next heading
+folders_to_upload_to_box_for_scoring_heading_regex <-
+  "##\\sFolders\\sto\\sUpload\\sto\\sBox\\sfor\\sSCORING"
+
+# find the location of where to put the next task
+folders_to_upload_to_box_for_scoring_heading_index <-
+  stringr::str_which(
+    string = project_kanban,
+    pattern = folders_to_upload_to_box_for_scoring_heading_regex
+  )
+
+# subtract 2 so we don't include the heading and 1 new line
+location_to_put_next_task <-
+  folders_to_upload_to_box_for_scoring_heading_index - 2
+
+project_kanban <-
+  append(project_kanban,
+         values = next_task_string,
+         after = location_to_put_next_task
+  )
+
+# Remove Completed Task from Kanban Board ---------------------------------
+
+# find the line number of the task we completed
+completed_task_index <- folders_to_match_heading_index + 2
+
+# remove the task we completed from the kanban board
+project_kanban <- project_kanban[-completed_task_index]
+
+
+# Write to Kanban Board ---------------------------------------------------
+
+readr::write_lines(project_kanban,
+                   file = project_kanban_file)
 
 system_time <- Sys.time()
 
