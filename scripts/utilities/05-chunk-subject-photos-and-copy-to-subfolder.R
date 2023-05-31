@@ -86,7 +86,7 @@ folders_to_chunk_pattern_matches <-
                        pattern = folders_to_chunk_regex)
 
 # return only the pattern matches that were not NA
-folders_to_chunk <-
+folders_to_chunk_pattern_matches <-
   folders_to_chunk_pattern_matches[
     is.na(folders_to_chunk_pattern_matches) == FALSE
   ]
@@ -94,7 +94,7 @@ folders_to_chunk <-
 # create a data frame with a "site" column
 # that we can use to construct file paths
 cameratraps_folders_to_chunk <-
-  cameratraps_path_constructor(folders_to_chunk)
+  extract_sitecode_from_collection_folder(folders_to_chunk_pattern_matches)
 
 # Match Subject Photos ----------------------------------------------------
 
