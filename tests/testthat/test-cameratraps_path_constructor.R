@@ -93,13 +93,12 @@ test_that("3-letter and '5_min' site code return correct path", {
   expect_equal(site_folder_from_sitecode(df, path = "G:"), df2)
 })
 
-test_that("0 subject folders to match print message", {
-
+test_that("0 subject folders to match generates error message", {
   df <- NULL
 
-  df2 <- "There a 0 Folders to Match Subject Photos"
-
-  expect_output(site_folder_from_sitecode(df, path = "G:"), df2)
+  expect_error(site_folder_from_sitecode(df, path = "G:"),
+    regexp = "There a 0 Folders to Match Subject Photos on the Project Board"
+  )
 })
 
 test_that("file paths form correctly when combining site and collection folders", {

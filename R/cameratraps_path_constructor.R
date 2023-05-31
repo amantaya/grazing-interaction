@@ -38,7 +38,6 @@ extract_sitecode_from_collection_folder <-
 #'
 #' @examples
 site_folder_from_sitecode <- function(sitecode_df, path) {
-  # TODO if the list of assignments is empty print a message
   if (is.null(sitecode_df) == TRUE) {
     stop("There a 0 Folders to Match Subject Photos on the Project Board")
   } else {
