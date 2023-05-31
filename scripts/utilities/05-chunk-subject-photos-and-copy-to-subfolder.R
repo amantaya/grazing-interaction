@@ -60,10 +60,9 @@ folders_to_chunk_heading_index <- stringr::str_which(heber_project_kanban, patte
 
 copy_to_blank_macro_heading_index <- stringr::str_which(heber_project_kanban, pattern = copy_to_blank_macro_heading_regex)
 
-# add 1 because we don't want to include the first heading
-# subtract 1 because we don't want to include the last heading
+# add 2 because we don't want to include the first heading and a new line
+# subtract 2 because we don't want to include the last heading and a new line
 # subset the kanban board using these indexes
-# TODO should I consider not using the index?
 folders_to_chunk <- heber_project_kanban[(folders_to_chunk_heading_index + 2):(copy_to_blank_macro_heading_index - 2)]
 
 folders_to_chunk_regex_pattern <-
