@@ -311,10 +311,10 @@ RPushbullet::pbPost(
   title = "Script Completed",
   body = msg_body)
 
-# source(
-#   here:::here(
-#     "scripts",
-#     "utilities",
-#     "05-chunk-subject-photos-and-copy-to-subfolder.R"
-#   )
-# )
+source(
+  here:::here(
+    "scripts",
+    "utilities",
+    "05-chunk-subject-photos-and-copy-to-subfolder.R"
+  )
+)
