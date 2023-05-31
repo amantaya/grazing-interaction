@@ -284,7 +284,7 @@ project_kanban <-
 # Remove Completed Task from Kanban Board ---------------------------------
 
 # find the line number of the task we completed
-completed_task_index <- folders_to_match_heading_index + 2
+completed_task_index <- folders_to_chunk_heading_index + 2
 
 # remove the task we completed from the kanban board
 project_kanban <- project_kanban[-completed_task_index]
