@@ -79,7 +79,7 @@ folders_to_chunk <-
   ]
 
 folders_to_chunk_regex_pattern <-
-  "([[:upper:]][[:upper:]][[:upper:]]_\\d{8}_\\d{8}|[[:upper:]]\\d{2}_\\d{8}_\\d{8})" # nolint: line_length_linter
+  "([[:upper:]][[:upper:]][[:upper:]]_\\d{8}_\\d{8}|A\\d{2}_\\d{8}_\\d{8}|[[:upper:]][[:upper:]][[:upper:]]_5min_\\d{8}_\\d{8}|[[:upper:]][[:upper:]][[:upper:]]\\d{2}_\\d{8}_\\d{8})" # nolint: line_length_linter
 
 folders_to_chunk_pattern_matches <-
   stringr::str_extract(folders_to_chunk,
