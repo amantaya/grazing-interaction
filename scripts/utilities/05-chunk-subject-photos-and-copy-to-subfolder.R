@@ -73,17 +73,17 @@ copy_to_blank_macro_heading_index <-
 # add 2 because we don't want to include the first heading and a new line
 # subtract 2 because we don't want to include the last heading and a new line
 # subset the kanban board using these indexes
-folders_to_chunk <-
+kanban_board_subset <-
   heber_project_kanban[
     (folders_to_chunk_heading_index + 2):(copy_to_blank_macro_heading_index - 2)
   ]
 
-folders_to_chunk_regex_pattern <-
+folders_to_chunk_regex <-
   "([[:upper:]][[:upper:]][[:upper:]]_\\d{8}_\\d{8}|A\\d{2}_\\d{8}_\\d{8}|[[:upper:]][[:upper:]][[:upper:]]_5min_\\d{8}_\\d{8}|[[:upper:]][[:upper:]][[:upper:]]\\d{2}_\\d{8}_\\d{8})" # nolint: line_length_linter
 
 folders_to_chunk_pattern_matches <-
-  stringr::str_extract(folders_to_chunk,
-                       pattern = folders_to_chunk_regex_pattern)
+  stringr::str_extract(kanban_board_subset,
+                       pattern = folders_to_chunk_regex)
 
 # return only the pattern matches that were not NA
 folders_to_chunk <-
