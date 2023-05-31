@@ -62,19 +62,19 @@ copy_to_blank_macro_heading_regex <-
 # create and index of the two headings
 # we want what's in between the headings
 folders_to_chunk_heading_index <-
-  stringr::str_which(heber_project_kanban,
+  stringr::str_which(project_kanban,
     pattern = folders_to_chunk_heading_regex
   )
 
 copy_to_blank_macro_heading_index <-
-  stringr::str_which(heber_project_kanban,
+  stringr::str_which(project_kanban,
                      pattern = copy_to_blank_macro_heading_regex)
 
 # add 2 because we don't want to include the first heading and a new line
 # subtract 2 because we don't want to include the last heading and a new line
 # subset the kanban board using these indexes
 kanban_board_subset <-
-  heber_project_kanban[
+  project_kanban[
     (folders_to_chunk_heading_index + 2):(copy_to_blank_macro_heading_index - 2)
   ]
 
