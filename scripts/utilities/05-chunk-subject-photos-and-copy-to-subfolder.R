@@ -93,22 +93,37 @@ folders_to_chunk_pattern_matches <-
 
 # create a data frame with a "site" column
 # that we can use to construct file paths
+# TODO replace these path constructing functions with reading the file paths from a JSON
+# the fromJSON creates a data frame whereas the read_json creates a list
+sites_from_json <- jsonlite::fromJSON(
+  here::here("data", "metadata", "cameratraps.json"))
+
 cameratraps_folders_to_chunk <-
   extract_sitecode_from_collection_folder(folders_to_chunk_pattern_matches)
 
-# Match Subject Photos ----------------------------------------------------
+cameratraps_folders_to_chunk <-
+  site_folder_from_sitecode(
+    cameratraps_folders_to_chunk,
+    path = "G:"
+  )
 
-for (i in 1:nrow(cameratraps_folders_to_chunk)) {
+# construct a file path to each collection folder
+# by combining the site_folder and collection_folder
+# for each row in the data frame
+cameratraps_folders_to_chunk <-
+  construct_path_from_collection_and_site_folders(cameratraps_folders_to_chunk)
+
+# Chunk Subject Photos ----------------------------------------------------
 
 # read in the csv file that contains the metadata for all photos
 ## in the collection folder
 
 all_photos_in_collection <- readr::read_csv(
   file.path(
-    cameratraps_folders_to_chunk$full_path[i],
+    cameratraps_folders_to_chunk$path[1],
     "metadata",
     paste0(
-      cameratraps_folders_to_chunk$collection_folder[i],
+      cameratraps_folders_to_chunk$collection_folder[1],
       "_matched_subject_photos",
       ".csv"
     )
@@ -153,7 +168,7 @@ chunks <- split(subject_photos_in_collection, pattern)
 for (j in chunk_number) {
   dir.create(
     file.path(
-      cameratraps_folders_to_chunk$full_path[i],
+      cameratraps_folders_to_chunk$path[1],
       chunk_names[j]
     )
   )
@@ -163,11 +178,11 @@ for (j in chunk_number) {
 for (k in chunk_number) {
 
   from <- file.path(
-    cameratraps_folders_to_chunk$full_path[i],
+    cameratraps_folders_to_chunk$path[1],
     chunks[[k]]$ImageRelative)
 
   to <- file.path(
-    cameratraps_folders_to_chunk$full_path[i],
+    cameratraps_folders_to_chunk$path[1],
     chunk_names[k])
 
   file.copy(from, to, overwrite = FALSE)
@@ -179,7 +194,7 @@ for (k in chunk_number) {
 for (l in chunk_number) {
   excelfilename <- paste0(
     paste(
-      cameratraps_folders_to_chunk$collection_folder[i],
+      cameratraps_folders_to_chunk$collection_folder[1],
       "subjects",
       chunk_names[l],
       sep = "_"
@@ -188,7 +203,7 @@ for (l in chunk_number) {
   readr::write_csv(
     chunks[[l]],
     file.path(
-      cameratraps_folders_to_chunk$full_path[i],
+      cameratraps_folders_to_chunk$path[1],
       "metadata",
       excelfilename
     )
@@ -200,7 +215,7 @@ system_time <- Sys.time()
 msg_body <- paste(
   "05-chunk-subject-photos-and-copy-to-subfolder.R",
   "ran on folder",
-  cameratraps_folders_to_chunk$collection_folder[i],
+  cameratraps_folders_to_chunk$collection_folder[1],
   "completed at",
   system_time,
   sep = " "
@@ -210,7 +225,6 @@ RPushbullet::pbPost(
   type = "note",
   title = "Script Completed",
   body = msg_body)
-}
 
 # source(
 #   here:::here(
