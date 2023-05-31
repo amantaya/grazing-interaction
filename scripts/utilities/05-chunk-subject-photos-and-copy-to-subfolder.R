@@ -1,10 +1,4 @@
-###########################################################################
-###########################################################################
-###                                                                     ###
-###               SECTION 1: BACKGROUND AND CONFIGURATION               ###
-###                                                                     ###
-###########################################################################
-###########################################################################
+# Background and Configuration --------------------------------------------
 
 ## Horse-Cattle-Elk Grazing Interaction Study Rproj
 ## Step 3: Chunk Subject Photos and Copy to Sub-Folder
@@ -21,16 +15,7 @@
 ## this csv file is named by the photo collection folder and "~matched_subject_photos.csv"
 ## e.g., BRT_11052019_12072019_matched_subject_photos.csv
 
-############################################################################
-############################################################################
-###                                                                      ###
-###                    SECTION 2: SETUP R ENVIRONMENT                    ###
-###                                                                      ###
-############################################################################
-############################################################################
-
-
-# Section 2: Setup R Environment ------------------------------------------
+# Setup R Environment -----------------------------------------------------
 
 # clear the R environment
 # rm(list=ls(all=TRUE))
@@ -44,13 +29,7 @@ source("~/grazing-interaction/packages.R")
 # load in the required functions
 source("~/grazing-interaction/functions.R")
 
-############################################################################
-############################################################################
-###                                                                      ###
-###                 SECTION 3: SELECT FOLDERS TO EXTRACT                 ###
-###                                                                      ###
-############################################################################
-############################################################################
+# Select Folders to Extract -----------------------------------------------
 
 # create a variable to hold the file name in case we switch to a different project
 # and the file name is different we can switch it once here
@@ -101,14 +80,7 @@ folders_to_chunk <- folders_to_chunk_pattern_matches[is.na(folders_to_chunk_patt
 cameratraps_folders_to_chunk <-
   cameratraps_path_constructor(folders_to_chunk)
 
-# Section 4: Match Subject Photos -----------------------------------------
-############################################################################
-############################################################################
-###                                                                      ###
-###             SECTION 4: Match Subject Photos                          ###
-###                                                                      ###
-############################################################################
-############################################################################
+# Match Subject Photos ----------------------------------------------------
 
 for (i in 1:nrow(cameratraps_folders_to_chunk)) {
 
