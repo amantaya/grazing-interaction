@@ -97,34 +97,34 @@ kanban-plugin: basic
 
 ## Folders to Chunk Subject Photos
 
-- [ ] BUO07_20210625_20210723 #cameratraps2/2021 #task #chunk
-- [ ] BUO23_20210525_20210624 #cameratraps2/2021 #task #chunk
-- [ ] BUO23_20210624_20210723 #cameratraps2/2021 #task #chunk
-- [ ] BUT12_20210527_20210622 #cameratraps2/2021 #task #chunk
-- [ ] BUT12_20210622_20210723 #cameratraps2/2021 #task #chunk
-- [ ] BUT19_20210527_20210623 #cameratraps2/2021 #task #chunk
-- [ ] BUT19_20210623_20210723 #cameratraps2/2021 #task #chunk
-- [ ] GEO30_20210526_20210622 #cameratraps2/2021 #task #chunk
-- [ ] GEO32_20210526_20210609 #cameratraps2/2021 #task #chunk
-- [ ] GEO32_20210622_20210723 #cameratraps2/2021 #task #chunk
-- [ ] GET01_20210624_20210722 #cameratraps2/2021 #task #chunk
-- [ ] GET06_20210525_20210622 #cameratraps2/2021 #task #chunk
-- [ ] GET06_20210622_20210722 #cameratraps2/2021 #task #chunk
-- [ ] GET13_20210527_20210613 #cameratraps2/2021 #task #chunk
-- [ ] KPT27_20210525_20210622 #cameratraps2/2021 #task #chunk
-- [ ] KPT27_20210622_20210722 #cameratraps2/2021 #task #chunk
-- [ ] SHT18_20210525_20210528 #cameratraps2/2021 #task #chunk
-- [ ] STO08_20210526_20210616 #cameratraps2/2021 #task #chunk
-- [ ] STO08_20210624_20210722 #cameratraps2/2021 #task #chunk
-- [ ] STO09_20210624_20210722 #cameratraps2/2021 #task #chunk
-- [ ] STO39_20210624_20210722 #cameratraps2/2021 #task #chunk
-- [ ] GEO02_20210625_20210703 #cameratraps2/2021 #task #chunk
 
 ## Folders to Copy into Blank Macro
 
 - [ ] BUO29_20210624_20210722 #cameratraps2/2021 #task #copytoxlsm
 - [ ] GEO02_20210625_20210703 #cameratraps2/2021 #task #copytoxlsm
 - [ ] [BUO01_20210625_20210723](../tasks/BUO01_20210625_20210723) #cameratraps2/2021 #task #copytoxlsm
+- [ ] BUO07_20210625_20210723 #cameratraps2/2021 #task #copytoxlsm
+- [ ] BUO23_20210525_20210624 #cameratraps2/2021 #task #copytoxlsm
+- [ ] BUO23_20210624_20210723 #cameratraps2/2021 #task #copytoxlsm
+- [ ] BUT12_20210527_20210622 #cameratraps2/2021 #task #copytoxlsm
+- [ ] BUT12_20210622_20210723 #cameratraps2/2021 #task #copytoxlsm
+- [ ] BUT19_20210527_20210623 #cameratraps2/2021 #task #copytoxlsm
+- [ ] BUT19_20210623_20210723 #cameratraps2/2021 #task #copytoxlsm
+- [ ] GEO30_20210526_20210622 #cameratraps2/2021 #task #copytoxlsm
+- [ ] GEO32_20210526_20210609 #cameratraps2/2021 #task #copytoxlsm
+- [ ] GEO32_20210622_20210723 #cameratraps2/2021 #task #copytoxlsm
+- [ ] GET01_20210624_20210722 #cameratraps2/2021 #task #copytoxlsm
+- [ ] GET06_20210525_20210622 #cameratraps2/2021 #task #copytoxlsm
+- [ ] GET06_20210622_20210722 #cameratraps2/2021 #task #copytoxlsm
+- [ ] GET13_20210527_20210613 #cameratraps2/2021 #task #copytoxlsm
+- [ ] KPT27_20210525_20210622 #cameratraps2/2021 #task #copytoxlsm
+- [ ] KPT27_20210622_20210722 #cameratraps2/2021 #task #copytoxlsm
+- [ ] SHT18_20210525_20210528 #cameratraps2/2021 #task #copytoxlsm
+- [ ] STO08_20210526_20210616 #cameratraps2/2021 #task #copytoxlsm
+- [ ] STO08_20210624_20210722 #cameratraps2/2021 #task #copytoxlsm
+- [ ] STO09_20210624_20210722 #cameratraps2/2021 #task #copytoxlsm
+- [ ] STO39_20210624_20210722 #cameratraps2/2021 #task #copytoxlsm
+- [ ] GEO02_20210625_20210703 #cameratraps2/2021 #task #copytoxlsm
 
 ## Folders to Upload to Box for SCORING
 
@@ -310,6 +310,28 @@ kanban-plugin: basic
 - [x] 2023-05-30 11:48:14 GEO02_20210625_20210703 #cameratraps2/2021 #task #matchsubjects
 - [x] 2023-05-31 10:36:47 GEO02_20210625_20210703 #cameratraps2/2021 #task #chunk
 - [x] 2023-05-31 10:38:45 [BUO01_20210625_20210723](../tasks/BUO01_20210625_20210723) #cameratraps2/2021 #task #chunk
+- [x] 2023-05-31 10:44:06 BUO07_20210625_20210723 #cameratraps2/2021 #task #chunk
+- [x] 2023-05-31 10:48:26 BUO23_20210525_20210624 #cameratraps2/2021 #task #chunk
+- [x] 2023-05-31 10:49:35 BUO23_20210624_20210723 #cameratraps2/2021 #task #chunk
+- [x] 2023-05-31 10:50:12 BUT12_20210527_20210622 #cameratraps2/2021 #task #chunk
+- [x] 2023-05-31 10:51:19 BUT12_20210622_20210723 #cameratraps2/2021 #task #chunk
+- [x] 2023-05-31 10:53:15 BUT19_20210527_20210623 #cameratraps2/2021 #task #chunk
+- [x] 2023-05-31 10:54:41 BUT19_20210623_20210723 #cameratraps2/2021 #task #chunk
+- [x] 2023-05-31 10:54:52 GEO30_20210526_20210622 #cameratraps2/2021 #task #chunk
+- [x] 2023-05-31 10:55:19 GEO32_20210526_20210609 #cameratraps2/2021 #task #chunk
+- [x] 2023-05-31 10:55:50 GEO32_20210622_20210723 #cameratraps2/2021 #task #chunk
+- [x] 2023-05-31 10:56:56 GET01_20210624_20210722 #cameratraps2/2021 #task #chunk
+- [x] 2023-05-31 10:59:09 GET06_20210525_20210622 #cameratraps2/2021 #task #chunk
+- [x] 2023-05-31 11:02:17 GET06_20210622_20210722 #cameratraps2/2021 #task #chunk
+- [x] 2023-05-31 11:02:57 GET13_20210527_20210613 #cameratraps2/2021 #task #chunk
+- [x] 2023-05-31 11:03:38 KPT27_20210525_20210622 #cameratraps2/2021 #task #chunk
+- [x] 2023-05-31 11:04:38 KPT27_20210622_20210722 #cameratraps2/2021 #task #chunk
+- [x] 2023-05-31 11:04:51 SHT18_20210525_20210528 #cameratraps2/2021 #task #chunk
+- [x] 2023-05-31 11:05:50 STO08_20210526_20210616 #cameratraps2/2021 #task #chunk
+- [x] 2023-05-31 11:06:07 STO08_20210624_20210722 #cameratraps2/2021 #task #chunk
+- [x] 2023-05-31 11:06:35 STO09_20210624_20210722 #cameratraps2/2021 #task #chunk
+- [x] 2023-05-31 11:08:47 STO39_20210624_20210722 #cameratraps2/2021 #task #chunk
+- [x] 2023-05-31 11:08:55 GEO02_20210625_20210703 #cameratraps2/2021 #task #chunk
 
 %% kanban:settings
 ```
