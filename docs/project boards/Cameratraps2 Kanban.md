@@ -97,7 +97,6 @@ kanban-plugin: basic
 
 ## Folders to Chunk Subject Photos
 
-- [ ] [BUO01_20210625_20210723](../tasks/BUO01_20210625_20210723) #cameratraps2/2021 #task #chunk
 - [ ] BUO07_20210625_20210723 #cameratraps2/2021 #task #chunk
 - [ ] BUO23_20210525_20210624 #cameratraps2/2021 #task #chunk
 - [ ] BUO23_20210624_20210723 #cameratraps2/2021 #task #chunk
@@ -125,6 +124,7 @@ kanban-plugin: basic
 
 - [ ] BUO29_20210624_20210722 #cameratraps2/2021 #task #copytoxlsm
 - [ ] GEO02_20210625_20210703 #cameratraps2/2021 #task #copytoxlsm
+- [ ] [BUO01_20210625_20210723](../tasks/BUO01_20210625_20210723) #cameratraps2/2021 #task #copytoxlsm
 
 ## Folders to Upload to Box for SCORING
 
@@ -309,6 +309,7 @@ kanban-plugin: basic
 - [x] 2023-05-30 11:48:05 STO39_20210624_20210722 #cameratraps2/2021 #task #matchsubjects
 - [x] 2023-05-30 11:48:14 GEO02_20210625_20210703 #cameratraps2/2021 #task #matchsubjects
 - [x] 2023-05-31 10:36:47 GEO02_20210625_20210703 #cameratraps2/2021 #task #chunk
+- [x] 2023-05-31 10:38:45 [BUO01_20210625_20210723](../tasks/BUO01_20210625_20210723) #cameratraps2/2021 #task #chunk
 
 %% kanban:settings
 ```
