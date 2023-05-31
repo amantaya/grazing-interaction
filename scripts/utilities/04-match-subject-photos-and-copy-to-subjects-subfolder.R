@@ -43,13 +43,14 @@ project_kanban_file <-
   )
 
 # read in the kanban board for the Heber project
-project_kanban <- readr::read_lines(
-  here::here(
-    project_kanban_file
-  ),
-  skip_empty_rows = FALSE,
-  progress = readr::show_progress()
-)
+project_kanban <-
+  readr::read_lines(
+    here::here(
+      project_kanban_file
+    ),
+    skip_empty_rows = FALSE,
+    progress = readr::show_progress()
+  )
 
 # heading patterns to find
 folders_to_match_heading_regex <-

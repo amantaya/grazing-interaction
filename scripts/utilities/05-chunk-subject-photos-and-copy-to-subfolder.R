@@ -35,20 +35,22 @@ source("~/grazing-interaction/functions.R")
 
 # create a variable to hold the file name
 # in case we switch to a different project kanban board
-file <- "Heber Project Kanban.md"
+project_kanban_file <-
+  here::here(
+    "docs",
+    "project boards",
+    "Cameratraps2 Kanban.md"
+  )
 
 # read in the kanban board for the Heber project
-heber_project_kanban <- readr::read_lines(
-  file.path(
-    "~",
-    "grazing-interaction",
-    "docs",
-    "heber-project-notes",
-    file
-  ),
-  skip_empty_rows = FALSE,
-  progress = readr::show_progress()
-)
+project_kanban <-
+  readr::read_lines(
+    here::here(
+      project_kanban_file
+    ),
+    skip_empty_rows = FALSE,
+    progress = readr::show_progress()
+  )
 
 # heading patterns to find
 folders_to_chunk_heading_regex <-
