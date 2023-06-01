@@ -39,7 +39,7 @@ project_kanban_file <-
   here::here(
     "docs",
     "project boards",
-    "Cameratraps2 Kanban.md"
+    "White Mountains Project Kanban.md"
   )
 
 # read in the kanban board for the Heber project
