@@ -7,3 +7,10 @@
 ^debug$
 ^learning$
 ^logs$
+^docs$
+^.lintr$
+^.github$
+^.obsidian$
+^.rstudio$
+^Dockerfile$
+^templates/obsidian$
