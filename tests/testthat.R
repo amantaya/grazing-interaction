@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
 
 library(testthat)
-library(grazing-interaction)
+library(GrazingCameratraps)
 
-test_check("grazing-interaction")
+test_check("GrazingCameratraps")
