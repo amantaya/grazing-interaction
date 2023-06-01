@@ -54,6 +54,7 @@ library("devtools")
 library("roxygen2")
 library("testthat")
 library("todor")
+library("GrazingCameratraps")
 
 # remotes::install_github("mattcowgill/ggannotate")
 # p_load("ggannotate")
