@@ -1,16 +1,16 @@
 # Background and Configuration --------------------------------------------
 
 ## Horse-Cattle-Elk Grazing Interaction Study Rproj
-## Step 3: Chunk Subject Photos and Copy to Sub-Folder
+## Step 5: Chunk Subject Photos and Copy to Sub-Folder
 
 ## What this script does:
-## Reads in the csv file from the photo collection metadata folder
+## Reads in the csv file from the metadata sub-folder within a collection
 ## Copies the subject photos from the column into separate folders (chunks)
 ## Writes out a csv for each chunk of photos
 ## this csv can then be copied and pasted into the excel macro for scoring
 
 ## What this script requires:
-## the csv file from "02-match-subject-photos-and-copy-to-subjects-subfolder.R"
+## the csv file from "04-match-subject-photos-and-copy-to-subjects-subfolder.R"
 ## this csv file should be located in the "metadata" sub-folder
 ## within the collection folder
 ## this csv file is named by the photo collection folder and
@@ -73,6 +73,7 @@ copy_to_blank_macro_heading_index <-
 # add 2 because we don't want to include the first heading and a new line
 # subtract 2 because we don't want to include the last heading and a new line
 # subset the kanban board using these indexes
+# TODO drop empty lines read in by kanban board
 kanban_board_subset <-
   project_kanban[
     (folders_to_chunk_heading_index + 2):(copy_to_blank_macro_heading_index - 2)
