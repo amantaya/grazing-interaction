@@ -1,20 +1,27 @@
-#' extract_sitecode_from_collection_folder
+#' Extract Site Code from Collection Folder
 #'
-#' @description
-#' `extract_sitecode_from_collection_folder` extracts the site code based on the 3-letter or 5-letter prefix. Collection folders must have a 3 or 5 letter site code prefix followed by 8 digits (corresponding to a date).
+#' @description `extract_sitecode_from_collection_folder()` extracts the site
+#' code based on the prefix of a collection folder and returns a data frame with
+#' `site_code` and `collection_folder` columns.
 #'
-#' @param collection_folder A character vector corresponding to a collection folder or multiple collection folders.
+#' @param collection_folder Input character vector. This character vector should
+#'   corresponding to a collection folder or multiple collection folders. This
+#'   character vector must can be named either with 3-letters, 1 letter and
+#'   2-digits, or 3-letters and 2-digits followed by 8 digits corresponding to
+#'   the deployment date and 8 digits corresponding to the date of the last
+#'   photo in the collection or the date the photos were collected from the
+#'   camera.
 #'
-#' @return A data frame with a 'site_code' column and a 'collection_folder' column.
-#' @export
-#'
+#' @return A data frame with a `site_code` column and a `collection_folder`
+#'   column.
 #' @examples
+#' extract_sitecode_from_collection_folder("WCS_04192019_05212019")
+#' @export
 extract_sitecode_from_collection_folder <-
   function(collection_folder) {
     if (length(collection_folder) == 0) {
       sitecode_df <- NULL
     } else {
-      # regex to construct a data frame using the first three uppercase letters of the collection folder
       sitecode_df <-
         data.frame(
           "site_code" =
