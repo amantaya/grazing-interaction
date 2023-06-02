@@ -187,6 +187,17 @@ all_subjects_from_collection_folder <-
   tidyr::drop_na(collection_folder) %>%
   tibble::rowid_to_column("index")
 
+if (nrow(all_subjects_from_collection_folder) == 0) {
+  stop(
+    paste(
+      "No Subject Photos Were Matched in",
+      cameratraps_folders_to_match$collection_folder[1],
+      "Please check the subject text files",
+      "for possible errors before re-running."
+    )
+  )
+}
+
 # Write All Subjects in Collection Folder to CSV ---------------------
 
 # create a file name for the combined subjects csv file
