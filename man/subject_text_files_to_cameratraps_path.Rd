@@ -2,7 +2,7 @@
 % Please edit documentation in R/subject_text_files_to_cameratraps_path.R
 \name{subject_text_files_to_cameratraps_path}
 \alias{subject_text_files_to_cameratraps_path}
-\title{subject_text_files_to_cameratraps_path}
+\title{Construct a Path to Subject Photos in a Collection Folder}
 \usage{
 subject_text_files_to_cameratraps_path(
   subject_txt_df,
@@ -10,11 +10,38 @@ subject_text_files_to_cameratraps_path(
 )
 }
 \arguments{
-\item{subject_txt_df}{}
+\item{subject_txt_df}{A data frame with a column named \code{path} that is a file
+path to a subject photo in within a collection folder.}
 }
 \value{
-Returns a data frame with the
+Returns a data frame with columns named \code{collection_folder},
+\code{sub_folder}, \code{file_name} and \code{path}.
+\itemize{
+\item \code{collection_folder} corresponds to all photos collected from an SD card,
+e.g. BGW_5min_06042019_06112019.
+\item \code{sub_folder} corresponds to the sub-folder create by the cameratrap,
+e.g. 100EK113.
+\item \code{file_name} corresponds to the file name of the photo/image.
+\item \code{path} corresponds to the file path to the image.
+}
 }
 \description{
-A short description...
+\code{subject_text_files_to_cameratraps_path()} creates a path to
+each subject photo in a collection folder by extracting the collection
+folder, image sub-folder, and file name from a subject text file.
+}
+\examples{
+library(GrazingCameratraps)
+subject_txt_df <- data.frame(
+  path = "D:/BUO01/BUO01_20210625_20210723/100EK113/2021-06-25-11-22-42.JPG"
+  )
+
+cameratraps_folders_to_match_df <- data.frame(
+  collection_folder = "BUO01_20210625_20210723",
+  sub_folder = "100EK113",
+  file_name = "2021-06-25-11-22-42.JPG",
+  path = "G:/cameratraps2/BUO01/BUO01_20210625_20210723/100EK113/2021-06-25-11-22-42.JPG"
+  )
+subject_text_files_to_cameratraps_path(subject_txt_df, cameratraps_folders_to_match_df)
+
 }
