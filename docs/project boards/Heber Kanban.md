@@ -4,10 +4,11 @@ kanban-plugin: basic
 
 ---
 
+# Heber Kanban
+
 ## Daily Tasks
 
 - [ ] [2022-07-12-17-55-12 Figure out Which Files are Correct](../tasks/2022-07-12-17-55-12%20Figure%20out%20Which%20Files%20are%20Correct.md)
-
 
 ## Folders That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
@@ -36,7 +37,6 @@ kanban-plugin: basic
 - [ ] #task BRT_07132017_07212017 #heber2017photos
 - [ ] #task BRT_07212017_08132017 #heber2017photos
 
-
 ## Folders That Need Metadata
 
 - [ ] #task BRL_02132018_02282018 #heber2018photos
@@ -55,55 +55,31 @@ kanban-plugin: basic
 - [ ] #task BRL_07202018_10192018 #heber2018photos
 - [ ] #task BRL_03062018_04112018 #heber2018photos
 
-
 ## Folders to Copy to Hard Drive
-
-
 
 ## Folders to Upload for SORTING
 
-
-
 ## Folders Currently Uploading
-
-
 
 ## Folders to Add as Assignments to Basecamp for SORTING
 
 - [ ] #task BRL_07202018_10192018 #heber2018photos
 
-
 ## SORTING Assignments Awaiting Completion by Students
-
-
 
 ## Folders to Copy Subject Photos to Sub-Folder on Hard Drive
 
-
-
 ## Folders to Match Subject Photos
-
-
 
 ## Folders to Chunk Subject Photos
 
-
-
 ## Folders to Copy into Blank Macro
-
-
 
 ## Folders to Upload to Box for SCORING
 
-
-
 ## Folders to Add to Basecamp as SCORING Assignments
 
-
-
 ## SCORING Assignments Awaiting Completion by Students
-
-
 
 ## Quality Check Not Started
 
@@ -138,15 +114,12 @@ kanban-plugin: basic
 - [ ] A51_08132019_08192019_subjects_chunk1 #task #heber2020photos
 - [ ] A51_10222020_12022020_subjects_chunk1 #task #heber2020photos
 - [ ] A51_11052019_12062019_subjects_chunk1 #task #heber2019photos
-- [ ] #task  BKS_12012017_01082018_subjects_chunk2
+- [ ] #task BKS_12012017_01082018_subjects_chunk2
 - [ ] BKD_07022019_08132019_subjects_chunk1 #task #heber2019photos
 - [ ] BKD_07022019_08132019_subjects_chunk2 #task #heber2019photos
 - [ ] BKD_07022019_08132019_subjects_chunk3 #task #heber2019photos
 
-
 ## Quality Check In Progress
-
-
 
 ## Quality Checked Completed
 
@@ -154,18 +127,11 @@ kanban-plugin: basic
 - [ ] A51_07122020_10112020_subjects_chunk2 #task #heber2020photos
 - [ ] BKD_06112019_07022019_subjects_chunk1 #task #heber2019photos
 
-
 ## Completed SCORING Assignments to Copy to Hard Drive
-
-
 
 ## Chunks to Recombine
 
-
-
 ## Completed Folders
-
-
 
 ## Scoring Backlog
 
@@ -174,7 +140,6 @@ kanban-plugin: basic
 - [ ] BKS_07202018_08242018 #task #heber2018photos
 - [ ] BKS_02132018_02232018 #task #heber2018photos
 
-
 ## Chunks That Are Missing or Need to Be Completed
 
 - [ ] #task BKN_10212020_12032020_subjects_chunk1 #heber2020photos
@@ -182,7 +147,6 @@ kanban-plugin: basic
 - [ ] #task BKS_03062018_04102018_subjects_chunk2 #heber2018photos
 - [ ] #task BKS_12012017_01082018_subjects_chunk1 #heber2018photos
 - [ ] #task BKS_12012017_01082018_subjects_chunk2 #heber2018photos
-
 
 ## Folders with Duplicate Photos
 
@@ -213,13 +177,13 @@ kanban-plugin: basic
 - [x] #task 2022-06-20 15:20:44 BKN_07102020_10212020 #heber2020photos ✅ 2022-06-16
 - [x] #task 2022-06-20 15:20:44 BKN_08132019_11052019 #heber2019photos ✅ 2022-06-16
 - [x] #task 2022-06-20 15:20:44 BKN_11052019_12072019 #heber2019photos ✅ 2022-06-16
-- [x] #task 2022-06-20 15:20:44 BKS_01112018_02132018 #heber2018photos  ✅ 2022-06-16
-- [x] #task 2022-06-20 15:20:44 BKS_02132018_02232018 #heber2018photos  ✅ 2022-06-16
-- [x] #task 2022-06-20 15:20:44 BKS_05102018_07202018 #heber2018photos  ✅ 2022-06-16
+- [x] #task 2022-06-20 15:20:44 BKS_01112018_02132018 #heber2018photos ✅ 2022-06-16
+- [x] #task 2022-06-20 15:20:44 BKS_02132018_02232018 #heber2018photos ✅ 2022-06-16
+- [x] #task 2022-06-20 15:20:44 BKS_05102018_07202018 #heber2018photos ✅ 2022-06-16
 - [x] #task 2022-06-20 15:20:44 BKS_06052019_07022019 #heber2019photos ✅ 2022-06-16
 - [x] #task 2022-06-20 15:20:44 BKS_07022019_08132019 #heber2019photos ✅ 2022-06-16
 - [x] #task 2022-06-20 15:20:44 BKS_07102020_10222020 #heber2020photos ✅ 2022-06-16
-- [x] #task 2022-06-20 15:20:44 BKS_07202018_08242018 #heber2018photos  ✅ 2022-06-16
+- [x] #task 2022-06-20 15:20:44 BKS_07202018_08242018 #heber2018photos ✅ 2022-06-16
 - [x] #task 2022-06-20 15:20:44 BKS_08132019_09132019 #heber2019photos ✅ 2022-06-16
 - [x] #task 2022-06-20 15:20:44 BKS_10222020_10252020 #heber2020photos ✅ 2022-06-16
 - [x] #task 2022-06-20 15:20:44 BKS_11052019_12022019 #heber2019photos ✅ 2022-06-16
@@ -248,7 +212,9 @@ kanban-plugin: basic
 - [x] 2022-11-09 09:39:20 #task STO08_20210722_20220106 #cameratraps2/2021 ✅ 2022-09-12
 
 %% kanban:settings
+
 ```
 {"kanban-plugin":"basic","show-checkboxes":true,"hide-tags-display":false,"hide-tags-in-title":true,"prepend-archive-date":true,"lane-width":300}
 ```
+
 %%
