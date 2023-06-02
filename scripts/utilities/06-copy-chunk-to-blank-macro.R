@@ -328,3 +328,32 @@ RPushbullet::pbPost(
 
 }
 
+# Re-Run Script if Folders Remain -----------------------------------------
+
+# re-run this script on the next collection folder
+# stop if no collection folders remain to process
+# send a notification if all folders have been processed
+
+cameratraps_folders_to_chunk <- cameratraps_folders_to_chunk[-1, ]
+
+if (nrow(cameratraps_folders_to_chunk) != 0) {
+  source(
+    here:::here(
+      "scripts",
+      "utilities",
+      "06-copy-chunk-to-blank-macro.R"
+    )
+  )
+} else {
+  msg_body <- paste(
+    "06-copy-chunk-to-blank-macro.R",
+    "completed at",
+    system_time,
+    sep = " "
+  )
+
+  RPushbullet::pbPost(
+    type = "note",
+    title = "All Folders Completed",
+    body = msg_body)
+}
