@@ -156,6 +156,16 @@ chunk_subfolders_absolute_paths <-
     value = TRUE
   )
 
+if (length(chunk_subfolders_in_collection_folder) == 0) {
+  stop(
+    paste(
+      "There Are 0 Chunk Folders in",
+      cameratraps_folders_to_copy$collection_folder[1],
+      "Please check to collection folder for problems."
+    )
+  )
+}
+
 # number of chunks in the collection folder
 # use this object to indexing
 n_chunks_in_collection_folder <- length(chunk_subfolders_in_collection_folder)
