@@ -329,7 +329,6 @@ RPushbullet::pbPost(
 # stop if no collection folders remain to process
 # send a notification if all folders have been processed
 
-cameratraps_folders_to_match <- cameratraps_folders_
 cameratraps_folders_to_chunk <- cameratraps_folders_to_chunk[-1, ]
 
 if (nrow(cameratraps_folders_to_chunk) != 0) {
