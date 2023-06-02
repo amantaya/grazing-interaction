@@ -101,7 +101,7 @@ sites_from_json <- jsonlite::fromJSON(
   here::here("data", "metadata", "cameratraps.json"))
 
 cameratraps_folders_to_match <-
-  extract_site_folder_from_site_code(cameratraps_folders_pattern_matches)
+  extract_site_code_from_collection_folder(cameratraps_folders_pattern_matches)
 
 cameratraps_folders_to_match <-
   site_folder_from_site_code(

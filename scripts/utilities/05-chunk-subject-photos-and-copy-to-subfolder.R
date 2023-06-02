@@ -100,7 +100,7 @@ sites_from_json <- jsonlite::fromJSON(
   here::here("data", "metadata", "cameratraps.json"))
 
 cameratraps_folders_to_chunk <-
-  extract_site_folder_from_site_code(folders_to_chunk_pattern_matches)
+  extract_site_code_from_collection_folder(folders_to_chunk_pattern_matches)
 
 cameratraps_folders_to_chunk <-
   site_folder_from_site_code(
