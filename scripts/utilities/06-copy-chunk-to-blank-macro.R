@@ -105,8 +105,21 @@ folders_to_copy <-
 
 # create a data frame with a "site" column
 # that we can use to construct file paths
-cameratraps_folders_to_chunk <-
-  cameratraps_path_constructor(folders_to_chunk)
+# TODO replace these path constructing functions with reading the file paths from a JSON
+# the fromJSON creates a data frame whereas the read_json creates a list
+sites_from_json <- jsonlite::fromJSON(
+  here::here("data", "metadata", "cameratraps.json"))
+
+cameratraps_folders_to_copy <-
+  extract_site_code_from_collection_folder(
+    folders_to_chunk_pattern_matches
+  )
+
+cameratraps_folders_to_copy <-
+  construct_path_to_site_folder_from_site_code(
+    cameratraps_folders_to_copy,
+    path = "G:"
+  )
 
 # Copy Subjects to Blank Macro --------------------------------------
 
