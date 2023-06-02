@@ -7,3 +7,15 @@
 ^debug$
 ^learning$
 ^logs$
+^docs$
+^\.lintr$
+^\.github$
+^\.obsidian$
+^\.rstudio$
+^\.rpushbullet\.json$
+^Dockerfile$
+^templates$
+^\.git\.bfg-report$
+^figures$
+^sync\.ffs_db$
+
