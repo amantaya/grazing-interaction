@@ -93,14 +93,14 @@ folders_to_copy <-
 folders_to_copy_regex <-
   "([[:upper:]][[:upper:]][[:upper:]]_\\d{8}_\\d{8}|A\\d{2}_\\d{8}_\\d{8}|[[:upper:]][[:upper:]][[:upper:]]_5min_\\d{8}_\\d{8}|[[:upper:]][[:upper:]][[:upper:]]\\d{2}_\\d{8}_\\d{8})" # nolint: line_length_linter
 
-folders_to_chunk_pattern_matches <-
+folders_to_copy_pattern_matches <-
   stringr::str_extract(folders_to_copy,
                        pattern = folders_to_copy_regex)
 
 # return only the pattern matches that were not NA
 folders_to_copy <-
-  folders_to_chunk_pattern_matches[
-    is.na(folders_to_chunk_pattern_matches) == FALSE
+  folders_to_copy_pattern_matches[
+    is.na(folders_to_copy_pattern_matches) == FALSE
   ]
 
 # create a data frame with a "site" column
@@ -112,7 +112,7 @@ sites_from_json <- jsonlite::fromJSON(
 
 cameratraps_folders_to_copy <-
   extract_site_code_from_collection_folder(
-    folders_to_chunk_pattern_matches
+    folders_to_copy_pattern_matches
   )
 
 cameratraps_folders_to_copy <-
