@@ -104,7 +104,7 @@ cameratraps_folders_to_match <-
   extract_sitecode_from_collection_folder(cameratraps_folders_pattern_matches)
 
 cameratraps_folders_to_match <-
-  site_folder_from_sitecode(
+  site_folder_from_site_code(
     cameratraps_folders_to_match,
     path = "G:"
   )

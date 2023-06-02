@@ -103,7 +103,7 @@ cameratraps_folders_to_chunk <-
   extract_sitecode_from_collection_folder(folders_to_chunk_pattern_matches)
 
 cameratraps_folders_to_chunk <-
-  site_folder_from_sitecode(
+  site_folder_from_site_code(
     cameratraps_folders_to_chunk,
     path = "G:"
   )
