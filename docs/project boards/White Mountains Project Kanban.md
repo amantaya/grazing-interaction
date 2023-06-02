@@ -82,6 +82,7 @@ kanban-plugin: basic
 
 ## Folders to Upload for SORTING
 
+- [ ] BGX_04182019_05212019 #wm2019photos #task #sorting
 
 
 ## Folders Currently Uploading
@@ -110,7 +111,6 @@ kanban-plugin: basic
 
 ## Folders to Chunk Subject Photos
 
-- [ ] BGX_04182019_05212019 #wm2019photos #task #chunk
 - [ ] BGW_5min_06042019_06112019 #wm2019photos #task #chunk
 - [ ] BGW_5min_09072020_12042020 #wm2019photos #task #chunk
 - [ ] BGW_06252019_07042019 #wm2019photos #task #chunk
