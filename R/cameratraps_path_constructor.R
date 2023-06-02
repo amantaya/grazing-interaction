@@ -1,8 +1,8 @@
 #' Extract Site Code from Collection Folder
 #'
 #' @description `extract_site_code_from_collection_folder()` extracts the site
-#' code based on the prefix of a collection folder and returns a data frame with
-#' `site_code` and `collection_folder` columns.
+#'   code based on the prefix of a collection folder and returns a data frame
+#'   with `site_code` and `collection_folder` columns.
 #'
 #' @param collection_folder Input character vector. This character vector should
 #'   corresponding to a collection folder or multiple collection folders. This
@@ -14,9 +14,12 @@
 #'
 #' @return A data frame with a `site_code` column and a `collection_folder`
 #'   column.
+#'
 #' @importFrom stringr str_extract
+#'
 #' @examples
 #' library(GrazingCameratraps)
+#'
 #' extract_site_code_from_collection_folder("WCS_04192019_05212019")
 #'
 #' @export
@@ -53,13 +56,16 @@ extract_site_code_from_collection_folder <-
 #'
 #' @return Returns a data frame with a new column `site_folder` which contains a
 #'   path to the site folder.
+#'
 #' @examples
 #' library(GrazingCameratraps)
+#'
 #' df <- data.frame(
 #'   site_code = "A51",
 #'   site_folder = "G:/cameratraps/fiftyone/timelapse"
 #'   )
 #' construct_path_to_site_folder_from_site_code(df, path = "G:")
+#'
 #' @export
 construct_path_to_site_folder_from_site_code <- function(sitecode_df, path) {
   if (is.null(sitecode_df) == TRUE) {
@@ -224,8 +230,9 @@ construct_path_to_site_folder_from_site_code <- function(sitecode_df, path) {
 
 #' Construct a Path to a Collection Folder
 #'
-#' @description
-#' `construct_path_from_collection_and_site_folders` constructs a file path by combining the path to the site_folder and appending onto the path the collection folder.
+#' @description `construct_path_from_collection_and_site_folders` constructs a
+#' file path by combining the path to the site_folder and appending onto the
+#' path the collection folder.
 #'
 #' @inheritParams construct_path_to_site_folder_from_site_code
 #'
@@ -233,12 +240,14 @@ construct_path_to_site_folder_from_site_code <- function(sitecode_df, path) {
 #'
 #' @examples
 #' library(GrazingCameratraps)
+#'
 #' df <- data.frame(
 #'   site_code = "BUO23",
 #'   collection_folder = "BUO23_20210525_20210624",
 #'   site_folder = "G:/cameratraps2/BUO23"
 #'   )
 #' construct_path_from_collection_and_site_folders(df)
+#'
 #' @export
 construct_path_from_collection_and_site_folders <- function(sitecode_df){
   sitecode_df$path <-
