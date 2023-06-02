@@ -301,18 +301,27 @@ chunk_discard_columns <-
 # Copy Chunk to Temp Folder for Uploading ---------------------------------
 
 # create a new folder to use as a temporary folder for uploading to the cloud
-temp_folder_for_uploading_chunk <- path_to_temp_data
+for (i in seq_along(chunk_subfolders_absolute_paths)) {
+  temp_folder_for_uploading_chunk <-
+    file.path(
+      path_to_temp_data,
+      "upload",
+      "scoring",
+      cameratraps_folders_to_copy$collection_folder[1],
+      paste0("chunk", i)
+    )
 
-# the source is the folder "chunks" on the external hard drive
-from <- chunk_subfolders_absolute_paths
+  # the source is the folder "chunks" on the external hard drive
+  from <- chunk_subfolders_absolute_paths[i]
 
-# the destination is on local drive inside my git repo (temporarily)
-to <- temp_folder_for_uploading_chunk
+  to <- temp_folder_for_uploading_chunk
 
-# copy the chunks onto my local drive for upload
-file.copy(from = from,
-          to = to,
-          recursive = TRUE)
+  # copy the chunks onto my local drive for upload
+  fs::dir_copy(
+    path = from,
+    new_path = to
+  )
+}
 
 # Archive Completed Task on Kanban Board ----------------------------------
 
