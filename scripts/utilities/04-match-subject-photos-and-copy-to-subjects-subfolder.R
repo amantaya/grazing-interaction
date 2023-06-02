@@ -136,6 +136,15 @@ txt_files_from_collection_folder <-
       full.names = TRUE
     )
 
+if (length(txt_files_from_collection_folder) == 0) {
+  stop(
+    paste(
+      cameratraps_folders_to_match$collection_folder[1],
+      "doesn't contain text files"
+    )
+  )
+}
+
 # initialize an empty character vector to hold the subject photos
 all_subjects_from_collection_folder <- NULL
 
