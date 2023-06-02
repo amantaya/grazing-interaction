@@ -1,6 +1,6 @@
 #' Extract Site Code from Collection Folder
 #'
-#' @description `extract_sitecode_from_collection_folder()` extracts the site
+#' @description `extract_site_code_from_collection_folder()` extracts the site
 #' code based on the prefix of a collection folder and returns a data frame with
 #' `site_code` and `collection_folder` columns.
 #'
@@ -16,10 +16,10 @@
 #'   column.
 #'
 #' @examples
-#' extract_sitecode_from_collection_folder("WCS_04192019_05212019")
+#' extract_site_code_from_collection_folder("WCS_04192019_05212019")
 #'
 #' @export
-extract_sitecode_from_collection_folder <-
+extract_site_folder_from_site_code <-
   function(collection_folder) {
     if (length(collection_folder) == 0) {
       sitecode_df <- NULL
