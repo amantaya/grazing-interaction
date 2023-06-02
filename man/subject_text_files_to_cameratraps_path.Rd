@@ -6,7 +6,7 @@
 \usage{
 subject_text_files_to_cameratraps_path(
   subject_txt_df,
-  cameratraps_folders_to_match_df
+  cameratraps_folder
 )
 }
 \arguments{
@@ -36,12 +36,12 @@ subject_txt_df <- data.frame(
   path = "D:/BUO01/BUO01_20210625_20210723/100EK113/2021-06-25-11-22-42.JPG"
   )
 
-cameratraps_folders_to_match_df <- data.frame(
+cameratraps_folder <- data.frame(
   collection_folder = "BUO01_20210625_20210723",
   sub_folder = "100EK113",
   file_name = "2021-06-25-11-22-42.JPG",
   path = "G:/cameratraps2/BUO01/BUO01_20210625_20210723/100EK113/2021-06-25-11-22-42.JPG"
   )
-subject_text_files_to_cameratraps_path(subject_txt_df, cameratraps_folders_to_match_df)
+subject_text_files_to_cameratraps_path(subject_txt_df, cameratraps_folder)
 
 }

@@ -169,7 +169,7 @@ all_subjects_from_collection_folder$path <-
 all_subjects_from_collection_folder <-
   subject_text_files_to_cameratraps_path(
     all_subjects_from_collection_folder,
-    cameratraps_folders_to_match_df = cameratraps_folders_to_match[1, ]
+    cameratraps_folder = cameratraps_folders_to_match[1, ]
   )
 
 # drop rows where the file path is NA
