@@ -121,20 +121,22 @@ cameratraps_folders_to_copy <-
     path = "G:"
   )
 
-# Copy Subjects to Blank Macro --------------------------------------
+cameratraps_folders_to_copy <-
+  construct_path_from_collection_and_site_folders(cameratraps_folders_to_copy)
 
-for (i in seq_len(nrow(cameratraps_folders_to_copy))) {
+
+# Find Number of Chunks in Collection Folder ------------------------------
 
 # list all of the chunk subfolders in the collection
 subfolders_in_collection_folder_relative_path <-
   list.dirs(
-    cameratraps_folders_to_copy$full_path[i],
+    cameratraps_folders_to_copy$path[1],
     full.names = FALSE
   )
 
 subfolders_in_collection_folder_absolute_path <-
   list.dirs(
-    cameratraps_folders_to_copy$full_path[i]
+    cameratraps_folders_to_copy$path[1]
   )
 
 # create a wildcard pattern that we can use to match just the "chunk" subfolders
@@ -162,46 +164,48 @@ n_chunks_in_collection_folder <- length(chunk_subfolders_in_collection_folder)
 
 for (j in (1:n_chunks_in_collection_folder)) {
 
+for (j in seq_len(n_chunks_in_collection_folder)) {
   chunk_name <- chunk_subfolders_in_collection_folder[j]
 
   path_to_chunk_csv <-
     file.path(
-      cameratraps_folders_to_copy$full_path[i],
+      cameratraps_folders_to_copy$path[1],
       "metadata",
       paste0(
-        cameratraps_folders_to_copy$collection_folder[i],
-        "_subjects_", chunk_name, ".csv"
+        cameratraps_folders_to_copy$collection_folder[1],
+        "_subjects_",
+        chunk_name,
+        ".csv"
       )
     )
 
-  chunk1_csv <- readr::read_csv(path_to_chunk_csv)
-
-  # keep only the columns that we want
-  chunk1_discard_columns <-
-    chunk1_csv %>%
-    dplyr::select(
-      RecordNumber,
-      ImageFilename,
-      ImagePath,
-      ImageRelative,
-      ImageSize,
-      ImageTime,
-      ImageDate,
-      ImageAlert
+  # copy the template excel macro from the templates folder
+  from <-
+    file.path(
+      currentwd,
+      "templates",
+      "excelmacro",
+      blankmacro
     )
 
-  # copy the template excel macro from the git repo
-  # into the camera trap folder on the external hard drive
+  # create a file name for each XLSM
+  xlsm_file_name <-
+    paste0(
+      cameratraps_folders_to_copy$collection_folder[1],
+      "_subjects_",
+      chunk_name,
+      ".xlsm"
+    )
 
-  from <-
-    file.path(currentwd,
-              "templates",
-              "excelmacro",
-              blankmacro)
-
-  to <- file.path(cameratraps_folders_to_copy$full_path[i], chunk_name)
+  # copy each renamed XLSM into each chunk folder within the collection
+  to <- file.path(
+    cameratraps_folders_to_copy$path[1],
+    chunk_name,
+    xlsm_file_name
+  )
 
   file.copy(from = from, to = to)
+}
 
   # TODO Add Warning Message If File Is Not Copied
 
@@ -211,48 +215,46 @@ for (j in (1:n_chunks_in_collection_folder)) {
       "/"
     )
 
-  # TODO extract to function and test
-  # is just the same thing as `basename()`?
-  keep.last.split.in.file.path <-
-    function(character_vector, pattern) {
-      # create an empty object to hold the output of the function
-      keep_last_object <- NULL
+  chunk_name <- chunk_subfolders_in_collection_folder[k]
 
-      # string split the character vector on a character or pattern
-      all_subjects_string_split <-
-        stringr::str_split(character_vector, pattern)
-
-      # lengths() detects the number of objects in each list
-      # create an index for the last object in a list using the lengths() func
-      num_data_objects <- lengths(all_subjects_string_split)
-
-      last_object <- num_data_objects
-
-      # index the list and keep only the last object
-      for (i in seq_along(all_subjects_string_split)) {
-        keep_last_object[i] <-
-          all_subjects_string_split[[i]][last_object[i]]
-      }
-      return(keep_last_object)
-    }
-
-  chunk1_discard_columns$ImageRelative <-
-    keep.last.split.in.file.path(
-      chunk1_discard_columns$ImageRelative,
-      "/"
+  path_to_chunk_csv <-
+    file.path(
+      cameratraps_folders_to_copy$path[1],
+      "metadata",
+      paste0(
+        cameratraps_folders_to_copy$collection_folder[1],
+        "_subjects_",
+        chunk_name,
+        ".csv"
+      )
     )
 
-  # name the macro by the chunk number
-  from <-
-    file.path(
-      cameratraps_folders_to_copy$full_path[i],
-      chunk_name,
-      blankmacro
+chunk_csv <- readr::read_csv(path_to_chunk_csv)
+
+# keep only the columns that we want
+chunk_discard_columns <-
+  chunk_csv %>%
+  dplyr::select(
+    RecordNumber,
+    ImageFilename,
+    ImagePath,
+    ImageRelative,
+    ImageSize,
+    ImageTime,
+    ImageDate,
+    ImageAlert
+  )
+
+  chunk_ImageRelative_keep_filename <-
+    chunk_discard_columns %>%
+    dplyr::mutate(
+      ImageRelative =
+        basename(ImageRelative)
     )
 
   xlsm_file_name <-
     paste0(
-      cameratraps_folders_to_copy$collection_folder[i],
+      cameratraps_folders_to_copy$collection_folder[1],
       "_subjects_",
       chunk_name,
       ".xlsm"
@@ -275,20 +277,18 @@ for (j in (1:n_chunks_in_collection_folder)) {
   xlsm_workbook <-
     openxlsx::loadWorkbook(
       file.path(
-        cameratraps_folders_to_copy$full_path[i],
+        cameratraps_folders_to_copy$path[1],
         chunk_name,
         xlsm_file_name
       )
     )
-
-  chunk1_discard_columns_df <- as.data.frame(chunk1_discard_columns)
 
   # "writeData" writes data to workbook object bound to R
   # but those changes are not yet saved to the file
   openxlsx::writeData(
     xlsm_workbook,
     "ImageData",
-    chunk1_discard_columns,
+    chunk_ImageRelative_keep_filename,
     startCol = 1,
     startRow = 2,
     colNames = FALSE
@@ -298,7 +298,7 @@ for (j in (1:n_chunks_in_collection_folder)) {
   openxlsx::saveWorkbook(
     xlsm_workbook,
     file.path(
-      cameratraps_folders_to_copy$full_path[i],
+      cameratraps_folders_to_copy$path[1],
       chunk_name,
       xlsm_file_name
     ),
@@ -306,16 +306,10 @@ for (j in (1:n_chunks_in_collection_folder)) {
   )
 }
 
-# create a new folder to use as a temporary folder for uploading to the cloud
-temp_folder_for_uploading_chunk <- file.path(
-  currentwd,
-  "data",
-  "temp",
-  "chunks",
-  cameratraps_folders_to_copy$collection_folder[i]
-)
+# Copy Chunk to Temp Folder for Uploading ---------------------------------
 
-dir.create(temp_folder_for_uploading_chunk)
+# create a new folder to use as a temporary folder for uploading to the cloud
+temp_folder_for_uploading_chunk <- path_to_temp_data
 
 # the source is the folder "chunks" on the external hard drive
 from <- chunk_subfolders_absolute_paths
@@ -324,7 +318,9 @@ from <- chunk_subfolders_absolute_paths
 to <- temp_folder_for_uploading_chunk
 
 # copy the chunks onto my local drive for upload
-file.copy(from = from, to = to, recursive = TRUE)
+file.copy(from = from,
+          to = to,
+          recursive = TRUE)
 
 # TODO add code sections
 
