@@ -82,7 +82,7 @@ kanban-plugin: basic
 
 ## Folders to Upload for SORTING
 
-- [ ] BGX_04182019_05212019 #wm2019photos #task #sorting
+- [ ] BGX_04182019_05212019 #wm2019photos #task #uploadtobox/sorting
 
 
 ## Folders Currently Uploading
@@ -111,7 +111,6 @@ kanban-plugin: basic
 
 ## Folders to Chunk Subject Photos
 
-- [ ] BGW_5min_09072020_12042020 #wm2019photos #task #chunk
 - [ ] BGW_06252019_07042019 #wm2019photos #task #chunk
 - [ ] BGW_07132020_09072020 #wm2020photos #task #chunk
 - [ ] BGW_07302019_08082019 #wm2019photos #task #chunk
@@ -135,8 +134,8 @@ kanban-plugin: basic
 - [ ] WCS_07302019_09182019 #wm2019photos #task #chunk
 - [ ] WCT_04252018_05152018 #wm2018photos #task #chunk
 - [ ] WCT_05152018_06112018 #wm2018photos #task #chunk
-
 - [ ] WCT_05152018_06112018 #wm2018photos #task #chunk
+
 
 ## Folders to Copy into Blank Macro
 
@@ -150,12 +149,13 @@ kanban-plugin: basic
 - [ ] WCS_09182019_10162019 #wm2019photos #task #copytoxlsm
 - [ ] BGX_09182019_10062019 (missing some subjects text files) #wm2019photos #task #copytoxlsm
 - [ ] WCS_5min_07302019_09182019 #wm2019photos #task #copytoxlsm
-
 - [ ] WCS_5min_09182019_10162019 #wm2019photos #task #copytoxlsm
 - [ ] WCT_06032019_06242019 #wm2019photos #task #copytoxlsm
 - [ ] WCT_06242019_07302019 #wm2019photos #task #copytoxlsm
 - [ ] WCT_09182019_10162019 #wm2019photos #task #copytoxlsm
 - [ ] BGW_5min_06042019_06112019 #wm2019photos #task #copytoxlsm
+
+- [ ] BGW_5min_09072020_12042020 #wm2019photos #task #copytoxlsm
 
 ## Folders to Upload to Box for SCORING
 
@@ -319,6 +319,7 @@ kanban-plugin: basic
 - [x] 2023-06-01 09:11:25 WCT_06242019_07302019 #wm2019photos #task #chunk
 - [x] 2023-06-01 09:16:44 WCT_09182019_10162019 #wm2019photos #task #chunk
 - [x] 2023-06-02 11:28:23 BGW_5min_06042019_06112019 #wm2019photos #task #chunk
+- [x] 2023-06-02 11:36:47 BGW_5min_09072020_12042020 #wm2019photos #task #chunk
 
 %% kanban:settings
 ```
