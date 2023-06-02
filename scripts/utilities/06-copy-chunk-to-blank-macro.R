@@ -19,7 +19,7 @@ source(here::here("functions.R"))
 
 # Select Folders to Extract -----------------------------------------------
 
-project_switch <- "heber"
+project_switch <- "white mountains"
 
 if (project_switch == "heber") {
   blankmacro <- "HorseImaging-2021-Heber.xlsm"
@@ -31,22 +31,24 @@ if (project_switch == "heber") {
   warning("The project has not been selected or was entered incorrectly.")
 }
 
-# create a variable to hold the file name in case we switch to a different project
-# and the file name is different we can switch it once here
-file <- "Heber Project Kanban.md"
+# create a variable to hold the file name
+# in case we switch to a different project kanban board
+project_kanban_file <-
+  here::here(
+    "docs",
+    "project boards",
+    "White Mountains Project Kanban.md"
+  )
 
 # read in the kanban board for the Heber project
-heber_project_kanban <- readr::read_lines(
-  file.path(
-    "~",
-    "grazing-interaction",
-    "docs",
-    "heber-project-notes",
-    file
-  ),
-  skip_empty_rows = FALSE,
-  progress = readr::show_progress()
-)
+project_kanban <-
+  readr::read_lines(
+    here::here(
+      project_kanban_file
+    ),
+    skip_empty_rows = FALSE,
+    progress = readr::show_progress()
+  )
 
 # heading patterns to find
 
