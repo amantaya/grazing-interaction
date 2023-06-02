@@ -7,15 +7,17 @@
 #' @param collection_folder Input character vector. This character vector should
 #'   corresponding to a collection folder or multiple collection folders. This
 #'   character vector must can be named either with 3-letters, 1 letter and
-#'   2-digits, or 3-letters and 2-digits followed by 8 digits corresponding to
-#'   the deployment date and 8 digits corresponding to the date of the last
-#'   photo in the collection or the date the photos were collected from the
-#'   camera.
+#'   2-digits, or 3-letters and 2-digits. All prefixs must be followed by 8
+#'   digits corresponding to the deployment date and 8 digits corresponding to
+#'   the date of the last photo in the collection or the date the photos were
+#'   collected from the camera.
 #'
 #' @return A data frame with a `site_code` column and a `collection_folder`
 #'   column.
+#'
 #' @examples
 #' extract_sitecode_from_collection_folder("WCS_04192019_05212019")
+#'
 #' @export
 extract_sitecode_from_collection_folder <-
   function(collection_folder) {
