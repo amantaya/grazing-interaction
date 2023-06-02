@@ -1,23 +1,9 @@
-###########################################################################
-###########################################################################
-###                                                                     ###
-###               SECTION 1: BACKGROUND AND CONFIGURATION               ###
-###                                                                     ###
-###########################################################################
-###########################################################################
+# Background and Configuration --------------------------------------------
 
 # TODO update what this script does
 
 
-############################################################################
-###                                                                      ###
-###                    SECTION 2: SETUP R ENVIRONMENT                    ###
-###                                                                      ###
-############################################################################
-############################################################################
-
-
-# Section 2: Setup R Environment ------------------------------------------
+# Setup R Environment -----------------------------------------------------
 
 # clear the R environment
 # rm(list=ls(all=TRUE))
@@ -31,13 +17,7 @@ source("~/grazing-interaction/packages.R")
 # load in the required functions
 source("~/grazing-interaction/functions.R")
 
-############################################################################
-############################################################################
-###                                                                      ###
-###                 SECTION 3: SELECT FOLDERS TO EXTRACT                 ###
-###                                                                      ###
-############################################################################
-############################################################################
+# Select Folders to Extract -----------------------------------------------
 
 project_switch <- "heber"
 
@@ -100,7 +80,7 @@ folders_to_chunk <- folders_to_chunk_pattern_matches[is.na(folders_to_chunk_patt
 cameratraps_folders_to_chunk <-
   cameratraps_path_constructor(folders_to_chunk)
 
-# Section 4: Copy Subjects to Blank Macro ---------------------------------
+# Copy Subjects to Blank Macro --------------------------------------
 
 for (i in 1:nrow(cameratraps_folders_to_chunk)) {
 
@@ -164,7 +144,7 @@ for (j in (1:n_chunks_in_collection_folder)) {
 
   file.copy(from = from, to = to)
 
-  #### Add Warning Message If File Is Not Copied ####
+  # TODO Add Warning Message If File Is Not Copied
 
   # trim the "/home/rstudio/cameratraps/wildcat/exclosure/WCX_05212019_07102019/101EK113" from the "ImageRelative" column
   # we want to keep just the file name because the excel macro is going to default to relative image paths
@@ -211,7 +191,7 @@ for (j in (1:n_chunks_in_collection_folder)) {
 
   file.rename(from = from, to = to)
 
-  #### Add Warning Message if File Is Not Renamed ####
+  # TODO Add Warning Message if File Is Not Renamed
 
   # copy and paste the data from the csv file into the macro
   # the data from the csv file has been corrected and the unnecessary columns dropped
