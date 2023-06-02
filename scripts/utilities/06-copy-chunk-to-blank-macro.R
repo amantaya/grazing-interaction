@@ -162,7 +162,7 @@ n_chunks_in_collection_folder <- length(chunk_subfolders_in_collection_folder)
 
 # for loop through each chunk in the collection folder
 
-for (j in (1:n_chunks_in_collection_folder)) {
+# Copy and Rename Blank XLSM into Chunk Folder ----------------------------
 
 for (j in seq_len(n_chunks_in_collection_folder)) {
   chunk_name <- chunk_subfolders_in_collection_folder[j]
@@ -207,7 +207,7 @@ for (j in seq_len(n_chunks_in_collection_folder)) {
   file.copy(from = from, to = to)
 }
 
-  # TODO Add Warning Message If File Is Not Copied
+# Read Chunk CSV File and Copy into Blank XLSM ----------------------------
 
   chunk1_relpaths_split_into_list <-
     stringr::str_split(
