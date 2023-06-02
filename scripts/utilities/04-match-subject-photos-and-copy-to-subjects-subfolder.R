@@ -167,7 +167,7 @@ all_subjects_from_collection_folder$path <-
 # discarding the parts of the string that we don't need
 
 all_subjects_from_collection_folder <-
-  subject_text_files_to_cameratraps_path(
+  construct_path_from_subject_text_files(
     all_subjects_from_collection_folder,
     cameratraps_folder = cameratraps_folders_to_match[1, ]
   )

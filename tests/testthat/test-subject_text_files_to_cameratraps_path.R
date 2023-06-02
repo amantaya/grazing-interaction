@@ -18,7 +18,7 @@ test_that("replaces parts of the subject text file path with the correct file pa
   )
 
   expect_equal(
-    subject_text_files_to_cameratraps_path(
+    construct_path_from_subject_text_files(
       df,
       cameratraps_folders
     ),

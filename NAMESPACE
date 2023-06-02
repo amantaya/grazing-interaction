@@ -3,7 +3,7 @@
 export(construct_path_from_collection_and_site_folders)
 export(construct_path_to_site_folder_from_site_code)
 export(extract_site_code_from_collection_folder)
-export(subject_text_files_to_cameratraps_path)
+export(construct_path_from_subject_text_files)
 importFrom(dplyr,mutate)
 importFrom(dplyr,relocate)
 importFrom(magrittr,"%>%")
