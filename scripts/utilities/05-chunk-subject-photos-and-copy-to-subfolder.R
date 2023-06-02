@@ -137,6 +137,10 @@ subject_photos_in_collection <-
     SubjectPhoto == TRUE
   )
 
+if (nrow(subject_photos_in_collection) == 0) {
+  stop("There are 0 Subject Photos in the Subjects Folder")
+}
+
 # set the desired chunk size
 ## i.e. how many rows from the data frame will be in each chunk
 chunk_size <- 500
