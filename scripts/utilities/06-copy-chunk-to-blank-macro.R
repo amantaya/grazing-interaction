@@ -85,8 +85,7 @@ upload_to_box_scoring_heading_index <-
 # add 1 because we don't want to include the first heading
 # subtract 1 because we don't want to include the last heading
 # subset the kanban board using these indexes
-# TODO should I consider not using the index?
-folders_to_chunk <-
+folders_to_copy <-
   project_kanban[
     (copy_to_blank_macro_heading_index + 2):
     (upload_to_box_scoring_heading_index - 2)
@@ -96,11 +95,11 @@ folders_to_chunk_regex_pattern <-
   "([[:upper:]][[:upper:]][[:upper:]]_\\d{8}_\\d{8}|[[:upper:]]\\d{2}_\\d{8}_\\d{8})" # nolint: line_length_limit
 
 folders_to_chunk_pattern_matches <-
-  stringr::str_extract(folders_to_chunk,
+  stringr::str_extract(folders_to_copy,
                        pattern = folders_to_chunk_regex_pattern)
 
 # return only the pattern matches that were not NA
-folders_to_chunk <-
+folders_to_copy <-
   folders_to_chunk_pattern_matches[
     is.na(folders_to_chunk_pattern_matches) == FALSE
   ]
@@ -112,18 +111,18 @@ cameratraps_folders_to_chunk <-
 
 # Copy Subjects to Blank Macro --------------------------------------
 
-for (i in seq_len(nrow(cameratraps_folders_to_chunk))) {
+for (i in seq_len(nrow(cameratraps_folders_to_copy))) {
 
 # list all of the chunk subfolders in the collection
 subfolders_in_collection_folder_relative_path <-
   list.dirs(
-    cameratraps_folders_to_chunk$full_path[i],
+    cameratraps_folders_to_copy$full_path[i],
     full.names = FALSE
   )
 
 subfolders_in_collection_folder_absolute_path <-
   list.dirs(
-    cameratraps_folders_to_chunk$full_path[i]
+    cameratraps_folders_to_copy$full_path[i]
   )
 
 # create a wildcard pattern that we can use to match just the "chunk" subfolders
@@ -155,10 +154,10 @@ for (j in (1:n_chunks_in_collection_folder)) {
 
   path_to_chunk_csv <-
     file.path(
-      cameratraps_folders_to_chunk$full_path[i],
+      cameratraps_folders_to_copy$full_path[i],
       "metadata",
       paste0(
-        cameratraps_folders_to_chunk$collection_folder[i],
+        cameratraps_folders_to_copy$collection_folder[i],
         "_subjects_", chunk_name, ".csv"
       )
     )
@@ -188,7 +187,7 @@ for (j in (1:n_chunks_in_collection_folder)) {
               "excelmacro",
               blankmacro)
 
-  to <- file.path(cameratraps_folders_to_chunk$full_path[i], chunk_name)
+  to <- file.path(cameratraps_folders_to_copy$full_path[i], chunk_name)
 
   file.copy(from = from, to = to)
 
@@ -234,14 +233,14 @@ for (j in (1:n_chunks_in_collection_folder)) {
   # name the macro by the chunk number
   from <-
     file.path(
-      cameratraps_folders_to_chunk$full_path[i],
+      cameratraps_folders_to_copy$full_path[i],
       chunk_name,
       blankmacro
     )
 
   xlsm_file_name <-
     paste0(
-      cameratraps_folders_to_chunk$collection_folder[i],
+      cameratraps_folders_to_copy$collection_folder[i],
       "_subjects_",
       chunk_name,
       ".xlsm"
@@ -249,7 +248,7 @@ for (j in (1:n_chunks_in_collection_folder)) {
 
   to <-
     file.path(
-      cameratraps_folders_to_chunk$full_path[i],
+      cameratraps_folders_to_copy$full_path[i],
       chunk_name,
       xlsm_file_name
     )
@@ -264,7 +263,7 @@ for (j in (1:n_chunks_in_collection_folder)) {
   xlsm_workbook <-
     openxlsx::loadWorkbook(
       file.path(
-        cameratraps_folders_to_chunk$full_path[i],
+        cameratraps_folders_to_copy$full_path[i],
         chunk_name,
         xlsm_file_name
       )
@@ -287,7 +286,7 @@ for (j in (1:n_chunks_in_collection_folder)) {
   openxlsx::saveWorkbook(
     xlsm_workbook,
     file.path(
-      cameratraps_folders_to_chunk$full_path[i],
+      cameratraps_folders_to_copy$full_path[i],
       chunk_name,
       xlsm_file_name
     ),
@@ -301,7 +300,7 @@ temp_folder_for_uploading_chunk <- file.path(
   "data",
   "temp",
   "chunks",
-  cameratraps_folders_to_chunk$collection_folder[i]
+  cameratraps_folders_to_copy$collection_folder[i]
 )
 
 dir.create(temp_folder_for_uploading_chunk)
@@ -323,7 +322,7 @@ msg_body <-
   paste("06-copy-chunk-to-blank-macro.R",
     "ran on folder",
     # TODO rename this object as it's copy/pasted from the previous step
-    cameratraps_folders_to_chunk$collection_folder[i],
+    cameratraps_folders_to_copy$collection_folder[i],
     "completed at",
     system_time,
     sep = " "
@@ -343,9 +342,9 @@ RPushbullet::pbPost(
 # stop if no collection folders remain to process
 # send a notification if all folders have been processed
 
-cameratraps_folders_to_chunk <- cameratraps_folders_to_chunk[-1, ]
+cameratraps_folders_to_copy <- cameratraps_folders_to_copy[-1, ]
 
-if (nrow(cameratraps_folders_to_chunk) != 0) {
+if (nrow(cameratraps_folders_to_copy) != 0) {
   source(
     here:::here(
       "scripts",
