@@ -25,9 +25,11 @@ frame that has a column named \code{site_code} and a column named \code{path}.
 }
 \examples{
 library(GrazingCameratraps)
+
 df <- data.frame(
   site_code = "A51",
   site_folder = "G:/cameratraps/fiftyone/timelapse"
   )
 construct_path_to_site_folder_from_site_code(df, path = "G:")
+
 }

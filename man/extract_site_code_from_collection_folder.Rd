@@ -21,11 +21,12 @@ column.
 }
 \description{
 \code{extract_site_code_from_collection_folder()} extracts the site
-code based on the prefix of a collection folder and returns a data frame with
-\code{site_code} and \code{collection_folder} columns.
+code based on the prefix of a collection folder and returns a data frame
+with \code{site_code} and \code{collection_folder} columns.
 }
 \examples{
 library(GrazingCameratraps)
+
 extract_site_code_from_collection_folder("WCS_04192019_05212019")
 
 }
