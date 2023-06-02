@@ -310,12 +310,21 @@ file.copy(from = from, to = to, recursive = TRUE)
 
 system_time <- Sys.time()
 
-# convert into the correct timezone for your locale (mine is Arizona so we follow Mountain Standard)
-attr(system_time,"tzone") <- "MST"
+msg_body <-
+  paste("06-copy-chunk-to-blank-macro.R",
+    "ran on folder",
+    # TODO rename this object as it's copy/pasted from the previous step
+    cameratraps_folders_to_chunk$collection_folder[i],
+    "completed at",
+    system_time,
+    sep = " "
+  )
 
-msg_body <- paste("04-copy-chunk-to-blank-macro.R", "ran on folder", cameratraps_folders_to_chunk$collection_folder[i], "completed at", system_time, sep = " ")
-
-RPushbullet::pbPost(type = "note", title = "Script Completed", body = msg_body)
+RPushbullet::pbPost(
+  type = "note",
+  title = "Script Completed",
+  body = msg_body
+)
 
 }
 
