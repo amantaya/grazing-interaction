@@ -435,9 +435,14 @@ msg_body <-
 
 RPushbullet::pbPost(type = "note", title = "Script Completed", body = msg_body)
 
-# once this scripts completed, move the collection folder to the next task
+# Re-Run Script if Folders Remain -----------------------------------------
 
-if (length(cameratraps_folders_to_match$collection_folder[1]) != 0) {
+# re-run this script on the next collection folder
+# stop if no collection folders remain to process
+# send a notification if all folders have been processed
+cameratraps_folders_to_match <- cameratraps_folders_to_match[-1, ]
+
+if (nrow(cameratraps_folders_to_match) != 0) {
   source(
     here::here(
       "scripts",
@@ -445,5 +450,17 @@ if (length(cameratraps_folders_to_match$collection_folder[1]) != 0) {
       "04-match-subject-photos-and-copy-to-subjects-subfolder.R"
     )
   )
+} else {
+  msg_body <- paste(
+    "04-match-subject-photos-and-copy-to-subjects-subfolder.R",
+    "completed at",
+    system_time,
+    sep = " "
+  )
+
+  RPushbullet::pbPost(
+    type = "note",
+    title = "All Folders Completed",
+    body = msg_body)
 }
 

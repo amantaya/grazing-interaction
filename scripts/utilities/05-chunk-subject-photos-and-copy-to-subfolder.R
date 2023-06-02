@@ -311,10 +311,33 @@ RPushbullet::pbPost(
   title = "Script Completed",
   body = msg_body)
 
-source(
-  here:::here(
-    "scripts",
-    "utilities",
-    "05-chunk-subject-photos-and-copy-to-subfolder.R"
+# Re-Run Script if Folders Remain -----------------------------------------
+
+# re-run this script on the next collection folder
+# stop if no collection folders remain to process
+# send a notification if all folders have been processed
+
+cameratraps_folders_to_match <- cameratraps_folders_
+cameratraps_folders_to_chunk <- cameratraps_folders_to_chunk[-1, ]
+
+if (nrow(cameratraps_folders_to_chunk) != 0) {
+  source(
+    here:::here(
+      "scripts",
+      "utilities",
+      "05-chunk-subject-photos-and-copy-to-subfolder.R"
+    )
   )
-)
+} else {
+  msg_body <- paste(
+    "05-chunk-subject-photos-and-copy-to-subfolder.R",
+    "completed at",
+    system_time,
+    sep = " "
+  )
+
+  RPushbullet::pbPost(
+    type = "note",
+    title = "All Folders Completed",
+    body = msg_body)
+}
