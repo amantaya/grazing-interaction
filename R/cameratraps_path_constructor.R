@@ -220,16 +220,22 @@ site_folder_from_site_code <- function(sitecode_df, path) {
   return(sitecode_df)
 }
 
-#' construct_path_from_collection_and_site_folders
+#' Construct a Path to a Collection Folder
 #'
 #' @description
-#' `construct_path_from_collection_and_site_folders` constructs a file path by combining the path to the site_folder and appending the collection folder onto the path.
+#' `construct_path_from_collection_and_site_folders` constructs a file path by combining the path to the site_folder and appending onto the path the collection folder.
 #'
-#' @param sitecode_df
+#' @inheritParams site_folder_from_site_code
 #'
-#' @return
+#' @return Returns a path to the collection folder in a new column `path`.
 #'
 #' @examples
+#'   df <- data.frame(
+#'   site_code = "BUO23",
+#'   collection_folder = "BUO23_20210525_20210624",
+#'   site_folder = "G:/cameratraps2/BUO23"
+#'   )
+#'   construct_path_from_collection_and_site_folders(df)
 #' @export
 construct_path_from_collection_and_site_folders <- function(sitecode_df){
   sitecode_df$path <-
@@ -237,4 +243,3 @@ construct_path_from_collection_and_site_folders <- function(sitecode_df){
               sitecode_df$collection_folder)
   return(sitecode_df)
 }
-
