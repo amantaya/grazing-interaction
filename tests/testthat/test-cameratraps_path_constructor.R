@@ -53,7 +53,7 @@ test_that("3-letter site code return correct path", {
     site_code = "WCS",
     site_folder = "G:/cameratraps/wildcat/timelapsesouth"
   )
-  expect_equal(site_folder_from_site_code(df, path = "G:"), df2)
+  expect_equal(construct_path_to_site_folder_from_site_code(df, path = "G:"), df2)
 })
 
 test_that("5-letter site code return correct path", {
@@ -66,7 +66,7 @@ test_that("5-letter site code return correct path", {
     site_code = "SHT11",
     site_folder = "G:/cameratraps2/SHT11"
   )
-  expect_equal(site_folder_from_site_code(df, path = "G:"), df2)
+  expect_equal(construct_path_to_site_folder_from_site_code(df, path = "G:"), df2)
 })
 
 test_that("1-letter and 2 digit site code return correct path", {
@@ -78,7 +78,7 @@ test_that("1-letter and 2 digit site code return correct path", {
     site_code = "A51",
     site_folder = "G:/cameratraps/fiftyone/timelapse"
   )
-  expect_equal(site_folder_from_site_code(df, path = "G:"), df2)
+  expect_equal(construct_path_to_site_folder_from_site_code(df, path = "G:"), df2)
 })
 
 test_that("3-letter and '5_min' site code return correct path", {
@@ -90,13 +90,13 @@ test_that("3-letter and '5_min' site code return correct path", {
     site_code = "BGW_5min",
     site_folder = "G:/cameratraps/boggy/timelapse5min"
   )
-  expect_equal(site_folder_from_site_code(df, path = "G:"), df2)
+  expect_equal(construct_path_to_site_folder_from_site_code(df, path = "G:"), df2)
 })
 
 test_that("0 folders remaining generates error message", {
   df <- NULL
 
-  expect_error(site_folder_from_site_code(df, path = "G:"),
+  expect_error(construct_path_to_site_folder_from_site_code(df, path = "G:"),
     regexp = "There are 0 Remaining Folders to Process on the Project Board"
   )
 })

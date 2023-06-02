@@ -40,7 +40,7 @@ extract_site_code_from_collection_folder <-
 
 #' Get Path to Site Folder from Site Code
 #'
-#' @description `site_folder_from_site_code()` returns a data frame with the path
+#' @description `construct_path_to_site_folder_from_site_code()` returns a data frame with the path
 #'   to the site folder in a new column named `site_folder` when given a data
 #'   frame that has a column named `site_code` and a column named `path`.
 #'
@@ -59,9 +59,9 @@ extract_site_code_from_collection_folder <-
 #'   site_code = "A51",
 #'   site_folder = "G:/cameratraps/fiftyone/timelapse"
 #'   )
-#' site_folder_from_site_code(df)
+#' construct_path_to_site_folder_from_site_code(df, path = "G:")
 #' @export
-site_folder_from_site_code <- function(sitecode_df, path) {
+construct_path_to_site_folder_from_site_code <- function(sitecode_df, path) {
   if (is.null(sitecode_df) == TRUE) {
     stop("There are 0 Remaining Folders to Process on the Project Board")
   } else {
@@ -227,7 +227,7 @@ site_folder_from_site_code <- function(sitecode_df, path) {
 #' @description
 #' `construct_path_from_collection_and_site_folders` constructs a file path by combining the path to the site_folder and appending onto the path the collection folder.
 #'
-#' @inheritParams site_folder_from_site_code
+#' @inheritParams construct_path_to_site_folder_from_site_code
 #'
 #' @return Returns a path to the collection folder in a new column `path`.
 #'
