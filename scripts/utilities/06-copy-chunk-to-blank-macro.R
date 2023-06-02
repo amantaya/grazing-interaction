@@ -6,16 +6,16 @@
 # Setup R Environment -----------------------------------------------------
 
 # clear the R environment
-# rm(list=ls(all=TRUE))
+rm(list = ls(all.names = TRUE))
 
 # set the working directory and environment variables
-source("~/grazing-interaction/environment.R")
+source(here::here("environment.R"))
 
 # load in the required packages
-source("~/grazing-interaction/packages.R")
+source(here::here("packages.R"))
 
 # load in the required functions
-source("~/grazing-interaction/functions.R")
+source(here::here("functions.R"))
 
 # Select Folders to Extract -----------------------------------------------
 
