@@ -138,7 +138,13 @@ subject_photos_in_collection <-
   )
 
 if (nrow(subject_photos_in_collection) == 0) {
-  stop("There are 0 Subject Photos in the Subjects Folder")
+  stop(
+    paste(
+      "There are 0 Subject Photos in the",
+      cameratraps_folders_to_chunk$collection_folder[1],
+      "Subjects Folder"
+    )
+  )
 }
 
 # set the desired chunk size
