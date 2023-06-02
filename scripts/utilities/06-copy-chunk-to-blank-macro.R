@@ -67,7 +67,6 @@ copy_to_blank_macro_heading_regex <-
 upload_to_box_scoring_heading_regex <-
   "##\\sFolders\\sto\\sUpload\\sto\\sBox\\sfor\\sSCORING"
 
-# TODO rename `project_kanban` to `project_kanban`
 # create and index of the two headings
 # we want what's in between the headings
 copy_to_blank_macro_heading_index <-
