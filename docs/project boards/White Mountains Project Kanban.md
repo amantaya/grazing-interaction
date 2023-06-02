@@ -111,7 +111,6 @@ kanban-plugin: basic
 
 ## Folders to Chunk Subject Photos
 
-- [ ] BGW_5min_06042019_06112019 #wm2019photos #task #chunk
 - [ ] BGW_5min_09072020_12042020 #wm2019photos #task #chunk
 - [ ] BGW_06252019_07042019 #wm2019photos #task #chunk
 - [ ] BGW_07132020_09072020 #wm2020photos #task #chunk
@@ -156,6 +155,7 @@ kanban-plugin: basic
 - [ ] WCT_06032019_06242019 #wm2019photos #task #copytoxlsm
 - [ ] WCT_06242019_07302019 #wm2019photos #task #copytoxlsm
 - [ ] WCT_09182019_10162019 #wm2019photos #task #copytoxlsm
+- [ ] BGW_5min_06042019_06112019 #wm2019photos #task #copytoxlsm
 
 ## Folders to Upload to Box for SCORING
 
@@ -318,6 +318,7 @@ kanban-plugin: basic
 - [x] 2023-06-01 09:03:50 WCT_06032019_06242019 #wm2019photos #task #chunk
 - [x] 2023-06-01 09:11:25 WCT_06242019_07302019 #wm2019photos #task #chunk
 - [x] 2023-06-01 09:16:44 WCT_09182019_10162019 #wm2019photos #task #chunk
+- [x] 2023-06-02 11:28:23 BGW_5min_06042019_06112019 #wm2019photos #task #chunk
 
 %% kanban:settings
 ```
