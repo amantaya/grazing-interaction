@@ -67,18 +67,18 @@ copy_to_blank_macro_heading_regex <-
 upload_to_box_scoring_heading_regex <-
   "##\\sFolders\\sto\\sUpload\\sto\\sBox\\sfor\\sSCORING"
 
-# TODO rename `heber_project_kanban` to `project_kanban`
+# TODO rename `project_kanban` to `project_kanban`
 # create and index of the two headings
 # we want what's in between the headings
 copy_to_blank_macro_heading_index <-
   stringr::str_which(
-    heber_project_kanban,
+    project_kanban,
     pattern = copy_to_blank_macro_heading_regex
   )
 
 upload_to_box_scoring_heading_index <-
   stringr::str_which(
-    heber_project_kanban,
+    project_kanban,
     pattern = upload_to_box_scoring_heading_regex
   )
 
@@ -87,7 +87,7 @@ upload_to_box_scoring_heading_index <-
 # subset the kanban board using these indexes
 # TODO should I consider not using the index?
 folders_to_chunk <-
-  heber_project_kanban[
+  project_kanban[
     (copy_to_blank_macro_heading_index + 2):
     (upload_to_box_scoring_heading_index - 2)
   ]
