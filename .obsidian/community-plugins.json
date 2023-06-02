@@ -10,5 +10,6 @@
   "obsidian-zotero-desktop-connector",
   "obsidian-kanban",
   "obsidian-gist",
-  "tag-wrangler"
+  "tag-wrangler",
+  "obsidian-linter"
 ]
