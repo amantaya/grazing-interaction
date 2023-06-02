@@ -8,7 +8,7 @@ construct_path_from_subject_text_files(subject_txt_df, cameratraps_folder)
 }
 \arguments{
 \item{subject_txt_df}{A data frame with a column named \code{path} that is a file
-path to a subject photo in within a collection folder.}
+path to a subject photo within a collection folder.}
 
 \item{cameratraps_folder}{A data frame with columns named \code{collection_folder},
 \code{sub_folder}, \code{file_name}, and \code{path}.}

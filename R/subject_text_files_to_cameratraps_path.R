@@ -5,7 +5,7 @@
 #'   folder, image sub-folder, and file name from a subject text file.
 #'
 #' @param subject_txt_df A data frame with a column named `path` that is a file
-#'   path to a subject photo in within a collection folder.
+#'   path to a subject photo within a collection folder.
 #'
 #' @param cameratraps_folder A data frame with columns named `collection_folder`,
 #' `sub_folder`, `file_name`, and `path`.
