@@ -139,7 +139,7 @@ subfolders_in_collection_folder_absolute_path <-
     cameratraps_folders_to_copy$path[1]
   )
 
-# create a wildcard pattern that we can use to match just the "chunk" subfolders
+# create a wildcard pattern to match just the "chunk" subfolders
 chunk_wildcard <- "chunk*"
 
 # use a global regular expression to match
