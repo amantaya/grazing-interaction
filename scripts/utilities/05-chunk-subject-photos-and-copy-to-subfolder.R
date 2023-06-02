@@ -73,7 +73,6 @@ copy_to_blank_macro_heading_index <-
 # add 2 because we don't want to include the first heading and a new line
 # subtract 2 because we don't want to include the last heading and a new line
 # subset the kanban board using these indexes
-# TODO drop empty lines read in by kanban board
 kanban_board_subset <-
   project_kanban[
     (folders_to_chunk_heading_index + 2):(copy_to_blank_macro_heading_index - 2)
