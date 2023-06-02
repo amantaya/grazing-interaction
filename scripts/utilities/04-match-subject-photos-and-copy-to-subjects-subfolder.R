@@ -436,10 +436,14 @@ msg_body <-
 RPushbullet::pbPost(type = "note", title = "Script Completed", body = msg_body)
 
 # once this scripts completed, move the collection folder to the next task
-source(
-  here::here(
-    "scripts",
-    "utilities",
-    "04-match-subject-photos-and-copy-to-subjects-subfolder.R"
+
+if (length(cameratraps_folders_to_match$collection_folder[1]) != 0) {
+  source(
+    here::here(
+      "scripts",
+      "utilities",
+      "04-match-subject-photos-and-copy-to-subjects-subfolder.R"
+    )
   )
-)
+}
+
