@@ -14,7 +14,7 @@
 #'
 #' @return A data frame with a `site_code` column and a `collection_folder`
 #'   column.
-#'
+#' @importFrom stringr str_extract
 #' @examples
 #' extract_site_code_from_collection_folder("WCS_04192019_05212019")
 #'
