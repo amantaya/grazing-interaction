@@ -168,9 +168,8 @@ if (length(chunk_subfolders_in_collection_folder) == 0) {
 
 # number of chunks in the collection folder
 # use this object to indexing
-n_chunks_in_collection_folder <- length(chunk_subfolders_in_collection_folder)
-
-# for loop through each chunk in the collection folder
+n_chunks_in_collection_folder <-
+  length(chunk_subfolders_in_collection_folder)
 
 # Copy and Rename Blank XLSM into Chunk Folder ----------------------------
 
