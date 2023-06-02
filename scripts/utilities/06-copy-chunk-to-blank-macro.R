@@ -84,7 +84,7 @@ upload_to_box_scoring_heading_index <-
 # add 1 because we don't want to include the first heading
 # subtract 1 because we don't want to include the last heading
 # subset the kanban board using these indexes
-folders_to_copy <-
+kanban_board_subset <-
   project_kanban[
     (copy_to_blank_macro_heading_index + 2):
     (upload_to_box_scoring_heading_index - 2)
@@ -94,7 +94,7 @@ folders_to_copy_regex <-
   "([[:upper:]][[:upper:]][[:upper:]]_\\d{8}_\\d{8}|A\\d{2}_\\d{8}_\\d{8}|[[:upper:]][[:upper:]][[:upper:]]_5min_\\d{8}_\\d{8}|[[:upper:]][[:upper:]][[:upper:]]\\d{2}_\\d{8}_\\d{8})" # nolint: line_length_linter
 
 folders_to_copy_pattern_matches <-
-  stringr::str_extract(folders_to_copy,
+  stringr::str_extract(kanban_board_subset,
                        pattern = folders_to_copy_regex)
 
 # return only the pattern matches that were not NA
@@ -112,7 +112,7 @@ sites_from_json <- jsonlite::fromJSON(
 
 cameratraps_folders_to_copy <-
   extract_site_code_from_collection_folder(
-    folders_to_copy_pattern_matches
+    folders_to_copy
   )
 
 cameratraps_folders_to_copy <-
