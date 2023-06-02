@@ -1,7 +1,16 @@
 # Background and Configuration --------------------------------------------
 
-# TODO update what this script does
+## Horse-Cattle-Elk Grazing Interaction Study Rproj
+## Step 6: Copy Chunk to Blank Macro
 
+## What this script does:
+## Reads in the CSV file 'subjects_chunk_1.csv'from metadata sub-folder
+## Copies the data from the CSV file into the blank macro .XLSM
+## Writes out a macro for each chunk that is ready for scoring
+
+## What this script requires:
+## The CSV files from 05-Chunk Subject Photos and Copy to Sub-Folder.R
+## e.g. WCS_05262017_06142017_subjects_chunk1.csv
 
 # Setup R Environment -----------------------------------------------------
 
