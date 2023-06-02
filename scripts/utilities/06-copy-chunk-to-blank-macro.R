@@ -209,11 +209,7 @@ for (j in seq_len(n_chunks_in_collection_folder)) {
 
 # Read Chunk CSV File and Copy into Blank XLSM ----------------------------
 
-  chunk1_relpaths_split_into_list <-
-    stringr::str_split(
-      chunk1_discard_columns$ImageRelative,
-      "/"
-    )
+for (k in seq_len(n_chunks_in_collection_folder)) {
 
   chunk_name <- chunk_subfolders_in_collection_folder[k]
 
@@ -260,20 +256,7 @@ chunk_discard_columns <-
       ".xlsm"
     )
 
-  to <-
-    file.path(
-      cameratraps_folders_to_copy$full_path[i],
-      chunk_name,
-      xlsm_file_name
-    )
-
-  file.rename(from = from, to = to)
-
-  # TODO Add Warning Message if File Is Not Renamed
-
   # copy and paste the data from the csv file into the macro
-  # the data from the csv file has been corrected
-  # and the unnecessary columns dropped
   xlsm_workbook <-
     openxlsx::loadWorkbook(
       file.path(
