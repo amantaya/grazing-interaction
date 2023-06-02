@@ -412,8 +412,7 @@ system_time <- Sys.time()
 msg_body <-
   paste("06-copy-chunk-to-blank-macro.R",
     "ran on folder",
-    # TODO rename this object as it's copy/pasted from the previous step
-    cameratraps_folders_to_copy$collection_folder[i],
+    cameratraps_folders_to_copy$collection_folder[1],
     "completed at",
     system_time,
     sep = " "
@@ -424,8 +423,6 @@ RPushbullet::pbPost(
   title = "Script Completed",
   body = msg_body
 )
-
-}
 
 # Re-Run Script if Folders Remain -----------------------------------------
 
