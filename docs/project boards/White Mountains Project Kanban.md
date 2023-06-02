@@ -47,7 +47,7 @@ kanban-plugin: basic
 
 ## Folders That Need Metadata
 
-- [ ] BGW_06042019_06252019 #wm2019photos #task #matchsubjects
+- [ ] BGW_06042019_06252019 #wm2019photos #task #needsmetadata
 - [ ] WCX_07122018_08062018 #wm2018photos #task #needsmetadata
 - [ ] WCX_09302018_10232018 #wm2018photos #task #needsmetadata
 - [ ] WCS_05262017_06142017 #wm2017photos #task #needsmetadata
