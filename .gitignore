@@ -21,6 +21,7 @@ containers
 
 # ignore data folders and files
 data
+inst/extdata
 
 # ignore results folder
 results
