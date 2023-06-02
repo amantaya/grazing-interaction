@@ -305,6 +305,8 @@ project_kanban <- project_kanban[-completed_task_index]
 readr::write_lines(project_kanban,
                    file = project_kanban_file)
 
+# Push Notification Script Completed --------------------------------------
+
 system_time <- Sys.time()
 
 msg_body <- paste(
