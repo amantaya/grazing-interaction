@@ -105,17 +105,17 @@ kanban-plugin: basic
 
 ## Folders to Copy into Blank Macro
 
-- [ ] WCS_09182019_10162019 #wm2019photos #task #copytoxlsm
-- [ ] BGX_09182019_10062019 (missing some subjects text files) #wm2019photos #task #copytoxlsm
-- [ ] WCX_08252018_09232018 #wm2018photos #task #copytoxlsm
-- [ ] WCX_06292018_07122018 #wm2018photos #task #copytoxlsm
-- [ ] WCS_5min_06242019_07302019 #wm2019photos #task #copytoxlsm
-- [ ] WCS_5min_05212019_06032019 #wm2019photos #task #copytoxlsm
-- [ ] WCX_07302019_08082019 #wm2019photos #task #copytoxlsm
-- [ ] WCS_5min_04192019_05212019 #wm2019photos #task #copytoxlsm
-- [ ] WCS_5min_07302019_09182019 #wm2019photos #task #copytoxlsm
-
 ## Folders to Upload to Box for SCORING
+
+- [ ] WCS_09182019_10162019 #wm2019photos #task #uploadtobox/scoring
+- [ ] BGX_09182019_10062019 (missing some subjects text files) #wm2019photos #task #uploadtobox/scoring
+- [ ] WCX_08252018_09232018 #wm2018photos #task #uploadtobox/scoring
+- [ ] WCX_06292018_07122018 #wm2018photos #task #uploadtobox/scoring
+- [ ] WCS_5min_06242019_07302019 #wm2019photos #task #uploadtobox/scoring
+- [ ] WCS_5min_05212019_06032019 #wm2019photos #task #uploadtobox/scoring
+- [ ] WCX_07302019_08082019 #wm2019photos #task #uploadtobox/scoring
+- [ ] WCS_5min_04192019_05212019 #wm2019photos #task #uploadtobox/scoring
+- [ ] WCS_5min_07302019_09182019 #wm2019photos #task #uploadtobox/scoring
 
 ## Folders to Add to Basecamp as SCORING Assignments
 
@@ -428,6 +428,15 @@ kanban-plugin: basic
 - [x] 2023-06-05 12:35:32 WCS_5min_04192019_05212019 #wm2019photos #task #chunk
 - [x] 2023-06-05 12:35:41 WCS_5min_07302019_09182019 #wm2019photos #task #copytoxlsm
 - [x] 2023-06-05 12:42:15
+- [x] 2023-06-05 12:48:25 WCS_09182019_10162019 #wm2019photos #task #copytoxlsm
+- [x] 2023-06-05 12:48:39 BGX_09182019_10062019 (missing some subjects text files) #wm2019photos #task #copytoxlsm
+- [x] 2023-06-05 12:49:12 WCX_08252018_09232018 #wm2018photos #task #copytoxlsm
+- [x] 2023-06-05 12:50:20 WCX_06292018_07122018 #wm2018photos #task #copytoxlsm
+- [x] 2023-06-05 12:51:03 WCS_5min_06242019_07302019 #wm2019photos #task #copytoxlsm
+- [x] 2023-06-05 12:51:22 WCS_5min_05212019_06032019 #wm2019photos #task #copytoxlsm
+- [x] 2023-06-05 12:51:40 WCX_07302019_08082019 #wm2019photos #task #copytoxlsm
+- [x] 2023-06-05 12:52:16 WCS_5min_04192019_05212019 #wm2019photos #task #copytoxlsm
+- [x] 2023-06-05 12:52:24 WCS_5min_07302019_09182019 #wm2019photos #task #copytoxlsm
 
 %% kanban:settings
 
