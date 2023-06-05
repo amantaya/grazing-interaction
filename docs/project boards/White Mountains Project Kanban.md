@@ -10,6 +10,8 @@ kanban-plugin: basic
 
 ## White Mountains Project Kanban
 
+## White Mountains Project Kanban
+
 ## Photos That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
 - [ ] WCS_05262017_06142017 #wm2017photos #task #rename
@@ -117,44 +119,43 @@ kanban-plugin: basic
 
 ## Folders to Copy into Blank Macro
 
-
 ## Folders to Upload to Box for SCORING
-- [ ] WCS_5min_09182019_10162019 #wm2019photos #task #uploadtobox/scoring
-- [ ] WCT_06032019_06242019 #wm2019photos #task #uploadtobox/scoring
-- [ ] WCT_06242019_07302019 #wm2019photos #task #uploadtobox/scoring
-- [ ] WCT_09182019_10162019 #wm2019photos #task #uploadtobox/scoring
-- [ ] BGW_5min_06042019_06112019 #wm2019photos #task #uploadtobox/scoring
-- [ ] BGW_5min_09072020_12042020 #wm2019photos #task #uploadtobox/scoring
-- [ ] BGW_06252019_07042019 #wm2019photos #task #uploadtobox/scoring
-- [ ] BGW_07132020_09072020 #wm2020photos #task #uploadtobox/scoring
-- [ ] BGW_07302019_08082019 #wm2019photos #task #uploadtobox/scoring
-- [ ] BGW_09072020_09242020 #wm2020photos #task #uploadtobox/scoring
-- [ ] BGT_09182019_10152019 #wm2019photos #task #uploadtobox/scoring
-- [ ] WCT_04192019_05212019 #wm2019photos #task #uploadtobox/scoring
-- [ ] [WCS_06242019_07022019](../tasks/WCS_06242019_07022019.md) #wm2019photos #task #uploadtobox/scoring
-- [ ] BGT_04182019_05212019 #wm2019photos #task #uploadtobox/scoring
-- [ ] BGT_05212019_06042019 #wm2019photos #task #uploadtobox/scoring
-- [ ] BGW_5min_04182019_05212019 #wm2019photos #task #uploadtobox/scoring
-- [ ] BGW_5min_05212019_06042019 #wm2019photos #task #uploadtobox/scoring
-- [ ] BGW_5min_07302019_08032019 #wm2019photos #task #uploadtobox/scoring
-- [ ] BGW_5min_04182019_05212019 #wm2019photos #task #uploadtobox/scoring
-- [ ] BGW_5min_09182019_09182019 #wm2019photos #task #uploadtobox/scoring
-- [ ] BGW_09182019_09182019 #wm2019photos #task #uploadtobox/scoring
-- [ ] BGX_07302019_08172019 #wm2019photos #task #uploadtobox/scoring
-- [ ] [WCS_05152018_06092018](../tasks/WCS_05152018_06092018.md) #wm2018photos #task #uploadtobox/scoring
-- [ ] WCS_05212019_06032019 #wm2018photos #task #uploadtobox/scoring
-- [ ] WCT_04252018_05152018 #wm2018photos #task #uploadtobox/scoring
-- [ ] WCT_05152018_06112018 #wm2018photos #task #uploadtobox/scoring
-- [ ] WCT_05152018_06112018 #wm2018photos #task #uploadtobox/scoring
-- [ ] BGT_06252019_07302019 #wm2019photos #task #uploadtobox/scoring
-- [ ] WCS_07302019_09182019 #wm2019photos #task #uploadtobox/scoring
-- [ ] WCS_05262017_06142017 #wm2017photos #task #uploadtobox/scoring
 
 ## Folders to Add to Basecamp as SCORING Assignments
 
 ## SCORING Assignments Awaiting Completion by Students
 
-- [ ] BGT_07302019_09182019_subjects_chunk1 #task #wm2019photos #uploadtobox/scoring
+- [ ] BGT_07302019_09182019_subjects_chunk1 #task #wm2019photos #scoring
+- [ ] WCS_5min_09182019_10162019 #wm2019photos #task #scoring
+- [ ] WCT_06032019_06242019 #wm2019photos #task #scoring
+- [ ] WCT_06242019_07302019 #wm2019photos #task #scoring
+- [ ] WCT_09182019_10162019 #wm2019photos #task #scoring
+- [ ] BGW_5min_06042019_06112019 #wm2019photos #task #scoring
+- [ ] BGW_5min_09072020_12042020 #wm2019photos #task #scoring
+- [ ] BGW_06252019_07042019 #wm2019photos #task #scoring
+- [ ] BGW_07132020_09072020 #wm2020photos #task #scoring
+- [ ] BGW_07302019_08082019 #wm2019photos #task #scoring
+- [ ] BGW_09072020_09242020 #wm2020photos #task #scoring
+- [ ] BGT_09182019_10152019 #wm2019photos #task #scoring
+- [ ] WCT_04192019_05212019 #wm2019photos #task #scoring
+- [ ] [WCS_06242019_07022019](../tasks/WCS_06242019_07022019.md) #wm2019photos #task #scoring
+- [ ] BGT_04182019_05212019 #wm2019photos #task #scoring
+- [ ] BGT_05212019_06042019 #wm2019photos #task #scoring
+- [ ] BGW_5min_04182019_05212019 #wm2019photos #task #scoring
+- [ ] BGW_5min_05212019_06042019 #wm2019photos #task #scoring
+- [ ] BGW_5min_07302019_08032019 #wm2019photos #task #scoring
+- [ ] BGW_5min_04182019_05212019 #wm2019photos #task #scoring
+- [ ] BGW_5min_09182019_09182019 #wm2019photos #task #scoring
+- [ ] BGW_09182019_09182019 #wm2019photos #task #scoring
+- [ ] BGX_07302019_08172019 #wm2019photos #task #scoring
+- [ ] [WCS_05152018_06092018](../tasks/WCS_05152018_06092018.md) #wm2018photos #task #scoring
+- [ ] WCS_05212019_06032019 #wm2018photos #task #scoring
+- [ ] WCT_04252018_05152018 #wm2018photos #task #scoring
+- [ ] WCT_05152018_06112018 #wm2018photos #task #scoring
+- [ ] WCT_05152018_06112018 #wm2018photos #task #scoring
+- [ ] BGT_06252019_07302019 #wm2019photos #task #scoring
+- [ ] WCS_07302019_09182019 #wm2019photos #task #scoring
+- [ ] WCS_05262017_06142017 #wm2017photos #task #scoring
 
 ## Quality Check Not Started
 
@@ -351,6 +352,66 @@ kanban-plugin: basic
 - [x] 2023-06-02 17:11:56 BGT_06252019_07302019 #wm2019photos #task #copytoxlsm
 - [x] 2023-06-02 17:12:58 WCS_07302019_09182019 #wm2019photos #task #copytoxlsm
 - [x] 2023-06-02 17:20:17 WCS_05262017_06142017 #wm2017photos #task #copytoxlsm
+- [x] 2023-06-05 11:21:50 WCS_5min_09182019_10162019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 WCT_06032019_06242019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 WCT_06242019_07302019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 WCT_09182019_10162019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGW_5min_06042019_06112019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGW_5min_09072020_12042020 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGW_06252019_07042019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGW_07132020_09072020 #wm2020photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGW_07302019_08082019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGW_09072020_09242020 #wm2020photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGT_09182019_10152019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 WCT_04192019_05212019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 [WCS_06242019_07022019](../tasks/WCS_06242019_07022019.md) #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGT_04182019_05212019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGT_05212019_06042019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGW_5min_04182019_05212019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGW_5min_05212019_06042019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGW_5min_07302019_08032019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGW_5min_04182019_05212019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGW_5min_09182019_09182019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGW_09182019_09182019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGX_07302019_08172019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 [WCS_05152018_06092018](../tasks/WCS_05152018_06092018.md) #wm2018photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 WCS_05212019_06032019 #wm2018photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 WCT_04252018_05152018 #wm2018photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 WCT_05152018_06112018 #wm2018photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 WCT_05152018_06112018 #wm2018photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGT_06252019_07302019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 WCS_07302019_09182019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 WCS_05262017_06142017 #wm2017photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 WCS_5min_09182019_10162019 #wm2019photos #task #addtobasecamp/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 WCT_06032019_06242019 #wm2019photos #task #addtobasecamp/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 WCT_06242019_07302019 #wm2019photos #task #addtobasecamp/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 WCT_09182019_10162019 #wm2019photos #task #addtobasecamp/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGW_5min_06042019_06112019 #wm2019photos #task #addtobasecamp/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGW_5min_09072020_12042020 #wm2019photos #task #addtobasecamp/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGW_06252019_07042019 #wm2019photos #task #addtobasecamp/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGW_07132020_09072020 #wm2020photos #task #addtobasecamp/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGW_07302019_08082019 #wm2019photos #task #addtobasecamp/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGW_09072020_09242020 #wm2020photos #task #addtobasecamp/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGT_09182019_10152019 #wm2019photos #task #addtobasecamp/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 WCT_04192019_05212019 #wm2019photos #task #addtobasecamp/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 [WCS_06242019_07022019](../tasks/WCS_06242019_07022019.md) #wm2019photos #task #addtobasecamp/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGT_04182019_05212019 #wm2019photos #task #addtobasecamp/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGT_05212019_06042019 #wm2019photos #task #addtobasecamp/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGW_5min_04182019_05212019 #wm2019photos #task #addtobasecamp/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGW_5min_05212019_06042019 #wm2019photos #task #addtobasecamp/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGW_5min_07302019_08032019 #wm2019photos #task #addtobasecamp/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGW_5min_04182019_05212019 #wm2019photos #task #addtobasecamp/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGW_5min_09182019_09182019 #wm2019photos #task #addtobasecamp/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGW_09182019_09182019 #wm2019photos #task #addtobasecamp/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGX_07302019_08172019 #wm2019photos #task #addtobasecamp/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 [WCS_05152018_06092018](../tasks/WCS_05152018_06092018.md) #wm2018photos #task #addtobasecamp/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 WCS_05212019_06032019 #wm2018photos #task #addtobasecamp/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 WCT_04252018_05152018 #wm2018photos #task #addtobasecamp/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 WCT_05152018_06112018 #wm2018photos #task #addtobasecamp/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 WCT_05152018_06112018 #wm2018photos #task #addtobasecamp/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 BGT_06252019_07302019 #wm2019photos #task #addtobasecamp/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 WCS_07302019_09182019 #wm2019photos #task #addtobasecamp/scoring ✅ 2023-06-05
+- [x] 2023-06-05 11:21:50 WCS_05262017_06142017 #wm2017photos #task #addtobasecamp/scoring ✅ 2023-06-05
 
 %% kanban:settings
 
