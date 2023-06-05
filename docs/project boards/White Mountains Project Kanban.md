@@ -6,10 +6,6 @@ kanban-plugin: basic
 
 # White Mountains Project Kanban
 
-## White Mountains Project Kanban
-
-## White Mountains Project Kanban
-
 ## Photos That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
 - [ ] WCS_05262017_06142017 #wm2017photos #task #rename
@@ -103,9 +99,9 @@ kanban-plugin: basic
 
 ## Folders to Chunk Subject Photos
 
-- [ ] WCS_04192019_05212019 #wm2019photos #task #copytoxlsm
 
 ## Folders to Copy into Blank Macro
+- [ ] WCS_04192019_05212019 #wm2019photos #task #copytoxlsm
 
 ## Folders to Upload to Box for SCORING
 
@@ -447,6 +443,7 @@ kanban-plugin: basic
 - [x] 2023-06-05 15:05:53 WCX_07302019_08082019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
 - [x] 2023-06-05 15:05:53 WCS_5min_04192019_05212019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
 - [x] 2023-06-05 15:05:53 WCS_5min_07302019_09182019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 15:10:01 WCS_04192019_05212019 #wm2019photos #task #copytoxlsm
 
 %% kanban:settings
 
