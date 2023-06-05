@@ -4,16 +4,6 @@ kanban-plugin: basic
 
 ---
 
-# White Mountains Project Kanban
-
-## White Mountains Project Kanban
-
-## White Mountains Project Kanban
-
-## White Mountains Project Kanban
-
-## White Mountains Project Kanban
-
 ## Photos That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
 - [ ] WCS_05262017_06142017 #wm2017photos #task #rename
@@ -54,6 +44,7 @@ kanban-plugin: basic
 - [ ] BGT_09302018_10292018 #wm2018photos #task #rename
 - [ ] BGT_10082017_11052017 #wm2017photos #task #rename
 
+
 ## Folders That Need Metadata
 
 - [ ] BGW_06042019_06252019 #wm2019photos #task #needsmetadata
@@ -84,17 +75,27 @@ kanban-plugin: basic
 - [ ] BGW_08122017_08212017 #wm2017photos #task #needsmetadata
 - [ ] BGT_06042019_06252019 #wm2019photos #task #needsmetadata
 
+
 ## Folders to Copy to Hard Drive
+
+
 
 ## Folders to Upload for SORTING
 
 - [x] BGX_04182019_05212019 #wm2019photos #task #uploadtobox/sorting
 
+
 ## Folders Currently Uploading
+
+
 
 ## Folders to Add as Assignments to Basecamp for SORTING
 
+
+
 ## SORTING Assignments Awaiting Completion by Students
+
+
 
 ## Folders to Copy Subject Photos to Sub-Folder on Hard Drive
 
@@ -103,10 +104,12 @@ kanban-plugin: basic
 - [ ] BGW_05212019_06042019 #wm2019photos #task #copytohdd/sorting
 - [ ] WCT_09302018_10302018 #wm2018photos #task #copytohdd/sorting
 
+
 ## Folders to Match Subject Photos
 
 - [ ] WCX_08252018_09232018 #wm2018photos #task #matchsubjects
 - [ ] WCX_06292018_07122018 #wm2018photos #task #matchsubjects
+
 
 ## Folders to Chunk Subject Photos
 
@@ -119,25 +122,32 @@ kanban-plugin: basic
 - [ ] BGX_09182019_10062019 (missing some subjects text files) #wm2019photos #task #copytoxlsm
 - [ ] WCS_5min_07302019_09182019 #wm2019photos #task #copytoxlsm
 
+
 ## Folders to Copy into Blank Macro
+
+- [ ] WCS_5min_09182019_10162019 #wm2019photos #task #copytoxlsm
+- [ ] [BGT_07302019_09182019_subjects_chunk1](BGT_07302019_09182019_subjects_chunk1.md) #task #wm2019photos #copytoxlsm
+
 
 ## Folders to Upload to Box for SCORING
 
+
+
 ## Folders to Add to Basecamp as SCORING Assignments
+
+
 
 ## SCORING Assignments Awaiting Completion by Students
 
 - [ ] BGT_04182019_05212019 #wm2019photos #task #scoring
 - [ ] BGT_05212019_06042019 #wm2019photos #task #scoring
 - [ ] BGT_06252019_07302019 #wm2019photos #task #scoring
-- [ ] BGT_07302019_09182019_subjects_chunk1 #task #wm2019photos #scoring
 - [ ] BGT_09182019_10152019 #wm2019photos #task #scoring
 - [ ] BGW_06252019_07042019 #wm2019photos #task #scoring
 - [ ] BGW_07132020_09072020 #wm2020photos #task #scoring
 - [ ] BGW_07302019_08082019 #wm2019photos #task #scoring
 - [ ] BGW_09072020_09242020 #wm2020photos #task #scoring
 - [ ] BGW_09182019_09182019 #wm2019photos #task #scoring
-- [ ] BGW_5min_04182019_05212019 #wm2019photos #task #scoring
 - [ ] BGW_5min_04182019_05212019 #wm2019photos #task #scoring
 - [ ] BGW_5min_05212019_06042019 #wm2019photos #task #scoring
 - [ ] BGW_5min_06042019_06112019 #wm2019photos #task #scoring
@@ -150,14 +160,13 @@ kanban-plugin: basic
 - [ ] WCS_05262017_06142017 #wm2017photos #task #scoring
 - [ ] [WCS_06242019_07022019](../tasks/WCS_06242019_07022019.md) #wm2019photos #task #scoring
 - [ ] WCS_07302019_09182019 #wm2019photos #task #scoring
-- [ ] WCS_5min_09182019_10162019 #wm2019photos #task #scoring
 - [ ] WCT_04192019_05212019 #wm2019photos #task #scoring
 - [ ] WCT_04252018_05152018 #wm2018photos #task #scoring
-- [ ] WCT_05152018_06112018 #wm2018photos #task #scoring
 - [ ] WCT_05152018_06112018 #wm2018photos #task #scoring
 - [ ] WCT_06032019_06242019 #wm2019photos #task #scoring
 - [ ] WCT_06242019_07302019 #wm2019photos #task #scoring
 - [ ] WCT_09182019_10162019 #wm2019photos #task #scoring
+
 
 ## Quality Check Not Started
 
@@ -166,13 +175,22 @@ kanban-plugin: basic
 - [ ] BGT_07302019_09182019_subjects_chunk4 #wm2019photos #task #qualitycheck/notstarted
 - [ ] BGT_07302019_09182019_subjects_chunk3 #wm2019photos #task #qualitycheck/notstarted
 
+
 ## Quality Check In Progress
+
+
 
 ## Quality Checked Completed
 
+
+
 ## Completed SCORING Assignments to Copy to Hard Drive
 
+
+
 ## Chunks to Recombine
+
+
 
 ## Completed Folders
 
@@ -184,7 +202,10 @@ kanban-plugin: basic
 - [ ] WCS_5min_09082020_09162020 #wm2020photos #task #completed
 - [ ] BGW_05262017_06042017 #wm2017photos #task #completed
 
+
 ## Scoring Backlog
+
+
 
 ## Chunks That Are Missing or Need to Be Completed
 
@@ -197,6 +218,7 @@ kanban-plugin: basic
 - [ ] WCS_09082020_12042020_subjects_chunk1 #wm2020photos #task #missing
 - [ ] WCS_09082020_12042020_subjects_chunk2 #wm2020photos #task #missing
 - [ ] BGT_07302019_09182019 (need to copy to xlsm file) #wm2019photos #task #missing
+
 
 ## Folders with Duplicate Photos
 
@@ -416,9 +438,7 @@ kanban-plugin: basic
 - [x] 2023-06-05 11:21:50 WCS_05262017_06142017 #wm2017photos #task #addtobasecamp/scoring ✅ 2023-06-05
 
 %% kanban:settings
-
 ```
 {"kanban-plugin":"basic","show-checkboxes":true,"hide-tags-display":false,"hide-tags-in-title":true,"prepend-archive-date":true,"lane-width":310}
 ```
-
 %%
