@@ -6,6 +6,8 @@ kanban-plugin: basic
 
 # White Mountains Project Kanban
 
+## White Mountains Project Kanban
+
 ## Photos That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
 - [ ] WCS_05262017_06142017 #wm2017photos #task #rename
@@ -97,14 +99,9 @@ kanban-plugin: basic
 
 ## Folders to Match Subject Photos
 
-
 ## Folders to Chunk Subject Photos
+
 - [ ] WCS_04192019_05212019 #wm2019photos #task #copytoxlsm
-- [ ] WCS_5min_06242019_07302019 #wm2019photos #task #copytoxlsm
-- [ ] WCS_5min_05212019_06032019 #wm2019photos #task #copytoxlsm
-- [ ] WCX_07302019_08082019 #wm2019photos #task #chunk
-- [ ] WCS_5min_04192019_05212019 #wm2019photos #task #chunk
-- [ ] WCS_5min_07302019_09182019 #wm2019photos #task #copytoxlsm
 
 ## Folders to Copy into Blank Macro
 
@@ -112,6 +109,11 @@ kanban-plugin: basic
 - [ ] BGX_09182019_10062019 (missing some subjects text files) #wm2019photos #task #copytoxlsm
 - [ ] WCX_08252018_09232018 #wm2018photos #task #copytoxlsm
 - [ ] WCX_06292018_07122018 #wm2018photos #task #copytoxlsm
+- [ ] WCS_5min_06242019_07302019 #wm2019photos #task #copytoxlsm
+- [ ] WCS_5min_05212019_06032019 #wm2019photos #task #copytoxlsm
+- [ ] WCX_07302019_08082019 #wm2019photos #task #copytoxlsm
+- [ ] WCS_5min_04192019_05212019 #wm2019photos #task #copytoxlsm
+- [ ] WCS_5min_07302019_09182019 #wm2019photos #task #copytoxlsm
 
 ## Folders to Upload to Box for SCORING
 
@@ -122,6 +124,7 @@ kanban-plugin: basic
 - [ ] BGT_04182019_05212019 #wm2019photos #task #scoring
 - [ ] BGT_05212019_06042019 #wm2019photos #task #scoring
 - [ ] BGT_06252019_07302019 #wm2019photos #task #scoring
+- [ ] [BGT_07302019_09182019_subjects_chunk1](BGT_07302019_09182019_subjects_chunk1.md) #task #wm2019photos #scoring
 - [ ] BGT_09182019_10152019 #wm2019photos #task #scoring
 - [ ] BGW_06252019_07042019 #wm2019photos #task #scoring
 - [ ] BGW_07132020_09072020 #wm2020photos #task #scoring
@@ -140,14 +143,13 @@ kanban-plugin: basic
 - [ ] WCS_05262017_06142017 #wm2017photos #task #scoring
 - [ ] [WCS_06242019_07022019](../tasks/WCS_06242019_07022019.md) #wm2019photos #task #scoring
 - [ ] WCS_07302019_09182019 #wm2019photos #task #scoring
+- [ ] WCS_5min_09182019_10162019 #wm2019photos #task #scoring
 - [ ] WCT_04192019_05212019 #wm2019photos #task #scoring
 - [ ] WCT_04252018_05152018 #wm2018photos #task #scoring
 - [ ] WCT_05152018_06112018 #wm2018photos #task #scoring
 - [ ] WCT_06032019_06242019 #wm2019photos #task #scoring
 - [ ] WCT_06242019_07302019 #wm2019photos #task #scoring
 - [ ] WCT_09182019_10162019 #wm2019photos #task #scoring
-- [ ] 2023-06-05 WCS_5min_09182019_10162019 #wm2019photos #task #scoring
-- [ ] 2023-06-05 [BGT_07302019_09182019_subjects_chunk1](BGT_07302019_09182019_subjects_chunk1.md) #task #wm2019photos #scoring
 
 ## Quality Check Not Started
 
@@ -420,6 +422,12 @@ kanban-plugin: basic
 - [x] 2023-06-05 12:25:17 WCX_07302019_08082019 #wm2019photos #task #chunk
 - [x] 2023-06-05 12:26:50 WCS_5min_04192019_05212019 #wm2019photos #task #chunk
 - [x] 2023-06-05 12:27:00 WCS_5min_07302019_09182019 #wm2019photos #task #copytoxlsm
+- [x] 2023-06-05 12:31:24 WCS_5min_06242019_07302019 #wm2019photos #task #copytoxlsm
+- [x] 2023-06-05 12:32:22 WCS_5min_05212019_06032019 #wm2019photos #task #copytoxlsm
+- [x] 2023-06-05 12:33:09 WCX_07302019_08082019 #wm2019photos #task #chunk
+- [x] 2023-06-05 12:35:32 WCS_5min_04192019_05212019 #wm2019photos #task #chunk
+- [x] 2023-06-05 12:35:41 WCS_5min_07302019_09182019 #wm2019photos #task #copytoxlsm
+- [x] 2023-06-05 12:42:15
 
 %% kanban:settings
 
