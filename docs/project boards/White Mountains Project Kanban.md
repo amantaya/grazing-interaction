@@ -99,8 +99,8 @@ kanban-plugin: basic
 
 ## Folders to Chunk Subject Photos
 
-
 ## Folders to Copy into Blank Macro
+
 - [ ] WCS_04192019_05212019 #wm2019photos #task #copytoxlsm
 
 ## Folders to Upload to Box for SCORING
