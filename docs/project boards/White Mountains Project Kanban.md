@@ -101,9 +101,9 @@ kanban-plugin: basic
 
 ## Folders to Copy into Blank Macro
 
-- [ ] WCS_04192019_05212019 #wm2019photos #task #copytoxlsm
 
 ## Folders to Upload to Box for SCORING
+- [ ] WCS_04192019_05212019 #wm2019photos #task #uploadtobox/scoring
 
 ## Folders to Add to Basecamp as SCORING Assignments
 
@@ -444,6 +444,7 @@ kanban-plugin: basic
 - [x] 2023-06-05 15:05:53 WCS_5min_04192019_05212019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
 - [x] 2023-06-05 15:05:53 WCS_5min_07302019_09182019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
 - [x] 2023-06-05 15:10:01 WCS_04192019_05212019 #wm2019photos #task #copytoxlsm
+- [x] 2023-06-05 15:19:20 WCS_04192019_05212019 #wm2019photos #task #copytoxlsm
 
 %% kanban:settings
 
