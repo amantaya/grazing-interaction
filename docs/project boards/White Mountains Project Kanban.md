@@ -8,6 +8,8 @@ kanban-plugin: basic
 
 ## White Mountains Project Kanban
 
+## White Mountains Project Kanban
+
 ## Photos That Need Renaming (Before Renaming Make Sure It Has Metadata)
 
 - [ ] WCS_05262017_06142017 #wm2017photos #task #rename
@@ -107,16 +109,6 @@ kanban-plugin: basic
 
 ## Folders to Upload to Box for SCORING
 
-- [ ] WCS_09182019_10162019 #wm2019photos #task #uploadtobox/scoring
-- [ ] BGX_09182019_10062019 (missing some subjects text files) #wm2019photos #task #uploadtobox/scoring
-- [ ] WCX_08252018_09232018 #wm2018photos #task #uploadtobox/scoring
-- [ ] WCX_06292018_07122018 #wm2018photos #task #uploadtobox/scoring
-- [ ] WCS_5min_06242019_07302019 #wm2019photos #task #uploadtobox/scoring
-- [ ] WCS_5min_05212019_06032019 #wm2019photos #task #uploadtobox/scoring
-- [ ] WCX_07302019_08082019 #wm2019photos #task #uploadtobox/scoring
-- [ ] WCS_5min_04192019_05212019 #wm2019photos #task #uploadtobox/scoring
-- [ ] WCS_5min_07302019_09182019 #wm2019photos #task #uploadtobox/scoring
-
 ## Folders to Add to Basecamp as SCORING Assignments
 
 ## SCORING Assignments Awaiting Completion by Students
@@ -138,11 +130,17 @@ kanban-plugin: basic
 - [ ] BGW_5min_09072020_12042020 #wm2019photos #task #scoring
 - [ ] BGW_5min_09182019_09182019 #wm2019photos #task #scoring
 - [ ] BGX_07302019_08172019 #wm2019photos #task #scoring
+- [ ] BGX_09182019_10062019 (missing some subjects text files) #wm2019photos #task #scoring
 - [ ] [WCS_05152018_06092018](../tasks/WCS_05152018_06092018.md) #wm2018photos #task #scoring
 - [ ] WCS_05212019_06032019 #wm2018photos #task #scoring
 - [ ] WCS_05262017_06142017 #wm2017photos #task #scoring
 - [ ] [WCS_06242019_07022019](../tasks/WCS_06242019_07022019.md) #wm2019photos #task #scoring
 - [ ] WCS_07302019_09182019 #wm2019photos #task #scoring
+- [ ] WCS_09182019_10162019 #wm2019photos #task #scoring
+- [ ] WCS_5min_04192019_05212019 #wm2019photos #task #scoring
+- [ ] WCS_5min_05212019_06032019 #wm2019photos #task #scoring
+- [ ] WCS_5min_06242019_07302019 #wm2019photos #task #scoring
+- [ ] WCS_5min_07302019_09182019 #wm2019photos #task #scoring
 - [ ] WCS_5min_09182019_10162019 #wm2019photos #task #scoring
 - [ ] WCT_04192019_05212019 #wm2019photos #task #scoring
 - [ ] WCT_04252018_05152018 #wm2018photos #task #scoring
@@ -150,6 +148,9 @@ kanban-plugin: basic
 - [ ] WCT_06032019_06242019 #wm2019photos #task #scoring
 - [ ] WCT_06242019_07302019 #wm2019photos #task #scoring
 - [ ] WCT_09182019_10162019 #wm2019photos #task #scoring
+- [ ] WCX_06292018_07122018 #wm2018photos #task #scoring
+- [ ] WCX_07302019_08082019 #wm2019photos #task #scoring
+- [ ] WCX_08252018_09232018 #wm2018photos #task #scoring
 
 ## Quality Check Not Started
 
@@ -437,6 +438,15 @@ kanban-plugin: basic
 - [x] 2023-06-05 12:51:40 WCX_07302019_08082019 #wm2019photos #task #copytoxlsm
 - [x] 2023-06-05 12:52:16 WCS_5min_04192019_05212019 #wm2019photos #task #copytoxlsm
 - [x] 2023-06-05 12:52:24 WCS_5min_07302019_09182019 #wm2019photos #task #copytoxlsm
+- [x] 2023-06-05 15:05:53 WCS_09182019_10162019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 15:05:53 BGX_09182019_10062019 (missing some subjects text files) #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 15:05:53 WCX_08252018_09232018 #wm2018photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 15:05:53 WCX_06292018_07122018 #wm2018photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 15:05:53 WCS_5min_06242019_07302019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 15:05:53 WCS_5min_05212019_06032019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 15:05:53 WCX_07302019_08082019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 15:05:53 WCS_5min_04192019_05212019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
+- [x] 2023-06-05 15:05:53 WCS_5min_07302019_09182019 #wm2019photos #task #uploadtobox/scoring ✅ 2023-06-05
 
 %% kanban:settings
 
